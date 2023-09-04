@@ -1,0 +1,135 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+# Retrieves all NLCS-Object information and stores it in the familiar Excel/CSV format
+
+SELECT ?NLCSObject ?OMSCHRIJVING ?STATUS ?DISCIPLINE ?HOOFDGROEP ?ARCERING ?ARCERINGName ?SYMBOOL ?SYMBOOLName ?LAAGNAAM 
+?BLineweight ?BColor ?BColorA ?BColorGD ?BColorGN ?BColorV ?BLinetype ?BLinetypeName
+?NLineweight ?NColor ?NColorA ?NColorGD ?NColorGN ?NColorV ?NLinetype ?NLinetypeName
+?TLineweight ?TColor ?TColorA ?TColorGD ?TColorGN ?TColorV ?TLinetype ?TLinetypeName
+?VLineweight ?VColor ?VColorA ?VColorGD ?VColorGN ?VColorV ?VLinetype ?VLinetypeName
+?VRKL_KORT ?ID ?KIND_VAN
+WHERE {
+  ?NLCSObjectTopConcept a owl:Class .
+  ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
+  ?Hoofdgroep rdfs:subClassOf ?NLCSObjectTopConcept .
+  ?Hoofdgroep skos:prefLabel ?HOOFDGROEP .
+  ?NLCSObject rdfs:subClassOf* ?Hoofdgroep .
+  ?NLCSObject skos:prefLabel ?OMSCHRIJVING .
+  FILTER (?NLCSObject != ?Hoofdgroep) .
+  
+  ?NLCSObject rdfs:subClassOf ?bnodeStatus .
+  ?bnodeStatus owl:onProperty ?StatusProperty .
+  ?StatusProperty skos:prefLabel "Status" .
+  OPTIONAL {
+    ?StatusProperty owl:hasValue/skos:prefLabel ?StatusValue .
+  }
+  BIND( COALESCE(?StatusValue, "*") AS ?STATUS) .
+  ?NLCSObject rdfs:subClassOf ?bnodeDiscipline .
+  ?bnodeDiscipline owl:onProperty ?DisciplineProperty .
+  ?DisciplineProperty skos:prefLabel "Discipline" .
+  OPTIONAL {
+    ?DisciplineProperty owl:hasValue/skos:prefLabel ?DisciplineValue .
+  }
+  BIND( COALESCE(?DisciplineValue, "**") AS ?DISCIPLINE) .
+  OPTIONAL {
+    ?NLCSObject rdfs:subClassOf ?bnodeArcering .
+    ?bnodeArcering owl:onProperty <https://w3id.org/nen2660/def#isDescribedBy> .
+    ?bnodeArcering owl:onClass ?ARCERING .
+    ?ARCERING rdfs:subClassOf* ?ArceringTopConcept .
+    ?ArceringTopConcept skos:prefLabel "Arcering" .
+    ?ARCERING skos:prefLabel ?ARCERINGName .
+    FILTER( CONTAINS(STR(?ARCERING), "http://data.digigo.nu/nlcs/def/"))
+  } OPTIONAL {
+    ?NLCSObject rdfs:subClassOf ?bnodeSymbool .
+    ?bnodeSymbool owl:onProperty <https://w3id.org/nen2660/def#isDescribedBy> .
+    ?bnodeSymbool owl:onClass ?SYMBOOL .
+    ?SYMBOOL rdfs:subClassOf* ?SymboolTopConcept .
+    ?SymboolTopConcept skos:prefLabel "Symbool" .
+    ?SYMBOOL skos:prefLabel ?SYMBOOLName .
+    FILTER( CONTAINS(STR(?SYMBOOL), "http://data.digigo.nu/nlcs/def/"))
+  }
+  ?NLCSObject ?LaagnaamProperty ?LAAGNAAM .
+  ?LaagnaamProperty skos:prefLabel "Laagnaam" .
+  OPTIONAL {
+    ?NLCSObject ?BLineweightProperty ?BLineweight .
+    ?BLineweightProperty skos:prefLabel "B lineweight" .
+    ?NLCSObject ?BColorProperty ?BColor .
+    ?BColorProperty skos:prefLabel "B color" .
+    ?NLCSObject ?BColorAProperty ?BColorA .
+    ?BColorAProperty skos:prefLabel "B color A" .
+    ?NLCSObject ?BColorGDProperty ?BColorGD .
+    ?BColorGDProperty skos:prefLabel "B color GD" .
+    ?NLCSObject ?BColorGNProperty ?BColorGN .
+    ?BColorGNProperty skos:prefLabel "B color GN" .
+    ?NLCSObject ?BColorVProperty ?BColorV .
+    ?BColorVProperty skos:prefLabel "B color V" .
+    ?NLCSObject ?BLinetypeProperty ?BLinetype .
+    ?BLinetypeProperty skos:prefLabel "B linetype" .
+    ?BLinetype skos:prefLabel ?BLinetypeName .
+  } OPTIONAL {
+    ?NLCSObject ?NLineweightProperty ?NLineweight .
+    ?NLineweightProperty skos:prefLabel "N lineweight" .
+    ?NLCSObject ?NColorProperty ?NColor .
+    ?NColorProperty skos:prefLabel "N color" .
+    ?NLCSObject ?NColorAProperty ?NColorA .
+    ?NColorAProperty skos:prefLabel "N color A" .
+    ?NLCSObject ?NColorGDProperty ?NColorGD .
+    ?NColorGDProperty skos:prefLabel "N color GD" .
+    ?NLCSObject ?NColorGNProperty ?NColorGN .
+    ?NColorGNProperty skos:prefLabel "N color GN" .
+    ?NLCSObject ?NColorVProperty ?NColorV .
+    ?NColorVProperty skos:prefLabel "N color V" .
+    ?NLCSObject ?NLinetypeProperty ?NLinetype .
+    ?NLinetypeProperty skos:prefLabel "N linetype" .
+    ?NLinetype skos:prefLabel ?NLinetypeName .
+  } OPTIONAL {
+    ?NLCSObject ?TLineweightProperty ?TLineweight .
+    ?TLineweightProperty skos:prefLabel "T lineweight" .
+    ?NLCSObject ?TColorProperty ?TColor .
+    ?TColorProperty skos:prefLabel "T color" .
+    ?NLCSObject ?TColorAProperty ?TColorA .
+    ?TColorAProperty skos:prefLabel "T color A" .
+    ?NLCSObject ?TColorGDProperty ?TColorGD .
+    ?TColorGDProperty skos:prefLabel "T color GD" .
+    ?NLCSObject ?TColorGNProperty ?TColorGN .
+    ?TColorGNProperty skos:prefLabel "T color GN" .
+    ?NLCSObject ?TColorVProperty ?TColorV .
+    ?TColorVProperty skos:prefLabel "T color V" .
+    ?NLCSObject ?TLinetypeProperty ?TLinetype .
+    ?TLinetypeProperty skos:prefLabel "T linetype" .
+    ?TLinetype skos:prefLabel ?TLinetypeName .
+  } OPTIONAL {
+    ?NLCSObject ?VLineweightProperty ?VLineweight .
+    ?VLineweightProperty skos:prefLabel "V lineweight" .
+    ?NLCSObject ?VColorProperty ?VColor .
+    ?VColorProperty skos:prefLabel "V color" .
+    ?NLCSObject ?VColorAProperty ?VColorA .
+    ?VColorAProperty skos:prefLabel "V color A" .
+    ?NLCSObject ?VColorGDProperty ?VColorGD .
+    ?VColorGDProperty skos:prefLabel "V color GD" .
+    ?NLCSObject ?VColorGNProperty ?VColorGN .
+    ?VColorGNProperty skos:prefLabel "V color GN" .
+    ?NLCSObject ?VColorVProperty ?VColorV .
+    ?VColorVProperty skos:prefLabel "V color V" .
+    ?NLCSObject ?VLinetypeProperty ?VLinetype .
+    ?VLinetypeProperty skos:prefLabel "V linetype" .
+    ?VLinetype skos:prefLabel ?VLinetypeName .
+  }
+  OPTIONAL {
+    ?NLCSObject ?VRKLProperty ?VRKL_KORT .
+    ?VRKLProperty skos:prefLabel "VRKL_KORT" .
+  } OPTIONAL {
+    ?NLCSObject ?IDProperty ?ID .
+    ?IDProperty skos:prefLabel "ID" .
+  } OPTIONAL {
+    ?NLCSObject rdfs:subClassOf ?NLCSParentObject .
+    ?NLCSParentObject ?IDPropertyParent ?KIND_VAN .
+    ?IDPropertyParent skos:prefLabel "ID" .
+  } 
+}
