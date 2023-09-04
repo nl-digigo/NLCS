@@ -17,6 +17,8 @@ Issues worden afgehandeld volgens [dit](https://github.com/bimloket/NLCS/blob/ma
 ## Technische documentatie
 De technische documentatie staat nu nog op de [website van DigiGO](https://www.bimloket.nl/p/429/Documentatie) en zal het komende jaar vervangen worden door ReSpecs op deze repo.
 
+[Werkversie technische documentatie linked data publicatie](https://bimloket.github.io/NLCS/code_documentation)
+
 Shield: [![CC BY 4.0][cc-by-shield]][cc-by]
 
 This work is licensed under a
