@@ -1,7 +1,9 @@
-Dit document bevat de formele specificatie van NLCS
+Dit document bevat de formele beschrijving van NLCS
 
 
 <figure>
-<img src="./h/media/hub.PNG" alt="Visuele weergave van een NLCs tekening.">
-<figcaption>DVoorbeeld NLCS tekening</caption>
+<img src="./h/media/voorbeeldtekening.jpg" alt="Visuele weergave van een NLCs tekening.">
+<figcaption>Voorbeeld NLCS tekening</caption>
 </figure>
+
+
