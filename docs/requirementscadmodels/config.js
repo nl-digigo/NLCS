@@ -14,7 +14,11 @@ var respecConfig = {
   authors: [
     // alleen `name` is verplicht, https://respec.org/docs/#person
     {
-      name: "Elisabeth de Vries",
+      name: "Corné Helmons",
+      company: "DigiGO",
+    },
+    {
+      name: "Niels Nederpel",
       company: "DigiGO",
     },
   ],

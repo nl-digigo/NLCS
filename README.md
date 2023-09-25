@@ -1,23 +1,54 @@
 # NLCS
 Deze repository is de locatie voor technische documentatie en het inbrengen en opvolgen van gebruikerswensen voor NLCS, de Nederlandse CAD standaard van DigiGO.
 
+STATUS: Deze repository is in opbouw.
 
-## Publicatieplatform
+## Actuele versie
+
+### LinkedData
 NLCS is bezig met de overgang van een sql database naar een linked data platform. We hebben inmiddels een concept gepubliceerd met deze static URL: https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/v5_0  of deze dynamic url voor als u altijd de laatste versie wilt opvragen: https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie. Dit concept zou een weergave moeten zijn van de laatste release van NLCS zoals die in de aloude bekende database stond. Zie ook de [Viewer Concept-publicatie NLCS 5.0]( https://bimloket.github.io/ld-viewer/nlcs/)
 
 We zijn nog bezig een viewer te maken en documentatie over het informatiemodel, welke is gebaseerd op het topmodel in de de NEN 2660-2. We zijn ook voornemens om sparql-queries te publiceren op github, zodat niet iedereen het wiel hoeft uit te vinden.
 
+### CSV
+De publicatie van NLCS is ook beschikbaar in CSV tabellen:
+* [Laagtabellen](https://github.com/bimloket/NLCS/tree/main/tabellen)
 
-## Gebruikerswensen
+### Symbolen, lijntypes, arceringen
+De symbolen, lijntypes en arceringen die in de software kunnen worden ingeladen:
+* [Symbolen](https://github.com/bimloket/NLCS/tree/main/symbolen)
+* [Lijntypes](https://github.com/bimloket/NLCS/tree/main/lijntypes)
+* [Arceringen](https://github.com/bimloket/NLCS/tree/main/arcering)
+* [Font](https://github.com/bimloket/NLCS/tree/main/sfont)
+
+
+## Beheer
+
+* [Beheerdocument DigiGO](https://www.bimloket.nl//documents/Beheerdocument_open_BIM-standaarden_v1_8.pdf)
+* [Beheerorganisatie NLCS](https://www.bimloket.nl/p/434/Organisatie-beheer)
+* [Releaseprotocol NLCS](https://bimloket.github.io/NLCS/releaseprotocol)
+
+### Gebruikerswensen
 
 Gebruikers kunnen hun wensen of vragen voor aanpssingen of uitbreidingen van NLCS plaatsen door een issue aan te maken of te reageren op issues van anderen.
 
-Issues worden afgehandeld volgens [dit](https://github.com/bimloket/NLCS/blob/main/instructies/RASCI%20Github%20issues%20NLCS.pdf) protocol.
+* [Gebruikerswens indienen](https://github.com/bimloket/NLCS/issues)
+
+Issues worden afgehandeld volgens [dit protocol](https://github.com/bimloket/NLCS/blob/main/instructies/RASCI%20Github%20issues%20NLCS.pdf).
 
 ## Technische documentatie
 De technische documentatie staat nu nog op de [website van DigiGO](https://www.bimloket.nl/p/429/Documentatie) en zal het komende jaar vervangen worden door ReSpecs op deze repo.
 
-[Werkversie technische documentatie linked data publicatie](https://bimloket.github.io/NLCS/code_documentation)
+* [Uitleg standaard](https://bimloket.github.io/NLCS/functionalspecification): Functionele specificatie van NLCS met daarin de toelichting op het beoogd doel en de werking van de standaard
+* [Toelichting informatiemodel](https://bimloket.github.io/NLCS/code_documentation/): De toelichting op de uitgangspunten en modelleringswijze van het  informatiemodel in linked data)
+* [Toelichting code, datasets, query's](https://bimloket.github.io/NLCS/howtoquery/): Een gebruikershandleiding om 
+* [Relaties tot andere standaarden](https://bimloket.github.io/NLCS/ontologyalignments/): documentatie van de ontology alignments (mappings waar een computer mee kan redeneren) of voorbereidingen daartoe met andere standaarden, waaronder IMGeo (voor BGT kaartinformatie) en het GWSW (Gemeentelijk woordenboek stedelijk water)
+* [Uitwisselafspraken](https://bimloket.github.io/NLCS/representations/): Nu nog slechts een gebruikerswens. Een nader te bepalen set afspraken over de uitwisseling van modellen en tekeningen in open formaten, met daaraan toegevoegd objectinformatie
+
+## Implementatie
+* [Eisen aan tekeningen en modellen](https://bimloket.github.io/NLCS/requirementscadmodels/)
+* [Eisen aan software-implementatie](https://bimloket.github.io/NLCS/requirementssoftware/)
+* [Voorbeeldtekeningen](https://www.bimloket.nl/p/432/Leren-van-anderen)
 
 Shield: [![CC BY 4.0][cc-by-shield]][cc-by]
 
