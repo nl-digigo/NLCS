@@ -40,8 +40,8 @@ Issues worden afgehandeld volgens [dit protocol](https://github.com/bimloket/NLC
 De technische documentatie staat nu nog op de [website van DigiGO](https://www.bimloket.nl/p/429/Documentatie) en zal het komende jaar vervangen worden door ReSpecs op deze repo.
 
 * [Uitleg standaard](https://bimloket.github.io/NLCS/functionalspecification): Functionele specificatie van NLCS met daarin de toelichting op het beoogd doel en de werking van de standaard
-* [Toelichting informatiemodel](https://bimloket.github.io/NLCS/code_documentation/): De toelichting op de uitgangspunten en modelleringswijze van het  informatiemodel in linked data)
-* [Toelichting code, datasets, query's](https://bimloket.github.io/NLCS/howtoquery/): Een gebruikershandleiding om 
+* [Toelichting informatiemodel](https://bimloket.github.io/NLCS/code_documentation/): De toelichting op de uitgangspunten en modelleringswijze van het  informatiemodel in linked data
+* [Toelichting code, datasets, query's](https://bimloket.github.io/NLCS/howtoquery/): Een gebruikershandleiding voor gebruik van de linked data publicatie, met toelichting op de code van het informatiemodel, query's en beschikbare datasets
 * [Relaties tot andere standaarden](https://bimloket.github.io/NLCS/ontologyalignments/): documentatie van de ontology alignments (mappings waar een computer mee kan redeneren) of voorbereidingen daartoe met andere standaarden, waaronder IMGeo (voor BGT kaartinformatie) en het GWSW (Gemeentelijk woordenboek stedelijk water)
 * [Uitwisselafspraken](https://bimloket.github.io/NLCS/representations/): Nu nog slechts een gebruikerswens. Een nader te bepalen set afspraken over de uitwisseling van modellen en tekeningen in open formaten, met daaraan toegevoegd objectinformatie
 
