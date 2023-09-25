@@ -2,7 +2,7 @@ var respecConfig = {
   // => https://github.com/stichting-crow/respec/wiki
   specStatus: "DRAFT",
   shortName: "NLCS/functionalspecification",
-  specType: "technische documentatie", // vrije tekst, kleine letter
+  specType: "functionele specificatie, toelichting op de standaard", // vrije tekst, kleine letter
   imprint: "bimloket",
   editors: [
     // alleen `name` is verplicht, https://respec.org/docs/#person

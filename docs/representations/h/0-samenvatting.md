@@ -1,0 +1,1 @@
+Dit document beschrijft het releaseprotocol van NLCS, de stappen die worden ondernomen om te komen tot een nieuwe release
