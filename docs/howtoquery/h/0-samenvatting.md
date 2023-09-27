@@ -1,1 +1,1 @@
-Dit document beschrijft het releaseprotocol van NLCS, de stappen die worden ondernomen om te komen tot een nieuwe release
+Dit document is de gebruikershandleiding voor gebruik van de linked data publicatie van NLCS, met toelichting op de code van het informatiemodel, query's en beschikbare datasets

@@ -1,8 +1,8 @@
 var respecConfig = {
   // => https://github.com/stichting-crow/respec/wiki
   specStatus: "DRAFT",
-  shortName: "NLCS/releaseprotocol",
-  specType: "beheerdocumentatie", // vrije tekst, kleine letter
+  shortName: "NLCS/requirementscadmodels",
+  specType: "technische documentatie", // vrije tekst, kleine letter
   imprint: "bimloket",
   editors: [
     // alleen `name` is verplicht, https://respec.org/docs/#person

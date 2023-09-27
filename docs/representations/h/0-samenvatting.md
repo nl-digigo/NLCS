@@ -1,1 +1,1 @@
-Dit document beschrijft het releaseprotocol van NLCS, de stappen die worden ondernomen om te komen tot een nieuwe release
+Nu nog slechts een gebruikerswens.  Dit document beschrijft Een nader te bepalen set afspraken over de uitwisseling van modellen en tekeningen in open formaten, met daaraan toegevoegd objectinformatie

@@ -1,1 +1,1 @@
-Dit document beschrijft het releaseprotocol van NLCS, de stappen die worden ondernomen om te komen tot een nieuwe release
+Dit document beschrijft de eisen van NLCS aan CAD modellen en tekeningen 

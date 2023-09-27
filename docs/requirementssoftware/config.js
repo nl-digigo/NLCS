@@ -1,8 +1,8 @@
 var respecConfig = {
   // => https://github.com/stichting-crow/respec/wiki
   specStatus: "DRAFT",
-  shortName: "NLCS/ontologyalignements",
-  specType: "beheerdocumentatie", // vrije tekst, kleine letter
+  shortName: "NLCS/requirementssoftware",
+  specType: "technische documentatie", // vrije tekst, kleine letter
   imprint: "bimloket",
   editors: [
     // alleen `name` is verplicht, https://respec.org/docs/#person
@@ -14,7 +14,11 @@ var respecConfig = {
   authors: [
     // alleen `name` is verplicht, https://respec.org/docs/#person
     {
-      name: "Elisabeth de Vries",
+      name: "Corné Helmons",
+      company: "DigiGO",
+    },
+    {
+      name: "Niels Nederpel",
       company: "DigiGO",
     },
   ],
