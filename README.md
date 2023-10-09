@@ -14,13 +14,15 @@ We zijn nog bezig een viewer te maken en documentatie over het informatiemodel, 
 De publicatie van NLCS is ook beschikbaar in CSV tabellen:
 * [Laagtabellen](https://github.com/bimloket/NLCS/tree/main/tabellen)
 
-### Symbolen, lijntypes, arceringen
+### Symbolen, lijntypes, arceringen, font
 De symbolen, lijntypes en arceringen die in de software kunnen worden ingeladen:
 * [Symbolen](https://github.com/bimloket/NLCS/tree/main/symbolen)
 * [Lijntypes](https://github.com/bimloket/NLCS/tree/main/lijntypes)
 * [Arceringen](https://github.com/bimloket/NLCS/tree/main/arcering)
 * [Font](https://github.com/bimloket/NLCS/tree/main/font)
 
+### Architectuur
+![Architectuur van de standaard](<NLCS architectuur.png>)
 
 ## Beheer
 
