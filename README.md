@@ -46,8 +46,8 @@ De technische documentatie staat nu nog op de [website van DigiGO](https://www.b
 * [Uitwisselafspraken](https://bimloket.github.io/NLCS/representations/): Nu nog slechts een gebruikerswens. Een nader te bepalen set afspraken over de uitwisseling van modellen en tekeningen in open formaten, met daaraan toegevoegd objectinformatie
 
 ## Implementatie
-* [Eisen aan tekeningen en modellen](https://bimloket.github.io/NLCS/requirementscadmodels/)
-* [Eisen aan software-implementatie](https://bimloket.github.io/NLCS/requirementssoftware/)
+* [Tekeningen en modellen maken](https://bimloket.github.io/NLCS/requirementscadmodels/)
+* [Software-implementatie van NLCS](https://bimloket.github.io/NLCS/requirementssoftware/)
 * [Voorbeeldtekeningen](https://www.bimloket.nl/p/432/Leren-van-anderen)
 
 Shield: [![CC BY 4.0][cc-by-shield]][cc-by]
