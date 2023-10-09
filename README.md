@@ -19,7 +19,7 @@ De symbolen, lijntypes en arceringen die in de software kunnen worden ingeladen:
 * [Symbolen](https://github.com/bimloket/NLCS/tree/main/symbolen)
 * [Lijntypes](https://github.com/bimloket/NLCS/tree/main/lijntypes)
 * [Arceringen](https://github.com/bimloket/NLCS/tree/main/arcering)
-* [Font](https://github.com/bimloket/NLCS/tree/main/sfont)
+* [Font](https://github.com/bimloket/NLCS/tree/main/font)
 
 
 ## Beheer
