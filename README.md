@@ -52,6 +52,8 @@ De technische documentatie staat nu nog op de [website van DigiGO](https://www.b
 * [Software-implementatie van NLCS](https://bimloket.github.io/NLCS/requirementssoftware/)
 * [Voorbeeldtekeningen](https://www.bimloket.nl/p/432/Leren-van-anderen)
 
+![Documentatie van de standaard](<NLCS documentatie.png>)
+
 Shield: [![CC BY 4.0][cc-by-shield]][cc-by]
 
 This work is licensed under a
