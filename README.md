@@ -5,6 +5,12 @@ STATUS: Deze repository is in opbouw.
 
 ## Actuele versie
 
+### SQL
+De ingang naar de  SQL database is https://www.nlcs-documentatie.nl/NLCS_5.x_5.0.0/NLCS_5.0.0/start.php.
+ 
+Hier zit een database achter en PhP code om dit te benaderen/ beschikbaar te maken in Excel via [bovengenoemde website](https://www.bimloket.nl/p/452/Database-NLCS). 
+
+
 ### LinkedData
 NLCS is bezig met de overgang van een sql database naar een linked data platform. We hebben inmiddels een concept gepubliceerd met deze static URL: https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/v5_0  of deze dynamic url voor als u altijd de laatste versie wilt opvragen: https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie. Dit concept zou een weergave moeten zijn van de laatste release van NLCS zoals die in de aloude bekende database stond. Zie ook de [Viewer Concept-publicatie NLCS 5.0]( https://bimloket.github.io/ld-viewer/nlcs/)
 
