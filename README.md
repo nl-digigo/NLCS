@@ -32,8 +32,9 @@ De symbolen, lijntypes en arceringen die in de software kunnen worden ingeladen:
 
 ## Beheer
 
-* [Beheerdocument DigiGO](https://www.nl-digigo.nl//documents/Beheerdocument_open_BIM-standaarden_v1_8.pdf)
-* [Beheerorganisatie NLCS](https://www.nl-digigo.nl/p/434/Organisatie-beheer)
+* [Beheerdocument DigiGO](https://www.bimloket.nl//documents/Beheerdocument_open_BIM-standaarden_v1_8.pdf)
+* [Beheerorganisatie NLCS](https://www.bimloket.nl/p/434/Organisatie-beheer)
+* [Beheerhandleiding NLCS](https://nl-digigo.github.io/NLCS/managementmanual)
 * [Releaseprotocol NLCS](https://nl-digigo.github.io/NLCS/releaseprotocol)
 
 ### Gebruikerswensen
