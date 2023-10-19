@@ -18,7 +18,7 @@ var respecConfig = {
       company: "DigiGO",
     },
   ],
-  github: "https://github.com/bimloket/NLCS",
+  github: "https://github.com/nl-digigo/NLCS",
   license: "cc-by",
   lint: { "no-unused-dfns": false },
   localBiblio: {
