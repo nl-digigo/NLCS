@@ -8,7 +8,7 @@ STATUS: Deze repository is in opbouw.
 ### SQL
 De ingang naar de  SQL database is https://www.nlcs-documentatie.nl/NLCS_5.x_5.0.0/NLCS_5.0.0/start.php.
  
-Hier zit een database achter en PhP code om dit te benaderen/ beschikbaar te maken in Excel via [bovengenoemde website](https://www.bimloket.nl/p/452/Database-NLCS). 
+Hier zit een database achter en PhP code om dit te benaderen/ beschikbaar te maken in Excel via https://www.bimloket.nl/p/452/Database-NLCS   
 
 
 ### LinkedData
