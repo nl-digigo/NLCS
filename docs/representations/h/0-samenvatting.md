@@ -1,1 +1,1 @@
-Nu nog slechts een gebruikerswens.  Dit document beschrijft Een nader te bepalen set afspraken over de uitwisseling van modellen en tekeningen in open formaten, met daaraan toegevoegd objectinformatie
+Dit document beschrijft afspraken over de uitwisseling van modellen en tekeningen in open formaten, met daaraan toegevoegd objectinformatie.
