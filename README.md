@@ -27,7 +27,7 @@ De symbolen, lijntypes en arceringen die in de software kunnen worden ingeladen:
 * [Arceringen](https://github.com/nl-digigo/NLCS/tree/main/arcering)
 * [Font](https://github.com/nl-digigo/NLCS/tree/main/font)
 
-### Architectuur
+### Onderdelen van de standaard
 ![Architectuur van de standaard](<NLCS architectuur.png>)
 
 ## Beheer
