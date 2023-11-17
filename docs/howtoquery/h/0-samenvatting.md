@@ -1,1 +1,1 @@
-Dit document is de gebruikershandleiding voor gebruik van de linked data publicatie van NLCS, met toelichting op de code van het informatiemodel, query's en beschikbare datasets
+Dit document is de gebruikershandleiding voor gebruik van de linked data publicatie van NLCS, met toelichting op query's en beschikbare datasets
