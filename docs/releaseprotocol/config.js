@@ -1,6 +1,6 @@
 var respecConfig = {
   // => https://github.com/stichting-crow/respec/wiki
-  specStatus: "DRAFT",
+  specStatus: "DEF",
   shortName: "NLCS/releaseprotocol",
   specType: "beheerdocumentatie", // vrije tekst, kleine letter
   imprint: "bimloket",
@@ -21,19 +21,4 @@ var respecConfig = {
   github: "https://github.com/nl-digigo/NLCS",
   license: "cc-by",
   lint: { "no-unused-dfns": false },
-  localBiblio: {
-  NEN_2660_2_2022: {
-    title: "NEN 2660-2 Regels voor informatiemodellering van de gebouwde omgeving - Deel 2: Praktische configuratie, extensie en implementatie van NEN 2660-1",
-    href: "https://www.nen.nl/en/nen-2660-2-2022-nl-291667",
-    status: "Actueel",
-    publisher: "NEN",
-  },
-  NEN_2660_1_2022: {
-    title: "NEN 2660-1 Rules for information modelling of the built environment - Part 1: Conceptual models",
-    href: "https://www.nen.nl/en/nen-2660-1-2022-nl-291666",
-    status: "Actueel",
-    publisher: "NEN",
-  },
-  
-  },
 };
