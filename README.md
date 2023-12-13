@@ -25,7 +25,7 @@ Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS
 * [Toelichting informatiemodel](https://nl-digigo.github.io/NLCS/code_documentation/): De toelichting op de uitgangspunten en modelleringswijze van het  informatiemodel in linked data
 * [Toelichting code, datasets, query's](https://nl-digigo.github.io/NLCS/howtoquery/): Een gebruikershandleiding voor gebruik van de linked data publicatie, met toelichting op de code van het informatiemodel, query's en beschikbare datasets
 * [Relaties tot andere standaarden](https://nl-digigo.github.io/NLCS/ontologyalignments/): documentatie van de ontology alignments (mappings waar een computer mee kan redeneren) of voorbereidingen daartoe met andere standaarden, waaronder IMGeo (voor BGT kaartinformatie) en het GWSW (Gemeentelijk woordenboek stedelijk water)
-* [Uitwisselafspraken](https://nl-digigo.github.io/NLCS/representations/): Nu nog slechts een gebruikerswens. Een nader te bepalen set afspraken over de uitwisseling van modellen en tekeningen in open formaten, met daaraan toegevoegd objectinformatie
+* [Uitwisselafspraken](https://nl-digigo.github.io/NLCS/representations/): Documentatie van hoe binnen NLCS wordt gewerkt met Uitwisseling van 3D objectinformatie; Hoe de uitwisseling tussen NLCS tekeningen en GIS kaarten op basis van IMGeo is geregeld; De openstaande onderzoeksvragen beschreven rondom NLCS en uitwisseling van tekeningen en modellen.
 
 ### Actuele versie
 
