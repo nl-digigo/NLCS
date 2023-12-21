@@ -7,12 +7,12 @@ Deze repository is de locatie voor technische documentatie en het inbrengen en o
 * [Beheerorganisatie NLCS](https://www.bimloket.nl/p/434/Organisatie-beheer)
 * [Beheerhandleiding NLCS](https://nl-digigo.github.io/NLCS/managementmanual)
 * [Releaseprotocol NLCS](https://nl-digigo.github.io/NLCS/releaseprotocol)
-* [Gebruikerswens indienen](https://github.com/nl-digigo/NLCS/issues)
-* [Protocol afhandelen gebruikerswensen](https://github.com/nl-digigo/NLCS/blob/main/instructies/RASCI%20Github%20issues%20NLCS.pdf).
+* [Gebruikerswens / issue indienen](https://github.com/nl-digigo/NLCS/issues)
+* [Protocol afhandelen gebruikerswensen](https://nl-digigo.github.io/NLCS/protocolissues)
 
 ## Voor ontwerpers en tekenaars
-* [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification): Functionele specificatie van NLCS met daarin de toelichting op het beoogd doel en de werking van de standaard
-* [Tekeningen en modellen maken](https://nl-digigo.github.io/NLCS/requirementscadmodels/)
+* [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification): De uitleg van de standaard met daarin de toelichting op het beoogd doel en de werking van de standaard
+* [Eisen aan tekeningen en modellen](https://nl-digigo.github.io/NLCS/requirementscadmodels/)
 * [Voorbeeldtekeningen](https://www.nl-digigo.nl/p/432/Leren-van-anderen)
 
 ### Zelf applicatie inrichten
