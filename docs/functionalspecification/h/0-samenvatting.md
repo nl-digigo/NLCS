@@ -14,5 +14,3 @@ Dit document sluit aan op de volgende documenten:
 <figcaption>Voorbeeld NLCS tekening</caption>
 </figure>
 
-
-Zie hier een volledig [overzicht van onderdelen van de standaard](https://bimloket.github.io/NLCS/overview)
