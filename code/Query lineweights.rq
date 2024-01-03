@@ -1,0 +1,21 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+select distinct ?Lineweight
+where { 
+	   {
+    ?NLCSObject ?BLineweightProperty ?Lineweight .
+    ?BLineweightProperty skos:prefLabel "B lineweight" .
+  } 
+    union {
+    ?NLCSObject ?NLineweightProperty ?Lineweight .
+    ?NLineweightProperty skos:prefLabel "N lineweight" .
+  } 
+    union {
+    ?NLCSObject ?TLineweightProperty ?Lineweight .
+    ?TLineweightProperty skos:prefLabel "T lineweight" .
+  } 
+    union {
+    ?NLCSObject ?VLineweightProperty ?Lineweight .
+    ?VLineweightProperty skos:prefLabel "V lineweight" .
+  }
+} 
+orderby ?Lineweight

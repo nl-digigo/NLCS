@@ -1,0 +1,43 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+# Retrieves all Lijntype information and stores it in the familiar Excel/CSV format
+
+SELECT DISTINCT ?ID ?HOOFDGROEP ?LIJNTYPE ?DEFINITIE ?opt ?FASE ?STATUS
+WHERE {
+  ?LijntypeTopConcept a owl:Class .
+  ?LijntypeTopConcept skos:prefLabel "Lijntype" .
+  ?Hoofdgroep rdfs:subClassOf ?LijntypeTopConcept .
+  ?Hoofdgroep skos:prefLabel ?HOOFDGROEP .
+  ?Lijntype rdfs:subClassOf+ ?Hoofdgroep .
+  ?Lijntype skos:prefLabel ?LIJNTYPE .
+  BIND ( IF(?Lijntype = ?Hoofdgroep, IF(?LijntypeName IN ("V-CONTINUOUS-SO", "CONTINUOUS"), ?Lijntype, ?undefined), ?Lijntype) AS ?NotHoofdgroep) .
+  FILTER (?Lijntype = ?NotHoofdgroep) .
+    optional { bind ( strafter(?LIJNTYPE,"-") as ?opt2)
+  bind ( if ( contains(?opt2,"-"),strafter(?opt2,"-"),?opt2) as ?opt3 )
+  bind ( if ( contains(?opt3,"-"),strafter(?opt3,"-"),?opt3) as ?opt4 )
+        bind ( if (strlen(?opt4)>4,"",?opt4) as ?opt ) }
+  OPTIONAL {
+    ?Lijntype ?IDProperty ?ID .
+    ?IDProperty skos:prefLabel "ID" .
+  } OPTIONAL {
+    ?Lijntype skos:definition ?DEFINITIE .
+  } 
+      OPTIONAL {
+    BIND (STRBEFORE(STR(?LIJNTYPE), STR(CONCAT(CONCAT("-", STR(?HOOFDGROEP)), "-" ))) AS ?FASE) . }
+    OPTIONAL {
+    ?Lijntype rdfs:subClassOf ?bnodeStatus .
+  ?bnodeStatus owl:onProperty ?StatusProperty .
+  ?StatusProperty skos:prefLabel "Status" .
+        optional {
+    ?StatusProperty owl:hasValue/skos:prefLabel ?StatusValue .
+    }
+  }
+  BIND( COALESCE(?StatusValue, "*") AS ?STATUS) .
+}
+orderby ?ID
