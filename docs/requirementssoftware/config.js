@@ -38,6 +38,11 @@ var respecConfig = {
     status: "Actueel",
     publisher: "NEN",
   },
-  
+  NEN_EN_ISO_7200_2004: {
+    title: "Technische productdocumentatie - Gegevensvelden in titelblokken",
+    href: "https://www.nen.nl/nen-en-iso-7200-2004-en-93839",
+    status: "Actueel",
+    publisher: "NEN",
+  },
   },
 };
