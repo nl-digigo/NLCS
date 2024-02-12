@@ -16,7 +16,7 @@ WHERE {
   ?Hoofdgroep skos:prefLabel ?HOOFDGROEP .
   ?Lijntype rdfs:subClassOf+ ?Hoofdgroep .
   ?Lijntype skos:prefLabel ?LIJNTYPE .
-  BIND ( IF(?Lijntype = ?Hoofdgroep, IF(?LijntypeName IN ("V-CONTINUOUS-SO", "CONTINUOUS"), ?Lijntype, ?undefined), ?Lijntype) AS ?NotHoofdgroep) .
+  BIND ( IF(?Lijntype = ?Hoofdgroep, IF(?LIJNTYPE IN ("V-CONTINUOUS-SO", "CONTINUOUS"), ?Lijntype, ?undefined), ?Lijntype) AS ?NotHoofdgroep) .
   FILTER (?Lijntype = ?NotHoofdgroep) .
     optional { bind ( strafter(?LIJNTYPE,"-") as ?opt2)
   bind ( if ( contains(?opt2,"-"),strafter(?opt2,"-"),?opt2) as ?opt3 )
