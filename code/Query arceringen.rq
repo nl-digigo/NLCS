@@ -6,9 +6,7 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 
-# Retrieves all Arcering information and stores it in the familiar Excel/CSV format
-
-SELECT DISTINCT ?FASE ?BIB ?ARCERING ?opt ?ID ?VRKL_KORT ?VRKL_LANG ?STATUS
+SELECT DISTINCT ?FASE ?BIB ?ARCERING ?opt ?Arcering ?ID ?VRKL_KORT ?VRKL_LANG 
 WHERE {
   ?ArceringTopConcept a owl:Class .
   ?ArceringTopConcept skos:prefLabel "Arcering" .
@@ -16,25 +14,21 @@ WHERE {
   ?Abib skos:prefLabel ?BIB .
   ?Arcering rdfs:subClassOf+ ?Abib .
   ?Arcering skos:prefLabel ?ARCERING .
-optional {
-  ?Arcering rdfs:subClassOf ?bnodeStatus .
-  ?bnodeStatus owl:onProperty ?StatusProperty .
-  ?StatusProperty skos:prefLabel "Status" .
-  OPTIONAL {    ?StatusProperty owl:hasValue/skos:prefLabel ?StatusValue .  }
-    }
-  BIND( COALESCE(?StatusValue, "*") AS ?STATUS) .
   FILTER (CONTAINS(STR(?ARCERING), STR(CONCAT(STR(?BIB), "-")))) 
   OPTIONAL {
     BIND (STRBEFORE(STR(?ARCERING), STR(CONCAT(CONCAT("-", STR(?BIB)), "-" ))) AS ?FASE) .
-	optional {    bind ( strafter(substr(?ARCERING,5),"-") as ?opt) }
-  } OPTIONAL {
+    OPTIONAL { BIND ( STRAFTER(SUBSTR(?ARCERING,5), "-") AS ?opt) }
+  } 
+  OPTIONAL {
     ?Arcering ?IDProperty ?ID .
     ?IDProperty skos:prefLabel "ID" .
-  } OPTIONAL {
+  } 
+  OPTIONAL {
     ?Arcering ?VRKL_KORTProperty ?VRKL_KORT .
     ?VRKL_KORTProperty skos:prefLabel "VRKL_KORT" .
-  } OPTIONAL {
+  } 
+  OPTIONAL {
     ?Arcering ?VRKL_LANGProperty ?VRKL_LANG .
     ?VRKL_LANGProperty skos:prefLabel "VRKL_LANG" .
   } 
-} 
+}
