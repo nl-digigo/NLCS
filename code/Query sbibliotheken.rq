@@ -6,14 +6,15 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 
-# Retrieves all abibliotheek info and stores it in the familiar Excel/CSV format
+# Retrieves all sbibliotheek info with URI, name, definition, and ID
 
-SELECT distinct ?bibliotheek
-
+SELECT DISTINCT ?Abib ?bibliotheek ?Definitie ?ID
 WHERE {
   ?NLCSObjectTopConcept a owl:Class .
   ?NLCSObjectTopConcept skos:prefLabel "Symbool" .
-  ?Abib rdfs:subClassOf ?NLCSObjectTopConcept.
+  ?Abib rdfs:subClassOf ?NLCSObjectTopConcept .
   ?Abib skos:prefLabel ?bibliotheek .
+  OPTIONAL { ?Abib skos:definition ?Definitie . }
+  OPTIONAL { ?Abib dcterms:identifier ?ID . }  # Assuming dcterms:identifier is used for the ID
 }
-orderby ?bibliotheek
+ORDER BY ?bibliotheek
