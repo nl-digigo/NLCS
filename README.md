@@ -13,7 +13,7 @@ Deze repository is de locatie voor technische documentatie en het inbrengen en o
 ## Voor ontwerpers en tekenaars
 * [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification): De uitleg van de standaard met daarin de toelichting op het beoogd doel en de werking van de standaard
 * [Eisen aan tekeningen en modellen](https://nl-digigo.github.io/NLCS/requirementscadmodels/)
-* [Voorbeeldtekeningen](https://www.nl-digigo.nl/p/432/Leren-van-anderen)
+* [Voorbeeldtekeningen]([https://www.nl-digigo.nl/p/432/Leren-van-anderen](https://nl-digigo.github.io/NLCS/requirementscadmodels/#voorbeeldtekeningen))
 
 ### Zelf applicatie inrichten
 Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS is ook beschikbaar in tabellen:
