@@ -11,9 +11,12 @@ Deze repository is de locatie voor technische documentatie en het inbrengen en o
 * [Protocol afhandelen gebruikerswensen](https://nl-digigo.github.io/NLCS/protocolissues)
 
 ## Voor ontwerpers en tekenaars
+* [Formele specificatie 5.0](https://github.com/nl-digigo/NLCS/blob/main/docs/archive/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf)
+
+In ontwikkeling:
 * [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification): De uitleg van de standaard met daarin de toelichting op het beoogd doel en de werking van de standaard
 * [Eisen aan tekeningen en modellen](https://nl-digigo.github.io/NLCS/requirementscadmodels/)
-* [Voorbeeldtekeningen]([https://www.nl-digigo.nl/p/432/Leren-van-anderen](https://nl-digigo.github.io/NLCS/requirementscadmodels/#voorbeeldtekeningen))
+* [Voorbeeldtekeningen](https://nl-digigo.github.io/NLCS/requirementscadmodels/#voorbeeldtekeningen)
 
 ### Zelf applicatie inrichten
 Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS is ook beschikbaar in tabellen:
