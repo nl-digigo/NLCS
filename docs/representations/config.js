@@ -3,7 +3,7 @@ var respecConfig = {
   specStatus: "DRAFT",
   shortName: "NLCS/representations",
   specType: "technische documentatie", // vrije tekst, kleine letter
-  imprint: "bimloket",
+  imprint: "digigo",
   editors: [
     // alleen `name` is verplicht, https://respec.org/docs/#person
     {

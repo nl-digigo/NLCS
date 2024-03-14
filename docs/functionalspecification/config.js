@@ -3,7 +3,7 @@ var respecConfig = {
   specStatus: "DRAFT",
   shortName: "NLCS/functionalspecification",
   specType: "toelichting op het beoogd doel en de werking van de standaard", // vrije tekst, kleine letter
-  imprint: "bimloket",
+  imprint: "digigo",
   editors: [
     // alleen `name` is verplicht, https://respec.org/docs/#person
     {
