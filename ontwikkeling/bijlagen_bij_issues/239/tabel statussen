@@ -1,0 +1,45 @@
+<table border="1">
+  <tr>
+    <th>Startsituatie</th>
+    <th>Eindsituatie</th>
+    <th>NLCS status</th>
+    <th>NLCS netbeheer substatus</th>
+    <th>voorbeeld NLCS laagnaam</th>
+  </tr>
+  <tr>
+    <td>Bestaand, in Bedrijf</td>
+    <td>Bestaand, verlaten</td>
+    <td>B</td>
+    <td></td>
+    <td>B-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-G</td>
+  </tr>
+  <tr>
+    <td>Bestaand, in Bedrijf</td>
+    <td>Bestaand, reserve</td>
+    <td>B</td>
+    <td></td>
+    <td>B-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-G</td>
+  </tr>
+  <tr>
+    <td>Bestaand, in Bedrijf</td>
+    <td>Verwijderd</td>
+    <td>B</td>
+    <td></td>
+    <td>B-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-G</td>
+  </tr>
+  <!-- ... Additional rows have been omitted for brevity ... -->
+  <tr>
+    <td>Bestaand, in Bedrijf</td>
+    <td>Bestaand, opgevuld</td>
+    <td>B</td>
+    <td></td>
+    <td>B-OI-KL-GAS_LD_DISTRIBUTIE_100 MBAR_NGIJ_118-G</td>
+  </tr>
+  <tr>
+    <td>Bestaand, in Bedrijf</td>
+    <td>Bestaand, gerelined</td>
+    <td>B</td>
+    <td></td>
+    <td>B-OI-KL-GAS_LD_DISTRIBUTIE_100 MBAR_NGIJ_118-G</td>
+  </tr>
+</table>
