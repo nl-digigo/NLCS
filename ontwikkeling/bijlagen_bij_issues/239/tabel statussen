@@ -1,45 +1,381 @@
+
+De objecten krijgen in de laagnaam een status mee, die weergeeft wat de situatie van de objecten is na uitvoering van het werk. Als de status tijdens het werken met de tekening wijzigt, is het object meerdere keren getekend, voorbeeld: 
+
+* Tekening van startsituatie: status B
+* Plan- of ontwerptekening: status N of T
+* Revisietekening: status R, het gecontoleerde of ingemeten object in de nieuwe situatie
+
+<table class="tabel3">
+    <caption>De statussen in NLCS</caption>
+    <tr>
+        <th>Code</th>
+        <th>Verklaring</th>
+        <th>Omschrijving</th>
+        <th>Komt voor op tekening bestaande situatie</th>
+        <th>Komt voor op plan- of ontwerptekening</th>
+        <th>Komt voor op revisietekening</th>
+    </tr>
+    <tr>
+        <td>N</td>
+        <td>Nieuwe situatie</td>
+        <td>Het object is na uitvoering van het werk op basis van de tekening nieuw, of heeft een bewerking ondergaan. Let op, een bestaand object dat gesteld is, of geverfd, wordt met status nieuw op tekening gezet.</td>
+        <td>nee</td>
+        <td>ja</td>
+        <td>nee</td>
+    </tr>
+        <td></td>
+        <td colspan=2>Varianten die ook als nieuw getekend worden in NLCS 5.0:</td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td></td>
+        <td>Nieuw, gepland </td>
+        <td>Na uitvoering van het werk op basis van de tekening is er een ruimte gereserveerd voor een toekomstig gepland object</td>
+        <td>nee</td>
+        <td>ja</td>
+        <td>nee</td>
+    </tr>
+        <tr>
+        <td></td>
+        <td>Nieuw, in bedrijf </td>
+        <td>Het object is na uitvoering van het werk op basis van de tekening nieuw geplaatst en in bedrijf.</td>
+        <td>nee</td>
+        <td>ja</td>
+        <td>nee</td>    
+    </tr>
+        <tr>
+        <td></td>
+        <td>Nieuw, reserve </td>
+        <td>Het object is na uitvoering van het werk op basis van de tekening nieuw geplaatst als in reserve</td>
+        <td>nee</td>
+        <td>ja</td>
+        <td>nee</td>      
+    </tr>
+    <tr>
+        <td>B</td>
+        <td>Bestaande situatie </td>
+        <td>Het object in de (bestaande) situatie waarin men het aantreft bij het starten van het werk op basis van deze tekening.</td>
+        <td>ja</td>
+        <td>ja</td>
+        <td>ja</td>        
+    </tr>
+    <tr>
+        <tr>
+        <td></td>
+        <td colspan=2>Varianten die ook als bestaand getekend worden in NLCS 5.0:</td>
+        <td></td>
+        <td></td>
+        <td></td>        
+    </tr>
+        <tr>
+        <td></td>
+        <td>Bestaand, in bedrijf </td>
+        <td>Het object is in de startsituatie in bedrijf.</td>
+        <td>ja</td>
+        <td>ja</td>
+        <td>ja</td>       
+    </tr>
+        <tr>
+        <td></td>
+        <td>Bestaand, verlaten </td>
+        <td>Het object is in de startsituatie buiten bedrijf, en heeft geen (toekomstige) functie meer.</td>
+        <td>ja</td>
+        <td>ja</td>
+        <td>ja</td>         
+    </tr>
+           <tr>
+        <td></td>
+        <td>Bestaand, gepland? </td>
+        <td>Voor het object is in de startsituatie een ruimtereservering opgenomen.</td>
+        <td>ja</td>
+        <td>ja</td>
+        <td>ja</td>         
+    </tr>
+          <tr>
+        <td></td>
+        <td>Bestaand, reserve </td>
+        <td>Het object is in de startsituatie buiten bedrijf, en heeft een toekomstige functie indien gewenst.</td>
+        <td>ja</td>
+        <td>ja</td>
+        <td>ja</td>         
+    </tr>
+    <tr>
+    <tr>
+        <td>V</td>
+        <td>Te verwijderen situatie</td>
+        <td>Het object is na uitvoering van het werk op basis van de tekening verwijderd</td>
+        <td>nee</td>
+        <td>ja</td>
+        <td>nee</td>        
+    </tr>
+    <tr>
+        <td>T</td>
+        <td>Tijdelijke situatie</td>
+        <td>Het object is na uitvoering van het werk op basis van de tekening tijdelijk geplaatst</td>
+        <td>nee</td>
+        <td>ja</td>
+        <td>nee</td>       
+    </tr>
+        <tr>
+        <tr>
+        <td></td>
+        <td colspan=2>Varianten die ook als tijdelijk getekend worden in NLCS 5.0:</td>
+        <td></td>
+        <td></td>
+        <td></td>        
+    </tr>
+        <tr>
+        <td></td>
+        <td>Tijdelijk, gepland </td>
+        <td>Na uitvoering van het werk op basis van de tekening is er een ruimte gereserveerd voor een toekomstig gepland tijdelijk object</td>
+        <td>nee</td>
+        <td>ja</td>
+        <td>nee</td>          
+    </tr>
+        <tr>
+        <td></td>
+        <td>Tijdelijk, in bedrijf </td>
+        <td>Het object is na uitvoering van het werk op basis van de tekening tijdelijk geplaatst en in bedrijf.</td>
+        <td>nee</td>
+        <td>ja</td>
+        <td>nee</td>    
+    </tr>
+        <tr>
+        <td></td>
+        <td>Tijdelijk, reserve </td>
+        <td>Het object is na uitvoering van het werk op basis van de tekening tijdelijk geplaatst als in reserve</td>
+        <td>nee</td>
+        <td>ja</td>
+        <td>nee</td>            
+    </tr>
+    <tr>
+        <td>X</td>
+        <td>Onafhankelijk van STATUS/fase</td>
+        <td>Status X is bedoeld voor elementen zoals legenda, tekeninghoofd, noordpijl. Die zijn niet afhankelijk van een status/situatie. Status “X” MOET altijd worden gecombineerd met de discipline “XX”.</td>
+        <td>ja</td>
+        <td>ja</td>
+        <td>ja</td>        
+    </tr>
+    <tr>
+        <td>R</td>
+        <td>Revisie</td>
+        <td>Het object is na de uitvoering van het werk gecontroleerd en nagemeten en wordt aangeboden ter revisie.</td>
+        <td>nee</td>
+        <td>nee</td>
+        <td>ja</td>        
+    </tr>
+       <tr>
+        <td>R</td>
+        <td>Revisie gepland, Revisie In reserve, Revisie In Bedrijf, Revisie Verlaten?</td>
+        <td>.</td>
+        <td>nee</td>
+        <td>nee</td>
+        <td>ja</td>        
+    </tr>
+</table>
+
+
+
+
+voorbeelden 
+
+B- is altijd een bestaand object in zijn laatst geregistreerde toestand.
+
+N- is een object dat een nieuwe status krijgt, dus een bestaand object waarvan de oude status wijzigt (met het AssetID van het B-object), of een nieuw object dat nog geen status had, omdat het nog niet bestond.
+
+R- is een ‘as built’ N-ieuw object. Een verwijdert object staat nooit op een R-laag. Als bijvoorbeeld van een leiding van 40m, de eerste 10 meter fysiek wordt verwijderd en de resterende 30m wordt volgeschuimd, dan komt de 10m op een V- laag en de 30m die volgeschuimd blijft liggen op een R- laag (met het originele AssetID).
+
+T- Zijn objecten die na gereedkomen van de werkzaamheden dezelfde asseteigenschappen hebben als voor aanvang van de werkzaamheden, waarvan de asseteigenschappen dus niet wijzigen. Bijvoorbeeld tijdelijke markeringen, hulpconstructies, die niet in de beheersoftware als asset opgenomen hoeven te worden, of een paal die tijdelijk wordt verplaatst en daarna op exact dezelfde plek en toestand wordt teruggeplaatst en waarvan dus de asset-eigenschappen niet wijzigen. Een tijdelijke damwand of leiding die nadien geen functie meer heeft maar wel blijft bestaan, komt op een N- laag.
+
+V- Alleen objecten die fysiek worden verwijdert komen op een V-laag. D.w.z. na afronding van de werkzaamheden bestaat het object niet meer in de openbare ruimte. In geval een object deels verwijderd wordt en het verwijderde object blijft geregistreerd als Asset, dan krijgt het verwijderde deel een nieuw AssetID.
+Aan de status kan een numerieke waarde worden toegevoegd om objecten te groeperen voor bijvoorbeeld fasen van uitvoering
+
+
+
+
+
+
+<table border='1'>
+
+</table>
+
+
+
+
+
 <table border="1">
-  <tr>
-    <th>Startsituatie</th>
-    <th>Eindsituatie</th>
-    <th>NLCS status</th>
-    <th>NLCS netbeheer substatus</th>
-    <th>voorbeeld NLCS laagnaam</th>
-  </tr>
-  <tr>
-    <td>Bestaand, in Bedrijf</td>
-    <td>Bestaand, verlaten</td>
+<tr>
+  <td colspan="6">Tekening Startsituatie</td>
+</tr>
+  <tr><td>Startsituatie</td><td>Eindsituatie</td><td>Status</td><td>Bewerking</td><td>voorbeeld NLCS laagnaam</td></tr>
+  <tr><td></td><td></td><td colspan=4>Voorbeeld kabels</td></tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Bestaand, verlaten</td><td>B</td><td></td><td>B-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-G</td></tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Bestaand, reserve</td><td>B</td><td></td><td>B-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-G</td></tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Verwijderd</td><td>B</td><td></td><td>B-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-G</td></tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Bestaand, Verplaatsen</td><td>B</td><td></td><td>B-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-G</td></tr>
+  <tr><td>Bestaand, Verlaten</td><td>Verwijderd</td><td>B + VL</td><td></td><td>BVL-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-G</td></tr>
+  <tr><td>Nieuw, gepland</td><td>Nieuw, in Bedrijf</td><td></td><td></td><td></td></tr>
+  <tr><td>Nieuw, gepland</td><td>Nieuw, Nieuw Gelegd</td><td></td><td></td><td></td></tr>
+  <tr><td>Bestaand</td><td>Bestaand</td><td>B</td><td></td><td>B-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-G</td><td></td></tr>
+  <tr><td>Bestaand, reserve</td><td>Bestaand, in Bedrijf</td><td>B + RS</td><td></td><td>BRS-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-G</td><td></td></tr>
+  <tr><td>Bestaand, reserve</td><td>Verwijderd</td><td>B</td><td></td><td>BRS-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-G</td><td></td></tr>
+  <tr><td>Bestaand, reserve</td><td>Bestaand, verlaten</td><td>B</td><td></td><td>BRS-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-G</td><td></td></tr>
+  <tr><td></td><td></td><td colspan=4>Voorbeeld leidingen</td><td></td></tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Bestaand, opgevuld</td><td>B + RS</td><td></td><td>B-OI-KL-GAS_LD_DISTRIBUTIE_100 MBAR_NGIJ_118-G</td><td></td></tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Bestaand, gerelined</td><td>B + RS</td><td></td><td>B-OI-KL-GAS_LD_DISTRIBUTIE_100 MBAR_NGIJ_118-G</td><td></td></tr>
+</table>
+
+
+
+
+<table border="1">
+<tr>
+  <td colspan="6">Plan- of ontwerptekening</td>
+</tr>
+  <tr><td>Startsituatie</td><td>Eindsituatie</td><td>Status</td><td>Bewerking</td><td>voorbeeld NLCS laagnaam</td></tr>
+  <tr><td></td><td></td><td colspan=4>Voorbeeld kabels</td></tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Bestaand, verlaten</td>
     <td>B</td>
-    <td></td>
-    <td>B-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-G</td>
+    <td>VERLATEN</td>
+    <td>B-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-VERLATEN-G</td></tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Bestaand, reserve</td>
+  <td>B</td>
+    <td>RS STELLEN</td>
+    <td>B-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-RS STELLEN-G</td>
   </tr>
-  <tr>
-    <td>Bestaand, in Bedrijf</td>
-    <td>Bestaand, reserve</td>
-    <td>B</td>
+  <tr><td>Bestaand, in Bedrijf</td><td>Verwijderd</td>
+     <td>V</td>
     <td></td>
-    <td>B-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-G</td>
+    <td>V-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu--G</td></tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Bestaand, Verplaatsen</td>
+     <td>B</td>
+    <td>VERPLAATSEN</td>
+    <td>B-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-VERPLAATSEN-G</td>
   </tr>
-  <tr>
-    <td>Bestaand, in Bedrijf</td>
-    <td>Verwijderd</td>
-    <td>B</td>
+  <tr><td>Bestaand, Verlaten</td><td>Verwijderd</td>
+  <td>V</td>
     <td></td>
-    <td>B-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-G</td>
+    <td>V-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu--G</td>
   </tr>
-  <!-- ... Additional rows have been omitted for brevity ... -->
-  <tr>
-    <td>Bestaand, in Bedrijf</td>
-    <td>Bestaand, opgevuld</td>
-    <td>B</td>
-    <td></td>
-    <td>B-OI-KL-GAS_LD_DISTRIBUTIE_100 MBAR_NGIJ_118-G</td>
+  <tr><td>Nieuw, gepland</td><td>Nieuw, in Bedrijf</td>
+  <td>N</td>
+    <td>IG NEMEN</td>
+    <td>N-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-IG NEMEN-G</td>
   </tr>
-  <tr>
-    <td>Bestaand, in Bedrijf</td>
-    <td>Bestaand, gerelined</td>
-    <td>B</td>
+  <tr><td>Nieuw, gepland</td><td>Nieuw, Nieuw Gelegd</td>
+     <td>N</td>
     <td></td>
-    <td>B-OI-KL-GAS_LD_DISTRIBUTIE_100 MBAR_NGIJ_118-G</td>
+    <td>N-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu--G</td>
+  </tr>
+  <tr><td>Bestaand</td><td>Bestaand</td>
+   <td>B</td>
+    <td></td>
+    <td>B-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu--G</td>
+  </tr>
+  <tr><td>Bestaand, reserve</td><td>Bestaand, in Bedrijf</td>
+     <td>B + RS </td>
+    <td>IG NEMEN</td>
+    <td>BRS-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-IG NEMEN-G</td>
+  </tr>
+  <tr><td>Bestaand, reserve</td><td>Verwijderd</td>
+  <td>V</td>
+    <td></td>
+    <td>V-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu--G</td>
+  </tr>
+  <tr><td>Bestaand, reserve</td><td>Bestaand, verlaten</td>
+  <td>B + RS </td>
+    <td>VERLATEN</td>
+    <td>BRS-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-VERLATEN-G</td>
+  </tr>
+  <tr><td></td><td></td><td colspan=4>Voorbeeld leidingen</td><td></td></tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Bestaand, opgevuld</td>
+  <td>B</td>
+    <td>OPVULLEN</td>
+    <td>B-OI-KL-GAS_LD_DISTRIBUTIE_100 MBAR_NGIJ_118-OPVULLEN-G</td>
+  </tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Bestaand, gerelined</td>
+  <td>B</td>
+    <td>RELINEN</td>
+    <td>B-OI-KL-GAS_LD_DISTRIBUTIE_100 MBAR_NGIJ_118-RELINEN-G</td>
   </tr>
 </table>
+
+
+<table border="1">
+<tr>
+  <td colspan="6">Revisietekening</td>
+</tr>
+  <tr><td>Startsituatie</td><td>Eindsituatie</td><td>Status</td><td>Bewerking</td><td>voorbeeld NLCS laagnaam</td></tr>
+  <tr><td></td><td></td><td colspan=4>Voorbeeld kabels</td></tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Bestaand, verlaten</td>
+  <td>R + VL</td>
+    <td>VERLATEN</td>
+    <td>RVL-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-VERLATEN-G</td>
+  </tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Bestaand, reserve</td>
+   <td>R + RS</td>
+    <td>RS STELLEN</td>
+    <td>RRS-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-RS STELLEN-G</td>
+  </tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Verwijderd</td>
+   <td>V</td>
+    <td></td>
+    <td>V-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu--G</td>
+  </tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Bestaand, Verplaatsen</td>
+    <td>R</td>
+    <td></td>
+    <td>VERPLAATSEN</td>
+    <td>R-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-VERPLAATSEN-G</td>
+  </tr>
+  <tr><td>Bestaand, Verlaten</td><td>Verwijderd</td>
+   <td>V</td>
+  <td></td>
+  <td>V-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu--G</td>
+</tr>
+  <tr><td>Nieuw, gepland</td><td>Nieuw, in Bedrijf</td>
+   <td>N</td>
+  <td>IG NEMEN</td>
+  <td>N-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-IG NEMEN-G</td>
+</tr>
+  <tr><td>Nieuw, gepland</td><td>Nieuw, Nieuw Gelegd</td>
+  <td>N + RS</td>
+  <td>RS</td>
+  <td></td>
+  <td>NRS-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu--G</td></tr>
+  <tr><td>Bestaand</td><td>Bestaand</td>
+    <td>B</td>
+  <td></td>
+  <td>B-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu--G</td>
+  </tr>
+  <tr><td>Bestaand, reserve</td><td>Bestaand, in Bedrijf</td>
+  <td>R</td>
+  <td>IG NEMEN</td>
+  <td>R-OI-KL-ET_MS_DISTRIBUTIE_6 kV_3x95Cu-IG NEMEN-G</td>
+</tr>
+  <tr><td>Bestaand, reserve</td><td>Verwijderd</td>
+    <td>V</td>
+  <td></td>
+  <td>V-OI-KL-ET_MS_DISTRIBUTIE_6 kV 3x95Cu--G</td>
+  </tr>
+  <tr><td>Bestaand, reserve</td><td>Bestaand, verlaten</td>
+   <td>R</td>
+  <td>VL</td>
+  <td>VERLATEN</td>
+  <td>RVL-OI-KL-ET_MS_DISTRIBUTIE_6 kV 3x95Cu-VERLATEN-G</td></tr>
+  <tr><td></td><td></td><td colspan=4>Voorbeeld leidingen</td><td></td></tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Bestaand, opgevuld</td>
+   <td>R + VL</td>
+    <td>OPVULLEN</td>
+    <td>RVL-OI-KL-GAS_LD_DISTRIBUTIE_100 MBAR_NGIJ_118-G</td>
+  </tr>
+  <tr><td>Bestaand, in Bedrijf</td><td>Bestaand, gerelined</td>
+   <td>R</td>
+    <td>RELINEN</td>
+    <td>R-OI-KL-GAS_LD_DISTRIBUTIE_100 MBAR_NGIJ_118-G</td>
+  </tr>
+</table>
+
+
