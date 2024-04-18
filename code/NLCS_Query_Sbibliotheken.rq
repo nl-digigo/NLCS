@@ -1,0 +1,22 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+# Retrieves all Symbool bibliotheek information and stores it in the familiar Excel/CSV format from the SQL database
+
+SELECT DISTINCT ?sbibliotheekURI ?id ?sbibliotheek ?omschrijving
+WHERE {
+  ?SymboolTopConcept a owl:Class .
+  ?SymboolTopConcept skos:prefLabel "Symbool" .
+  ?sbibliotheekURI rdfs:subClassOf ?SymboolTopConcept .
+  ?sbibliotheekURI skos:prefLabel ?sbibliotheek .
+  ?sbibliotheekURI skos:definition ?omschrijving .
+  OPTIONAL {
+    ?sbibliotheekURI ?idProperty ?id .
+    ?idProperty skos:prefLabel "ID" .
+  }
+} ORDER BY ?id 

@@ -1,0 +1,197 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+# Retrieves all Object information and stores it in the familiar Excel/CSV format from the SQL database
+
+SELECT DISTINCT ?objectURI ?hoofdgroepURI ?hoofdgroep ?id_nummer ?omschrijving ?kind_vanURI ?kind_van ?status ?discipline
+?lw_bURI ?lw_b ?kl_bURI ?kl_b ?kl_b_aURI ?kl_b_a ?kl_b_gdURI ?kl_b_gd ?kl_b_gnURI ?kl_b_gn ?kl_b_vURI ?kl_b_v ?lt_bURI ?lt_b
+?lw_nURI ?lw_n ?kl_nURI ?kl_n ?kl_n_aURI ?kl_n_a ?kl_n_gdURI ?kl_n_gd ?kl_n_gnURI ?kl_n_gn ?kl_n_vURI ?kl_n_v ?lt_nURI ?lt_n
+?lw_tURI ?lw_t ?kl_tURI ?kl_t ?kl_t_aURI ?kl_t_a ?kl_t_gdURI ?kl_t_gd ?kl_t_gnURI ?kl_t_gn ?kl_t_vURI ?kl_t_v ?lt_tURI ?lt_t
+?lw_vURI ?lw_v ?kl_vURI ?kl_v ?kl_v_aURI ?kl_v_a ?kl_v_gdURI ?kl_v_gd ?kl_v_gnURI ?kl_v_gn ?kl_v_vURI ?kl_v_v ?lt_vURI ?lt_v
+?element ?sobjectURI ?sobject ?aobjectURI ?aobject ?vrkl_kort
+WHERE {
+  ?NLCSObjectTopConcept a owl:Class .
+  ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
+  ?hoofdgroepURI rdfs:subClassOf ?NLCSObjectTopConcept .
+  ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
+  ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
+  ?objectURI skos:prefLabel ?omschrijving .
+  FILTER (?hoofdgroep = "AL") .  # INPUT REQUIRED - Change value to the desired hoofdgroep, AL is used as example
+  OPTIONAL {
+    ?objectURI ?idProperty ?id_nummer .
+    ?idProperty skos:prefLabel "ID" .
+  } 
+  OPTIONAL {
+    ?objectURI rdfs:subClassOf ?kind_vanURI .
+    FILTER (?kind_vanURI != ?hoofdgroepURI) .
+    ?kind_vanURI ?idProperty ?kind_van .
+    ?idProperty skos:prefLabel "ID" .
+  }
+  OPTIONAL {
+    ?objectURI ?elementProperty ?element .
+    ?elementProperty skos:prefLabel "Element" .
+  } 
+  OPTIONAL {
+    ?objectURI ?vrkl_kortProperty ?vrkl_kort .
+    ?vrkl_kortProperty skos:prefLabel "VRKL_KORT" .
+  } 
+
+  ?objectURI rdfs:subClassOf ?bnodeStatus .
+  ?bnodeStatus owl:onProperty ?StatusProperty .
+  ?StatusProperty skos:prefLabel "Status" .
+  OPTIONAL {
+    ?bnodeStatus owl:hasValue/skos:prefLabel ?StatusValue .
+  }
+  BIND( COALESCE(?StatusValue, "*") AS ?status) .
+  ?objectURI rdfs:subClassOf ?bnodeDiscipline .
+  ?bnodeDiscipline owl:onProperty ?DisciplineProperty .
+  ?DisciplineProperty skos:prefLabel "Discipline" .
+  OPTIONAL {
+    ?bnodeDiscipline owl:hasValue/skos:prefLabel ?DisciplineValue .
+  }
+  BIND( COALESCE(?DisciplineValue, "**") AS ?discipline) .
+
+  OPTIONAL {
+    ?objectURI rdfs:subClassOf ?bnodeSymbool .
+    ?bnodeSymbool owl:onProperty <https://w3id.org/nen2660/def#isDescribedBy> .
+    ?bnodeSymbool owl:onClass ?sobjectURI .
+    ?sobjectURI rdfs:subClassOf* ?SymboolTopConcept .
+    ?SymboolTopConcept skos:prefLabel "Symbool" .
+    ?sobjectURI skos:prefLabel ?sobject .
+  }
+  OPTIONAL {
+    ?objectURI rdfs:subClassOf ?bnodeArcering .
+    ?bnodeArcering owl:onProperty <https://w3id.org/nen2660/def#isDescribedBy> .
+    ?bnodeArcering owl:onClass ?aobjectURI .
+    ?aobjectURI rdfs:subClassOf* ?SymboolTopConcept .
+    ?ArceringTopConcept skos:prefLabel "Arcering" .
+    ?aobjectURI skos:prefLabel ?aobject .
+  }
+  OPTIONAL {
+    ?objectURI ?elementProperty ?element .
+    ?elementProperty skos:prefLabel "VRKL_KORT" .
+  } 
+
+  OPTIONAL {
+    ?objectURI ?BLineweightProperty ?lw_bURI .
+    ?BLineweightProperty skos:prefLabel "B lineweight" .
+    ?lw_bURI skos:prefLabel ?lw_b .
+
+    ?objectURI ?BColorProperty ?kl_bURI .
+    ?BColorProperty skos:prefLabel "B color" .
+    ?kl_bURI skos:prefLabel ?kl_b .
+
+    ?objectURI ?BColorAProperty ?kl_b_aURI .
+    ?BColorAProperty skos:prefLabel "B color A" .
+    ?kl_b_aURI skos:prefLabel ?kl_b_a .
+
+    ?objectURI ?BColorGDProperty ?kl_b_gdURI .
+    ?BColorGDProperty skos:prefLabel "B color GD" .
+    ?kl_b_gdURI skos:prefLabel ?kl_b_gd .
+
+    ?objectURI ?BColorGNProperty ?kl_b_gnURI .
+    ?BColorGNProperty skos:prefLabel "B color GN" .
+    ?kl_b_gnURI skos:prefLabel ?kl_b_gn .
+
+    ?objectURI ?BColorVProperty ?kl_b_vURI .
+    ?BColorVProperty skos:prefLabel "B color V" .
+    ?kl_b_vURI skos:prefLabel ?kl_b_v .
+
+    ?objectURI ?BLinetypeProperty ?lt_bURI .
+    ?BLinetypeProperty skos:prefLabel "B linetype" .
+    ?lt_bURI skos:prefLabel ?lt_b .
+  } 
+  OPTIONAL {
+    ?objectURI ?BLineweightProperty ?lw_nURI .
+    ?BLineweightProperty skos:prefLabel "N lineweight" .
+    ?lw_nURI skos:prefLabel ?lw_n .
+
+    ?objectURI ?BColorProperty ?kl_nURI .
+    ?BColorProperty skos:prefLabel "N color" .
+    ?kl_nURI skos:prefLabel ?kl_n .
+
+    ?objectURI ?BColorAProperty ?kl_n_aURI .
+    ?BColorAProperty skos:prefLabel "N color A" .
+    ?kl_n_aURI skos:prefLabel ?kl_n_a .
+
+    ?objectURI ?BColorGDProperty ?kl_n_gdURI .
+    ?BColorGDProperty skos:prefLabel "N color GD" .
+    ?kl_n_gdURI skos:prefLabel ?kl_n_gd .
+
+    ?objectURI ?BColorGNProperty ?kl_n_gnURI .
+    ?BColorGNProperty skos:prefLabel "N color GN" .
+    ?kl_n_gnURI skos:prefLabel ?kl_n_gn .
+
+    ?objectURI ?BColorVProperty ?kl_n_vURI .
+    ?BColorVProperty skos:prefLabel "N color V" .
+    ?kl_n_vURI skos:prefLabel ?kl_n_v .
+
+    ?objectURI ?BLinetypeProperty ?lt_nURI .
+    ?BLinetypeProperty skos:prefLabel "N linetype" .
+    ?lt_nURI skos:prefLabel ?lt_n .
+  } 
+  OPTIONAL {
+    ?objectURI ?BLineweightProperty ?lw_tURI .
+    ?BLineweightProperty skos:prefLabel "T lineweight" .
+    ?lw_tURI skos:prefLabel ?lw_t .
+
+    ?objectURI ?BColorProperty ?kl_tURI .
+    ?BColorProperty skos:prefLabel "T color" .
+    ?kl_tURI skos:prefLabel ?kl_t .
+
+    ?objectURI ?BColorAProperty ?kl_t_aURI .
+    ?BColorAProperty skos:prefLabel "T color A" .
+    ?kl_t_aURI skos:prefLabel ?kl_t_a .
+
+    ?objectURI ?BColorGDProperty ?kl_t_gdURI .
+    ?BColorGDProperty skos:prefLabel "T color GD" .
+    ?kl_t_gdURI skos:prefLabel ?kl_t_gd .
+
+    ?objectURI ?BColorGNProperty ?kl_t_gnURI .
+    ?BColorGNProperty skos:prefLabel "T color GN" .
+    ?kl_t_gnURI skos:prefLabel ?kl_t_gn .
+
+    ?objectURI ?BColorVProperty ?kl_t_vURI .
+    ?BColorVProperty skos:prefLabel "T color V" .
+    ?kl_t_vURI skos:prefLabel ?kl_t_v .
+
+    ?objectURI ?BLinetypeProperty ?lt_tURI .
+    ?BLinetypeProperty skos:prefLabel "T linetype" .
+    ?lt_tURI skos:prefLabel ?lt_t .
+  } 
+  OPTIONAL {
+    ?objectURI ?BLineweightProperty ?lw_vURI .
+    ?BLineweightProperty skos:prefLabel "V lineweight" .
+    ?lw_vURI skos:prefLabel ?lw_v .
+
+    ?objectURI ?BColorProperty ?kl_vURI .
+    ?BColorProperty skos:prefLabel "V color" .
+    ?kl_vURI skos:prefLabel ?kl_v .
+
+    ?objectURI ?BColorAProperty ?kl_v_aURI .
+    ?BColorAProperty skos:prefLabel "V color A" .
+    ?kl_v_aURI skos:prefLabel ?kl_v_a .
+
+    ?objectURI ?BColorGDProperty ?kl_v_gdURI .
+    ?BColorGDProperty skos:prefLabel "V color GD" .
+    ?kl_v_gdURI skos:prefLabel ?kl_v_gd .
+
+    ?objectURI ?BColorGNProperty ?kl_v_gnURI .
+    ?BColorGNProperty skos:prefLabel "V color GN" .
+    ?kl_v_gnURI skos:prefLabel ?kl_v_gn .
+
+    ?objectURI ?BColorVProperty ?kl_v_vURI .
+    ?BColorVProperty skos:prefLabel "V color V" .
+    ?kl_v_vURI skos:prefLabel ?kl_v_v .
+
+    ?objectURI ?BLinetypeProperty ?lt_vURI .
+    ?BLinetypeProperty skos:prefLabel "V linetype" .
+    ?lt_vURI skos:prefLabel ?lt_v .
+  } 
+  
+} ORDER BY ?id
