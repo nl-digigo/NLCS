@@ -6,18 +6,14 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 
-# Retrieves all general Hoofdgroep information and stores it in the familiar Excel/CSV format
+# Retrieves all abibliotheek info and stores it in the familiar Excel/CSV format
 
-SELECT distinct ?Afkorting ?Hoofdgroep ?ID
+SELECT distinct ?omschrijving
 
 WHERE {
   ?NLCSObjectTopConcept a owl:Class .
   ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
-  ?HOOFDGROEP rdfs:subClassOf ?NLCSObjectTopConcept .
-  ?HOOFDGROEP skos:prefLabel ?Afkorting ;
-               skos:altLabel ?Hoofdgroep .
-               OPTIONAL {
-    ?HOOFDGROEP ?IDProperty ?ID .
-    ?IDProperty skos:prefLabel "ID" .
-  }
-} orderby ?Afkorting
+  ?Abib rdfs:subClassOf ?NLCSObjectTopConcept.
+  ?Abib skos:altLabel ?omschrijving .
+}
+orderby ?omschrijving

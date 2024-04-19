@@ -1,0 +1,38 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+# Retrieves all Lijntype information and stores it in the familiar Excel/CSV format from the SQL database
+
+SELECT DISTINCT ?lijntypeURI ?id ?hoofdgroep ?omschrijving ?fase ?optie ?autocaddef ?fileURL
+WHERE {
+  ?LijntypeTopConcept a owl:Class .
+  ?LijntypeTopConcept skos:prefLabel "Lijntype" .
+  ?Hoofdgroep rdfs:subClassOf ?LijntypeTopConcept .
+  ?Hoofdgroep skos:prefLabel ?HoofdgroepName .
+  ?lijntypeURI rdfs:subClassOf* ?Hoofdgroep .
+  ?lijntypeURI skos:prefLabel ?omschrijving .
+  BIND ( IF(?lijntypeURI = ?Hoofdgroep, IF(?omschrijving IN ("V-CONTINUOUS-SO", "CONTINUOUS", "NLCS_HIDDEN-SO"), ?lijntypeURI, ?undefined), ?lijntypeURI) AS ?NotHoofdgroep) .
+  BIND ( IF(?lijntypeURI = ?Hoofdgroep, IF(?omschrijving IN ("V-CONTINUOUS-SO", "CONTINUOUS", "NLCS_HIDDEN-SO"), ?undefined, ?HoofdgroepName), ?HoofdgroepName) AS ?hoofdgroep) .
+  FILTER (?lijntypeURI = ?NotHoofdgroep) .
+  OPTIONAL {
+    ?lijntypeURI ?optieProperty ?optie .
+    ?optieProperty skos:prefLabel "Optie" .
+  } OPTIONAL {
+    ?lijntypeURI ?idProperty ?id .
+    ?idProperty skos:prefLabel "ID" .
+  } OPTIONAL {
+    ?lijntypeURI skos:definition ?autocaddef .
+  } OPTIONAL {
+    ?lijntypeURI ?faseProperty ?fase .
+    ?faseProperty skos:prefLabel "Fase" .
+  }
+  OPTIONAL {
+    ?lijntypeURI ?urlProperty ?fileURL .
+    ?urlProperty skos:prefLabel "URL" .
+  } 
+} ORDER BY ?id

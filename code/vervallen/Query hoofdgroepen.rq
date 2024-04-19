@@ -6,20 +6,21 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 
-# Retrieves all NLCS-Object information and stores it in the familiar Excel/CSV format
+# Retrieves all Hoofdgroep information and stores it in the familiar Excel/CSV format
 
-SELECT ?NLCSObject ?OMSCHRIJVING ?STATUS ?DISCIPLINE ?HOOFDGROEP ?ARCERING ?ARCERINGName ?SYMBOOL ?SYMBOOLName ?LAAGNAAM 
-?BLineweight ?BColor ?BColorA ?BColorGD ?BColorGN ?BColorV ?BLinetype ?BLinetypeName
-?NLineweight ?NColor ?NColorA ?NColorGD ?NColorGN ?NColorV ?NLinetype ?NLinetypeName
-?TLineweight ?TColor ?TColorA ?TColorGD ?TColorGN ?TColorV ?TLinetype ?TLinetypeName
-?VLineweight ?VColor ?VColorA ?VColorGD ?VColorGN ?VColorV ?VLinetype ?VLinetypeName
-?VRKL_KORT ?VRKL_LANG ?ID ?KIND_VAN ?FASE ?Bewerking ?Element
+SELECT distinct 
+?OMSCHRIJVING ?STATUS ?DISCIPLINE ?Hoofdgroep ?Object ?SubObject01 ?SubObject02 ?SubObject03 ?SubObject04 ?SubObject05 ?Bewerking ?Element ?Arcering ?Symbool ?Laagnaam 
+?BLineweight ?BColor ?BColorA ?BColorGD ?BColorGN ?BColorV ?B_Linetype 
+?NLineweight ?NColor ?NColorA ?NColorGD ?NColorGN ?NColorV ?N_Linetype 
+?VLineweight ?VColor ?VColorA ?VColorGD ?VColorGN ?VColorV ?V_Linetype 
+?TLineweight ?TColor ?TColorA ?TColorGD ?TColorGN ?TColorV ?T_Linetype
+?VRKL_KORT ?VRKL_LANG ?ID ?KIND_VAN
 WHERE {
   ?NLCSObjectTopConcept a owl:Class .
   ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
-  ?Hoofdgroep rdfs:subClassOf ?NLCSObjectTopConcept .
-  ?Hoofdgroep skos:prefLabel ?HOOFDGROEP .
-  ?NLCSObject rdfs:subClassOf+ ?Hoofdgroep .
+  ?Hoofdgroep2 rdfs:subClassOf ?NLCSObjectTopConcept .
+  ?Hoofdgroep2 skos:prefLabel ?HOOFDGROEP .
+  ?NLCSObject rdfs:subClassOf+ ?Hoofdgroep2 .
   ?NLCSObject skos:prefLabel ?OMSCHRIJVING .
   
   ?NLCSObject rdfs:subClassOf ?bnodeStatus .
@@ -42,7 +43,7 @@ WHERE {
     ?bnodeArcering owl:onClass ?ARCERING .
     ?ARCERING rdfs:subClassOf* ?ArceringTopConcept .
     ?ArceringTopConcept skos:prefLabel "Arcering" .
-    ?ARCERING skos:prefLabel ?ARCERINGName .
+    ?ARCERING skos:altLabel ?Arcering .
     FILTER( CONTAINS(STR(?ARCERING), "http://data.digigo.nu/nlcs/def/"))
   } OPTIONAL {
     ?NLCSObject rdfs:subClassOf ?bnodeSymbool .
@@ -50,12 +51,11 @@ WHERE {
     ?bnodeSymbool owl:onClass ?SYMBOOL .
     ?SYMBOOL rdfs:subClassOf* ?SymboolTopConcept .
     ?SymboolTopConcept skos:prefLabel "Symbool" .
-    ?SYMBOOL skos:prefLabel ?SYMBOOLName .
+    ?SYMBOOL skos:altLabel ?Symbool .
     FILTER( CONTAINS(STR(?SYMBOOL), "http://data.digigo.nu/nlcs/def/"))
   }
-    OPTIONAL {    BIND (STRBEFORE(STR(?SYMBOOL), "-") AS ?FASE ) . }
-    ?NLCSObject ?LaagnaamProperty ?LAAGNAAM .
-    ?LaagnaamProperty skos:prefLabel "Laagnaam" .
+  ?NLCSObject ?LaagnaamProperty ?Laagnaam .
+  ?LaagnaamProperty skos:prefLabel "Laagnaam" .
   OPTIONAL {
     ?NLCSObject ?BLineweightProperty ?BLineweight .
     ?BLineweightProperty skos:prefLabel "B lineweight" .
@@ -71,7 +71,7 @@ WHERE {
     ?BColorVProperty skos:prefLabel "B color V" .
     ?NLCSObject ?BLinetypeProperty ?BLinetype .
     ?BLinetypeProperty skos:prefLabel "B linetype" .
-    ?BLinetype skos:prefLabel ?BLinetypeName .
+    ?BLinetype skos:prefLabel ?B_Linetype .
   } OPTIONAL {
     ?NLCSObject ?NLineweightProperty ?NLineweight .
     ?NLineweightProperty skos:prefLabel "N lineweight" .
@@ -87,7 +87,7 @@ WHERE {
     ?NColorVProperty skos:prefLabel "N color V" .
     ?NLCSObject ?NLinetypeProperty ?NLinetype .
     ?NLinetypeProperty skos:prefLabel "N linetype" .
-    ?NLinetype skos:prefLabel ?NLinetypeName .
+    ?NLinetype skos:prefLabel ?N_Linetype .
   } OPTIONAL {
     ?NLCSObject ?TLineweightProperty ?TLineweight .
     ?TLineweightProperty skos:prefLabel "T lineweight" .
@@ -103,7 +103,7 @@ WHERE {
     ?TColorVProperty skos:prefLabel "T color V" .
     ?NLCSObject ?TLinetypeProperty ?TLinetype .
     ?TLinetypeProperty skos:prefLabel "T linetype" .
-    ?TLinetype skos:prefLabel ?TLinetypeName .
+    ?TLinetype skos:prefLabel ?T_Linetype .
   } OPTIONAL {
     ?NLCSObject ?VLineweightProperty ?VLineweight .
     ?VLineweightProperty skos:prefLabel "V lineweight" .
@@ -119,7 +119,7 @@ WHERE {
     ?VColorVProperty skos:prefLabel "V color V" .
     ?NLCSObject ?VLinetypeProperty ?VLinetype .
     ?VLinetypeProperty skos:prefLabel "V linetype" .
-    ?VLinetype skos:prefLabel ?VLinetypeName .
+    ?VLinetype skos:prefLabel ?V_Linetype .
   }
   OPTIONAL {
     ?NLCSObject ?VRKLProperty ?VRKL_KORT .
@@ -136,6 +136,9 @@ WHERE {
     ?NLCSObject ?VRKL_LANGProperty ?VRKL_LANG .
     ?VRKL_LANGProperty skos:prefLabel "VRKL_LANG" .
   } 
+    bind (strbefore (?Laagnaam,"-") as ?Status)
+    bind (strbefore (strafter (?Laagnaam,"-"),"-") as ?Discipline)
+	  bind (strbefore (strafter (strafter (?Laagnaam,"-"),"-"),"-") as ?Hoofdgroep)
     bind (strafter(strafter (strafter (?Laagnaam,"-"),"-"),"-") as ?ObjectTotal )
     bind (strafter (strafter (strafter (?Laagnaam,"-"),"-"),"-") as ?ElementPrePre )
     bind ( if ( contains(?ElementPrePre, "-"), strafter(?ElementPrePre, "-"),?ElementPrePre) as ?ElementPre )
