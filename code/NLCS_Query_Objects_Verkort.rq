@@ -8,12 +8,12 @@ PREFIX sh: <http://www.w3.org/ns/shacl#>
 
 # Retrieves all Object information and stores it in the familiar Excel/CSV format from the SQL database
 
-SELECT DISTINCT ?objectURI ?hoofdgroepURI ?hoofdgroep ?id_nummer ?omschrijving ?kind_vanURI ?kind_van ?status ?discipline
-?lw_bURI ?lw_b ?kl_bURI ?kl_b ?kl_b_aURI ?kl_b_a ?kl_b_gdURI ?kl_b_gd ?kl_b_gnURI ?kl_b_gn ?kl_b_vURI ?kl_b_v ?lt_bURI ?lt_b
-?lw_nURI ?lw_n ?kl_nURI ?kl_n ?kl_n_aURI ?kl_n_a ?kl_n_gdURI ?kl_n_gd ?kl_n_gnURI ?kl_n_gn ?kl_n_vURI ?kl_n_v ?lt_nURI ?lt_n
-?lw_tURI ?lw_t ?kl_tURI ?kl_t ?kl_t_aURI ?kl_t_a ?kl_t_gdURI ?kl_t_gd ?kl_t_gnURI ?kl_t_gn ?kl_t_vURI ?kl_t_v ?lt_tURI ?lt_t
-?lw_vURI ?lw_v ?kl_vURI ?kl_v ?kl_v_aURI ?kl_v_a ?kl_v_gdURI ?kl_v_gd ?kl_v_gnURI ?kl_v_gn ?kl_v_vURI ?kl_v_v ?lt_vURI ?lt_v
-?element ?sobjectURI ?sobject ?aobjectURI ?aobject ?vrkl_kort
+SELECT DISTINCT ?hoofdgroep ?id_nummer ?omschrijving ?kind_van ?status ?discipline
+?lw_b ?kl_b ?kl_b_a ?kl_b_gd ?kl_b_gn ?kl_b_v ?lt_b
+?lw_n ?kl_n ?kl_n_a ?kl_n_gd ?kl_n_gn ?kl_n_v ?lt_n
+?lw_t ?kl_t ?kl_t_a ?kl_t_gd ?kl_t_gn ?kl_t_v ?lt_t
+?lw_v ?kl_v ?kl_v_a ?kl_v_gd ?kl_v_gn ?kl_v_v ?lt_v
+?element ?vrkl_kort
 WHERE {
   ?NLCSObjectTopConcept a owl:Class .
   ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
