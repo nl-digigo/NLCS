@@ -91,90 +91,90 @@ WHERE {
     ?lt_bURI skos:prefLabel ?lt_b .
   } 
   OPTIONAL {
-    ?objectURI ?BLineweightProperty ?lw_nURI .
-    ?BLineweightProperty skos:prefLabel "N lineweight" .
+    ?objectURI ?NLineweightProperty ?lw_nURI .
+    ?NLineweightProperty skos:prefLabel "N lineweight" .
     ?lw_nURI skos:prefLabel ?lw_n .
 
-    ?objectURI ?BColorProperty ?kl_nURI .
-    ?BColorProperty skos:prefLabel "N color" .
+    ?objectURI ?NColorProperty ?kl_nURI .
+    ?NColorProperty skos:prefLabel "N color" .
     ?kl_nURI skos:prefLabel ?kl_n .
 
-    ?objectURI ?BColorAProperty ?kl_n_aURI .
-    ?BColorAProperty skos:prefLabel "N color A" .
+    ?objectURI ?NColorAProperty ?kl_n_aURI .
+    ?NColorAProperty skos:prefLabel "N color A" .
     ?kl_n_aURI skos:prefLabel ?kl_n_a .
 
-    ?objectURI ?BColorGDProperty ?kl_n_gdURI .
-    ?BColorGDProperty skos:prefLabel "N color GD" .
+    ?objectURI ?NColorGDProperty ?kl_n_gdURI .
+    ?NColorGDProperty skos:prefLabel "N color GD" .
     ?kl_n_gdURI skos:prefLabel ?kl_n_gd .
 
-    ?objectURI ?BColorGNProperty ?kl_n_gnURI .
-    ?BColorGNProperty skos:prefLabel "N color GN" .
+    ?objectURI ?NColorGNProperty ?kl_n_gnURI .
+    ?NColorGNProperty skos:prefLabel "N color GN" .
     ?kl_n_gnURI skos:prefLabel ?kl_n_gn .
 
-    ?objectURI ?BColorVProperty ?kl_n_vURI .
-    ?BColorVProperty skos:prefLabel "N color V" .
+    ?objectURI ?NColorVProperty ?kl_n_vURI .
+    ?NColorVProperty skos:prefLabel "N color V" .
     ?kl_n_vURI skos:prefLabel ?kl_n_v .
 
-    ?objectURI ?BLinetypeProperty ?lt_nURI .
-    ?BLinetypeProperty skos:prefLabel "N linetype" .
+    ?objectURI ?NLinetypeProperty ?lt_nURI .
+    ?NLinetypeProperty skos:prefLabel "N linetype" .
     ?lt_nURI skos:prefLabel ?lt_n .
   } 
   OPTIONAL {
-    ?objectURI ?BLineweightProperty ?lw_tURI .
-    ?BLineweightProperty skos:prefLabel "T lineweight" .
+    ?objectURI ?TLineweightProperty ?lw_tURI .
+    ?TLineweightProperty skos:prefLabel "T lineweight" .
     ?lw_tURI skos:prefLabel ?lw_t .
 
-    ?objectURI ?BColorProperty ?kl_tURI .
-    ?BColorProperty skos:prefLabel "T color" .
+    ?objectURI ?TColorProperty ?kl_tURI .
+    ?TColorProperty skos:prefLabel "T color" .
     ?kl_tURI skos:prefLabel ?kl_t .
 
-    ?objectURI ?BColorAProperty ?kl_t_aURI .
-    ?BColorAProperty skos:prefLabel "T color A" .
+    ?objectURI ?TColorAProperty ?kl_t_aURI .
+    ?TColorAProperty skos:prefLabel "T color A" .
     ?kl_t_aURI skos:prefLabel ?kl_t_a .
 
-    ?objectURI ?BColorGDProperty ?kl_t_gdURI .
-    ?BColorGDProperty skos:prefLabel "T color GD" .
+    ?objectURI ?TColorGDProperty ?kl_t_gdURI .
+    ?TColorGDProperty skos:prefLabel "T color GD" .
     ?kl_t_gdURI skos:prefLabel ?kl_t_gd .
 
-    ?objectURI ?BColorGNProperty ?kl_t_gnURI .
-    ?BColorGNProperty skos:prefLabel "T color GN" .
+    ?objectURI ?TColorGNProperty ?kl_t_gnURI .
+    ?TColorGNProperty skos:prefLabel "T color GN" .
     ?kl_t_gnURI skos:prefLabel ?kl_t_gn .
 
-    ?objectURI ?BColorVProperty ?kl_t_vURI .
-    ?BColorVProperty skos:prefLabel "T color V" .
+    ?objectURI ?TColorVProperty ?kl_t_vURI .
+    ?TColorVProperty skos:prefLabel "T color V" .
     ?kl_t_vURI skos:prefLabel ?kl_t_v .
 
-    ?objectURI ?BLinetypeProperty ?lt_tURI .
-    ?BLinetypeProperty skos:prefLabel "T linetype" .
+    ?objectURI ?TLinetypeProperty ?lt_tURI .
+    ?TLinetypeProperty skos:prefLabel "T linetype" .
     ?lt_tURI skos:prefLabel ?lt_t .
   } 
   OPTIONAL {
-    ?objectURI ?BLineweightProperty ?lw_vURI .
-    ?BLineweightProperty skos:prefLabel "V lineweight" .
+    ?objectURI ?VLineweightProperty ?lw_vURI .
+    ?VLineweightProperty skos:prefLabel "V lineweight" .
     ?lw_vURI skos:prefLabel ?lw_v .
 
-    ?objectURI ?BColorProperty ?kl_vURI .
-    ?BColorProperty skos:prefLabel "V color" .
+    ?objectURI ?VColorProperty ?kl_vURI .
+    ?VColorProperty skos:prefLabel "V color" .
     ?kl_vURI skos:prefLabel ?kl_v .
 
-    ?objectURI ?BColorAProperty ?kl_v_aURI .
-    ?BColorAProperty skos:prefLabel "V color A" .
+    ?objectURI ?VColorAProperty ?kl_v_aURI .
+    ?VColorAProperty skos:prefLabel "V color A" .
     ?kl_v_aURI skos:prefLabel ?kl_v_a .
 
-    ?objectURI ?BColorGDProperty ?kl_v_gdURI .
-    ?BColorGDProperty skos:prefLabel "V color GD" .
+    ?objectURI ?VColorGDProperty ?kl_v_gdURI .
+    ?VColorGDProperty skos:prefLabel "V color GD" .
     ?kl_v_gdURI skos:prefLabel ?kl_v_gd .
 
-    ?objectURI ?BColorGNProperty ?kl_v_gnURI .
-    ?BColorGNProperty skos:prefLabel "V color GN" .
+    ?objectURI ?VColorGNProperty ?kl_v_gnURI .
+    ?VColorGNProperty skos:prefLabel "V color GN" .
     ?kl_v_gnURI skos:prefLabel ?kl_v_gn .
 
-    ?objectURI ?BColorVProperty ?kl_v_vURI .
-    ?BColorVProperty skos:prefLabel "V color V" .
+    ?objectURI ?VColorVProperty ?kl_v_vURI .
+    ?VColorVProperty skos:prefLabel "V color V" .
     ?kl_v_vURI skos:prefLabel ?kl_v_v .
 
-    ?objectURI ?BLinetypeProperty ?lt_vURI .
-    ?BLinetypeProperty skos:prefLabel "V linetype" .
+    ?objectURI ?VLinetypeProperty ?lt_vURI .
+    ?VLinetypeProperty skos:prefLabel "V linetype" .
     ?lt_vURI skos:prefLabel ?lt_v .
   } 
   
