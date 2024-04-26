@@ -127,151 +127,151 @@ WHERE {
     ?lt_bURI skos:prefLabel ?lt_b .
   } 
   OPTIONAL {
-    ?objectURI ?NLineweightProperty ?lw_bURI .
+    ?objectURI ?NLineweightProperty ?lw_nURI .
     ?NLineweightProperty skos:prefLabel "N lineweight" .
-    ?lw_bURI skos:prefLabel ?lw_b .
+    ?lw_nURI skos:prefLabel ?lw_n .
 
-    ?objectURI ?NColorProperty ?kl_bURI_temp .
+    ?objectURI ?NColorProperty ?kl_nURI_temp .
     ?NColorProperty skos:prefLabel "N color" .
     OPTIONAL {
-      ?kl_bURI_temp skos:prefLabel ?kl_b_temp .
+      ?kl_nURI_temp skos:prefLabel ?kl_n_temp .
     }
-    BIND( COALESCE(?kl_b_temp, ?kl_bURI_temp) AS ?kl_b) .
-    BIND( IF(?kl_b = ?kl_b_temp, ?kl_bURI_temp, ?undefined) AS ?kl_bURI) .
+    BIND( COALESCE(?kl_n_temp, ?kl_nURI_temp) AS ?kl_n) .
+    BIND( IF(?kl_n = ?kl_n_temp, ?kl_nURI_temp, ?undefined) AS ?kl_nURI) .
 
-    ?objectURI ?NColorAProperty ?kl_b_aURI_temp .
+    ?objectURI ?NColorAProperty ?kl_n_aURI_temp .
     ?NColorAProperty skos:prefLabel "N color A" .
     OPTIONAL {
-      ?kl_b_aURI_temp skos:prefLabel ?kl_b_a_temp .
+      ?kl_n_aURI_temp skos:prefLabel ?kl_n_a_temp .
     }
-    BIND( COALESCE(?kl_b_a_temp, ?kl_b_aURI_temp) AS ?kl_b_a) .
-    BIND( IF(?kl_b_a = ?kl_b_a_temp, ?kl_b_aURI_temp, ?undefined) AS ?kl_b_aURI) .
+    BIND( COALESCE(?kl_n_a_temp, ?kl_n_aURI_temp) AS ?kl_n_a) .
+    BIND( IF(?kl_n_a = ?kl_n_a_temp, ?kl_n_aURI_temp, ?undefined) AS ?kl_n_aURI) .
 
-    ?objectURI ?NColorGDProperty ?kl_b_gdURI_temp .
+    ?objectURI ?NColorGDProperty ?kl_n_gdURI_temp .
     ?NColorGDProperty skos:prefLabel "N color GD" .
     OPTIONAL {
-      ?kl_b_gdURI_temp skos:prefLabel ?kl_b_gd_temp .
+      ?kl_n_gdURI_temp skos:prefLabel ?kl_n_gd_temp .
     }
-    BIND( COALESCE(?kl_b_gd_temp, ?kl_b_gdURI_temp) AS ?kl_b_gd) .
-    BIND( IF(?kl_b_gd = ?kl_b_gd_temp, ?kl_b_gdURI_temp, ?undefined) AS ?kl_b_gdURI) .
+    BIND( COALESCE(?kl_n_gd_temp, ?kl_n_gdURI_temp) AS ?kl_n_gd) .
+    BIND( IF(?kl_n_gd = ?kl_n_gd_temp, ?kl_n_gdURI_temp, ?undefined) AS ?kl_n_gdURI) .
 
-    ?objectURI ?NColorGNProperty ?kl_b_gnURI_temp .
+    ?objectURI ?NColorGNProperty ?kl_n_gnURI_temp .
     ?NColorGNProperty skos:prefLabel "N color GN" .
     OPTIONAL {
-      ?kl_b_gnURI_temp skos:prefLabel ?kl_b_gn_temp .
+      ?kl_n_gnURI_temp skos:prefLabel ?kl_n_gn_temp .
     }
-    BIND( COALESCE(?kl_b_gn_temp, ?kl_b_gnURI_temp) AS ?kl_b_gn) .
-    BIND( IF(?kl_b_gn = ?kl_b_gn_temp, ?kl_b_gnURI_temp, ?undefined) AS ?kl_b_gnURI) .
+    BIND( COALESCE(?kl_n_gn_temp, ?kl_n_gnURI_temp) AS ?kl_n_gn) .
+    BIND( IF(?kl_n_gn = ?kl_n_gn_temp, ?kl_n_gnURI_temp, ?undefined) AS ?kl_n_gnURI) .
 
-    ?objectURI ?NColorVProperty ?kl_b_vURI_temp .
+    ?objectURI ?NColorVProperty ?kl_n_vURI_temp .
     ?NColorVProperty skos:prefLabel "N color V" .
     OPTIONAL {
-      ?kl_b_vURI_temp skos:prefLabel ?kl_b_v_temp .
+      ?kl_n_vURI_temp skos:prefLabel ?kl_n_v_temp .
     }
-    BIND( COALESCE(?kl_b_v_temp, ?kl_b_vURI_temp) AS ?kl_b_v) .
-    BIND( IF(?kl_b_v = ?kl_b_v_temp, ?kl_b_vURI_temp, ?undefined) AS ?kl_b_vURI) .
+    BIND( COALESCE(?kl_n_v_temp, ?kl_n_vURI_temp) AS ?kl_n_v) .
+    BIND( IF(?kl_n_v = ?kl_n_v_temp, ?kl_n_vURI_temp, ?undefined) AS ?kl_n_vURI) .
 
-    ?objectURI ?NLinetypeProperty ?lt_bURI .
+    ?objectURI ?NLinetypeProperty ?lt_nURI .
     ?NLinetypeProperty skos:prefLabel "N linetype" .
-    ?lt_bURI skos:prefLabel ?lt_b .
+    ?lt_nURI skos:prefLabel ?lt_n .
   } 
   OPTIONAL {
-    ?objectURI ?TLineweightProperty ?lw_bURI .
+    ?objectURI ?TLineweightProperty ?lw_tURI .
     ?TLineweightProperty skos:prefLabel "T lineweight" .
-    ?lw_bURI skos:prefLabel ?lw_b .
+    ?lw_tURI skos:prefLabel ?lw_t .
 
-    ?objectURI ?TColorProperty ?kl_bURI_temp .
+    ?objectURI ?TColorProperty ?kl_tURI_temp .
     ?TColorProperty skos:prefLabel "T color" .
     OPTIONAL {
-      ?kl_bURI_temp skos:prefLabel ?kl_b_temp .
+      ?kl_tURI_temp skos:prefLabel ?kl_t_temp .
     }
-    BIND( COALESCE(?kl_b_temp, ?kl_bURI_temp) AS ?kl_b) .
-    BIND( IF(?kl_b = ?kl_b_temp, ?kl_bURI_temp, ?undefined) AS ?kl_bURI) .
+    BIND( COALESCE(?kl_t_temp, ?kl_tURI_temp) AS ?kl_t) .
+    BIND( IF(?kl_t = ?kl_t_temp, ?kl_tURI_temp, ?undefined) AS ?kl_tURI) .
 
-    ?objectURI ?TColorAProperty ?kl_b_aURI_temp .
+    ?objectURI ?TColorAProperty ?kl_t_aURI_temp .
     ?TColorAProperty skos:prefLabel "T color A" .
     OPTIONAL {
-      ?kl_b_aURI_temp skos:prefLabel ?kl_b_a_temp .
+      ?kl_t_aURI_temp skos:prefLabel ?kl_t_a_temp .
     }
-    BIND( COALESCE(?kl_b_a_temp, ?kl_b_aURI_temp) AS ?kl_b_a) .
-    BIND( IF(?kl_b_a = ?kl_b_a_temp, ?kl_b_aURI_temp, ?undefined) AS ?kl_b_aURI) .
+    BIND( COALESCE(?kl_t_a_temp, ?kl_t_aURI_temp) AS ?kl_t_a) .
+    BIND( IF(?kl_t_a = ?kl_t_a_temp, ?kl_t_aURI_temp, ?undefined) AS ?kl_t_aURI) .
 
-    ?objectURI ?TColorGDProperty ?kl_b_gdURI_temp .
+    ?objectURI ?TColorGDProperty ?kl_t_gdURI_temp .
     ?TColorGDProperty skos:prefLabel "T color GD" .
     OPTIONAL {
-      ?kl_b_gdURI_temp skos:prefLabel ?kl_b_gd_temp .
+      ?kl_t_gdURI_temp skos:prefLabel ?kl_t_gd_temp .
     }
-    BIND( COALESCE(?kl_b_gd_temp, ?kl_b_gdURI_temp) AS ?kl_b_gd) .
-    BIND( IF(?kl_b_gd = ?kl_b_gd_temp, ?kl_b_gdURI_temp, ?undefined) AS ?kl_b_gdURI) .
+    BIND( COALESCE(?kl_t_gd_temp, ?kl_t_gdURI_temp) AS ?kl_t_gd) .
+    BIND( IF(?kl_t_gd = ?kl_t_gd_temp, ?kl_t_gdURI_temp, ?undefined) AS ?kl_t_gdURI) .
 
-    ?objectURI ?TColorGNProperty ?kl_b_gnURI_temp .
+    ?objectURI ?TColorGNProperty ?kl_t_gnURI_temp .
     ?TColorGNProperty skos:prefLabel "T color GN" .
     OPTIONAL {
-      ?kl_b_gnURI_temp skos:prefLabel ?kl_b_gn_temp .
+      ?kl_t_gnURI_temp skos:prefLabel ?kl_t_gn_temp .
     }
-    BIND( COALESCE(?kl_b_gn_temp, ?kl_b_gnURI_temp) AS ?kl_b_gn) .
-    BIND( IF(?kl_b_gn = ?kl_b_gn_temp, ?kl_b_gnURI_temp, ?undefined) AS ?kl_b_gnURI) .
+    BIND( COALESCE(?kl_t_gn_temp, ?kl_t_gnURI_temp) AS ?kl_t_gn) .
+    BIND( IF(?kl_t_gn = ?kl_t_gn_temp, ?kl_t_gnURI_temp, ?undefined) AS ?kl_t_gnURI) .
 
-    ?objectURI ?TColorVProperty ?kl_b_vURI_temp .
+    ?objectURI ?TColorVProperty ?kl_t_vURI_temp .
     ?TColorVProperty skos:prefLabel "T color V" .
     OPTIONAL {
-      ?kl_b_vURI_temp skos:prefLabel ?kl_b_v_temp .
+      ?kl_t_vURI_temp skos:prefLabel ?kl_t_v_temp .
     }
-    BIND( COALESCE(?kl_b_v_temp, ?kl_b_vURI_temp) AS ?kl_b_v) .
-    BIND( IF(?kl_b_v = ?kl_b_v_temp, ?kl_b_vURI_temp, ?undefined) AS ?kl_b_vURI) .
+    BIND( COALESCE(?kl_t_v_temp, ?kl_t_vURI_temp) AS ?kl_t_v) .
+    BIND( IF(?kl_t_v = ?kl_t_v_temp, ?kl_t_vURI_temp, ?undefined) AS ?kl_t_vURI) .
 
-    ?objectURI ?TLinetypeProperty ?lt_bURI .
+    ?objectURI ?TLinetypeProperty ?lt_tURI .
     ?TLinetypeProperty skos:prefLabel "T linetype" .
-    ?lt_bURI skos:prefLabel ?lt_b .
-  } 
+    ?lt_tURI skos:prefLabel ?lt_t .
+  }  
   OPTIONAL {
-    ?objectURI ?VLineweightProperty ?lw_bURI .
+    ?objectURI ?VLineweightProperty ?lw_vURI .
     ?VLineweightProperty skos:prefLabel "V lineweight" .
-    ?lw_bURI skos:prefLabel ?lw_b .
+    ?lw_vURI skos:prefLabel ?lw_v .
 
-    ?objectURI ?VColorProperty ?kl_bURI_temp .
+    ?objectURI ?VColorProperty ?kl_vURI_temp .
     ?VColorProperty skos:prefLabel "V color" .
     OPTIONAL {
-      ?kl_bURI_temp skos:prefLabel ?kl_b_temp .
+      ?kl_vURI_temp skos:prefLabel ?kl_v_temp .
     }
-    BIND( COALESCE(?kl_b_temp, ?kl_bURI_temp) AS ?kl_b) .
-    BIND( IF(?kl_b = ?kl_b_temp, ?kl_bURI_temp, ?undefined) AS ?kl_bURI) .
+    BIND( COALESCE(?kl_v_temp, ?kl_vURI_temp) AS ?kl_v) .
+    BIND( IF(?kl_v = ?kl_v_temp, ?kl_vURI_temp, ?undefined) AS ?kl_vURI) .
 
-    ?objectURI ?VColorAProperty ?kl_b_aURI_temp .
+    ?objectURI ?VColorAProperty ?kl_v_aURI_temp .
     ?VColorAProperty skos:prefLabel "V color A" .
     OPTIONAL {
-      ?kl_b_aURI_temp skos:prefLabel ?kl_b_a_temp .
+      ?kl_v_aURI_temp skos:prefLabel ?kl_v_a_temp .
     }
-    BIND( COALESCE(?kl_b_a_temp, ?kl_b_aURI_temp) AS ?kl_b_a) .
-    BIND( IF(?kl_b_a = ?kl_b_a_temp, ?kl_b_aURI_temp, ?undefined) AS ?kl_b_aURI) .
+    BIND( COALESCE(?kl_v_a_temp, ?kl_v_aURI_temp) AS ?kl_v_a) .
+    BIND( IF(?kl_v_a = ?kl_v_a_temp, ?kl_v_aURI_temp, ?undefined) AS ?kl_v_aURI) .
 
-    ?objectURI ?VColorGDProperty ?kl_b_gdURI_temp .
+    ?objectURI ?VColorGDProperty ?kl_v_gdURI_temp .
     ?VColorGDProperty skos:prefLabel "V color GD" .
     OPTIONAL {
-      ?kl_b_gdURI_temp skos:prefLabel ?kl_b_gd_temp .
+      ?kl_v_gdURI_temp skos:prefLabel ?kl_v_gd_temp .
     }
-    BIND( COALESCE(?kl_b_gd_temp, ?kl_b_gdURI_temp) AS ?kl_b_gd) .
-    BIND( IF(?kl_b_gd = ?kl_b_gd_temp, ?kl_b_gdURI_temp, ?undefined) AS ?kl_b_gdURI) .
+    BIND( COALESCE(?kl_v_gd_temp, ?kl_v_gdURI_temp) AS ?kl_v_gd) .
+    BIND( IF(?kl_v_gd = ?kl_v_gd_temp, ?kl_v_gdURI_temp, ?undefined) AS ?kl_v_gdURI) .
 
-    ?objectURI ?VColorGNProperty ?kl_b_gnURI_temp .
+    ?objectURI ?VColorGNProperty ?kl_v_gnURI_temp .
     ?VColorGNProperty skos:prefLabel "V color GN" .
     OPTIONAL {
-      ?kl_b_gnURI_temp skos:prefLabel ?kl_b_gn_temp .
+      ?kl_v_gnURI_temp skos:prefLabel ?kl_v_gn_temp .
     }
-    BIND( COALESCE(?kl_b_gn_temp, ?kl_b_gnURI_temp) AS ?kl_b_gn) .
-    BIND( IF(?kl_b_gn = ?kl_b_gn_temp, ?kl_b_gnURI_temp, ?undefined) AS ?kl_b_gnURI) .
+    BIND( COALESCE(?kl_v_gn_temp, ?kl_v_gnURI_temp) AS ?kl_v_gn) .
+    BIND( IF(?kl_v_gn = ?kl_v_gn_temp, ?kl_v_gnURI_temp, ?undefined) AS ?kl_v_gnURI) .
 
-    ?objectURI ?VColorVProperty ?kl_b_vURI_temp .
+    ?objectURI ?VColorVProperty ?kl_v_vURI_temp .
     ?VColorVProperty skos:prefLabel "V color V" .
     OPTIONAL {
-      ?kl_b_vURI_temp skos:prefLabel ?kl_b_v_temp .
+      ?kl_v_vURI_temp skos:prefLabel ?kl_v_v_temp .
     }
-    BIND( COALESCE(?kl_b_v_temp, ?kl_b_vURI_temp) AS ?kl_b_v) .
-    BIND( IF(?kl_b_v = ?kl_b_v_temp, ?kl_b_vURI_temp, ?undefined) AS ?kl_b_vURI) .
+    BIND( COALESCE(?kl_v_v_temp, ?kl_v_vURI_temp) AS ?kl_v_v) .
+    BIND( IF(?kl_v_v = ?kl_v_v_temp, ?kl_v_vURI_temp, ?undefined) AS ?kl_v_vURI) .
 
-    ?objectURI ?VLinetypeProperty ?lt_bURI .
+    ?objectURI ?VLinetypeProperty ?lt_vURI .
     ?VLinetypeProperty skos:prefLabel "V linetype" .
-    ?lt_bURI skos:prefLabel ?lt_b .
+    ?lt_vURI skos:prefLabel ?lt_v .
   } 
   
 } ORDER BY ?id
