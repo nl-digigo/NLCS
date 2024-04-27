@@ -1,5 +1,3 @@
-Dit document beschrijft het informatiemodel van NLCS. NLCS is als linked data gepubliceerd. 
+Dit document beschrijft het informatiemodel van NLCS en de distributievormen. NLCS is als linked data gepubliceerd, conform de NEN 2660-2. De laagnamen, symbolen en arceringen die gebruikt worden in NLCS, worden beschouwd als nen2660-2-InformatieObject.
 
-<p><dfn>NLCS</dfn> Een afkorting van Nederlandse CAD Standaard, een standaard voor het maken en overdragen van digitale [=CAD-modellen=] in de openbare ruimte en infrastructuur.</p>
 
-<p><dfn>CAD</dfn> "Computer Aided Design" ofwel het ontwerpen van ruimtelijke objecten met behulp van een applicatie.</p>
