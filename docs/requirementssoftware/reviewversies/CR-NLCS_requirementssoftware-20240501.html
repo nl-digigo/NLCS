@@ -1,0 +1,796 @@
+<!DOCTYPE html><html lang="nl"><head>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta charset="utf-8">
+<meta name="generator" content="ReSpec 32.3.0">
+<style>
+dfn{cursor:pointer}
+.dfn-panel{position:absolute;z-index:35;min-width:300px;max-width:500px;padding:.5em .75em;margin-top:.6em;font-family:MuseoSans,"Museo Sans",Museo,sans-serif;font-size:small;background:#fff;color:#000;box-shadow:0 1em 3em -.4em rgba(0,0,0,.3),0 0 1px 1px rgba(0,0,0,.05);border-radius:2px}
+.dfn-panel:not(.docked)>.caret{position:absolute;top:-9px}
+.dfn-panel:not(.docked)>.caret::after,.dfn-panel:not(.docked)>.caret::before{content:"";position:absolute;border:10px solid transparent;border-top:0;border-bottom:10px solid #fff;top:0}
+.dfn-panel:not(.docked)>.caret::before{border-bottom:9px solid #a2a9b1}
+.dfn-panel *{margin:0}
+.dfn-panel b{display:block;color:#000;margin-top:.25em}
+.dfn-panel ul a[href]{color:#333}
+.dfn-panel>div{display:flex}
+.dfn-panel a.self-link{font-weight:700;margin-right:auto}
+.dfn-panel .marker{padding:.1em;margin-left:.5em;border-radius:.2em;text-align:center;white-space:nowrap;font-size:90%;color:#040b1c}
+.dfn-panel .marker.dfn-exported{background:#d1edfd;box-shadow:0 0 0 .125em #1ca5f940}
+.dfn-panel .marker.idl-block{background:#8ccbf2;box-shadow:0 0 0 .125em #0670b161}
+.dfn-panel a:not(:hover){text-decoration:none!important;border-bottom:none!important}
+.dfn-panel a[href]:hover{border-bottom-width:1px}
+.dfn-panel ul{padding:0}
+.dfn-panel li{margin-left:1em}
+.dfn-panel.docked{position:fixed;left:.5em;top:unset;bottom:2em;margin:0 auto;max-width:calc(100vw - .75em * 2 - .5em - .2em * 2);max-height:30vh;overflow:auto}
+</style>
+<link rel="stylesheet" href="https://docs.crow.nl/webfonts/webfonts.css">
+<link rel="stylesheet" href="https://docs.crow.nl/respec-design/stichting-crow/base.min.css">
+<link rel="stylesheet" media="(prefers-color-scheme: dark)" href="https://docs.crow.nl/respec-design/stichting-crow/dark.min.css">
+  
+  
+  
+  
+<title>Eisen aan software-implementatie</title>
+  
+  
+
+<style id="respec-mainstyle">
+@keyframes pop{
+0%{transform:scale(1,1)}
+25%{transform:scale(1.25,1.25);opacity:.75}
+100%{transform:scale(1,1)}
+}
+:is(h1,h2,h3,h4,h5,h6,a) abbr{border:none}
+dfn{font-weight:700}
+a.internalDFN{color:inherit;border-bottom:1px solid #99c;text-decoration:none}
+a.externalDFN{color:inherit;border-bottom:1px dotted #ccc;text-decoration:none}
+a.bibref{text-decoration:none}
+.respec-offending-element:target{animation:pop .25s ease-in-out 0s 1}
+.respec-offending-element,a[href].respec-offending-element{text-decoration:red wavy underline}
+@supports not (text-decoration:red wavy underline){
+.respec-offending-element:not(pre){display:inline-block}
+.respec-offending-element{background:url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=) bottom repeat-x}
+}
+#references :target{background:#eaf3ff;animation:pop .4s ease-in-out 0s 1}
+cite .bibref{font-style:normal}
+a[href].orcid{padding-left:4px;padding-right:4px}
+a[href].orcid>svg{margin-bottom:-2px}
+.toc a,.tof a{text-decoration:none}
+a .figno,a .secno{color:#000;color:var(--toclink-text)}
+ol.tof,ul.tof{list-style:none outside none}
+.caption{margin-top:.5em;font-style:italic}
+table.simple{border-spacing:0;border-collapse:collapse;border-bottom:3px solid #005a9c}
+.simple th{background:#005a9c;color:#fff;padding:3px 5px;text-align:left}
+.simple th a{color:#fff;padding:3px 5px;text-align:left}
+.simple th[scope=row]{background:inherit;color:inherit;border-top:1px solid #ddd}
+.simple td{padding:3px 10px;border-top:1px solid #ddd}
+.simple tr:nth-child(even){background:#f0f6ff}
+.section dd>p:first-child{margin-top:0}
+.section dd>p:last-child{margin-bottom:0}
+.section dd{margin-bottom:1em}
+.section dl.attrs dd,.section dl.eldef dd{margin-bottom:0}
+#issue-summary>ul{column-count:2}
+#issue-summary li{list-style:none;display:inline-block}
+details.respec-tests-details{margin-left:1em;display:inline-block;vertical-align:top}
+details.respec-tests-details>*{padding-right:2em}
+details.respec-tests-details[open]{z-index:999999;position:absolute;border:thin solid #cad3e2;border-radius:.3em;background-color:#fff;padding-bottom:.5em}
+details.respec-tests-details[open]>summary{border-bottom:thin solid #cad3e2;padding-left:1em;margin-bottom:1em;line-height:2em}
+details.respec-tests-details>ul{width:100%;margin-top:-.3em}
+details.respec-tests-details>li{padding-left:1em}
+.self-link:hover{opacity:1;text-decoration:none;background-color:transparent}
+aside.example .marker>a.self-link{color:inherit}
+.header-wrapper{display:flex;align-items:baseline}
+:is(h2,h3,h4,h5,h6):not(#toc>h2,#abstract>h2,#sotd>h2,.head>h2){position:relative;left:-.5em}
+:is(h2,h3,h4,h5,h6):not(#toch2)+a.self-link{color:inherit;order:-1;position:relative;left:-1.1em;font-size:1rem;opacity:.5}
+:is(h2,h3,h4,h5,h6)+a.self-link::before{content:"§";text-decoration:none;color:var(--heading-text)}
+:is(h2,h3)+a.self-link{top:-.2em}
+:is(h4,h5,h6)+a.self-link::before{color:#000}
+@media (max-width:767px){
+dd{margin-left:0}
+}
+@media print{
+.removeOnSave{display:none}
+}
+</style>
+<link rel="icon" href="https://www.digigo.nu/files/uploads/2023/11/cropped-fav-32x32.png">
+<style>
+
+.fortipam-fade-in {
+  opacity: 0;
+  animation: fortipam-fade-in-animation 0.15s ease-in forwards;
+}
+
+@keyframes fortipam-fade-in-animation {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+</style>
+<style>
+ul.index{columns:30ch;column-gap:1.5em}
+ul.index li{list-style:inherit}
+ul.index li span{color:inherit;cursor:pointer;white-space:normal}
+#index-defined-here ul.index li{font-size:.9rem}
+ul.index code{color:inherit}
+#index-defined-here .print-only{display:none}
+@media print{
+#index-defined-here .print-only{display:initial}
+}
+</style>
+<meta name="description" content="Dit document beschrijft de eisen aan software-implementatie, de voorwaarden om NLCS-leverancier te kunnen zijn">
+<style>
+var{position:relative;cursor:pointer}
+var[data-type]::after,var[data-type]::before{position:absolute;left:50%;top:-6px;opacity:0;transition:opacity .4s;pointer-events:none}
+var[data-type]::before{content:"";transform:translateX(-50%);border-width:4px 6px 0 6px;border-style:solid;border-color:transparent;border-top-color:#000}
+var[data-type]::after{content:attr(data-type);transform:translateX(-50%) translateY(-100%);background:#000;text-align:center;font-family:"Dank Mono","Fira Code",monospace;font-style:normal;padding:6px;border-radius:3px;color:#daca88;text-indent:0;font-weight:400}
+var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
+</style>
+<script id="initialUserConfig" type="application/json">{
+  "specStatus": "CR",
+  "reviewDateEnd": "2024-09-01",
+  "shortName": "NLCS/requirementssoftware",
+  "specType": "technische documentatie",
+  "imprint": "digigo",
+  "hypothesisComments": "true",
+  "editors": [
+    {
+      "name": "Elisabeth de Vries",
+      "company": "DigiGO"
+    }
+  ],
+  "authors": [
+    {
+      "name": "Corné Helmons",
+      "company": "DigiGO"
+    },
+    {
+      "name": "Niels Nederpel",
+      "company": "DigiGO"
+    }
+  ],
+  "github": "https://github.com/nl-digigo/NLCS",
+  "license": "cc-by",
+  "lint": {
+    "no-unused-dfns": false
+  },
+  "localBiblio": {
+    "NEN_2660_2_2022": {
+      "title": "NEN 2660-2 Regels voor informatiemodellering van de gebouwde omgeving - Deel 2: Praktische configuratie, extensie en implementatie van NEN 2660-1",
+      "href": "https://www.nen.nl/en/nen-2660-2-2022-nl-291667",
+      "status": "Actueel",
+      "publisher": "NEN"
+    },
+    "NEN_2660_1_2022": {
+      "title": "NEN 2660-1 Rules for information modelling of the built environment - Part 1: Conceptual models",
+      "href": "https://www.nen.nl/en/nen-2660-1-2022-nl-291666",
+      "status": "Actueel",
+      "publisher": "NEN"
+    },
+    "NEN_EN_ISO_7200_2004": {
+      "title": "Technische productdocumentatie - Gegevensvelden in titelblokken",
+      "href": "https://www.nen.nl/nen-en-iso-7200-2004-en-93839",
+      "status": "Actueel",
+      "publisher": "NEN"
+    }
+  },
+  "publishISODate": "2023-10-19T00:00:00.000Z",
+  "generatedSubtitle": "digiGO technische documentatie, in consultatie 19 oktober 2023"
+}</script></head>
+
+<body class="h-entry toc-inline" style="background-image: url(&quot;https://docs.crow.nl/respec-design/stichting-crow/status-nl/CR.svg&quot;);"><div class="head">
+    <p class="logos"><a class="logo" href="https://www.digigo.nu"><img crossorigin="" alt="digiGO" height="75" src="https://docs.crow.nl/respec-design/stichting-crow/logo/digigo.svg" width="150">
+  </a></p>
+    <h1 id="title" class="title">Eisen aan software-implementatie</h1> 
+    <p id="w3c-state">digiGO technische documentatie,
+  in consultatie <time style="white-space: pre;" class="dt-published" datetime="2024-05-01">1 mei 2024</time></p>
+    <details open="">
+      <summary>Meer informatie over dit document</summary>
+      <dl>
+        
+        
+        
+        <dt>Laatste werkversie:</dt><dd><a href="https://nl-digigo.github.io/NLCS/requirementssoftware">https://nl-digigo.github.io/NLCS/requirementssoftware</a></dd>
+        <dt>Geschiedenis:</dt><dd>
+                    <a href="https://github.com/nl-digigo/NLCS/commits/">Wijzigingsgeschiedenis</a>
+                  </dd>
+        
+        
+        
+        <dt>Redacteur:</dt><dd class="editor p-author h-card vcard">
+    <span class="p-name fn">Elisabeth de Vries</span> (<span class="p-org org h-org">DigiGO</span>)
+  </dd>
+        
+        <dt>Auteurs:</dt><dd class="editor p-author h-card vcard">
+    <span class="p-name fn">Corné Helmons</span> (<span class="p-org org h-org">DigiGO</span>)
+  </dd><dd class="editor p-author h-card vcard">
+    <span class="p-name fn">Niels Nederpel</span> (<span class="p-org org h-org">DigiGO</span>)
+  </dd>
+        <dt>Feedback:</dt><dd>
+        <a href="https://github.com/nl-digigo/NLCS/">GitHub nl-digigo/NLCS</a>
+        (<a href="https://github.com/nl-digigo/NLCS/pulls/">wijzigingsverzoeken</a>,
+        <a href="https://github.com/nl-digigo/NLCS/issues/new/choose">nieuw issue</a>,
+        <a href="https://github.com/nl-digigo/NLCS/issues/">openstaande issues</a>)
+      </dd><dd id="annotation-service-placeholder">
+        <button type="button" data-load-annotation-service="">
+          Laad annotaties
+        </button>
+        <span><small>Annotaties door <a href="https://web.hypothes.is">Hypothes.is</a> (<a href="https://web.hypothes.is/privacy">privacybeleid</a>).</small></span>
+      </dd><dd hidden="" id="annotation-service-loaded">
+        <span data-hypothesis-annotation-count="">...</span> annotatie(s) met <em>Hypothes.is</em>
+        <button type="button" data-hypothesis-trigger="">
+          Toon annotatiebalk
+        </button>
+        <button type="button" data-unload-annotation-service="">
+          Verberg
+        </button>
+      </dd>
+        
+        
+      </dl>
+    </details>
+    
+    <p class="copyright">
+    Copyright ©
+    2023
+    
+    <a href="https://www.digigo.nu">digiGO</a>.
+    digiGO
+    <a href="https://www.digigo.nu/disclaimer">disclaimer</a>
+      van toepassing en gedistribueerd onder
+      <a rel="license" href="https://creativecommons.org/licenses/by/4.0/" title="Creative Commons Naamsvermelding">CC BY 4.0</a>
+  </p>
+    <hr title="Separator for header">
+  </div>
+  
+  <section id="abstract" class="introductory"><h2>Samenvatting</h2><p>Dit document beschrijft de eisen aan software-implementatie, de voorwaarden om <abbr title="Nederlandse CAD-standaard">NLCS</abbr>-leverancier te kunnen zijn</p>
+</section>
+  <section id="sotd" class="introductory"><h2>Status van dit document</h2><p><em>Deze paragraaf
+      beschrijft de status van dit document ten tijde van publicatie. Het is
+      mogelijk dat er actuelere versies van dit document bestaan. Bekijk de
+      lijst van digiGO technische standaarden op
+      <a href="https://www.digigo.nu/">www.digigo.nu</a>
+      en alle digiGO-publicaties via
+      <a href="https://www.digigo.nu">www.digigo.nu</a>.</em></p><p>
+      Dit is een consultatieversie en is nog niet vastgesteld.
+      Een publicatie als in consultatie
+          impliceert geen onderschrijven door digiGO.
+    </p><p>
+            Belanghebbenden, geïnteresseerde partijen en anderen worden
+            uitgenodigd dit document te reviewen en hun commentaar in te zenden
+            vóór 1 september 2024. Zowel inhoudelijk als
+            technisch commentaar als commentaar betreffende de
+            implementeerbaarheid is welkom.
+          </p><p>
+      <a href="https://github.com/nl-digigo/NLCS/issues/">GitHub Issues</a> wordt gebruikt voor de discussie
+      van dit document. Eén issue per onderwerp vereenvoudigt de verwerking.
+    </p><p>
+      Reviewcommentaar mag ook achtergelaten worden als
+      <em>Hypothes.is</em> annotaties. Gebruik het publieke kanaal voor je
+      commentaar.
+    </p></section><nav id="toc"><h2 class="introductory" id="inhoudsopgave">Inhoudsopgave</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#abstract">Samenvatting</a></li><li class="tocline"><a class="tocxref" href="#sotd">Status van dit document</a></li><li class="tocline"><a class="tocxref" href="#inleiding"><bdi class="secno">1. </bdi>Inleiding</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#doel-documentatie"><bdi class="secno">1.1 </bdi>Doel documentatie</a></li><li class="tocline"><a class="tocxref" href="#specificaties"><bdi class="secno">1.2 </bdi>Specificaties</a></li><li class="tocline"><a class="tocxref" href="#buiten-scope"><bdi class="secno">1.3 </bdi>Buiten scope</a></li><li class="tocline"><a class="tocxref" href="#checklist-controle-tooling-nlcs-tekeningen"><bdi class="secno">1.4 </bdi>Checklist controle tooling <abbr title="Nederlandse CAD-standaard">NLCS</abbr> tekeningen</a></li></ol></li><li class="tocline"><a class="tocxref" href="#conformance"><bdi class="secno">2. </bdi>Conformiteit</a></li><li class="tocline"><a class="tocxref" href="#index"><bdi class="secno">A. </bdi>Index</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#index-defined-here"><bdi class="secno">A.1 </bdi>Termen gedefinieerd door deze specificatie</a></li><li class="tocline"><a class="tocxref" href="#index-defined-elsewhere"><bdi class="secno">A.2 </bdi>Termen gedefinieerd door referentie</a></li></ol></li></ol></nav>
+  <section class="informative" id="inleiding"><div class="header-wrapper"><h2 id="x1-inleiding"><bdi class="secno">1. </bdi>Inleiding</h2><a class="self-link" href="#inleiding" aria-label="Permalink for Section 1."></a></div><p><em>Dit onderdeel is niet normatief.</em></p>
+<section id="doel-documentatie"><div class="header-wrapper"><h3 id="x1-1-doel-documentatie"><bdi class="secno">1.1 </bdi>Doel documentatie</h3><a class="self-link" href="#doel-documentatie" aria-label="Permalink for Section 1.1"></a></div>
+<p>Dit document beschrijft de eisen aan software-implementatie, de voorwaarden om <abbr title="Nederlandse CAD-standaard">NLCS</abbr>-leverancier te kunnen zijn</p>
+</section><section id="specificaties"><div class="header-wrapper"><h3 id="x1-2-specificaties"><bdi class="secno">1.2 </bdi>Specificaties</h3><a class="self-link" href="#specificaties" aria-label="Permalink for Section 1.2"></a></div>
+<ol>
+<li>De applicatie dient de lagen van <abbr title="Nederlandse CAD-standaard">NLCS</abbr> aan te bieden om in te tekenen.
+
+</li><li>Gebruikers dienen desgewenst eigen objecten te kunnen toevoegen, waarbij de applicatie een laagnaam geeft, die aansluit op de standaard 
+
+</li><li>De objecten die op een in de standaard gedefinieerde laag getekend worden, moeten de presentatie (kleuren, lijnstijlen en lijndiktes) krijgen die <abbr title="Nederlandse CAD-standaard">NLCS</abbr> voorschrijft.
+
+</li><li>De applicatie dient mogelijk te maken dat een gebruiker een lijndikte dunner of dikker kan selecteren om mee te tekenen indien dit nodig is voor leesbaarheid.
+
+</li><li>De applicatie dient mogelijk te maken de symbolen te plaatsen in de daarvoor bestemde lagen, die dezelfde naam bevatten als het symbool.
+
+</li><li>De applicatie dient mogelijk te maken de arceringen te plaatsen in de daarvoor bestemde lagen, die dezelfde naam bevatten als de arcering.
+
+</li><li>Het is toegestaan om gebruikers de mogelijkheid te geven om <abbr title="Nederlandse CAD-standaard">NLCS</abbr> objecten een andere presentatie te geven (met eigen arceringen, symbolen, kleuren, lijnstijlen en lijndiktes); de presentaties van objecten moeten in dat geval terug gezet kunnen worden naar de standaard presentatie.
+
+</li><li>De teksten, aanpijlingen en maatvoeringen die op een in de standaard gedefinieerde laag geplaatst worden, moeten de bijbehorende presentatie krijgen conform de documentatie van de standaard
+
+</li><li>De applicatie dient de schaalfactoren en naamgeving toe te passen volgens de documentatie
+
+</li><li>De applicatie moet mogelijk maken een reeds getekend object te verplaatsen naar een andere laag om het harmonicamodel te kunnen volgen, zonder dat het object opnieuw getekend hoeft te worden (van kantopsluiting naar kantopsluiting-opsluitband)
+
+</li><li> De applicatie dient de actuele en de voorgaande versie van <abbr title="Nederlandse CAD-standaard">NLCS</abbr> te ondersteunen.
+
+</li><li> De gebruiker dient in de applicatie te kunnen zien met welke versie van de standaard het model getekend is.
+
+</li><li>De gebruiker van de applicatie dient een model te kunnen controleren op afwijkingen ten opzichte van de standaard conform de [Checklist controle tooling <abbr title="Nederlandse CAD-standaard">NLCS</abbr> tekeningen](#checklist-controle-tooling-nlcs-tekeningen).
+<ul><li>Alleen de actief gebruikte objecten dienen gecontroleerd te worden.
+</li><li>In de rapportage dient aangegeven te worden op welke versie van de <abbr title="Nederlandse CAD-standaard">NLCS</abbr> is
+gecontroleerd.
+</li></ul>
+</li></ol>
+
+</section><section id="buiten-scope"><div class="header-wrapper"><h3 id="x1-3-buiten-scope"><bdi class="secno">1.3 </bdi>Buiten scope</h3><a class="self-link" href="#buiten-scope" aria-label="Permalink for Section 1.3"></a></div>
+<ul>
+<li>Het is NIET verplicht om de beschikbare mappingen zoals GWSW en BGT te kunnen gebruiken om GIS data van landelijke registraties te transformeren. </li>
+<li>3D modellen hoeven niet te worden gecontroleerd.</li>
+</ul>
+</section><section id="checklist-controle-tooling-nlcs-tekeningen"><div class="header-wrapper"><h3 id="x1-4-checklist-controle-tooling-nlcs-tekeningen"><bdi class="secno">1.4 </bdi>Checklist controle tooling <abbr title="Nederlandse CAD-standaard">NLCS</abbr> tekeningen</h3><a class="self-link" href="#checklist-controle-tooling-nlcs-tekeningen" aria-label="Permalink for Section 1.4"></a></div>
+<table class="tabel2">
+    <tbody><tr>
+        <th>Getekende objecten
+        </th><th>In database
+        </th><th>Controleren op kleuren, lijnstijlen en lijndiktes.
+        </th><th>Foutmelding bij afwijking met correctievoorstel; een lijndikte dikker of dunner hoeft niet te worden vermeld omdat dit is toegestaan.
+    </th></tr>
+    <tr>
+        <th>Geplaatste symbolen / arceringen
+        </th><th>In database
+        </th><th>Controleren op plaatsing in juiste laag en gebruik juiste bestanden
+        </th><th>Foutmelding bij afwijking met correctievoorstel
+    </th></tr>
+    <tr>
+        <td>Controleren op naamgeving nieuw toegevoegde objecten / symbolen / arceringen conform <abbr title="Nederlandse CAD-standaard">NLCS</abbr></td>
+        <td>Deels in database</td>
+        <td>Controleren op naamgeving conform <abbr title="Nederlandse CAD-standaard">NLCS</abbr>: gebruik hoofdgroepen, statussen en disciplines uit database; toepassing structuur met maximum aantal subobjecten</td>
+        <td>Melding aanvulling conform <abbr title="Nederlandse CAD-standaard">NLCS</abbr> of Foutmelding niet conform <abbr title="Nederlandse CAD-standaard">NLCS</abbr> bij afwijking naamgeving </td>
+    </tr>
+    <tr>
+        <td>Toegepaste elementtype controleren</td>
+        <td>Niet in database</td>
+        <td>-G, -S enzovoorts</td>
+        <td>Foutmelding niet conform <abbr title="Nederlandse CAD-standaard">NLCS</abbr></td>
+    </tr>
+    <tr>
+        <td>Controleren op teksthoogtes</td>
+        <td>Niet in database</td>
+        <td></td>
+        <td>Foutmelding bij afwijking</td>
+    </tr>
+    <tr>
+        <td>Naamgeving tekstdimensionstyles</td>
+        <td></td>
+        <td></td>
+        <td>Foutmelding bij afwijking</td>
+    </tr>
+    <tr>
+        <td>Toepassing lagen X-XX-AL</td>
+        <td></td>
+        <td>Status “X” mag alleen worden toegepast in combinatie met de discipline “XX”. <br> De DISCIPLINE “XX” mag alleen worden toegepast in combinatie met de hoofdgroep “AL”. <br> De HOOFDGROEP “AL” mag alleen worden toegepast in combinatie met de STATUS “X” en DISCIPLINE “XX”.</td>
+        <td>Foutmelding conform controle</td>
+    </tr>
+    <tr>
+        <td>Gebruikte lettertypes</td>
+        <td></td>
+        <td><abbr title="Nederlandse CAD-standaard">NLCS</abbr>, RVV, ANWB, Arial</td>
+        <td>Geen melding</td>
+    </tr>
+    <tr>
+        <td>Overige lettertypes</td>
+        <td></td>
+        <td></td>
+        <td>Enkel vermelden, geen fout</td>
+    </tr>
+</tbody></table></section></section>
+  <section id="conformance"><div class="header-wrapper"><h2 id="x2-conformiteit"><bdi class="secno">2. </bdi>Conformiteit</h2><a class="self-link" href="#conformance" aria-label="Permalink for Section 2."></a></div><p>Naast onderdelen die als niet normatief gemarkeerd zijn,
+      zijn ook alle diagrammen, voorbeelden, en noten in dit document niet
+      normatief. Verder is alles in dit document normatief.</p></section>
+  <section id="index" class="appendix"><div class="header-wrapper"><h2 id="a-index"><bdi class="secno">A. </bdi>Index</h2><a class="self-link" href="#index" aria-label="Permalink for Appendix A."></a></div><section id="index-defined-here"><div class="header-wrapper"><h3 id="a-1-termen-gedefinieerd-door-deze-specificatie"><bdi class="secno">A.1 </bdi>Termen gedefinieerd door deze specificatie</h3><a class="self-link" href="#index-defined-here" aria-label="Permalink for Appendix A.1"></a></div>
+    
+    <ul class="index">
+    
+  </ul>
+  </section><section id="index-defined-elsewhere"><div class="header-wrapper"><h3 id="a-2-termen-gedefinieerd-door-referentie"><bdi class="secno">A.2 </bdi>Termen gedefinieerd door referentie</h3><a class="self-link" href="#index-defined-elsewhere" aria-label="Permalink for Appendix A.2"></a></div>
+    
+    <ul class="index">
+    
+  </ul>
+  </section></section>
+  <section class="appendix respec-offending-element" id="issue-summary" title="Alle secties moeten beginnen met een `h2-6` element."></section>
+
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+
+
+<script id="annotation-service-runtime">(() => {
+// @ts-check
+const SETTING_KEY = "annotation-service-hypothesis";
+const SETTING_VALUE_ALLOWED = "allowed";
+const hClientDefault = {
+  openSidebar: false,
+  showHighlights: true,
+  theme: "classic",
+  branding: {
+    accentColor: "rgb(0, 157, 224)",
+    appBackgroundColor: "white",
+    ctaBackgroundColor: "rgb(255, 110, 26)",
+    ctaTextColor: "white",
+    selectionFontFamily: "'Museo Sans', Museo, Helvetica, Arial, sans serif",
+    annotationFontFamily: "'Museo Sans', Museo, Helvetica, Arial, sans serif",
+  },
+};
+
+if (document.respec) {
+  document.respec.ready.then(render);
+} else {
+  render();
+}
+
+/** Render the placeholder (Load Service Button) or annotation info (# annotations, Show Annotation Button). */
+function render() {
+  if (localStorage.getItem(SETTING_KEY) == SETTING_VALUE_ALLOWED) {
+    renderAnnotationServiceInfo();
+  } else {
+    renderPlaceholder();
+  }
+}
+
+/** Render Load Service Button, with privacy info. */
+function renderPlaceholder() {
+  localStorage.removeItem(SETTING_KEY);
+
+  /** @type {HTMLElement} */
+  const placeholder = document.querySelector("#annotation-service-placeholder");
+  placeholder.hidden = false;
+
+  const listener = loadButtonListener();
+  document
+    .querySelector("[data-load-annotation-service]")
+    .addEventListener("keydown", listener);
+  document
+    .querySelector("[data-load-annotation-service]")
+    .addEventListener("click", listener);
+
+  /** @type {HTMLElement} */
+  const serviceInfo = document.querySelector("#annotation-service-loaded");
+  serviceInfo.hidden = true;
+}
+
+function loadButtonListener() {
+  return event => {
+    const { target, type } = event;
+
+    if (!(target instanceof HTMLButtonElement)) return;
+
+    // For keys, we only care about Enter key to activate the panel
+    // otherwise it's activated via a click.
+    if (type === "keydown" && event.key !== "Enter") return;
+
+    target.disabled = true;
+    localStorage.setItem(SETTING_KEY, SETTING_VALUE_ALLOWED);
+    renderAnnotationServiceInfo();
+  };
+}
+
+function unloadButtonListener() {
+  return event => {
+    const { target, type } = event;
+
+    if (!(target instanceof HTMLButtonElement)) return;
+
+    // For keys, we only care about Enter key to activate the panel
+    // otherwise it's activated via a click.
+    if (type === "keydown" && event.key !== "Enter") return;
+
+    target.disabled = true;
+    localStorage.removeItem(SETTING_KEY);
+    removeHScript();
+  };
+}
+
+function renderAnnotationServiceInfo() {
+  addHConfig(document);
+  addHScript(document);
+}
+
+/**
+ *
+ * @param {Document} doc
+ * @param {*} conf
+ */
+function addHScript(doc, conf) {
+  const script = doc.createElement("script");
+  script.src = "https://hypothes.is/embed.js";
+  script.async = true;
+  doc.body.appendChild(script);
+
+  script.addEventListener("load", event => {
+    /** @type {HTMLElement} */
+    const placeholder = document.querySelector(
+      "#annotation-service-placeholder"
+    );
+    placeholder.hidden = true;
+
+    /** @type {HTMLElement} */
+    const serviceInfo = document.querySelector("#annotation-service-loaded");
+    serviceInfo.hidden = false;
+
+    const unloadListener = unloadButtonListener();
+    document
+      .querySelector("[data-unload-annotation-service]")
+      .addEventListener("keydown", unloadListener);
+    document
+      .querySelector("[data-unload-annotation-service]")
+      .addEventListener("click", unloadListener);
+  });
+}
+
+/**
+ * Retract Hypothesis permission.
+ */
+function removeHScript() {
+  // Deleting the hypothesis-script, does not undo its changes, listeners etc.
+  // Instead, reload the frame.
+  window.location.reload();
+}
+
+/**
+ *
+ * @param {Document} doc
+ * @param {*} conf
+ */
+function addHConfig(doc, conf) {
+  const script = doc.createElement("script");
+  script.className = "js-hypothesis-config";
+  script.type = "application/json";
+  script.innerText = JSON.stringify(hClientDefault);
+  doc.body.appendChild(script);
+}
+})()</script><p role="navigation" id="back-to-top">
+    <a href="#title"><abbr title="Back to Top">↑</abbr></a>
+  </p><script id="respec-dfn-panel">(() => {
+// @ts-check
+if (document.respec) {
+  document.respec.ready.then(setupPanel);
+} else {
+  setupPanel();
+}
+
+function setupPanel() {
+  const listener = panelListener();
+  document.body.addEventListener("keydown", listener);
+  document.body.addEventListener("click", listener);
+}
+
+function panelListener() {
+  /** @type {HTMLElement} */
+  let panel = null;
+  return event => {
+    const { target, type } = event;
+
+    if (!(target instanceof HTMLElement)) return;
+
+    // For keys, we only care about Enter key to activate the panel
+    // otherwise it's activated via a click.
+    if (type === "keydown" && event.key !== "Enter") return;
+
+    const action = deriveAction(event);
+
+    switch (action) {
+      case "show": {
+        hidePanel(panel);
+        /** @type {HTMLElement} */
+        const dfn = target.closest("dfn, .index-term");
+        panel = document.getElementById(`dfn-panel-for-${dfn.id}`);
+        const coords = deriveCoordinates(event);
+        displayPanel(dfn, panel, coords);
+        break;
+      }
+      case "dock": {
+        panel.style.left = null;
+        panel.style.top = null;
+        panel.classList.add("docked");
+        break;
+      }
+      case "hide": {
+        hidePanel(panel);
+        panel = null;
+        break;
+      }
+    }
+  };
+}
+
+/**
+ * @param {MouseEvent|KeyboardEvent} event
+ */
+function deriveCoordinates(event) {
+  const target = /** @type HTMLElement */ (event.target);
+
+  // We prevent synthetic AT clicks from putting
+  // the dialog in a weird place. The AT events sometimes
+  // lack coordinates, so they have clientX/Y = 0
+  const rect = target.getBoundingClientRect();
+  if (
+    event instanceof MouseEvent &&
+    event.clientX >= rect.left &&
+    event.clientY >= rect.top
+  ) {
+    // The event probably happened inside the bounding rect...
+    return { x: event.clientX, y: event.clientY };
+  }
+
+  // Offset to the middle of the element
+  const x = rect.x + rect.width / 2;
+  // Placed at the bottom of the element
+  const y = rect.y + rect.height;
+  return { x, y };
+}
+
+/**
+ * @param {Event} event
+ */
+function deriveAction(event) {
+  const target = /** @type {HTMLElement} */ (event.target);
+  const hitALink = !!target.closest("a");
+  if (target.closest("dfn:not([data-cite]), .index-term")) {
+    return hitALink ? "none" : "show";
+  }
+  if (target.closest(".dfn-panel")) {
+    if (hitALink) {
+      return target.classList.contains("self-link") ? "hide" : "dock";
+    }
+    const panel = target.closest(".dfn-panel");
+    return panel.classList.contains("docked") ? "hide" : "none";
+  }
+  if (document.querySelector(".dfn-panel:not([hidden])")) {
+    return "hide";
+  }
+  return "none";
+}
+
+/**
+ * @param {HTMLElement} dfn
+ * @param {HTMLElement} panel
+ * @param {{ x: number, y: number }} clickPosition
+ */
+function displayPanel(dfn, panel, { x, y }) {
+  panel.hidden = false;
+  // distance (px) between edge of panel and the pointing triangle (caret)
+  const MARGIN = 20;
+
+  const dfnRects = dfn.getClientRects();
+  // Find the `top` offset when the `dfn` can be spread across multiple lines
+  let closestTop = 0;
+  let minDiff = Infinity;
+  for (const rect of dfnRects) {
+    const { top, bottom } = rect;
+    const diffFromClickY = Math.abs((top + bottom) / 2 - y);
+    if (diffFromClickY < minDiff) {
+      minDiff = diffFromClickY;
+      closestTop = top;
+    }
+  }
+
+  const top = window.scrollY + closestTop + dfnRects[0].height;
+  const left = x - MARGIN;
+  panel.style.left = `${left}px`;
+  panel.style.top = `${top}px`;
+
+  // Find if the panel is flowing out of the window
+  const panelRect = panel.getBoundingClientRect();
+  const SCREEN_WIDTH = Math.min(window.innerWidth, window.screen.width);
+  if (panelRect.right > SCREEN_WIDTH) {
+    const newLeft = Math.max(MARGIN, x + MARGIN - panelRect.width);
+    const newCaretOffset = left - newLeft;
+    panel.style.left = `${newLeft}px`;
+    /** @type {HTMLElement} */
+    const caret = panel.querySelector(".caret");
+    caret.style.left = `${newCaretOffset}px`;
+  }
+
+  // As it's a dialog, we trap focus.
+  // TODO: when <dialog> becomes a implemented, we should really
+  // use that.
+  trapFocus(panel, dfn);
+}
+
+/**
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} dfn
+ * @returns
+ */
+function trapFocus(panel, dfn) {
+  /** @type NodeListOf<HTMLAnchorElement> elements */
+  const anchors = panel.querySelectorAll("a[href]");
+  // No need to trap focus
+  if (!anchors.length) return;
+
+  // Move focus to first anchor element
+  const first = anchors.item(0);
+  first.focus();
+
+  const trapListener = createTrapListener(anchors, panel, dfn);
+  panel.addEventListener("keydown", trapListener);
+
+  // Hiding the panel releases the trap
+  const mo = new MutationObserver(records => {
+    const [record] = records;
+    const target = /** @type HTMLElement */ (record.target);
+    if (target.hidden) {
+      panel.removeEventListener("keydown", trapListener);
+      mo.disconnect();
+    }
+  });
+  mo.observe(panel, { attributes: true, attributeFilter: ["hidden"] });
+}
+
+/**
+ *
+ * @param {NodeListOf<HTMLAnchorElement>} anchors
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} dfn
+ * @returns
+ */
+function createTrapListener(anchors, panel, dfn) {
+  const lastIndex = anchors.length - 1;
+  let currentIndex = 0;
+  return event => {
+    switch (event.key) {
+      // Hitting "Tab" traps us in a nice loop around elements.
+      case "Tab": {
+        event.preventDefault();
+        currentIndex += event.shiftKey ? -1 : +1;
+        if (currentIndex < 0) {
+          currentIndex = lastIndex;
+        } else if (currentIndex > lastIndex) {
+          currentIndex = 0;
+        }
+        anchors.item(currentIndex).focus();
+        break;
+      }
+
+      // Hitting "Enter" on an anchor releases the trap.
+      case "Enter":
+        hidePanel(panel);
+        break;
+
+      // Hitting "Escape" returns focus to dfn.
+      case "Escape":
+        hidePanel(panel);
+        dfn.focus();
+        return;
+    }
+  };
+}
+
+/** @param {HTMLElement} panel */
+function hidePanel(panel) {
+  if (!panel) return;
+  panel.hidden = true;
+  panel.classList.remove("docked");
+}
+})()</script><script src="https://docs.crow.nl/respec-design/fixup.js"></script></body></html>
