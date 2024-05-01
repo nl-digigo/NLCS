@@ -5,7 +5,7 @@ var respecConfig = {
   shortName: "NLCS/requirementssoftware",
   specType: "technische documentatie", // vrije tekst, kleine letter
   imprint: "digigo",
-  hypothesisComments: "true",
+  hypothesisComments: "false",
   editors: [
     // alleen `name` is verplicht, https://respec.org/docs/#person
     {
