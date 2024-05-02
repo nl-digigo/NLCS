@@ -1,6 +1,6 @@
 var respecConfig = {
   // => https://github.com/stichting-crow/respec/wiki
-  specStatus: "DEF",
+  specStatus: "CR",
   reviewDateEnd: "2024-09-01",
   shortName: "NLCS/requirementssoftware",
   specType: "technische documentatie", // vrije tekst, kleine letter
