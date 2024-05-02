@@ -15,7 +15,7 @@ Deze repository is de locatie voor technische documentatie en het inbrengen en o
 
 In ontwikkeling:
 * [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification): De uitleg van de standaard met daarin de toelichting op het beoogd doel en de werking van de standaard
-* [Eisen aan tekeningen en modellen](https://nl-digigo.github.io/NLCS/requirementscadmodels/)
+* [Eisen aan tekeningen en modellen](https://nl-digigo.github.io/NLCS/requirementscadmodels)
 * [Voorbeeldtekeningen](https://nl-digigo.github.io/NLCS/requirementscadmodels/#voorbeeldtekeningen)
 
 ### Zelf applicatie inrichten
@@ -30,7 +30,7 @@ Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS
 
 In ontwikkeling:
 * [Eisen aan de software-implementatie van NLCS](https://nl-digigo.github.io/NLCS/requirementssoftware/) [reviewen t/m 1 sept 2024](https://nl-digigo.github.io/NLCS/requirementssoftware/reviewversies)
-* [Toelichting informatiemodel](https://nl-digigo.github.io/NLCS/code_documentation/): De toelichting op de uitgangspunten en modelleringswijze van het  informatiemodel in linked data
+* [Toelichting informatiemodel](https://nl-digigo.github.io/NLCS/code_documentation): De toelichting op de uitgangspunten en modelleringswijze van het  informatiemodel in linked data
 * [Relaties tot andere standaarden](https://nl-digigo.github.io/NLCS/ontologyalignments/): documentatie van de ontology alignments (mappings waar een computer mee kan redeneren) of voorbereidingen daartoe met andere standaarden, waaronder IMGeo (voor BGT kaartinformatie) en het GWSW (Gemeentelijk woordenboek stedelijk water)
 * [Uitwisselafspraken](https://nl-digigo.github.io/NLCS/representations/): Documentatie van hoe binnen NLCS wordt gewerkt met Uitwisseling van 3D objectinformatie; Hoe de uitwisseling tussen NLCS tekeningen en GIS kaarten op basis van IMGeo is geregeld; De openstaande onderzoeksvragen beschreven rondom NLCS en uitwisseling van tekeningen en modellen.
 
