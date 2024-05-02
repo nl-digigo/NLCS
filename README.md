@@ -29,7 +29,7 @@ Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS
 
 
 In ontwikkeling:
-* [Eisen aan de software-implementatie van NLCS](https://nl-digigo.github.io/NLCS/requirementssoftware/) [reviewen t/m 1 sept 2024](https://nl-digigo.github.io/NLCS/requirementssoftware/reviewversies)
+* [Eisen aan de software-implementatie van NLCS](https://nl-digigo.github.io/NLCS/requirementssoftware/) --- [reviewen t/m 1 sept 2024](https://nl-digigo.github.io/NLCS/requirementssoftware/reviewversies/CR-NLCS_requirementssoftware-20240501.html)
 * [Toelichting informatiemodel](https://nl-digigo.github.io/NLCS/code_documentation): De toelichting op de uitgangspunten en modelleringswijze van het  informatiemodel in linked data
 * [Relaties tot andere standaarden](https://nl-digigo.github.io/NLCS/ontologyalignments/): documentatie van de ontology alignments (mappings waar een computer mee kan redeneren) of voorbereidingen daartoe met andere standaarden, waaronder IMGeo (voor BGT kaartinformatie) en het GWSW (Gemeentelijk woordenboek stedelijk water)
 * [Uitwisselafspraken](https://nl-digigo.github.io/NLCS/representations/): Documentatie van hoe binnen NLCS wordt gewerkt met Uitwisseling van 3D objectinformatie; Hoe de uitwisseling tussen NLCS tekeningen en GIS kaarten op basis van IMGeo is geregeld; De openstaande onderzoeksvragen beschreven rondom NLCS en uitwisseling van tekeningen en modellen.
