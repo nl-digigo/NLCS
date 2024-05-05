@@ -1,0 +1,1 @@
+In deze folder staan de bestanden die nodig zijn voor beheer van de standaard. 
