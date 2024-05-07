@@ -44,5 +44,11 @@ var respecConfig = {
     status: "Actueel",
     publisher: "NEN",
   },
+  NEN_EN_ISO_128_2_2022: {
+    title: "Technische tekeningen - Algemene principes voor de weergave - Deel 2: Basisafspraken over lijnen",
+    href: "https://www.nen.nl/nen-en-iso-128-2-2022-en-303554",
+    status: "Actueel",
+    publisher: "NEN",
+  },
   },
 };
