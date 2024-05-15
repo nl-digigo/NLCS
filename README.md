@@ -35,18 +35,12 @@ In ontwikkeling:
 
 ### Actuele versie
 
-#### SQL
-De ingang naar de  SQL database is https://www.nlcs-documentatie.nl/NLCS_5.x_5.0.0/NLCS_5.0.0/start.php.
- 
-Hier zit een database achter en PhP code om dit te benaderen/ beschikbaar te maken in Excel via https://www.bimloket.nl/p/452/Database-NLCS   
-
-
-#### LinkedData
-NLCS is bezig met de overgang van een sql database naar een linked data platform. We hebben inmiddels een concept gepubliceerd met deze static URL: [https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv5_0_2](http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs/versions/rv5_0_2)  of deze dynamic url voor als u altijd de laatste versie wilt opvragen: https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/sparql . Dit concept zou een weergave moeten zijn van de laatste release van NLCS zoals die in de aloude bekende database stond. Zie ook de [Viewer Concept-publicatie NLCS 5.0](https://nl-digigo.github.io/ld-viewer/nlcs/)
-
-We zijn nog bezig een viewer te maken en documentatie over het informatiemodel, welke is gebaseerd op het topmodel in de de NEN 2660-2. We zijn ook voornemens om sparql-queries te publiceren op github, zodat niet iedereen het wiel hoeft uit te vinden.
-
-
+#### 5.02 NLCS LinkedData
+De statische URL (het adres) van de NLCS 5.02 publicatie op het sparql-endpoint is: http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2/sparql
+<br>
+De dynamische URL (het adres van de laatst gepubliceerde) definitieve versie is altijd: http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/sparql
+<br>
+De dynamische url van concepten van NLCS is https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/sparql 
 
 ### Symbolen, lijntypes, arceringen, font
 De symbolen, lijntypes en arceringen die in de software kunnen worden ingeladen:
