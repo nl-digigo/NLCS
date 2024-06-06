@@ -36,9 +36,9 @@ In ontwikkeling:
 ### Actuele versie
 
 #### 5.02 NLCS LinkedData
-De statische URL (het adres) van de NLCS 5.02 publicatie op het sparql-endpoint is: http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2/sparql
+De statische URL (het adres) van de NLCS 5.02 publicatie op het sparql-endpoint is: https://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2/sparql
 <br>
-De dynamische URL (het adres van de laatst gepubliceerde) definitieve versie is altijd: http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/sparql
+De dynamische URL (het adres van de laatst gepubliceerde) definitieve versie is altijd: https://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/sparql
 <br>
 De dynamische url van concepten van NLCS is https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/sparql 
 
