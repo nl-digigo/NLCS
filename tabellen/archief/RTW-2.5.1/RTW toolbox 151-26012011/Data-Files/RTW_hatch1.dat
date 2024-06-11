@@ -1,0 +1,244 @@
+;;; File   : RTW_HATCH1.dat
+;;; Functie: Tabel met alle RTW hatch
+
+Posities:
+POS_AANTHATCH      145
+POS_HATCHNAAM      5
+POS_HATCHLAYER     45
+POS_HATCHLAYER1    75
+POS_SCALE          105
+POS_ROT            125
+POS_INFO           145
+
+
+    5                                       45                            75                            105                 125                 145
+
+*Verhardingen bestaand                                                                                                                          13 
+    vb-asfaltverharding                     vh-bs-**                      **-bs-**                      1                   0                   asfaltverharding
+    vb-basaltonverharding                   vh-bs-**                      **-bs-**                      1                   0                   grindbetonzuilen basalton
+    vb-bestratingsplaten                    vh-bs-**                      **-bs-**                      1                   0                   bestratingsplaten
+    vb-betonverharding                      vh-bs-**                      **-bs-**                      1                   0                   betonverharding
+    vb-groensteenverharding                 vh-bs-**                      **-bs-**                      1                   0                   groensteenverharding
+    vb-halfverhard                          vh-bs-**                      **-bs-**                      1                   0                   halfverhard
+    vb-keiverharding                        vh-bs-**                      **-bs-**                      1                   0                   keiverharding
+    vb-klinkerverharding                    vh-bs-**                      **-bs-**                      1                   0                   klinkerverharding
+    vb-tegelverharding                      vh-bs-**                      **-bs-**                      1                   0                   tegelverharding
+    vb-gasbetontegelverharding              vh-bs-**                      **-bs-**                      20                  0                   gasbetontegelverharding
+    vb-basaltverharding                     vh-bs-**                      **-bs-**                      1000                0                   basaltverharding
+    vb-overlaging_v_asfaltbeton             vh-bs-**                      **-bs-**                      2000                0                   overlaging van asfaltbeton
+    vb-bestorting                           vh-bs-**                      **-bs-**                      2000                0                   bestorting
+
+*Verhardingen nieuw                                                                                                                             13 
+    vn-asfaltverharding                     vh-nw-**                      **-nw-**                      1                   0                   asfaltverharding
+    vn-basaltonverharding                   vh-nw-**                      **-nw-**                      1                   0                   grindbetonzuilen basalton
+    vn-bestratingsplaten                    vh-nw-**                      **-nw-**                      1                   0                   bestratingsplaten
+    vn-betonverharding                      vh-nw-**                      **-nw-**                      1                   0                   betonverharding
+    vn-groensteenverharding                 vh-nw-**                      **-nw-**                      1                   0                   groensteenverharding
+    vn-halfverhard                          vh-nw-**                      **-nw-**                      1                   0                   halfverhard
+    vn-keiverharding                        vh-nw-**                      **-nw-**                      1                   0                   keiverharding
+    vn-klinkerverharding                    vh-nw-**                      **-nw-**                      1                   0                   klinkerverharding
+    vn-tegelverharding                      vh-nw-**                      **-nw-**                      1                   0                   tegelverharding
+    vn-gasbetontegelverharding              vh-nw-**                      **-nw-**                      25                  0                   gasbetontegelverharding
+    vn-basaltverharding                     vh-nw-**                      **-nw-**                      1000                0                   basaltverharding
+    vn-overlaging_v_asfaltbeton             vh-nw-**                      **-nw-**                      2000                0                   overlaging van asfaltbeton
+    vn-bestorting                           vh-nw-**                      **-nw-**                      2000                0                   bestorting
+
+*Verhardingen verwijderen                                                                                                                       11 
+    vv-asfaltverharding                     vh-vw-**                      **-vw-**                      1000                0                   asfaltverharding
+    vv-basalton                             vh-vw-**                      **-vw-**                      12.7                0                   basalton
+    vv-bestratingsplaten                    vh-vw-**                      **-vw-**                      12.7                0                   bestratingsplaten
+    vv-betonverharding                      vh-vw-**                      **-vw-**                      5                   0                   betonverharding
+    vv-groensteenverharding                 vh-vw-**                      **-vw-**                      .5                  1.5707963267948897  groensteenverharding
+    vv-keiverharding                        vh-vw-**                      **-vw-**                      12.7                0                   keiverharding
+    vv-klinkerverharding                    vh-vw-**                      **-vw-**                      12.7                0                   klinkerverharding
+    vv-tegelverharding                      vh-vw-**                      **-vw-**                      12.7                0                   tegelverharding
+    vv-gasbetontegelverharding              vh-vw-**                      **-vw-**                      5                   0                   gasbetontegelverharding
+    vv-basaltverharding                     vh-vw-**                      **-vw-**                      25.4                0                   basaltverharding
+    vv-frezenasfaltbetonverharding          vh-vw-**                      **-vw-**                      12.7                2.356194490192345   frezen asfaltbetonverharding
+
+*Grond in doorsnede                                                                                                                             12 
+    gd-klei                                 dp-**-**                      *                             1                   0                   klei
+    gd-veen                                 dp-**-**                      *                             1                   0                   veen
+    gd-zand                                 dp-**-**                      *                             1                   0                   zand
+    gd-ophoogzand                           dp-**-**                      *                             1000                0                   ophoogzand
+    gd-funderingszand                       dp-**-**                      *                             2000                0                   funderingszand
+    gd-slakken                              dp-**-**                      *                             1000                0                   slakken
+    gd-grind                                dp-**-**                      *                             1000                0                   grind
+    gd-breuksteen                           dp-**-**                      *                             1000                0                   breuksteen
+    gd-granulaat                            dp-**-**                      *                             500                 0                   granulaat
+    gd-drainagezand                         dp-**-**                      *                             12.7                0                   drainagezand
+    gd-zandcementstabilisatie               dp-**-**                      *                             1000                0                   zandcementstabilisatie
+    gd-bekledingsgrond                      dp-**-**                      *                             1                   0                   bekledingsgrond
+
+*Grond in doorsnede bewerken                                                                                                                    13 
+    gb-grondaanvullen                       dp-nw-**                      *                             1                   0                   grond aanvullen
+    gb-grondontgraven                       dp-vw-**                      *                             1                   0                   grond ontgraven
+    gb-grondontgraven_aanvullen             dp-**-**                      *                             1                   0                   grond ontgraven/aanvullen
+    gb-bekledingaanbr                       dp-nw-**                      *                             1                   0                   bekleding aanbrengen
+    gb-bekledingontgr                       dp-vw-**                      *                             1                   0                   bekleding ontgraven
+    gb-kleiaanvullen                        dp-nw-**                      *                             1                   0                   klei aanvullen
+    gb-kleiontgraven                        dp-vw-**                      *                             1                   0                   klei ontgraven
+    gb-zandaanvullen                        dp-nw-zandaanvarc             *                             1                   0                   zand aanvullen
+    gb-sloot_uitbag_aanv                    dp-**-**                      *                             1                   0                   sloot uitbaggeren/aanvullen
+    gb-zandontgraven                        dp-vw-zandontgrarc            *                             1                   0                   zand ontgraven
+    gb-vert_drainage_aanbr                  dp-**-**                      *                             1                   0                   vertikale drainage aanbrengen
+    gb-grondaanvullen_alt                   dp-nw-**                      *                             1                   0                   grond aanvullen[alternatief]
+    gb-grondontgraven_alt                   dp-vw-**                      *                             1                   0                   grond ontgraven[alternatief]
+
+*Verharding in doorsnede                                                                                                                        10 
+    vd-zoab                                 vh-**-**                      *                             12.7                0                   ZOAB
+    vd-dab                                  vh-**-**                      *                             25.4                0                   DAB
+    vd-oab                                  vh-**-**                      *                             12.7                0.785398163397448   OAB
+    vd-gab                                  vh-**-**                      *                             12.7                2.356194490192345   GAB
+    vd-smab                                 vh-**-**                      *                             25.4                0                   SMAB
+    vd-stab                                 vh-**-**                      *                             25.4                0.785398163397448   STAB
+    vd-brac                                 vh-**-**                      *                             25.4                3.141592653589793   BRAC
+    vd-schraalbeton                         vh-**-**                      *                             12.7                1.570796326794897   schraalbeton
+    vd-betonverharding                      vh-**-**                      *                             12.7                0                   betonverharding
+    vd-gietasfalt                           vh-**-**                      *                             1000                0                   gietasfalt
+
+*Materialen in doorsnede                                                                                                                        24 
+    md-metselwerk                           *                             *                             1                   0                   metselwerk
+    md-natuursteen                          *                             *                             1                   0                   natuursteen
+    md-ongewapendbeton                      bv-**-**                      *                             1                   0                   ongewapend beton
+    md-gewapendbeton                        bv-**-**                      *                             1                   0                   gewapend beton
+    solid-md-gewapendbeton                  bv-**-**                      *                             1                   0                   gewapend beton (solid)
+    md-voorgespannenbeton                   bv-**-**                      *                             1                   0                   voorgespannen beton
+    md-prefabbeton                          bv-**-**                      *                             1                   0                   prefab beton
+    md-voorgesp-prefabbeton                 bv-**-**                      *                             1                   0                   voorgespannen prefab beton
+    md-werkvloerbeton                       bv-**-**                      *                             1                   0                   werkvloer beton
+    md-ballastbeton                         bv-**-**                      *                             1                   0                   ballastbeton
+    md-onderwaterbeton                      bv-**-**                      *                             1                   0                   onderwaterbeton
+    md-betondetail                          bv-**-**                      *                             1                   0                   beton (detailtekeningen)
+    md-betondetail1                         bv-**-**                      *                             1                   0                   beton (detailtekeningen puntjesraster)
+    md-hout                                 *                             *                             1                   0                   hout
+    md-staal                                *                             *                             1                   0                   staal (voor schaal 1:5 - 1:1solid zwart )
+    md-steenwolplaten                       *                             *                             1                   0                   steenwolplaten
+    md-carifalt                             *                             *                             1                   0                   carifalt
+    md-asfaltbeton_verh                     *                             *                             1                   0                   asfaltbeton (verharding)
+    md-asfaltbeton_overig                   *                             *                             1                   0                   asfaltbeton (overige toepassingen)
+    md-rubber                               *                             *                             1                   0                   rubber
+    md-kunsthars                            *                             *                             1                   0                   kunsthars
+    md-materiaal-on-acht                    *                             *                             1                   0                   materiaal tbv onder- en achtervulling
+    md-stortsteen                           *                             *                             1                   0                   stortsteen
+    md-hittewerende-bek                     *                             *                             1                   0                   hittewerende bekleding
+
+*Eigendom, beheer en onderhoud                                                                                                                  20 
+    eb-e_min_venw                           ga-**-**                      *                             5000                0                   Verkeer & Waterstaat(E)
+    eb-e_dienst_domeinen                    ga-**-**                      *                             1000                0                   DienstDomeinen(E)
+    eb-e_defensie                           ga-**-**                      *                             2000                0                   Defensie(E)
+    eb-e_financien                          ga-**-**                      *                             2000                0                   Financiën(E)
+    eb-e_landbouw                           ga-**-**                      *                             2000                0                   Landbouw(E)
+    eb-e_vrom                               ga-**-**                      *                             1000                0                   VROM(E)
+    eb-e_ns                                 ga-**-**                      *                             1000                0                   NS(E)
+    eb-e_prov                               ga-**-**                      *                             1000                0                   provincie(E)
+    eb-e_waterschap                         ga-**-**                      *                             2000                0                   waterschap(E)
+    eb-e_gemeente                           ga-**-**                      *                             2000                0                   gemeente(E)
+    eb-b_o_rijk                             ga-**-**                      *                             2000                0                   rijk(BO)
+    eb-b_e_rijk_o_gemeente                  ga-**-**                      *                             1000                0                   rijk(EB)gemeente(O)
+    eb-b_o_e_provincie                      ga-**-**                      *                             1000                0                   provincie(EBO)
+    eb-b_o_prov_e_rijk                      ga-**-**                      *                             1000                0                   provincie(BO)rijk(E)
+    eb-b_o_e_waterschap                     ga-**-**                      *                             1000                0                   waterschap(EBO)
+    eb-b_o_waterschap_e_rijk                ga-**-**                      *                             1000                0                   waterschap(BO)rijk(E)
+    eb-b_waterschap_o_e_rijk                ga-**-**                      *                             1000                0                   waterschap(B)rijk(EO)
+    eb-b_o_e_gemeente                       ga-**-**                      *                             1000                0                   gemeente(EBO)
+    eb-b_e_gemeente_o_rijk                  ga-**-**                      *                             1000                0                   gemeente(EB)rijk(O)
+    eb-kunstwerk_b_o_e_rijk                 ga-**-**                      *                             1000                0                   kunstwerk rijk(EBO)
+
+*Beplanting                                                                                                                                     4 
+    bp-gras                                 bp-**-**                      *                             500                 0                   gras
+    bp-bomen                                bp-**-**                      *                             1000                0                   bomen
+    bp-struiken                             bp-**-**                      *                             1000                0                   struiken
+    bp-begroeiingverwijderen                bp-**-**                      *                             10                  0                   begroeiing verwijderen
+
+*Overige in Situatie                                                                                                                            2 
+    os-slopenopstallen                      og-**-**                      *                             1000                0                   slopen opstallen
+    os-dempenwatergang                      gw-**-**                      *                             500                 0                   dempen watergang
+
+*Algemeen mechanisch                                                                                                                            5 
+    mc-streep                               mv-**-**                      *                             1                   0                   algemene arcering
+    mc-streep                               mv-**-**                      *                             2                   0                   algemene arcering 2 mm
+    mc-streep                               mv-**-**                      *                             5                   0                   algemene arcering 5 mm
+    mc-streep                               mv-**-**                      *                             10                  0                   algemene arcering 10 mm
+    mc-streep                               mv-**-**                      *                             20                  0                   algemene arcering 20 mm
+
+*Algemeen staal                                                                                                                                 5 
+    sc-streep                               sv-**-**                      *                             1                   0                   algemene arcering
+    sc-streep                               sv-**-**                      *                             2                   0                   algemene arcering 2 mm
+    sc-streep                               sv-**-**                      *                             5                   0                   algemene arcering 5 mm
+    sc-streep                               sv-**-**                      *                             10                  0                   algemene arcering 10 mm
+    sc-streep                               sv-**-**                      *                             20                  0                   algemene arcering 20 mm
+
+*Algemeen                                                                                                                                       10 
+    am-streep                               *                             *                             1                   0                   algemene arcering streep
+    am-streep                               *                             *                             2                   0                   algemene arcering streep 2 mm
+    am-streep                               *                             *                             5                   0                   algemene arcering streep 5 mm
+    am-streep                               *                             *                             10                  0                   algemene arcering streep 10 mm
+    am-streep                               *                             *                             20                  0                   algemene arcering streep 20 mm
+    am-rooster                              *                             *                             1                   0                   algemene rooster
+    am-rooster                              *                             *                             2                   0                   algemene rooster 2 mm
+    am-rooster                              *                             *                             5                   0                   algemene rooster 5 mm
+    am-rooster                              *                             *                             10                  0                   algemene rooster 10 mm
+    am-rooster                              *                             *                             20                  0                   algemene rooster 20 mm
+
+*Grondprofiel                                                                                                                                   33 
+    gp-klei                                 go-**-**                      *                             1                   0                   klei
+    gp-klei-z-z-k                           go-**-**                      *                             1                   0                   klei zandig of zandig klei
+    gp-klei-s-k-z-p-h                       go-**-**                      *                             1                   0                   klei siltig tot klei zandig pl humeus
+    gp-klei-z-p-zl                          go-**-**                      *                             1                   0                   klei zandig met pl zandlaagjes
+    gp-klei-va-ve-vs                        go-**-**                      *                             1                   0                   klei vaak met veel veenstukjes
+    gp-klei-s-p-pl                          go-**-**                      *                             1                   0                   klei siltig pl plantenresten
+    gp-klei-z-p-d-zl                        go-**-**                      *                             1                   0                   klei zandig pl dunne zandlaagjes
+    gp-klei-s-z-l                           go-**-**                      *                             1                   0                   klei siltig zandig (leem)
+    gp-klei-siltig                          go-**-**                      *                             1                   0                   klei siltig
+    gp-klei-s-z-zl                          go-**-**                      *                             1                   0                   klei siltig en zandig met zandlaagjes
+    gp-zand                                 go-**-**                      *                             1                   0                   zand
+    gp-zand-f-s-kl-p-kll                    go-**-**                      *                             1                   0                   zand fijn siltig of kleiig pl kleilaagjes
+    gp-zand-f-s-p-e-sl-vs                   go-**-**                      *                             1                   0                   zand fijn siltig pl enkele siltlaagjes / veenstukjes
+    gp-zand-kl-p-d-sl                       go-**-**                      *                             1                   0                   zand kleiig pl dunne siltlaagtjes
+    gp-zand-f-fm-p-vs                       go-**-**                      *                             1                   0                   zand fijn / fijnmiddel pl veenstukjes
+    gp-zand-fm-o-z-mg-p-g                   go-**-**                      *                             1                   0                   zand fijnmiddel overg zand middelgrof pl grindig
+    gp-zand-f-s-kl                          go-**-**                      *                             1                   0                   zand fijn siltig en kleiig
+    gp-zand-fijn-siltig                     go-**-**                      *                             1                   0                   zand fijn siltig
+    gp-veen                                 go-**-**                      *                             1                   0                   veen
+    gp-veen-of-veenkleiig                   go-**-**                      *                             1                   0                   veen of veenkleiig
+    gp-grind                                go-**-**                      *                             1                   0                   grind
+    gp-grind-zandig                         go-**-**                      *                             1                   0                   grind zandig
+    gp-zanderig-grind                       go-**-**                      *                             1                   0                   zanderig grind
+    gp-vrij-te-benoemen1                    go-**-**                      *                             1                   0                   vrij te benoemen 1
+    gp-vrij-te-benoemen2                    go-**-**                      *                             1                   0                   vrij te benoemen 2
+    gp-vrij-te-benoemen3                    go-**-**                      *                             1                   0                   vrij te benoemen 3
+    gp-vrij-te-benoemen4                    go-**-**                      *                             1                   0                   vrij te benoemen 4
+    gp-vrij-te-benoemen5                    go-**-**                      *                             1                   0                   vrij te benoemen 5
+    gp-vervuilde-gr-kl-1                    go-**-**                      *                             1                   0                   vervuilde grond kl 1
+    gp-vervuilde-gr-kl-2                    go-**-**                      *                             1                   0                   vervuilde grond kl 2
+    gp-vervuilde-gr-kl-3                    go-**-**                      *                             1                   0                   vervuilde grond kl 3
+    gp-vervuilde-gr-kl-4                    go-**-**                      *                             1                   0                   vervuilde grond kl 4
+    gp-gp-grondverbetering                  go-**-**                      *                             1                   0                   grondverbetering
+
+*Materiaal in aanzicht                                                                                                                          4 
+    ma-tegelwerk                            bv-**-**                      *                             1                   0                   tegelwerk
+    ma-beton-aanzicht                       bv-**-**                      *                             1                   0                   beton aanzicht
+    ma-beton-stortvlak                      bv-**-**                      *                             1                   0                   beton stortvlak
+    ma-spuitbeton                           bv-**-**                      *                             1                   0                   spuitbeton
+
+*Waterbouw                                                                                                                                      13 
+    wb-streep                               wb-**-**                      *                             1                   0                   algemene arcering streep
+    wb-streep                               wb-**-**                      *                             2                   0                   algemene arcering streep 2 mm
+    wb-streep                               wb-**-**                      *                             5                   0                   algemene arcering streep 5 mm
+    wb-streep                               wb-**-**                      *                             10                  0                   algemene arcering streep 10 mm
+    wb-streep                               wb-**-**                      *                             20                  0                   algemene arcering streep 20 mm
+    wb-rooster                              wb-**-**                      *                             1                   0                   algemene rooster
+    wb-rooster                              wb-**-**                      *                             2                   0                   algemene rooster 2 mm
+    wb-rooster                              wb-**-**                      *                             5                   0                   algemene rooster 5 mm
+    wb-rooster                              wb-**-**                      *                             10                  0                   algemene rooster 10 mm
+    wb-rooster                              wb-**-**                      *                             20                  0                   algemene rooster 20 mm
+    wb-bestorting                           wb-**-**                      *                             2000                0                   stortsteen
+    wb-basaltonverharding                   wb-**-**                      *                             1                   0                   basalton
+    wb-basaltverharding                     wb-**-**                      *                             1000                0                   basaltverharding
+
+*Solid                                                                                                                                          2 
+    solid                                   *                             *                             1                   0                   solid
+    solid                                   mk-**-**                      *                             1                   0                   solid-markeringen
+
+einde

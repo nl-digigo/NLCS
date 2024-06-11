@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<!--file and path : wegen/wegen_techniek_MX.html -->
+<!--release		  : 09-09-2002					 -->
+<!--designer	  : C.J.F. Rothfusz				 -->
+<!--company		  : Tree C Technology B.V.		 -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="GENERATOR" content="Mozilla/4.76 [en] (Win98; U) [Netscape]">
+  <title>wegen techniek MX</title>
+<script src="../versie.js"></script>
+</head>
+<body bgcolor=white link=black alink=black vlink=black text=black onLoad="if (top.location.href.indexOf(disc+'.html')!=-1) parent.keuzelijst.location='../algemeen/keuzelijst_1.html'">
+<font size=+2 color=black><b>TECHNIEK / MX</b></font>
+<p>
+De onderstaande lijst geeft de MX-modellen voor wegontwerp. RTW heeft betrekking op de blauw ondersteepte modellen. Kies hiervan het model waarvan u de strings wilt weten:
+<p>
+<table cellpadding="5" cellspacing="0" border="1">
+  <tr align="left">
+    <th >modelaanduiding
+	<th>omschrijving</th>
+    <script>
+      var h,i,j,k,m,n,o
+      h=parent.database.GeefAantalMxModellen()
+      for (i=0;i<h;i++) {                          //Loop records met MX-modellen af...
+        j=parent.database.GeefMxModel(i)
+        k=j.substring(0,3)                         //isoleer modelafkorting (3 letters)...
+        m=j.charAt(4)                              //isoleer de + of - (+ betekent: model is in RTW uitgewerkt)...
+        n=j.length
+        o=j.substring(5,n)                         //isoleer de volledige modelnaam...
+        p="'"+"mxmodel="+i+"'"                     //bereid cookie met gekozen model voor...
+        if (m=="+") document.write('<tr><td><a href="wegen_mxstrings.html" onClick="parent.database.SchrijfCookie('+p+')">'+k+'</a><td>'+o)
+        else document.write('<tr><td>'+k+'<td>'+o)
+     }
+</script>
+</table>
+<p>
+<hr>
+<p>
+<script src="../houdbaarheid_voor.js"></script>
+<script>
+document.write(' '+vers+' ')
+</script>
+<script src="../houdbaarheid_na.js"></script>
+</body>
+</html>

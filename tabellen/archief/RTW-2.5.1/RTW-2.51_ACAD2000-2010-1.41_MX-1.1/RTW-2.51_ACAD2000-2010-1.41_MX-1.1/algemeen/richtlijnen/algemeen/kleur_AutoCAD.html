@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<!--file and path : algemeen\richtlijnen\algemeen\kleur_AutoCAD.html -->
+<!--release	  : 05-07-2002					     -->
+<!--designer	  : C.J.F. Rothfusz				     -->
+<!--company	  : Tree C Technology B.V.			     -->
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.76 [en] (Win98; U) [Netscape]">
+   <title>kleur AutoCAD</title>
+<script src="../../../versie.js"></script>
+<script>
+   function TekenKleurentabel() {
+     var a,b,c,d,e,f,g,h,i,j,k,m,n,p
+          a=parent.database.GeefLengte256KleurenSchema()
+     for (b=0;b<a;b++) {                         //Schrijf lijndiktes in tabelheader.
+       c=parent.database.GeefRecord256KleurenSchema(b)
+       d=c.indexOf(":")
+       document.write('<th>'+c.substring(0,d))
+     }
+     f=0                                         //Index die een kleurnummer in de opsomming aanwijst.
+     h=0                                         //Vlag die -1 wordt als er geen verdere kleuren zijn.
+     while (h==0) {                              //Schrijf kleurnummers (met voorbeeldkleur) in tabel.
+       document.write('<tr>')
+       h=-1
+       i=""
+       for (b=0;b<a;b++) {                       //Loop alle lijndiktes af...
+          c=parent.database.GeefRecord256KleurenSchema(b)
+         d=c.indexOf(":")+1
+         e=c.indexOf(";");if (e==-1) e=c.length
+         for (g=0;g<f;g++) {                     //zorg dat volgende kleurnummer geselecteerd wordt...
+           d=e+1
+           e=c.indexOf(";",d);if (e==-1) e=c.length
+         }
+         p=-1                                    //Vlag om ervoor te zorgen dat lege tabelcellen ook worden getekend.
+         if (d<e) {                              //voeg tabelcel toe als er nog een kleurnummer is...
+           j=c.substring(d,e)
+           if (j!="   ") {                       //(is het inderdaad een kleurnummer ?)
+             n=0                                 //haal eventuele spaties uit kleurnummer...
+             if (j.charAt(n)==" ") n++
+             if (j.charAt(n)==" ") n++
+             j=c.substring(d+n,e)
+             m=parent.database.GeefKleurCode(j)
+             i=i+'<td bgcolor=#'+m.substring(0,6)+'>' //geef tabelcel kleur overeenkomstig kleurnummer...
+             if (m.charAt(6)=="*") {                  //(achtergrond is donker, dus kleurnummer in wit)
+               i=i+'<font color=white>'+j+'</font>'
+              }
+              else {i=i+j}                       //(achtergrond is licht, dus kleurnummer in zwart}
+             h=0
+             p=0
+           }
+         }
+         if (p!=0) i=i+'<td>.'                   //voeg lege tabelcel toe als er geen kleurnummer is...
+       }
+       j=i.length
+       m=0
+       for (k=0;k<j;k++) if (i.charAt(k)=='.') m++  //tel het aantal lege tabelcellen (van de tabelrij)
+       if (m<a) document.write(i)                //voeg tabelrij toe aan tabel als er nog tenminste één kleur in staat.
+       f++                                       //Volgende kleurnummers in de opsommingen gebruiken voor volgende tabelrij.
+     }
+   }
+  </script>
+</head>
+<body bgcolor=white link=black alink=black vlink=black text=black>
+<font size=+2 color=black><b>AUTOCAD RICHTLIJN: KLEUR</b></font>
+<p>
+Stel binnen AutoCAD kleur in d.m.v de "COLOR" eigenschap van een laag.<br>
+Definieer binnen AutoCad de kleur als "COLOR BY LAYER", dit betekent dat alle tekenobjecten de kleur krijgen van de laag waarop deze geplaatst zijn.<br> 
+
+<p>
+  <table cellpadding="5" cellspacing="0" border="1"> 
+   <tr align=""><th colspan="5" colspan="5"> RTW default kleurenschema
+   <tr align="left">
+   <script>
+    TekenKleurentabel()
+   </script>
+  </table>
+<font size="1" > 0 : basiskleuren <br>< : lichter <br> > : donkerder <br> als referentie zijn AutoCAD kleurnummers opgenomen</font>
+<p>
+<hr>
+<p>
+<script src="../../../houdbaarheid_voor.js"></script>
+<script>
+document.write(' '+vers+' ')
+</script>
+<script src="../../../houdbaarheid_na.js"></script>
+</body>
+</html>

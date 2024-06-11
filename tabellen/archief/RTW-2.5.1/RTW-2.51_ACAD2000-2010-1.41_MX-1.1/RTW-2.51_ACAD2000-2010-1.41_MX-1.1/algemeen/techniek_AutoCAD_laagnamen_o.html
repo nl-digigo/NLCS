@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<!--file and path : algemeen/techniek_AutoCAD_laagnamen.html -->
+<!--release		  : 09-09-2002								 -->
+<!--designer	  : C.J.F. Rothfusz							 -->
+<!--company		  : Tree C Technology B.V.					 -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="GENERATOR" content="Mozilla/4.76 [en] (Win98; U) [Netscape]">
+  <title>techniek AutoCAD laagnamen</title>
+<script src="../versie.js"></script>
+</head>
+<body bgcolor=white link=black alink=black vlink=black text=black onLoad="if (top.location.href.indexOf(disc+'.html')!=-1) parent.keuzelijst.location='../algemeen/keuzelijst_1.html'">
+<font size=+2 color=black><b>AUTOCAD RICHTLIJN: HOOFDGROEPEN</b></font>
+<p>
+Binnen AutoCAD wordt objecten gegroepeerd door middel van lagen.<br>
+Voor de opbouw van de laagnamen is in de RTW een eenduidige systematiek vastgelegd.<br>
+Zie hiervoor <a href="../algemeen/richtlijnen/algemeen/laagnaamconventie_AutoCAD.html"> AUTOCAD RICHTLIJN: LAAGNAAM CONVENTIE</a>
+<p>
+Onderstaande tabellen geven de tekenobjecten hoofdgroepen voor AutoCAD</a>.<br>
+Er wordt onderscheid gemaakt in dsicipline afhankelijke tekenobjecten en algemene, discipline onafhankelijke tekenobjecten. Kies de groep waarvan u de tekenobjecten wilt zien:
+<p>
+<script>
+if (disc == "wegen") disc_omschr="WEGEN"
+if (disc == "kunstwerken") {
+  if (subdisc == "beton") disc_omschr="KUNSTWERKEN BETONCONSTRUCTIES"
+  if (subdisc == "staal") disc_omschr="KUNSTWERKEN STAALCONSTRUCTIES"
+  if (subdisc == "water") disc_omschr="KUNSTWERKEN WATERBOUW"
+  if (subdisc == "werkt") disc_omschr="KUNSTWERKEN WERKTUIGBOUW"
+}
+if (disc == "waterbouw") disc_omschr="WATERBOUW"
+document.write('<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size=+1 color=black><b>'+disc_omschr+'</b></font><br><br>')
+</script>
+<table cellpadding="5" cellspacing="0" border="1">
+  <tr align="left">
+    <th>objecten
+	<th>hoofdgroep <a href="../algemeen/richtlijnen/algemeen/laagnaamconventie_AutoCAD.html">(aa)</a>
+      <script>
+      var h,i,j,m,n                                //Zet alle layer(hoofd)groepen met doorverwijzingen in een
+      h=parent.database.GeefAantalLayergroepen()   //tabel.
+      for (i=1;i<h;i++) {
+        j=parent.database.GeefHoofdgroep(i)
+        m="'"+"layergroep="+i+"'"                  //Bereid cookie met gekozen layergroep voor.
+        n=j.length-4
+        test=j.substring(0,2)
+        if (test=="xx") {
+          bewaar=i+1
+          i=h
+        }
+      if (i!=1){
+        if (test!="mx") {	 					   //Hoofdgroep mx moet niet getoond worden
+          if (test!="xx") {
+            document.write('<tr><td width=300>'+j.substring(2,n)+'<td><a href="aclayers.html" onClick="parent.database.SchrijfCookie('+m+')">'+j.substring(0,2)+'</a>')
+          }
+        }
+      }
+     }
+      </script>
+</table>
+<script>
+if (bewaar < h) {
+  document.write('<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size=+1 color=black><b>ALGEMEEN</b></font><br><br>')
+  document.write('<p><table cellpadding="5" cellspacing="0" border="1">')
+  document.write('<tr align="left">')
+  document.write('<th>objecten')
+  document.write('<th>hoofdgroep (aa)')
+      var h,i,j,m,n                                //Zet alle layer(hoofd)groepen met doorverwijzingen in een
+      h=parent.database.GeefAantalLayergroepen()   //tabel.
+      for (i=bewaar;i<h;i++) {
+        j=parent.database.GeefHoofdgroep(i)
+        m="'"+"layergroep="+i+"'"                  //Bereid cookie met gekozen layergroep voor.
+        n=j.length-4
+        test=j.substring(0,2)
+        if (test!="mx") {	 					   //Hoofdgroep mx moet niet getoond worden
+          if (test!="xx") {
+            document.write('<tr><td width=300>'+j.substring(2,n)+'<td><a href="aclayers.html" onClick="parent.database.SchrijfCookie('+m+')">'+j.substring(0,2)+'</a>')
+          }
+        }
+      }
+  document.write('</table>')
+}
+</script>
+<p>
+<hr>
+<p>
+<script src="../houdbaarheid_voor.js"></script>
+<script>
+document.write(' '+vers+' ')
+</script>
+<script src="../houdbaarheid_na.js"></script>
+</body>
+</html>

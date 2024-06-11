@@ -1,0 +1,690 @@
+;; ****************************************************************************,;; Naam routine: RTW.lin ,;; Functie: Autocad lin file voor de RTW
+;; Dienst: Bouwdienst RWS
+;; Datum : 05-07-2002
+;; Versie: 1.1
+;; ****************************************************************************
+;; opmerkingen:
+;; Hierbij behoort RTW.shx
+;;
+;; ********************************************************************************
+
+
+;; AF - AFSCHEIDINGEN
+;;-------------------
+;; Haag/Heg: lijn hoh 10 mm kruis
+*haag,----- x ----- x ----- x ----- x -----
+A,7,-1.5,[MARK,RTW.shx,R=45,S=0.75],-1.5
+;; Haag/Heg verwijderen
+*haag_v,----- vw ----- x ----- vw ----- x -----
+A,7,-1.5,[MARK,RTW.shx,R=45,S=0.75],-1.5,7,-1.5,[MARK,RTW.shx,R=45,S=0.75],-1.5,7,-1.5,[MARK,RTW.shx,R=45,S=0.75],-1.5,7,-1.5,[VW,RTW.shx,S=0.6],-1.5
+
+;; Haag/Heg met Raster/Hekwerk: lijn met hoh 10 mm kruis hoh 10 mm plus NEN3256
+*hekhaag,----- x ----- + ----- x ------ + -----
+A,7,-1.5,[MARK,RTW.shx,R=45,S=0.75],-1.5,7,-1.5,[MARK,RTW.shx,S=0.75],-1.5
+;; Haag/Heg met Raster/Hekwerk verwijderen
+*hekhaag_v,----- x ----- + ----- x ------ + ----- vw 
+A,7,-1.5,[MARK,RTW.shx,R=45,S=0.75],-1.5,7,-1.5,[MARK,RTW.shx,S=0.75],-1.5,7,-1.5,[VW,RTW.shx,S=0.6],-1.5
+
+;; Hekwerk: lijn hoh 10 mm plus NEN3256
+*hekwerk,----- + ----- + ----- + ----- + -----
+A,7,-1.5,[MARK,RTW.shx,S=0.75],-1.5
+;; Hekwerk verwijderen
+*hekwerk_v,----- + ----- vw ----- + ----- vw -----
+A,7,-1.5,[MARK,RTW.shx,S=0.75],-1.5,7,-1.5,[MARK,RTW.shx,S=0.75],-1.5,7,-1.5,[MARK,RTW.shx,S=0.75],-1.5,7,-1.5,[VW,RTW.shx,S=0.6],-1.5
+
+;; Muur: lijn 10 mm,blok 1.5x2 NEN3256
+*muur,----- B ----- B ----- B ----- B -----  
+A,8,-1,[B20-10V,RTW.shx,R=90,S=0.75],-1
+;; Muur verwijderen
+*muur_v,----- B ----- vw ----- B ----- vw -----  
+A,8,-1,[B20-10V,RTW.shx,R=90,S=0.75],-1,8,-1,[B20-10V,RTW.shx,R=90,S=0.75],-1,8,-1,[B20-10V,RTW.shx,R=90,S=0.75],-1,8,-1.5,[VW,RTW.shx,S=0.6],-1.5
+
+;; Schutting: lijn hoh 10 mm plus NEN3256
+*schutting,----- + ----- + ----- + ----- + -----
+A,7,-1.5,[MARK,RTW.shx,S=0.75],-1.5
+;; Schutting verwijderen
+*schutting_v,----- + ----- vw ----- + ----- vw -----
+A,7,-1.5,[MARK,RTW.shx,S=0.75],-1.5,7,-1.5,[MARK,RTW.shx,S=0.75],-1.5,7,-1.5,[MARK,RTW.shx,S=0.75],-1.5,7,-1.5,[VW,RTW.shx,S=0.6],-1.5
+
+;; ********************************************************************************
+
+;; AS - ASSEN
+;;-----------
+;; Wegas; lijn 15 mm,lijn 2 mm
+*aslijn,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,15,-1,2,-1
+
+;; BP - BEPLANTING
+;;----------------
+;; Houtwal: lijn hoh 10 mm kruis en hoh 10 mm gevulde cirkel NEN3256
+*houtwal,----- x ----- o ----- x ----- o -----
+A,8,-1,[MARK,RTW.shx,R=45,S=0.75],-1,8,-1,[CIRV,RTW.shx,S=0.75],-1 
+;; Houtwal verwijderen
+*houtwal_v,----- x ----- o ----- x ----- o -----
+A,8,-1,[MARK,RTW.shx,R=45,S=0.75],-1,8,-1,[CIRV,RTW.shx,S=0.75],-1,8,-2.5,[VW,RTW.shx,S=0.6],-2.5 
+
+;;laanbep;
+*laanbep,--------0---------0----------0
+A,20,-1,[cirv,RTW.shx,S=0.75],-1
+;;laanbep verwijderen
+*laanbep_v,--------0---------0----------0
+A,20,-1,[cirv,RTW.shx,S=0.75],-1,20,-1,[cirv,RTW.shx,S=0.75],-1,20,-2.5,[VW,RTW.shx,S=0.6],-2.5
+
+;; ********************************************************************************
+
+;; DP - DWARSPROFIELEN
+;;--------------------
+;; Aslijn zie Assen
+;; Waterlijn
+
+;; ********************************************************************************
+
+;; FV - FAUNAVOORZIENINGEN
+;;------------------------
+
+;; ********************************************************************************
+
+;; GA - GRONDAANKOOP
+;;------------------
+
+;; ********************************************************************************
+
+;; GK - GRONDKERENDE CONSTRUCTIES
+;;-------------------------------
+;; Betoniet; lijn 3mm
+*betoniet,Middelmatig dikke streeplijn
+A,3,-2
+;; Betoniet verwijderen
+*betoniet_v,Middelmatig dikke streeplijn
+A,3,-2,3,-2,3,-3,[VW,RTW.shx,S=0.6],-3,3,-2,3,-2
+
+;; Damwand: lijn met h.o.h. 20 mm 3 blokjes van 1x1 mm NEN3256
+*damwand,-----B-B-B----------B-B-B----------B-B-B-----
+A,15,-0.01,[B10-10V,RTW.shx,],2,[B10-10V,RTW.shx,],2,[B10-10V,RTW.shx],-0.01
+;; Damwand verwijderen
+*damwand_v,-----B-B-B----------B-B-B----------B-B-B-----
+A,15,-0.01,[B10-10V,RTW.shx,],2,[B10-10V,RTW.shx,],2,[B10-10V,RTW.shx],-0.01,15,-2,[VW,RTW.shx,S=0.6],-2
+
+;; Kademuur: dubbele lijn met h.o.h. 20 mm 3 blokjes van 1x1 mm  NEN3256
+*kademuur,=====B=B=B==========B=B=B==========B=B=B=====
+A,0.001,-1.5,[DUB3,RTW.shx,S=1.016],-3,[DUB3,RTW.shx,S=1.016],-3,[DUB3,RTW.shx,S=1.016],-3,[DUB3,RTW.shx,S=1.016],-3,[DUB3,RTW.shx,S=1.016],-2,[B10-10V,RTW.shx],-1,[DUB1,RTW.shx],-1,[B10-10V,RTW.shx],-1,[DUB1,RTW.shx],-1,[B10-10V,RTW.shx],-0.001
+;; Kademuur verwijderen
+*kademuur_v,=====B=B=B==========B=B=B==========B=B=B=====
+A,0.001,-5.4,[DUB12,RTW.shx,S=0.94],-7.9,[BLK3,RTW.shx],-5.4,[DUB6,RTW.shx,S=0.985],-4.5,[VW,RTW.shx,S=0.6],-4.5,[DUB6,RTW.shx,S=0.985],-5.45,[BLK3,RTW.shx],-0.001
+
+*keerwand,Zig zag /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+A,.0001,-.2,[ZIG,ltypeshp.shx,x=-.2,s=.2],-.4,[ZIG,ltypeshp.shx,r=180,x=.2,s=.2],-.2
+*keerwand_v,Zig zag /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+A,.0001,-.2,[ZIG,ltypeshp.shx,x=-.2,s=.2],-.4,[ZIG,ltypeshp.shx,r=180,x=.2,s=.2],-.4,[ZIG,ltypeshp.shx,x=-.2,s=.2],-.4,[ZIG,ltypeshp.shx,r=180,x=.2,s=.2],-.4,[ZIG,ltypeshp.shx,x=-.2,s=.2],-.4,[ZIG,ltypeshp.shx,r=180,x=.2,s=.2],-2,[VW,RTW.shx,S=0.4],-2,-.2
+
+;; ********************************************************************************
+
+;; GR - GELEIDERAIL
+;;-----------------
+;;Antiverblind;tijdelijk een lijn
+*antiverblind,---------------------------------
+A,2,-1,[vert,RTW.shx,s=0.5],-1
+*antiverblind_v,---------------------------------
+A,2,-1,[vert,RTW.shx,s=0.5],-1,2,-1,[vert,RTW.shx,s=0.5],-1,2,-1,[vert,RTW.shx,s=0.5],-1,2,-1.5,[VW,RTW.shx,S=0.6],-1.5
+
+;;Barrier beton;
+*barrbeton,
+A,2,-1,[stepbar,RTW.shx,s=0.5],-1
+*barrbeton_v,
+A,2,-1,[stepbar,RTW.shx,s=0.5],-1,2,-1,[stepbar,RTW.shx,s=0.5],-1,2,-1,[stepbar,RTW.shx,s=0.5],-1,2,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Barrier staal;
+*barrstaal,
+A,2,-1,[vecusec,RTW.shx,s=0.5],-1
+*barrstaal_v,
+A,2,-1,[vecusec,RTW.shx,s=0.5],-1,2,-1,[vecusec,RTW.shx,s=0.5],-1,2,-1,[vecusec,RTW.shx,s=0.5],-1,2,-2,[VW,RTW.shx,S=0.6],-2
+
+;;f2dl40080;symbolen
+*f2dl40080,<><><><><><><><><><><><><><><><><>
+A,2,-1,[f2dl40080,RTW.shx,s=0.5],-1
+*f2dl40080_v,<><><><><><><><><><><><><><><><><>
+A,2,-1,[f2dl40080,RTW.shx,s=0.5],-1,2,-1,[f2dl40080,RTW.shx,s=0.5],-1,2,-1,[f2dl40080,RTW.shx,s=0.5],-1,2,-2,[VW,RTW.shx,S=0.6],-2
+
+;;f2m40080;symbolen
+;;*f2m40080,====================================
+;;A,2,-1,[f2m40080,RTW.shx,s=0.5],-1
+
+;;f2m40080;symbolen
+*f2m40080,====================================
+A,2,-1,[f2m40080,RTW.shx,s=0.5],-1
+*f2m40080_v,====================================
+A,2,-1,[f2m40080,RTW.shx,s=0.5],-1,2,-1,[f2m40080,RTW.shx,s=0.5],-1,2,-1,[f2m40080,RTW.shx,s=0.5],-1,2,-2,[VW,RTW.shx,S=0.6],-2
+
+;; Geleiderail: algemeen
+*geleiderail,oooooooooooooooooooooooooooooooooo
+A,2,-1,[bestaand,RTW.shx,s=0.5],-1
+*geleiderail_v,oooooooooooooooooooooooooooooooooo
+A,2,-1,[bestaand,RTW.shx,s=0.5],-1,2,-1,[bestaand,RTW.shx,s=0.5],-1,2,-1,[bestaand,RTW.shx,s=0.5],-1,2,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Leuning; tijdelijk een lijn
+*leuning,---------------------------------
+A,0,4
+*leuning_v,---------------------------------
+A,0,20,-2,[VW,RTW.shx,S=0.6],-2
+
+;;vlp1dl13360;symbolen
+*vlp1dl13360;<><><><><><><><><><><><><><><>,
+A,2,-1,[vlp1dl13360,RTW.shx,s=0.5],-1
+*vlp1dl13360_v;<><><><><><><><><><><><><><><>,
+A,2,-1,[vlp1dl13360,RTW.shx,s=0.5],-1,2,-1,[vlp1dl13360,RTW.shx,s=0.5],-1,2,-1,[vlp1dl13360,RTW.shx,s=0.5],-1,2,-2,[VW,RTW.shx,S=0.6],-2
+
+;;vlp11v13360;symbolen
+*vlp1lv13360;<><><><><><><><><><><><><><><>,
+A,2,-1,[vlp1lv13360,RTW.shx,s=0.5],-1
+*vlp1lv13360_v;<><><><><><><><><><><><><><><>,
+A,2,-1,[vlp1lv13360,RTW.shx,s=0.5],-1,2,-1,[vlp1lv13360,RTW.shx,s=0.5],-1,2,-1,[vlp1lv13360,RTW.shx,s=0.5],-1,2,-2,[VW,RTW.shx,S=0.6],-2
+
+;;vlp1z13360;symbolen
+*vlp1z13360;==============================,
+A,2,-1,[vlp1z13360,RTW.shx,s=0.5],-1
+*vlp1z13360_v;==============================,
+A,2,-1,[vlp1z13360,RTW.shx,s=0.5],-1,2,-1,[vlp1z13360,RTW.shx,s=0.5],-1,2,-1,[vlp1z13360,RTW.shx,s=0.5],-1,2,-2,[VW,RTW.shx,S=0.6],-2
+
+;;vlp1z26760;symbolen
+*vlp1z26760;==============================,
+A,2,-1,[vlp1z26760,RTW.shx,s=0.5],-1
+*vlp1z26760_v;==============================,
+A,2,-1,[vlp1z26760,RTW.shx,s=0.5],-1,2,-1,[vlp1z26760,RTW.shx,s=0.5],-1,2,-1,[vlp1z26760,RTW.shx,s=0.5],-1,2,-2,[VW,RTW.shx,S=0.6],-2
+
+;;vlp1zc13360;symbolen
+*vlp1zc13360;==============================,
+A,2,-1,[vlp1zc13360,RTW.shx,s=0.5],-1
+*vlp1zc13360_v;==============================,
+A,2,-1,[vlp1zc13360,RTW.shx,s=0.5],-1,2,-1,[vlp1zc13360,RTW.shx,s=0.5],-1,2,-1,[vlp1zc13360,RTW.shx,s=0.5],-1,2,-2,[VW,RTW.shx,S=0.6],-2
+
+;;vlp2dl13360;symbolen
+*vlp2dl13360;<><><><><><><><><><><><><><><><,
+A,2,-1,[vlp2dl13360,RTW.shx,s=0.5],-1
+*vlp2dl13360_v;<><><><><><><><><><><><><><><><,
+A,2,-1,[vlp2dl13360,RTW.shx,s=0.5],-1,2,-1,[vlp2dl13360,RTW.shx,s=0.5],-1,2,-1,[vlp2dl13360,RTW.shx,s=0.5],-1,2,-2,[VW,RTW.shx,S=0.6],-2
+
+;;vlp2dl13380;symbolen
+*vlp2dl13380;<><><><><><><><><><><><><><><><,
+A,2,-1,[vlp2dl13380,RTW.shx,s=0.5],-1
+*vlp2dl13380_v;<><><><><><><><><><><><><><><><,
+A,2,-1,[vlp2dl13380,RTW.shx,s=0.5],-1,2,-1,[vlp2dl13380,RTW.shx,s=0.5],-1,2,-1,[vlp2dl13380,RTW.shx,s=0.5],-1,2,-2,[VW,RTW.shx,S=0.6],-2
+
+;;vlp2z13360;symbolen
+*vlp2z13360;==============================,
+A,2,-1,[vlp2z13360,RTW.shx,s=0.5],-1
+*vlp2z13360_v;==============================,
+A,2,-1,[vlp2z13360,RTW.shx,s=0.5],-1,2,-1,[vlp2z13360,RTW.shx,s=0.5],-1,2,-1,[vlp2z13360,RTW.shx,s=0.5],-1,2,-2,[VW,RTW.shx,S=0.6],-2
+
+;;vlp2z13380;symbolen
+*vlp2z13380;==============================,
+A,2,-1,[vlp2z13380,RTW.shx,s=0.5],-1
+*vlp2z13380_v;==============================,
+A,2,-1,[vlp2z13380,RTW.shx,s=0.5],-1,2,-1,[vlp2z13380,RTW.shx,s=0.5],-1,2,-1,[vlp2z13380,RTW.shx,s=0.5],-1,2,-2,[VW,RTW.shx,S=0.6],-2
+
+;;vlp2z26780;symbolen
+*vlp2z26780;==============================,
+A,2,-1,[vlp2z26780,RTW.shx,s=0.5],-1
+*vlp2z26780_v;==============================,
+A,2,-1,[vlp2z26780,RTW.shx,s=0.5],-1,2,-1,[vlp2z26780,RTW.shx,s=0.5],-1,2,-1,[vlp2z26780,RTW.shx,s=0.5],-1,2,-2,[VW,RTW.shx,S=0.6],-2
+
+;;vlp2zc13380;symbolen
+*vlp2zc13380;==============================,
+A,2,-1,[vlp2zc13380,RTW.shx,s=0.5],-1
+*vlp2zc13380_v;==============================,
+A,2,-1,[vlp2zc13380,RTW.shx,s=0.5],-1,2,-1,[vlp2zc13380,RTW.shx,s=0.5],-1,2,-1,[vlp2zc13380,RTW.shx,s=0.5],-1,2,-2,[VW,RTW.shx,S=0.6],-2
+
+;; ********************************************************************************
+
+;; GV - GELUIDSWERENDE VOORZIENINGEN
+;;----------------------------------
+;;Scherm;
+*scherm; ---U---U---U---U,
+A,8,-2,[GOLF,rtw.shx],-2
+*scherm_v; ---U---U---U---U,
+A,8,-2,[GOLF,rtw.shx],-2,8,-2,[GOLF,rtw.shx],-2,8,-2,[GOLF,rtw.shx],-2,8,-2,[VW,RTW.shx,S=0.6],-2
+
+;; ********************************************************************************
+
+;; GW - GRONDWERK
+;;---------------
+
+;; ********************************************************************************
+
+;; KD - GRENZEN / KADASTRALE INFORMATIE
+;;-------------------------------------
+;;Boundery met Z;
+*bdrymetz, ---- - ----- - -----
+A,5,-2.5,5,-2.5,5
+;;Boundery zonder Z;
+*bdryzonderz, ---- - ----- - -----
+A,5,-2.5,5
+;;Beheersgrens gemeente: lijn 2 mm interval 1 mm
+*bhgrgemeente,----------------------------
+A,2,-1
+;;Beheersgrens NS: punten hoh 3
+*bhgrns,. . . . . . . . . . .
+A,0,-2
+;;Beheersgrens Provincie;lijn 4 mm interval 2 mm
+*bhgrprov,----------------------------
+A,4,-2 
+;;Beheersgrens RWS/RWS; lijn met symbool rwsrw
+*bhgrrwsrws, --------------||||-------------
+A, 24,[TKREG1,rtw.shx],3.6,[TKREG1,rtw.shx],3.6,[TKREG1,rtw.shx],0
+;;Beheersgrens RWS/Waterschap/Polder; lijn met symbool rwswtpl
+*bhgrrwswtpl, --------------////-------------
+A, 24,[BEHGR1,rtw.shx],2.4,[BEHGR2,rtw.shx],3.6,[BEHGR3,rtw.shx],0
+;;Beheersgrens Waterschap; lijn met symbool circ
+*bhgrwt,-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-
+A,4,-1,[circ,rtw.shx,s=0.5],-1
+;;Beheersgrens Waterschap/Polder; lijn met symbool wtpl
+*bhgrwtpl,--------\\\\------------------
+A, 22.8,[BEHGR4,rtw.shx],3.6,[BEHGR5,rtw.shx],3.6,[BEHGR6,rtw.shx],0
+;;Beheers en onderhoudsgrens; lij met symbool ondgr
+*bhondgr,o  o  o  o////o  o  o  o  o  o
+A,0,-4,[cirv,rtw.shx,s=0.5],-4,[cirv,rtw.shx,s=0.5],-4,[cirv,rtw.shx,s=0.5],-4,[cirv,rtw.shx,s=0.5],-4,[cirv,rtw.shx,s=0.5],-2.4,[BEHGR1,rtw.shx],2.4,[BEHGR2,rtw.shx],3.6,[BEHGR3,rtw.shx],2.4
+;; Gemeentegrens: lijn 1 mm,plusteken NEN3256
+*gemeentegr,+ - + - + - + - + - + - + - + - + - + - 
+A,1,-2.25,[MARK,RTW.shx,S=1.25],-2.25
+;; Rijksgrens: plustekens NEN3256
+*landsgr,+ + + + + + + + + + + + + + + + + + +
+A,1.25,[MARK,RTW.shx,S=1.25],1.25,-1
+;;Onderhoudsgrens; cirkel 1 mm hoh 4 mm
+*onderhgr, o  o  o  o  o  o  o  o  o  o  o  o  o
+A,0,-4,[cirv,rtw.shx,s=0.5],-0.01 
+;; Perceelgr: lijn 2.5 mm interval 1 mm NEN3256
+*PERCEELGR,_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+A,2.5,-1
+;; Provincie grens: lijn 2.5 mm,plusteken NEN3256
+*provinciegr, + --- + --- + --- + --- + --- + --- + --- +
+A,2.5,-2.25,[MARK,RTW.shx,S=1.25],-2.25
+;;Grens van rijkseigendom;streep,stippel
+*rijksgr,____ . ____ . ____
+A,5,-1,0,-1
+;; Grens van rijkseigendom gepland: lijn met ster
+*rijksgrplan,---x---x---x---x---x---x---x
+A,8,-2,[star1,rtw.shx,s=1],-2
+;; Rooilijn: lijn 10 mm,punt,punt NEN3256
+*rooilijn,_____ . . _____ . . _____ . . ____ ..
+A,10,-1,0,-1,0,-1
+;; Sectiegrens: streep 5 mm punt punt punt  NEN3256
+*sectiegr,___...___...___...___...___
+A,5,-1,0,-1,0,-1,0,-1
+;; Waterschap: lijn 5 mm 2 plustekens
+*waterschgr,+ + --- + + --- + + --- + + --- + + --- + +
+A,5,-2.25,[MARK,RTW.shx,S=1.25],-3.5,[MARK,RTW.shx],-2.25
+;;Werkgrens;
+*werkgr,  === = ==== = ==== = ====
+A,0,-1.75,[b10-10v,RTW.shx,s=1],-3.5,[b50-10v,RTW.shx,s=1],-1.75
+;;Werkvakgrens;
+*werkvakgr, = = = = = = = = = = = = = = =
+A,0,-1.2,[b20-10v,RTW.shx,s=1],-1.2
+
+;; ********************************************************************************
+
+;; KL - KABELS EN LEIDINGEN
+;;-------------------------
+;;Drukriool; lijn 28 mm,driehoek,driehoek NEN 3116
+*drukriol,_______<<_________<<_________
+A,28,-5,[drieh,RTW.shx,S=1],-5,[drieh,RTW.shx,S=1],-5
+*drukriol_v,_______<<_________<<_________
+A,28,-5,[drieh,RTW.shx,S=1],-5,[drieh,RTW.shx,S=1],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Electra bundel; lijn 28 mm,4* flash NEN 3116
+*elecbndl,_______zzzz_________zzzz_________
+A,28,-5,[flash,RTW.shx,S=1.25],-5,[flash,RTW.shx,S=1.25],-5,[flash,RTW.shx,S=1.25],-5,[flash,RTW.shx,S=1.25],-5
+*elecbndl_v,_______zzzz_________zzzz_________
+A,28,-5,[flash,RTW.shx,S=1.25],-5,[flash,RTW.shx,S=1.25],-5,[flash,RTW.shx,S=1.25],-5,[flash,RTW.shx,S=1.25],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Electra hoogspannning; lijn 28 mm,3* flash NEN 3116
+*elechoog,_______zzz_________zzz_________
+A,28,-5,[flash,RTW.shx,S=1.25],-5,[flash,RTW.shx,S=1.25],-5,[flash,RTW.shx,S=1.25],-5
+*elechoog_v,_______zzz_________zzz_________
+A,28,-5,[flash,RTW.shx,S=1.25],-5,[flash,RTW.shx,S=1.25],-5,[flash,RTW.shx,S=1.25],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Electra laagspanning, lijn 28 mm,2* flash NEN 3116
+*eleclaag,_______zz_________zz_________
+A,28,-5,[flash,RTW.shx,S=1.25],-5,[flash,RTW.shx,S=1.25],-5
+*eleclaag_v,_______zz_________zz_________
+A,28,-5,[flash,RTW.shx,S=1.25],-5,[flash,RTW.shx,S=1.25],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;; Gas hoge druk; lijn 28 mm,cirkel,cirkel NEN 3116
+*gashd,_______00_________00_________
+A,28,-5,[CIRC,RTW.shx,S=1],-5,[CIRC,RTW.shx,S=1],-5
+*gashd_v,_______00_________00_________
+A,28,-5,[CIRC,RTW.shx,S=1],-5,[CIRC,RTW.shx,S=1],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;; Gas lage druk; lijn 28 mm cirkel NEN 3116
+*gasld,_______0_________0_________
+A,28,-5,[CIRC,RTW.shx,S=1],-5
+*gasld_v,_______0_________0_________
+A,28,-5,[CIRC,RTW.shx,S=1],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;; Gasunie; lijn 28 mm,cirkel,cirkel NEN 3116
+*gasunie,_______000_________000_________
+A,28,-5,[CIRC,RTW.shx,S=1],-5,[CIRC,RTW.shx,S=1],-5,[CIRC,RTW.shx,S=1],-5
+*gasunie_v,_______000_________000_________
+A,28,-5,[CIRC,RTW.shx,S=1],-5,[CIRC,RTW.shx,S=1],-5,[CIRC,RTW.shx,S=1],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Kabelkoker;dubbele lijn
+*kblkoker,========================================
+A,0,-3,[DUB5,RTW.shx],-3
+*kblkoker_v,========================================
+A,0,-3,[DUB5,RTW.shx],-6,[DUB5,RTW.shx],-6,[DUB5,RTW.shx],-6,[DUB5,RTW.shx],-5,[VW,RTW.shx,S=0.6],-2
+
+;;Mantelbuis;dubbele lijn
+*mantelbuis,========================================
+A,0,-2,[DUB3,RTW.shx],-2
+*mantelbuis_v,========================================
+A,0,-2,[DUB3,RTW.shx],-4,[DUB3,RTW.shx],-4,[DUB3,RTW.shx],-4,[DUB3,RTW.shx],-4,[VW,RTW.shx,S=0.6],-2
+
+;;Olie;lijn 28 mm vert NEN 3116
+*olie,_______|_________|_________
+A,28,-1,[VERT,RTW.shx,S=1.25],-1
+*olie_v,_______|_________|_________
+A,28,-1,[VERT,RTW.shx,S=1.25],-1,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Openbare verlichting; lijn 28 mm,1* flash NEN 3116
+*ov,_______z_________z_________
+A,28,-5,[flash,RTW.shx,S=1.25],-5
+*ov_v,_______z_________z_________
+A,28,-5,[flash,RTW.shx,S=1.25],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Praatpaal; lijn 28 mm,1*V NEN 3116
+*praatpaal;_______V_________V_________,
+A,28,-5,[v,RTW.shx,S=1],-5
+*praatpaal_v;_______V_________V_________,
+A,28,-5,[v,RTW.shx,S=1],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;;RWS verlichting; lijn 28 mm,1* flash NEN 3116
+*rwsverlicht,_______z_________z_________
+A,28,-5,[flash,RTW.shx,S=1.25],-5
+*rwsverlicht_v,_______z_________z_________
+A,28,-5,[flash,RTW.shx,S=1.25],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;;ELEC; lijn 28 mm,1* flash NEN 3116
+*elec,_______z_________z_________
+A,28,-5,[flash,RTW.shx,S=1],-5
+*elec_v,_______z_________z_________
+A,28,-5,[flash,RTW.shx,S=1],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Telecommunicatie bundel;lijn 28 mm,4*V NEN 3116
+*telecbndl;_______VVVV_________VVVV_________,
+A,28,-5,[v,RTW.shx,S=1],-5,[v,RTW.shx,S=1],-5,[v,RTW.shx,S=1],-5,[v,RTW.shx,S=1],-5
+*telecbndl_v;_______VVVV_________VVVV_________,
+A,28,-5,[v,RTW.shx,S=1],-5,[v,RTW.shx,S=1],-5,[v,RTW.shx,S=1],-5,[v,RTW.shx,S=1],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Telecommunicatie interlokaal;lijn 28 mm,3*V NEN 3116
+*telecinlokl;;_______VVV_________VVV_________,
+A,28,-5,[v,RTW.shx,S=1],-5,[v,RTW.shx,S=1],-5,[v,RTW.shx,S=1],-5
+*telecinlokl_v;;_______VVV_________VVV_________,
+A,28,-5,[v,RTW.shx,S=1],-5,[v,RTW.shx,S=1],-5,[v,RTW.shx,S=1],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Telecommunicatie lokaal;lijn 28 mm,2*V NEN 3116
+*teleclokl;_______VV_________VV_________,
+A,28,-5,[v,RTW.shx,S=1],-5,[v,RTW.shx,S=1],-5
+*teleclokl_v;_______VV_________VV_________,
+A,28,-5,[v,RTW.shx,S=1],-5,[v,RTW.shx,S=1],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Waterleiding; lijn 28 mm,1*~ NEN 3116
+*water;_______~_________~_________,
+A,28,-5,[wgolf,RTW.shx,S=1.25],-5
+*water_v;_______~_________~_________,
+A,28,-5,[wgolf,RTW.shx,S=1.25],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Watertransportleiding; lijn 28 mm,2*~ NEN 3116
+*watertransp;_______~~_________~~_________,
+A,28,-5,[wgolf,RTW.shx,S=1.25],-5,[wgolf,RTW.shx,S=1.25],-5
+*watertransp_v;_______~~_________~~_________,
+A,28,-5,[wgolf,RTW.shx,S=1.25],-5,[wgolf,RTW.shx,S=1.25],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;;overige;lijn 10 mm,lijn 2 mm NEN 3116
+*overige,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,20,-2,2,-2
+*overige_v,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,20,-2,2,-2,20,-2,2,-2,20,-2,[VW,RTW.shx,S=0.6],-2
+
+;;signaal;lijn 10 mm,lijn 2 mm NEN 3116
+*signa,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,20,-2,2,-2
+*signa_v,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,20,-2,2,-2,20,-2,2,-2,20,-2,[VW,RTW.shx,S=0.6],-2
+
+;;overige;lijn 10 mm,lijn 2 mm NEN 3116
+*overige_cai,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,20,-2,2,-2
+*overige_cai_v,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,20,-2,2,-2,20,-2,2,-2,20,-2,[VW,RTW.shx,S=0.6],-2
+
+;;overige;lijn 10 mm,lijn 2 mm NEN 3116
+*gladhm,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,20,-2,2,-2,2,-2
+*gladhm_v,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,20,-2,2,-2,2,-2,20,-2,[VW,RTW.shx,S=0.6],-2
+
+;;overige;lijn 10 mm,lijn 2 mm NEN 3116
+*overige_def,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,20,-2,2,-2
+*overige_def_v,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,20,-2,2,-2,20,-2,2,-2,20,-2,[VW,RTW.shx,S=0.6],-2
+
+;;overige;lijn 10 mm,lijn 2 mm NEN 3116
+*overige_ewd,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,20,-2,2,-2
+*overige_ewd_v,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,20,-2,2,-2,20,-2,2,-2,20,-2,[VW,RTW.shx,S=0.6],-2
+
+;;overige;lijn 10 mm,lijn 2 mm NEN 3116
+*VRI,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,10,-2,2,-2
+*VRI_v,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,10,-2,2,-2,10,-2,2,-2,10,-2,[VW,RTW.shx,S=0.6],-2
+
+;;overige;lijn 10 mm,lijn 2 mm NEN 3116
+*rwsbed,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,20,-2,2,-2,2,-2,2,-2
+*rwsbed_v,_____ _ _____ _ _____ _ _____ _ _____ _ _____ _
+A,20,-2,2,-2,2,-2,2,-2,20,-2,[VW,RTW.shx,S=0.6],-2
+
+
+;; ********************************************************************************
+
+;; KW - KUNSTWERKEN
+;;-----------------
+
+;; ********************************************************************************
+
+;; LP - LENGTEPROFIELEN
+;;---------------------
+;;Aslijn zie assen;
+
+;; ********************************************************************************
+
+;; MK - MARKERINGEN
+;;------------------
+;;1-1 streep
+*11strp,_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+A,1,-1
+;;1-3 streep
+*13strp,_   _   _   _   _   _   _   _   _   _   _   _
+A,1,-3
+;;27030 streep
+*27030strp,______ _______ ______ ______ ______ ______ 
+A,2.7,-0.3
+;;30270 streep
+*30270strp,_   _   _   _   _   _   _   _   _   _   _   _  
+A,0.3,-2.70
+;;3-1 streep
+*31strp,___ ___ ___ ___ ___ ___ ___ 
+A,3,-1
+*33strp,___   ___   ___   ___   ___  
+A,3,-3
+;;3-9 streep
+*39strp,_   _   _   _   _   _   _   _ 
+A,3,-9
+;;60-60 streep
+*6060strp,  - - - - - - - - - - - - 
+A,0.6,-0.6
+;;50-50 streep
+*5050strp,  - - - - - - - - - - - - 
+A,0.5,-0.5
+;;50 kanaal
+*50kanaal,  - - - - - - - - - - - - 
+A,0.5,-0.5
+;;9-3 streep
+*93strp,___ ___ ___ ___ ___ ___ ___ 
+A,9,-3
+;;haaientanden30-40
+*haaitd30, V V V V V V V
+A,0,-.15,[tand3v,RTW.shx,S=0.1,R=180],-.45
+;;haaientanden50-50
+*haaitd50, V V V V V V V
+A,0,-.25,[tand5v,RTW.shx,S=0.1,R=180],-.75
+;;haaientanden50-70
+*haaitd70, V V V V V V V
+A,0,-.25,[tand7v,RTW.shx,S=0.1,R=180],-.75
+*haaitd, V V V V V V V
+A,0,-.25,[tand5v,RTW.shx,S=0.1,R=180],-.75
+
+;; ********************************************************************************
+
+;; OG - ONDERGROND
+;;----------------
+
+;; ********************************************************************************
+
+;; VH - VERHARDINGEN
+;;------------------
+
+;; ********************************************************************************
+
+;; VM - VERKEERSMAATREGELEN
+;;-------------------------
+
+;; ********************************************************************************
+
+;; WB - WATERBOUW
+;;---------------
+;; Beschoeiing: lijn met h.o.h. 20 mm een blokje van 1x2 mm  NEN3256
+*beschoeiing,-----B----------B----------B---------B-----
+A,20,-0.01,[B20-10V,RTW.shx],-0.01
+*beschoeiing_v,-----B----------B----------B---------B-----
+A,20,-0.01,[B20-10V,RTW.shx],-0.01,20,-0.01,[B20-10V,RTW.shx],-0.01,20,-2,[VW,RTW.shx,S=0.6],-2
+
+;; Perkoenpaalrij: lijn met h.o.h. 10 mm een gevulde cirkel NEN3256
+*perkoenp,-----o-----o-----o-----o-----o-----
+A,10,-0.01,[CIRV,RTW.shx,S=0.75],-0.01
+*perkoenp_v,-----o-----o-----o-----o-----o-----
+A,10,-0.01,[CIRV,RTW.shx,S=0.75],-0.01,10,-0.01,[CIRV,RTW.shx,S=0.75],-0.01,10,-2,[VW,RTW.shx,S=0.6],-2
+
+
+;; ********************************************************************************
+
+;; WH - WATERHUISHOUDING EN RIOLERING
+;;-----------------------------------
+;;Drainage; hartlijn met pijlpunten
+*drainage,-- ->-- ->-- ->-- ->-- ->-- ->
+A,4,-1,1,-1,[v,rtw.shx,s=1,r=90,x=-1]
+*drainage_v,-- ->-- ->-- ->-- ->-- ->-- ->
+A,4,-1,1,-1,[v,rtw.shx,s=1,r=90,x=-1],4,-1,1,-1,[v,rtw.shx,s=1,r=90,x=-1],4,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Duiker;dubbele stippellijn
+*duiker,========================================
+A,0,-2,[DUB3,RTW.shx],-2
+*duiker_v,========================================
+A,0,-2,[DUB3,RTW.shx],-2,0,-2,[DUB3,RTW.shx],-2,0,-2,[DUB3,RTW.shx],-4,[VW,RTW.shx,S=0.6],-2
+
+;; Greppel: lijn met h.o.h 30 mm dubbellijn symbool van 5 mm NEN3256
+*greppel,-----===----------===---------===------
+A,25.5,-0.01,[DUB1,RTW.shx],1,[DUB1,RTW.shx],1,[DUB1,RTW.shx],1,[DUB1,RTW.shx],1,[DUB1,RTW.shx],0.5,-0.01 
+*greppel_v,-----===----------===---------===------
+A,25.5,-0.01,[DUB1,RTW.shx],1,[DUB1,RTW.shx],1,[DUB1,RTW.shx],1,[DUB1,RTW.shx],1,[DUB1,RTW.shx],0.5,-0.01,25.5,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Riolering; lijn 28 mm,driehoek NEN 3116
+*riolering,_______<_________<_________
+A,28,-5,[drieh,RTW.shx,S=1],-5
+*riolering_v,_______<_________<_________
+A,28,-5,[drieh,RTW.shx,S=1],-5,28,-5,[drieh,RTW.shx,S=1],-5,28,-5,[drieh,RTW.shx,S=1],-5,28,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Horizontale drainage; hartlijn met pijlpunten
+*hordrain,-- ->-- ->-- ->-- ->-- ->-- ->
+A,4,-1,1,-1,[v,rtw.shx,s=1,r=90,x=-1]
+*hordrain_v,-- ->-- ->-- ->-- ->-- ->-- ->
+A,4,-1,1,-1,[v,rtw.shx,s=1,r=90,x=-1],4,-1,1,-1,[v,rtw.shx,s=1,r=90,x=-1],4,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Vertikale drainage; hartlijn met pijlpunten
+*vertdrain,-- ->-- ->-- ->-- ->-- ->-- ->
+A,4,-1,1,-1,[v,rtw.shx,s=1,r=90,x=-1]
+*vertdrain_v,-- ->-- ->-- ->-- ->-- ->-- ->
+A,4,-1,1,-1,[v,rtw.shx,s=1,r=90,x=-1],4,-1,1,-1,[v,rtw.shx,s=1,r=90,x=-1],4,-2,[VW,RTW.shx,S=0.6],-2
+
+;;Waterlijn;lijn+symbool
+*waterlijn,----------------------====----------------
+A,1,0,[waterlijn,rtw.shx],20
+
+;;Zinker; dubbele stippellijn
+*zinker,========================================
+A,0,-2,[DUB3,RTW.shx],-2
+*zinker_v,========================================
+A,0,-2,[DUB3,RTW.shx],-2,0,-2,[DUB3,RTW.shx],-2,0,-2,[DUB3,RTW.shx],-4,[VW,RTW.shx,S=0.6],-2
+
+
+;; ********************************************************************************
+
+;; WM - WEGMEUBILAIR
+;;-----------------
+;;Hekwerk;!!!
+;;Lijnverlichting;lijn met pijlen
+*lijnverlich,<-o->  <-o->  <-o->  <-o->
+A,0,-5,[drieh,rtw.shx,s=1,r=0,x=-.625],2.5,-0.5,[CIRC,RTW.shx,S=.5],-0.5,2.5,[drieh,rtw.shx,s=1,r=180,x=.625],-5
+*lijnverlich_v,<-o->  <-o->  <-o->  <-o->
+A,0,-5,[drieh,rtw.shx,s=1,r=0,x=-.625],2.5,-0.5,[CIRC,RTW.shx,S=.5],-0.5,2.5,[drieh,rtw.shx,s=1,r=180,x=.625],-5,[VW,RTW.shx,S=0.6],-2
+
+
+;; ********************************************************************************
+
+;; REST
+;;-----
+;; Kunstmatige afscheiding: lijn 10 mm met dwarsstreep NEN3256
+*AFSCHEIDING,--|-- --|-- --|-- --|-- --|-- --|--  
+A,5,-0.01,[VERT,RTW.shx,S=0.75],-0.01,5,-2
+;;golflijn
+*kgolf,~~~~~~~~~~~~~~~~~~~~~~
+A,0,-2,[kgolf,RTW.shx,S=2],-2
+;;afbreeklijn
+*sloop,/\/\/\/\/\/\/
+A,0,-0.01,[sloop,RTW.shx,S=2],-12
+
+;; ********************************************************************************
+
+;; AFGELEIDE VAN STANDAARD AUTOCAD NEN ISO 128-20
+;;-----------------------------------------------
+;; continuous met zigzag
+*zz,-----/\/-------/\/---------
+A,15,-1,[zz,RTW.shx,S=1],-1
+;;
+*rtwdashed25,Dashed __ __ __ __ __ __ __ __ __ __ __ __ __ _12d-3d...hier met d=0.25 type 02
+A,3,-0.75
+*rtwdashed50,Dashed __ __ __ __ __ __ __ __ __ __ __ __ __ _12d-3d...hier met d=0.50 type 02
+A,6,-1.5
+*rtwdashed70,Dashed __ __ __ __ __ __ __ __ __ __ __ __ __ _12d-3d...hier met d=0.70 type 02
+A,8.4,-2.25
+;;
+*rtwcenter25,Center ____ _ ____ _ ____ _ ____ _ ____ _ ____ 24d-3d-0.5d-3d... hier met d=0.25 type 04
+A,6,-.75,0.125,-0.75
+*rtwcenter50,Center ____ _ ____ _ ____ _ ____ _ ____ _ ____ 24d-3d-0.5d-3d... hier met d=0.50 type 04
+A,12,-1.5,0.25,-1.5
+*rtwcenter70,Center ____ _ ____ _ ____ _ ____ _ ____ _ ____ 24d-3d-0.5d-3d... hier met d=0.70 type 04
+A,16.8,-2.1,0.35,-2.1
+;;
+*rtwphantom25, ______  __  __  ______  __  __  ______24d-3d-0.5d-3d-0.5d-3d... hier met d=0.25 type 05
+A,6,-.75,0.125,-0.75,0.125,-0.75
+*rtwphantom50, ______  __  __  _____  __  __  ______24d-3d-0.5d-3d-0.5d-3d... hier met d=0.50 type 05
+A,12,-1.5,0.25,-1.5,0.25,-1.5
+*rtwphantom70, ______  __  __  ______  __  __  ______24d-3d-0.5d-3d-0.5d-3d... hier met d=0.70 type 05
+A,16.80,-2.1,0.35,-2.1,0.35,-2.1
+;;
+*rtwdotted25, .  .  .  .  .  .  .  .  .  .  .  .  .  . 0.5d-3d.... hier met 0.25 type 07
+A,0.125,-.75
+;; ********************************************************************************
+;; EINDE
+;; ********************************************************************************

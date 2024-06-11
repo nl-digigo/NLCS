@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<!--file and path : wegen/mxstrings.html   -->
+<!--release		  : 09-09-2002			   -->
+<!--designer	  : C.J.F. Rothfusz		   -->
+<!--company		  : Tree C Technology B.V. -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="GENERATOR" content="Mozilla/4.76 [en] (Win98; U) [Netscape]">
+  <title>wegen mxstrings</title>
+<script src="../versie.js"></script>
+</head>
+<body bgcolor=white link=black alink=black vlink=black text=black>
+<font size=+2 color=black><b>MX-STRINGS</b></font>
+<p>
+<script>
+var i,j,k,m
+i=parent.database.LeesCookie('mxmodel=')      //Lees cookie met het nummer van het gekozen MX-model.
+j=parent.database.GeefMxModel(i)              //Haal naam van dit model op.
+k=j.length
+m=j.substring(0,3)+" ("+j.substring(6,k)+")"  // (bewerk naam voor presentatie op het scherm)
+document.write('U heeft <font color=black><b>'+m+'</b></font> gekozen. ')
+</script>
+De onderstaande lijst geeft een overzicht van de strings in dit model. Kies de AutoCad-layer waarvan u de richtlijn wilt zien:
+<p>
+<table width=100% cellpadding=5 cellspacing=0 border=1>
+  <thead>
+    <tr align="left">
+	  <th rowspan=2>string
+      <th rowspan=2>omschrijving
+      <th colspan=2>AutoCad-layer
+    <tr align="left">
+	  <th>aangemaakt door MX
+      <th>in 2D-werkwijze
+   </thead>
+   <tbody>
+     <script>
+     var a,b,c,d,e,f,g,h,i
+     parent.database.ZoekStringsVanModel(i)           //Verzamel strings van het aangegeven model in een aray en sorteer deze.
+     a=0
+     b=parent.database.GeefIndexUitSorteerLijst(a)    //Haal eerste referentie naar record uit gesorteerde lijst.
+     while (b!="-1") {                                //Loop gesorteerde lijst af...
+       c=parent.database.GeefTekstUitSorteerLijst(a)   // haal string op...
+       d=parent.database.GeefLayer(b)                  // haal layernaam uit record...
+       e=parent.database.GeefElement(b)                // haal omschrijving uit record...
+       f=parent.database.GeefBestand(b)                // haal bestandsnaam richtlijn uit record...
+       g=d.indexOf("-")+1                              // isoleer derde gegeven uit AutoCad-layernaam t.b.v. AutoMoss layernaam...
+       h=d.indexOf("-",g)+1
+       g=d.length
+       document.write('<tr>33333333<td>'+c)
+       document.write('<td>'+e)
+       i="'record="+b+"'"
+       xx="'layerbestand="+f+"'"
+       hfdgrp=(f.substr(0,2))
+       aa=parent.database.GeefIndexHoofdgroep(hfdgrp)
+       aa=parent.database.GeefHoofdgroep(aa)
+       ll=aa.length
+       aa=(aa.substr(3,ll))
+       aa="'hoofdgroep="+aa+"'"
+       document.write('<td><a href="../algemeen/richtlijnen/specifiek/mx_basis.html" onClick="parent.database.SchrijfCookie('+xx+'),parent.database.SchrijfCookie('+i+'),parent.database.SchrijfCookie('+aa+')">'+j.substring(0,3)+'-'+d.substring(h,g)+'</a>')
+       if (hfdgrp!="mx") {								//Bij hoofdgroep mx is er geen laag in AutoCAD
+         document.write('<td><a href="../algemeen/richtlijnen/specifiek/acad_basis.html" onClick="parent.database.SchrijfCookie('+xx+'),parent.database.SchrijfCookie('+i+'),parent.database.SchrijfCookie('+aa+')">'+d+'</a>')
+       }
+       else {
+         document.write('<td>-</a>')
+       }
+       a++
+       b=parent.database.GeefIndexUitSorteerLijst(a)   //Haal volgende referentie uit lijst.
+     }
+</script>
+</tbody>
+</table>
+<p>
+<hr>
+<p>
+<script src="../houdbaarheid_voor.js"></script>
+<script>
+document.write(' '+vers+' ')
+</script>
+<script src="../houdbaarheid_na.js"></script>
+</body>
+</html>

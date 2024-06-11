@@ -1,0 +1,207 @@
+//
+//      AutoCAD menu file - rtw.mnu
+//
+// ------------------------------------------------------------------- //
+//
+//      Toolbox 1.51 AutoCAD 2004-2010
+//
+// ------------------------------------------------------------------- //
+//
+
+***MENUGROUP=RTW
+
+***POP1
+**RTWmenu
+               [&RTWmenu]
+ID_RTW         [Instellingen]^C^CRTW_Ini
+               [Status]^C^Cstatu_onoff
+               [Wisselen layerprofiel]^C^CRTW_Wyzlayprof
+               [Controleer lagen]^C^CRTW_Lay_CON
+               [Controleer bemating]^C^CRTW_chkdims
+               [Herstel lagen]^C^CRTW_Lay_SYS
+               [--]
+               [Maak kader]^C^CRTW_Kader
+	           [->Tekening opmaak]
+                  [Wijzigingshoofd]^C^CRTW_Wzhfd
+                  [Maak viewport]^C^CRTW_Mview
+ 		          [Maak viewport met polyline]^C^CRTW_mviewpoly
+		          [Viewport schaal]^C^CRTW_VPSchaal
+                  [Viewport verplaats/roteer]^C^CRTW_mviewmove
+                  [<-Viewport verwijderen]^C^CRTW_mviewerase
+               [--]
+               [->Lagen]
+                 [Bestaande situatie]^C^C(defun c:herhaal()(C:RTW_Lay "bs"));herhaal
+                 [Nieuw situatie]^C^C(defun c:herhaal()(C:RTW_Lay "nw"));herhaal
+                 [Verwijderen situatie]^C^C(defun c:herhaal()(C:RTW_Lay "vw"));herhaal
+                 [Reset Layer]^C^CRTWLIB_RESETLAY
+                 [Hernoem laag]^C^C(defun c:herhaal()(C:RTW_Lay_REN "nw");herhaal
+                 [Wijzig laag]^C^C(defun c:herhaal()(C:RTW_Lay_CHG "nw");herhaal
+                 [Zoek lagen]^C^C(defun c:herhaal()(C:RTW_Laysearch));herhaal
+                 [<-Lijndikte]^C^CRTW_lijn
+               [--]
+ID_TCHatch     [Arceren]^C^C(defun c:herhaal()(C:RTW_hatch));herhaal
+               [--]
+               [->Annotatie Schaal]
+                  [Instellen Annotatieschaal]^C^CRTW_schaal
+                  [<-Wijzig annotatieschaal van object]^C^CRTW_txtmove
+               [--]
+               [->Tekst]
+                 [1.8mm tekst]^C^C(defun c:herhaal()(C:RTW_Tekst "1.8"));herhaal
+                 [2.5mm tekst]^C^C(defun c:herhaal()(C:RTW_Tekst "2.5"));herhaal
+                 [3.5mm tekst]^C^C(defun c:herhaal()(C:RTW_Tekst "3.5"));herhaal
+                 [5.0mm tekst]^C^C(defun c:herhaal()(C:RTW_Tekst "5.0"));herhaal
+                 [7.0mm tekst]^C^C(defun c:herhaal()(C:RTW_Tekst "7.0"));herhaal
+                 [Wijzig teksthoogte]^C^CRTW_txthg
+                 [Ondersteep tekst]^C^CRTW_txtond
+                 [Maak tekstbox]^C^CRTW_txtbox
+                 [Richtingspijl]^C^CRTW_txtri
+                 [Doorsnede aanduiding]^C^Crtw_dsn2
+                 [Tekst uitlijnen]^C^CRTW_talign
+                 [Wijzig attribute]^C^C_attedit
+                 [Instellen Annotatieschaal]^C^CRTW_schaal
+                 [<-Wijzig annotatieschaal van object]^C^CRTW_txtmove
+               [--]
+               [->Bemating]
+                 [Linear Dimension]^C^C(defun c:herhaal()(C:RTW_dim "L" "DEF" "_dimlinear"));herhaal
+                 [Aligned Dimension]^C^C(defun c:herhaal()(C:RTW_dim "L" "DEF" "_dimaligned"));herhaal
+                 [Angular Dimension]^C^C(defun c:herhaal()(C:RTW_dim "A" "L_ARR" "_dimangular"));herhaal
+                 [Arc Dimension]^C^C(defun c:herhaal()(C:RTW_dim "L" "DEF" "_dimarc_ng")));herhaal
+                 [Baseline Dimension]^C^C(defun c:herhaal()(C:RTW_dim "L" "DEF" "_dimbaseline")));herhaal
+                 [Continue Dimension]^C^C(defun c:herhaal()(C:RTW_dim "L" "DEF" "_dimcontinue")));herhaal
+                 [Ordinate Dimension]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR" "_dimordinate")));herhaal
+                 [Leader Pijl]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR" "_leader")));herhaal
+                 [Leader Dot]^C^C(defun c:herhaal()(C:RTW_dim "L" "P_ARR" "_leader")));herhaal
+                 [XY Leader Pijl]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR" "_leader_ng")));herhaal
+                 [XY Leader Dot]^C^C(defun c:herhaal()(C:RTW_dim "L" "P_ARR" "_leader_ng")));herhaal
+                 [Peilmaten-pijl plaatsen]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR" "_hmvp")));herhaal
+                 [Peilmaten-ordinaat plaatsen]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR" "_hmvo")));herhaal
+                 [Peilmaten instellingen]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR" "_hmvi")));herhaal
+                 [Center Mark]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR" "_dimcenter")));herhaal
+                 [Diameter Dimension]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR" "_dimdiameter")));herhaal
+                 [Radius Dimension]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR" "_dimradius")));herhaal
+                 [Reset Layer]^C^CRTWLIB_RESETLAY
+                 [Instellen Annotatieschaal]^C^CRTW_schaal
+                 [Wijzig annotatieschaal van object]^C^CRTW_txtmove
+                 [<-Wijzig Dim. M-MM]^C^CRTW_dim_chg
+               [->Bemating opties]
+                 [Na maatvoeren terug naar RTW laag ]^C^CRTW_load_reactor_on
+                 [<-Na maatvoeren niet terug naar RTW laag]^C^CRTW_load_reactor_off
+               [--]
+               [->Taludarcering]
+                 [Talud - instellingen]^C^C(defun c:herhaal()(c:rtw_talud_ini));herhaal
+                 [Kruin - nieuw]^C^C(defun c:herhaal()(C:rtw_talud_kn));herhaal
+                 [Kruin - bestaand]^C^C(defun c:herhaal()(C:rtw_talud_kb));herhaal
+                 [Teen - nieuw]^C^C(defun c:herhaal()(C:rtw_talud_tn));herhaal
+                 [<-Teen - bestaand]^C^C(defun c:herhaal()(C:rtw_talud_tb));herhaal
+               [->Ruitkruisjes]              
+   //              [Maak RK viewport]^C^C^P(startapp (strcat (findfile "RTW_RKTool16.exe") " Create"))
+   //              [Verschaal RK viewport]^C^C^P(startapp (strcat (findfile "RTW_RKTool16.exe") " Scale"))
+   //              [Verplaats-Roteer RK viewport]^C^C^P(startapp (strcat (findfile "RTW_RKTool16.exe") " Pan-Rotate"))
+   //              [<-Verwijder RK viewport]^C^C^P(startapp (strcat (findfile "RTW_RKTool16.exe") " Delete")) 
+                 [Maak RK viewport]^C^CRTW_rkmake
+                 [<-Verwijder RK viewport]^C^CRTW_rk_erase                 
+               [--]
+               [->Bonus]
+                 [Laytrans]^C^CRTW_laytrans
+                 [Copy MS to PS]^C^CRTW_Cpmsps
+                 [<-Koppel een Xref]^C^CRTW_Xref
+               [--]
+ //            [->RTW Bibliotheek]
+               [RTW-bibliotheek]^C^CRTW_sym
+ //            [RTW-bib-lokaal]^C^C(defun c:herhaal()(C:RTW_symlok "d:/test/symbol/"));herhaal
+  
+               [--]
+               [About RTW toolbox]^C^Cabout_rtw
+
+***TOOLBARS
+**RTWMENU
+**RTW_MENU
+ID_RTWmenu_0   [_Toolbar("RTW_Menu", _Top, _Show, 0, 2, 1)]
+               [_Button("Instellingen", "Instellingen16.bmp", "xx.bmp")]^C^CRTW_Ini
+               [_Button("Status", "Status16.bmp", "xx.bmp")]^C^Cstatu_onoff
+               [_Button("Wissel layerprofiel", "Wissel layerprofiel16.bmp", "xx.bmp")]^C^CRTW_Wyzlayprof
+               [_Button("Controleer lagen", "Controleer lagen16.bmp", "xx.bmp")]^C^CRTW_Lay_CON
+               [_Button("Controleer bemating", "Controleer bemating16.bmp", "xx.bmp")]^C^CRTW_chkdims
+               [_Button("Herstel lagen", "Herstel lagen16.bmp", "xx.bmp")]^C^CRTW_Lay_SYS
+               [_Button("Maak kader", "Maak kader16.bmp", "xx.bmp")]^C^CRTW_Kader
+               [_Button("Wijzigingshoofd", "Wijzigingshoofd16.bmp", "xx.bmp")]^C^CRTW_Wzhfd
+               [_Button("Maak viewport", "Maak viewport16.bmp", "xx.bmp")]^C^CRTW_Mview
+               [_Button("Verschaal Viewport", "Verschaal Viewport16.bmp", "xx.bmp")]^C^CRTW_VPSchaal
+               [_Button("Verplaats-Roteer viewport", "Verplaats-Roteer viewport16.bmp", "xx.bmp")]^C^CRTW_mviewmove
+               [_Button("Verwijder viewport", "Verwijder viewport16.bmp", "xx.bmp")]^C^CRTW_mviewerase
+               [_Button("Bestaand", "Bestaand16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_Lay "bs"));herhaal
+               [_Button("Nieuw", "Nieuw16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_Lay "nw"));herhaal
+               [_Button("Verwijderen", "Verwijderen16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_Lay "vw"));herhaal
+               [_Button("Zoek laag", "Zoek laag16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_Laysearch));herhaal
+               [_Button("Hernoem laag", "Hernoem laag16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_Lay_REN "nw"));herhaal
+               [_Button("Wijzig laag", "Wijzig laag16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_Lay_CHG "nw"));herhaal
+               [_Button("Lijndikte", "Lijndikte16.bmp", "xx.bmp")]^C^CRTW_Lijn
+               [_Button("Arceringen",  "Arceringen16.BMP", "xx.BMP"]^C^C(defun c:herhaal()(C:RTW_hatch));herhaal
+                                                            
+**RTWTEKST
+**RTW_TEKST
+ID_Tekst_0     [_Toolbar("RTW_Tekst", _Top, _Show, 1, 2, 1)]
+               [_Button("1.8mm tekst", "1.8mm tekst16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_Tekst "1.8"));herhaal
+               [_Button("2.5mm tekst", "2.5mm tekst16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_Tekst "2.5"));herhaal
+               [_Button("3.5mm tekst", "3.5mm tekst16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_Tekst "3.5"));herhaal
+               [_Button("5.0mm tekst", "5.0mm tekst16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_Tekst "5.0"));herhaal
+               [_Button("7.0mm tekst", "7.0mm tekst16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_Tekst "7.0"));herhaal
+               [_Button("Wijzig teksthoogte", "Wijzig teksthoogte16.bmp", "xx.bmp")]^C^CRTW_Txthg
+               [_Button("Ondersteep tekst", "Ondersteep tekst16.bmp", "xx.bmp")]^C^CRTW_Txtond
+               [_Button("Maak tekstbox", "Maak tekstbox16.bmp", "xx.bmp")]^C^CRTW_Txtbox
+               [_Button("Richtingspijl", "Richtingspijl16.bmp", "xx.bmp")]^C^CRTW_Txtri
+               [_Button("Doorsnede aanduiding", "Doorsnede aanduiding16.bmp", "xx.bmp")]^C^CRtw_dsn2
+               [_Button("Tekst uitlijnen", "Tekst uitlijnen16.bmp", "xx.bmp")]^C^CRTW_Talign
+               [_Button("Wijzig attribute", "Wijzig attribute16.bmp", "xx.bmp"]^C^C_attedit
+**RTW_BONUS
+ID_RTW_bonus_0 [_Toolbar("RTW_bonus", _Top, _Show, 3, 2, 1)]
+               [_Button("Koppel een Xref", "Koppel een Xref16.bmp", "xx.bmp")]^C^CRTW_Xref
+               [_Button("Copy MS to PS", "Copy MS to PS16.bmp", "xx.bmp")]^C^CRTW_Cpmsps
+
+
+**RTW_SCALE
+ID_RTW_scale_0 [_Toolbar("RTW_scale", _Top, _Show, 1, 2, 1)]
+               [_Button("Instellen Annotatieschaal", "Instellen Annotatieschaal16.bmp", "xx.bmp")]^C^CRTW_Schaal
+               [_Button("Wijzig annotatieschaal van object", "Wijzig annotatieschaal van object16.bmp", "xx.bmp")]^C^CRTW_Txtmove
+
+**RTW_DIM
+ID_RTW_dim_0   [_Toolbar("RTW_dim", _Top, _Show, 2, 2, 1)]
+               [_Button("Linear Dimension", "Linear Dimension16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "L" "DEF" "_dimlinear"));herhaal
+               [_Button("Aligned Dimension", "Aligned Dimension16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "L" "DEF" "_dimaligned"));herhaal
+               [_Button("Angular Dimension", "Angular Dimension16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "A" "L_ARR" "_dimangular"));herhaal
+               [_Button("Arc Dimension", "Arc Dimension16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "L" "DEF" "_dimarc_ng"));herhaal
+               [_Button("Baseline Dimension", "Baseline Dimension16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "L" "DEF" "_dimbaseline"));herhaal
+               [_Button("Continue Dimension", "Continue Dimension16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "L" "DEF"  "_dimcontinue"));herhaal
+               [_Button("Ordinate Dimension", "Ordinate Dimension16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR"  "_dimordinate"));herhaal
+               [_Button("Leader Pijl", "Leader Pijl16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR" "_leader"));herhaal
+               [_Button("Leader Dot" , "Leader Dot16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "L" "P_ARR" "_leader"));herhaal
+               [_Button("XY Leader Pijl", "XY Leader Pijl16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR" "_leader_ng"));herhaal
+               [_Button("XY Leader Dot" , "XY Leader Dot16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "L" "P_ARR" "_leader_ng"));herhaal
+               [_Button("Peilmaten-pijl" , "Peilmaten-pijl16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR" "_hmvp"));herhaal
+	           [_Button("Peilmaten-ordinaat" , "Peilmaten-ordinaat16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "L" "None" "_hmvo"));herhaal
+	           [_Button("Peilmaten-instellingen" , "Peilmaten-instellingen16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR" "_hmvi"));herhaal
+               [_Button("Center Mark", "Center Mark16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR" "_dimcenter"));herhaal
+               [_Button("Diameter Dimension", "Diameter Dimension16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR" "_dimdiameter"));herhaal
+               [_Button("Radius Dimension", "Radius Dimension16.bmp", "xx.bmp")]^C^C(defun c:herhaal()(C:RTW_dim "L" "L_ARR" "_dimradius"));herhaal
+               [_Button("Reset Layer", "Reset Layer16.bmp", "xx_24.bmp")]^C^CRTWLIB_RESETLAY
+               [_Button("MM-M", "MM-M16.bmp", "xx.bmp")]^C^CRTW_dim_chg
+
+**RTW_RUITKRUIS_TALUD
+ID_RTW_ruitkruis__talud0 [_Toolbar("RTW_ruitkruis_talud", _Top, _Show, 3, 2, 1)]
+                 [_Button("Taludlijnen kruin nieuw", "Taludlijnen kruin nieuw16.BMP", "xx.BMP")]^C^C(defun c:herhaal()(C:RTW_talud_kn));herhaal
+                 [_Button("Taludlijnen kruin bestaand", "Taludlijnen kruin bestaand16.BMP", "xx.BMP")]^C^C(defun c:herhaal()(C:RTW_talud_kb));herhaal
+                 [_Button("Taludlijnen teen nieuw", "Taludlijnen teen nieuw16.BMP", "xx.BMP")]^C^C(defun c:herhaal()(C:RTW_talud_tn));herhaal
+                 [_Button("Taludlijnen teen bestaand", "Taludlijnen teen bestaand16.BMP", "xx.BMP")]^C^C(defun c:herhaal()(C:RTW_talud_tb));herhaal
+                 [_Button("Taludlijnen instellen", "Taludlijnen instellen16.bmp", "xx.BMP")]^C^C(defun c:herhaal()(c:rtw_talud_ini));herhaal
+
+                 [_Button("Maak RK viewport", "Ruitk_maak16.bmp", "xx.bmp")]^C^CRTW_rkmake
+                 [_Button("Verwijder RK Viewport", "Ruitk_del16.bmp", "xx.bmp")]^C^CRTW_rk_erase
+
+**RTW_BIB
+ID_RTW_BIB_0   [_Toolbar("RTW_bibliotheken", _Top, _Show, 3, 2, 1)]
+               [_Button("RTW_bib", "RTW_bib16.bmp", "RTW_bib_24.bmp")]^C^CRTW_sym
+//             [_Button("RTW_bib-lokaal", "RTW_bibl.bmp", "RTW_bibl_24.bmp")]^C^C(defun c:herhaal()(C:RTW_symlok "d:/test/symbol/"));herhaal
+
+//
+//      End of AutoCAD menu file - rtw.mnu
+//

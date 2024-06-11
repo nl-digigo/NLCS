@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<!--file and path : algemeen/richtlijnen/algemeen/symbolen_AutoCAD.html -->
+<!--release	  : 23-09-2002						-->
+<!--designer	  : C.J.F. Rothfusz					-->
+<!--company	  : Tree C Technology B.V.				-->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="GENERATOR" content="Mozilla/4.76 [en] (Win98; U) [Netscape]">
+   <title>symbolen AutoCAD</title>
+<script src="../../../versie.js"></script>
+</head>
+<body bgcolor=white link=black alink=black vlink=black text=black>
+<font size=+2 color=black><b>AUTOCAD RICHTLIJN: SYMBOLEN</b></font>
+<p>
+Symbolen in AutoCAD  beschrijven in dwg  files.<br>
+Deze dwg files  als  "blocks" invoegen in de tekening.
+<p>
+<table cellpadding="5" cellspacing="0" border="1">
+  <tr align=left>
+    <th>omschrijving</a>
+    <th>voorbeeld
+    <th>dwg file
+<script>
+var a,b,c,d,e,f,g,h,jj,xx,m,o
+parent.database.VerzamelSymbolen()
+b=0
+d=""
+c=parent.database.GeefTekstUitSorteerLijst(b)
+while(c!="") {
+  e=parent.database.GeefIndexUitSorteerLijst(b)
+  f=parent.database.GeefLayer(e)
+  g=parent.database.GeefBestand(e)
+  xx="'layerbestand="+g+"'"
+    p=parent.database.GeefSymboolCode(c)     // (zoek symbool op in tabel met kleurdefinities WP)
+    l=p.length
+    q=p.substring(3,79)
+  if (d!=c) document.write('<tr><td>'+q+'<td><img src="../../../images/symbolen/'+c+'.gif" alt="RTW Symbool."><td>')
+  h="'record="+e+"'"
+  hfdgrp=(g.substr(0,2))
+  aa=parent.database.GeefIndexHoofdgroep(hfdgrp)
+  m="'"+"layergroep="+aa+"'"
+  aa=parent.database.GeefHoofdgroep(aa)
+  o="'hoofdgroep="+aa+"'"
+  ll=aa.length
+  aa=(aa.substr(3,ll))
+  aa="'hoofdgroep="+aa+"'"
+  tekelem=(g.substr(2,g.lastIndexOf('.')-2))
+  document.write(c+'.dwg<br>')
+  b++
+  d=c
+  c=parent.database.GeefTekstUitSorteerLijst(b)
+}
+</script>
+</table>
+<p>
+<hr>
+<p>
+<script src="../../../houdbaarheid_voor.js"></script>
+<script>
+document.write(' '+vers+' ')
+</script>
+<script src="../../../houdbaarheid_na.js"></script>
+</body>
+</html>

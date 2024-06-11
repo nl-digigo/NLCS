@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<!--file and path  : algemeen/alga.html		-->
+<!--release	 	   : 05-09-2002				-->
+<!--designer       : C.J.F. Rothfusz 		-->
+<!--company        : Tree C Technology B.V. -->
+<head>
+<title>alga.html</title>
+<script src="../versie.js"></script>
+</head>
+<body bgcolor=white link=black alink=black vlink=black text=black>
+<font size=+2 color=black><b>AANDACHTSPUNTEN</b></font>
+<p>
+De onderstaande lijst geeft algemene aandachtspunten die gelden voor alle tekeningen.
+<p>
+<script>
+var a,b,c,d,e,i,j,k,m,n,p,q,r,s,t,u,v,w,x
+a=parent.database.LeesCookie('projectfase=')
+b=parent.database.LeesCookie('tekening=')
+c="alga"
+document.write('<table cellpadding="5" cellspacing="0" border="1">')
+if (a!=-1) {
+  document.write('<tr align=left>')
+  document.write('<th valign=top>aandachtspunt')
+  document.write('<th>vrijheids-<br>graad')
+  document.write('<th valign=top>layergroep, layer of richtlijn')
+}
+else {
+  e=parent.database.GeefAantalProjectfasen()
+  document.write('<tr align=left>')
+  document.write('<th rowspan=2 valign=top>aandachtspunt')
+  document.write('<th colspan='+e+'>vrijheidsgraad in <a href="wat_projectfasen.html">projectfase</a>')
+  document.write('<th rowspan=2 valign=top>layergroep, layer of richtlijn')
+  document.write('<tr align=left>')
+  for (f=0;f<e;f++) {
+    g=parent.database.GeefProjectfase(f)
+    h=g.indexOf("(")+1
+    i=g.indexOf(")")
+    j=g.substring(h,i)
+    k=j.length
+    document.write('<th valign=top>'+j.charAt(0))
+    for (m=1;m<k;m++) document.write('<br>'+j.charAt(m))
+  }
+}
+d=parent.database.GeefIndexBeginTekening(c)
+f=parent.database.GeefIndexEindTekening(c)
+for (g=d;g<=f;g++) {
+  h=parent.database.GeefAandachtspunt(g)
+  i=h.indexOf(":")+1
+  j=h.length
+  document.write('<tr align=left valign=top><td>'+h.substring(i,j))
+  if (a!=-1) {
+    document.write('<td>'+h.charAt(2*a))
+  }
+  else {
+    for (k=0;k<e;k++) {
+	  document.write('<td>'+h.charAt(2*k))
+	}
+  }
+  m=0
+  n=0
+  p=parent.database.GeefElementen(g)
+  q=p.length
+  r=parent.database.GeefLinkInfo(g)
+  s=r.length
+  t=p.indexOf(";");if (t==-1) t=q
+  u=r.indexOf(";");if (u==-1) u=s
+  document.write('<td>')
+  while (m<q) {
+    if (u-n==2) {
+      v=r.substring(n,u)
+      w="'layergroep="+parent.database.GeefIndexHoofdgroep(v)+"'"
+      document.write('<a href="elementen.html" onClick="parent.database.SchrijfCookie('+w+')">'+p.substring(m,t)+'</a><br>')
+    }
+    else {
+      v=r.charAt(n)
+      if (v!="S" & v!="A") {
+        document.write('<a href="'+r.substring(n,u)+'.html">'+p.substring(m,t)+'</a><br>')
+      }
+      else {
+        w=r.substring(n+2,u)
+        x=w.indexOf(".html")
+        if (x==-1) w += ".html"
+        if (v=="S") document.write('<a href="../'+disc+'/richtlijnen/specifiek/'+w+'">'+p.substring(m,t)+'</a><br>')
+	if (w=="onderschriften.html") {
+	tempdisc=disc
+	disc="algemeen"
+	}
+        if (v=="A") document.write('<a href="../'+disc+'/richtlijnen/algemeen/'+w+'">'+p.substring(m,t)+'</a><br>')
+	if (w=="onderschriften.html") {
+	disc=tempdisc
+	}
+      }
+    }
+    m=t+1
+    n=u+1
+    t=p.indexOf(";",m);if (t==-1) t=q
+    u=r.indexOf(";",n);if (u==-1) u=s
+  }
+}
+</script>
+</table>
+<p>
+<script src="../tekenverklaring.js"></script>
+<p>
+<hr>
+<p>
+<script src="../houdbaarheid_voor.js"></script>
+<script>
+document.write(' '+vers+' ')
+</script>
+<script src="../houdbaarheid_na.js"></script>
+</body>
+</html>

@@ -1,0 +1,1448 @@
+;;; File   : RTW_MX_lay_defkl.dat gegenereerd uit RTW.mdb
+;;; Functie: 
+
+Posities:
+POS_AANTLAAGNAAM   60
+POS_LAAGNAAM       5
+POS_LW             45
+POS_KL             50
+POS_LT             60
+
+
+    5                                       45   50        60
+
+*alm                                                       11 
+1   tekst018                                30   1         continuous                    18
+2   lijn018                                 30   7         continuous                    19
+3   tekst025                                30   7         continuous                    28
+4   lijn025                                 30   7         continuous                    29
+5   tekst035                                30   7         continuous                    38
+6   lijn035                                 30   7         continuous                    39
+7   tekst050                                30   7         continuous                    58
+8   lijn050                                 30   7         continuous                    59
+9   gdsstring                               30   1         continuous                    G
+10  hulplijn                                30   7         continuous                    J
+11  masterstring                            30   1         DASH                          M
+*bdy                                                       2 
+1   bdrymetz                                30   140       continuous                    BY  
+2   bdryzonderz                             30   140       continuous                    BZ  
+*bep                                                       19 
+1   txtbeplanting                           30   140       continuous                    *B  
+2   boom                                    30   4         continuous                    A   
+3   bos                                     30   4         continuous                    B   
+4   bosplantsoen                            30   4         continuous                    C   
+5   groenstrook                             30   5         continuous                    D   
+6   houtwal                                 30   21        DASH                          E   
+7   bomenrij                                30   4         continuous                    F   
+8   moeras                                  30   7         continuous                    G   
+9   overige                                 30   7         continuous                    H   
+10  bomenstruiken                           30   4         continuous                    I   
+11  riet                                    30   3         continuous                    J   
+12  struiken                                30   4         continuous                    L   
+13  struweel                                30   4         continuous                    N   
+14  hulplijn                                30   7         continuous                    O   
+15  grasachtbegr                            30   5         continuous                    Q   
+16  haagraster                              30   241       DASH                          R   
+17  haag                                    30   241       DASH                          S   
+18  grasland                                30   5         continuous                    T   
+19  sierplantsoen                           30   1         continuous                    U   
+*bwm                                                       5 
+1   hulplijn                                30   21        continuous                    H   
+2   mstringpoer                             30   1         DASH                          M   
+3   poerAportaal                            30   7         continuous                    V1  
+4   poeruithouder                           30   7         POERUITH123                   V2  
+5   berekendepoer                           30   21        continuous                    X   
+*con                                                       4 
+1   hoogtelijn (index)                      30   140       continuous                    0   
+2   bdrymetz                                30   140       continuous                    BY  
+3   bdryzonderz                             30   140       continuous                    BZ  
+4   hoogtelijn (normal)                     30   21        continuous                    D   
+*cun                                                       12 
+1   randverharding                          30   7         continuous                    A   
+2   bdrymetz                                30   140       continuous                    BY  
+3   bdryzonderz                             30   140       continuous                    BZ  
+4   snijdingslijngrdwrk                     30   3         continuous                    I   
+5   hulplijn                                30   8         continuous                    J   
+6   kruinlijnen                             30   3         continuous                    K   
+7   overige                                 30   3         continuous                    L   
+8   masterstring                            30   1         continuous                    M   
+9   watergang                               30   3         continuous                    N   
+10  scheidingverhard                        30   2         continuous                    S0  
+11  kniklijn                                30   7         DASH                          SK  
+12  zoabsprong                              30   7         continuous                    Z   
+*dfm                                                       92 
+1   randverharding                          30   7         continuous                    A
+2   streep(alle)                            30   7         continuous                    B
+3   streep 0.101                            10   7         continuous                    B1
+4   streep 0.102                            10   7         continuous                    B2
+5   streep 0.103                            10   7         continuous                    B3
+6   streep 0.151                            15   7         continuous                    B4
+7   streep 0.152                            15   7         continuous                    B5
+8   streep 0.153                            15   7         continuous                    B6
+9   streep 0.201                            20   7         continuous                    B7
+10  streep 0.202                            20   7         continuous                    B8
+11  streep 0.203                            20   7         continuous                    B9
+12  streep 0.05                             30   140       continuous                    BA
+13  bdrymetz                                20   140       continuous                    BY
+14  bdryzonderz                             30   7         DRIENEGE                      BZ
+15  39streep 0.101                          30   7         DRIENEGE                      C1
+16  39streep 0.102                          30   7         DRIENEGE                      C2
+17  39streep 0.103                          30   7         DRIENEGE                      C3
+18  39streep 0.151                          30   7         DRIENEGE                      C4
+19  39streep 0.152                          30   7         DRIENEGE                      C5
+20  39streep 0.153                          30   7         DRIENEGE                      C6
+21  13streep 0.45                           30   7         EENDRI45                      D
+22  11streep 0.10                           30   7         EENEEN                        E1
+23  13streep 0.10                           30   7         EENDRIE                       E2
+24  haaientd                                30   7         HAAITAND                      E3
+25  13streep 0.30                           30   7         EENDRI30                      E4
+26  93streep                                30   7         NEGEDRIE                      E5
+27  6060streep                              30   7         FIETBL60                      E6
+28  5050streep 0.50                         30   7         FIETST50                      E7
+29  39streep 0.30                           30   7         DRIENEGE                      E8
+30  31streep 0.10                           30   7         DRIEEENT                      E9
+31  30270streep 0.10                        30   7         EENNEGEN                      EA
+32  27030streep 0.10                        30   7         NEGENEEN                      EB
+33  91streep 0.20                           30   7         NEGENEEN                      EC
+34  5050streep 0.10                         30   7         FIETST50                      ED
+35  13streep 0.20                           30   7         EENDRI30                      EE
+36  33streep 0.15                           30   7         EENDRI30                      EF
+37  13streep 0.40                           30   7         FIETST50                      EG
+38  verdrijfstreep                          30   7         continuous                    F
+39  gdsstring                               30   7         continuous                    G
+40  bebouwing                               30   1         continuous                    H
+41  dakgoot                                 30   1         continuous                    HD
+42  grondvlak                               30   1         continuous                    HG
+43  top                                     30   1         continuous                    HT
+44  snijdingslijngrdwrk                     30   8         continuous                    I
+45  hulplijn                                30   7         continuous                    J
+46  kruinlijnen                             30   3         continuous                    K
+47  grondwerk                               30   3         continuous                    L
+48  masterstring                            30   1         DASH                          M
+49  watergang                               30   3         continuous                    N
+50  waterlijn                               30   4         continuous                    O
+51  pijlrd750                               30   7         PIJLRESN                      Q1
+52  pijlre750                               30   7         PIJLRSNE                      Q2
+53  pijlli750                               30   7         PIJLLSNE                      Q3
+54  pijlcombire750                          30   7         PIJCRSNE                      Q4
+55  pijlcombili750                          30   7         PIJCLSNE                      Q5
+56  pijlreverbod750                         30   7         PIRBNTSN                      Q6
+57  pijlliverbod750                         30   7         PILBNTSN                      Q7
+58  pijlverdrijf750                         30   7         PIJLASSN                      Q8
+59  pijlrd500                               30   7         PIJLRESC                      R1
+60  pijlre500                               30   7         PIJLRSCD                      R2
+61  pijlli500                               30   7         PIJLLSCD                      R3
+62  pijlcombire500                          30   7         PIJCRSCD                      R4
+63  pijlcombili500                          30   7         PIJCLSCD                      R5
+64  pijlreverbod500                         30   7         PIRBNTSC                      R6
+65  pijlliverbod500                         30   7         PILBNTSC                      R7
+66  pijlantispook                           30   7         PLSPOOK                       R8
+67  scheidingverhard                        30   2         continuous                    S0
+68  kniklijn                                30   7         DASH                          SK
+69  stuw                                    30   8         continuous                    T1
+70  duiker                                  30   8         continuous                    T2
+71  lichtmast dubbel                        30   7         continuous                    T3
+72  vlakverdichtingslijnen                  30   8         continuous                    U
+73  poerAportaal                            30   7         continuous                    V1
+74  poeruithouder                           30   7         POERUITH                      V2
+75  damwand                                 30   7         DAMWAND                       V3
+76  beschoeiing                             30   7         continuous                    V4
+77  kademuur                                30   7         continuous                    V5
+78  verfvlak                                30   7         continuous                    VV
+79  buitenasfaltgootli                      30   2         continuous                    W1
+80  buitenasfaltgootre                      30   2         continuous                    W2
+81  kunstwerklijn                           30   7         continuous                    X
+82  rijkseiggrens                           30   7         DASH                          Y1
+83  provinciegrens                          30   7         continuous                    Y2
+84  gemeentegrens                           30   7         DASH                          Y3
+85  waterschapsgrens                        30   7         continuous                    Y4
+86  beheersgrens                            30   7         continuous                    Y5
+87  kadastralegrens                         30   7         continuous                    Y6
+88  bestemmingsplangrens                    30   7         continuous                    Y7
+89  aankoopgrens                            30   7         continuous                    Y8
+90  opnamedtmgrens                          30   7         continuous                    Y9
+91  rijksgrens                              30   7         continuous                    YA
+92  zoabsprong                              30   7         continuous                    Z
+*dhm                                                       1 
+1   doorrijhoogte                           30   1         continuous                    U   
+*dtb                                                       90 
+1   randverharding                          30   8         continuous                    A
+2   streep(alle)                            30   8         continuous                    B
+3   streep 0.101                            10   8         continuous                    B1
+4   streep 0.102                            10   8         continuous                    B2
+5   streep 0.103                            10   8         continuous                    B3
+6   streep 0.151                            15   8         continuous                    B4
+7   streep 0.152                            15   8         continuous                    B5
+8   streep 0.153                            15   8         continuous                    B6
+9   streep 0.201                            20   8         continuous                    B7
+10  streep 0.202                            20   8         continuous                    B8
+11  streep 0.203                            20   8         continuous                    B9
+12  bdrymetz                                30   8         continuous                    BY
+13  bdryzonderz                             30   8         continuous                    BZ
+14  39streep(alle)                          30   8         DRIENEGE                      C
+15  39streep 0.101                          30   8         DRIENEGE                      C1
+16  39streep 0.102                          30   8         DRIENEGE                      C2
+17  39streep 0.103                          30   8         DRIENEGE                      C3
+18  39streep 0.151                          30   8         DRIENEGE                      C4
+19  39streep 0.152                          30   8         DRIENEGE                      C5
+20  39streep 0.153                          30   8         DRIENEGE                      C6
+21  13streep 0.45                           30   8         EENDRI45                      D
+22  11streep 0.10                           30   8         EENEEN                        E1
+23  13streep 0.10                           30   8         EENDRIE                       E2
+24  haaientd                                30   8         HAAITAND                      E3
+25  13streep 0.30                           30   8         EENDRI30                      E4
+26  93streep                                30   8         NEGEDRIE                      E5
+27  6060streep 0.60                         30   8         FIETBL60                      E6
+28  5050streep 0.50                         30   8         FIETST50                      E7
+29  39streep 0.30                           30   8         DRIENEGE                      E8
+30  31streep 0.10                           30   8         DRIEEENT                      E9
+31  30270streep 0.10                        30   8         EENNEGEN                      EA
+32  27030streep 0.10                        30   8         NEGENEEN                      EB
+33  91streep 0.20                           30   8         NEGENEEN                      EC
+34  5050streep 0.10                         30   8         FIETST50                      ED
+35  13streep 0.20                           30   8         EENDRI30                      EE
+36  33streep 0.15                           30   8         EENDRI30                      EF
+37  13streep 0.40                           30   8         FIETST50                      EG
+38  verdrijfstreep                          30   8         continuous                    F
+39  gdsstring                               30   7         continuous                    G
+40  bebouwing                               30   8         continuous                    H
+41  dakgoot                                 30   8         continuous                    HD
+42  grondvlak                               30   8         continuous                    HG
+43  top                                     30   8         continuous                    HT
+44  snijdingslijngrdwrk                     30   8         continuous                    I
+45  hulplijn                                30   8         continuous                    J
+46  kruinlijnen                             30   8         continuous                    K
+47  grondwerk                               30   8         continuous                    L
+48  masterstring                            30   8         DASH                          M
+49  insteekwatergang                        30   8         continuous                    N
+50  waterlijn                               30   8         continuous                    O
+51  pijlrd750                               30   8         PIJLRESN                      Q1
+52  pijlre750                               30   8         PIJLRSNE                      Q2
+53  pijlli750                               30   8         PIJLLSNE                      Q3
+54  pijlcombire750                          30   8         PIJCRSNE                      Q4
+55  pijlcombili750                          30   8         PIJCLSNE                      Q5
+56  pijlreverbod750                         30   8         PIRBNTSN                      Q6
+57  pijlliverbod750                         30   8         PILBNTSN                      Q7
+58  pijlverdrijf750                         30   8         PIJLASSN                      Q8
+59  pijlrd500                               30   8         PIJLRESC                      R1
+60  pijlre500                               30   8         PIJLRSCD                      R2
+61  pijlli500                               30   8         PIJLLSCD                      R3
+62  pijlcombire500                          30   8         PIJCRSCD                      R4
+63  pijlcombili500                          30   8         PIJCLSCD                      R5
+64  pijlreverbod500                         30   8         PIRBNTSC                      R6
+65  pijlliverbod500                         30   8         PILBNTSC                      R7
+66  pijlantispook                           30   8         PLSPOOK                       R8
+67  scheidingverhard                        30   8         continuous                    S0
+68  kniklijn                                30   8         DASH                          SK
+69  stuw                                    30   8         continuous                    T1
+70  duiker                                  30   8         continuous                    T2
+71  vlakverdichtingslijnen                  30   8         continuous                    U
+72  poerAportaal                            30   8         continuous                    V1
+73  poeruithouder                           30   8         POERUITH                      V2
+74  damwand                                 30   8         DAMWAND                       V3
+75  beschoeiing                             30   8         continuous                    V4
+76  kademuur                                30   8         continuous                    V5
+77  buitenasfaltgootli                      30   8         continuous                    W1
+78  buitenasfaltgootre                      30   8         continuous                    W2
+79  kunstwerklijn                           30   8         continuous                    X
+80  rijkseiggrens                           30   8         DASH                          Y1
+81  provinciegrens                          30   8         continuous                    Y2
+82  gemeentegrens                           30   8         DASH                          Y3
+83  waterschapsgrens                        30   8         continuous                    Y4
+84  beheersgrens                            30   8         continuous                    Y5
+85  kadastralegrens                         30   8         continuous                    Y6
+86  bestemmingsplangrens                    30   8         continuous                    Y7
+87  aankoopgrens                            30   8         continuous                    Y8
+88  opnamedtmgrens                          30   8         continuous                    Y9
+89  rijksgrens                              30   8         continuous                    YA
+90  zoabsprong                              30   8         continuous                    Z
+*dtm                                                       92 
+1   randverharding                          30   8         continuous                    A
+2   streep(alle)                            30   8         continuous                    B
+3   streep 0.101                            10   8         continuous                    B1
+4   streep 0.102                            10   8         continuous                    B2
+5   streep 0.103                            10   8         continuous                    B3
+6   streep 0.151                            15   8         continuous                    B4
+7   streep 0.152                            15   8         continuous                    B5
+8   streep 0.153                            15   8         continuous                    B6
+9   streep 0.201                            20   8         continuous                    B7
+10  streep 0.202                            20   8         continuous                    B8
+11  streep 0.203                            20   8         continuous                    B9
+12  streep 0.05                             20   8         continuous                    BA
+13  bdrymetz                                30   8         continuous                    BY
+14  bdryzonderz                             20   8         continuous                    BZ
+15  39streep 0.101                          30   8         DRIENEGE                      C1
+16  39streep 0.102                          30   8         DRIENEGE                      C2
+17  39streep 0.103                          30   8         DRIENEGE                      C3
+18  39streep 0.151                          30   8         DRIENEGE                      C4
+19  39streep 0.152                          30   8         DRIENEGE                      C5
+20  39streep 0.153                          30   8         DRIENEGE                      C6
+21  13streep 0.45                           30   8         EENDRI45                      D
+22  11streep 0.10                           30   8         EENEEN                        E1
+23  13streep 0.10                           30   8         EENDRIE                       E2
+24  haaientd                                30   8         HAAITAND                      E3
+25  13streep 0.30                           30   8         EENDRI30                      E4
+26  93streep                                30   8         NEGEDRIE                      E5
+27  6060streep 0.60                         30   8         FIETBL60                      E6
+28  5050streep 0.50                         30   8         FIETST50                      E7
+29  39streep 0.30                           30   8         DRIENEGE                      E8
+30  31streep 0.10                           30   8         DRIEEENT                      E9
+31  30270streep 0.10                        30   8         EENNEGEN                      EA
+32  27030streep 0.10                        30   8         NEGENEEN                      EB
+33  91streep 0.20                           30   8         NEGENEEN                      EC
+34  5050streep 0.10                         30   7         FIETST50                      ED
+35  13streep 0.20                           30   7         EENDRI30                      EE
+36  13streep 0.20                           30   7         EENDRI30                      EE
+37  33streep 0.15                           30   7         FIETST50                      EF
+38  13streep 0.40                           30   7         EENDRI30                      EG
+39  verdrijfstreep                          30   8         continuous                    F
+40  gdsstring                               30   8         continuous                    G
+41  bebouwing                               30   8         continuous                    H
+42  dakgoot                                 30   8         continuous                    HD
+43  grondvlak                               30   8         continuous                    HG
+44  top                                     30   8         continuous                    HT
+45  snijdingslijngrdwrk                     30   8         continuous                    I
+46  hulplijn                                30   8         continuous                    J
+47  kruinlijnen                             30   8         continuous                    K
+48  grondwerk                               30   8         continuous                    L
+49  masterstring                            30   8         DASH                          M
+50  watergang                               30   8         continuous                    N
+51  waterlijn                               30   8         continuous                    O
+52  pijlrd750                               30   8         PIJLRSNE                      Q1
+53  pijlre750                               30   8         PIJLLSNE                      Q2
+54  pijlli750                               30   8         PIJCRSNE                      Q3
+55  pijlcombire750                          30   8         PIJCLSNE                      Q4
+56  pijlcombili750                          30   8         PIRBNTSN                      Q5
+57  pijlreverbod750                         30   8         PILBNTSN                      Q6
+58  pijlliverbod750                         30   8         PIJLASSN                      Q7
+59  pijlverdrijf750                         30   8         PIJLASSN                      Q8
+60  pijlrd500                               30   8         PIJLRSCD                      R1
+61  pijlre500                               30   8         PIJLLSCD                      R2
+62  pijlli500                               30   8         PIJCRSCD                      R3
+63  pijlcombire500                          30   8         PIJCLSCD                      R4
+64  pijlcombili500                          30   8         PIRBNTSC                      R5
+65  pijlreverbod500                         30   8         PILBNTSC                      R6
+66  pijlliverbod500                         30   8         continuous                    R7
+67  pijlantispook                           30   8         PLSPOOK                       R8
+68  scheidingverhard                        30   8         continuous                    S0
+69  kniklijn                                30   8         continuous                    SK
+70  stuw                                    30   8         continuous                    T1
+71  duiker                                  30   8         continuous                    T2
+72  lichtmast dubbel                        30   7         continuous                    T3
+73  vlakverdichtingslijnen                  30   8         continuous                    U
+74  poerAportaal                            30   8         continuous                    V1
+75  poeruithouder                           30   8         POERUITH                      V2
+76  damwand                                 30   8         DAMWAND                       V3
+77  beschoeiing                             30   8         continuous                    V4
+78  kademuur                                30   8         continuous                    V5
+79  buitenasfaltgootli                      30   8         continuous                    W1
+80  buitenasfaltgootre                      30   8         continuous                    W2
+81  kunstwerklijn                           30   8         continuous                    X
+82  rijkseiggrens                           30   8         DASH                          Y1
+83  provinciegrens                          30   8         continuous                    Y2
+84  gemeentegrens                           30   8         DASH                          Y3
+85  waterschapsgrens                        30   8         continuous                    Y4
+86  beheersgrens                            30   8         continuous                    Y5
+87  kadastralegrens                         30   8         continuous                    Y6
+88  bestemmingsplangrens                    30   8         continuous                    Y7
+89  aankoopgrens                            30   8         continuous                    Y8
+90  opnamedtmgrens                          30   8         continuous                    Y9
+91  rijksgrens                              30   8         continuous                    YA
+92  zoabsprong                              30   8         continuous                    Z
+*dwm                                                       99 
+1   tekst018                                30   1         continuous                    18
+2   lijn018                                 30   7         continuous                    19
+3   tekst025                                30   7         continuous                    28
+4   lijn025                                 30   7         continuous                    29
+5   tekst035                                30   7         continuous                    38
+6   lijn035                                 30   7         continuous                    39
+7   tekst050                                30   7         continuous                    58
+8   lijn050                                 30   7         continuous                    59
+9   randverharding                          30   7         continuous                    A
+10  streep 0.101                            13   7         continuous                    B1
+11  streep 0.102                            13   7         continuous                    B2
+12  streep 0.103                            13   7         continuous                    B3
+13  streep 0.151                            15   7         continuous                    B4
+14  streep 0.152                            15   7         continuous                    B5
+15  streep 0.153                            15   7         continuous                    B6
+16  streep 0.201                            20   7         continuous                    B7
+17  streep 0.202                            20   7         continuous                    B8
+18  streep 0.203                            20   7         continuous                    B9
+19  streep 0.05                             05   7         continuous                    BA
+20  bdrymetz                                20   140       continuous                    BY
+21  bdryzonderz                             30   140       continuous                    BZ
+22  39streep 0.101                          30   7         DRIENEGE                      C1
+23  39streep 0.102                          30   7         DRIENEGE                      C2
+24  39streep 0.103                          30   7         DRIENEGE                      C3
+25  39streep 0.151                          30   7         DRIENEGE                      C4
+26  39streep 0.152                          30   7         DRIENEGE                      C5
+27  39streep 0.153                          30   7         DRIENEGE                      C6
+28  13streep 0.45                           30   7         EENDRI45                      D
+29  11streep 0.10                           30   7         EENEEN                        E1
+30  13streep 0.10                           30   7         EENDRIE                       E2
+31  haaientd                                30   7         HAAITAND                      E3
+32  13streep 0.30                           30   7         EENDRI30                      E4
+33  93streep                                30   7         NEGEDRIE                      E5
+34  6060streep 0.60                         30   7         FIETBL60                      E6
+35  5050streep 0.50                         30   7         FIETST50                      E7
+36  39streep 0.30                           30   7         DRIENEGE                      E8
+37  31streep 0.10                           30   7         DRIEEENT                      E9
+38  30270streep 0.10                        30   7         EENNEGEN                      EA
+39  27030streep 0.10                        30   7         NEGENEEN                      EB
+40  91streep 0.20                           30   7         NEGENEEN                      EC
+41  5050streep 0.10                         30   7         FIETST50                      ED
+42  13streep 0.20                           30   7         EENDRI30                      EE
+43  33streep 0.15                           30   7         FIETST50                      EF
+44  13streep 0.40                           30   7         EENDRI30                      EG
+45  verdrijfstreep                          30   7         continuous                    F
+46  gdsstring                               30   1         continuous                    G
+47  bebouwing                               30   1         continuous                    H
+48  dakgoot                                 30   1         continuous                    HD
+49  grondvlak                               30   1         continuous                    HG
+50  top                                     30   1         continuous                    HT
+51  snijdingslijngrdwrk                     30   3         continuous                    I
+52  hulplijn                                30   7         continuous                    J
+53  kruinlijnen                             30   3         continuous                    K
+54  grondwerk                               30   3         continuous                    L
+55  masterstring                            30   1         DASH                          M
+56  watergang                               30   3         continuous                    N
+57  waterlijn                               30   4         continuous                    O
+58  pijlrd750                               30   7         PIJLRESN                      Q1
+59  pijlre750                               30   7         PIJLRSNE                      Q2
+60  pijlli750                               30   7         PIJLLSNE                      Q3
+61  pijlcombire750                          30   7         PIJCRSNE                      Q4
+62  pijlcombili750                          30   7         PIJCLSNE                      Q5
+63  pijlreverbod750                         30   7         PIRBNTSN                      Q6
+64  pijlliverbod750                         30   7         PILBNTSN                      Q7
+65  pijlverdrijf750                         30   7         PIJLASSN                      Q8
+66  pijlrd500                               30   7         PIJLRESC                      R1
+67  pijlre500                               30   7         PIJLRSCD                      R2
+68  pijlli500                               30   7         PIJLLSCD                      R3
+69  pijlcombire500                          30   7         PIJCRSCD                      R4
+70  pijlcombili500                          30   7         PIJCLSCD                      R5
+71  pijlreverbod500                         30   7         PIRBNTSC                      R6
+72  pijlliverbod500                         30   7         PILBNTSC                      R7
+73  pijlantispook                           30   7         PLSPOOK                       R8
+74  scheidingverhard                        30   7         continuous                    S0
+75  kniklijn                                30   7         DASH                          SK
+76  stuw                                    30   8         continuous                    T1
+77  duiker                                  30   8         continuous                    T2
+78  lichtmast dubbel                        30   7         continuous                    T3
+79  vlakverdichtingslijnen                  30   8         continuous                    U
+80  poerAportaal                            30   7         continuous                    V1
+81  poeruithouder                           30   7         POERUITH                      V2
+82  damwand                                 30   7         DAMWAND                       V3
+83  beschoeiing                             30   7         continuous                    V4
+84  kademuur                                30   7         continuous                    V5
+85  verfvlak                                30   7         continuous                    VV
+86  buitenasfaltgootli                      30   2         continuous                    W1
+87  buitenasfaltgootre                      30   2         continuous                    W2
+88  kunstwerklijn                           30   7         continuous                    X
+89  rijkseiggrens                           30   7         DASH                          Y1
+90  provinciegrens                          30   7         continuous                    Y2
+91  gemeentegrens                           30   7         DASH                          Y3
+92  waterschapsgrens                        30   7         continuous                    Y4
+93  beheersgrens                            30   7         continuous                    Y5
+94  kadastralegrens                         30   7         continuous                    Y6
+95  bestemmingsplangrens                    30   7         continuous                    Y7
+96  aankoopgrens                            30   7         continuous                    Y8
+97  opnamedtmgrens                          30   7         continuous                    Y9
+98  rijksgrens                              30   7         continuous                    YA
+99  zoabsprong                              30   7         continuous                    Z
+*flw                                                       5 
+1   bdrymetz                                30   140       continuous                    BY  
+2   bdryzonderz                             30   140       continuous                    BZ  
+3   stroomrichting                          30   4         continuous                    F   
+4   Ridges                                  30   3         continuous                    RID 
+5   Valleys                                 30   2         continuous                    VAL 
+*gld                                                       5 
+1   bdrymetz                                30   140       continuous                    BY  
+2   bdryzonderz                             30   140       continuous                    BZ  
+3   hulplijn                                30   8         continuous                    J   
+4   masterstring                            30   1         DASH                          M   
+5   kunstwerklijn                           30   7         continuous                    X   
+*glm                                                       36 
+1   f2m400_80                               30   4         F2M40080                      A   
+2   vlp2z133_80                             30   4         2Z13380                       B   
+3   vlp2z133_60                             30   4         2Z13360                       C   
+4   vlp2zc133_80                            30   4         2ZC11338                      D   
+5   vlp1z133_60 lnks                        30   4         1Z13360                       EL  
+6   vlp1z133_60 rchts                       30   4         1Z13360                       ER  
+7   vlp1zc133_60 lnks                       30   4         1ZC13360                      fL  
+8   vlp1zc133_60 rchts                      30   4         1ZC13360                      fR  
+9   bestaande geleiderail                   30   4         GLDRBEST                      G   
+10  vernk rchts aanrdbr krt                 30   4         VANKRARB                      HK  
+11  vernk rchts aanrdbr lng                 30   4         VANKRARB                      HL  
+12  pasplank                                30   4         continuous                    HP  
+13  schuifconstructie                       30   4         continuous                    I   
+14  vernk lnks aanrdbr krt                  30   4         VANKLARB                      JK  
+15  vernk lnks aanrdbr lng                  30   4         VANKRARB                      JL  
+16  hulplijn                                30   4         continuous                    JX  
+17  f2dl400_80                              30   4         2DL40080                      K   
+18  vlp2dl133_80                            30   4         2DL13380                      L   
+19  vlp2dl133_60                            30   4         2DL13360                      N   
+20  vlp2z267_80                             30   4         VLP2Z267                      R   
+21  vlp1lv133_60 lnks                       30   4         1LV13360                      SL  
+22  vlp1lv133_60 rchts                      30   4         1LV13360                      SR  
+23  overgang80_60                           30   4         GLDOVERG                      T1  
+24  overgang60_80                           30   4         GLDOVERG                      T2  
+25  vlp1dl133_60 lnks                       30   4         1DL13360                      UL  
+26  vlp1dl133_60 rchts                      30   4         1DL13360                      UR  
+27  barrier_beton                           30   4         VECUSEC                       VB  
+28  halve barrier_beton links               30   4         VECUSEC                       VL  
+29  verblindingsscherm                      30   4         DASH                          VM  
+30  halve barrier_beton rechts              30   4         VECUSEC                       VR  
+31  barrier_staal                           30   4         VECUSEC                       VS  
+32  rimob                                   30   4         RIMOB                         W   
+33  vlp1z267_60 lnks                        30   4         VLP12676                      XL  
+34  vlp1z267_60 rchts                       30   4         VLP12676                      XR  
+35  overstapconstructie                     30   4         OVERSTAP                      Y   
+36  splitsing                               30   4         continuous                    Z   
+*goz                                                       2 
+1   boring                                  30   1         continuous                    B   
+2   sondering                               30   3         continuous                    S   
+*gwm                                                       35 
+1   randverharding                          30   7         continuous                    A
+2   bdrymetz                                30   140       continuous                    BY
+3   bdryzonderz                             30   140       continuous                    BZ
+4   gdsstring                               30   7         continuous                    G
+5   bebouwing                               30   1         continuous                    H
+6   dakgoot                                 30   1         continuous                    HD
+7   grondvlak                               30   1         continuous                    HG
+8   top                                     30   1         continuous                    HT
+9   snijdingslijngrdwrk                     30   3         continuous                    I
+10  hulplijn                                30   7         continuous                    J
+11  kruinlijnen                             30   3         continuous                    K
+12  grondwerk                               30   3         continuous                    L
+13  masterstring                            30   1         DASH                          M
+14  insteekbodemwatergang                   30   3         continuous                    N
+15  waterlijn                               30   4         continuous                    O
+16  stuw                                    30   8         continuous                    T1
+17  duiker                                  30   8         continuous                    T2
+18  vlakverdichtingslijnen                  30   8         continuous                    U
+19  damwand                                 30   7         DAMWAND                       V3
+20  beschoeiing                             30   7         continuous                    V4
+21  kademuur                                30   7         continuous                    V5
+22  buitenasfaltgootli                      30   2         continuous                    W1
+23  buitenasfaltgootre                      30   2         continuous                    W2
+24  kunstwerklijn                           30   7         continuous                    X
+25  rijkseiggrens                           30   7         DASH                          Y1
+26  provinciegrens                          30   7         continuous                    Y2
+27  gemeentegrens                           30   7         DASH                          Y3
+28  waterschapsgrens                        30   7         continuous                    Y4
+29  beheersgrens                            30   7         continuous                    Y5
+30  kadastralegrens                         30   7         continuous                    Y6
+31  bestemmingsplangrens                    30   7         continuous                    Y7
+32  aankoopgrens                            30   7         continuous                    Y8
+33  opnamedtmgrens                          30   7         continuous                    Y9
+34  rijksgrens                              30   7         continuous                    YA
+35  zoabsprong                              30   7         continuous                    Z
+*gzm                                                       13 
+1   bdrymetz                                30   140       continuous                    BY  
+2   bdryzonderz                             30   140       continuous                    BZ  
+3   hulplijnen                              30   8         continuous                    J   
+4   rijkseiggrens                           30   7         DASH                          Y1  
+5   provinciegrens                          30   7         continuous                    Y2  
+6   gemeentegrens                           30   7         DASH                          Y3  
+7   waterschapsgrens                        30   7         continuous                    Y4  
+8   beheersgrens                            30   7         continuous                    Y5  
+9   kadastralegrens                         30   7         continuous                    Y6  
+10  bestemmingsplangrens                    30   7         continuous                    Y7  
+11  aankoopgrens                            30   7         continuous                    Y8  
+12  opnamedtmgrens                          30   7         continuous                    Y9  
+13  rijksgrens                              30   7         continuous                    YA  
+*kad                                                       26 
+1   randverharding                          30   7         continuous                    A   
+2   bdrymetz                                30   140       continuous                    BD  
+3   bdryzonderz                             30   140       continuous                    BZ  
+4   bebouwing                               30   1         continuous                    H   
+5   hulplijn                                30   7         continuous                    J   
+6   kruinlijnen                             30   3         continuous                    K   
+7   overige                                 30   3         continuous                    L   
+8   insteekbodemwatergang                   30   3         continuous                    N   
+9   waterlijn                               30   4         continuous                    O   
+10  scheidingverhard                        30   2         continuous                    S   
+11  damwand                                 30   7         DAMWAND                       V3  
+12  beschoeiing                             30   7         continuous                    V4  
+13  kademuur                                30   7         continuous                    V5  
+14  buitenasfaltgootli                      30   2         continuous                    W1  
+15  buitenasfaltgootre                      30   2         continuous                    W2  
+16  kunstwerklijn                           30   7         continuous                    X   
+17  rijkseiggrens                           30   7         DASH                          Y1  
+18  provinciegrens                          30   7         continuous                    Y2  
+19  gemeentegrens                           30   7         DASH                          Y3  
+20  waterschapsgrens                        30   7         continuous                    Y4  
+21  beheersgrens                            30   7         continuous                    Y5  
+22  kadastralegrens                         30   7         continuous                    Y6  
+23  bestemmingsplangrens                    30   7         continuous                    Y7  
+24  aankoopgrens                            30   7         continuous                    Y8  
+25  opnamedtmgrens                          30   7         continuous                    Y9  
+26  rijksgrens                              30   7         continuous                    YA  
+*klm                                                       43 
+1   txtalgemeen                             30   7         continuous                    *A  
+2   txtcamera                               30   7         continuous                    *C  
+3   txtwaterleiding                         30   7         continuous                    *E  
+4   txtolie                                 30   7         continuous                    *O  
+5   txtpraatpaal                            30   7         continuous                    *P  
+6   txtov                                   30   7         continuous                    *Q  
+7   txtsignalering                          30   7         continuous                    *R  
+8   kabelkoker                              30   3         KABELKOK                      A   
+9   zinker                                  30   7         ZINKERST                      BA  
+10  bdrymetz                                30   7         continuous                    BY  
+11  bdryzonderz                             30   7         continuous                    BZ  
+12  gasleiding ld                           30   7         GASLLAGE                      C   
+13  gasleiding hd                           30   7         GASLHOGE                      D   
+14  waterleiding                            30   7         WATERLEI                      E   
+15  watertransportleiding                   30   7         WATERTRA                      F   
+16  electriciteit hoogsp.                   30   7         ELECTRHO                      G   
+17  electriciteit laagsp.                   30   7         ELECTRLA                      H   
+18  teleclok                                30   7         PTTBUNDE                      J   
+19  telecinterlok                           30   7         PTTINTER                      L   
+20  CAI                                     30   7         continuous                    N   
+21  olieleiding                             30   7         OLIELEID                      O   
+22  kathbescherming                         30   7         continuous                    P   
+23  ovkast                                  30   4         continuous                    Q1  
+24  kabelkast                               30   7         continuous                    Q2  
+25  vrikast                                 30   1         continuous                    Q3  
+26  transformatorstat                       30   5         continuous                    Q4  
+27  snuffelpaal                             30   7         continuous                    Q5  
+28  drukknoppaal                            30   1         continuous                    Q6  
+29  verkeerslicht                           30   1         continuous                    Q7  
+30  praatpaal                               30   5         continuous                    Q8  
+31  slagboom                                30   5         continuous                    Q9  
+32  roodlichtcamera                         30   5         continuous                    QA  
+33  camera                                  30   5         continuous                    QB  
+34  lichtmast                               30   4         continuous                    QC  
+35  lijnverlichtingsmast                    30   4         continuous                    QD  
+36  tussenafspanmast                        30   4         continuous                    QE  
+37  eindafspanmast                          30   4         continuous                    QF  
+38  lusvri                                  30   1         continuous                    R3  
+39  vrikabel                                30   1         continuous                    R4  
+40  ovkabel                                 30   4         continuous                    R5  
+41  signaleringskabel                       30   1         continuous                    R6  
+42  hoogspanningsmast                       30   7         continuous                    S   
+43  drukriool                               30   7         RIOLERIN                      T   
+*kwm                                                       81 
+1   randverharding                          30   7         continuous                    A
+2   streep 0.101                            10   7         continuous                    B1
+3   streep 0.102                            10   7         continuous                    B2
+4   streep 0.103                            10   7         continuous                    B3
+5   streep 0.151                            15   7         continuous                    B4
+6   streep 0.152                            10   7         continuous                    B5
+7   streep 0.153                            10   7         continuous                    B6
+8   streep 0.201                            20   7         continuous                    B7
+9   streep 0.202                            20   7         continuous                    B8
+10  streep 0.203                            20   7         continuous                    B9
+11  streep 0.05                             30   7         continuous                    BA
+12  bdrymetz                                30   140       continuous                    BY
+13  bdryzonderz                             30   140       continuous                    BZ
+14  39streep 0.101                          30   7         DRIENEGE                      C1
+15  39streep 0.102                          30   7         DRIENEGE                      C2
+16  39streep 0.103                          30   7         DRIENEGE                      C3
+17  39streep 0.151                          30   7         DRIENEGE                      C4
+18  39streep 0.152                          30   7         DRIENEGE                      C5
+19  39streep 0.153                          30   7         DRIENEGE                      C6
+20  13streep 0.45                           30   7         EENDRI45                      D
+21  11streep 0.10                           30   7         EENEEN                        E1
+22  13streep 0.10                           30   7         EENDRIE                       E2
+23  haaientd                                30   7         HAAITAND                      E3
+24  13streep 0.30                           30   7         EENDRI30                      E4
+25  93streep                                30   7         NEGEDRIE                      E5
+26  6060streep 0.60                         30   7         FIETBL60                      E6
+27  5050streep 0.50                         30   7         FIETST50                      E7
+28  39streep 0.30                           30   7         DRIENEGE                      E8
+29  31streep 0.10                           30   7         DRIEEENT                      E9
+30  30270streep 0.10                        30   7         EENNEGEN                      EA
+31  27030streep 0.10                        30   7         NEGENEEN                      EB
+32  91streep 0.20                           30   7         NEGENEEN                      EC
+33  5050streep 0.10                         30   7         FIETST50                      ED
+34  13streep 0.20                           30   7         EENDRI30                      EE
+35  33streep 0.15                           30   7         FIETST50                      EF
+36  13streep 0.40                           30   7         EENDRI30                      EG
+37  verdrijfstreep                          30   7         continuous                    F
+38  gdsstring                               30   7         continuous                    G
+39  grondvlak                               30   1         continuous                    HG
+40  snijdingslijngrdwrk                     30   3         continuous                    I
+41  hulplijn                                30   7         continuous                    J
+42  kruinlijnen                             30   3         continuous                    K
+43  grondwerk                               30   3         continuous                    L
+44  masterstring                            30   1         DASH                          M
+45  pijlrd750                               30   7         PIJLRESN                      Q1
+46  pijlre750                               30   7         PIJLRSNE                      Q2
+47  pijlli750                               30   7         PIJLLSNE                      Q3
+48  pijlcombire750                          30   7         PIJCRSNE                      Q4
+49  pijlcombili750                          30   7         PIJCLSNE                      Q5
+50  pijlreverbod750                         30   7         PIRBNTSN                      Q6
+51  pijlliverbod750                         30   7         PILBNTSN                      Q7
+52  pijlverdrijf750                         30   7         PIJLASSN                      Q8
+53  pijlrd500                               30   7         PIJLRESC                      R1
+54  pijlre500                               30   7         PIJLRSCD                      R2
+55  pijlli500                               30   7         PIJLLSCD                      R3
+56  pijlcombire500                          30   7         PIJCRSCD                      R4
+57  pijlcombili500                          30   7         PIJCLSCD                      R5
+58  pijlreverbod500                         30   7         PIRBNTSC                      R6
+59  pijlliverbod500                         30   7         PILBNTSC                      R7
+60  pijlantispook                           30   7         PLSPOOK                       R8
+61  reling                                  30   7         continuous                    RE
+62  scheidingverhard                        30   7         continuous                    S0
+63  kniklijn                                30   7         DASH                          SK
+64  vlakverdichtingslijnen                  30   8         continuous                    U
+65  damwand                                 30   7         DAMWAND                       V3
+66  voegovergang                            30   7         continuous                    VG
+67  verfvlak                                30   7         continuous                    VV
+68  buitenasfaltgootli                      30   2         continuous                    W1
+69  buitenasfaltgootre                      30   2         continuous                    W2
+70  kunstwerklijn                           30   7         continuous                    X
+71  rijkseiggrens                           30   7         DASH                          Y1
+72  provinciegrens                          30   7         continuous                    Y2
+73  gemeentegrens                           30   7         DASH                          Y3
+74  waterschapsgrens                        30   7         continuous                    Y4
+75  beheersgrens                            30   7         continuous                    Y5
+76  kadastralegrens                         30   7         continuous                    Y6
+77  bestemmingsplangrens                    30   7         continuous                    Y7
+78  aankoopgrens                            30   7         continuous                    Y8
+79  opnamedtmgrens                          30   7         continuous                    Y9
+80  rijksgrens                              30   7         continuous                    YA
+81  zoabsprong                              30   7         continuous                    Z
+*mrk                                                       56 
+1   streep 0.101                            10   7         continuous                    B1
+2   streep 0.102                            10   7         continuous                    B2
+3   streep 0.103                            10   7         continuous                    B3
+4   streep 0.151                            15   7         continuous                    B4
+5   streep 0.152                            15   7         continuous                    B5
+6   streep 0.153                            15   7         continuous                    B6
+7   streep 0.201                            20   7         continuous                    B7
+8   streep 0.202                            20   7         continuous                    B8
+9   streep 0.203                            20   7         continuous                    B9
+10  streep 0.05                             30   7         continuous                    BA
+11  bdrymetz                                20   140       continuous                    BY
+12  bdryzonderz                             30   140       continuous                    BZ
+13  39streep 0.101                          30   7         DRIENEGE                      C1
+14  39streep 0.102                          30   7         DRIENEGE                      C2
+15  39streep 0.103                          30   7         DRIENEGE                      C3
+16  39streep 0.151                          30   7         DRIENEGE                      C4
+17  39streep 0.152                          30   7         DRIENEGE                      C5
+18  39streep 0.153                          30   7         DRIENEGE                      C6
+19  13streep 0.45                           30   7         EENDRI45                      D
+20  11streep 0.10                           30   7         EENEEN                        E1
+21  13streep 0.10                           30   7         EENDRIE                       E2
+22  haaientd                                30   7         HAAITAND                      E3
+23  13streep 0.30                           30   7         EENDRI30                      E4
+24  93streep                                30   7         NEGEDRIE                      E5
+25  6060streep 0.60                         30   7         FIETBL60                      E6
+26  5050streep 0.50                         30   7         FIETST50                      E7
+27  39streep 0.30                           30   7         DRIENEGE                      E8
+28  31streep 0.10                           30   7         DRIEEENT                      E9
+29  30270streep 0.10                        30   7         EENNEGEN                      EA
+30  27030streep 0.10                        30   7         NEGENEEN                      EB
+31  91streep 0.20                           30   7         NEGENEEN                      EC
+32  5050streep 0.10                         30   7         FIETST50                      ED
+33  13streep 0.20                           30   7         EENDRI30                      EE
+34  33streep 0.15                           30   7         FIETST50                      EF
+35  13streep 0.40                           30   7         EENDRI30                      EG
+36  verdrijfstreep                          30   7         continuous                    F
+37  gdsstring                               30   7         continuous                    G
+38  hulplijn                                30   7         continuous                    J
+39  masterstring                            30   1         DASH                          M
+40  pijlrd750                               30   7         PIJLRESN                      Q1
+41  pijlre750                               30   7         PIJLRSNE                      Q2
+42  pijlli750                               30   7         PIJLLSNE                      Q3
+43  pijlcombire750                          30   7         PIJCRSNE                      Q4
+44  pijlcombili750                          30   7         PIJCLSNE                      Q5
+45  pijlreverbod750                         30   7         PIRBNTSN                      Q6
+46  pijlliverbod750                         30   7         PILBNTSN                      Q7
+47  pijlverdrijf750                         30   7         PIJLASSN                      Q8
+48  pijlrd500                               30   7         PIJLRESC                      R1
+49  pijlre500                               30   7         PIJLRSCD                      R2
+50  pijlli500                               30   7         PIJLLSCD                      R3
+51  pijlcombire500                          30   7         PIJCRSCD                      R4
+52  pijlcombili500                          30   7         PIJCLSCD                      R5
+53  pijlreverbod500                         30   7         PIRBNTSC                      R6
+54  pijlliverbod500                         30   7         PILBNTSC                      R7
+55  pijlantispook                           30   7         PLSPOOK                       R8
+56  verfvlak                                30   7         continuous                    VV
+*ovh                                                       12 
+1   randverharding                          30   7         continuous                    A   
+2   bdrymetz                                30   140       continuous                    BY  
+3   bdryzonderz                             30   140       continuous                    BZ  
+4   snijdingslijngrdwrk                     30   3         continuous                    I   
+5   hulplijn                                30   8         continuous                    J   
+6   kruinlijnen                             30   3         continuous                    K   
+7   overige                                 30   3         continuous                    L   
+8   masterstring                            30   1         DASH                          M   
+9   watergang                               30   3         continuous                    N   
+10  scheidingverhard                        30   2         continuous                    S0  
+11  kniklijn                                30   7         DASH                          SK  
+12  zoabsprong                              30   7         continuous                    Z   
+*rbp                                                       19 
+1   txtbeplanting                           30   7         continuous                    *B  
+2   boom                                    30   4         continuous                    A   
+3   bos                                     30   4         continuous                    B   
+4   bosplantsoen                            30   4         continuous                    C   
+5   groenstrook                             30   5         continuous                    D   
+6   houtwal                                 30   21        DASH                          E   
+7   bomenrij                                30   4         continuous                    F   
+8   moeras                                  30   7         continuous                    G   
+9   overige                                 30   7         continuous                    H   
+10  bomenstruiken                           30   4         continuous                    I   
+11  riet                                    30   3         continuous                    J   
+12  struiken                                30   4         continuous                    L   
+13  struweel                                30   4         continuous                    N   
+14  hulplijn                                30   7         continuous                    O   
+15  grasachtbegr                            30   5         continuous                    Q   
+16  haagraster                              30   241       DASH                          R   
+17  haag                                    30   241       DASH                          S   
+18  grasland                                30   5         continuous                    T   
+19  sierplantsoen                           30   1         continuous                    U   
+*rbw                                                       8 
+1   hulplijn                                30   21        continuous                    H   
+2   mstringpoer                             30   1         DASH                          M   
+3   poerAportaal                            30   7         continuous                    V1  
+4   poeruithouder                           30   7         POERUITH                      V2  
+5   matrixbord                              30   5         continuous                    VM  
+6   wegwijzer met kabelaansluitng           30   5         continuous                    WK  
+7   wegwijzer zonder kabelaansluitng        30   5         continuous                    WW  
+8   berekendepoer                           30   21        continuous                    X   
+*rgl                                                       34 
+1   f2m400_80                               30   4         F2M40080                      A   
+2   vlp2z133_80                             30   4         2Z13380                       B   
+3   vlp2z133_60                             30   4         2Z13360                       C   
+4   vlp2zc133_80                            30   4         2ZC11338                      D   
+5   vlp1z133_60 lnks                        30   4         1Z13360                       EL  
+6   vlp1z133_60 rchts                       30   4         1Z13360                       ER  
+7   vlp1zc133_60 lnks                       30   4         1ZC13360                      fL  
+8   vlp1zc133_60 rchts                      30   4         1ZC13360                      fR  
+9   bestaande geleiderail                   30   4         GLDRBEST                      G   
+10  verankerr_ak                            30   4         VANKRARB                      HK  
+11  verankerr_al                            30   4         VANKRARB                      HL  
+12  pasplank                                30   4         continuous                    HP  
+13  schuifconstructie                       30   4         continuous                    I   
+14  verankerl_ak                            30   4         VANKLARB                      JK  
+15  verankerl_al                            30   4         VANKRARB                      JL  
+16  hulplijn                                30   4         continuous                    JX  
+17  f2dl400_80                              30   4         2DL40080                      K   
+18  vlp2dl133_80                            30   4         2DL13380                      L   
+19  vlp2dl133_60                            30   4         2DL13360                      N   
+20  vlp2z267_80                             30   4         VLP2Z267                      R   
+21  vlp1lv133_60 lnks                       30   4         1LV13360                      SL  
+22  vlp1lv133_60 rchts                      30   4         1LV13360                      SR  
+23  overgang80_60                           30   4         GLDOVERG                      T1  
+24  overgang60_80                           30   4         GLDOVERG                      T2  
+25  vlp1dl133_60 lnks                       30   4         1DL13360                      UL  
+26  vlp1dl133_60 rchts                      30   4         1DL13360                      UR  
+27  barrier_beton                           30   4         VECUSEC                       VB  
+28  antiverblscherm                         30   4         DASH                          VM  
+29  barrier_staal                           30   4         VECUSEC                       VS  
+30  rimob                                   30   4         VECUSEC                       W   
+31  vlp1z267_60 lnks                        30   4         VLP12676                      XL  
+32  vlp1z267_60 rchts                       30   4         VLP12676                      XR  
+33  overstapconstructie                     30   4         erstap                        Y   
+34  splitsing                               30   4         continuous                    Z   
+*rkl                                                       47 
+1   txtalgemeen                             30   7         continuous                    *A  
+2   txtcamera                               30   7         continuous                    *C  
+3   txtwaterleiding                         30   7         continuous                    *E  
+4   txtolie                                 30   7         continuous                    *O  
+5   txtpraatpaal                            30   7         continuous                    *P  
+6   txtov                                   30   7         continuous                    *Q  
+7   txtsignalering                          30   7         continuous                    *R  
+8   kabelkoker                              30   3         continuous                    A   
+9   zinker                                  30   7         ZINKERST                      BA  
+10  bdrymetz                                30   7         continuous                    BY  
+11  bdryzonderz                             30   7         continuous                    BZ  
+12  gasleiding ld                           30   7         GASLLAGE                      C   
+13  gasleiding hd                           30   7         GASLHOGE                      D   
+14  waterleiding                            30   7         WATERLEI                      E   
+15  watertransportleiding                   30   7         WATERTRA                      F   
+16  electriciteit hoogsp.                   30   7         ELECTRHO                      G   
+17  electriciteit laagsp.                   30   7         ELECTRLA                      H   
+18  teleclok                                30   7         PTTBUNDE                      J   
+19  telecinterlok                           30   7         PTTINTER                      L   
+20  CAI                                     30   7         continuous                    N   
+21  olieleiding                             30   7         OLIELEID                      O   
+22  kathbescherming                         30   7         continuous                    P   
+23  ovkast                                  30   4         continuous                    Q1  
+24  kabelkast                               30   7         continuous                    Q2  
+25  vrikast                                 30   1         continuous                    Q3  
+26  transformatorstat                       30   5         continuous                    Q4  
+27  snuffelpaal                             30   7         continuous                    Q5  
+28  drukknoppaal                            30   1         continuous                    Q6  
+29  verkeerslicht                           30   1         continuous                    Q7  
+30  praatpaal                               30   5         continuous                    Q8  
+31  slagboom                                30   5         continuous                    Q9  
+32  roodlichtcamera                         30   5         continuous                    QA  
+33  camera                                  30   5         continuous                    QB  
+34  lichtmast                               30   4         continuous                    QC  
+35  lijnverlichtingsmast                    30   4         continuous                    QD  
+36  tussenafspanmast                        30   4         continuous                    QE  
+37  eindafspanmast                          30   4         continuous                    QF  
+38  verbindingsmof                          30   5         continuous                    QG  
+39  eindmof                                 30   5         continuous                    QH  
+40  splitsmof                               30   5         continuous                    QI  
+41  luidspreker                             30   5         continuous                    QJ  
+42  lusvri                                  30   1         continuous                    R3  
+43  vrikabel                                30   1         continuous                    R4  
+44  ovkabel                                 30   4         continuous                    R5  
+45  signaleringskabel                       30   1         continuous                    R6  
+46  hoogspanningsmast                       30   7         continuous                    S   
+47  drukriool                               30   7         RIOLERIN                      T   
+*rkw                                                       81 
+1   randverharding                          30   7         continuous                    A
+2   streep 0.101                            10   7         continuous                    B1
+3   streep 0.102                            10   7         continuous                    B2
+4   streep 0.103                            10   7         continuous                    B3
+5   streep 0.151                            15   7         continuous                    B4
+6   streep 0.152                            15   7         continuous                    B5
+7   streep 0.153                            15   7         continuous                    B6
+8   streep 0.201                            20   7         continuous                    B7
+9   streep 0.202                            20   7         continuous                    B8
+10  streep 0.203                            20   7         continuous                    B9
+11  streep 0.05                             30   7         continuous                    BA
+12  bdrymetz                                20   140       continuous                    BY
+13  bdryzonderz                             30   140       DRIENEGE                      BZ
+14  39streep 0.101                          30   7         DRIENEGE                      C1
+15  39streep 0.102                          30   7         DRIENEGE                      C2
+16  39streep 0.103                          30   7         DRIENEGE                      C3
+17  39streep 0.151                          30   7         DRIENEGE                      C4
+18  39streep 0.152                          30   7         DRIENEGE                      C5
+19  39streep 0.153                          30   7         DRIENEGE                      C6
+20  13streep 0.45                           30   7         EENDRI45                      D
+21  11streep 0.10                           30   7         EENEEN                        E1
+22  13streep 0.10                           30   7         EENDRIE                       E2
+23  haaientd                                30   7         HAAITAND                      E3
+24  13streep 0.30                           30   7         EENDRI30                      E4
+25  93streep                                30   7         NEGEDRIE                      E5
+26  6060streep 0.60                         30   7         FIETBL60                      E6
+27  5050streep 0.50                         30   7         FIETST50                      E7
+28  39streep 0.30                           30   7         DRIENEGE                      E8
+29  31streep 0.10                           30   7         DRIEEENT                      E9
+30  30270streep 0.10                        30   7         EENNEGEN                      EA
+31  27030streep 0.10                        30   7         NEGENEEN                      EB
+32  91streep 0.20                           30   7         NEGENEEN                      EC
+33  5050streep 0.10                         30   7         FIETST50                      ED
+34  13streep 0.20                           30   7         EENDRI30                      EE
+35  33streep 0.15                           30   7         FIETST50                      EF
+36  13streep 0.40                           30   7         EENDRI30                      EG
+37  verdrijfstreep                          30   7         continuous                    F
+38  gdsstring                               30   7         continuous                    G
+39  grondvlak                               30   1         continuous                    HG
+40  snijdingslijngrdwrk                     30   3         continuous                    I
+41  hulplijn                                30   7         continuous                    J
+42  kruinlijnen                             30   3         continuous                    K
+43  grondwerk                               30   3         continuous                    L
+44  masterstring                            30   1         DASH                          M
+45  pijlrd750                               30   7         PIJLRESN                      Q1
+46  pijlre750                               30   7         PIJLRSNE                      Q2
+47  pijlli750                               30   7         PIJLLSNE                      Q3
+48  pijlcombire750                          30   7         PIJCRSNE                      Q4
+49  pijlcombili750                          30   7         PIJCLSNE                      Q5
+50  pijlreverbod750                         30   7         PIRBNTSN                      Q6
+51  pijlliverbod750                         30   7         PILBNTSN                      Q7
+52  pijlverdrijf750                         30   7         PIJLASSN                      Q8
+53  pijlrd500                               30   7         PIJLRESC                      R1
+54  pijlre500                               30   7         PIJLRSCD                      R2
+55  pijlli500                               30   7         PIJLLSCD                      R3
+56  pijlcombire500                          30   7         PIJCRSCD                      R4
+57  pijlcombili500                          30   7         PIJCLSCD                      R5
+58  pijlreverbod500                         30   7         PIRBNTSC                      R6
+59  pijlliverbod500                         30   7         PILBNTSC                      R7
+60  pijlantispook                           30   7         PLSPOOK                       R8
+61  reling                                  30   7         continuous                    RE
+62  scheidingverhard                        30   2         continuous                    S0
+63  kniklijn                                30   7         DASH                          SK
+64  vlakverdichtingslijnen                  30   8         continuous                    U
+65  damwand                                 30   7         DAMWAND                       V3
+66  voegovergang                            30   7         continuous                    VG
+67  verfvlak                                30   7         continuous                    VV
+68  buitenasfaltgootli                      30   2         continuous                    W1
+69  buitenasfaltgootre                      30   2         continuous                    W2
+70  kunstwerklijn                           30   7         continuous                    X
+71  rijkseiggrens                           30   7         DASH                          Y1
+72  provinciegrens                          30   7         continuous                    Y2
+73  gemeentegrens                           30   7         DASH                          Y3
+74  waterschapsgrens                        30   7         continuous                    Y4
+75  beheersgrens                            30   7         continuous                    Y5
+76  kadastralegrens                         30   7         continuous                    Y6
+77  bestemmingsplangrens                    30   7         continuous                    Y7
+78  aankoopgrens                            30   7         continuous                    Y8
+79  opnamedtmgrens                          30   7         continuous                    Y9
+80  rijksgrens                              30   7         continuous                    YA
+81  zoabsprong                              30   7         continuous                    Z
+*rlm                                                       23 
+1   beton1000                               30   3         DASH                          b1  
+2   beton400                                30   3         continuous                    b4  
+3   beton500                                30   3         DASH                          b5  
+4   beton600                                30   3         DASH                          B6  
+5   beton800                                30   3         DASH                          b8  
+6   straatkolk                              30   1         continuous                    C   
+7   inspectieput80                          30   1         continuous                    D1  
+8   inspectieput90                          30   1         continuous                    D2  
+9   inspectieput100                         30   1         continuous                    D3  
+10  inspectieput120                         30   1         continuous                    D4  
+11  inspectieput150                         30   1         continuous                    D5  
+12  uitstroombak                            30   3         continuous                    E   
+13  hdpe                                    30   140       continuous                    H   
+14  hulplijn                                30   7         continuous                    J   
+15  drainage                                30   5         continuous                    K   
+16  pvc160                                  30   1         DASH                          R1  
+17  pvc250                                  30   1         DASH                          R2  
+18  pvc310                                  30   1         DASH                          R3  
+19  pvc400                                  30   1         DASH                          R4  
+20  pvc125                                  30   1         DASH                          R5  
+21  spirisol                                30   4         continuous                    S   
+22  trottoirkolk                            30   1         continuous                    T   
+23  overige                                 30   5         continuous                    X   
+*rmr                                                       56 
+1   streep 0.101                            10   7         continuous                    B1
+2   streep 0.102                            10   7         continuous                    B2
+3   streep 0.103                            10   7         continuous                    B3
+4   streep 0.151                            15   7         continuous                    B4
+5   streep 0.152                            15   7         continuous                    B5
+6   streep 0.153                            15   7         continuous                    B6
+7   streep 0.201                            20   7         continuous                    B7
+8   streep 0.202                            20   7         continuous                    B8
+9   streep 0.203                            20   7         continuous                    B9
+10  streep 0.05                             30   7         continuous                    BA
+11  bdrymetz                                20   140       continuous                    BY
+12  bdryzonderz                             30   140       DRIENEGE                      BZ
+13  39streep 0.101                          30   7         DRIENEGE                      C1
+14  39streep 0.102                          30   7         DRIENEGE                      C2
+15  39streep 0.103                          30   7         DRIENEGE                      C3
+16  39streep 0.151                          30   7         DRIENEGE                      C4
+17  39streep 0.152                          30   7         DRIENEGE                      C5
+18  39streep 0.153                          30   7         DRIENEGE                      C6
+19  13streep 0.45                           30   7         EENDRI45                      D
+20  11streep 0.10                           30   7         EENEEN                        E1
+21  13streep 0.10                           30   7         EENDRIE                       E2
+22  haaientd                                30   7         HAAITAND                      E3
+23  13streep 0.30                           30   7         EENDRI30                      E4
+24  93streep                                30   7         NEGEDRIE                      E5
+25  6060streep 0.60                         30   7         FIETBL60                      E6
+26  5050streep 0.50                         30   7         FIETST50                      E7
+27  39streep 0.30                           30   7         DRIENEGE                      E8
+28  31streep 0.10                           30   7         DRIEEENT                      E9
+29  30270streep 0.10                        30   7         EENNEGEN                      EA
+30  27030streep 0.10                        30   7         NEGENEEN                      EB
+31  91streep 0.20                           30   7         NEGENEEN                      EC
+32  5050streep 0.10                         30   7         FIETST50                      ED
+33  13streep 0.20                           30   7         EENDRI30                      EE
+34  33streep 0.15                           30   7         FIETST50                      EF
+35  13streep 0.40                           30   7         EENDRI30                      EG
+36  verdrijfstreep                          30   7         continuous                    F
+37  gdsstring                               30   7         continuous                    G
+38  hulplijn                                30   7         continuous                    J
+39  masterstring                            30   1         DASH                          M
+40  pijlrd750                               30   7         PIJLRESN                      Q1
+41  pijlre750                               30   7         PIJLRSNE                      Q2
+42  pijlli750                               30   7         PIJLLSNE                      Q3
+43  pijlcombire750                          30   7         PIJCRSNE                      Q4
+44  pijlcombili750                          30   7         PIJCLSNE                      Q5
+45  pijlreverbod750                         30   7         PIRBNTSN                      Q6
+46  pijlliverbod750                         30   7         PILBNTSN                      Q7
+47  pijlverdrijf750                         30   7         PIJLASSN                      Q8
+48  pijlrd500                               30   7         PIJLRESC                      R1
+49  pijlre500                               30   7         PIJLRSCD                      R2
+50  pijlli500                               30   7         PIJLLSCD                      R3
+51  pijlcombire500                          30   7         PIJCRSCD                      R4
+52  pijlcombili500                          30   7         PIJCLSCD                      R5
+53  pijlreverbod500                         30   7         PIRBNTSC                      R6
+54  pijlliverbod500                         30   7         PILBNTSC                      R7
+55  pijlantispook                           30   7         PLSPOOK                       R8
+56  verfvlak                                30   7         continuous                    VV
+*rmv                                                       35 
+1   txtalgemeen                             30   7         continuous                    *A  
+2   randverharding                          30   7         continuous                    A   
+3   betonelemverhard                        30   7         continuous                    AE  
+4   groensteenverharding                    30   7         continuous                    AG  
+5   halfverhard                             30   7         continuous                    AH  
+6   klinkerverharding                       30   7         continuous                    AK  
+7   onverhard                               30   7         continuous                    AO  
+8   tegelverharding                         30   7         continuous                    AT  
+9   betonverharding                         30   7         continuous                    AV  
+10  bdrymetz                                30   7         continuous                    BY  
+11  bdryzonderz                             30   7         continuous                    BZ  
+12  bandenlijn                              30   7         continuous                    F0  
+13  maaiveldlijn bebouwing                  30   1         continuous                    HB  
+14  dakgoot                                 30   1         continuous                    HD  
+15  maaiveldlijn algemeen                   30   7         continuous                    HM  
+16  noklijn                                 30   1         continuous                    HT  
+17  snijdingslijngrdwrk                     30   7         continuous                    I   
+18  hulplijn                                30   7         continuous                    J   
+19  kruinlijnen                             30   3         continuous                    K   
+20  teenlijn                                30   3         continuous                    L   
+21  bodemwatergang                          30   3         continuous                    NB  
+22  insteekwatergang                        30   3         continuous                    NI  
+23  waterlijn                               30   4         continuous                    O   
+24  hoogtepunt Dtm                          30   7         continuous                    P   
+25  rijijzer                                30   1         continuous                    RY  
+26  scheidingverhard                        30   7         continuous                    S0  
+27  kniklijn                                30   7         continuous                    SK  
+28  stuw                                    30   8         continuous                    T1  
+29  vlakverdichtingslijnen                  30   7         continuous                    U   
+30  damwand                                 30   7         continuous                    V3  
+31  beschoeiing                             30   7         continuous                    V4  
+32  buitenasfaltgootli                      30   2         continuous                    W1  
+33  buitenasfaltgootre                      30   2         continuous                    W2  
+34  buitenklinkergoot                       30   2         continuous                    W3  
+35  opnamedtmgrens                          30   7         continuous                    Y9  
+*rrl                                                       22 
+1   beton1000                               30   3         DASH                          b1  
+2   beton400                                30   3         continuous                    b4  
+3   beton500                                30   3         DASH                          b5  
+4   beton600                                30   3         DASH                          B6  
+5   beton800                                30   3         DASH                          b8  
+6   straatkolk                              30   1         continuous                    C   
+7   inspectieput80                          30   1         continuous                    D1  
+8   inspectieput90                          30   1         continuous                    D2  
+9   inspectieput100                         30   1         continuous                    D3  
+10  inspectieput120                         30   1         continuous                    D4  
+11  inspectieput150                         30   1         continuous                    D5  
+12  uitstroombak                            30   3         continuous                    E   
+13  hdpe                                    30   140       continuous                    H   
+14  hulplijn                                30   7         continuous                    J   
+15  drainage                                30   5         continuous                    K   
+16  pvc160                                  30   1         DASH                          R1  
+17  pvc250                                  30   1         DASH                          R2  
+18  pvc310                                  30   1         DASH                          R3  
+19  pvc400                                  30   1         DASH                          R4  
+20  pvc125                                  30   1         continuous                    R5  
+21  trottoirkolk                            30   1         continuous                    T   
+22  overige                                 30   5         continuous                    X   
+*rwh                                                       14 
+1   beton1000                               30   3         DASH                          b1  
+2   beton400                                30   3         continuous                    b4  
+3   beton500                                30   3         DASH                          b5  
+4   beton600                                30   3         DASH                          B6  
+5   beton800                                30   3         DASH                          b8  
+6   inspectieput80                          30   1         DASH                          D1  
+7   inspectieput90                          30   1         DASH                          D2  
+8   inspectieput100                         30   1         DASH                          D3  
+9   inspectieput120                         30   1         DASH                          D4  
+10  inspectieput150                         30   1         DASH                          D5  
+11  uitstroombak                            30   3         continuous                    E   
+12  hulplijn                                30   7         continuous                    J   
+13  spirisol                                30   4         continuous                    S   
+14  overige                                 30   5         continuous                    X   
+*rwm                                                       13 
+1   txthectometerbord                       30   5         continuous                    *H  
+2   rasterhekwerk                           30   21        continuous                    C   
+3   schrikhek                               30   1         continuous                    D   
+4   trap                                    30   140       continuous                    F   
+5   hectometerbord                          30   7         continuous                    H   
+6   verkeersbord                            30   7         continuous                    P   
+7   abri(punt)                              30   4         continuous                    Q1  
+8   antenne                                 30   140       continuous                    Q2  
+9   bank                                    30   5         continuous                    Q3  
+10  picknicktafel                           30   5         continuous                    Q4  
+11  prullenbak                              30   5         continuous                    Q5  
+12  reclamezuil                             30   7         continuous                    Q6  
+13  windzak                                 30   140       continuous                    Q7  
+*scm                                                       37 
+1   verfvlak                                30   7         continuous                    0
+2   lichtmast dubbel gericht                30   1         continuous                    0
+3   tekst018                                30   1         continuous                    18
+4   lijn018                                 30   7         continuous                    19
+5   tekst025                                30   7         continuous                    28
+6   lijn025                                 30   7         continuous                    29
+7   tekst035                                30   7         continuous                    38
+8   lijn035                                 30   7         continuous                    39
+9   tekst050                                30   7         continuous                    58
+10  lijn050                                 30   7         continuous                    59
+11  verkantingsinformatie                   30   7         continuous                    9
+12  randverharding                          30   7         continuous                    A
+13  belijning 0.20                          30   7         continuous                    B
+14  belijning 0.15                          30   7         continuous                    C
+15  belijning 0.10                          30   7         continuous                    D
+16  belijning 0.45                          30   7         continuous                    E
+17  belijning 0.30 cm                       30   7         continuous                    F
+18  geleiderail 80                          30   1         continuous                    G
+19  geleiderail 60 l aanrdbr                30   1         continuous                    H
+20  geleiderail 60 r aanrdbr                30   1         continuous                    I
+21  lichtmast lnks gericht                  30   1         continuous                    J
+22  lichtmast rchts gericht                 30   1         continuous                    K
+23  belijning 0.50 cm                       30   1         continuous                    L
+24  belijning 0.60 cm                       30   1         continuous                    M
+25  hulplijn1                               30   8         continuous                    N
+26  waterlijn                               30   4         continuous                    O
+27  belijning 0.05 cm                       30   4         continuous                    P
+28  asstreep                                30   1         continuous                    Q
+29  cunetmodel                              30   4         continuous                    R
+30  zandmodel                               30   3         continuous                    S
+31  overhoogtemodel                         30   2         continuous                    T
+32  totaal nieuw wegmodel                   30   7         continuous                    U
+33  totaal grondmodel                       30   8         continuous                    V
+34  uithouder                               30   7         continuous                    W
+35  grenslijn                               30   1         continuous                    X
+36  asfalt dtm                              30   8         continuous                    Y
+37  hulplijn2                               30   4         continuous                    Z
+*slm                                                       17 
+1   tekst018                                30   1         continuous                    18  
+2   lijn018                                 30   7         continuous                    19  
+3   tekst025                                30   7         continuous                    28  
+4   lijn025                                 30   7         continuous                    29  
+5   tekst035                                30   7         continuous                    38  
+6   lijn035                                 30   7         continuous                    39  
+7   tekst050                                30   7         continuous                    58  
+8   lijn050                                 30   7         continuous                    59  
+9   bdrymetz                                30   140       continuous                    BY  
+10  bdryzonderz                             30   140       continuous                    BZ  
+11  langsprfl sub-surface                   30   7         continuous                    LB  
+12  langsprfl samengesteld                  30   7         continuous                    LC  
+13  langsprofiel ontwerp                    30   7         continuous                    LD  
+14  langsprofiel normaal                    30   7         continuous                    LS  
+15  langsprofiel tijdelijk                  30   7         continuous                    LT  
+16  nieuw                                   30   7         continuous                    M
+17  bestaand                                30   3         continuous                    S
+*som                                                       91 
+1   randverharding                          30   7         continuous                    A
+2   streep(alle)                            20   7         continuous                    B
+3   streep 0.101                            10   7         continuous                    B1
+4   streep 0.102                            10   7         continuous                    B2
+5   streep 0.103                            10   7         continuous                    B3
+6   streep 0.151                            15   7         continuous                    B4
+7   streep 0.152                            15   7         continuous                    B5
+8   streep 0.153                            15   7         continuous                    B6
+9   streep 0.201                            20   7         continuous                    B7
+10  streep 0.202                            20   7         continuous                    B8
+11  streep 0.203                            20   7         continuous                    B9
+12  bdrymetz                                30   7         continuous                    BY
+13  bdryzonderz                             30   140       continuous                    BZ
+14  39streep(alle)                          30   7         DRIENEGE                      C
+15  39streep 0.101                          30   7         DRIENEGE                      C1
+16  39streep 0.102                          30   7         DRIENEGE                      C2
+17  39streep 0.103                          30   7         DRIENEGE                      C3
+18  39streep 0.151                          30   7         DRIENEGE                      C4
+19  39streep 0.152                          30   7         DRIENEGE                      C5
+20  39streep 0.153                          30   7         DRIENEGE                      C6
+21  13streep 0.45                           30   7         EENDRI45                      D
+22  11streep 0.10                           30   7         EENEEN                        E1
+23  13streep 0.10                           30   7         EENDRIE                       E2
+24  haaientd                                30   7         HAAITAND                      E3
+25  13streep 0.30                           30   7         EENDRI30                      E4
+26  93streep 0.10                           30   7         NEGEDRIE                      E5
+27  6060streep 0.60                         30   7         FIETBL60                      E6
+28  5050streep 0.50                         30   7         FIETST50                      E7
+29  39streep 0.30                           30   7         DRIENEGE                      E8
+30  31streep 0.10                           30   7         DRIEEENT                      E9
+31  30270streep 0.10                        30   7         EENNEGEN                      EA
+32  27030streep 0.10                        30   7         NEGENEEN                      EB
+33  91streep 0.20                           30   7         NEGENEEN                      EC
+34  5050streep 0.10                         30   7         FIETST50                      ED
+35  13streep 0.20                           30   7         EENDRI30                      EE
+36  33streep 0.15                           30   7         FIETST50                      EF
+37  13streep 0.40                           30   7         EENDRI30                      EG
+38  verdrijfstreep                          30   7         continuous                    F
+39  gdsstring                               30   7         continuous                    G
+40  bebouwing                               30   7         continuous                    H
+41  dakgoot                                 30   7         continuous                    HD
+42  grondvlak                               30   7         continuous                    HG
+43  top                                     30   7         continuous                    HT
+44  snijdingslijngrdwrk                     30   7         continuous                    I
+45  piketlijn                               30   4         continuous                    J
+46  kruinlijnen                             30   7         continuous                    K
+47  grondwerk                               30   7         continuous                    L
+48  masterstring                            30   7         continuous                    M
+49  insteekwatergang                        30   7         continuous                    N
+50  waterlijn                               30   7         continuous                    O
+51  pijlrd750                               30   7         PIJLRESN                      Q1
+52  pijlre750                               30   7         PIJLRSNE                      Q2
+53  pijlli750                               30   7         PIJLLSNE                      Q3
+54  pijlcombire750                          30   7         PIJCRSNE                      Q4
+55  pijlcombili750                          30   7         PIJCLSNE                      Q5
+56  pijlreverbod750                         30   7         PIRBNTSN                      Q6
+57  pijlliverbod750                         30   7         PILBNTSN                      Q7
+58  pijlverdrijf750                         30   7         PIJLASSN                      Q8
+59  pijlrd500                               30   7         PIJLRESC                      R1
+60  pijlre500                               30   7         PIJLRSCD                      R2
+61  pijlli500                               30   7         PIJLLSCD                      R3
+62  pijlcombie500                           30   7         PIJCRSCD                      R4
+63  pijlcombili500                          30   7         PIJCLSCD                      R5
+64  pijlreverbod500                         30   7         PIRBNTSC                      R6
+65  pijlliverbod500                         30   7         PILBNTSC                      R7
+66  pijlantispook                           30   7         PLSPOOK                       R8
+67  kniklijn                                30   7         DASH                          SK
+68  scheidingverhard                        30   7         continuous                    SO
+69  stuw                                    30   7         continuous                    T1
+70  duiker                                  30   7         continuous                    T2
+71  lichtmast dubbel                        30   7         continuous                    T3
+72  vlakverdichtingslijnen                  30   8         continuous                    U
+73  poerAportaal                            30   7         continuous                    V1
+74  poeruithouder                           30   7         POERUITH                      V2
+75  damwand                                 30   7         DAMWAND                       V3
+76  beschoeiing                             30   7         continuous                    V4
+77  kademuur                                30   7         continuous                    V5
+78  buitenasfaltgootli                      30   7         continuous                    W1
+79  buitenasfaltgootre                      30   7         continuous                    W2
+80  kunstwerklijn                           30   7         continuous                    X
+81  rijkseiggrens                           30   7         continuous                    Y1
+82  provinciegrens                          30   7         continuous                    Y2
+83  gemeentegrens                           30   7         continuous                    Y3
+84  waterschapsgrens                        30   7         continuous                    Y4
+85  beheersgrens                            30   7         continuous                    Y5
+86  kadastralegrens                         30   7         continuous                    Y6
+87  bestemmingsplangrens                    30   7         continuous                    Y7
+88  aankoopgrens                            30   7         continuous                    Y8
+89  opnamedtmgrens                          30   7         continuous                    Y9
+90  rijksgrens                              30   7         continuous                    YA
+91  zoabsprong                              30   7         HAAITAND                      Z
+*srf                                                       4 
+1   bdrymetz                                30   140       continuous                    BY  
+2   bdryzonderz                             30   140       continuous                    BZ  
+3   Spot Levels                             30   7         continuous                    L   
+4   Points                                  30   7         continuous                    P   
+*tex                                                       5 
+1   tekst018                                30   4         continuous                    *1  
+2   tekst025                                30   1         continuous                    *2  
+3   tekst035                                30   5         continuous                    *3  
+4   tekst05                                 30   2         continuous                    *4  
+5   tekst07                                 30   140       continuous                    *5  
+*tsm                                                       1 
+1   taludarcering                           30   7         continuous                    L   
+*vis                                                       5 
+1   bdrymetz                                30   140       continuous                    BY  
+2   bdryzonderz                             30   140       continuous                    BZ  
+3   Visibility Dwarsprofiel                 30   21        continuous                    C   
+4   Visibility (Forward)                    30   21        continuous                    VIF 
+5   Visibility (Reverse)                    30   21        continuous                    VIR 
+*vol                                                       5 
+1   End Area                                30   21        continuous                    AE  
+2   Area                                    30   21        continuous                    AR  
+3   bdrymetz                                30   140       continuous                    BY  
+4   bdryzonderz                             30   140       continuous                    BZ  
+5   Volume                                  30   140       continuous                    VL  
+*vwm                                                       91 
+1   randverharding                          30   7         continuous                    A
+2   streep 0.101                            13   7         continuous                    B1
+3   streep 0.102                            13   7         continuous                    B2
+4   streep 0.103                            13   7         continuous                    B3
+5   streep 0.151                            15   7         continuous                    B4
+6   streep 0.152                            15   7         continuous                    B5
+7   streep 0.153                            15   7         continuous                    B6
+8   streep 0.201                            20   7         continuous                    B7
+9   streep 0.202                            20   7         continuous                    B8
+10  streep 0.203                            20   7         continuous                    B9
+11  streep 0.05                             05   7         continuous                    BA
+12  bdrymetz                                20   140       continuous                    BY
+13  bdryzonderz                             30   140       continuous                    BZ
+14  39streep 0.101                          30   7         DRIENEGE                      C1
+15  39streep 0.102                          30   7         DRIENEGE                      C2
+16  39streep 0.103                          30   7         DRIENEGE                      C3
+17  39streep 0.151                          30   7         DRIENEGE                      C4
+18  39streep 0.152                          30   7         DRIENEGE                      C5
+19  39streep 0.153                          30   7         DRIENEGE                      C6
+20  13streep 0.45                           30   7         EENDRI45                      D
+21  11streep 0.10                           30   7         EENEEN                        E1
+22  13streep 0.10                           30   7         EENDRIE                       E2
+23  haaientd                                30   7         HAAITAND                      E3
+24  13streep 0.30                           30   7         EENDRI30                      E4
+25  93streep                                30   7         NEGEDRIE                      E5
+26  6060streep 0.60                         30   7         FIETBL60                      E6
+27  5050streep 0.50                         30   7         FIETST50                      E7
+28  39streep 0.30                           30   7         DRIENEGE                      E8
+29  31streep 0.10                           30   7         DRIEEENT                      E9
+30  30270streep 0.10                        30   7         EENNEGEN                      EA
+31  27030streep 0.10                        30   7         NEGENEEN                      EB
+32  91streep 0.20                           30   7         NEGENEEN                      EC
+33  5050streep 0.10                         30   7         FIETST50                      ED
+34  13streep 0.20                           30   7         EENDRI30                      EE
+35  33streep 0.15                           30   7         FIETST50                      EF
+36  13streep 0.40                           30   7         FIETST50                      EG
+37  verdrijfstreep                          30   7         continuous                    F
+38  gdsstring                               30   1         continuous                    G
+39  bebouwing                               30   1         continuous                    H
+40  dakgoot                                 30   1         continuous                    HD
+41  grondvlak                               30   1         continuous                    HG
+42  top                                     30   1         continuous                    HT
+43  snijdingslijngrdwrk                     30   3         continuous                    I
+44  hulplijn                                30   7         continuous                    J
+45  kruinlijnen                             30   3         continuous                    K
+46  grondwerk                               30   3         continuous                    L
+47  masterstring                            30   1         DASH                          M
+48  watergang                               30   3         continuous                    N
+49  waterlijn                               30   4         continuous                    O
+50  pijlrd750                               30   7         PIJLRESN                      Q1
+51  pijlre750                               30   7         PIJLRSNE                      Q2
+52  pijlli750                               30   7         PIJLLSNE                      Q3
+53  pijlcombire750                          30   7         PIJCRSNE                      Q4
+54  pijlcombili750                          30   7         PIJCLSNE                      Q5
+55  pijlreverbod750                         30   7         PIRBNTSN                      Q6
+56  pijlliverbod750                         30   7         PILBNTSN                      Q7
+57  pijlverdrijf750                         30   7         PIJLASSN                      Q8
+58  pijlrd500                               30   7         PIJLRESC                      R1
+59  pijlre500                               30   7         PIJLRSCD                      R2
+60  pijlli500                               30   7         PIJLLSCD                      R3
+61  pijlcombire500                          30   7         PIJCRSCD                      R4
+62  pijlcombili500                          30   7         PIJCLSCD                      R5
+63  pijlreverbod500                         30   7         PIRBNTSC                      R6
+64  pijlliverbod500                         30   7         PILBNTSC                      R7
+65  pijlantispook                           30   7         PLSPOOK                       R8
+66  scheidingverhard                        30   7         continuous                    S0
+67  kniklijn                                30   7         DASH                          SK
+68  stuw                                    30   8         continuous                    T1
+69  duiker                                  30   8         continuous                    T2
+70  lichtmast dubbel                        30   7         continuous                    T3
+71  vlakverdichtingslijnen                  30   8         continuous                    U
+72  poerAportaal                            30   7         continuous                    V1
+73  poeruithouder                           30   7         POERUITH                      V2
+74  damwand                                 30   7         DAMWAND                       V3
+75  beschoeiing                             30   7         continuous                    V4
+76  kademuur                                30   7         continuous                    V5
+77  verfvlak                                30   7         continuous                    VV
+78  buitenasfaltgootli                      30   2         continuous                    W1
+79  buitenasfaltgootre                      30   2         continuous                    W2
+80  kunstwerklijn                           30   7         continuous                    X
+81  rijkseiggrens                           30   7         DASH                          Y1
+82  provinciegrens                          30   7         continuous                    Y2
+83  gemeentegrens                           30   7         DASH                          Y3
+84  waterschapsgrens                        30   7         continuous                    Y4
+85  beheersgrens                            30   7         continuous                    Y5
+86  kadastralegrens                         30   7         continuous                    Y6
+87  bestemmingsplangrens                    30   7         continuous                    Y7
+88  aankoopgrens                            30   7         continuous                    Y8
+89  opnamedtmgrens                          30   7         continuous                    Y9
+90  rijksgrens                              30   7         continuous                    YA
+91  zoabsprong                              30   7         continuous                    Z
+*whm                                                       14 
+1   beton1000                               30   3         DASH                          b1  
+2   beton400                                30   3         continuous                    b4  
+3   beton500                                30   3         DASH                          b5  
+4   beton600                                30   3         DASH                          B6  
+5   beton800                                30   3         DASH                          b8  
+6   inspectieput80                          30   1         DASH                          D1  
+7   inspectieput90                          30   1         DASH                          D2  
+8   inspectieput100                         30   1         DASH                          D3  
+9   inspectieput120                         30   1         DASH                          D4  
+10  inspectieput150                         30   1         DASH                          D5  
+11  uitstroombak                            30   3         continuous                    E   
+12  hulplijn                                30   7         continuous                    J   
+13  spirisol                                30   4         continuous                    S   
+14  overige                                 30   5         continuous                    X   
+*wmm                                                       11 
+1   txthectometerbord                       30   5         continuous                    *H  
+2   abri(punt)                              30   4         continuous                    A   
+3   abri(vlak)                              30   4         continuous                    B   
+4   rasterhekwerk                           30   21        continuous                    C   
+5   schrikhek                               30   1         continuous                    D   
+6   antenne                                 30   140       continuous                    E   
+7   trap                                    30   140       continuous                    F   
+8   hectometerbord                          30   7         continuous                    H   
+9   verkeersbord                            30   7         continuous                    P   
+10  reclamezuil                             30   7         continuous                    R   
+11  windzak                                 30   140       continuous                    W   
+*zan                                                       12 
+1   randverharding                          30   7         continuous                    A
+2   bdrymetz                                30   140       continuous                    BY
+3   bdryzonderz                             30   140       continuous                    BZ
+4   snijdingslijngrdwrk                     30   3         continuous                    I
+5   hulplijn                                30   8         continuous                    J
+6   kruinlijnen                             30   3         continuous                    K
+7   overige                                 30   3         continuous                    L
+8   masterstring                            30   1         continuous                    M
+9   watergang                               30   3         continuous                    N
+10  scheidingverhard                        30   2         continuous                    S0
+11  kniklijn                                30   7         DASH                          SK
+12  zoabsprong                              30   7         continuous                    Z
+*zkb                                                       2 
+1   zakbakenvak1-9                          30   7         continuous                    0   
+2   zakbakenvak10-19                        30   7         continuous                    1   
+einde

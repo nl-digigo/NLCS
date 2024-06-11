@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<!--file and path : algemeen/hoe_tekenobjecten_hoofdgroepen_g.html -->
+<!--release	 	  : 11-09-2002									   -->
+<!--designer	  : C.J.F. Rothfusz								   -->
+<!--company		  : Tree C Technology B.V.						   -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="GENERATOR" content="Mozilla/4.76 [en] (Win98; U) [Netscape]">
+  <title>hoe tekenobjecten hoofdgroepen geometrie</title>
+<script src="../versie.js"></script>
+</head>
+<body bgcolor=white link=black alink=black vlink=black text=black>
+<font size=+2 color=black><b>HOOFDGROEPEN-GEOMETRIE</b></font>
+<p><font>
+<script>
+document.write('De onderstaande menu\'s geven de tekenobject hoofdgroepen. Er wordt onderscheid gemaakt in dsicipline afhankelijke tekenobjecten en algemene, discipline onafhankelijke tekenobjecten. Kies de groep waarvan u de tekenobjecten wilt zien:')
+</script>
+<p>
+<script>
+var h,i,j,m,n,o                              //Zet alle layer(hoofd)groepen met doorverwijzingen in een
+h=parent.database.GeefAantalLayergroepen()   //tabel.
+if (disc == "wegen") disc_omschr="WEGEN"
+if (disc == "kunstwerken") {
+  if (subdisc == "beton") disc_omschr="KUNSTWERKEN BETONCONSTRUCTIES"
+  if (subdisc == "staal") disc_omschr="KUNSTWERKEN STAALCONSTRUCTIES"
+  if (subdisc == "water") disc_omschr="KUNSTWERKEN WATERBOUW"
+  if (subdisc == "werkt") disc_omschr="KUNSTWERKEN WERKTUIGBOUW"
+}
+if (disc == "waterbouw") disc_omschr="WATERBOUW"
+document.write('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size=+1 color=black><b>'+disc_omschr+'</b></font><br><br>')
+for (i=1;i<h;i++) {
+  j=parent.database.GeefHoofdgroep(i)
+  m="'"+"layergroep="+i+"'"                  //Bereid cookie met gekozen layergroep voor.
+  n=j.length
+  o="'hoofdgroep="+j+"'"
+  test=j.substring(0,2)
+  if (i==1) {
+   document.write('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size="3" color="black" style="Arial"><img src="../images/bol1.gif" width="8" height="8" border="0">&nbsp;&nbsp;<a href="elementen.html" onclick="parent.database.SchrijfCookie('+m+'),parent.database.SchrijfCookie('+o+')">'+j.substring(2,n)+'</a><br>')
+  }
+  if (test!="mx") {	   						 //Hoofdgroep mx moet niet getoond worden
+    if (test=="xx") {                                        //Eerst Algemeen neerzetten
+  document.write('<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size=+1 color=black><b>ALGEMEEN</b></font><br><br>')
+    }
+  }
+  if (test=="to") {                                      //Maar xx zelf is geen hoofdgroep
+  document.write('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size="3" color="black" style="Arial"><img src="../images/bol1.gif" width="8" height="8" border="0">&nbsp;&nbsp;<a href="elementen.html" onclick="parent.database.SchrijfCookie('+m+'),parent.database.SchrijfCookie('+o+')">'+j.substring(2,n)+'</a><br>')
+  }
+}
+</script>
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../images/bol1.gif" width="8" height="8" border="0">&nbsp;&nbsp;<a href="techniek_AutoCAD_laagnamen_g.html">AutoCAD Hoofdgroepen</a>
+</body>
+</html>

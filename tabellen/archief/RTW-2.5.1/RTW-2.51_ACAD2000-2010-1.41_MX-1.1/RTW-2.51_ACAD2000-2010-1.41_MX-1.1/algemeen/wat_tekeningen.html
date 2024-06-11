@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<!--file and path  : algemeen/wat_tekeningen.html -->
+<!--release	 	   : 29-07-2002					  -->
+<!--designer       : C.J.F. Rothfusz 			  -->
+<!--company        : Tree C Technology B.V.		  -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="GENERATOR" content="Mozilla/4.76 [en] (Win98; U) [Netscape]">
+  <title>Wat Tekeningen</title>
+<script src="../versie.js"></script>
+</head>
+<body bgcolor=white link=black alink=black vlink=black text=black background="../images/logo.gif" onLoad="if (top.location.href.indexOf(disc+'.html')!=-1) parent.keuzelijst.location='../algemeen/keuzelijst_1.html'">
+<font size=+2 color="black" style="Arial"><b>WAT / TEKENINGEN</b></font>
+<p><font style="Arial">
+<script>
+var i,j,k,m,n,p,q,r
+i=parent.database.LeesCookie('projectfase=') //Lees cookie met het nummer van de gekozen projectfase.
+i=-1
+j=parent.database.GeefProjectfase(i)         //(j bevat de naam van de projectfase)
+if (i!=-1) document.write('U heeft <font color="black" style="Arial"><b>'+j+'</b></font> gekozen. Daarbij zijn de onderstaande tekeningen relevant. ')
+else document.write('De onderstaande lijst geeft alle mogelijke tekeningen. ') 
+document.write('Kies een tekening:')
+document.write('<ul>')
+r=parent.database.GeefAantalTekeningen()
+for (k=0;k<r;k++) {                        //Loop lijst met tekeningen af...
+  m=parent.database.GeefTekening(k)
+  n=parent.database.TekeningInProjectfase(k,i)
+  if (i==-1 | n=='+') {                    //druk tekening af als deze in projectfase voorkomt of als er geen projectfase gekozen is...
+    q="'tekening="+k+"'"                   //bereid cookie met gekozen tekening voor...
+    document.write('<br><img src="../images/bol1.gif" width="8" height="8" border="0">&nbsp;&nbsp;<a href="aandachtspnt.html" onClick="parent.database.SchrijfCookie('+q+')">'+m+'</a>')
+  }
+}
+document.write('</ul>')
+</script>
+<br><br>
+</body>
+</html>

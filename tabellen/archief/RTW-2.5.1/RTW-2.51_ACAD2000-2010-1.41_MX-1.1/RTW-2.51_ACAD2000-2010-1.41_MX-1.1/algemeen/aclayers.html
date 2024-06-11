@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<!--file and path : algemeen/aclayers.html -->
+<!--release		  : 09-09-2002			   -->
+<!--designer	  : C.J.F. Rothfusz		   -->
+<!--company		  : Tree C Technology B.V. -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="GENERATOR" content="Mozilla/4.76 [en] (Win98; U) [Netscape]">
+  <title>aclayers</title>
+<script src="../versie.js"></script>
+<script>
+function LaatGegevensZien(n,k,m) {            //Haal recordvelden uit database in plaats deze in een tabel.
+  var a,b,c,d,e,f,g,p,q,r,s,t,u,v,w            // n=recordnummer, k=afkorting van layerhoofdgroep,
+  p=parent.database.GeefLayer(n)               // m=2 normaal en m=1 bij algemene layers (aangeduid met *)
+  e=parent.database.GeefAantalRecords()-1
+  f=0                                          //Vlag om te voorkomen dat index 'uit array loopt'.
+  while (p.substring(0,m)==k & f==0) {         //Zolang record tot opgegeven hoofdgroep behoort...
+    t=parent.database.GeefBestand(n)            //haal gewenste gegevens uit record...
+    q="richtlijnen/specifiek/acad_basis.html"
+    r=parent.database.GeefElement(n)
+    s=parent.database.GeefModel(n)
+    u=p.length
+    v=p.indexOf("-",3)                          //zoek derde deel layernaam... (b.v. haag bij af-*-haag)
+    w="-"+p.substring(v+1,u)                    //stel (deel van) AutoMoss layernaam samen... (-haag)
+    if (s =="") {c="-"}
+    else {                                     //als de layer ook in een MX-model voorkomt...
+      a=s.length
+      b=0
+      c=""
+      d=0
+      while (b!=a) {
+        b=s.indexOf(",",d)
+        if (b==-1) b=a
+        c += s.substring(d,b)+w+"<br>"           //plak AutoMoss layernaam achter modelnaam (bv. DTM-haag).
+        d=b+1
+      }
+    }
+    g="'record="+n+"'"
+    xx="'layerbestand="+t+"'"
+    hfdgrp=(t.substr(0,2))
+    aa=parent.database.GeefIndexHoofdgroep(hfdgrp)
+    aa=parent.database.GeefHoofdgroep(aa)
+    ll=aa.length
+    aa=(aa.substr(3,ll))
+    aa="'hoofdgroep="+aa+"'"
+    //wp c=""toegevoegd om mx leeg te laten !!
+    c=""
+    document.write('<tr><td><a href="'+q+'" onClick="parent.database.SchrijfCookie('+xx+'),parent.database.SchrijfCookie('+g+'),parent.database.SchrijfCookie('+aa+')">'+p+'</a><td>'+r+'<td>'+c)
+    if (n<e) {n++}
+    else {f=1}                                //beveilig tegen 'uit de array lopen' (record was laatste in array)
+    p=parent.database.GeefLayer(n)
+  }
+}
+</script>
+</head>
+<body bgcolor=white link=black alink=black vlink=black text=black onLoad="if (top.location.href.indexOf(disc+'.html')!=-1) parent.keuzelijst.location='../algemeen/keuzelijst_1.html'">
+<font size=+2 color=black><b>AUTOCAD RICHTLIJN: LAGEN</b></font>
+<p>
+<script>
+var i,j,k,m,n
+i=parent.database.LeesCookie('layergroep=')   //Lees nummer van gekozen layergroep uit cookie.
+j=parent.database.GeefHoofdgroep(i)           //Haal afkorting en naam van deze layergroep op.
+k=j.length
+m=j.substring(0,2)+" ("+j.substring(3,k)+")"
+document.write('U heeft hoofdgroep <font color=black><b>'+m+'</b></font> gekozen. Daarbij behoren de onderstaande teken-object lagen. ')
+</script>
+Kies de laag waarvan u de richtlijn wilt zien:
+<p>
+<table cellpadding="5" cellspacing="0" border="1">
+  <tr align="left">
+    <th><a href="richtlijnen/algemeen/laagnaamconventie_AutoCAD.html">laagnaam</a>
+	<th>omschrijving
+	<script>//wp<th>MX-equivalent</script>
+      <script>
+      n=parent.database.GeefIndexBeginGroep(i)     //Zoek record op waar layergroep voor het eerst voorkomt.
+      k=j.substring(0,2)                           //Isoleer afkorting van de layergroep (2 letters).
+      LaatGegevensZien(n,k,2)                      //Zet de met de layergroep geassocieerde records in tabel.
+     </script>
+</table>
+<p>
+<hr>
+<p>
+<script src="../houdbaarheid_voor.js"></script>
+<script>
+document.write(' '+vers+' ')
+</script>
+<script src="../houdbaarheid_na.js"></script>
+</body>
+</html>

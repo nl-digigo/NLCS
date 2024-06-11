@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<!--file and path  : algemeen/arceringen.html -->
+<!--release	 	   : 23-09-2002				  -->
+<!--designer       : C.J.F. Rothfusz		  -->
+<!--company        : Tree C Technology B.V.	  -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="GENERATOR" content="Mozilla/4.76 [en] (Win98; U) [Netscape]">
+  <title>Arceringen</title>
+<script src="../versie.js"></script>
+</head>
+<body bgcolor=white link=black alink=black vlink=black text=black>
+<font size=+2 color=black><b>RICHTLIJN: ARCERINGEN</b></font>
+<p>
+<script>
+if (subdisc == "beton") disc_omschr="beton constructies"
+if (subdisc == "staal") disc_omschr="staal constructies"
+if (subdisc == "water") disc_omschr="waterbouw"
+if (subdisc == "werkt") disc_omschr="werktuigbouw"
+if (subdisc != "geen") document.write('Voor '+disc+' '+disc_omschr+' zijn de volgende arceringen beschikbaar:</font>')
+else document.write('Voor '+disc+' zijn de volgende arceringen beschikbaar:</font>')
+</script>
+<p>
+<table cellpadding="5" cellspacing="0" border="1">
+  <tr align=left>
+<script>
+document.write('<th><a href="../'+disc+'/'+disc+'_arceringen_omschrijvingen.html">omschrijving</a>')
+</script>
+    <th>weergave
+    <th>komtvoorin
+    <script>
+    var a,b,c,d,e,f,g,h
+    parent.database.VerzamelArceringen()
+    b=0
+    d=""
+    c=parent.database.GeefTekstUitSorteerLijst(b)
+    while(c!="") {
+      e=parent.database.GeefIndexUitSorteerLijst(b)
+      f=parent.database.GeefLayer(e)
+      g=parent.database.GeefBestand(e)
+	  xx="'layerbestand="+g+"'"
+  p=parent.database.GeefHatchCode(c)     // (zoek symbool op in tabel met kleurdefinities WP)
+  l=p.length
+  q=p.substring(0,79)
+      if (d!=c) document.write('<tr><td>'+q+'<td><img src="../images/arceringen/'+c+'.gif" alt="RTW arcering"><td>')
+      h="'record="+e+"'"
+      hfdgrp=(g.substr(0,2))
+      aa=parent.database.GeefIndexHoofdgroep(hfdgrp)
+      m="'"+"layergroep="+aa+"'"
+      aaa=parent.database.GeefHoofdgroep(aa)
+      o="'hoofdgroep="+aaa+"'"
+      ll=aaa.length
+      aa=(aaa.substr(3,ll))
+      aa="'hoofdgroep="+aa+"'"
+      tekelem=(g.substr(2,g.lastIndexOf('.')-2))
+      document.write('<a href="elementen.html" onClick="parent.database.SchrijfCookie('+m+'),parent.database.SchrijfCookie('+o+')">'+hfdgrp+'</a>-<a href="richtlijnen/specifiek/basis.html" onClick="parent.database.SchrijfCookie('+xx+'),parent.database.SchrijfCookie('+h+'),parent.database.SchrijfCookie('+aa+')">'+tekelem+'</a><br>')
+      b++
+      d=c
+      c=parent.database.GeefTekstUitSorteerLijst(b)
+    }
+    </script>
+</table>
+<p>
+<table>
+<tr align=left valign=top><th><font color=black>Legenda           <td>:<td><font color=black>de eerste 2 karakters die voor het min teken in de naam staan, verwijzen naar de hoofdgroep.
+</table>
+<br><img src="../images/bol1.gif" width="8" height="8" border="0">&nbsp;&nbsp;<a href="arceringen_AutoCAD.html">AutoCAD Arceringen</a><p>
+<hr>
+<p>
+<script src="../houdbaarheid_voor.js"></script>
+<script>
+document.write(' '+vers+' ')
+</script>
+<script src="../houdbaarheid_na.js"></script>
+</body>
+</html>
