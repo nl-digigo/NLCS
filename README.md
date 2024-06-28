@@ -11,7 +11,7 @@ Deze repository is de locatie voor technische documentatie en het inbrengen en o
 * [Protocol afhandelen gebruikerswensen](https://nl-digigo.github.io/NLCS/protocolissues)
 
 ## Voor ontwerpers en tekenaars
-* [Formele specificatie 5.0](https://github.com/nl-digigo/NLCS/blob/main/docs/archive/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf)
+* [Formele specificatie 5.0](https://github.com/nl-digigo/NLCS/blob/main/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf)
 
 In ontwikkeling:
 * [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification): De uitleg van de standaard met daarin de toelichting op het beoogd doel en de werking van de standaard
@@ -24,7 +24,7 @@ Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS
 
 
 ## Voor softwareleveranciers en ontwikkelaars
-* [Formele specificatie 5.0](https://github.com/nl-digigo/NLCS/blob/main/docs/archive/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf)
+* [Formele specificatie 5.0](https://github.com/nl-digigo/NLCS/blob/main/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf)
 * [Toelichting gebruik sparql-endpoint en query's](https://nl-digigo.github.io/NLCS/howtoquery/): Een gebruikershandleiding voor gebruik van de linked data publicatie, met toelichting op de code van het informatiemodel, query's en beschikbare datasets
 * [Eisen aan de software-implementatie van NLCS](https://nl-digigo.github.io/NLCS/requirementssoftware/) --- [reviewen t/m 1 sept 2024](https://nl-digigo.github.io/NLCS/requirementssoftware/reviewversies/CR-NLCS_requirementssoftware-20240501.html) --- [in ontwikkeling](https://nl-digigo.github.io/NLCS/requirementssoftware/ontwikkeling)
 
