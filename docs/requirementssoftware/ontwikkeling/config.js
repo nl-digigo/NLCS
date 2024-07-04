@@ -46,5 +46,11 @@ var respecConfig = {
     status: "Actueel",
     publisher: "NEN",
   },
+  NEN3610: {
+    title: "Basismodel geo-informatie - Termen, definities, relaties en algemene regels voor de uitwisseling van informatie over aan de aarde gerelateerde ruimtelijke objecten",
+    href: "https://www.nen.nl/nen-3610-2022-nl-296137",
+    status: "Actueel",
+    publisher: "NEN",
+  },
   },
 };
