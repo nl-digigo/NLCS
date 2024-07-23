@@ -1,0 +1,7 @@
+;;
+;;pat definitie/bestand gegenereerd uit de NLCS database versie 5.0
+;;
+*AGR-SIERPLANTSOEN-SO,sierplantsoen
+030,-0.86603,-0.50000,5.00000,2.88675,2.00000,-8.00000
+090,0.00000,-1.00000,5.00000,2.88675,2.00000,-8.00000
+150,0.86603,-0.50000,5.00000,2.88675,2.00000,-8.00000
