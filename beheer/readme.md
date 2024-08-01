@@ -1,1 +1,1 @@
-In deze folder staan de bestanden die nodig zijn voor beheer van de standaard. 
+In deze folder staan de bestanden die nodig zijn voor beheer van de standaard. Waaronder de templates voor het importeren van nieuwe concepten.
