@@ -1,0 +1,54 @@
+Linetype Definition file NLCS Vattenfall Heat
+
+*KL-HARTLIJN TRACE-SO,		| ---- . ---- . ----
+A,2.5,-1,-1
+
+*KL-WARMTENET AANVOER-SO,		| ---- WA ---- WA ----
+A,7,-2,["WA",NLCS-ISO,S=1,U=0.0,X=-0.90,Y=-0.50],-2
+
+*KL-WARMTENET RETOUR-SO,		| ---- WR ---- WR ----
+A,7,-2,["WR",NLCS-ISO,S=1,U=0.0,X=-0.85,Y=-0.50],-2
+
+*KL-KOUDENET AANVOER-SO,		| ---- KA ---- KA ----
+A,7,-2,["KA",NLCS-ISO,S=1,U=0.0,X=-0.75,Y=-0.50],-2
+
+*KL-KOUDENET RETOUR-SO,		| ---- KR ---- KR ----
+A,7,-2,["KR",NLCS-ISO,S=1,U=0.0,X=-0.70,Y=-0.50],-2
+
+*KL-WARMTENET BRONLEIDING-SO,		| ---- WB ---- WB ----
+A,7,-2,["WB",NLCS-ISO,S=1,U=0.0,X=-0.85,Y=-0.50],-2
+
+*KL-KOUDENET BRONLEIDING-SO,		| ---- KB ---- KB ----
+A,7,-2,["KB",NLCS-ISO,S=1,U=0.0,X=-0.70,Y=-0.50],-2
+
+*KL-WARMTENET MANTELBUIS-SO,		| ---- WMB ---- WMB ----
+A,7,-2,["WMB",NLCS-ISO,S=1,U=0.0,X=-1.30,Y=-0.50],-2
+
+*KL-BRONLEIDING MANTELBUIS-SO,		| ---- BMB ---- BMB ----
+A,7,-2,["BMB",NLCS-ISO,S=1,U=0.0,X=-1.15,Y=-0.50],-2
+
+*V-KL-WARMTENET AANVOER-SO,		| -//- WA -//- WA -//-
+A,3.5,[VERWIJDEREN2,NLCS.SHX,S=0.5],3.5,-2,["WA",NLCS-ISO,S=1,U=0.0,X=-0.90,Y=-0.50],-2
+
+*V-KL-WARMTENET RETOUR-SO,		| -//- WR -//- WR -//-
+A,3.5,[VERWIJDEREN2,NLCS.SHX,S=0.5],3.5,-2,["WR",NLCS-ISO,S=1,U=0.0,X=-0.85,Y=-0.50],-2
+
+*V-KL-KOUDENET AANVOER-SO,		| -//- KA -//- KA -//-
+A,3.5,[VERWIJDEREN2,NLCS.SHX,S=0.5],3.5,-2,["KA",NLCS-ISO,S=1,U=0.0,X=-0.75,Y=-0.50],-2
+
+*V-KL-KOUDENET RETOUR-SO,		| -//- KR -//- KR -//-
+A,3.5,[VERWIJDEREN2,NLCS.SHX,S=0.5],3.5,-2,["KR",NLCS-ISO,S=1,U=0.0,X=-0.70,Y=-0.50],-2	
+
+*V-KL-WARMTENET BRONLEIDING-SO,		| -//- WB -//- WB -//-
+A,3.5,[VERWIJDEREN2,NLCS.SHX,S=0.5],3.5,-2,["WB",NLCS-ISO,S=1,U=0.0,X=-0.85,Y=-0.50],-2
+
+*V-KL-KOUDENET BRONLEIDING-SO,		| -//- KB -//- KB -//-
+A,3.5,[VERWIJDEREN2,NLCS.SHX,S=0.5],3.5,-2,["KB",NLCS-ISO,S=1,U=0.0,X=-0.70,Y=-0.50],-2
+
+*V-KL-WARMTENET MANTELBUIS-SO,		| -//- WMB -//- WMB -//-
+A,3.5,[VERWIJDEREN2,NLCS.SHX,S=0.5],3.5,-2,["WMB",NLCS-ISO,S=1,U=0.0,X=-1.30,Y=-0.50],-2
+
+*V-KL-BRONLEIDING MANTELBUIS-SO,		| -//- BMB -//- BMB -//-
+A,3.5,[VERWIJDEREN2,NLCS.SHX,S=0.5],3.5,-2,["BMB",NLCS-ISO,S=1,U=0.0,X=-1.15,Y=-0.50],-2
+
+	
