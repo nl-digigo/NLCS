@@ -2,7 +2,7 @@ var respecConfig = {
   // => https://github.com/stichting-crow/respec/wiki
   specStatus: "CR",
   reviewDateEnd: "2024-09-01",
-  shortName: "NLCS/requirementssoftware",
+  shortName: "NLCS/requirementssoftware/ontwikkeling",
   specType: "technische documentatie", // vrije tekst, kleine letter
   imprint: "digigo",
   hypothesisComments: "false",
@@ -16,11 +16,7 @@ var respecConfig = {
   authors: [
     // alleen `name` is verplicht, https://respec.org/docs/#person
     {
-      name: "Corné Helmons",
-      company: "DigiGO",
-    },
-    {
-      name: "Niels Nederpel",
+      name: "Elisabeth de Vries",
       company: "DigiGO",
     },
   ],
