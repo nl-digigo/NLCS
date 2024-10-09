@@ -1,0 +1,45 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+# Retrieves all Lijnkleur information and stores it in the familiar Excel/CSV format from the SQL database
+
+SELECT DISTINCT ?lijnkleurURI ?id ?fase ?nummer ?hex ?R ?G ?B ?optie
+WHERE {
+  ?LijnkleurTopConcept a owl:Class .
+  ?LijnkleurTopConcept skos:prefLabel "Lijnkleur" . 
+  ?lijnkleurURI rdfs:subClassOf ?LijnkleurTopConcept .
+  ?lijnkleurURI skos:prefLabel ?nummer .
+  OPTIONAL {
+  	?lijnkleurURI ?idProperty ?id .
+    ?idProperty skos:prefLabel "ID" .
+  }
+  OPTIONAL {
+  	?lijnkleurURI ?faseProperty ?fase .
+    ?faseProperty skos:prefLabel "Fase" .
+  }
+  OPTIONAL {
+  	?lijnkleurURI ?hexProperty ?hex .
+    ?hexProperty skos:prefLabel "HEX" .
+  }
+  OPTIONAL {
+  	?lijnkleurURI ?RProperty ?R .
+    ?RProperty skos:prefLabel "R" .
+  }
+  OPTIONAL {
+  	?lijnkleurURI ?GProperty ?G .
+    ?GProperty skos:prefLabel "G" .
+  }
+  OPTIONAL {
+  	?lijnkleurURI ?BProperty ?B .
+    ?BProperty skos:prefLabel "B" .
+  }
+  OPTIONAL {
+  	?lijnkleurURI ?optieProperty ?optie .
+    ?optieProperty skos:prefLabel "Optie" .
+  }
+} ORDER BY ?id
