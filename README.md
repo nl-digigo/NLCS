@@ -26,7 +26,7 @@ Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS
 ## Voor softwareleveranciers en ontwikkelaars
 * [Formele specificatie 5.0](https://github.com/nl-digigo/NLCS/blob/main/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf)
 * [Toelichting gebruik sparql-endpoint en query's](https://nl-digigo.github.io/NLCS/howtoquery/): Een gebruikershandleiding voor gebruik van de linked data publicatie, met toelichting op de code van het informatiemodel, query's en beschikbare datasets
-* [Eisen aan de software-implementatie van NLCS](https://nl-digigo.github.io/NLCS/requirementssoftware/) --- [reviewen t/m 1 sept 2024](https://nl-digigo.github.io/NLCS/requirementssoftware/reviewversies/CR-NLCS_requirementssoftware-20240501.html) --- [in ontwikkeling](https://nl-digigo.github.io/NLCS/requirementssoftware/ontwikkeling)
+* [Eisen aan de software-implementatie van NLCS](https://nl-digigo.github.io/NLCS/requirementssoftware/) --- [in ontwikkeling](https://nl-digigo.github.io/NLCS/requirementssoftware/ontwikkeling)
 
 In ontwikkeling:
 * [Toelichting informatiemodel](https://nl-digigo.github.io/NLCS/code_documentation): De toelichting op de uitgangspunten en modelleringswijze van het  informatiemodel in linked data
