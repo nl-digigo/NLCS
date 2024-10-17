@@ -1,0 +1,429 @@
+@prefix nlcs-o: <http://otl.nlcs.nl/def/objecttype/> .
+@prefix nlcs-p: <http://otl.nlcs.nl/def/eigenschap/> .
+@prefix nlcs-shape: <http://otl.nlcs.nl/def/shape/> .
+@prefix nlcs-vwl: <http://otl.nlcs.nl/def/domeinwaarde/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix imbor: <http://linkeddata.crow.nl/publication-v2/ns/crow/imbor/def/objecttype/> .
+@prefix imborp: <http://linkeddata.crow.nl/publication-v2/ns/crow/imbor/def/eigenschap/> .
+@prefix imborvwl: <http://linkeddata.crow.nl/publication-v2/ns/crow/imbor/def/domeinwaarde/> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix shape: <http://linkeddata.crow.nl/publication-v2/ns/crow/imbor/def/shape/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nlcs-o:Aquaduct a rdfs:Class ;
+    rdfs:label "Aquaduct"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Kunstwerk waarmee een watergang door een bakvormige constructie over een weg, een spoorweg, een andere watergang, een leiding of een terrein wordt geleid."@nl ;
+    skos:prefLabel "Aquaduct"@nl ;
+    skos:related imbor:OBB1041 .
+
+nlcs-o:Begroeiing a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Scherm ;
+    skos:prefLabel "Begroeiing"@nl .
+
+nlcs-o:Beton a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Beton"@nl .
+
+nlcs-o:Bodemval a rdfs:Class ;
+    rdfs:label "Bodemval"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Sprong in de bodem van een waterloop."@nl ;
+    skos:prefLabel "Bodemval"@nl ;
+    skos:related imbor:OBB96 .
+
+nlcs-o:Brug a rdfs:Class ;
+    rdfs:label "Brug"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Kunstwerk over een waterweg, watergang of waterloop, bestaande uit een brugdek gesteund door pijlers en/of landhoofden."@nl ;
+    skos:prefLabel "Brug"@nl ;
+    skos:related imbor:OBB1037 .
+
+nlcs-o:Coupure a rdfs:Class ;
+    rdfs:label "Coupure"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Onderbreking in een waterkering, dam, dijk, kade of muur voor de doorvoer van een weg of spoorweg, die bij extreem hoge waterstanden wordt afgesloten met een of meer deuren of schotbalken."@nl ;
+    skos:prefLabel "Coupure"@nl ;
+    skos:related imbor:OBB97 .
+
+nlcs-o:Dek a rdfs:Class ;
+    rdfs:label "Dek"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Direct door het verkeer belast deel van de bovenbouw van de brug."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Dek"@nl ;
+    skos:related imbor:OBC1301 .
+
+nlcs-o:Duiker a rdfs:Class ;
+    rdfs:label "Duiker"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Kunstwerk voor de waterhuishouding, bestaande uit een kokervormige constructie aangebracht onder een weg of spoorweg of in een dam."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Duiker"@nl ;
+    skos:related imbor:OBB553 .
+
+nlcs-o:Ecoduct a rdfs:Class ;
+    rdfs:label "Ecoduct"@nl ;
+    rdfs:subClassOf nlcs-o:Wildwissel ;
+    skos:definition "Wildwissel in de vorm van een viaduct voor passages van dieren over een weg of spoorweg. IMGeo"@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Ecoduct"@nl ;
+    skos:related imbor:OBB1038 .
+
+nlcs-o:Ecotunnel a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Wildwissel ;
+    skos:prefLabel "Ecotunnel"@nl .
+
+nlcs-o:EnumerationType a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Type,
+        rdfs:Container,
+        nen2660:EnumerationType ;
+    skos:definition "A meta-concept having concepts as instances having no further attributes or relations (annotations only)"@en ;
+    skos:prefLabel "Enumeration type"@en,
+        "Enumeration type"@nl .
+
+nlcs-o:Fietsbrug a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Brug ;
+    skos:prefLabel "Fietsbrug"@nl .
+
+nlcs-o:Fietstunnel a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Tunnel ;
+    skos:prefLabel "Fietstunnel"@nl .
+
+nlcs-o:Fietsviaduct a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Viaduct ;
+    skos:prefLabel "Fietsviaduct"@nl .
+
+nlcs-o:Flyover a rdfs:Class ;
+    rdfs:label "Flyover"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Een fly-over of flyover is een verbindingsweg, aangelegd als viaduct over andere wegen heen, teneinde een aansluiting ongelijkvloers te maken, waarbij vaak de boogstraal groot wordt gehouden voor de doorstroming. Flyovers worden onderscheiden van reguliere viaducten en zijn doorgaans voor snelverkeer. Op drukke knooppunten zijn vaak flyovers voorhanden."@nl ;
+    skos:prefLabel "Flyover"@nl ;
+    skos:related imbor:OBB1040 .
+
+nlcs-o:Geluidswering a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:prefLabel "Geluidswering"@nl .
+
+nlcs-o:Gemaal a rdfs:Class ;
+    rdfs:label "Gemaal"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Een constructie ten behoeve van het verplaatsen van water."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Gemaal"@nl ;
+    skos:related imbor:OBB149 .
+
+nlcs-o:Glas a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Glas"@nl .
+
+nlcs-o:Hout a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Hout"@nl .
+
+nlcs-o:Inlaatsluis a rdfs:Class ;
+    rdfs:label "Inlaatsluis"@nl ;
+    rdfs:subClassOf nlcs-o:Sluis ;
+    skos:prefLabel "Inlaatsluis"@nl ;
+    skos:related imbor:OBC1783 .
+
+nlcs-o:Innundatiesluis a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Sluis ;
+    skos:prefLabel "Innundatiesluis"@nl .
+
+nlcs-o:Keersluis a rdfs:Class ;
+    rdfs:label "Keersluis"@nl ;
+    rdfs:subClassOf nlcs-o:Sluis ;
+    skos:prefLabel "Keersluis"@nl ;
+    skos:related imbor:OBC643 .
+
+nlcs-o:Kunstwerk a rdfs:Class ;
+    rdfs:label "Kunstwerk"@nl ;
+    rdfs:subClassOf nlcs-o:Beheerobject,
+        nlcs-o:RealObject ;
+    skos:definition "Civiel-technisch werk voor de infrastructuur van wegen, water, spoorbanen, waterkeringen en/of leidingen en niet bedoeld voor permanent menselijk verblijf."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Kunstwerk"@nl ;
+    skos:related imbor:OBB414.
+
+nlcs-o:Landhoofd a rdfs:Class ;
+    rdfs:label "Landhoofd"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Ondersteuningsconstructie ter plaatse van een overgang van de aardebaan naar een kunstwerk."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Landhoofd"@nl ;
+    skos:related imbor:OBC1297 .
+
+nlcs-o:Matter a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:PhysicalObject,
+        nen2660:Matter ;
+    skos:definition "A pure chemical substance, chemical compound or mixture from which real objects are made"@en ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de NEN2660."@nl ;
+    skos:prefLabel "Matter"@en ,
+        "Materie"@nl .
+
+nlcs-o:Metaal a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Metaal"@nl .
+
+nlcs-o:Overkluizing a rdfs:Class ;
+    rdfs:label "Overkluizing"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "In de grond of aardebaan aangebrachte plaatconstructie ter bescherming van leidingen."@nl ;
+    skos:prefLabel "Overkluizing"@nl ;
+    skos:related imbor:OBB1042 .
+
+nlcs-o:Overstort a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:prefLabel "Overstort"@nl .
+
+nlcs-o:Perron a rdfs:Class ;
+    rdfs:label "Perron"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Een perron is een platform bij een halte, een metrostation of een spoorwegstation dat het reizigers makkelijker maakt om in een bus, tram, metro of trein te stappen."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Perron"@nl ;
+    skos:related imbor:OBB228 .
+
+nlcs-o:PhysicalObject a rdfs:Class ;
+    rdfs:subClassOf nen2660:PhysicalObject ;
+    skos:definition "Object that exists or may exist within physical 4D space-time. A physical object forms a manifestation and a demarcation of matter and/or energy, and is (in)directly perceptible by the senses"@en ;
+    skos:prefLabel "Physical object"@en,
+        "Fysiek object"@nl .
+
+nlcs-o:Pijler a rdfs:Class ;
+    rdfs:label "Pijler"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Ondersteuningsconstructie van bruggen en soortgelijke kunstwerken."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Pijler"@nl ;
+    skos:related imbor:OBC1299 .
+
+nlcs-o:Ponton a rdfs:Class ;
+    rdfs:label "Ponton"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Drijvende, dichte bak, waarover soms een dek is gelegd."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Ponton"@nl ;
+    skos:related imbor:OBB98 .
+
+nlcs-o:Profielvrijeruimte a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:SpatialRegion ;
+    skos:prefLabel "Profielvrijeruimte"@nl .
+
+nlcs-o:Pyloon a rdfs:Class ;
+    rdfs:label "Pyloon"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Boven de bovenbouw uitstekende draagconstructie voor tuien."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Pyloon"@nl ;
+    skos:related imbor:OBC1298 .
+
+nlcs-o:RealObject a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:PhysicalObject,
+        nen2660:RealObject ;
+    skos:definition "physical object (rigid or non-rigid) that is (or can be) tangible and visible in reality, man-made or naturally occurring"@en ;
+    skos:prefLabel "Real object"@en,
+        "Reëel object"@nl .
+
+nlcs-o:Remmingswerk a rdfs:Class ;
+    rdfs:label "Remmingswerk"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Constructie langs de opstelruimte en wachtruimte bedoeld voor het afmeren van schepen."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Remmingswerk"@nl ;
+    skos:related imbor:OBB78 .
+
+nlcs-o:Scherm a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Geluidswering ;
+    skos:prefLabel "Scherm"@nl .
+
+nlcs-o:Schutsluis a rdfs:Class ;
+    rdfs:label "Schutsluis"@nl ;
+    rdfs:subClassOf nlcs-o:Sluis ;
+    skos:prefLabel "Schutsluis"@nl ;
+    skos:related imbor:OBC642 .
+
+nlcs-o:Sloof a rdfs:Class ;
+    rdfs:label "Sloof"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Deel van de pijler voor de overdracht van krachten naar de ondergrond of de fundering."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Sloof"@nl ;
+    skos:related imbor:OBC1300 .
+
+nlcs-o:Sluis a rdfs:Class ;
+    rdfs:label "Sluis"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Kunstwerk met een beweegbare waterkering, dat de verbinding vormt tussen twee wateren."@nl ;
+    skos:prefLabel "Sluis"@nl ;
+    skos:related imbor:OBB396 .
+
+nlcs-o:SpatialRegion a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:PhysicalObject,
+        nen2660:SpatialRegion ;
+    skos:definition "A physical object that encloses a particular area such as a room, roadway and river, that is bounded by real objects or other spatial areas (e.g., by usage or convention) and that contains primarily liquid or gaseous amount of matter"@en ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de NEN2660."@nl ;
+    skos:prefLabel "Spatial region"@en ,
+        "Ruimtelijk gebied"@nl .
+
+nlcs-o:Spoorbrug a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Brug ;
+    skos:prefLabel "Spoorbrug"@nl .
+
+nlcs-o:Spoortunnel a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Tunnel ;
+    skos:prefLabel "Spoortunnel"@nl .
+
+nlcs-o:Spoortunnelbak a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Tunnelbak ;
+    skos:prefLabel "Spoortunnelbak"@nl .
+
+nlcs-o:Spoorviaduct a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Viaduct ;
+    skos:prefLabel "Spoorviaduct"@nl .
+
+nlcs-o:Steiger a rdfs:Class ;
+    rdfs:label "Steiger"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Vaste (niet drijvende) waterbouwkundige constructie voor het aanleggen van schepen en bedoeld om deze schepen vanaf de wal te laden en te lossen."@nl ;
+    skos:prefLabel "Steiger"@nl ;
+    skos:related imbor:OBB91 .
+
+nlcs-o:Stuw a rdfs:Class ;
+    rdfs:label "Stuw"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Vaste of beweegbare waterkering voor het stuwen van water tot een gewenst peil."@nl ;
+    skos:prefLabel "Stuw"@nl ;
+    skos:related imbor:OBB150 .
+
+nlcs-o:Syphon a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:prefLabel "Syphon"@nl .
+
+nlcs-o:Tijsluis a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Sluis ;
+    skos:prefLabel "Tijsluis"@nl .
+
+nlcs-o:Tunnel a rdfs:Class ;
+    rdfs:label "Tunnel"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Een tunnel is een kunstmatig aangelegde onderdoorgang om tussen twee punten transport, passage of communicatie mogelijk te maken. Doorgaans is de tunnel langer dan 300 meter."@nl ;
+    skos:editorialNote "Kunstmatig aangelegde geboorde, afgezonken of in het droge gebouwde koker of buisvormige gang onder maaiveldniveau, dat aan beide zijdes is voorzien van een open bakconstructie, met als doel om spoor- en/ of wegverkeer tussen twee punten over een grote afstand mogelijk te maken."@nl ;
+    skos:prefLabel "Tunnel"@nl ;
+    skos:related imbor:OBB89 .
+
+nlcs-o:Tunnelbak a rdfs:Class ;
+    rdfs:label "Tunnelbak"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Kunstwerk dat geheel of gedeeltelijk verdiept in het terrein is aangebracht, bestaande uit een vloer met wanden."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Tunnelbak"@nl ;
+    skos:related imbor:OBC1360 .
+
+nlcs-o:Uitwateringsssluis a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Sluis ;
+    skos:prefLabel "Uitwateringsssluis"@nl .
+
+nlcs-o:Veetunnel a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Ecotunnel ;
+    skos:prefLabel "Veetunnel"@nl .
+
+nlcs-o:Viaduct a rdfs:Class ;
+    rdfs:label "Viaduct"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Een viaduct is een onderdeel van een ongelijkvloerse kruising van twee (geplande) (spoor)wegen of een kruising van een weg met ondergrondse leidingen. Een viaduct is feitelijk niet veel anders dan een vaste brug, hoewel met een viaduct geen waterweg wordt gekruist. De ruimte onder een viaduct is in geval van aanwezigheid van pijlers verdeeld in zogenaamde velden. Elke ruimte tussen pijlers c.q. tussen een landhoofd en een pijler is gedefinieerd als een veld."@nl ;
+    skos:prefLabel "Viaduct"@nl ;
+    skos:related imbor:OBB1039 .
+
+nlcs-o:Voegovergang a rdfs:Class ;
+    rdfs:label "Voegovergang"@nl ;
+    rdfs:subClassOf nlcs-o:RealObject ;
+    skos:definition "Constructie die een continu (weg)oppervlak vormt tussen aangrenzende hoofdconstructiedelen (bijv. brugdelen/landhoofden) en die de continuïteit van de rijbaan garandeert. Voeg (tussenstuk) in een brugdek, viaduct of weg met als doel een begaanbare overgang te vormen. Andere definities:  Een voegovergang is een constructie in het wegdek, die zorgt dat de werking in de aansluiting tussen het wegdek en een kunstwerk als een viaduct, brug, duiker of fly-over kan worden opgevangen. Het zijn veelal rubberprofielen aangebracht tussen stalen randprofielen. Constructie ter overbrugging en al dan niet waterdichte afsluiting van een voeg tussen de verharding op een kunstwerk en op een aardebaan, of tussen de verharding op twee kunstwerkdelen. Voegovergangen vormen de schakel tussen wegen, viaducten en bruggen. Ze moeten het verkeer dragen, bewegingen van viaducten en bruggen opnemen, de omgeving van voegovergangen beschermen tegen gevolgschade van lekkage en geen geluidhinder veroorzaken."@nl ;
+    skos:editorialNote "Constructie ter overbrugging en al dan niet waterdichte afsluiting van een voeg tussen de verharding op een kunstwerk en op een aardebaan, of tussen de verharding op twee kunstwerkdelen. Voegovergangen vormen de schakel tussen wegen, viaducten en bruggen. Ze moeten het verkeer dragen, bewegingen van viaducten en bruggen opnemen, de omgeving van voegovergangen beschermen tegen gevolgschade van lekkage en geen geluidhinder veroorzaken. Lamelvoeg, Vingervoeg, Schijnvoeg, Bitumineuze voeg, Open voeg, Eposxy/kunststofbalk met rubber"@nl,
+        "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Voegovergang"@nl ;
+    skos:related imbor:OBB378 .
+
+nlcs-o:Voetgangersbrug a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Brug ;
+    skos:prefLabel "Voetgangersbrug"@nl .
+
+nlcs-o:Voetgangerstunnel a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Tunnel ;
+    skos:prefLabel "Voetgangerstunnel"@nl .
+
+nlcs-o:Voetgangersviaduct a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Viaduct ;
+    skos:prefLabel "Voetgangersviaduct"@nl .
+
+nlcs-o:Voorde a rdfs:Class ;
+    rdfs:label "Voorde"@nl ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:definition "Een doorwaadbare, doorgaans verharde, plaats in de waterloop, die dient voor de oversteek van die waterloop."@nl ;
+    skos:prefLabel "Voorde"@nl ;
+    skos:related imbor:OBB99 .
+
+nlcs-o:Wegverkeersbrug a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Brug ;
+    skos:prefLabel "Wegverkeersbrug"@nl .
+
+nlcs-o:Wegverkeerstunnelbak a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Tunnelbak ;
+    skos:prefLabel "Wegverkeerstunnelbak"@nl .
+
+nlcs-o:Wegverkeersviaduct a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Viaduct ;
+    skos:prefLabel "Wegverkeersviaduct"@nl .
+
+nlcs-o:Wegverkeertunnel a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Tunnel ;
+    skos:prefLabel "Wegverkeertunnel"@nl .
+
+nlcs-o:Wildtunnel a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Ecotunnel ;
+    skos:prefLabel "Wildtunnel"@nl .
+
+nlcs-o:Wildviaduct a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Ecoduct ;
+    skos:prefLabel "Wildviaduct"@nl .
+
+nlcs-o:Wildwissel a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kunstwerk ;
+    skos:prefLabel "Wildwissel"@nl .
+
+nlcs-o:Zichtruimte a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:SpatialRegion ;
+    skos:prefLabel "Zichtruimte"@nl .
+
+nlcs-shape:SchermShape a sh:NodeShape ;
+    sh:property nlcs-shape:Scherm-consistsOf-Shape ;
+    sh:targetClass nlcs-o:Scherm .
+
+<http://otl.nlcs.nl/def/kunstwerken/> a owl:Ontology ;
+    rdfs:label "OTL NLCS"@nl ;
+    dcterms:created "2024-09-20"^^xsd:date ;
+    rdfs:comment "Ontologie NLCS - kunstwerken"@nl ;
+    owl:imports <http://www.w3.org/2004/02/skos/core>,
+        sh: ;
+    owl:versionIRI <http://otl.nlcs.nl/def/kunstwerken/0.1/> ;
+    owl:versionInfo "0.1"^^xsd:string ;
+    skos:editorialNote   "De ontologie is gebaseerd op de IMBOR versie 2020/08"@nl ,
+        "De ontologie is gebaseerd op de NEN2660 versie 1.0"@nl .
+
+nlcs-p:consistsOf a rdf:Property ;
+    rdfs:subPropertyOf nen2660:consistsOf ;
+    skos:definition "The matter a real object or mixture is made of"@en ;
+    skos:prefLabel "consists of"@en,
+        "Bestaat uit"@nl .
+
+nlcs-shape:Scherm-consistsOf-Shape a sh:PropertyShape ;
+    sh:or ( [ sh:class nlcs-o:Beton ] [ sh:class nlcs-o:Glas ] [ sh:class nlcs-o:Hout ] [ sh:class nlcs-o:Metaal ] ) ;
+    sh:path nlcs-p:consistsOf .
+

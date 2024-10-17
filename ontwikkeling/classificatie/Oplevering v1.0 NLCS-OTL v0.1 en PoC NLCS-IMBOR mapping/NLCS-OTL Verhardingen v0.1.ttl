@@ -1,0 +1,1098 @@
+@prefix nlcs-o: <http://otl.nlcs.nl/def/objecttype/> .
+@prefix nlcs-p: <http://otl.nlcs.nl/def/eigenschap/> .
+@prefix nlcs-shape: <http://otl.nlcs.nl/def/shape/> .
+@prefix nlcs-vwl: <http://otl.nlcs.nl/def/domeinwaarde/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix imbor: <http://linkeddata.crow.nl/publication-v2/ns/crow/imbor/def/objecttype/> .
+@prefix imborp: <http://linkeddata.crow.nl/publication-v2/ns/crow/imbor/def/eigenschap/> .
+@prefix imborvwl: <http://linkeddata.crow.nl/publication-v2/ns/crow/imbor/def/domeinwaarde/> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix shape: <http://linkeddata.crow.nl/publication-v2/ns/crow/imbor/def/shape/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nlcs-o:AVI-slakken a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "AVI-slakken"@nl .
+
+nlcs-o:Activity a rdfs:Class ;
+    rdfs:subClassOf nen2660:Activity ;
+    skos:definition "Entity that takes place or can take place in a concrete space-time. An activity transforms objects, and is executed by an object"@en ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de NEN2660."@nl ;
+    skos:prefLabel "Activity"@en ,
+        "Activiteit"@nl.
+
+nlcs-o:Amstelband a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:prefLabel "Amstelband"@nl .
+
+nlcs-o:Asfalt a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Asfalt"@nl .
+
+nlcs-o:Asfaltband a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:prefLabel "Asfaltband"@nl .
+
+nlcs-o:Asfaltband_50X200X150 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Asfaltband ;
+    skos:prefLabel "Asfaltband_50X200X150"@nl .
+
+nlcs-o:Asfaltband_50X200X200 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Asfaltband ;
+    skos:prefLabel "Asfaltband_50X200X200"@nl .
+
+nlcs-o:Asfaltband_50X200X250 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Asfaltband ;
+    skos:prefLabel "Asfaltband_50X200X250"@nl .
+
+nlcs-o:Atletiekbaan a rdfs:Class ;
+    rdfs:label "Atletiekbaan"@nl ;
+    rdfs:subClassOf nlcs-o:Sport ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Atletiekbaan"@nl ;
+    skos:related imbor:OBC915 .
+
+nlcs-o:Basalt a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Openverharding ;
+    skos:prefLabel "Basalt"@nl .
+
+nlcs-o:Basalton a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Openverharding ;
+    skos:prefLabel "Basalton"@nl .
+
+nlcs-o:Bedrijfsvloerplaat a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:RealObject ;
+    skos:prefLabel "Bedrijfsvloerplaat"@nl .
+
+nlcs-o:Bentoniet a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Bentoniet"@nl .
+
+nlcs-o:Bestorting a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Halfverharding ;
+    skos:prefLabel "Bestorting"@nl .
+
+nlcs-o:Bestraat a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Drempel ;
+    skos:prefLabel "Bestraat"@nl .
+
+nlcs-o:Beton a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Beton"@nl .
+
+nlcs-o:Betonelement a rdfs:Class ;
+    rdfs:label "Betonelement"@nl ;
+    rdfs:subClassOf nlcs-o:Openverharding ;
+    skos:definition "Geprepareerde elementen van beton (bijvoorbeeld stelconplaten)."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Betonelement"@nl ;
+    skos:related imbor:OBD1136 .
+
+nlcs-o:Betongranulaat a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Betongranulaat"@nl .
+
+nlcs-o:Betonrug a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:prefLabel "Betonrug"@nl .
+
+nlcs-o:Betonstraatsteen a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Goot,
+        nlcs-o:Openverharding ;
+    skos:prefLabel "Betonstraatsteen"@nl .
+
+nlcs-o:Bims a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Bims"@nl .
+
+nlcs-o:Boomkrans a rdfs:Class ;
+    rdfs:label "Boomkrans"@nl ;
+    rdfs:subClassOf nlcs-o:Element ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Boomkrans"@nl ;
+    skos:related imbor:OBC300 .
+
+nlcs-o:Boomkransband a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Element ;
+    skos:prefLabel "Boomkransband"@nl .
+
+nlcs-o:Boomschors a rdfs:Class ;
+    rdfs:label "Boomschors"@nl ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:definition "Type extra gedetailleerd van verhardingsobject, halfverharding, los, ongebonden verharding met als deklaag boomschors."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Boomschors"@nl ;
+    skos:related imbor:OBE34 .
+
+nlcs-o:Bushalteband a rdfs:Class ;
+    rdfs:label "Bushalteband"@nl ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Bushalteband"@nl ;
+    skos:related imbor:OBC284 .
+
+nlcs-o:Cobblestone a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Openverharding ;
+    skos:prefLabel "Cobblestone"@nl .
+
+nlcs-o:Deklaag a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Geslotenverharding ;
+    skos:prefLabel "Deklaag"@nl .
+
+nlcs-o:Delta a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Openverharding ;
+    skos:prefLabel "Delta"@nl .
+
+nlcs-o:Drempel a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:RealObject ;
+    skos:prefLabel "Drempel"@nl .
+
+nlcs-o:EPS a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "EPS"@nl .
+
+nlcs-o:Element a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:prefLabel "Element"@nl .
+
+nlcs-o:EnumerationType a rdfs:Class ;
+    rdfs:subClassOf rdfs:Container,
+        nen2660:EnumerationType ;
+    skos:definition "A meta-concept having concepts as instances having no further attributes or relations (annotations only)"@en ;
+    skos:prefLabel "Enumeration type"@en,
+        "Enumeration type"@nl .
+
+nlcs-o:Flowblock a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Halfverharding ;
+    skos:prefLabel "Flowblock"@nl .
+
+nlcs-o:Fundering a rdfs:Class ;
+    rdfs:label "Fundering"@nl ;
+    rdfs:subClassOf nlcs-o:Geslotenverharding,
+        nlcs-o:RealObject ;
+    skos:definition "Ondersteuning van het object via de ondergrond."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Fundering"@nl ;
+    skos:related imbor:OBC1475 .
+
+nlcs-o:Gazonband a rdfs:Class ;
+    rdfs:label "Gazonband"@nl ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Gazonband"@nl ;
+    skos:related imbor:OBC280 .
+
+nlcs-o:Gazonband_100X200 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Gazonband ;
+    skos:prefLabel "Gazonband_100X200"@nl .
+
+nlcs-o:Gazonband_100X300 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Gazonband ;
+    skos:prefLabel "Gazonband_100X300"@nl .
+
+nlcs-o:Gazonband_120X200 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Gazonband ;
+    skos:prefLabel "Gazonband_120X200"@nl .
+
+nlcs-o:Gazonband_120X250 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Gazonband ;
+    skos:prefLabel "Gazonband_120X250"@nl .
+
+nlcs-o:Gazonband_150X400 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Gazonband ;
+    skos:prefLabel "Gazonband_150X400"@nl .
+
+nlcs-o:Gazonband_60X200 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Gazonband ;
+    skos:prefLabel "Gazonband_60X200"@nl .
+
+nlcs-o:Gazonband_80X200 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Gazonband ;
+    skos:prefLabel "Gazonband_80X200"@nl .
+
+nlcs-o:Geleideband a rdfs:Class ;
+    rdfs:label "Geleideband"@nl ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:definition "Ook wel vekeersgeleideband of scheidingsband"@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Geleideband"@nl ;
+    skos:related imbor:OBC275 .
+
+nlcs-o:Geleideband_50X150 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Geleideband ;
+    skos:prefLabel "Geleideband_50X150"@nl .
+
+nlcs-o:Geleideband_50X200 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Geleideband ;
+    skos:prefLabel "Geleideband_50X200"@nl .
+
+nlcs-o:Geleideband_60X120 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Geleideband ;
+    skos:prefLabel "Geleideband_60X120"@nl .
+
+nlcs-o:Geleideband_70X150 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Geleideband ;
+    skos:prefLabel "Geleideband_70X150"@nl .
+
+nlcs-o:Geleideband_70X200 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Geleideband ;
+    skos:prefLabel "Geleideband_70X200"@nl .
+
+nlcs-o:Geleideband_80X160 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Geleideband ;
+    skos:prefLabel "Geleideband_80X160"@nl .
+
+nlcs-o:Geotextiel a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:RealObject ;
+    skos:prefLabel "Geotextiel"@nl .
+
+nlcs-o:Geslotenverharding a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:RealObject ;
+    skos:prefLabel "Geslotenverharding"@nl .
+
+nlcs-o:GestabiliseerdGras a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Halfverharding ;
+    skos:prefLabel "Gestabiliseerd gras"@nl .
+
+nlcs-o:GewapendBeton a rdfs:Class ;
+    rdfs:label "Gewapend beton"@nl ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Gewapend beton"@nl ;
+    skos:related imbor:OBD1134 .
+
+nlcs-o:Gietasfalt a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Gietasfalt"@nl .
+
+nlcs-o:Glas a rdfs:Class ;
+    rdfs:label "Glas"@nl ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:definition "Type gedetailleerd van verhardingsobject, elementenverharding bestaande uit glaselementen."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Glas"@nl ;
+    skos:related imbor:OBD1357 .
+
+nlcs-o:Goot a rdfs:Class ;
+    rdfs:label "Goot"@nl ;
+    rdfs:subClassOf nlcs-o:RealObject ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Goot"@nl ;
+    skos:related imbor:OBD1350 .
+
+nlcs-o:Granulaat a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Granulaat"@nl .
+
+nlcs-o:Grasbetonsteen a rdfs:Class ;
+    rdfs:label "Grasbetonsteen"@nl ;
+    rdfs:subClassOf nlcs-o:Halfverharding ;
+    skos:definition "Type extra gedetailleerd van verhardingsobject, elementenverharding, betonstraatstenen. Elementenverharding bestaande uit elementen van beperkte afmetingen die ten behoeve van de doorgroei van grassen en kruiden. Tussenruimten zijn voorzien van openingen of de elementen zijn met tussenruimten aangebracht."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Grasbetonsteen"@nl ;
+    skos:related imbor:OBE16 .
+
+nlcs-o:Grasplaat a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Halfverharding ;
+    skos:prefLabel "Grasplaat"@nl .
+
+nlcs-o:Grastegel a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Tegel ;
+    skos:prefLabel "Grastegel"@nl .
+
+nlcs-o:Gravel a rdfs:Class ;
+    rdfs:label "Gravel"@nl ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:definition "Type extra gedetailleerd van verhardingsobject, halfverharding, samenhangend. Gravel is een ondergrond van gemalen baksteen."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Gravel"@nl ;
+    skos:related imbor:OBE32 .
+
+nlcs-o:Grind a rdfs:Class ;
+    rdfs:label "Grind"@nl ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:definition "Type extra gedetailleerd van verhardingsobject, halfverharding, los. Ongebonden verharding bestaande uit kiezelmateriaal, waarvan de stenen in doorsnede variëren van 1 tot 5 cm."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Grind"@nl ;
+    skos:related imbor:OBE35 .
+
+nlcs-o:Halfverharding a rdfs:Class ;
+    rdfs:label "Halfverharding"@nl ;
+    rdfs:subClassOf nlcs-o:RealObject ;
+    skos:definition "Type van verhardingsobject: een halfverharding bestaat uit onsamenhangend materiaal dat meer draagkracht levert dan de originele grond."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Halfverharding"@nl ;
+    skos:related imbor:OBC852 .
+
+nlcs-o:Havenband a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:prefLabel "Havenband"@nl .
+
+nlcs-o:Herstraten a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Activity ;
+    skos:prefLabel "Herstraten"@nl .
+
+nlcs-o:Hoekblok a rdfs:Class ;
+    rdfs:label "Hoekblok"@nl ;
+    rdfs:subClassOf nlcs-o:Element ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Hoekblok"@nl ;
+    skos:related imbor:OBC268 .
+
+nlcs-o:Hoekstuk a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Element ;
+    skos:prefLabel "Hoekstuk"@nl .
+
+nlcs-o:Hoogovenslakken a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Hoogovenslakken"@nl .
+
+nlcs-o:Hout a rdfs:Class ;
+    rdfs:label "Hout"@nl ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:definition "Type gedetailleerd van verhardingsobject, elementenverharding, verharding bestaande uit houten elementen."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Hout"@nl ;
+    skos:related imbor:OBD1137 .
+
+nlcs-o:Houtsnippers a rdfs:Class ;
+    rdfs:label "Houtsnippers"@nl ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:definition "Type extra gedetailleerd van verhardingsobject, halfverharding, los. Houtsnippers zijn snippers afkomstig van bijvoorbeeld het knotten of snoeien van bomen, waarna het hout is vermalen met behulp van een versnipperaar."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Houtsnippers"@nl ;
+    skos:related imbor:OBE36 .
+
+nlcs-o:Hsteen a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Openverharding ;
+    skos:prefLabel "Hsteen"@nl .
+
+nlcs-o:HydraulischMenggranulaat a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Hydraulisch menggranulaat"@nl .
+
+nlcs-o:Industrie a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Bedrijfsvloerplaat ;
+    skos:prefLabel "Industrie"@nl .
+
+nlcs-o:Inrit a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Element ;
+    skos:prefLabel "Inrit"@nl .
+
+nlcs-o:Inritband a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Element,
+        nlcs-o:Kantopsluiting ;
+    skos:prefLabel "Inritband"@nl .
+
+nlcs-o:Kalkzandsteen a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Openverharding ;
+    skos:prefLabel "Kalkzandsteen"@nl .
+
+nlcs-o:Kantopsluiting a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:RealObject ;
+    skos:prefLabel "Kantopsluiting"@nl .
+
+nlcs-o:Kantverharding a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:RealObject ;
+    skos:prefLabel "Kantverharding"@nl .
+
+nlcs-o:Klei a rdfs:Class ;
+    rdfs:label "Klei"@nl ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Klei"@nl ;
+    skos:related imbor:OBC1872 .
+
+nlcs-o:Kniplijn a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:SpatialRegion ;
+    skos:prefLabel "Kniplijn"@nl .
+
+nlcs-o:Koperslak a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Koperslak"@nl .
+
+nlcs-o:Kunststof a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Kunststof"@nl .
+
+nlcs-o:Leiconblok a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:prefLabel "Leiconblok"@nl .
+
+nlcs-o:LevensduurverlengendeMaatregel a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Activity ;
+    skos:prefLabel "Levensduurverlengende maatregel"@nl .
+
+nlcs-o:Materiaalgrens a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:SpatialRegion ;
+    skos:prefLabel "Materiaalgrens"@nl .
+
+nlcs-o:Matter a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:PhysicalObject,
+        nen2660:Matter ;
+    skos:definition "A pure chemical substance, chemical compound or mixture from which real objects are made"@en ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de NEN2660."@nl ;
+    skos:prefLabel "Matter"@en ,
+        "Materie"@nl.
+
+nlcs-o:Menggranulaat a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Menggranulaat"@nl .
+
+nlcs-o:Metselwerk a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Metselwerk"@nl .
+
+nlcs-o:Natuursteen a rdfs:Class ;
+    rdfs:label "Natuursteen"@nl ;
+    rdfs:subClassOf nlcs-o:Openverharding ;
+    skos:definition "Type gedetailleerd van verhardingsobject, elementenverharding, verharding bestaande uit elementen van natuursteen."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Natuursteen"@nl ;
+    skos:related imbor:OBD1127 .
+
+nlcs-o:Onderlaag a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Geslotenverharding ;
+    skos:prefLabel "Onderlaag"@nl .
+
+nlcs-o:OngewapendBeton a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Ongewapend beton"@nl .
+
+nlcs-o:Onverhard a rdfs:Class ;
+    rdfs:label "Onverhard"@nl ;
+    rdfs:subClassOf nlcs-o:RealObject ;
+    skos:definition "Type van verhardingsobject: een object zonder specifieke verharding, bestaande uit natuurlijke materialen."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Onverhard"@nl ;
+    skos:related imbor:OBC855 .
+
+nlcs-o:Openverharding a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:RealObject ;
+    skos:prefLabel "Openverharding"@nl .
+
+nlcs-o:Opsluitband a rdfs:Class ;
+    rdfs:label "Opsluitband"@nl ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Opsluitband"@nl ;
+    skos:related imbor:OBC273 .
+
+nlcs-o:Opsluitband_100X200 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Opsluitband ;
+    skos:prefLabel "Opsluitband_100X200"@nl .
+
+nlcs-o:Opsluitband_100X300 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Opsluitband ;
+    skos:prefLabel "Opsluitband_100X300"@nl .
+
+nlcs-o:Opsluitband_100X400 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Opsluitband ;
+    skos:prefLabel "Opsluitband_100X400"@nl .
+
+nlcs-o:Opsluitband_120X250 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Opsluitband ;
+    skos:prefLabel "Opsluitband_120X250"@nl .
+
+nlcs-o:Opsluitband_150X250 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Opsluitband ;
+    skos:prefLabel "Opsluitband_150X250"@nl .
+
+nlcs-o:Opsluitband_150X300 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Opsluitband ;
+    skos:prefLabel "Opsluitband_150X300"@nl .
+
+nlcs-o:Opsluitband_150X400 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Opsluitband ;
+    skos:prefLabel "Opsluitband_150X400"@nl .
+
+nlcs-o:Opsluitband_60X150 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Opsluitband ;
+    skos:prefLabel "Opsluitband_60X150"@nl .
+
+nlcs-o:Opsluitband_60X200 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Opsluitband ;
+    skos:prefLabel "Opsluitband_60X200"@nl .
+
+nlcs-o:Opsluitband_80X200 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Opsluitband ;
+    skos:prefLabel "Opsluitband_80X200"@nl .
+
+nlcs-o:PWS_band a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:prefLabel "PWS_band"@nl .
+
+nlcs-o:PWS_band_250X130 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:PWS_band ;
+    skos:prefLabel "PWS_band_250X130"@nl .
+
+nlcs-o:Parkeerband a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Element ;
+    skos:prefLabel "Parkeerband"@nl .
+
+nlcs-o:Perronband a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Element,
+        nlcs-o:Inrit ;
+    skos:prefLabel "Perronband"@nl .
+
+nlcs-o:PhysicalObject a rdfs:Class ;
+    rdfs:subClassOf nen2660:PhysicalObject ;
+    skos:definition "Object that exists or may exist within physical 4D space-time. A physical object forms a manifestation and a demarcation of matter and/or energy, and is (in)directly perceptible by the senses"@en ;
+    skos:prefLabel "Physical object"@en,
+        "Fysiek object"@nl .
+
+nlcs-o:Plakband a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:prefLabel "Plakband"@nl .
+
+nlcs-o:Planken a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Openverharding ;
+    skos:prefLabel "Planken"@nl .
+
+nlcs-o:Plateauband a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:prefLabel "Plateauband"@nl .
+
+nlcs-o:Plateauband_60X120 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Plateauband ;
+    skos:prefLabel "Plateauband_60X120"@nl .
+
+nlcs-o:Prefab a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Drempel ;
+    skos:prefLabel "Prefab"@nl .
+
+nlcs-o:PrefabBeton a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Prefab beton"@nl .
+
+nlcs-o:PrefabElement a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Drempel ;
+    skos:prefLabel "Prefab element"@nl .
+
+nlcs-o:Puin a rdfs:Class ;
+    rdfs:label "Puin"@nl ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:definition "Type extra gedetailleerd van verhardingsobject, halfverharding, los. Puin is afvalmateriaal dat bestaat uit losse brokstukken, grotendeels bestaande uit stenen en beton, van gesloopte of ingestorte gebouwen, viaducten, bruggen en andere objecten."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Puin"@nl ;
+    skos:related imbor:OBE38 .
+
+nlcs-o:Puntstuk a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Element ;
+    skos:prefLabel "Puntstuk"@nl .
+
+nlcs-o:RealObject a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:PhysicalObject,
+        nen2660:RealObject ;
+    skos:definition "physical object (rigid or non-rigid) that is (or can be) tangible and visible in reality, man-made or naturally occurring"@en ;
+    skos:prefLabel "Real object"@en,
+        "Reëel object"@nl .
+
+nlcs-o:Reparaties a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Activity ;
+    skos:prefLabel "Reparaties"@nl .
+
+nlcs-o:Rijplaat a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Bedrijfsvloerplaat ;
+    skos:prefLabel "Rijplaat"@nl .
+
+nlcs-o:Rijwielpadband a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:prefLabel "Rijwielpadband"@nl .
+
+nlcs-o:Rijwielpadband_380X200 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Rijwielpadband ;
+    skos:prefLabel "Rijwielpadband_380X200"@nl .
+
+nlcs-o:Rijwielpadband_410X250 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Rijwielpadband ;
+    skos:prefLabel "Rijwielpadband_410X250"@nl .
+
+nlcs-o:Rollaag a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantverharding ;
+    skos:prefLabel "Rollaag"@nl .
+
+nlcs-o:Rooster a rdfs:Class ;
+    rdfs:label "Rooster"@nl ;
+    rdfs:subClassOf nlcs-o:RealObject ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Rooster"@nl ;
+    skos:related imbor:OBD3474 .
+
+nlcs-o:Rotondeblok a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:prefLabel "Rotondeblok"@nl .
+
+nlcs-o:Rotondeblok_500200 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Rotondeblok ;
+    skos:prefLabel "Rotondeblok_500 200"@nl .
+
+nlcs-o:Rubbertegel a rdfs:Class ;
+    rdfs:label "Rubbertegel"@nl ;
+    rdfs:subClassOf nlcs-o:Tegel ;
+    skos:definition "Type extra gedetailleerd van verhardingsobject, elementenverharding, tegels. Rubbertegels, ook wel veiligheidstegels genoemd, zijn tegels die hun schokabsorberende eigenschappen ontlenen aan het gebruik van rubber bij de vervaardiging. Rubbertegels zijn op speelplaatsen veiliger dan gras, zand of houtsnippers en ze behoeven geen onderhoud."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Rubbertegel"@nl ;
+    skos:related imbor:OBE28 .
+
+nlcs-o:Scheepshuid a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Bedrijfsvloerplaat ;
+    skos:prefLabel "Scheepshuid"@nl .
+
+nlcs-o:Scheidingsband a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:prefLabel "Scheidingsband"@nl .
+
+nlcs-o:Scheidingsband_100X300 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Scheidingsband ;
+    skos:prefLabel "Scheidingsband_100X300"@nl .
+
+nlcs-o:Scheidingsband_110X250 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Scheidingsband ;
+    skos:prefLabel "Scheidingsband_110X250"@nl .
+
+nlcs-o:Scheidingsband_120X350 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Scheidingsband ;
+    skos:prefLabel "Scheidingsband_120X350"@nl .
+
+nlcs-o:Scheidingsband_150X390 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Scheidingsband ;
+    skos:prefLabel "Scheidingsband_150X390"@nl .
+
+nlcs-o:Scheidingsband_160X200 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Scheidingsband ;
+    skos:prefLabel "Scheidingsband_160X200"@nl .
+
+nlcs-o:Scheidingsband_200X400 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Scheidingsband ;
+    skos:prefLabel "Scheidingsband_200X400"@nl .
+
+nlcs-o:Scheidingsband_220X440 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Scheidingsband ;
+    skos:prefLabel "Scheidingsband_220X440"@nl .
+
+nlcs-o:Scheidingsband_360X400 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Scheidingsband ;
+    skos:prefLabel "Scheidingsband_360X400"@nl .
+
+nlcs-o:Scheidingsband_470X500 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Scheidingsband ;
+    skos:prefLabel "Scheidingsband_470X500"@nl .
+
+nlcs-o:Schelp a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Schelp"@nl .
+
+nlcs-o:SchraalBeton a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Schraal beton"@nl .
+
+nlcs-o:Schuimbeton a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Schuimbeton"@nl .
+
+nlcs-o:Sierbestrating a rdfs:Class ;
+    rdfs:label "Sierbestrating"@nl ;
+    rdfs:subClassOf nlcs-o:Openverharding ;
+    skos:definition "Type gedetailleerd van verhardingsobject, elementenverharding, bestrating uitgevoerd in verschillende bestratingsverbanden en -materialen, of in een sierverband, die vooral wordt toegepast uit esthetische overwegingen."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Sierbestrating"@nl ;
+    skos:related imbor:OBD1128 .
+
+nlcs-o:Siertegel a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Tegel ;
+    skos:prefLabel "Siertegel"@nl .
+
+nlcs-o:Signaleringsband a rdfs:Class ;
+    rdfs:label "Signaleringsband"@nl ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Signaleringsband"@nl ;
+    skos:related imbor:OBC286 .
+
+nlcs-o:SignaleringsbandLED a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:prefLabel "Signaleringsband LED"@nl .
+
+nlcs-o:SignaleringsbandLijnreflector a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:prefLabel "Signaleringsband lijnreflector"@nl .
+
+nlcs-o:SignaleringsbandOog a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:prefLabel "Signaleringsband oog"@nl .
+
+nlcs-o:Slakken a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Slakken"@nl .
+
+nlcs-o:SpatialRegion a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:PhysicalObject,
+        nen2660:SpatialRegion ;
+    skos:definition "A physical object that encloses a particular area such as a room, roadway and river, that is bounded by real objects or other spatial areas (e.g., by usage or convention) and that contains primarily liquid or gaseous amount of matter"@en ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de NEN2660."@nl ;
+    skos:prefLabel "Spatial region"@en ,
+        "Ruimtelijk gebied"@nl.
+
+nlcs-o:Speciaal a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:RealObject ;
+    skos:prefLabel "Speciaal"@nl .
+
+nlcs-o:Sport a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Speciaal ;
+    skos:prefLabel "Sport"@nl .
+
+nlcs-o:Staal a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Staal"@nl .
+
+nlcs-o:Stootband a rdfs:Class ;
+    rdfs:label "Stootband"@nl ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting,
+        nlcs-o:RealObject ;
+    skos:definition "Ook wel biggenrug, varkensrug of stootband genoemd"@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Stootband"@nl ;
+    skos:related imbor:OBC266 .
+
+nlcs-o:Straatbaksteen a rdfs:Class ;
+    rdfs:label "Straatbaksteen"@nl ;
+    rdfs:subClassOf nlcs-o:Goot,
+        nlcs-o:Openverharding ;
+    skos:definition "Type gedetailleerd van verhardingsobject, elementenverharding, straatbaksteen is de formele benaming uit NEN-EN1344. In de CROW Systematiek Wegbeheer wordt dit ‘gebakken klinkers’ genoemd."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Straatbaksteen"@nl ;
+    skos:related imbor:OBD1126 .
+
+nlcs-o:Streklaag a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantverharding ;
+    skos:prefLabel "Streklaag"@nl .
+
+nlcs-o:Talud a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Drempel ;
+    skos:prefLabel "Talud"@nl .
+
+nlcs-o:Taludband a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:prefLabel "Taludband"@nl .
+
+nlcs-o:Tegel a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Goot,
+        nlcs-o:Kantverharding,
+        nlcs-o:Openverharding ;
+    skos:prefLabel "Tegel"@nl .
+
+nlcs-o:Trottoirband a rdfs:Class ;
+    rdfs:label "Trottoirband"@nl ;
+    rdfs:subClassOf nlcs-o:Kantopsluiting ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Trottoirband"@nl ;
+    skos:related imbor:OBC281 .
+
+nlcs-o:Trottoirband_130X150 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Trottoirband ;
+    skos:prefLabel "Trottoirband_130X150"@nl .
+
+nlcs-o:Trottoirband_180X200 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Trottoirband ;
+    skos:prefLabel "Trottoirband_180X200"@nl .
+
+nlcs-o:Trottoirband_180X200_ZOAB a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Trottoirband_180X200 ;
+    skos:prefLabel "Trottoirband_180X200_ZOAB"@nl .
+
+nlcs-o:Trottoirband_280X300 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Trottoirband ;
+    skos:prefLabel "Trottoirband_280X300"@nl .
+
+nlcs-o:Trottoirband_RWS a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Trottoirband ;
+    skos:prefLabel "Trottoirband_RWS"@nl .
+
+nlcs-o:Trottoirband_RWS_110X220 a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Trottoirband_RWS ;
+    skos:prefLabel "Trottoirband_RWS_110X220"@nl .
+
+nlcs-o:Trottoirband_RWS_ZOAB a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Trottoirband_RWS ;
+    skos:prefLabel "Trottoirband_RWS_ZOAB"@nl .
+
+nlcs-o:Tussenlaag a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Geslotenverharding ;
+    skos:prefLabel "Tussenlaag"@nl .
+
+nlcs-o:UniverseelSportveld a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Sport ;
+    skos:prefLabel "Universeel sportveld"@nl .
+
+nlcs-o:Verharding a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:RealObject ;
+    skos:prefLabel "Verharding"@nl .
+
+nlcs-o:Verkanting a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Activity ;
+    skos:prefLabel "Verkanting"@nl .
+
+nlcs-o:Verkeerstegel a rdfs:Class ;
+    rdfs:label "Verkeerstegel"@nl ;
+    rdfs:subClassOf nlcs-o:RealObject ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Verkeerstegel"@nl ;
+    skos:related imbor:OBC807 .
+
+nlcs-o:VerlaagdeBand a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Element ;
+    skos:prefLabel "Verlaagde band"@nl .
+
+nlcs-o:Verloopband a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Element ;
+    skos:prefLabel "Verloopband"@nl .
+
+nlcs-o:WaardesVoorBewerking a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:EnumerationType ;
+    skos:prefLabel "Waardes voor 'Bewerking'"@nl .
+
+nlcs-o:WaardesVoorKleur a rdfs:Class ;
+    rdfs:label "Waardes voor 'Kleur'"@nl ;
+    rdfs:subClassOf nlcs-o:EnumerationType ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Waardes voor 'Kleur'"@nl ;
+    skos:related imborvwl:P414Type .
+
+nlcs-o:WaardesVoorLaagnummer a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:EnumerationType ;
+    skos:prefLabel "Waardes voor 'Laagnummer'"@nl .
+
+nlcs-o:WaardesVoorOrientatie a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:EnumerationType ;
+    skos:prefLabel "Waardes voor 'Oriëntatie'"@nl .
+
+nlcs-o:Zand a rdfs:Class ;
+    rdfs:label "Zand"@nl ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:definition "Type gedetailleerd van verhardingsobject, onverhard  waarvan het oppervlak (deklaag) bestaat uit zand."@nl ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Zand"@nl ;
+    skos:related imbor:OBD1367 .
+
+nlcs-o:Zandcementstabilisatie a rdfs:Class ;
+    rdfs:subClassOf nlcs-o:Matter ;
+    skos:prefLabel "Zandcementstabilisatie"@nl .
+
+nlcs-o:ZinloosGeweldTegel a rdfs:Class ;
+    rdfs:label "Zinloos geweld tegel"@nl ;
+    rdfs:subClassOf nlcs-o:Tegel ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Zinloos geweld tegel"@nl ;
+    skos:related imbor:OBC763 .
+
+nlcs-o:Zoab a rdfs:Class ;
+    rdfs:label "Zoab"@nl ;
+    rdfs:subClassOf nlcs-o:Geslotenverharding,
+        nlcs-o:Goot,
+        nlcs-o:ZoabEnOpenDeklagen ;
+    skos:editorialNote "Het object is op een andere taxonomische plaats opgehangen t.o.v. de IMBOR-LD."@nl ;
+    skos:prefLabel "Zoab"@nl ;
+    skos:related imbor:OBE13 .
+
+<http://otl.nlcs.nl/def/Verhardingen/> a owl:Ontology ;
+    rdfs:label "OTL OTL NLCS"@nl ;
+    dcterms:created "2024-09-23"^^xsd:date ;
+    rdfs:comment "Ontologie OTL NLCS - Verhardingen"@nl ;
+    owl:imports <http://www.w3.org/2004/02/skos/core>,
+        sh: ;
+    owl:versionIRI <http://otl.nlcs.nl/def/Verhardingen/0.1/> ;
+    owl:versionInfo "0.1"^^xsd:string ;
+    skos:editorialNote "De ontologie is gebaseerd op de IMBOR versie 2020/08"@nl,
+        "De ontologie is gebaseerd op de NEN2660 versie 1.0"@nl .
+
+nlcs-vwl:Achterkant a nlcs-o:WaardesVoorOrientatie ;
+    skos:prefLabel "Achterkant"@nl .
+
+nlcs-vwl:Achterkantband a nlcs-o:WaardesVoorOrientatie ;
+    skos:prefLabel "Achterkantband"@nl .
+
+nlcs-vwl:Coating a nlcs-o:WaardesVoorBewerking ;
+    skos:prefLabel "Coating"@nl .
+
+nlcs-vwl:Freesvak a nlcs-o:WaardesVoorBewerking ;
+    skos:prefLabel "Freesvak"@nl .
+
+nlcs-vwl:Groen a nlcs-o:WaardesVoorKleur ;
+    rdfs:label "Groen"@nl ;
+    skos:prefLabel "Groen"@nl ;
+    skos:related imborvwl:Q1765 .
+
+nlcs-vwl:Half a nlcs-o:WaardesVoorBewerking ;
+    skos:prefLabel "Half"@nl .
+
+nlcs-vwl:Halfopen a nlcs-o:WaardesVoorBewerking ;
+    skos:prefLabel "Halfopen"@nl .
+
+nlcs-vwl:OpDeKop a nlcs-o:WaardesVoorBewerking ;
+    skos:prefLabel "Op De Kop"@nl .
+
+nlcs-vwl:OpnieuwStellen a nlcs-o:WaardesVoorBewerking ;
+    skos:prefLabel "Opnieuw Stellen"@nl .
+
+nlcs-vwl:Overig a nlcs-o:WaardesVoorBewerking ;
+    skos:prefLabel "Overig"@nl .
+
+nlcs-vwl:Pas a nlcs-o:WaardesVoorBewerking ;
+    skos:prefLabel "Pas"@nl .
+
+nlcs-vwl:Rood a nlcs-o:WaardesVoorKleur ;
+    rdfs:label "Rood"@nl ;
+    skos:prefLabel "Rood"@nl ;
+    skos:related imborvwl:Q1770 .
+
+nlcs-vwl:Slijtlaag a nlcs-o:WaardesVoorBewerking ;
+    skos:prefLabel "Slijtlaag"@nl .
+
+nlcs-vwl:Trapsgewijsfrezen a nlcs-o:WaardesVoorBewerking ;
+    skos:prefLabel "Trapsgewijsfrezen"@nl .
+
+nlcs-vwl:Vloeistofdicht a nlcs-o:WaardesVoorBewerking ;
+    skos:prefLabel "Vloeistofdicht"@nl .
+
+nlcs-vwl:Voorkant a nlcs-o:WaardesVoorOrientatie ;
+    skos:prefLabel "Voorkant"@nl .
+
+nlcs-vwl:Voorkantband a nlcs-o:WaardesVoorOrientatie ;
+    skos:prefLabel "Voorkantband"@nl .
+
+nlcs-vwl:Wit a nlcs-o:WaardesVoorKleur ;
+    rdfs:label "Wit"@nl ;
+    skos:prefLabel "Wit"@nl ;
+    skos:related imborvwl:Q1773 .
+
+nlcs-vwl:Zaagsnede a nlcs-o:WaardesVoorBewerking ;
+    skos:prefLabel "Zaagsnede"@nl .
+
+nlcs-vwl:_1 a nlcs-o:WaardesVoorLaagnummer ;
+    skos:prefLabel "1"@nl .
+
+nlcs-vwl:_2 a nlcs-o:WaardesVoorLaagnummer ;
+    skos:prefLabel "2"@nl .
+
+nlcs-shape:BedrijfsvloerplaatShape a sh:NodeShape ;
+    sh:property nlcs-shape:Bedrijfsvloerplaat-consistsOf-Shape ;
+    sh:targetClass nlcs-o:Bedrijfsvloerplaat .
+
+nlcs-shape:DrempelShape a sh:NodeShape ;
+    sh:property nlcs-shape:BestaatUit-Asfalt-Shape ;
+    sh:targetClass nlcs-o:Drempel .
+
+nlcs-shape:FunderingShape a sh:NodeShape ;
+    sh:property nlcs-shape:Fundering-consistsOf-Shape ;
+    sh:targetClass nlcs-o:Fundering .
+
+    nlcs-shape:GootShape a sh:NodeShape ;
+    sh:property nlcs-shape:OrientatieShape,
+        nlcs-shape:Goot-consistsOf-Shape ;
+    sh:targetClass nlcs-o:Goot .
+
+nlcs-shape:GeslotenverhardingShape a sh:NodeShape ;
+    sh:property nlcs-shape:BewerkingShape,
+        nlcs-shape:Geslotenverharding-consistsOf-Shape,
+        nlcs-shape:KleurShape,
+        nlcs-shape:LaagnummerShape ;
+    sh:targetClass nlcs-o:Geslotenverharding .
+
+nlcs-shape:HalfverhardingShape a sh:NodeShape ;
+    sh:property nlcs-shape:Halfverharding-consistsOf-Shape ;
+    sh:targetClass nlcs-o:Halfverharding .
+
+nlcs-shape:KantopsluitingShape a sh:NodeShape ;
+    sh:property nlcs-shape:BewerkingShape,
+        nlcs-shape:OrientatieShape ;
+    sh:targetClass nlcs-o:Kantopsluiting .
+
+nlcs-shape:OnverhardShape a sh:NodeShape ;
+    sh:property nlcs-shape:Onverhard-consistsOf-Shape ;
+    sh:targetClass nlcs-o:Onverhard .
+
+nlcs-shape:OpenverhardingShape a sh:NodeShape ;
+    sh:property nlcs-shape:BewerkingShape ;
+    sh:targetClass nlcs-o:Openverharding .
+
+nlcs-shape:VerhardingShape a sh:NodeShape ;
+    sh:property nlcs-shape:BewerkingShape ;
+    sh:targetClass nlcs-o:Verharding .
+
+nlcs-p:bewerking a rdf:Property ;
+    skos:prefLabel "Bewerking"@nl .
+
+nlcs-p:kleur a rdf:Property ;
+    rdfs:label "Kleur"@nl ;
+    skos:definition "Kleur van het beheerobject."@nl ;
+    skos:prefLabel "Kleur"@nl ;
+    skos:related imborp:P414 .
+
+nlcs-p:laagnummer a rdf:Property ;
+    rdfs:label "Laagnummer"@nl ;
+    skos:definition "Laagnummer van de funderingslaag."@nl ;
+    skos:prefLabel "Laagnummer"@nl ;
+    skos:related imborp:P378 .
+
+nlcs-p:orientatie a rdf:Property ;
+    skos:prefLabel "Oriëntatie"@nl .
+
+nlcs-shape:Bedrijfsvloerplaat-consistsOf-Shape a sh:PropertyShape ;
+    sh:or ( [ sh:class nlcs-o:Beton ] [ sh:class nlcs-o:Kunststof ] [ sh:class nlcs-o:Staal ] [ sh:class nlcs-o:Hout ] ) ;
+    sh:path nlcs-p:consistsOf .
+
+nlcs-shape:BestaatUit-Asfalt-Shape a sh:PropertyShape ;
+    sh:class nlcs-o:Asfalt ;
+    sh:path nlcs-p:consistsOf .
+
+    nlcs-shape:Onverhard-consistsOf-Shape a sh:PropertyShape ;
+    sh:or ( [ sh:class nlcs-o:Klei ] [ sh:class nlcs-o:Houtsnippers ] [ sh:class nlcs-o:Boomschors ] [ sh:class nlcs-o:Zand ] ) ;
+    sh:path nlcs-p:consistsOf .
+
+nlcs-shape:Fundering-consistsOf-Shape a sh:PropertyShape ;
+    sh:or ( [ sh:class nlcs-o:AVI-slakken ] [ sh:class nlcs-o:Betongranulaat ] [ sh:class nlcs-o:Bims ] [ sh:class nlcs-o:EPS ] [ sh:class nlcs-o:Granulaat ] [ sh:class nlcs-o:Hoogovenslakken ] [ sh:class nlcs-o:HydraulischMenggranulaat ] [ sh:class nlcs-o:Menggranulaat ] [ sh:class nlcs-o:Schuimbeton ] [ sh:class nlcs-o:Slakken ] [ sh:class nlcs-o:Zandcementstabilisatie ] [ sh:class nlcs-o:Zand ] ) ;
+    sh:path nlcs-p:consistsOf .
+
+nlcs-shape:Goot-consistsOf-Shape a sh:PropertyShape ;
+    sh:or ( [ sh:class nlcs-o:Asfalt ] [ sh:class nlcs-o:Beton ] [ sh:class nlcs-o:PrefabBeton ] ) ;
+    sh:path nlcs-p:consistsOf .
+
+nlcs-shape:Geslotenverharding-consistsOf-Shape a sh:PropertyShape ;
+    sh:or ( [ sh:class nlcs-o:Asfalt ] [ sh:class nlcs-o:Bentoniet ] [ sh:class nlcs-o:Gietasfalt ] [ sh:class nlcs-o:Metselwerk ] [ sh:class nlcs-o:OngewapendBeton ] [ sh:class nlcs-o:SchraalBeton ] [ sh:class nlcs-o:GewapendBeton ] ) ;
+    sh:path nlcs-p:consistsOf .
+
+nlcs-shape:Halfverharding-consistsOf-Shape a sh:PropertyShape ;
+    sh:or ( [ sh:class nlcs-o:Koperslak ] [ sh:class nlcs-o:Schelp ] [ sh:class nlcs-o:Gravel ] [ sh:class nlcs-o:Grind ] [ sh:class nlcs-o:Puin ] ) ;
+    sh:path nlcs-p:consistsOf .
+
+nlcs-shape:KleurShape a sh:PropertyShape ;
+    skos:related shape:P414Shape ;
+    sh:class nlcs-o:WaardesVoorKleur ;
+    sh:path nlcs-p:kleur .
+
+nlcs-shape:LaagnummerShape a sh:PropertyShape ;
+    skos:related shape:P378Shape ;
+    sh:class nlcs-o:WaardesVoorLaagnummer ;
+    sh:path nlcs-p:laagnummer .
+
+nlcs-shape:OrientatieShape a sh:PropertyShape ;
+    sh:class nlcs-o:WaardesVoorOrientatie ;
+    sh:path nlcs-p:orientatie .
+
+nlcs-shape:BewerkingShape a sh:PropertyShape ;
+    sh:class nlcs-o:WaardesVoorBewerking ;
+    sh:path nlcs-p:bewerking .
+
+nlcs-p:consistsOf a rdf:Property ;
+    rdfs:subPropertyOf nen2660:consistsOf ;
+    skos:definition "The matter a real object or mixture is made of"@en ;
+    skos:prefLabel "consists of"@en,
+        "Bestaat uit"@nl .
+

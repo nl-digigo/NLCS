@@ -1,0 +1,138 @@
+@prefix nlcs-o: <http://data.digigo.nu/nlcs/def/> .
+@prefix nlcs-shape: <http://data.digigo.nu/nlcs/def/shape> .
+@prefix bs: <https://w3id.org/def/basicsemantics-owl#> .
+@prefix ns1: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix imbor-domeinwaarde: <https://data.crow.nl/imbor/id/domeinwaarden/> .
+@prefix imbor:   <https://data.crow.nl/imbor/def/> .
+
+<http://otl.nlcs.nl/def/nlcs/imbor/> a owl:Ontology ;
+    rdfs:label "Mapping OTL Digigo"@nl ;
+    ns1:created "2024-05-29"^^xsd:date ;
+    rdfs:comment "Mapping ontologie Digigo - NLCS/IMBOR"@nl ;
+    owl:imports <http://www.w3.org/2004/02/skos/core>,
+        sh: ;
+    owl:versionIRI <http://otl.nlcs.nl/def/nlcs/imbor/0.1/> ;
+    owl:versionInfo "0.1"^^xsd:string ;
+    skos:editorialNote "De ontologie is gebaseerd op de IMBOR versie 2022"@nl ,
+        "De ontologie is gebaseerd op de NEN2660 versie 1.0"@nl .
+
+nlcs-shape:Infer_from_OTL_1bcfb89e-8950-406e-bce9-315ca4a44d98_ab90731d-e8c8-43cc-a465-bf9094c5a921 a sh:NodeShape ;
+    sh:rule [ a sh:TripleRule ;
+            sh:object imbor-domeinwaarde:d2d8ccdd-24c8-4d08-aa2a-f539692ae62c ;
+            sh:predicate imbor:e3e112b3-e46f-45c4-b2c9-b152e6f805a1 ;
+            sh:subject sh:this ],
+        [ a sh:TripleRule ;
+            sh:object imbor:ab90731d-e8c8-43cc-a465-bf9094c5a921 ;
+            sh:predicate rdf:type ;
+            sh:subject sh:this ],
+        [ a sh:TripleRule ;
+            sh:object imbor-domeinwaarde:4fb0b8ce-7554-4568-b1e8-707bdf014894 ;
+            sh:predicate imbor:703dcaf1-98c7-4511-bf73-1a081538179c ;
+            sh:subject sh:this ] ;
+    sh:targetClass nlcs-o:1bcfb89e-8950-406e-bce9-315ca4a44d98 ;
+	rdfs:seeAlso skos:broadMatch .
+
+nlcs-shape:Infer_from_OTL_3d091e90-4118-479f-9280-458c7f80bfea_ab90731d-e8c8-43cc-a465-bf9094c5a921 a sh:NodeShape ;
+    sh:rule [ a sh:TripleRule ;
+            sh:object imbor-domeinwaarde:d2d8ccdd-24c8-4d08-aa2a-f539692ae62c ;
+            sh:predicate imbor:e3e112b3-e46f-45c4-b2c9-b152e6f805a1 ;
+            sh:subject sh:this ],
+        [ a sh:TripleRule ;
+            sh:object imbor:ab90731d-e8c8-43cc-a465-bf9094c5a921 ;
+            sh:predicate rdf:type ;
+            sh:subject sh:this ],
+        [ a sh:TripleRule ;
+            sh:object imbor-domeinwaarde:4fb0b8ce-7554-4568-b1e8-707bdf014894 ;
+            sh:predicate imbor:703dcaf1-98c7-4511-bf73-1a081538179c ;
+            sh:subject sh:this ] ;
+    sh:targetClass nlcs-o:3d091e90-4118-479f-9280-458c7f80bfea ;
+	rdfs:seeAlso skos:broadMatch .
+
+nlcs-shape:Infer_from_OTL_8094ad49-13ae-41fa-ad4e-bb998b13347e_366207df-0b72-46a6-8e10-000085d60151 a sh:NodeShape ;
+    sh:rule [ a sh:TripleRule ;
+            sh:object imbor-domeinwaarde:9e7bf2d0-e59a-4e14-a01c-b69330c2697c ;
+            sh:predicate imbor:962110b3-46ad-46b8-85c6-f40539a21ee3 ;
+            sh:subject sh:this ],
+        [ a sh:TripleRule ;
+            sh:object imbor:366207df-0b72-46a6-8e10-000085d60151 ;
+            sh:predicate rdf:type ;
+            sh:subject sh:this ] ;
+    sh:targetClass nlcs-o:8094ad49-13ae-41fa-ad4e-bb998b13347e ;
+	rdfs:seeAlso skos:narrowMatch .
+
+nlcs-shape:Infer_from_OTL_8094ad49-13ae-41fa-ad4e-bb998b13347e_6156ad75-a23c-4b5f-8095-c773cd6ebffe a sh:NodeShape ;
+    sh:rule [ a sh:TripleRule ;
+            sh:object imbor:6156ad75-a23c-4b5f-8095-c773cd6ebffe ;
+            sh:predicate rdf:type ;
+            sh:subject sh:this ],
+        [ a sh:TripleRule ;
+            sh:object imbor-domeinwaarde:9e7bf2d0-e59a-4e14-a01c-b69330c2697c ;
+            sh:predicate imbor:962110b3-46ad-46b8-85c6-f40539a21ee3 ;
+            sh:subject sh:this ] ;
+    sh:targetClass nlcs-o:8094ad49-13ae-41fa-ad4e-bb998b13347e ;
+	rdfs:seeAlso skos:narrowMatch .
+
+nlcs-shape:Infer_to_OTL_366207df-0b72-46a6-8e10-000085d60151_8094ad49-13ae-41fa-ad4e-bb998b13347e a sh:NodeShape ;
+    sh:rule [ a sh:TripleRule ;
+            sh:condition [ a sh:NodeShape ;
+                    sh:property [ a sh:PropertyShape ;
+                            sh:hasValue imbor-domeinwaarde:9e7bf2d0-e59a-4e14-a01c-b69330c2697c ;
+                            sh:path imbor:962110b3-46ad-46b8-85c6-f40539a21ee3 ] ] ;
+            sh:object nlcs-o:8094ad49-13ae-41fa-ad4e-bb998b13347e ;
+            sh:predicate rdf:type ;
+            sh:subject sh:this ] ;
+    sh:targetClass imbor:366207df-0b72-46a6-8e10-000085d60151 ;
+	rdfs:seeAlso skos:narrowMatch .
+
+nlcs-shape:Infer_to_OTL_6156ad75-a23c-4b5f-8095-c773cd6ebffe_8094ad49-13ae-41fa-ad4e-bb998b13347e a sh:NodeShape ;
+    sh:rule [ a sh:TripleRule ;
+            sh:condition [ a sh:NodeShape ;
+                    sh:property [ a sh:PropertyShape ;
+                            sh:hasValue imbor-domeinwaarde:9e7bf2d0-e59a-4e14-a01c-b69330c2697c ;
+                            sh:path imbor:962110b3-46ad-46b8-85c6-f40539a21ee3 ] ] ;
+            sh:object nlcs-o:8094ad49-13ae-41fa-ad4e-bb998b13347e ;
+            sh:predicate rdf:type ;
+            sh:subject sh:this ] ;
+    sh:targetClass imbor:6156ad75-a23c-4b5f-8095-c773cd6ebffe ;
+	rdfs:seeAlso skos:narrowMatch.
+
+nlcs-shape:Infer_to_OTL_ab90731d-e8c8-43cc-a465-bf9094c5a921_1bcfb89e-8950-406e-bce9-315ca4a44d98 a sh:NodeShape ;
+    sh:rule [ a sh:TripleRule ;
+            sh:condition [ a sh:NodeShape ;
+                    sh:property [ a sh:PropertyShape ;
+                            sh:hasValue imbor-domeinwaarde:d2d8ccdd-24c8-4d08-aa2a-f539692ae62c ;
+                            sh:path imbor:e3e112b3-e46f-45c4-b2c9-b152e6f805a1 ] ],
+                [ a sh:NodeShape ;
+                    sh:property [ a sh:PropertyShape ;
+                            sh:hasValue imbor-domeinwaarde:4fb0b8ce-7554-4568-b1e8-707bdf014894 ;
+                            sh:path imbor:703dcaf1-98c7-4511-bf73-1a081538179c ] ] ;
+            sh:object nlcs-o:1bcfb89e-8950-406e-bce9-315ca4a44d98 ;
+            sh:predicate rdf:type ;
+            sh:subject sh:this ] ;
+    sh:targetClass imbor:ab90731d-e8c8-43cc-a465-bf9094c5a921 ;
+	rdfs:seeAlso skos:broadMatch .
+
+nlcs-shape:Infer_to_OTL_ab90731d-e8c8-43cc-a465-bf9094c5a921_3d091e90-4118-479f-9280-458c7f80bfea a sh:NodeShape ;
+    sh:rule [ a sh:TripleRule ;
+            sh:condition [ a sh:NodeShape ;
+                    sh:property [ a sh:PropertyShape ;
+                            sh:hasValue imbor-domeinwaarde:4fb0b8ce-7554-4568-b1e8-707bdf014894 ;
+                            sh:path imbor:703dcaf1-98c7-4511-bf73-1a081538179c ] ],
+                [ a sh:NodeShape ;
+                    sh:property [ a sh:PropertyShape ;
+                            sh:hasValue imbor-domeinwaarde:d2d8ccdd-24c8-4d08-aa2a-f539692ae62c ;
+                            sh:path imbor:e3e112b3-e46f-45c4-b2c9-b152e6f805a1 ] ] ;
+            sh:object nlcs-o:3d091e90-4118-479f-9280-458c7f80bfea ;
+            sh:predicate rdf:type ;
+            sh:subject sh:this ] ;
+    sh:targetClass imbor:ab90731d-e8c8-43cc-a465-bf9094c5a921 ;
+	rdfs:seeAlso skos:broadMatch .
+
+
+
