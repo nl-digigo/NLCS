@@ -7,7 +7,7 @@ Tabellen, database en technische bestanden: via issues
 Documentatie in ReSpec: druk op de knop "Laad annotaties; je kunt dan rechtsbovenin een scherm uitklappen, eenmalig gratis registreren bij Hypothesis.com en dan kun je in de kantlijn van het document je opmerkingen weergeven.
 
 ## Voor ontwerpers en tekenaars
-* [Uitleg standaard](): De uitleg van de standaard met daarin de toelichting op het beoogd doel en de werking van de standaard.
+* [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/reviewversies/CR-NLCS_functionalspecification-20241017.html): De uitleg van de standaard met daarin de toelichting op het beoogd doel en de werking van de standaard.
 * [Eisen aan tekeningen en modellen](). 
 * [Voorbeeldtekeningen](). 
 
