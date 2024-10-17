@@ -1,0 +1,1046 @@
+<!DOCTYPE html><html lang="nl"><head>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta charset="utf-8">
+<meta name="generator" content="ReSpec 32.3.0">
+<style>
+dfn{cursor:pointer}
+.dfn-panel{position:absolute;z-index:35;min-width:300px;max-width:500px;padding:.5em .75em;margin-top:.6em;font-family:MuseoSans,"Museo Sans",Museo,sans-serif;font-size:small;background:#fff;color:#000;box-shadow:0 1em 3em -.4em rgba(0,0,0,.3),0 0 1px 1px rgba(0,0,0,.05);border-radius:2px}
+.dfn-panel:not(.docked)>.caret{position:absolute;top:-9px}
+.dfn-panel:not(.docked)>.caret::after,.dfn-panel:not(.docked)>.caret::before{content:"";position:absolute;border:10px solid transparent;border-top:0;border-bottom:10px solid #fff;top:0}
+.dfn-panel:not(.docked)>.caret::before{border-bottom:9px solid #a2a9b1}
+.dfn-panel *{margin:0}
+.dfn-panel b{display:block;color:#000;margin-top:.25em}
+.dfn-panel ul a[href]{color:#333}
+.dfn-panel>div{display:flex}
+.dfn-panel a.self-link{font-weight:700;margin-right:auto}
+.dfn-panel .marker{padding:.1em;margin-left:.5em;border-radius:.2em;text-align:center;white-space:nowrap;font-size:90%;color:#040b1c}
+.dfn-panel .marker.dfn-exported{background:#d1edfd;box-shadow:0 0 0 .125em #1ca5f940}
+.dfn-panel .marker.idl-block{background:#8ccbf2;box-shadow:0 0 0 .125em #0670b161}
+.dfn-panel a:not(:hover){text-decoration:none!important;border-bottom:none!important}
+.dfn-panel a[href]:hover{border-bottom-width:1px}
+.dfn-panel ul{padding:0}
+.dfn-panel li{margin-left:1em}
+.dfn-panel.docked{position:fixed;left:.5em;top:unset;bottom:2em;margin:0 auto;max-width:calc(100vw - .75em * 2 - .5em - .2em * 2);max-height:30vh;overflow:auto}
+</style>
+<link rel="stylesheet" href="https://docs.crow.nl/webfonts/webfonts.css">
+<link rel="stylesheet" href="https://docs.crow.nl/respec-design/stichting-crow/base.min.css">
+<link rel="stylesheet" media="(prefers-color-scheme: dark)" href="https://docs.crow.nl/respec-design/stichting-crow/dark.min.css">
+  
+  
+  
+  
+<title>Functionele specificatie NLCS 5.1</title>
+  
+  
+
+<style id="respec-mainstyle">
+@keyframes pop{
+0%{transform:scale(1,1)}
+25%{transform:scale(1.25,1.25);opacity:.75}
+100%{transform:scale(1,1)}
+}
+:is(h1,h2,h3,h4,h5,h6,a) abbr{border:none}
+dfn{font-weight:700}
+a.internalDFN{color:inherit;border-bottom:1px solid #99c;text-decoration:none}
+a.externalDFN{color:inherit;border-bottom:1px dotted #ccc;text-decoration:none}
+a.bibref{text-decoration:none}
+.respec-offending-element:target{animation:pop .25s ease-in-out 0s 1}
+.respec-offending-element,a[href].respec-offending-element{text-decoration:red wavy underline}
+@supports not (text-decoration:red wavy underline){
+.respec-offending-element:not(pre){display:inline-block}
+.respec-offending-element{background:url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=) bottom repeat-x}
+}
+#references :target{background:#eaf3ff;animation:pop .4s ease-in-out 0s 1}
+cite .bibref{font-style:normal}
+a[href].orcid{padding-left:4px;padding-right:4px}
+a[href].orcid>svg{margin-bottom:-2px}
+.toc a,.tof a{text-decoration:none}
+a .figno,a .secno{color:#000;color:var(--toclink-text)}
+ol.tof,ul.tof{list-style:none outside none}
+.caption{margin-top:.5em;font-style:italic}
+table.simple{border-spacing:0;border-collapse:collapse;border-bottom:3px solid #005a9c}
+.simple th{background:#005a9c;color:#fff;padding:3px 5px;text-align:left}
+.simple th a{color:#fff;padding:3px 5px;text-align:left}
+.simple th[scope=row]{background:inherit;color:inherit;border-top:1px solid #ddd}
+.simple td{padding:3px 10px;border-top:1px solid #ddd}
+.simple tr:nth-child(even){background:#f0f6ff}
+.section dd>p:first-child{margin-top:0}
+.section dd>p:last-child{margin-bottom:0}
+.section dd{margin-bottom:1em}
+.section dl.attrs dd,.section dl.eldef dd{margin-bottom:0}
+#issue-summary>ul{column-count:2}
+#issue-summary li{list-style:none;display:inline-block}
+details.respec-tests-details{margin-left:1em;display:inline-block;vertical-align:top}
+details.respec-tests-details>*{padding-right:2em}
+details.respec-tests-details[open]{z-index:999999;position:absolute;border:thin solid #cad3e2;border-radius:.3em;background-color:#fff;padding-bottom:.5em}
+details.respec-tests-details[open]>summary{border-bottom:thin solid #cad3e2;padding-left:1em;margin-bottom:1em;line-height:2em}
+details.respec-tests-details>ul{width:100%;margin-top:-.3em}
+details.respec-tests-details>li{padding-left:1em}
+.self-link:hover{opacity:1;text-decoration:none;background-color:transparent}
+aside.example .marker>a.self-link{color:inherit}
+.header-wrapper{display:flex;align-items:baseline}
+:is(h2,h3,h4,h5,h6):not(#toc>h2,#abstract>h2,#sotd>h2,.head>h2){position:relative;left:-.5em}
+:is(h2,h3,h4,h5,h6):not(#toch2)+a.self-link{color:inherit;order:-1;position:relative;left:-1.1em;font-size:1rem;opacity:.5}
+:is(h2,h3,h4,h5,h6)+a.self-link::before{content:"§";text-decoration:none;color:var(--heading-text)}
+:is(h2,h3)+a.self-link{top:-.2em}
+:is(h4,h5,h6)+a.self-link::before{color:#000}
+@media (max-width:767px){
+dd{margin-left:0}
+}
+@media print{
+.removeOnSave{display:none}
+}
+</style>
+<link rel="icon" href="https://www.digigo.nu/files/uploads/2023/11/cropped-fav-32x32.png">
+<style>
+ul.index{columns:30ch;column-gap:1.5em}
+ul.index li{list-style:inherit}
+ul.index li span{color:inherit;cursor:pointer;white-space:normal}
+#index-defined-here ul.index li{font-size:.9rem}
+ul.index code{color:inherit}
+#index-defined-here .print-only{display:none}
+@media print{
+#index-defined-here .print-only{display:initial}
+}
+</style>
+<meta name="description" content="Dit document bevat de uitleg van de standaard met daarin de toelichting op het beoogd doel en de werking van de standaard.">
+<style>
+var{position:relative;cursor:pointer}
+var[data-type]::after,var[data-type]::before{position:absolute;left:50%;top:-6px;opacity:0;transition:opacity .4s;pointer-events:none}
+var[data-type]::before{content:"";transform:translateX(-50%);border-width:4px 6px 0 6px;border-style:solid;border-color:transparent;border-top-color:#000}
+var[data-type]::after{content:attr(data-type);transform:translateX(-50%) translateY(-100%);background:#000;text-align:center;font-family:"Dank Mono","Fira Code",monospace;font-style:normal;padding:6px;border-radius:3px;color:#daca88;text-indent:0;font-weight:400}
+var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
+</style>
+<script id="initialUserConfig" type="application/json">{
+  "specStatus": "CR",
+  "shortName": "NLCS/functionalspecification",
+  "specType": "toelichting op het beoogd doel en de werking van de standaard",
+  "imprint": "digigo",
+  "hypothesisComments": "true",
+  "reviewDateEnd": "2025-02-01",
+  "editors": [
+    {
+      "name": "Elisabeth de Vries",
+      "company": "DigiGO"
+    }
+  ],
+  "authors": [
+    {
+      "name": "Corné Helmons",
+      "company": "DigiGO"
+    },
+    {
+      "name": "Niels Nederpel",
+      "company": "DigiGO"
+    }
+  ],
+  "github": "https://github.com/nl-digigo/NLCS",
+  "license": "cc-by",
+  "lint": {
+    "no-unused-dfns": false
+  },
+  "localBiblio": {
+    "NEN_2660_2_2022": {
+      "title": "NEN 2660-2 Regels voor informatiemodellering van de gebouwde omgeving - Deel 2: Praktische configuratie, extensie en implementatie van NEN 2660-1",
+      "href": "https://www.nen.nl/en/nen-2660-2-2022-nl-291667",
+      "status": "Actueel",
+      "publisher": "NEN"
+    },
+    "NEN_2660_1_2022": {
+      "title": "NEN 2660-1 Rules for information modelling of the built environment - Part 1: Conceptual models",
+      "href": "https://www.nen.nl/en/nen-2660-1-2022-nl-291666",
+      "status": "Actueel",
+      "publisher": "NEN"
+    },
+    "NEN_EN_ISO_7200_2004": {
+      "title": "Technische productdocumentatie - Gegevensvelden in titelblokken",
+      "href": "https://www.nen.nl/nen-en-iso-7200-2004-en-93839",
+      "status": "Actueel",
+      "publisher": "NEN"
+    }
+  },
+  "publishISODate": "2024-10-17T00:00:00.000Z",
+  "generatedSubtitle": "digiGO toelichting op het beoogd doel en de werking van de standaard, in consultatie 17 oktober 2024"
+}</script></head>
+
+<body class="h-entry" style="background-image: url(&quot;https://docs.crow.nl/respec-design/stichting-crow/status-nl/CR.svg&quot;);"><div class="head">
+    <p class="logos"><a class="logo" href="https://www.digigo.nu"><img crossorigin="" alt="digiGO" height="75" src="https://docs.crow.nl/respec-design/stichting-crow/logo/digigo.svg" width="150">
+  </a></p>
+    <h1 id="title" class="title">Functionele specificatie NLCS 5.1</h1> 
+    <p id="w3c-state">digiGO toelichting op het beoogd doel en de werking van de standaard,
+  in consultatie <time style="white-space: pre;" class="dt-published" datetime="2024-10-17">17 oktober 2024</time></p>
+    <details open="">
+      <summary>Meer informatie over dit document</summary>
+      <dl>
+        
+        
+        
+        <dt>Laatste werkversie:</dt><dd><a href="https://nl-digigo.github.io/NLCS/functionalspecification">https://nl-digigo.github.io/NLCS/functionalspecification</a></dd>
+        <dt>Geschiedenis:</dt><dd>
+                    <a href="https://github.com/nl-digigo/NLCS/commits/">Wijzigingsgeschiedenis</a>
+                  </dd>
+        
+        
+        
+        <dt>Redacteur:</dt><dd class="editor p-author h-card vcard">
+    <span class="p-name fn">Elisabeth de Vries</span> (<span class="p-org org h-org">DigiGO</span>)
+  </dd>
+        
+        <dt>Auteurs:</dt><dd class="editor p-author h-card vcard">
+    <span class="p-name fn">Corné Helmons</span> (<span class="p-org org h-org">DigiGO</span>)
+  </dd><dd class="editor p-author h-card vcard">
+    <span class="p-name fn">Niels Nederpel</span> (<span class="p-org org h-org">DigiGO</span>)
+  </dd>
+        <dt>Feedback:</dt><dd>
+        <a href="https://github.com/nl-digigo/NLCS/">GitHub nl-digigo/NLCS</a>
+        (<a href="https://github.com/nl-digigo/NLCS/pulls/">wijzigingsverzoeken</a>,
+        <a href="https://github.com/nl-digigo/NLCS/issues/new/choose">nieuw issue</a>,
+        <a href="https://github.com/nl-digigo/NLCS/issues/">openstaande issues</a>)
+      </dd><dd id="annotation-service-placeholder">
+        <button type="button" data-load-annotation-service="">
+          Laad annotaties
+        </button>
+        <span><small>Annotaties door <a href="https://web.hypothes.is">Hypothes.is</a> (<a href="https://web.hypothes.is/privacy">privacybeleid</a>).</small></span>
+      </dd><dd hidden="" id="annotation-service-loaded">
+        <span data-hypothesis-annotation-count="">...</span> annotatie(s) met <em>Hypothes.is</em>
+        <button type="button" data-hypothesis-trigger="">
+          Toon annotatiebalk
+        </button>
+        <button type="button" data-unload-annotation-service="">
+          Verberg
+        </button>
+      </dd>
+        
+        
+      </dl>
+    </details>
+    
+    <p class="copyright">
+    Copyright ©
+    2024
+    
+    <a href="https://www.digigo.nu">digiGO</a>.
+    digiGO
+    <a href="https://www.digigo.nu/disclaimer">disclaimer</a>
+      van toepassing en gedistribueerd onder
+      <a rel="license" href="https://creativecommons.org/licenses/by/4.0/" title="Creative Commons Naamsvermelding">CC BY 4.0</a>
+  </p>
+    <hr title="Separator for header">
+  </div>
+  
+  <section id="abstract" class="introductory"><h2>Samenvatting</h2><p>Dit document bevat de uitleg van de standaard met daarin de toelichting op het beoogd doel en de werking van de standaard. </p>
+<p>Dit document sluit aan op de volgende documenten:</p>
+<ul>
+<li>Uitleg standaard: voorliggend document</li>
+<li><a href="https://nl-digigo.github.io/NLCS/requirementscadmodels/">Eisen aan tekeningen en modellen</a></li>
+<li><a href="https://www.nl-digigo.nl/p/432/Leren-van-anderen">Voorbeeldtekeningen</a></li>
+</ul>
+<figure id="fig-voorbeeld-nlcs-tekening">
+<img src="./h/media/voorbeeldtekening.jpg" alt="Visuele weergave van een NLCS tekening." height="230" width="437">
+<figcaption>Figuur <bdi class="figno">1</bdi> <span class="fig-title">Voorbeeld <abbr title="Nederlandse CAD Standaard">NLCS</abbr> tekening
+</span></figcaption></figure>
+
+<p><dfn data-lt="CAD-model|CAD-modellen" id="dfn-cad-model" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><abbr title="Computer-Aided Design">CAD</abbr>-model</dfn> Een model in een <abbr title="Computer-Aided Design">CAD</abbr>-applicatie met daarin een weergave van ruimtelijke objecten</p>
+
+<p><dfn data-lt="CAD-tekening|CAD-tekeningen" id="dfn-cad-tekening" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><abbr title="Computer-Aided Design">CAD</abbr>-tekening</dfn> Een printbare weergave van het <abbr title="Computer-Aided Design">CAD</abbr>-model met een kader en een titelblok met informatie over de tekening</p></section>
+  <section id="sotd" class="introductory"><h2>Status van dit document</h2><p><em>Deze paragraaf
+      beschrijft de status van dit document ten tijde van publicatie. Het is
+      mogelijk dat er actuelere versies van dit document bestaan. Bekijk de
+      lijst van digiGO technische standaarden op
+      <a href="https://www.digigo.nu/">www.digigo.nu</a>
+      en alle digiGO-publicaties via
+      <a href="https://www.digigo.nu">www.digigo.nu</a>.</em></p><p>
+      Dit is een consultatieversie en is nog niet vastgesteld.
+      Een publicatie als in consultatie
+          impliceert geen onderschrijven door digiGO.
+    </p><p>
+            Belanghebbenden, geïnteresseerde partijen en anderen worden
+            uitgenodigd dit document te reviewen en hun commentaar in te zenden
+            vóór 1 februari 2025. Zowel inhoudelijk als
+            technisch commentaar als commentaar betreffende de
+            implementeerbaarheid is welkom.
+          </p><p>
+      <a href="https://github.com/nl-digigo/NLCS/issues/">GitHub Issues</a> wordt gebruikt voor de discussie
+      van dit document. Eén issue per onderwerp vereenvoudigt de verwerking.
+    </p><p>
+      Reviewcommentaar mag ook achtergelaten worden als
+      <em>Hypothes.is</em> annotaties. Gebruik het publieke kanaal voor je
+      commentaar.
+    </p></section><nav id="toc"><h2 class="introductory" id="inhoudsopgave">Inhoudsopgave</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#abstract">Samenvatting</a></li><li class="tocline"><a class="tocxref" href="#sotd">Status van dit document</a></li><li class="tocline"><a class="tocxref" href="#conformance"><bdi class="secno">1. </bdi>Conformiteit</a></li><li class="tocline"><a class="tocxref" href="#doel-standaard"><bdi class="secno">2. </bdi>Doel standaard</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#inleiding"><bdi class="secno">2.1 </bdi>Inleiding</a></li><li class="tocline"><a class="tocxref" href="#doel"><bdi class="secno">2.2 </bdi>Doel</a></li><li class="tocline"><a class="tocxref" href="#use-cases"><bdi class="secno">2.3 </bdi>Use cases</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#bestaande-situatie"><bdi class="secno">2.3.1 </bdi>Bestaande situatie</a></li><li class="tocline"><a class="tocxref" href="#planvorming"><bdi class="secno">2.3.2 </bdi>Planvorming</a></li><li class="tocline"><a class="tocxref" href="#ontwerp"><bdi class="secno">2.3.3 </bdi>Ontwerp</a></li><li class="tocline"><a class="tocxref" href="#revisie"><bdi class="secno">2.3.4 </bdi>Revisie</a></li><li class="tocline"><a class="tocxref" href="#aansluiting-op-bgt"><bdi class="secno">2.3.5 </bdi>Aansluiting op <abbr title="Basiskaart Grootschalige Topografie">BGT</abbr></a></li></ol></li><li class="tocline"><a class="tocxref" href="#implementatie"><bdi class="secno">2.4 </bdi>Implementatie</a></li><li class="tocline"><a class="tocxref" href="#roadmap-naar-de-toekomst"><bdi class="secno">2.5 </bdi>Roadmap naar de toekomst</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#bim"><bdi class="secno">2.5.1 </bdi><abbr title="bouwwerk informatie management">BIM</abbr></a></li><li class="tocline"><a class="tocxref" href="#dsgo"><bdi class="secno">2.5.2 </bdi><abbr title="Digitaal Stelsel Gebouwde Omgeving">DSGO</abbr></a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#werking-nlcs"><bdi class="secno">3. </bdi>Werking <abbr title="Nederlandse CAD Standaard">NLCS</abbr></a><ol class="toc"><li class="tocline"><a class="tocxref" href="#scope"><bdi class="secno">3.1 </bdi>Scope</a></li><li class="tocline"><a class="tocxref" href="#technische-uitgangspunten"><bdi class="secno">3.2 </bdi>Technische Uitgangspunten</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#objectgerichte-laagnamen"><bdi class="secno">3.2.1 </bdi>Objectgerichte laagnamen</a></li><li class="tocline"><a class="tocxref" href="#x2d-cad"><bdi class="secno">3.2.2 </bdi>2D <abbr title="Computer-Aided Design">CAD</abbr></a></li><li class="tocline"><a class="tocxref" href="#x3d-cad"><bdi class="secno">3.2.3 </bdi>3D <abbr title="Computer-Aided Design">CAD</abbr></a></li></ol></li><li class="tocline"><a class="tocxref" href="#functionele-werking"><bdi class="secno">3.3 </bdi>Functionele werking</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#harmonicamodel"><bdi class="secno">3.3.1 </bdi>Harmonicamodel</a></li><li class="tocline"><a class="tocxref" href="#statusmodel"><bdi class="secno">3.3.2 </bdi>Statusmodel</a></li><li class="tocline"><a class="tocxref" href="#bewerking"><bdi class="secno">3.3.3 </bdi>Bewerking</a></li><li class="tocline"><a class="tocxref" href="#tekenvrijheid"><bdi class="secno">3.3.4 </bdi>Tekenvrijheid</a></li></ol></li><li class="tocline"><a class="tocxref" href="#eigen-bibliotheken"><bdi class="secno">3.4 </bdi>Eigen bibliotheken</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#eigen-objecten"><bdi class="secno">3.4.1 </bdi>Eigen objecten</a></li><li class="tocline"><a class="tocxref" href="#eigen-symbolen"><bdi class="secno">3.4.2 </bdi>Eigen symbolen</a></li><li class="tocline"><a class="tocxref" href="#eigen-arceringen"><bdi class="secno">3.4.3 </bdi>Eigen arceringen</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#toepassing-nlcs"><bdi class="secno">4. </bdi>Toepassing <abbr title="Nederlandse CAD Standaard">NLCS</abbr></a><ol class="toc"><li class="tocline"><a class="tocxref" href="#controleren-van-tekeningen"><bdi class="secno">4.1 </bdi>Controleren van tekeningen</a></li><li class="tocline"><a class="tocxref" href="#voorbeeldtekeningen"><bdi class="secno">4.2 </bdi>Voorbeeldtekeningen</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#rioolrevisie-rotterdam"><bdi class="secno">4.2.1 </bdi>Rioolrevisie Rotterdam</a></li><li class="tocline"><a class="tocxref" href="#amsterdam"><bdi class="secno">4.2.2 </bdi>Amsterdam</a></li><li class="tocline"><a class="tocxref" href="#movares"><bdi class="secno">4.2.3 </bdi>Movares</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#toelichting-op-hoofdgroepen"><bdi class="secno">5. </bdi>Toelichting op hoofdgroepen</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#dubbel-voorkomen-van-objecten"><bdi class="secno">5.1 </bdi>Dubbel voorkomen van objecten</a></li><li class="tocline"><a class="tocxref" href="#ie-inrichtringselementen"><bdi class="secno">5.2 </bdi>IE Inrichtringselementen</a></li><li class="tocline"><a class="tocxref" href="#kl-kabels-en-leidingen"><bdi class="secno">5.3 </bdi>KL Kabels en leidingen</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#laagnaam-netwerklijnen"><bdi class="secno">5.3.1 </bdi>Laagnaam netwerklijnen</a></li></ol></li><li class="tocline"><a class="tocxref" href="#laagnaam-overige-objecten"><bdi class="secno">5.4 </bdi>Laagnaam overige objecten</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#speciale-tekens-netbeheer"><bdi class="secno">5.4.1 </bdi>Speciale tekens netbeheer</a></li></ol></li><li class="tocline"><a class="tocxref" href="#vv-verkeerskunde-vaarwegen"><bdi class="secno">5.5 </bdi>VV Verkeerskunde Vaarwegen</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#vw-verkeerskunde-wegen"><bdi class="secno">5.5.1 </bdi>VW Verkeerskunde Wegen</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#releases"><bdi class="secno">6. </bdi>Releases</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#release-5-1"><bdi class="secno">6.1 </bdi>Release 5.1</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#verbeteren-en-toevoegen-objecten-en-representaties"><bdi class="secno">6.1.1 </bdi>Verbeteren en toevoegen objecten en representaties</a></li><li class="tocline"><a class="tocxref" href="#wijzigingen-in-techniek-en-interoperabiliteit"><bdi class="secno">6.1.2 </bdi>Wijzigingen in techniek en interoperabiliteit</a></li><li class="tocline"><a class="tocxref" href="#stedelijk-spoor"><bdi class="secno">6.1.3 </bdi>Stedelijk Spoor</a></li><li class="tocline"><a class="tocxref" href="#netbeheer-objecttoestanden"><bdi class="secno">6.1.4 </bdi>Netbeheer, objecttoestanden</a></li><li class="tocline"><a class="tocxref" href="#verkeersborden"><bdi class="secno">6.1.5 </bdi>Verkeersborden</a></li></ol></li><li class="tocline"><a class="tocxref" href="#release-5-01-linkeddata"><bdi class="secno">6.2 </bdi>Release 5.01 LinkedData</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#versiebeheer"><bdi class="secno">6.2.1 </bdi>Versiebeheer</a></li><li class="tocline"><a class="tocxref" href="#niet-ingevulde-velden"><bdi class="secno">6.2.2 </bdi>Niet-ingevulde velden</a></li></ol></li><li class="tocline"><a class="tocxref" href="#release-5-0"><bdi class="secno">6.3 </bdi>Release 5.0</a></li><li class="tocline"><a class="tocxref" href="#release-4-2"><bdi class="secno">6.4 </bdi>release 4.2</a></li><li class="tocline"><a class="tocxref" href="#release-4-1"><bdi class="secno">6.5 </bdi>Release 4.1</a></li><li class="tocline"><a class="tocxref" href="#release-4-0"><bdi class="secno">6.6 </bdi>Release 4.0</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#planvorming-0"><bdi class="secno">6.6.1 </bdi>Planvorming</a></li><li class="tocline"><a class="tocxref" href="#nlcs-imgeo"><bdi class="secno">6.6.2 </bdi><abbr title="Nederlandse CAD Standaard">NLCS</abbr>-IMGEO</a></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#licenties"><bdi class="secno">7. </bdi>Licenties</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#nlcs-ontologie"><bdi class="secno">7.1 </bdi><abbr title="Nederlandse CAD Standaard">NLCS</abbr> ontologie</a></li><li class="tocline"><a class="tocxref" href="#nlcs-bestanden"><bdi class="secno">7.2 </bdi><abbr title="Nederlandse CAD Standaard">NLCS</abbr> bestanden</a></li><li class="tocline"><a class="tocxref" href="#nlcs-documentatie"><bdi class="secno">7.3 </bdi><abbr title="Nederlandse CAD Standaard">NLCS</abbr> Documentatie</a></li><li class="tocline"><a class="tocxref" href="#nlcs-query-s"><bdi class="secno">7.4 </bdi><abbr title="Nederlandse CAD Standaard">NLCS</abbr> Query's</a></li></ol></li><li class="tocline"><a class="tocxref" href="#index"><bdi class="secno">A. </bdi>Index</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#index-defined-here"><bdi class="secno">A.1 </bdi>Termen gedefinieerd door deze specificatie</a></li><li class="tocline"><a class="tocxref" href="#index-defined-elsewhere"><bdi class="secno">A.2 </bdi>Termen gedefinieerd door referentie</a></li></ol></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">B. </bdi>Referenties</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#normatieve-referenties"><bdi class="secno">B.1 </bdi>Normatieve referenties</a></li></ol></li></ol></nav>
+  <section id="conformance"><div class="header-wrapper"><h2 id="x1-conformiteit"><bdi class="secno">1. </bdi>Conformiteit</h2><a class="self-link" href="#conformance" aria-label="Permalink for Section 1."></a></div><p>Naast onderdelen die als niet normatief gemarkeerd zijn,
+      zijn ook alle diagrammen, voorbeelden, en noten in dit document niet
+      normatief. Verder is alles in dit document normatief.</p><p>
+        Het sleutelwoord <em class="rfc2119">MOET</em> in dit
+        document is hebben een normatieve betekenis zoals
+        beschreven in het Engels in
+        <a href="https://tools.ietf.org/html/bcp14">BCP 14</a>
+        [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">RFC2119</a></cite>] [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc8174" title="Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words">RFC8174</a></cite>]
+        indien in hoofdletters geschreven.
+      </p></section>
+  <section class="informative" id="doel-standaard"><div class="header-wrapper"><h2 id="x2-doel-standaard"><bdi class="secno">2. </bdi>Doel standaard</h2><a class="self-link" href="#doel-standaard" aria-label="Permalink for Section 2."></a></div><p><em>Dit onderdeel is niet normatief.</em></p>
+<section id="inleiding"><div class="header-wrapper"><h3 id="x2-1-inleiding"><bdi class="secno">2.1 </bdi>Inleiding</h3><a class="self-link" href="#inleiding" aria-label="Permalink for Section 2.1"></a></div>
+<p>Terwijl veel partijen in de bouw gaandeweg overstappen op het werken met <abbr title="bouwwerk informatie management">BIM</abbr> (Bouwwerk Informatie Modellen) en 3D modelleren, wordt er in de GWW-sector nog veel in 2D getekend. De verwachting is dat dit bij het plannen en realiseren van infrastructuur nog geruime tijd zo zal blijven. Ook wanneer het werken met een <abbr title="bouwwerk informatie management">BIM</abbr> gemeengoed zal zijn, zullen 2D tekeningen nodig blijven om bepaalde informatie over het project te representeren en uit te wisselen tussen de betrokken partijen. 
+
+</p></section><section id="doel"><div class="header-wrapper"><h3 id="x2-2-doel"><bdi class="secno">2.2 </bdi>Doel</h3><a class="self-link" href="#doel" aria-label="Permalink for Section 2.2"></a></div>
+<p><abbr title="Nederlandse CAD Standaard">NLCS</abbr> zorgt voor meer eenheid in het tekenwerk. Opdrachtgevers in de openbare ruimte en infrastructuur besteden ontwerp- en tekenwerk vaak uit. Door opdrachtnemers gebruik te laten maken van <abbr title="Nederlandse CAD Standaard">NLCS</abbr> ontstaat er meer eenheid in het tekenwerk, kunnen digitale tekeningen makkelijker worden uitgewisseld, hoeven tekeningen niet te worden hertekend, en zijn tekeningen 10 a 15 jaar na oplevering nog bruikbaar voor onderhoud en reconstructie. Ook voor opdrachtnemers is het handig dat alle opdrachtgevers dezelfde eisen stellen aan het tekenwerk en dat niet voor iedere opdrachtgever andere tekenafspraken gelden. </p>
+<p><abbr title="Nederlandse CAD Standaard">NLCS</abbr> is een “open” standaard, dat wil zeggen: systeemonafhankelijk en vrij toegankelijk voor iedereen die er gebruik van wil maken. <abbr title="Nederlandse CAD Standaard">NLCS</abbr> staat op de Pas Toe of Leg Uit lijst van Forum Standaardisatie als verplichte standaard voor Nederlandse overheden en instellingen in de (semi) publieke sector. Voor (overheids-)opdrachtgevers is in dit verband met name de verbeterde informatie-uitwisseling met opdrachtnemers van ontwerp- bouw- en onderhoudsprojecten van belang.</p>
+</section><section id="use-cases"><div class="header-wrapper"><h3 id="x2-3-use-cases"><bdi class="secno">2.3 </bdi>Use cases</h3><a class="self-link" href="#use-cases" aria-label="Permalink for Section 2.3"></a></div>
+<p>Hieronder staat beschreven voor welke use cases <abbr title="Nederlandse CAD Standaard">NLCS</abbr> geschikt is. </p>
+<section id="bestaande-situatie"><div class="header-wrapper"><h4 id="x2-3-1-bestaande-situatie"><bdi class="secno">2.3.1 </bdi>Bestaande situatie</h4><a class="self-link" href="#bestaande-situatie" aria-label="Permalink for Section 2.3.1"></a></div>
+<p><abbr title="Nederlandse CAD Standaard">NLCS</abbr> is geschikt om de bestaande situatie op tekeningen weer te geven. </p>
+<ul>
+<li>De tabel met vergelijking tussen <abbr title="Nederlandse CAD Standaard">NLCS</abbr> en het <abbr title="Publieke Dienstverlening Op de Kaart">PDOK</abbr> Thema Stedelijk Water kan worden gebruikt als hulpmiddel om de bestaande gegevens over stedelijk water uit <abbr title="Geografisch Informatiesysteem">GIS</abbr> om te zetten naar een <abbr title="Computer-Aided Design">CAD</abbr> model. </li>
+<li>De tabel met vergelijking tussen <abbr title="Nederlandse CAD Standaard">NLCS</abbr> en de <abbr title="Basiskaart Grootschalige Topografie">BGT</abbr> kan worden gebruikt als hulpmiddel om de bestaande objecten op de kaart uit <abbr title="Geografisch Informatiesysteem">GIS</abbr> om te zetten naar een <abbr title="Computer-Aided Design">CAD</abbr> model. 
+Meer informatie over deze vergelijkingen staat in de <a href="https://nl-digigo.github.io/NLCS/representations/">Uitwisselafspraken</a>.</li>
+</ul>
+</section><section id="planvorming"><div class="header-wrapper"><h4 id="x2-3-2-planvorming"><bdi class="secno">2.3.2 </bdi>Planvorming</h4><a class="self-link" href="#planvorming" aria-label="Permalink for Section 2.3.2"></a></div>
+<p>In <abbr title="Nederlandse CAD Standaard">NLCS</abbr> zitten de objecten die het mogelijk maken om vóór de ontwerpfase Planvormingstekeningen te maken, zoals verkavelings-, exploitatie-, maten- en inrichtingsplannen. Dit zijn plannen die gemeenten doorgaans maken voordat er sprake is projecten in de buitenruimte. </p>
+</section><section id="ontwerp"><div class="header-wrapper"><h4 id="x2-3-3-ontwerp"><bdi class="secno">2.3.3 </bdi>Ontwerp</h4><a class="self-link" href="#ontwerp" aria-label="Permalink for Section 2.3.3"></a></div>
+<p><abbr title="Nederlandse CAD Standaard">NLCS</abbr> is geschikt om ontwerp- en uitvoeringstekeningen te maken.</p>
+</section><section id="revisie"><div class="header-wrapper"><h4 id="x2-3-4-revisie"><bdi class="secno">2.3.4 </bdi>Revisie</h4><a class="self-link" href="#revisie" aria-label="Permalink for Section 2.3.4"></a></div>
+<p><abbr title="Nederlandse CAD Standaard">NLCS</abbr> is geschikt om na uitvoering de op te leveren situatie (revisie) weer te geven.
+<abbr title="Nederlandse CAD Standaard">NLCS</abbr> is nog niet geschikt om geautomatiseerd te herkennen welke objecten gemuteerd moeten worden in een beheersysteem. Hiervoor moeten extra afspraken gemaakt worden over het herkennen van bestaande, maar gemuteerde objecten in de tekening. </p>
+</section><section id="aansluiting-op-bgt"><div class="header-wrapper"><h4 id="x2-3-5-aansluiting-op-bgt"><bdi class="secno">2.3.5 </bdi>Aansluiting op <abbr title="Basiskaart Grootschalige Topografie">BGT</abbr></h4><a class="self-link" href="#aansluiting-op-bgt" aria-label="Permalink for Section 2.3.5"></a></div>
+<p>Aan de ‘achterkant’ (na de oplevering van een bouwproject) is de mogelijkheid geschapen om een <abbr title="Nederlandse CAD Standaard">NLCS</abbr>-model om te zetten naar bijvoorbeeld een <abbr title="Geografisch Informatiesysteem">GIS</abbr>-bestand conform het IMGeo Protocol. Dit maakt het mogelijk om de nieuwe situatie na oplevering van een project in de buitenruimte direct in te voeren in de wettelijk verplichte <abbr title="Basiskaart Grootschalige Topografie">BGT</abbr> (Basiskaart Grootschalige Topografie). Hoe dit werkt staat in de <a href="https://nl-digigo.github.io/NLCS/representations/#nlcs-naar-gis-conform-imgeo">Uitwisselafspraken</a>.</p>
+</section></section><section id="implementatie"><div class="header-wrapper"><h3 id="x2-4-implementatie"><bdi class="secno">2.4 </bdi>Implementatie</h3><a class="self-link" href="#implementatie" aria-label="Permalink for Section 2.4"></a></div>
+<p>Diverse leveranciers hebben hun 2D <abbr title="Computer-Aided Design">CAD</abbr>-applicaties voor de GWW-sector aangepast voor de ondersteuning van <abbr title="Nederlandse CAD Standaard">NLCS</abbr>. Gebruikers kunnen dook zelf hun <abbr title="Computer-Aided Design">CAD</abbr>-applicatie inrichten met <abbr title="Nederlandse CAD Standaard">NLCS</abbr> lagen en representaties. </p>
+</section><section id="roadmap-naar-de-toekomst"><div class="header-wrapper"><h3 id="x2-5-roadmap-naar-de-toekomst"><bdi class="secno">2.5 </bdi>Roadmap naar de toekomst</h3><a class="self-link" href="#roadmap-naar-de-toekomst" aria-label="Permalink for Section 2.5"></a></div>
+<section id="bim"><div class="header-wrapper"><h4 id="x2-5-1-bim"><bdi class="secno">2.5.1 </bdi><abbr title="bouwwerk informatie management">BIM</abbr></h4><a class="self-link" href="#bim" aria-label="Permalink for Section 2.5.1"></a></div>
+<p>De <abbr title="Nederlandse CAD Standaard">NLCS</abbr> wil stappen zetten van een ‘traditionele’ <abbr title="Computer-Aided Design">CAD</abbr> standaard naar een <abbr title="bouwwerk informatie management">BIM</abbr> standaard.</p> <p></p>
+<p>De beheerorganisatie van <abbr title="Nederlandse CAD Standaard">NLCS</abbr> wil deze ontwikkeling voortzetten en verankeren. De ambitie is om de <abbr title="Nederlandse CAD Standaard">NLCS</abbr> te ontwikkelen naar een volwaardige ‘Level 2’ standaard volgens de <a href="https://www.bimloket.nl//documents/Kenniskaart_1_-_Nederlandse_BIM_Levels.pdf">Kenniskaart Nederlandse <abbr title="bouwwerk informatie management">BIM</abbr> Levels</a> voor projecten in de buitenruimte.</p>
+<figure id="fig-groeipad-nlcs-standaard">
+<img src="./h/media/bimlevelsnlcs.PNG" alt="NLCS ingetekend op level 1 in een kaart met BIM levels op een x-as met 'mate van integratie van het bouwproces' en een y-as met 'mate van betekenisvol informatie digitaal uitwisselen: Level ) = documentgericht; Level 2 v= Object georiënteerd; Level 2 = Samengevoegd; Level 3 = Geïntegreerd, levenscyclus" height="274" width="546">
+<figcaption>Figuur <bdi class="figno">2</bdi> <span class="fig-title">Groeipad <abbr title="Nederlandse CAD Standaard">NLCS</abbr> standaard
+</span></figcaption></figure>
+
+</section><section id="dsgo"><div class="header-wrapper"><h4 id="x2-5-2-dsgo"><bdi class="secno">2.5.2 </bdi><abbr title="Digitaal Stelsel Gebouwde Omgeving">DSGO</abbr></h4><a class="self-link" href="#dsgo" aria-label="Permalink for Section 2.5.2"></a></div>
+<p>NLCs wil passen binnen het <abbr title="Digitaal Stelsel Gebouwde Omgeving">DSGO</abbr> en sluit actief aan bij de ontwikkelingen die daarop plaatsvinden.</p>
+</section></section></section>
+  <section class="conformance" id="werking-nlcs"><div class="header-wrapper"><h2 id="x3-werking-nlcs"><bdi class="secno">3. </bdi>Werking <abbr title="Nederlandse CAD Standaard">NLCS</abbr></h2><a class="self-link" href="#werking-nlcs" aria-label="Permalink for Section 3."></a></div>
+<section id="scope"><div class="header-wrapper"><h3 id="x3-1-scope"><bdi class="secno">3.1 </bdi>Scope</h3><a class="self-link" href="#scope" aria-label="Permalink for Section 3.1"></a></div>
+<p>De <abbr title="Nederlandse CAD Standaard">NLCS</abbr> bevat afspraken voor:</p>
+<ul>
+<li>A. Metadata titelblok: de (minimale) set van gegevens en/of onderdelen die moeten worden opgenomen in het titelblok van een <a data-link-type="dfn" href="#dfn-cad-tekening" class="internalDFN" id="ref-for-dfn-cad-tekening-1">CAD-tekening</a>; zie daarvoor <a href="https://bimloket.github.io/NLCS/requirementscadmodels/">Eisen aan tekeningen en modellen</a></li>
+<li>B. Basis digitaal tekenen: afspraken met betrekking tot de wijze waarop digitaal wordt gemodelleerd, te hanteren eenheden, assenstelsels, peilen en tekenbladschalen; <a href="https://bimloket.github.io/NLCS/requirementscadmodels/">Eisen aan tekeningen en modellen</a></li>
+<li>C. Uiterlijk van de <a data-link-type="dfn" href="#dfn-cad-tekening" class="internalDFN" id="ref-for-dfn-cad-tekening-2">CAD-tekening</a>: afspraken met betrekking tot onder andere toegestane afmetingen van het tekenblad, kaders, tekststijlen, bematingsstijlen en lettertypen; <a href="https://bimloket.github.io/NLCS/requirementscadmodels/">Eisen aan tekeningen en modellen</a></li>
+<li>D. Ordening/codering en representatie van objecten: afspraken met betrekking tot de wijze waarop informatie binnen een tekening in lagen wordt geordend in een <a data-link-type="dfn" href="#dfn-cad-model" class="internalDFN" id="ref-for-dfn-cad-model-1">CAD-model</a>.</li>
+</ul>
+</section><section id="technische-uitgangspunten"><div class="header-wrapper"><h3 id="x3-2-technische-uitgangspunten"><bdi class="secno">3.2 </bdi>Technische Uitgangspunten</h3><a class="self-link" href="#technische-uitgangspunten" aria-label="Permalink for Section 3.2"></a></div>
+<section id="objectgerichte-laagnamen"><div class="header-wrapper"><h4 id="x3-2-1-objectgerichte-laagnamen"><bdi class="secno">3.2.1 </bdi>Objectgerichte laagnamen</h4><a class="self-link" href="#objectgerichte-laagnamen" aria-label="Permalink for Section 3.2.1"></a></div>
+<p>Een belangrijk uitgangspunt voor <abbr title="Nederlandse CAD Standaard">NLCS</abbr> is ‘objectgericht werken’ volgens de principes van <abbr title="bouwwerk informatie management">BIM</abbr>. Dat houdt in dat de objecten in de tekening herkenbaar moeten zijn voor alle gebruikers binnen de GWW sector. In de <abbr title="Nederlandse CAD Standaard">NLCS</abbr> is dit opgelost door voor in principe ieder te onderscheiden object een afzonderlijke laag op te nemen met in de laagnaam informatie waarmee het objecttype gedefinieerd wordt. 
+
+</p></section><section id="x2d-cad"><div class="header-wrapper"><h4 id="x3-2-2-2d-cad"><bdi class="secno">3.2.2 </bdi>2D <abbr title="Computer-Aided Design">CAD</abbr></h4><a class="self-link" href="#x2d-cad" aria-label="Permalink for Section 3.2.2"></a></div>
+<p>Een tweede belangrijk uitgangspunt voor <abbr title="Nederlandse CAD Standaard">NLCS</abbr> is, dat de standaard moet aansluiten op de gangbare <abbr title="Computer-Aided Design">CAD</abbr> praktijk met de gangbare <abbr title="Computer-Aided Design">CAD</abbr> applicaties. Die praktijk kenmerkt zich onder andere door een mechanisme van informatiescheiding door middel van een lagenstructuur. Informatiescheiding is noodzakelijk om hergebruik van de opgeslagen informatie mogelijk te maken, zonder gegevens opnieuw te moeten invoeren. Hergebruik van informatie betreft bijvoorbeeld het ‘automatisch’ bepalen van hoeveelheden uit een model, maar ook hergebruik van de <abbr title="Computer-Aided Design">CAD</abbr> modellen bij latere onderhouds- en reconstructiewerkzaamheden. </p>
+</section><section id="x3d-cad"><div class="header-wrapper"><h4 id="x3-2-3-3d-cad"><bdi class="secno">3.2.3 </bdi>3D <abbr title="Computer-Aided Design">CAD</abbr></h4><a class="self-link" href="#x3d-cad" aria-label="Permalink for Section 3.2.3"></a></div>
+<p>Bij 3D modelleren en <abbr title="bouwwerk informatie management">BIM</abbr> wordt een fundamenteel ander mechanisme van informatiescheiding gehanteerd. In een 3D model/<abbr title="bouwwerk informatie management">BIM</abbr> wordt informatie (data) in een databasestructuur direct gekoppeld aan de objecten waarop zij betrekking heeft. Ook uit een 3D-model kunnen en moeten vervolgens 2D-tekeningen worden gegenereerd. Door de verschillende mechanismen van informatiescheiding is het niet altijd mogelijk die 2D-tekeningen te laten voldoen aan de <abbr title="Nederlandse CAD Standaard">NLCS</abbr>. Wanneer (overheids-)opdrachtgevers niettemin eisen dat alle tekeningen van een project as built moeten worden geleverd conform <abbr title="Nederlandse CAD Standaard">NLCS</abbr>, kan dat een barrière opwerpen voor het gebruik van 3D modelleren en <abbr title="bouwwerk informatie management">BIM</abbr>. Dat is een ongewenste situatie. Daarom is besloten dat de <abbr title="Nederlandse CAD Standaard">NLCS</abbr> niet geldt voor 2D tekeningen die worden gegenereerd uit een 3D model <a href="#footnote-2">[2]</a>  , mits de herbruikbaarheid van informatie in het kader van onderhoud en reconstructies op een andere wijze wordt gewaarborgd. Aanbevelingen hierover zijn opgenomen in de <a href="https://nl-digigo.github.io/NLCS/representations/#uitwisseling-van-3d-objectinformatie">Uitwisselafspraken</a>. </p>
+<p id="footnote-2">[2] Dit betreft met name 3D modellen van ‘Constructies’ (zie ook paragraaf 5.1.3). Voor civieltechnisch werk in de ‘Buitenruimte’ is het inmiddels goed mogelijk gebleken om op basis van 3D modellen 2D <abbr title="Computer-Aided Design">CAD</abbr> tekeningen te genereren die volledig voldoen aan de <abbr title="Nederlandse CAD Standaard">NLCS</abbr>. </p>
+
+</section></section><section id="functionele-werking"><div class="header-wrapper"><h3 id="x3-3-functionele-werking"><bdi class="secno">3.3 </bdi>Functionele werking</h3><a class="self-link" href="#functionele-werking" aria-label="Permalink for Section 3.3"></a></div>
+<section id="harmonicamodel"><div class="header-wrapper"><h4 id="x3-3-1-harmonicamodel"><bdi class="secno">3.3.1 </bdi>Harmonicamodel</h4><a class="self-link" href="#harmonicamodel" aria-label="Permalink for Section 3.3.1"></a></div>
+<p><abbr title="Nederlandse CAD Standaard">NLCS</abbr> geeft een harmonicamodel, waarbij eerst een heel generiek objecttype kan worden getekend, bijvoorbeeld een 'GESLOTENVERHARDING', en later (in een detailuitwerking van het ontwerp) kan worden gekozen om dit object op een andere laag te zetten waarbij een specifiekere keuze is gemaakt voor het type object, in het voorbeeld 'GESLOTENVERHARDING_ASFALT'. De ontwerper kan daarbij van grof naar fijn ontwerpen en steeds meer details uitwerken. </p>
+</section><section id="statusmodel"><div class="header-wrapper"><h4 id="x3-3-2-statusmodel"><bdi class="secno">3.3.2 </bdi>Statusmodel</h4><a class="self-link" href="#statusmodel" aria-label="Permalink for Section 3.3.2"></a></div>
+<p>De objecten in een tekening krijgen in de laagnaam een tekenstatus mee, die weergeeft wat de situatie van de objecten is na uitvoering van het werk waar de tekening voor gemaakt is. 
+Aan de status kan een numerieke waarde 01-99 worden toegevoegd om weer te geven dat het de situatie van het object betreft na een fase in het project. Een object kan zo gevolgd worden tijdens het werk, met onderscheid tussen tekeningen van de bestaande situatie, ontwerptekeningen en revisietekeningen.
+<br></p>
+<p>Voor het automatisch terugleveren van mutaties voor het asset databeheer zijn de <abbr title="Nederlandse CAD Standaard">NLCS</abbr> statussen niet toereikend. Daarom moeten voor dit doel extra afspraken worden gemaakt binnen en project.</p>
+</section><section id="bewerking"><div class="header-wrapper"><h4 id="x3-3-3-bewerking"><bdi class="secno">3.3.3 </bdi>Bewerking</h4><a class="self-link" href="#bewerking" aria-label="Permalink for Section 3.3.3"></a></div>
+<p>In een laagnaam kan worden aangegeven welke bewerking het object moet ondergaan. Denk aan verplaatsen, reinigen en dergelijke. </p>
+</section><section id="tekenvrijheid"><div class="header-wrapper"><h4 id="x3-3-4-tekenvrijheid"><bdi class="secno">3.3.4 </bdi>Tekenvrijheid</h4><a class="self-link" href="#tekenvrijheid" aria-label="Permalink for Section 3.3.4"></a></div>
+<p><abbr title="Nederlandse CAD Standaard">NLCS</abbr> biedt de vrijheid om objecten oppervlakkig aan te duiden, of met meer details en diepgang. Als naar gelang van het doel van de tekening.</p>
+<p><abbr title="Nederlandse CAD Standaard">NLCS</abbr> biedt vrijheid om objecten een andere visuele presentatie te geven, vooral als dit de leesbaarheid van de tekening ten goede komt. Een afwijking is daarom niet altijd erg. </p>
+<p><abbr title="Nederlandse CAD Standaard">NLCS</abbr> regelt niet wat er op specifieke tekeningen moet komen. Een schetsontwerp vraagt een heel ander detailniveau dan een uitvoeringsontwerp. Als u wilt, dat specifieke objecten op de tekening staan of u bepaalde details wilt zien, dan moet u hier zelf om vragen aan degene die de tekening voor u opstelt.  </p>
+</section></section><section id="eigen-bibliotheken"><div class="header-wrapper"><h3 id="x3-4-eigen-bibliotheken"><bdi class="secno">3.4 </bdi>Eigen bibliotheken</h3><a class="self-link" href="#eigen-bibliotheken" aria-label="Permalink for Section 3.4"></a></div>
+<p>De <abbr title="Nederlandse CAD Standaard">NLCS</abbr> is niet compleet. U kunt daarom eigen aanvullende bibliotheken maken, met de uitgangspunten van <abbr title="Nederlandse CAD Standaard">NLCS</abbr>. Hierdoor vallen uw tekeningen nog steeds beter over te nemen door andere partijen. We stellen het op prijs als u uw aanvullingen bij ons indient als het gaat om ontbrekende objecten, zodat deze beschikbaar komen voor de gehele sector.</p>
+<section id="eigen-objecten"><div class="header-wrapper"><h4 id="x3-4-1-eigen-objecten"><bdi class="secno">3.4.1 </bdi>Eigen objecten</h4><a class="self-link" href="#eigen-objecten" aria-label="Permalink for Section 3.4.1"></a></div>
+<p><abbr title="Nederlandse CAD Standaard">NLCS</abbr> bevat een basisset laagnemen om objecten te tekenen. Gebruikers, softwareontwikkelaars of toeleveranciers kunnen desgewenst eigen objecten(-bibliotheken) toevoegen. </p>
+</section><section id="eigen-symbolen"><div class="header-wrapper"><h4 id="x3-4-2-eigen-symbolen"><bdi class="secno">3.4.2 </bdi>Eigen symbolen</h4><a class="self-link" href="#eigen-symbolen" aria-label="Permalink for Section 3.4.2"></a></div>
+<p><abbr title="Nederlandse CAD Standaard">NLCS</abbr> bevat een basisset symbolen. Gebruikers, softwareontwikkelaars of toeleveranciers kunnen desgewenst eigen symbolen(-bibliotheken) toevoegen. </p>
+</section><section id="eigen-arceringen"><div class="header-wrapper"><h4 id="x3-4-3-eigen-arceringen"><bdi class="secno">3.4.3 </bdi>Eigen arceringen</h4><a class="self-link" href="#eigen-arceringen" aria-label="Permalink for Section 3.4.3"></a></div>
+<p><abbr title="Nederlandse CAD Standaard">NLCS</abbr> bevat een basisset arceringen. Gebruikers, softwareontwikkelaars of toeleveranciers kunnen desgewenst eigen arceringen(-bibliotheken) toevoegen.</p>
+</section></section></section>
+  <section class="conformance" id="toepassing-nlcs"><div class="header-wrapper"><h2 id="x4-toepassing-nlcs"><bdi class="secno">4. </bdi>Toepassing <abbr title="Nederlandse CAD Standaard">NLCS</abbr></h2><a class="self-link" href="#toepassing-nlcs" aria-label="Permalink for Section 4."></a></div>
+<section id="controleren-van-tekeningen"><div class="header-wrapper"><h3 id="x4-1-controleren-van-tekeningen"><bdi class="secno">4.1 </bdi>Controleren van tekeningen</h3><a class="self-link" href="#controleren-van-tekeningen" aria-label="Permalink for Section 4.1"></a></div>
+<p>Om te controleren of een tekening voldoet aan <abbr title="Nederlandse CAD Standaard">NLCS</abbr>, hebben <abbr title="Nederlandse CAD Standaard">NLCS</abbr>-leveranciers tooling beschikbaar. Die controleert op het gebruik van de juiste laagnamen, kleuren, lijnstijlen, lijndiktes, arceringen en symbolen. En geeft waarschuwingen als er afwijkingen of aanvullingen op de standaard zijn ontstaan. Als een opdrachtnemer een tekening conform <abbr title="Nederlandse CAD Standaard">NLCS</abbr> aanlevert, kun u daarbij vragen om deze controle. Dan kunt u zien in hoeverre en voldaan wordt aan de standaard. </p>
+</section><section id="voorbeeldtekeningen"><div class="header-wrapper"><h3 id="x4-2-voorbeeldtekeningen"><bdi class="secno">4.2 </bdi>Voorbeeldtekeningen</h3><a class="self-link" href="#voorbeeldtekeningen" aria-label="Permalink for Section 4.2"></a></div>
+<p>De <abbr title="Nederlandse CAD Standaard">NLCS</abbr> is een tekenstandaard die met name de (digitale) opbouw van de getekende objecten voorschrijft. Met het voorschrijven van de <abbr title="Nederlandse CAD Standaard">NLCS</abbr> is het dan ook nog steeds mogelijk om een eigen “look and feel” aan de tekening te geven.</p>
+<p>Ter illustratie van de mogelijkheden hebben we de gemeente Amsterdam, Rotterdam en Movares bereid gevonden om hun voorbeeldtekeningen te publiceren. Deze zijn inhoudelijk niet door ons gecontroleerd. Aan de inhoud en eventuele afwijkingen van de <abbr title="Nederlandse CAD Standaard">NLCS</abbr> kunnen dan ook geen rechten ontleend worden.</p>
+<p>Daarnaast vindt u in het overzicht hieronder ook de RAW bestekteksten die gebruikt worden voor het aanleveren van Riool revisietekeningen, zoals Rotterdam ze in projecten toepast. Heeft u zelf ook voorbeeldtekeningen die u wilt delen? Voeg deze toe via een issue, dan publiceren wij ze. </p>
+<section id="rioolrevisie-rotterdam"><div class="header-wrapper"><h4 id="x4-2-1-rioolrevisie-rotterdam"><bdi class="secno">4.2.1 </bdi>Rioolrevisie Rotterdam</h4><a class="self-link" href="#rioolrevisie-rotterdam" aria-label="Permalink for Section 4.2.1"></a></div>
+<ul>
+<li><a href="https://github.com/nl-digigo/NLCS/blob/main/docs/voorbeeldtekeningen/00-R-0010a-Revisie-riolering.pdf">00-R-0010a-Revisie-riolering.pdf</a></li>
+<li><a href="https://github.com/nl-digigo/NLCS/blob/main/docs/voorbeeldtekeningen/00-R-0011a-Revisie-puttenstaat.pdf">00-R-0011a-Revisie-puttenstaat.pdf</a></li>
+<li><a href="https://github.com/nl-digigo/NLCS/blob/main/docs/voorbeeldtekeningen/00-R-0012a-Revisie-details.pdf">00-R-0012a-Revisie-details.pdf</a></li>
+<li><a href="https://github.com/nl-digigo/NLCS/blob/main/docs/voorbeeldtekeningen/20160413-checklist-weergave-itemsobjecten-bij-revisies-t_b_v_-Water.pdf">20160413-checklist-weergave-itemsobjecten-bij-revisies-t_b_v_-Water.pdf</a></li>
+<li><a href="https://github.com/nl-digigo/NLCS/blob/main/docs/voorbeeldtekeningen/RAW-Deel-2_2-Revisie-riolering.pdf">RAW-Deel-2_2-Revisie-riolering.pdf</a></li>
+<li><a href="https://github.com/nl-digigo/NLCS/blob/main/docs/voorbeeldtekeningen/RAW-Deel-3-Riool-revisie.pdf">RAW-Deel-3-Riool-revisie.pdf</a></li>
+<li><a href="https://github.com/nl-digigo/NLCS/blob/main/docs/voorbeeldtekeningen/Voorbeeldtekening-rioolrevisie-Standard.zip">Voorbeeldtekening-rioolrevisie-Standard.zip</a></li>
+</ul>
+</section><section id="amsterdam"><div class="header-wrapper"><h4 id="x4-2-2-amsterdam"><bdi class="secno">4.2.2 </bdi>Amsterdam</h4><a class="self-link" href="#amsterdam" aria-label="Permalink for Section 4.2.2"></a></div>
+<ul>
+<li><a href="https://github.com/nl-digigo/NLCS/blob/main/docs/voorbeeldtekeningen/Voorbeeldtekening-NLCS-ADAM_Stedenbouw.zip">Voorbeeldtekening-<abbr title="Nederlandse CAD Standaard">NLCS</abbr>-ADAM_Stedenbouw.zip</a></li>
+</ul>
+</section><section id="movares"><div class="header-wrapper"><h4 id="x4-2-3-movares"><bdi class="secno">4.2.3 </bdi>Movares</h4><a class="self-link" href="#movares" aria-label="Permalink for Section 4.2.3"></a></div>
+<ul>
+<li><a href="https://github.com/nl-digigo/NLCS/blob/main/docs/voorbeeldtekeningen/N522-350842-41-11-01_1_Situatie-Standard.zip">N522-350842-41-11-01_1_Situatie-Standard</a></li>
+</ul>
+</section></section></section>
+  <section class="conformance" id="toelichting-op-hoofdgroepen"><div class="header-wrapper"><h2 id="x5-toelichting-op-hoofdgroepen"><bdi class="secno">5. </bdi>Toelichting op hoofdgroepen</h2><a class="self-link" href="#toelichting-op-hoofdgroepen" aria-label="Permalink for Section 5."></a></div>
+<section id="dubbel-voorkomen-van-objecten"><div class="header-wrapper"><h3 id="x5-1-dubbel-voorkomen-van-objecten"><bdi class="secno">5.1 </bdi>Dubbel voorkomen van objecten</h3><a class="self-link" href="#dubbel-voorkomen-van-objecten" aria-label="Permalink for Section 5.1"></a></div>
+<p>Een beperkt aantal OBJECTEN komt voor in twee HOOFDGROEPEN. Zo komt een DRIP (Digital Road Information Panel) voor in zowel KABELS EN LEIDINGEN als in INSTALLATIES WEG. Het gaat hierbij om plaatsing van hetzelfde OBJECT in verschillende modellen die doorgaans door verschillende tekenaars voor verschillende gebruiksdoelen worden gemaakt (respectievelijk voor het ontwerpen/uitvoeren van de installatietechniek en voor het ontwerpen/uitvoeren van verkeerskundige maatregelen). Andere voorbeelden zijn VDI en TDI. Of een lichtmast, die voorkomt in zowel de HOOFDGROEP INRICHTINGSELEMENTEN (waar over de plaatsing van de lichtmast moet worden beslist in relatie tot alle andere inrichtingselementen) als in de HOOFDGROEP OPENBARE VERLICHTING (waar de lichtmast een onderdeel is van het openbare verlichtingssysteem). Ook hier gaat het dus om hetzelfde OBJECT, bezien vanuit twee verschillende invalshoeken .</p>
+</section><section id="ie-inrichtringselementen"><div class="header-wrapper"><h3 id="x5-2-ie-inrichtringselementen"><bdi class="secno">5.2 </bdi>IE Inrichtringselementen</h3><a class="self-link" href="#ie-inrichtringselementen" aria-label="Permalink for Section 5.2"></a></div>
+<p>De hoofdgroep inrichtingselementen is een vergaarbak van allerlei objecten die in de openbare ruimte voorkomen: prullenbakken en bankjes, maar ook putdeksels, boomroosters en lpg vulpunten. 
+Deze hoofdgroep bestaat vooral, om in tekeningen ten behoeve van een specialisme zoals verhardingen of rioleringen, ook de "in de weg staande objecten" te kunnen weergeven en in een keer uit of aan te kunnen zetten tijdens het tekenen. </p>
+<p>Daarnaast wordt de hoofdgroep inrichtingselementen gebruikt om objecten uit de <abbr title="Basiskaart Grootschalige Topografie">BGT</abbr> in een <abbr title="Computer-Aided Design">CAD</abbr> tekening te plaatsen. Het betreft dan deze objecten in een zeer abstracte, eenvoudige weergave zoals op een kaart. De specialistische uitwerking naar types staat in andere hoofdgroepen; bijvoorbeeld er komt één put voor in inrichtingselementen, voor de <abbr title="Basiskaart Grootschalige Topografie">BGT</abbr>. De typen rioolputten zoals een ontwerper en beheerder nodig heeft staan in de hoofdgroep rioleringen.</p>
+</section><section id="kl-kabels-en-leidingen"><div class="header-wrapper"><h3 id="x5-3-kl-kabels-en-leidingen"><bdi class="secno">5.3 </bdi>KL Kabels en leidingen</h3><a class="self-link" href="#kl-kabels-en-leidingen" aria-label="Permalink for Section 5.3"></a></div>
+<section id="laagnaam-netwerklijnen"><div class="header-wrapper"><h4 id="x5-3-1-laagnaam-netwerklijnen"><bdi class="secno">5.3.1 </bdi>Laagnaam netwerklijnen</h4><a class="self-link" href="#laagnaam-netwerklijnen" aria-label="Permalink for Section 5.3.1"></a></div>
+<p>De kabels en leidingen krijgen altijd een laagnaam met de volgende onderdelen op een vaste volgorde gesorteerd:</p>
+<ul><li>Als OBJECT wordt het type net genoemd (gas, energie, enzovoorts)
+</li><li> Als EERSTE SUBOBJECT wordt het thema benoemd: hoogspanning, laagspanning enzovoorts, afgekort tot HS, LS. 
+</li><li>Als TWEEDE SUBOBJECT wordt gebruikt voor de aanduiding van het type leveringsnetwerk. Hierbij wordt gebruik gemaakt van de terminologie TRANSPORT, DISTRIBUTIE en AANSLUITNET en is voor de verschillende <abbr title="Nederlandse CAD Standaard">NLCS</abbr> netbeheer thema’s gelijk. Mogelijke waarden die kunnen voorkomen:
+<ol><li>TRANSPORT = Hoofdnet
+</li><li>DISTRIBUTIE = Distributie netwerk
+</li><li>AANSLUITNET = Aansluiting/aansluitnetwerk
+</li></ol></li><li>Volgende SUBOBJECT komt het voltage indien bekend
+</li><li>Als volgende SUBOBJECT komt kabel diamter gecombineerd met materiaal indien bekend
+</li><li>Als laatste kan indien de informatie uit KLIK wordt gehaald, de netbeheerder komen in de laagnaam. In de <abbr title="Nederlandse CAD Standaard">NLCS</abbr> komen geen objecten voor met een netbeheerder, dit zou een individuele uitbreiding zijn.
+</li></ul>
+
+<p>De volgorde is daarmee voorspelbaar. Door altijd deze indeling en volgorde te kiezen wordt het eenvoudiger om een match te maken tussen attributen van een object in een informatiemodel, en de laagnaam van de geometrische representatie van het object. Het is niet de bedoeling om "lege velden" in de laagnaam te hebben, het gaat puur om de volgorde waarin de informatie in de laagnaam komt. 
+<br>
+<br>
+NB Voor riolering werkt het anders; omdat riolering een eigen hoofdgroep heeft geldt dat het type net niet hoeft te worden genoemd, het subtype zit onder HOOFDOBJECT1 en heeft ook andere namen, gebaseerd op GWSW. </p>
+<figure id="fig-standaard-laagnaamindeling-voor-lijnobjecten-in-het-netwerk">
+<img src="./h/media/laagnaamkabels.png" alt="Een spreadsheet waarin de posities van type net, thema, netwerktype, voltage en eventueel materiaal en diameter worden getoond" width="100%">
+<figcaption>Figuur <bdi class="figno">3</bdi> <span class="fig-title">Standaard laagnaamindeling voor lijnobjecten in het netwerk
+</span></figcaption></figure>
+
+</section></section><section id="laagnaam-overige-objecten"><div class="header-wrapper"><h3 id="x5-4-laagnaam-overige-objecten"><bdi class="secno">5.4 </bdi>Laagnaam overige objecten</h3><a class="self-link" href="#laagnaam-overige-objecten" aria-label="Permalink for Section 5.4"></a></div>
+<p>De overige objecten krijgen ook altijd eerste de aanduiding van type net en thema, dan de naam van het objecttype en eventuele subtypes, dan materiaal, dan diameter. </p>
+<figure id="fig-standaard-laagnaamindeling-voor-knopen-in-het-netwerk">
+<img src="./h/media/laagnaamnetwerkknopen.png" alt="Een spreadsheet waarin de posities van type net, thema, en type knoop worden getoond" width="100%">
+<figcaption>Figuur <bdi class="figno">4</bdi> <span class="fig-title">Standaard laagnaamindeling voor knopen in het netwerk
+</span></figcaption></figure>
+
+<figure id="fig-standaard-laagnaamindeling-voor-mantelbuizen-in-het-netwerk">
+<img src="./h/media/laagnaammantelbuizen.png" alt="Een spreadsheet waarin de posities van type net, thema, en type mantelbuiis met materiaal en diameter worden getoond" width="100%">
+<figcaption>Figuur <bdi class="figno">5</bdi> <span class="fig-title">Standaard laagnaamindeling voor mantelbuizen in het netwerk
+</span></figcaption></figure>
+
+
+<section id="speciale-tekens-netbeheer"><div class="header-wrapper"><h4 id="x5-4-1-speciale-tekens-netbeheer"><bdi class="secno">5.4.1 </bdi>Speciale tekens netbeheer</h4><a class="self-link" href="#speciale-tekens-netbeheer" aria-label="Permalink for Section 5.4.1"></a></div>
+<ol><li>Het gebruik van “-” en “_” is niet toegestaan in benamingen van zowel <abbr title="Nederlandse CAD Standaard">NLCS</abbr> Objectnamen als in het deel “SYMBOOLNAAM”. Dit geldt altijd, maar verdient een extra vermelding bij <abbr title="Nederlandse CAD Standaard">NLCS</abbr> netbeheer. Een voorbeeld hiervan is een T-stuk dat in de vaktermen ook daadwerkelijk op deze manier wordt toegepast. In plaats daarvan wordt gekozen om deze termen aan elkaar te vervoegen dus “TSTUK”.
+</li><li>Voor <abbr title="Nederlandse CAD Standaard">NLCS</abbr> netbeheer zijn de tekens / of \, komma's en kleine letters in namen zoals bijvoorbeeld een kabelaanduiding “4 x 6/4 x 2,5Cu” gebruikelijk. Omdat dit technisch niet goed gaat in <abbr title="Computer-Aided Design">CAD</abbr>-systemen wordt voorgesteld om dit als volgt op te lossen:
+<ul><li>kabelaanduiding: 4x6:4x2.5Cu</li></ul></li></ol>
+
+
+</section></section><section id="vv-verkeerskunde-vaarwegen"><div class="header-wrapper"><h3 id="x5-5-vv-verkeerskunde-vaarwegen"><bdi class="secno">5.5 </bdi>VV Verkeerskunde Vaarwegen</h3><a class="self-link" href="#vv-verkeerskunde-vaarwegen" aria-label="Permalink for Section 5.5"></a></div>
+<p>Er zijn diverse afmetingen voor de borden afhankelijk van de breedte vaarweg.
+De getekende borden hebben de afmeting voor vaarweg breedte 20-60m (x10)
+De borden worden met een factor 10 groter gemaakt zodat het symbool op schaal 1:1000 leesbaar is.
+De vorm en naam van de borden is gebaseerd op de Richtlijn scheepvaarttekens 2008.
+Enkel symbolen hebben een extra toevoeging doordat deze in de RST voor enkele borden een andere afbeelding gebruiken met hetzelfde nummer.</p>
+<p>Lettertype voor de borden:  <abbr title="Nederlandse CAD Standaard">NLCS</abbr>-RVV</p>
+<table>
+<thead>
+<tr>
+<th>KLEUREN</th>
+<th>NEN3381</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rood</td>
+<td>RAL3020</td>
+</tr>
+<tr>
+<td>wit</td>
+<td>RAL9016</td>
+</tr>
+<tr>
+<td>blauw</td>
+<td>RAL5017</td>
+</tr>
+<tr>
+<td>grijs</td>
+<td>RAL7042 of RAL7043</td>
+</tr>
+<tr>
+<td>zwart</td>
+<td>RAL9005 of RAL9017</td>
+</tr>
+<tr>
+<td>geel</td>
+<td>RAL1023 (verkeersgeel)</td>
+</tr>
+<tr>
+<td>groen</td>
+<td>RAL6024</td>
+</tr>
+<tr>
+<td>oranje</td>
+<td>RAL2009</td>
+</tr>
+</tbody></table>
+<section id="vw-verkeerskunde-wegen"><div class="header-wrapper"><h4 id="x5-5-1-vw-verkeerskunde-wegen"><bdi class="secno">5.5.1 </bdi>VW Verkeerskunde Wegen</h4><a class="self-link" href="#vw-verkeerskunde-wegen" aria-label="Permalink for Section 5.5.1"></a></div>
+<p>In principe heeft een objecttype een eigen laag binnen <abbr title="Nederlandse CAD Standaard">NLCS</abbr>. Bij de verkeersboirden niet, deze staan op één laag per categorie bord. De snelheidsborden staan bijvoorbeeld op één laag. Dit leidt ertoe dat in het geval van snelheidsborden niet het objecttype te onderscheiden valt qua verschillende soorten borden. Deze keuze is gemaakt voor het gemak van tekenen: via de laag snel naar het juiste verkeersbord, in plaats van een reuzehoeveelheid borden doorzoeken. Ook omdat voor elke snelheid een ander symbool bestaat. Daarnaast geldt dat een verkeerskundige bij het gebruiken van het model een selectie zal willen maken per verkeersmaatregel, en dus alle snelheidsborden in samenhang wil beschouwen. De verschillende borden afzonderlijk van elkaar aan- en uit zetten is niet nodig.</p>
+</section></section></section>
+  <section class="conformance" id="releases"><div class="header-wrapper"><h2 id="x6-releases"><bdi class="secno">6. </bdi>Releases</h2><a class="self-link" href="#releases" aria-label="Permalink for Section 6."></a></div>
+<section id="release-5-1"><div class="header-wrapper"><h3 id="x6-1-release-5-1"><bdi class="secno">6.1 </bdi>Release 5.1</h3><a class="self-link" href="#release-5-1" aria-label="Permalink for Section 6.1"></a></div>
+<section id="verbeteren-en-toevoegen-objecten-en-representaties"><div class="header-wrapper"><h4 id="x6-1-1-verbeteren-en-toevoegen-objecten-en-representaties"><bdi class="secno">6.1.1 </bdi>Verbeteren en toevoegen objecten en representaties</h4><a class="self-link" href="#verbeteren-en-toevoegen-objecten-en-representaties" aria-label="Permalink for Section 6.1.1"></a></div>
+<ul>
+<li><abbr title="Nederlandse CAD Standaard">NLCS</abbr> 5.1 is een grootschalige verbeting van foutjes en ommissies in de documentatie en de publicatie van laagnamen, in kleuren, lijnstijlen, lijnweights en symbolen in ce huidige hoofdgroepen. Dit leidt tot vermindering van irritaties bij het tekenen volgens de standaard. Het gaat om een groot aantal wijzigingen. Men kan teruglezen welke wijzigingen zijn doorgevoerd door de <a href="https://github.com/nl-digigo/NLCS/issues?q=milestone%3A%22Release+5.1+Minor+fixes%E2%80%8B%22+">issues met milestone 5.1</a> te selecteren in GitHub. </li>
+<li>Er zijn voor sommige Elementen gewijzigde regels over de visuele presentie, alle regels zijn samengevat in het <a href="https://nl-digigo.github.io/NLCS/requirementscadmodels/#overzicht-representatie">overzicht representatie</a>. De wijzigingen betreffen de elementen: GD; S en SV.</li>
+</ul>
+</section><section id="wijzigingen-in-techniek-en-interoperabiliteit"><div class="header-wrapper"><h4 id="x6-1-2-wijzigingen-in-techniek-en-interoperabiliteit"><bdi class="secno">6.1.2 </bdi>Wijzigingen in techniek en interoperabiliteit</h4><a class="self-link" href="#wijzigingen-in-techniek-en-interoperabiliteit" aria-label="Permalink for Section 6.1.2"></a></div>
+<ul>
+<li>Voor aanpijlingen en maatvoeringen is een nieuwe werkwijze bedacht, dit om te zorgen dat men onderdelen die kunnen leiden tot problemen met interoperabiliteit bij uitwisseling tussen <abbr title="Computer-Aided Design">CAD</abbr>-paketten beter kan traceren. Aanpijlingen en maatvoeringen komen voortaan in de laagnaam voor als L** respectievelijk M**, waarbij ** de aanduiding van de teksthoogte is. De representatie van de L**/M** lagen wordenwordt in de hoofdgroep ZZ gepubliceerd op dezelfde wijze als teksten T**.</li>
+<li>De verschaling van symbolen inclusief de werking in alle soorten <abbr title="Computer-Aided Design">CAD</abbr> pakketten is onderzocht. De toevoeging SO heeft geen betekenis meer. In plaats daarvan kunnen symbolen in de database een toevoeging .... krijgen. De symboolnamen zijn niet aangepast, daarin valt de toevoeging SO nog steeds te vinden.</li>
+<li>De aanduiding G/A/S in de objectentabellen is verwijderd. Indien symbolen of arceringen beschikbaar zijn, hebben deze een relatie met de <abbr title="Nederlandse CAD Standaard">NLCS</abbr>-Objecten. </li>
+<li>De lijndikte-nummers uit Microstation staan niet meer in een conversietabel in de documentatie, maar worden gepubliceerd in de database als attribuut 'MicrostationNummer' van een Lijnweight.</li>
+<li>Er zijn aanpassingen in de <a href="https://nl-digigo.github.io/NLCS/requirementscadmodels/#benaming-van-maatvoeringsstijlen">naamgeving van multileaderstijlen</a>, waarbij altijd aangeduid wordt of een Aanhaallijn van toepassing is en of een backgroundmask van toepassing is, dit om te zorgen dat men onderdelen die kunnen leiden tot problemen met interoperabiliteit bij uitwisseling tussen <abbr title="Computer-Aided Design">CAD</abbr>-paketten beter kan traceren.</li>
+<li>In de eisen aan controle-tooling is opgenomen: indien de laagnaam de tekst HULPLIJN bevat, dient de controletool géén melding te geven dat dit een aanvulling op <abbr title="Nederlandse CAD Standaard">NLCS</abbr> betreft. Dit voorkomt onnodige meldingen in het validatierapport.</li>
+<li>De aanduiding SO heeft geen betekenis meer, in plaats daarvan wordt onderscheid gemaakt tussen aanduidingen WG (ware grootte) voor arceringen  en symbolen en FS (vaste schaal/fixed size) voor symbolen.</li>
+</ul>
+<p>Een arcering met aanduiding WG <em class="rfc2119">MOET</em> een vaste nameetbare grootte krijgen volgens de plotschaal, deze arceringen moeten altijd op ware grote worden getekend.  </p>
+</section><section id="stedelijk-spoor"><div class="header-wrapper"><h4 id="x6-1-3-stedelijk-spoor"><bdi class="secno">6.1.3 </bdi>Stedelijk Spoor</h4><a class="self-link" href="#stedelijk-spoor" aria-label="Permalink for Section 6.1.3"></a></div>
+<p>IN <abbr title="Nederlandse CAD Standaard">NLCS</abbr> 5.1 is een toevoeging gedaan met spoorse infra in stedelijke omgeving met name gericht op tram. De lagen voor metro/lightrail zullen in volgende releases van de standaard worden toegevoegd. De objecten zijn onderverdeeld in 4 hoofdgroepen Spoorbouw (SB), Energievoorziening Spoor (ES)=Nieuw, Installatie Spoor (IS) (=wisselaansturing en -verwarming), Verkeersmaatregelen Spoorweg (VS) (=seinen, etc).
+Tevens is gekeken waar objecten eventueel in bestaande hoofdgroepen passen en zijn daar geplaatst. Men kan teruglezen welke wijzigingen zijn doorgevoerd door de <a href="https://github.com/nl-digigo/NLCS/issues?q=is%3Aissue+milestone%3A%22Release+5.3+Stedelijk+Spoor%E2%80%8B%22+">issues met milestone 5.3</a> te selecteren in GitHub. </p>
+</section><section id="netbeheer-objecttoestanden"><div class="header-wrapper"><h4 id="x6-1-4-netbeheer-objecttoestanden"><bdi class="secno">6.1.4 </bdi>Netbeheer, objecttoestanden</h4><a class="self-link" href="#netbeheer-objecttoestanden" aria-label="Permalink for Section 6.1.4"></a></div>
+<p>IN <abbr title="Nederlandse CAD Standaard">NLCS</abbr> 5.1 is een toevoeging gedaan met objecten voor de hoofdnetten voor electriciteit. Daartoe is de technische werking en publicatie van <abbr title="Nederlandse CAD Standaard">NLCS</abbr> uitgebreid met een objecttoestand, in het geval van netten met de toestanden in gebruik (default), in reserve en verlaten. Objecten krijgen voor elke combinatie van objecttoestand en tekenstatus eigen kleuren, lijndiktes en lijnstijlen toegekend. </p>
+<p>Men kan teruglezen welke wijzigingen zijn doorgevoerd door de <a href="https://github.com/nl-digigo/NLCS/issues?q=is%3Aissue+milestone%3A%22Release+5.4+Netbeheer%E2%80%8B%22">issues met milestone 5.4</a> te selecteren in GitHub. </p>
+</section><section id="verkeersborden"><div class="header-wrapper"><h4 id="x6-1-5-verkeersborden"><bdi class="secno">6.1.5 </bdi>Verkeersborden</h4><a class="self-link" href="#verkeersborden" aria-label="Permalink for Section 6.1.5"></a></div>
+<p>IN <abbr title="Nederlandse CAD Standaard">NLCS</abbr> 5.1 is een toevoeging gedaan met objecten en symbolen voor verkeersborden. Men kan teruglezen welke wijzigingen zijn doorgevoerd door de <a href="https://github.com/nl-digigo/NLCS/issues?q=is%3Aissue+milestone%3A%22Release+5.6+Verkeersborden%22">issues met milestone 5.6</a> te selecteren in GitHub. </p>
+</section></section><section id="release-5-01-linkeddata"><div class="header-wrapper"><h3 id="x6-2-release-5-01-linkeddata"><bdi class="secno">6.2 </bdi>Release 5.01 LinkedData</h3><a class="self-link" href="#release-5-01-linkeddata" aria-label="Permalink for Section 6.2"></a></div>
+<p>De enige wijziging in deze release is de overstap van het publicatieplatform van <abbr title="Nederlandse CAD Standaard">NLCS</abbr> van sql naar linked data. De inhoud van <abbr title="Nederlandse CAD Standaard">NLCS</abbr> is met deze release ongewijzigd.</p>
+<section id="versiebeheer"><div class="header-wrapper"><h4 id="x6-2-1-versiebeheer"><bdi class="secno">6.2.1 </bdi>Versiebeheer</h4><a class="self-link" href="#versiebeheer" aria-label="Permalink for Section 6.2.1"></a></div>
+<p>Waar in de sql database versiebeheer en wijzigingen gelogd werden door de status "vervallen", "nieuw" en "gewijzigd" mee te geven aan objecten, en een opmerkingenveld in te vullen met de reden van de wijziging, wordt dit in de linked data release niet meer expliciet gedaan. De gemaakte wijzigingen worden voortaan op GitHub opgenomen door issues te koppelen aan de Milestone die bij de release hoort. </p>
+<p>Om verschillen tussen versies in de publicatie op te vragen, moet vanaf nu met sparql-queries worden gewerkt. Daarmee kunnen verschillen tussen releases onderzocht worden.</p>
+</section><section id="niet-ingevulde-velden"><div class="header-wrapper"><h4 id="x6-2-2-niet-ingevulde-velden"><bdi class="secno">6.2.2 </bdi>Niet-ingevulde velden</h4><a class="self-link" href="#niet-ingevulde-velden" aria-label="Permalink for Section 6.2.2"></a></div>
+<p>Bij de <abbr title="Nederlandse CAD Standaard">NLCS</abbr> objecten werd in sql een waarde van -1 ingevuld bij de lijnkleuren en lijntypes en een 0 bij lijnweights als er geen waarde is. Met linked data is er simpelweg geen relatie. Daarom zijn ook de volgende regels uit de sql database niet overgenomen:</p>
+<ul>
+<li>Lijntype IDs -2 en -1</li>
+<li>Lijnkleur ID -1</li>
+<li>Lijnweight ID -1</li>
+</ul>
+</section></section><section id="release-5-0"><div class="header-wrapper"><h3 id="x6-3-release-5-0"><bdi class="secno">6.3 </bdi>Release 5.0</h3><a class="self-link" href="#release-5-0" aria-label="Permalink for Section 6.3"></a></div>
+<p>In release 5.0 is de mapping met de <abbr title="Basiskaart Grootschalige Topografie">BGT</abbr> herzien en opgenomen in de database, zodat het importeren van <abbr title="Basiskaart Grootschalige Topografie">BGT</abbr> datasets een uniform resultaat opleveren. Hiervoor zijn onder andere ook lagen, symbolen, arceringen en lijntypen toegevoegd in de desbetreffende hoofdgroepen zodat de mapping van de <abbr title="Basiskaart Grootschalige Topografie">BGT</abbr> op <abbr title="Nederlandse CAD Standaard">NLCS</abbr> gerealiseerd kon worden. Om deze mapping mogelijk te maken is zijn tevens de hoofdgroep IE en de bijbehorende symbolenbibliotheek op elkaar afgestemd. Dit heeft tot gevolg dat onderandere de bibliotheek voor borden, kasten, masten, palen, putten en sensoren zijn aangepast, daarnaast zijn ook generieke <abbr title="Basiskaart Grootschalige Topografie">BGT</abbr> symbolen opgenomen in de <abbr title="Nederlandse CAD Standaard">NLCS</abbr>. </p>
+<p>Naast de mapping met de <abbr title="Basiskaart Grootschalige Topografie">BGT</abbr> is ook een mapping tussen het GWSW (GegevensWoordenboek Stedelijk Water) en <abbr title="Nederlandse CAD Standaard">NLCS</abbr> opgenomen in release 5.0. Vanuit Stichting Rioned wordt het thema Stedelijk Water op <abbr title="Publieke Dienstverlening Op de Kaart">PDOK</abbr> ontsloten. Eind 2021 zijn reeds 151 gemeenten en 6 waterschappen aangesloten op het GWSW. 
+Om deze mapping mogelijk te maken is tevens de hoofdgroep riolering afgestemd op het GWSW. Dit heeft op hoofdlijnen de volgende wijzingen tot gevolg: </p>
+<ul>
+<li>AWZI wordt RWZI</li>
+<li>VWA wordt DWA</li>
+<li>SWA (Schoon Water Afvoer) vervallen </li>
+<li>Onderscheid tussen rioolleiding en transportleiding (geen aansluitingen)</li>
+<li>Duikers toegevoegd</li>
+</ul>
+<p>Daarnaast zijn kleine onvolkomenheden in release 5.0 verholpen. Dit heeft geresulteerd in een kwaliteitslag met betrekking tot de bibliotheken  (arceringen, lijstijlen en symbolen). Hierbij is gecontroleerd op opbouw van de bronbestanden in de bibliotheek, volledigheid en juistheid van de toegepaste schaal. Om in de toekomst het versiebeheer van deze bibliotheken in goede banen te leiden is de database uitgebreid met definities van arceringen en lijnstijlen. Daarbij is het ook mogelijk om vanuit de database de bibliotheken te genereren zodat vanuit de bron de bestanden gegenereerd kunnen worden. </p>
+<p>Naast de aanpassingen op de database en de bibliotheken is ook de Formele Beschrijving op een aantal vlakken aangepast. Op hoofdlijnen zijn de volgende wijzigingen doorgevoerd: </p>
+<ul>
+<li>RD Stelsel 28992 gebruiken, let op sinds Autodesk release 2022 is een foute definitie van het EPSG: 28992 opgelost. Oudere versies van de software gebruiken tot op heden nog de foutieve definitie; </li>
+<li>Aanpassingen hoofdgroepen in afstemming met de database. Daarnaast zijn ook de hoofdgroepen tbv beoogde uitbreiding Stedelijk Spoor (Installaties spoor, verkeerskunde spoor en Spoorbaan) meegenomen; </li>
+<li>Uitgangspunt voor symbolen, lijnstijlen en arceringen standaard definities, indien afwijkend worden aanvullende definities voor de statussen B en V toegepast; </li>
+<li>Naamgeving lijnstijlen aangepast in lijn met de andere bibliotheken;  </li>
+<li>Er zijn lijnstijlen met varianten opgenomen om zo bijvoorbeeld het onderscheid te kunnen maken tussen verschillende trottoirbanden in een tekening. Aangezien we nooit volledig kunnen zijn in lijn met catalogi van producenten en/of leveranciers hebben we gekozen voor het ondersteunen van varianten. Zo kan op de tekening altijd duidelijk onderscheid gemaakt worden tussen de verschillende objecten, zonder dat de afstemming met de <abbr title="Nederlandse CAD Standaard">NLCS</abbr> noodzakelijk is. Zie bijlage 4 voor een overzicht van de voorkomende lijnstijl varianten. 	</li>
+<li>Eisen voor het opzetten van uitbreidingen van de standaard <abbr title="Nederlandse CAD Standaard">NLCS</abbr> bibliotheken opgenomen;</li>
+</ul>
+</section><section id="release-4-2"><div class="header-wrapper"><h3 id="x6-4-release-4-2"><bdi class="secno">6.4 </bdi>release 4.2</h3><a class="self-link" href="#release-4-2" aria-label="Permalink for Section 6.4"></a></div>
+<p>Ten opzichte van release 4.1 zijn geen functionaliteiten toegevoegd. Wel zijn er foutjes in de database hersteld en zijn er verbeteringen doorgevoerd:</p>
+<ul>
+<li>doublures (objecten die twee keer in de database stonden) zijn verwijderd;</li>
+<li>een aantal symbolen is schaalbaar gemaakt;</li>
+<li>ontbrekende symbolen zijn toegevoegd en andere symbolen zijn aangepast.</li>
+</ul>
+</section><section id="release-4-1"><div class="header-wrapper"><h3 id="x6-5-release-4-1"><bdi class="secno">6.5 </bdi>Release 4.1</h3><a class="self-link" href="#release-4-1" aria-label="Permalink for Section 6.5"></a></div>
+<p>Belangrijkste aanpassing in release 4.1 is, dat in diverse Hoofdgroepen in totaal enkele tientallen lagen, symbolen, arceringen en lijntypen zijn toegevoegd, die een nóg betere aansluiting mogelijk maken van de <abbr title="Nederlandse CAD Standaard">NLCS</abbr> op IMGeo/<abbr title="Basiskaart Grootschalige Topografie">BGT</abbr>. Basis voor deze aanvulling is een grondige analyse die de gemeente Amsterdam heeft gemaakt ten behoeve van de mapping van de NCLS aan de <abbr title="Basiskaart Grootschalige Topografie">BGT</abbr>. De Projectgroep <abbr title="Nederlandse CAD Standaard">NLCS</abbr> bedankt 
+Amsterdam voor de waardevolle input!</p>
+<p>Kleinere aanvullingen en wijzigingen zijn:</p>
+<ul>
+<li>toevoeging van een STATUS ‘R’ (Revisie);</li>
+<li>toevoeging van de Discipline ‘METEN’, voor bijvoorbeeld het verwerken van inmeet gegevens.</li>
+<li>schrappen van de term ‘TOPOLOGIE’ in een groot deel van de laagnamen in de Hoofdgroep ONDERGROND;</li>
+<li>aanvullingen en wijzigingen in de benamingen van maatvoering- en tekststijlen.</li>
+</ul>
+<p>Daarnaast zijn kleine onvolkomenheden in release 4.0 verholpen.</p>
+</section><section id="release-4-0"><div class="header-wrapper"><h3 id="x6-6-release-4-0"><bdi class="secno">6.6 </bdi>Release 4.0</h3><a class="self-link" href="#release-4-0" aria-label="Permalink for Section 6.6"></a></div>
+<p>Op 1 november 2014 is release 4.0 van <abbr title="Nederlandse CAD Standaard">NLCS</abbr> verschenen. Twee belangrijke toevoegingen rechtvaardigen deze release: </p>
+<ol>
+<li>de standaard is uitgebreid met ca. 400 lagen voor de Discipline PLANVORMING;</li>
+<li>er is een koppeling gemaakt tussen de <abbr title="Nederlandse CAD Standaard">NLCS</abbr> en de IMGEO-standaard, waardoor het mogelijk is geworden om een <abbr title="Nederlandse CAD Standaard">NLCS</abbr>-tekening om te zetten naar een tekening conform de <abbr title="Basiskaart Grootschalige Topografie">BGT</abbr> (Basiskaart Grootschalige Topografie).</li>
+</ol>
+<section id="planvorming-0"><div class="header-wrapper"><h4 id="x6-6-1-planvorming"><bdi class="secno">6.6.1 </bdi>Planvorming</h4><a class="self-link" href="#planvorming-0" aria-label="Permalink for Section 6.6.1"></a></div>
+<p>De <abbr title="Nederlandse CAD Standaard">NLCS</abbr> is in eerste instantie ontwikkeld voor de ondersteuning van ontwerp en engineering van civiele projecten. Maar voordat er sprake is van een project, produceren onder andere gemeenten al veel tekenwerk. Zij maken bijvoorbeeld exploitatieplannen, verkavelingsplannen, matenplannen en inrichtingsplannen, veelal als nadere uitwerkingen of invullingen van bestemmingsplannen. Tot dusver werd dit type tekenwerk niet door <abbr title="Nederlandse CAD Standaard">NLCS</abbr> ondersteund. Een belangrijke oorzaak daarvan is dat planvormingstekeningen doorgaans ‘vlakkentekeningen’ zijn, terwijl ontwerp- en engineeringstekeningen vooral worden opgebouwd als ‘lijnentekeningen’. Daarnaast worden in de planvormingsfase dikwijls andere objecten getekend dan in de ontwerp- en engineeringsfase van projecten. De <abbr title="Nederlandse CAD Standaard">NLCS</abbr> voorzag daar nog niet in. De <abbr title="Nederlandse CAD Standaard">NLCS</abbr> Werkgroep Planvorming, bestaande uit onder anderen vertegenwoordigers van de gemeenten Rotterdam, Hoorn, Zuidplas en Breda, heeft de standaard voor release 4.0 daarom uitgebreid met ruim 400 nieuwe lagen, die het maken van de genoemde planvormingstekeningen ondersteunen. De lagen zijn zodanig ingericht, dat er vlakkentekeningen mee kunnen worden gemaakt. Aanvullend kunnen planvormers gebruik maken van reeds bestaande lagen, symbolen en arceringen van de <abbr title="Nederlandse CAD Standaard">NLCS</abbr>.</p>
+<p>Zeer veel van de toegevoegde objecten/lagen zijn verwant aan objecten/lagen die al in diverse Hoofdgroepen van <abbr title="Nederlandse CAD Standaard">NLCS</abbr> waren opgenomen. Mede om doublures te voorkomen (objecten die op verschillende plaatsen voorkomen in de <abbr title="Nederlandse CAD Standaard">NLCS</abbr>) zijn de nieuwe ‘planvormingslagen’ niet ondergebracht in een aparte Hoofdgroep, maar zijn ze ingepast in de reeds bestaande Hoofdgroepen. Met name de Hoofdgroep ONDERGRONDEN (OG) is hierdoor flink uitgebreid. Maar ook in diverse andere Hoofdgroepen zijn ‘planvormingslagen’ toegevoegd. Bijlage 2 van deze Formele Beschrijving <abbr title="Nederlandse CAD Standaard">NLCS</abbr> biedt een overzicht van de lagen uit de diverse Hoofdgroepen die kunnen worden gebruikt binnen de Discipline PLANVORMING. </p>
+</section><section id="nlcs-imgeo"><div class="header-wrapper"><h4 id="x6-6-2-nlcs-imgeo"><bdi class="secno">6.6.2 </bdi><abbr title="Nederlandse CAD Standaard">NLCS</abbr>-IMGEO</h4><a class="self-link" href="#nlcs-imgeo" aria-label="Permalink for Section 6.6.2"></a></div>
+<p>Nadat een project in de buitenruimte is afgerond, moet de gerealiseerde, nieuwe situatie worden verwerkt in de Basiskaart Grootschalige Topografie (<abbr title="Basiskaart Grootschalige Topografie">BGT</abbr>) volgens het IMGEO protocol. Dit is een wettelijke verplichting. De gebruikelijke werkwijze hiervoor is dat landmeters de nieuwe situatie ‘in het veld’ opmeten en de meetresultaten worden gedocumenteerd in een <abbr title="Geografisch Informatiesysteem">GIS</abbr>-formaat dat geschikt is voor de <abbr title="Basiskaart Grootschalige Topografie">BGT</abbr>. In release 4.0 is in overleg met Geonovum (ontwikkelaar en beheerder van de IMGeo standaard) een aantal voorzieningen ingebouwd die het mogelijk maken om een <abbr title="Nederlandse CAD Standaard">NLCS</abbr>-tekening as built automatisch om te zetten naar een volgens IMGeo/<abbr title="Basiskaart Grootschalige Topografie">BGT</abbr> opgebouwde objectenkaart. In bijlage 3 van deze Formele Beschrijving <abbr title="Nederlandse CAD Standaard">NLCS</abbr> is beschreven hoe dit in zijn werk gaat en hoe een <abbr title="Nederlandse CAD Standaard">NLCS</abbr>-tekening hierop moet worden voorbereid.</p>
+<p>Met deze toevoegingen in release 4.0 zijn de toepassingsmogelijkheden van de <abbr title="Nederlandse CAD Standaard">NLCS</abbr> in de levenscyclus van civiele objecten fors uitgebreid, zoals is gevisualiseerd in de onderstaande figuur. </p>
+<p>De <abbr title="Nederlandse CAD Standaard">NLCS</abbr> is primair ontwikkeld voor het ontwerp, de engineering en de realisatie van civiele projecten tot en met het vervaardigen van as built tekeningen. In release 4.0 is daar aan de voorkant de ondersteuning van de Planvorming aan toegevoegd. Aan de achterkant is ondersteuning van de registratie van de as built situatie conform IMGEO/<abbr title="Basiskaart Grootschalige Topografie">BGT</abbr> toegevoegd. Hiermee is de <abbr title="Nederlandse CAD Standaard">NLCS</abbr> tevens op verschillende detailniveaus toepasbaar voor ondersteuning van het beheer van objecten in de buitenruimte. Daarmee is de cirkel gesloten. </p>
+<figure id="fig-toepasbaarheid-van-nlcs-in-de-levenscyclus-van-objecten-in-de-buitenruimte">
+<img src="./h/media/levenscyclus.PNG" alt="NLCS ingetekend in de levenscuclus. Planvorming: toegevoegd in 4.0; Ontwerp &amp; Engineering: Primaire domein NLCS; Registratie conform IMGEO/BGT: toegevoegd in 4.0; Beheer: NLCS toepasbaar voor ondersteuning" height="509" width="728">
+<figcaption>Figuur <bdi class="figno">6</bdi> <span class="fig-title">Toepasbaarheid van <abbr title="Nederlandse CAD Standaard">NLCS</abbr> in de levenscyclus van objecten in de buitenruimte
+</span></figcaption></figure></section></section></section>
+  <section class="conformance" id="licenties"><div class="header-wrapper"><h2 id="x7-licenties"><bdi class="secno">7. </bdi>Licenties</h2><a class="self-link" href="#licenties" aria-label="Permalink for Section 7."></a></div>
+<section id="nlcs-ontologie"><div class="header-wrapper"><h3 id="x7-1-nlcs-ontologie"><bdi class="secno">7.1 </bdi><abbr title="Nederlandse CAD Standaard">NLCS</abbr> ontologie</h3><a class="self-link" href="#nlcs-ontologie" aria-label="Permalink for Section 7.1"></a></div>
+<p>Alle data in de ontologie van <abbr title="Nederlandse CAD Standaard">NLCS</abbr> worden uitgegeven onder de CC0 licentie.</p>
+</section><section id="nlcs-bestanden"><div class="header-wrapper"><h3 id="x7-2-nlcs-bestanden"><bdi class="secno">7.2 </bdi><abbr title="Nederlandse CAD Standaard">NLCS</abbr> bestanden</h3><a class="self-link" href="#nlcs-bestanden" aria-label="Permalink for Section 7.2"></a></div>
+<p>De bestanden die gebruikt kunnen worden bij het implementeren in software zoals de laagtabellen en de bestanden met symbolen, arceringen en lijntypes worden uitgegeven onder de CC0 licentie.</p>
+</section><section id="nlcs-documentatie"><div class="header-wrapper"><h3 id="x7-3-nlcs-documentatie"><bdi class="secno">7.3 </bdi><abbr title="Nederlandse CAD Standaard">NLCS</abbr> Documentatie</h3><a class="self-link" href="#nlcs-documentatie" aria-label="Permalink for Section 7.3"></a></div>
+<p>De documentatie in ReSpec wordt uitgegeven onder de <a href="https://creativecommons.org/licenses/by/4.0/deed.nl">CC BY 4.0</a> licentie.</p>
+</section><section id="nlcs-query-s"><div class="header-wrapper"><h3 id="x7-4-nlcs-query-s"><bdi class="secno">7.4 </bdi><abbr title="Nederlandse CAD Standaard">NLCS</abbr> Query's</h3><a class="self-link" href="#nlcs-query-s" aria-label="Permalink for Section 7.4"></a></div>
+<p>De (voorbeeld) query's worden uitgegeven onder de <a href="https://opensource.org/licenses/MIT">MIT</a> licentie.</p>
+</section></section>
+  <section id="index" class="appendix"><div class="header-wrapper"><h2 id="a-index"><bdi class="secno">A. </bdi>Index</h2><a class="self-link" href="#index" aria-label="Permalink for Appendix A."></a></div><section id="index-defined-here"><div class="header-wrapper"><h3 id="a-1-termen-gedefinieerd-door-deze-specificatie"><bdi class="secno">A.1 </bdi>Termen gedefinieerd door deze specificatie</h3><a class="self-link" href="#index-defined-here" aria-label="Permalink for Appendix A.1"></a></div>
+    
+    <ul class="index">
+    <li>
+      <a class="index-term" href="#dfn-cad-model">CAD-model</a> 
+    </li><li>
+      <a class="index-term" href="#dfn-cad-tekening">CAD-tekening</a> 
+    </li>
+  </ul>
+  </section><section id="index-defined-elsewhere"><div class="header-wrapper"><h3 id="a-2-termen-gedefinieerd-door-referentie"><bdi class="secno">A.2 </bdi>Termen gedefinieerd door referentie</h3><a class="self-link" href="#index-defined-elsewhere" aria-label="Permalink for Appendix A.2"></a></div>
+    
+    <ul class="index">
+    
+  </ul>
+  </section></section>
+  <section class="appendix respec-offending-element" id="issue-summary" title="Alle secties moeten beginnen met een `h2-6` element."></section>
+
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+
+
+<script id="annotation-service-runtime">(() => {
+// @ts-check
+const SETTING_KEY = "annotation-service-hypothesis";
+const SETTING_VALUE_ALLOWED = "allowed";
+const hClientDefault = {
+  openSidebar: false,
+  showHighlights: true,
+  theme: "classic",
+  branding: {
+    accentColor: "rgb(0, 157, 224)",
+    appBackgroundColor: "white",
+    ctaBackgroundColor: "rgb(255, 110, 26)",
+    ctaTextColor: "white",
+    selectionFontFamily: "'Museo Sans', Museo, Helvetica, Arial, sans serif",
+    annotationFontFamily: "'Museo Sans', Museo, Helvetica, Arial, sans serif",
+  },
+};
+
+if (document.respec) {
+  document.respec.ready.then(render);
+} else {
+  render();
+}
+
+/** Render the placeholder (Load Service Button) or annotation info (# annotations, Show Annotation Button). */
+function render() {
+  if (localStorage.getItem(SETTING_KEY) == SETTING_VALUE_ALLOWED) {
+    renderAnnotationServiceInfo();
+  } else {
+    renderPlaceholder();
+  }
+}
+
+/** Render Load Service Button, with privacy info. */
+function renderPlaceholder() {
+  localStorage.removeItem(SETTING_KEY);
+
+  /** @type {HTMLElement} */
+  const placeholder = document.querySelector("#annotation-service-placeholder");
+  placeholder.hidden = false;
+
+  const listener = loadButtonListener();
+  document
+    .querySelector("[data-load-annotation-service]")
+    .addEventListener("keydown", listener);
+  document
+    .querySelector("[data-load-annotation-service]")
+    .addEventListener("click", listener);
+
+  /** @type {HTMLElement} */
+  const serviceInfo = document.querySelector("#annotation-service-loaded");
+  serviceInfo.hidden = true;
+}
+
+function loadButtonListener() {
+  return event => {
+    const { target, type } = event;
+
+    if (!(target instanceof HTMLButtonElement)) return;
+
+    // For keys, we only care about Enter key to activate the panel
+    // otherwise it's activated via a click.
+    if (type === "keydown" && event.key !== "Enter") return;
+
+    target.disabled = true;
+    localStorage.setItem(SETTING_KEY, SETTING_VALUE_ALLOWED);
+    renderAnnotationServiceInfo();
+  };
+}
+
+function unloadButtonListener() {
+  return event => {
+    const { target, type } = event;
+
+    if (!(target instanceof HTMLButtonElement)) return;
+
+    // For keys, we only care about Enter key to activate the panel
+    // otherwise it's activated via a click.
+    if (type === "keydown" && event.key !== "Enter") return;
+
+    target.disabled = true;
+    localStorage.removeItem(SETTING_KEY);
+    removeHScript();
+  };
+}
+
+function renderAnnotationServiceInfo() {
+  addHConfig(document);
+  addHScript(document);
+}
+
+/**
+ *
+ * @param {Document} doc
+ * @param {*} conf
+ */
+function addHScript(doc, conf) {
+  const script = doc.createElement("script");
+  script.src = "https://hypothes.is/embed.js";
+  script.async = true;
+  doc.body.appendChild(script);
+
+  script.addEventListener("load", event => {
+    /** @type {HTMLElement} */
+    const placeholder = document.querySelector(
+      "#annotation-service-placeholder"
+    );
+    placeholder.hidden = true;
+
+    /** @type {HTMLElement} */
+    const serviceInfo = document.querySelector("#annotation-service-loaded");
+    serviceInfo.hidden = false;
+
+    const unloadListener = unloadButtonListener();
+    document
+      .querySelector("[data-unload-annotation-service]")
+      .addEventListener("keydown", unloadListener);
+    document
+      .querySelector("[data-unload-annotation-service]")
+      .addEventListener("click", unloadListener);
+  });
+}
+
+/**
+ * Retract Hypothesis permission.
+ */
+function removeHScript() {
+  // Deleting the hypothesis-script, does not undo its changes, listeners etc.
+  // Instead, reload the frame.
+  window.location.reload();
+}
+
+/**
+ *
+ * @param {Document} doc
+ * @param {*} conf
+ */
+function addHConfig(doc, conf) {
+  const script = doc.createElement("script");
+  script.className = "js-hypothesis-config";
+  script.type = "application/json";
+  script.innerText = JSON.stringify(hClientDefault);
+  doc.body.appendChild(script);
+}
+})()</script><section id="references" class="appendix"><div class="header-wrapper"><h2 id="b-referenties"><bdi class="secno">B. </bdi>Referenties</h2><a class="self-link" href="#references" aria-label="Permalink for Appendix B."></a></div><section id="normatieve-referenties"><div class="header-wrapper"><h3 id="b-1-normatieve-referenties"><bdi class="secno">B.1 </bdi>Normatieve referenties</h3><a class="self-link" href="#normatieve-referenties" aria-label="Permalink for Appendix B.1"></a></div>
+    
+    <dl class="bibliography"><dt id="bib-rfc2119">[RFC2119]</dt><dd>
+      <a href="https://www.rfc-editor.org/rfc/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. S. Bradner.  IETF. March 1997. Best Current Practice. URL: <a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>
+    </dd><dt id="bib-rfc8174">[RFC8174]</dt><dd>
+      <a href="https://www.rfc-editor.org/rfc/rfc8174"><cite>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</cite></a>. B. Leiba.  IETF. May 2017. Best Current Practice. URL: <a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>
+    </dd></dl>
+  </section></section><p role="navigation" id="back-to-top">
+    <a href="#title"><abbr title="Back to Top">↑</abbr></a>
+  </p><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-cad-model" aria-label="Links in this document to definition: CAD-model">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-cad-model" aria-label="Permalink for definition: CAD-model. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-cad-model-1" title="§ 3.1 Scope">§ 3.1 Scope</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-cad-tekening" aria-label="Links in this document to definition: CAD-tekening">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-cad-tekening" aria-label="Permalink for definition: CAD-tekening. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-cad-tekening-1" title="§ 3.1 Scope">§ 3.1 Scope</a> <a href="#ref-for-dfn-cad-tekening-2" title="Reference 2">(2)</a> 
+  </li>
+  </ul>
+    </div><script id="respec-dfn-panel">(() => {
+// @ts-check
+if (document.respec) {
+  document.respec.ready.then(setupPanel);
+} else {
+  setupPanel();
+}
+
+function setupPanel() {
+  const listener = panelListener();
+  document.body.addEventListener("keydown", listener);
+  document.body.addEventListener("click", listener);
+}
+
+function panelListener() {
+  /** @type {HTMLElement} */
+  let panel = null;
+  return event => {
+    const { target, type } = event;
+
+    if (!(target instanceof HTMLElement)) return;
+
+    // For keys, we only care about Enter key to activate the panel
+    // otherwise it's activated via a click.
+    if (type === "keydown" && event.key !== "Enter") return;
+
+    const action = deriveAction(event);
+
+    switch (action) {
+      case "show": {
+        hidePanel(panel);
+        /** @type {HTMLElement} */
+        const dfn = target.closest("dfn, .index-term");
+        panel = document.getElementById(`dfn-panel-for-${dfn.id}`);
+        const coords = deriveCoordinates(event);
+        displayPanel(dfn, panel, coords);
+        break;
+      }
+      case "dock": {
+        panel.style.left = null;
+        panel.style.top = null;
+        panel.classList.add("docked");
+        break;
+      }
+      case "hide": {
+        hidePanel(panel);
+        panel = null;
+        break;
+      }
+    }
+  };
+}
+
+/**
+ * @param {MouseEvent|KeyboardEvent} event
+ */
+function deriveCoordinates(event) {
+  const target = /** @type HTMLElement */ (event.target);
+
+  // We prevent synthetic AT clicks from putting
+  // the dialog in a weird place. The AT events sometimes
+  // lack coordinates, so they have clientX/Y = 0
+  const rect = target.getBoundingClientRect();
+  if (
+    event instanceof MouseEvent &&
+    event.clientX >= rect.left &&
+    event.clientY >= rect.top
+  ) {
+    // The event probably happened inside the bounding rect...
+    return { x: event.clientX, y: event.clientY };
+  }
+
+  // Offset to the middle of the element
+  const x = rect.x + rect.width / 2;
+  // Placed at the bottom of the element
+  const y = rect.y + rect.height;
+  return { x, y };
+}
+
+/**
+ * @param {Event} event
+ */
+function deriveAction(event) {
+  const target = /** @type {HTMLElement} */ (event.target);
+  const hitALink = !!target.closest("a");
+  if (target.closest("dfn:not([data-cite]), .index-term")) {
+    return hitALink ? "none" : "show";
+  }
+  if (target.closest(".dfn-panel")) {
+    if (hitALink) {
+      return target.classList.contains("self-link") ? "hide" : "dock";
+    }
+    const panel = target.closest(".dfn-panel");
+    return panel.classList.contains("docked") ? "hide" : "none";
+  }
+  if (document.querySelector(".dfn-panel:not([hidden])")) {
+    return "hide";
+  }
+  return "none";
+}
+
+/**
+ * @param {HTMLElement} dfn
+ * @param {HTMLElement} panel
+ * @param {{ x: number, y: number }} clickPosition
+ */
+function displayPanel(dfn, panel, { x, y }) {
+  panel.hidden = false;
+  // distance (px) between edge of panel and the pointing triangle (caret)
+  const MARGIN = 20;
+
+  const dfnRects = dfn.getClientRects();
+  // Find the `top` offset when the `dfn` can be spread across multiple lines
+  let closestTop = 0;
+  let minDiff = Infinity;
+  for (const rect of dfnRects) {
+    const { top, bottom } = rect;
+    const diffFromClickY = Math.abs((top + bottom) / 2 - y);
+    if (diffFromClickY < minDiff) {
+      minDiff = diffFromClickY;
+      closestTop = top;
+    }
+  }
+
+  const top = window.scrollY + closestTop + dfnRects[0].height;
+  const left = x - MARGIN;
+  panel.style.left = `${left}px`;
+  panel.style.top = `${top}px`;
+
+  // Find if the panel is flowing out of the window
+  const panelRect = panel.getBoundingClientRect();
+  const SCREEN_WIDTH = Math.min(window.innerWidth, window.screen.width);
+  if (panelRect.right > SCREEN_WIDTH) {
+    const newLeft = Math.max(MARGIN, x + MARGIN - panelRect.width);
+    const newCaretOffset = left - newLeft;
+    panel.style.left = `${newLeft}px`;
+    /** @type {HTMLElement} */
+    const caret = panel.querySelector(".caret");
+    caret.style.left = `${newCaretOffset}px`;
+  }
+
+  // As it's a dialog, we trap focus.
+  // TODO: when <dialog> becomes a implemented, we should really
+  // use that.
+  trapFocus(panel, dfn);
+}
+
+/**
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} dfn
+ * @returns
+ */
+function trapFocus(panel, dfn) {
+  /** @type NodeListOf<HTMLAnchorElement> elements */
+  const anchors = panel.querySelectorAll("a[href]");
+  // No need to trap focus
+  if (!anchors.length) return;
+
+  // Move focus to first anchor element
+  const first = anchors.item(0);
+  first.focus();
+
+  const trapListener = createTrapListener(anchors, panel, dfn);
+  panel.addEventListener("keydown", trapListener);
+
+  // Hiding the panel releases the trap
+  const mo = new MutationObserver(records => {
+    const [record] = records;
+    const target = /** @type HTMLElement */ (record.target);
+    if (target.hidden) {
+      panel.removeEventListener("keydown", trapListener);
+      mo.disconnect();
+    }
+  });
+  mo.observe(panel, { attributes: true, attributeFilter: ["hidden"] });
+}
+
+/**
+ *
+ * @param {NodeListOf<HTMLAnchorElement>} anchors
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} dfn
+ * @returns
+ */
+function createTrapListener(anchors, panel, dfn) {
+  const lastIndex = anchors.length - 1;
+  let currentIndex = 0;
+  return event => {
+    switch (event.key) {
+      // Hitting "Tab" traps us in a nice loop around elements.
+      case "Tab": {
+        event.preventDefault();
+        currentIndex += event.shiftKey ? -1 : +1;
+        if (currentIndex < 0) {
+          currentIndex = lastIndex;
+        } else if (currentIndex > lastIndex) {
+          currentIndex = 0;
+        }
+        anchors.item(currentIndex).focus();
+        break;
+      }
+
+      // Hitting "Enter" on an anchor releases the trap.
+      case "Enter":
+        hidePanel(panel);
+        break;
+
+      // Hitting "Escape" returns focus to dfn.
+      case "Escape":
+        hidePanel(panel);
+        dfn.focus();
+        return;
+    }
+  };
+}
+
+/** @param {HTMLElement} panel */
+function hidePanel(panel) {
+  if (!panel) return;
+  panel.hidden = true;
+  panel.classList.remove("docked");
+}
+})()</script><script src="https://docs.crow.nl/respec-design/fixup.js"></script></body></html>
