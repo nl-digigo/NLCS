@@ -1,9 +1,11 @@
 var respecConfig = {
   // => https://github.com/stichting-crow/respec/wiki
-  specStatus: "DRAFT",
+  specStatus: "CR",
   shortName: "NLCS/requirementscadmodels",
   specType: "technische documentatie", // vrije tekst, kleine letter
   imprint: "digigo",
+  hypothesisComments: "false",
+  reviewDateEnd: "2025-02-01",
   editors: [
     // alleen `name` is verplicht, https://respec.org/docs/#person
     {
