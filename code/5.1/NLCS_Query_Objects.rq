@@ -36,20 +36,22 @@ WHERE {
   OPTIONAL {
     ?objectURI <http://digitalbuildingdata.tech/nlcs/def/9c241815bb021ad8b7146ffb88dcf856> ?vrkl_kort .  # ?objectURI ?vrkl_kortProperty ?vrkl_kort . ?vrkl_kortProperty skos:prefLabel "VRKL_KORT" .
   } 
-
-  ?objectURI rdfs:subClassOf ?bnodeStatus .
-  ?bnodeStatus owl:onProperty <http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884> .  # ?bnodeStatus owl:onProperty ?StatusProperty . ?StatusProperty skos:prefLabel "Status" .
   OPTIONAL {
-    ?bnodeStatus owl:hasValue/skos:prefLabel ?StatusValue .
+    ?objectURI rdfs:subClassOf ?bnodeStatus .
+    ?bnodeStatus owl:onProperty <http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884> .  # ?bnodeStatus owl:onProperty ?StatusProperty . ?StatusProperty skos:prefLabel "Status" .
+    OPTIONAL {
+      ?bnodeStatus owl:hasValue/skos:prefLabel ?StatusValue .
+    }
+    BIND( COALESCE(?StatusValue, "*") AS ?status) .
   }
-  BIND( COALESCE(?StatusValue, "*") AS ?status) .
-  ?objectURI rdfs:subClassOf ?bnodeDiscipline .
-  ?bnodeDiscipline owl:onProperty <http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709> .  # ?bnodeDiscipline owl:onProperty ?DisciplineProperty . ?DisciplineProperty skos:prefLabel "Discipline" . 
   OPTIONAL {
-    ?bnodeDiscipline owl:hasValue/skos:prefLabel ?DisciplineValue .
+    ?objectURI rdfs:subClassOf ?bnodeDiscipline .
+    ?bnodeDiscipline owl:onProperty <http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709> .  # ?bnodeDiscipline owl:onProperty ?DisciplineProperty . ?DisciplineProperty skos:prefLabel "Discipline" . 
+    OPTIONAL {
+      ?bnodeDiscipline owl:hasValue/skos:prefLabel ?DisciplineValue .
+    }
+    BIND( COALESCE(?DisciplineValue, "**") AS ?discipline) .
   }
-  BIND( COALESCE(?DisciplineValue, "**") AS ?discipline) .
-
   OPTIONAL {
     ?objectURI rdfs:subClassOf ?bnodeSymbool .
     ?bnodeSymbool owl:onProperty <https://w3id.org/nen2660/def#isDescribedBy> .
