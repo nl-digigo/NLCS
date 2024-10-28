@@ -1,6 +1,17 @@
 # Concept-versie 5.1 Voor Openbare Consultatie
 
-## Toelichting
+Wat kan gereviewed worden: de basis van NLCS, waarmee tekeningen gemaakt kunnen worden. Dat wil zeggen de objecten, symbolen, kleuren enzovoorts voor gebruik in CAD-software. 
+Na vaststelling van versie 5.1 worden de mappings naar GWSW en naar IMGeo geüpdatet met bijbehorende documentatie, deze worden dan ter review aangeboden. 
+
+
+Opmerkingen bij dit concept:
+
+1. Stedelijk Spoor - voor de hoofdgroepen IS, ES en SB, die gemaakt zijn voor stedelijk spoor, geldt alleen de review voor de objecten, niet voor de visualisatie. Aan de visualisatie wordt nog gewerkt. 
+2. Netbeheer - het energievoorzieningssysteem is nog niet aangepast; ook zijn de objecten met bedrijfstoestand Vervallen en In Reserve nog niet gepubliceerd. Vanuit de experts en softwareleveranciers is het verzoek gekomen om nog eens kritisch te kijken naar de manier om deze fundamentele aanpassing van NLCS (tooling én database), omdat de implementatiekosten als hoog worden ingeschat. 
+
+
+
+## Reviewen
 
 Reviewen kan tot 1 maart 2025
 
@@ -8,9 +19,7 @@ Reviewwijze:
 * Tabellen, database en technische bestanden: via issues
 * Documentatie in ReSpec: druk op de knop "Laad annotaties; je kunt dan rechtsbovenin een scherm uitklappen, eenmalig gratis registreren bij Hypothesis.com en dan kun je in de kantlijn van het document je opmerkingen weergeven.
 
-Wat kan gereviewed worden: de basis van NLCS, waarmee tekeningen gemaakt kunnen worden. 
 
-Na vaststelling van versie 5.1 worden de mappings naar GWSW en naar IMGeo geüpdatet met bijbehorende documentatie.
 
 ## Te reviewen documenten:
 * [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/reviewversies/CR-NLCS_functionalspecification-20241017.html)
