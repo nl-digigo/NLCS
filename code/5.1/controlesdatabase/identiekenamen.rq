@@ -1,0 +1,24 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+# Check hoeveel URIs per naam (uniek voor hoofdgroep en topconcept)
+
+SELECT DISTINCT ?name ?hoofdNames ?topNames (COUNT(DISTINCT ?uri) AS ?numUri) 
+WHERE {  
+  ?topconcepts a owl:Class .
+  ?topconcepts skos:prefLabel ?topNames . 
+  FILTER (?topNames IN ("NLCS-object", "Arcering", "Symbool", "Lijntype")) .
+  ?hoofdgroepen rdfs:subClassOf ?topconcepts .
+  ?hoofdgroepen skos:prefLabel ?hoofdNames .
+  ?uri rdfs:subClassOf* ?hoofdgroepen .
+  ?uri skos:prefLabel ?name .
+  BIND ( IF(?uri = ?hoofdgroepen, IF(?name IN ("V-CONTINUOUS-SO", "CONTINUOUS", "NLCS_HIDDEN-SO"), ?uri, ?undefined), ?uri) AS ?NotHoofdgroep) .
+  BIND ( IF(?uri = ?hoofdgroepen, IF(?name IN ("V-CONTINUOUS-SO", "CONTINUOUS", "NLCS_HIDDEN-SO"), ?undefined, ?hoofdNames), ?hoofdNames) AS ?hoofdgroep) .
+  FILTER (?uri = ?NotHoofdgroep) .
+}
+  GROUP BY ?name ?hoofdNames ?topNames
