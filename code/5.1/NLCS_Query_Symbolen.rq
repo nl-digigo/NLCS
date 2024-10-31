@@ -5,6 +5,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX schema: <https://schema.org/>
 
 # Retrieves all Symbool information and stores it in the familiar Excel/CSV format from the SQL database
 
@@ -30,7 +31,6 @@ WHERE {
     ?optieProperty skos:prefLabel "Optie" .
   } 
   OPTIONAL {
-    ?symboolURI ?urlProperty ?fileURL .
-    ?urlProperty skos:prefLabel "URL" .
+    ?symboolURI schema:url ?fileURL .
   } 
 } ORDER BY ?id
