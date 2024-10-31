@@ -5,6 +5,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX schema: <https://schema.org/>
 
 # Retrieves all Arcering information and stores it in the familiar Excel/CSV format from the SQL database
 
@@ -43,7 +44,6 @@ WHERE {
     ?schaalProperty skos:prefLabel "Schaal" .
   } 
   OPTIONAL {
-    ?arceringURI ?urlProperty ?fileURL .
-    ?urlProperty skos:prefLabel "URL" .
+    ?arceringURI schema:url ?fileURL .
   } 
 } ORDER BY ?id
