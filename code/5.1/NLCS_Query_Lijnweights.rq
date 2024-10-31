@@ -5,10 +5,11 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX schema: <https://schema.org/>
 
 # Retrieves all Lijnweight information and stores it in the familiar Excel/CSV format from the SQL database
 
-SELECT DISTINCT ?lijnweightURI ?id ?omschrijving ?lijngroep35 ?dunner ?dikker ?microstation
+SELECT DISTINCT ?lijnweightURI ?id ?omschrijving ?unit ?lijngroep35 ?dunner ?dikker ?microstation
 WHERE {
   ?LijnweightTopConcept a owl:Class .
   ?LijnweightTopConcept skos:prefLabel "Lijnweight" . 
@@ -36,4 +37,5 @@ WHERE {
   	?lijnweightURI ?microstationProperty ?microstation .
     ?microstationProperty skos:prefLabel "MicrostationNummer" .
   }
+  ?lijnweightURI schema:unitText ?unit .
 } ORDER BY ?id
