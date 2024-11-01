@@ -1,0 +1,31 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX nen2660: <https://w3id.org/nen2660/def#>
+
+# Retrieves the properties that are absent in the current NLCS version, but present in the previous NLCS publication
+# NOTE: The previous version of the NLCS should be added to the Named Graph URIs to run this query successfully. When running this query directly on the LDP, this can be done at the top section of the screen
+#       The Named Graph URI should be provided with 'https' and NOT 'http'
+
+SELECT DISTINCT ?vervallenProperty ?vervallenPropertyName
+# This should be the URL of the previous NLCS publication, the URL should be provided with 'http' and NOT 'https'
+FROM NAMED <http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs/versions/rv5_0_2> 
+WHERE {
+
+  # The URL of the previous NLCS publication again
+  GRAPH <http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs/versions/rv5_0_2> {
+    ?vervallenProperty a ?property .
+    FILTER (?property IN (rdf:Property, owl:AnnotationProperty, owl:ObjectProperty)) .
+    ?vervallenProperty skos:prefLabel ?vervallenPropertyName .
+  }
+  
+  FILTER NOT EXISTS {
+    ?vervallenProperty a ?property .
+    FILTER (?property IN (rdf:Property, owl:AnnotationProperty, owl:ObjectProperty)) .
+  }
+
+}
