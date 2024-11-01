@@ -10,6 +10,8 @@ Opmerkingen bij dit concept:
 1. Stedelijk Spoor - voor de hoofdgroepen IS, ES en SB, die gemaakt zijn voor stedelijk spoor, geldt alleen de review voor de objecten, niet voor de visualisatie (kleuren, lijnweights en lijntypes). Aan de visualisatie wordt nog gewerkt. 
 2. Netbeheer - het energievoorzieningssysteem is nog niet aangepast. Op verzoek van de netbeheerders is hun publicatie in NLCS uitgesteld, omdat de technische wijzigingen in de standaard die nodig zijn voor de netbeheerders, onder meer voor bedrijfstoestanden verlaten en reserve, statussen voor oplevering van informatie van project aan beheer, en het kunnen uitwisselen van attribuutinformatie, nog niet ver genoeg zijn uitgewerkt in versie 5.1.
 
+Uitgebreidere release notes staan in de [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/reviewversies/CR-NLCS_functionalspecification-20241017.html).
+
 Iedereen die het afgelopen jaar heeft meegewerkt aan de totstandkoming van deze versie wordt van harte bedankt.
 
 ## Reviewen
@@ -32,12 +34,12 @@ Reviewwijze:
 * [Symbolen](https://github.com/nl-digigo/NLCS/tree/main/symbolen/concept/5.1)
 * [Lijntypes](https://github.com/nl-digigo/NLCS/tree/main/lijntypes/concept/5.1)
 * [Arceringen](https://github.com/nl-digigo/NLCS/tree/main/arceringen/concept/5.1)
-* De URL (het adres) van het concept van de NLCS 5.1 publicatie op het sparql-endpoint is: 
+* De URL (het adres) van het concept van de NLCS 5.1 publicatie op het sparql-endpoint is: http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs/versions/rv5_1_0 
 
 
 ## Viewer concept 5.1
 
-
+Aan een viewer wordt nog gewerkt, zodra deze in de lucht is laten we het weten. Tot die tijd is de makkelijkste manier om de standaard te onderzoeken, kijken naar de [verkorte objectentabellen](https://github.com/nl-digigo/NLCS/tree/main/tabellen/concept/5.1/objectentabellen-verkort).
 
 
 

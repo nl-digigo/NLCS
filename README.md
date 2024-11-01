@@ -1,6 +1,9 @@
 # NLCS
 Deze repository is de locatie voor technische documentatie en het inbrengen en opvolgen van gebruikerswensen voor NLCS, de Nederlandse CAD standaard van DigiGO.
 
+Links hieronder zijn voor de actuele versie, 5.0
+Informatie over de openbare consultatie van concept versie 5.1 van 1 november 2024 t/m 1 maart 2025 staan [hier](https://github.com/nl-digigo/NLCS/blob/main/concept-versie-5.1-readME.md)
+
 ## Beheer
 
 * [Beheerdocument DigiGO](https://www.digigo.nu/files/uploads/2024/09/BOMOS-Beheerdocument-Standaarden-digiGO-V1.0.pdf).
@@ -12,10 +15,6 @@ Deze repository is de locatie voor technische documentatie en het inbrengen en o
 
 ## Voor ontwerpers en tekenaars
 * [Formele specificatie 5.0](https://github.com/nl-digigo/NLCS/blob/main/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf)
-
-In ontwikkeling:
-* [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification): De uitleg van de standaard met daarin de toelichting op het beoogd doel en de werking van de standaard
-* [Eisen aan tekeningen en modellen](https://nl-digigo.github.io/NLCS/requirementscadmodels)
 * [Voorbeeldtekeningen](https://github.com/nl-digigo/NLCS/tree/main/docs/voorbeeldtekeningen)
 
 ### Zelf applicatie inrichten
@@ -26,10 +25,10 @@ Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS
 ## Voor softwareleveranciers en ontwikkelaars
 * [Formele specificatie 5.0](https://github.com/nl-digigo/NLCS/blob/main/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf)
 * [Toelichting gebruik sparql-endpoint en query's](https://nl-digigo.github.io/NLCS/howtoquery/): Een gebruikershandleiding voor gebruik van de linked data publicatie, met toelichting op de code van het informatiemodel, query's en beschikbare datasets
-* [Eisen aan de software-implementatie van NLCS](https://nl-digigo.github.io/NLCS/requirementssoftware/) --- [in ontwikkeling](https://nl-digigo.github.io/NLCS/requirementssoftware/ontwikkeling)
-
-In ontwikkeling:
+* [Eisen aan de software-implementatie van NLCS](https://nl-digigo.github.io/NLCS/requirementssoftware/) 
 * [Toelichting informatiemodel](https://nl-digigo.github.io/NLCS/code_documentation): De toelichting op de uitgangspunten en modelleringswijze van het  informatiemodel in linked data
+
+## Relaties tot andere standaarden
 * [Relaties tot andere standaarden](https://nl-digigo.github.io/NLCS/ontologyalignments/): documentatie van de ontology alignments (mappings waar een computer mee kan redeneren) of voorbereidingen daartoe met andere standaarden, waaronder IMGeo (voor BGT kaartinformatie) en het GWSW (Gemeentelijk woordenboek stedelijk water)
 * [Uitwisselafspraken](https://nl-digigo.github.io/NLCS/representations/): Documentatie van hoe binnen NLCS wordt gewerkt met Uitwisseling van 3D objectinformatie; Hoe de uitwisseling tussen NLCS tekeningen en GIS kaarten op basis van IMGeo is geregeld; De openstaande onderzoeksvragen beschreven rondom NLCS en uitwisseling van tekeningen en modellen.
 
