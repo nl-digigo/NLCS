@@ -1,0 +1,16 @@
+ [DefaultDomain:     ]IMPORT STARTED: 4-9-2024 10:03:08
+
+ [DefaultDomain:Error]eFileNotFound
+   at Autodesk.AutoCAD.DatabaseServices.Database.ReadDwgFile(String fileName, FileOpenMode mode, Boolean allowCPConversion, String password)
+   at Autodesk.Aec.Ifc.Interop.Controllers.OpImportController.importAttributeTemplate(Database db)
+ [DefaultDomain:Error]eFileNotFound
+   at Autodesk.AutoCAD.DatabaseServices.Database.ReadDwgFile(String fileName, FileOpenMode mode, Boolean allowCPConversion, String password)
+   at Autodesk.Aec.Ifc.Interop.Controllers.OpImportController.importPSetTemplate(Database db)
+ [DefaultDomain:Error]eFileNotFound
+   at Autodesk.AutoCAD.DatabaseServices.Database.ReadDwgFile(String fileName, FileOpenMode mode, Boolean allowCPConversion, String password)
+   at Autodesk.Aec.Ifc.Interop.Controllers.OpImportController.importAttributeTemplate(Database db)
+ [DefaultDomain:Error]eFileNotFound
+   at Autodesk.AutoCAD.DatabaseServices.Database.ReadDwgFile(String fileName, FileOpenMode mode, Boolean allowCPConversion, String password)
+   at Autodesk.Aec.Ifc.Interop.Controllers.OpImportController.importPSetTemplate(Database db)
+ [DefaultDomain:     ]IMPORT ENDED: 4-9-2024 10:03:42
+

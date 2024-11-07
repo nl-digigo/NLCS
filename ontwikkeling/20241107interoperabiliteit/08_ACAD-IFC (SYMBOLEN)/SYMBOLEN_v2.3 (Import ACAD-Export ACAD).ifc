@@ -1,0 +1,105 @@
+ISO-10303-21;
+HEADER;
+
+/******************************************************************************************
+* STEP Physical File produced by: EDMsix Version 602.28.129 Aug  2 2022
+* Module:                         EDMstepFileFactory v4.0.1/EDMstandAlone
+* Creation date:                  20240904 11:17:29
+* Host:                           5CD01224XK
+* Database:                       C:\Users\MAARTE~1\AppData\Local\Temp\ACAIFCTMP/EDM8132\aec_ifc_db
+* Database version:               6007
+* Database creation date:         Wed Sep  4 09:51:29 2024
+* Schema:                         IFC2X3
+* Model:                          DataRepository.AecIfc
+* Model creation date:            Wed Sep  4 11:17:29 2024
+* Header model:                   DataRepository.AecIfc_Header
+* Header model creation date:     Wed Sep  4 11:17:29 2024
+* EDMuser:                        sdai-user
+* EDMgroup:                       sdai-group
+* License ID and type:            10522 : Permanent license. Expiry date: 
+* EDMstepFileFactory options:     020000
+******************************************************************************************/
+FILE_DESCRIPTION(('ViewDefinition [CoordinationView_V2.0, FMHandOverAddonView, ConceptDesignBIM_2010]','ExchangeRequirement[Architecture]','Option [ExcludedObjects: , , , , , , , , , , , , , , , , , , , ,]','Description [DIGIGO]'),'2;1');
+FILE_NAME($,'2024-09-04T11:17:29',('MaartenvanIw_fgny1yh'),('',''),'EDMsix Version 602.28.129 Aug  2 2022','Autodesk Civil 3D 2024 - English Build 13.6.342.0','');
+FILE_SCHEMA(('IFC2X3'));
+
+ENDSEC;
+DATA;
+#1= IFCPROJECT('25MT5mJCM5aH5I6lGdkFPJ',#43,'00859',$,$,'SYMBOLEN',$,(#7),#22);
+#7= IFCGEOMETRICREPRESENTATIONCONTEXT($,'Model',3,2.54E-8,#18,#19);
+#10= IFCCARTESIANPOINT((0.,0.,0.));
+#14= IFCDIRECTION((1.,0.,0.));
+#16= IFCDIRECTION((0.,0.,1.));
+#18= IFCAXIS2PLACEMENT3D(#10,#16,#14);
+#19= IFCDIRECTION((0.002234750948841592,0.9999975029409807));
+#22= IFCUNITASSIGNMENT((#24,#25,#26,#27,#31,#32));
+#24= IFCSIUNIT(*,.LENGTHUNIT.,$,.METRE.);
+#25= IFCSIUNIT(*,.AREAUNIT.,$,.SQUARE_METRE.);
+#26= IFCSIUNIT(*,.VOLUMEUNIT.,$,.CUBIC_METRE.);
+#27= IFCCONVERSIONBASEDUNIT(#28,.PLANEANGLEUNIT.,'degree',#29);
+#28= IFCDIMENSIONALEXPONENTS(0,0,0,0,0,0,0);
+#29= IFCMEASUREWITHUNIT(IFCREAL(0.0174532925199433),#30);
+#30= IFCSIUNIT(*,.PLANEANGLEUNIT.,$,.RADIAN.);
+#31= IFCSIUNIT(*,.TIMEUNIT.,$,.SECOND.);
+#32= IFCSIUNIT(*,.MASSUNIT.,$,.GRAM.);
+#33= IFCORGANIZATION('','','',$,$);
+#37= IFCPERSON('','','',$,$,$,$,$);
+#39= IFCPERSONANDORGANIZATION(#37,#33,$);
+#42= IFCAPPLICATION(#33,'13.6.342.0','Autodesk Civil 3D 2024 - English','7100');
+#43= IFCOWNERHISTORY(#39,#42,$,.NOCHANGE.,$,$,$,1725441450);
+#44= IFCPROPERTYSET('3KXsRiCmbCKuhgQR8c3Ytn',#43,'ADT_Pset_DISPLAY_SET',$,(#49,#53));
+#49= IFCPROPERTYSINGLEVALUE('ACA_DISPLAY_CONFIG_ON_EXPORT',$,IFCLABEL('Standard'),$);
+#53= IFCPROPERTYSINGLEVALUE('ACA_DISPLAY_SET_ON_EXPORT',$,IFCLABEL('Model'),$);
+#54= IFCRELDEFINESBYPROPERTIES('3o7QSI7vv8tQR0pbq8TUhi',#43,$,$,(#1),#44);
+#58= IFCBUILDING('1CnOLPXP5I4Hhq9xZsKt3H',#43,'SYMBOLEN','DIGIGO',$,#67,$,$,.ELEMENT.,0.,0.,$);
+#63= IFCRELAGGREGATES('3RZcCTs_13mecWWf4NhI$X',#43,$,$,#1,(#58));
+#67= IFCLOCALPLACEMENT($,#72);
+#70= IFCCARTESIANPOINT((0.,0.,0.));
+#72= IFCAXIS2PLACEMENT3D(#70,$,$);
+#78= IFCPROPERTYSET('3dpaJRIB91tv25KQVw2juK',#43,'Pset_BuildingCommon',$,(#80,#81,#82,#83,#84,#85,#86,#87,#88,#89,#90));
+#80= IFCPROPERTYSINGLEVALUE('BuildingID',$,$,$);
+#81= IFCPROPERTYSINGLEVALUE('IsPermanentID',$,IFCBOOLEAN(.F.),$);
+#82= IFCPROPERTYSINGLEVALUE('MainFireUse',$,$,$);
+#83= IFCPROPERTYSINGLEVALUE('AncillaryFireUse',$,$,$);
+#84= IFCPROPERTYSINGLEVALUE('SprinklerProtection',$,IFCBOOLEAN(.F.),$);
+#85= IFCPROPERTYSINGLEVALUE('SprinklerProtectionAutomatic',$,IFCBOOLEAN(.F.),$);
+#86= IFCPROPERTYSINGLEVALUE('OccupancyType',$,$,$);
+#87= IFCPROPERTYSINGLEVALUE('GrossPlannedArea',$,IFCAREAMEASURE(0.),$);
+#88= IFCPROPERTYSINGLEVALUE('NumberOfStoreys',$,IFCINTEGER(0),$);
+#89= IFCPROPERTYSINGLEVALUE('YearOfConstruction',$,$,$);
+#90= IFCPROPERTYSINGLEVALUE('IsLandmarked',$,IFCLOGICAL(.F.),$);
+#91= IFCRELDEFINESBYPROPERTIES('0Mkwz6KbjDhBOc2lrpfYwM',#43,$,$,(#58),#78);
+#95= IFCPROPERTYSET('28DLolc4P5iwo7WJORZfgd',#43,'Pset_BuildingUse',$,(#97,#98,#99,#100,#101,#102,#103,#104));
+#97= IFCPROPERTYSINGLEVALUE('MarketCategory',$,$,$);
+#98= IFCPROPERTYSINGLEVALUE('MarketSubCategory',$,$,$);
+#99= IFCPROPERTYSINGLEVALUE('PlanningControlStatus',$,$,$);
+#100= IFCPROPERTYSINGLEVALUE('NarrativeText',$,$,$);
+#101= IFCPROPERTYSINGLEVALUE('VacancyRateInCategoryNow',$,IFCPOSITIVERATIOMEASURE(0.),$);
+#102= IFCPROPERTYBOUNDEDVALUE('RentalRatesInCategoryNow',$,$,$,$);
+#103= IFCPROPERTYSINGLEVALUE('VacancyRateInCategoryFuture',$,IFCPOSITIVERATIOMEASURE(0.),$);
+#104= IFCPROPERTYBOUNDEDVALUE('RentalRatesInCategoryFuture',$,$,$,$);
+#105= IFCRELDEFINESBYPROPERTIES('3PcDzUNF58L8JgHQoMhcjv',#43,$,$,(#58),#95);
+#108= IFCPROPERTYSET('3USKwEiiH9gBhd0egK3QI8',#43,'Pset_BuildingUseAdjacent',$,(#110,#111,#112,#113));
+#110= IFCPROPERTYSINGLEVALUE('MarketCategory',$,$,$);
+#111= IFCPROPERTYSINGLEVALUE('MarketSubCategory',$,$,$);
+#112= IFCPROPERTYSINGLEVALUE('PlanningControlStatus',$,$,$);
+#113= IFCPROPERTYSINGLEVALUE('NarrativeText',$,$,$);
+#114= IFCRELDEFINESBYPROPERTIES('10YKr8pSXDauvJnNVaqNN4',#43,$,$,(#58),#108);
+#117= IFCPROPERTYSET('2vtj5q1Qz479SjYsHOIl4E',#43,'Pset_BuildingWaterStorage',$,(#119,#120,#121,#122,#123));
+#119= IFCPROPERTYSINGLEVALUE('WaterStorageRatePerPerson',$,IFCVOLUMEMEASURE(0.),$);
+#120= IFCPROPERTYSINGLEVALUE('OneDayPotableWater',$,IFCVOLUMEMEASURE(0.),$);
+#121= IFCPROPERTYSINGLEVALUE('OneDayEssentialWater',$,IFCVOLUMEMEASURE(0.),$);
+#122= IFCPROPERTYSINGLEVALUE('OneDayCoolingTowerMakeupWater',$,IFCVOLUMEMEASURE(0.),$);
+#123= IFCPROPERTYSINGLEVALUE('OneDayProcessOrProductionWater',$,IFCVOLUMEMEASURE(0.),$);
+#124= IFCRELDEFINESBYPROPERTIES('0ORrKfevH7XACoAKLxgKMk',#43,$,$,(#58),#117);
+#127= IFCPROPERTYSET('2tq22Sphj6$8PKKZY$7yPL',#43,'ePset_BuildingEnergyTarget',$,(#129,#130));
+#129= IFCPROPERTYSINGLEVALUE('BuildingEnergyTargetUnits',$,$,$);
+#130= IFCPROPERTYSINGLEVALUE('BuildingEnergyTargetValue',$,IFCREAL(0.),$);
+#131= IFCRELDEFINESBYPROPERTIES('12P2Ud2$z3IQNmbwfVkOsf',#43,$,$,(#58),#127);
+#134= IFCBUILDINGELEMENTPROXYTYPE('39033EWxvCzR$ExEXIAcTF',#43,'SAL-COORDINAAT_LINKSONDER-SO',$,$,$,$,$,$,.NOTDEFINED.);
+#136= IFCBUILDINGELEMENTPROXYTYPE('3D6_cQQaj1EBZ1OmlNpuA2',#43,'SAL-ORIENTATIE_NOORDPIJL-SO',$,$,$,$,$,$,.NOTDEFINED.);
+#137= IFCBUILDINGELEMENTPROXYTYPE('2SYO4P4Mn65Ou3nJ6gsxOd',#43,'SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_2R13380-DMM',$,$,$,$,$,$,.NOTDEFINED.);
+#138= IFCBUILDINGELEMENTPROXYTYPE('0UYmZ3l9b5QQ_Mn97v2HwP',#43,'SOG-ERFGRENS_RECHTS-D',$,$,$,$,$,$,.NOTDEFINED.);
+ENDSEC;
+
+END-ISO-10303-21;

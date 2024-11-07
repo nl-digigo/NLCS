@@ -1,0 +1,21 @@
+ [DefaultDomain:     ]EXPORT STARTED: 4-9-2024 11:17:29
+
+ [DefaultDomain:     ]
+	===============================================================
+	IFC export did not write geographic location into the IFC file.
+	The reason is that the exported IFC file has no IfcSite.
+	===============================================================
+	Drawing Geographic Location:
+	    Latitude	: 52.2500000040666 NORTH
+	    Longitude	: 5.22500000155683 EAST
+	    Altitude	: 0
+
+ [DefaultDomain:     ]
+	=============
+	Object Count:
+	=============
+	- AcDbBlockReference :	Total:  (4)	Skipped^^:  (4)
+	  ^^ = Objects skipped since they could be 2D objects without 3D Geometry
+	  ** = Object classified as other IFC object.
+ [DefaultDomain:     ]EXPORT ENDED: 4-9-2024 11:17:30
+
