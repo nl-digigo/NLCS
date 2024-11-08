@@ -1,0 +1,78 @@
+{
+	"info": {
+		"_postman_id": "2d5b03a1-f24b-4996-a745-29346e8b2a68",
+		"name": "NLCS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21865093",
+		"_collection_link": "https://nlcs-gwsw.postman.co/workspace/NLCS-GWSW-Workspace~1da508de-0520-425c-baa8-2d9cc49978b1/collection/21865093-2d5b03a1-f24b-4996-a745-29346e8b2a68?action=share&source=collection_link&creator=21865093"
+	},
+	"item": [
+		{
+			"name": "NLCS-GWSW",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/sparql-query",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "text/csv",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\nPREFIX owl: <http://www.w3.org/2002/07/owl#>\r\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\r\nPREFIX skos: <http://www.w3.org/2004/02/skos/core#>\r\nPREFIX dcterms: <http://purl.org/dc/terms/>\r\nPREFIX sh: <http://www.w3.org/ns/shacl#>\r\nPREFIX nen2660: <https://w3id.org/nen2660/def#>\r\n\r\n# Retrieves the mapping of the GWSW concept combination to the NLCS objects and symbols\r\n\r\nSELECT ?mappingElement ?gwswStelselType ?gwswType ?nlcsObject ?nlcsObjectName ?nlcsSymbool ?nlcsSymbolName\r\nWHERE {\r\n  ?mappingElement nen2660:isPartOf ?gwswStelselType .\r\n  ?mappingElement ?gwswTypeProperty ?gwswType .\r\n  ?gwswTypeProperty skos:prefLabel \"has GWSW type\" .\r\n  \r\n  ?mappingElement ?nlcsObjectProperty ?nlcsObject .\r\n  ?nlcsObjectProperty skos:prefLabel \"has NLCS object\" .\r\n  ?nlcsObject skos:prefLabel ?nlcsObjectName .  # From NLCS publication\r\n  \r\n  OPTIONAL {\r\n    ?mappingElement ?nlcsSymbolProperty ?nlcsSymbol .\r\n    ?nlcsSymbolProperty skos:prefLabel \"has NLCS symbol\" .\r\n    ?nlcsSymbol skos:prefLabel ?nlcsSymbolName .  # From NLCS publication\r\n  }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-gwsw/versions/5_0_1/sparql?default-graph-uri=http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2",
+					"protocol": "https",
+					"host": [
+						"hub",
+						"laces",
+						"tech"
+					],
+					"path": [
+						"digitalbuildingdata",
+						"nlcs",
+						"test",
+						"nlcs-gwsw",
+						"versions",
+						"5_0_1",
+						"sparql"
+					],
+					"query": [
+						{
+							"key": "default-graph-uri",
+							"value": "http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
