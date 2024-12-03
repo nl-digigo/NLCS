@@ -13,6 +13,9 @@ Informatie over de openbare consultatie van concept versie 5.1 van 1 november 20
 * [Gebruikerswens / issue indienen](https://github.com/nl-digigo/NLCS/issues)
 * [Protocol afhandelen gebruikerswensen](https://nl-digigo.github.io/NLCS/protocolissues)
 
+## Viewer
+NLCS 5.0 kan bekeken worden in de [NLCS 5.0 viewer](https://nlcs-viewer.crow.nl)
+
 ## Voor ontwerpers en tekenaars
 * [Formele specificatie 5.0](https://github.com/nl-digigo/NLCS/blob/main/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf)
 * [Voorbeeldtekeningen](https://github.com/nl-digigo/NLCS/tree/main/docs/voorbeeldtekeningen)
@@ -35,6 +38,7 @@ Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS
 ### Actuele versie
 
 #### 5.02 NLCS LinkedData
+Voor browsende mensen: haal / sparql uit de linknaam hieronder
 De statische URL (het adres) van de NLCS 5.02 publicatie op het sparql-endpoint is: https://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2/sparql
 <br>
 De dynamische URL (het adres van de laatst gepubliceerde) definitieve versie is altijd: https://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/sparql
