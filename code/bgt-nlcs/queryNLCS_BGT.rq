@@ -1,0 +1,129 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX nen2660: <https://w3id.org/nen2660/def#>
+
+SELECT ?object ?bgt_type ?function ?class ?plus_type ?plus_functieWegdeel ?plusfunctieSpoor ?surfaceMaterial
+?bgt_fysiekVoorkomen ?plus_typeGebouwInstallatie ?plus_fysiekVoorkomen ?plus_fysiekVoorkomenWegdeel
+?plus_fysiekVoorkomenOndersteunendWegdeel ?NLCSObjectURI ?NLCSObjectID ?NLCSSymbolURI ?NLCSSymbolID ?uri ?id ?layerInfo ?symbolInfo
+
+FROM NAMED <http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2>
+WHERE {
+    ?uri a owl:Class .
+    ?uri rdfs:subClassOf nen2660:RealObject .
+    
+    ?uri ?objectProp ?object .
+    ?objectProp a owl:AnnotationProperty .
+    ?objectProp skos:prefLabel 'object' .
+
+    OPTIONAL {
+        ?uri ?bgt_typeProp ?bgt_type .
+        ?bgt_typeProp a owl:AnnotationProperty .
+        ?bgt_typeProp skos:prefLabel 'bgt-type' .
+    }
+
+    OPTIONAL {
+        ?uri ?functionProp ?function .
+        ?functionProp a owl:AnnotationProperty .
+        ?functionProp skos:prefLabel 'function' .
+    }
+
+    OPTIONAL {
+        ?uri ?classProp ?class .
+        ?classProp a owl:AnnotationProperty .
+        ?classProp skos:prefLabel 'class' .
+    }
+
+    OPTIONAL {
+        ?uri ?plus_typeProp ?plus_type .
+        ?plus_typeProp a owl:AnnotationProperty .
+        ?plus_typeProp skos:prefLabel 'plus-type' .
+    }
+
+    OPTIONAL {
+        ?uri ?plus_functieWegdeelProp ?plus_functieWegdeel .
+        ?plus_functieWegdeelProp a owl:AnnotationProperty .
+        ?plus_functieWegdeelProp skos:prefLabel 'plus-functieWegdeel' .
+    }
+
+    OPTIONAL {
+        ?uri ?plusfunctieSpoorProp ?plusfunctieSpoor .
+        ?plusfunctieSpoorProp a owl:AnnotationProperty .
+        ?plusfunctieSpoorProp skos:prefLabel 'plusfunctieSpoor' .
+    }
+
+    OPTIONAL {
+        ?uri ?surfaceMaterialProp ?surfaceMaterial .
+        ?surfaceMaterialProp a owl:AnnotationProperty .
+        ?surfaceMaterialProp skos:prefLabel 'surfaceMaterial' .
+    }
+
+    OPTIONAL {
+        ?uri ?bgt_fysiekVoorkomenProp ?bgt_fysiekVoorkomen .
+        ?bgt_fysiekVoorkomenProp a owl:AnnotationProperty .
+        ?bgt_fysiekVoorkomenProp skos:prefLabel 'bgt-fysiekVoorkomen' .
+    }
+
+    OPTIONAL {
+        ?uri ?plus_typeGebouwInstallatieProp ?plus_typeGebouwInstallatie .
+        ?plus_typeGebouwInstallatieProp a owl:AnnotationProperty .
+        ?plus_typeGebouwInstallatieProp skos:prefLabel 'plus-typeGebouwInstallatie' .
+    }
+
+    OPTIONAL {
+        ?uri ?plus_fysiekVoorkomenProp ?plus_fysiekVoorkomen .
+        ?plus_fysiekVoorkomenProp a owl:AnnotationProperty .
+        ?plus_fysiekVoorkomenProp skos:prefLabel 'plus-fysiekVoorkomen' .
+    }
+
+    OPTIONAL {
+        ?uri ?plus_fysiekVoorkomenWegdeelProp ?plus_fysiekVoorkomenWegdeel .
+        ?plus_fysiekVoorkomenWegdeelProp a owl:AnnotationProperty .
+        ?plus_fysiekVoorkomenWegdeelProp skos:prefLabel 'plus-fysiekVoorkomenWegdeel' .
+    }
+
+    OPTIONAL {
+        ?uri ?plus_fysiekVoorkomenOndersteunendWegdeelProp ?plus_fysiekVoorkomenOndersteunendWegdeel .
+        ?plus_fysiekVoorkomenOndersteunendWegdeelProp a owl:AnnotationProperty .
+        ?plus_fysiekVoorkomenOndersteunendWegdeelProp skos:prefLabel 'plus-fysiekVoorkomenOndersteunendWegdeel' .
+    }
+
+    OPTIONAL {
+        ?uri skos:related ?NLCSObjectURI .
+        GRAPH <http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2> {
+            ?NLCSObjectURI rdfs:subClassOf* ?NLCSObjectTopConcept .
+            ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
+            ?NLCSObjectURI skos:prefLabel ?layerInfo .
+            OPTIONAL {
+                ?NLCSObjectURI ?IDProp ?NLCSObjectID .
+                ?IDProp a owl:AnnotationProperty .
+                ?IDProp skos:prefLabel 'ID' .
+            }
+        }
+    }
+
+    OPTIONAL {
+        ?uri skos:related ?NLCSSymbolURI .
+        GRAPH <http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2> {
+            ?NLCSSymbolURI rdfs:subClassOf* ?NLCSSymbolTopConcept .
+            ?NLCSSymbolTopConcept skos:prefLabel "Symbool" .
+            ?NLCSSymbolURI skos:prefLabel ?symbolInfo .
+            OPTIONAL {
+                ?NLCSSymbolURI ?IDProp ?NLCSSymbolID .
+                ?IDProp a owl:AnnotationProperty .
+                ?IDProp skos:prefLabel 'ID' .
+            }
+        }
+    }
+
+    OPTIONAL {
+        ?uri ?idProp ?id .
+        ?idProp a owl:AnnotationProperty .
+        ?idProp skos:prefLabel 'id' .
+    }
+
+}
