@@ -1,12 +1,11 @@
 var respecConfig = {
   // => https://github.com/stichting-crow/respec/wiki
-  specStatus: "CR",
+  specStatus: "DRAFT",
     // Please set "specStatus" to one of: "LD", "IR", "DRAFT", "DOC", "REG", "PFB", "NP", "WD", "CR", "PR", "OR", "DEF", "REPL", "RESC" of "RQR".
   shortName: "NLCS/functionalspecification",
   specType: "toelichting op het beoogd doel en de werking van de standaard", // vrije tekst, kleine letter
   imprint: "digigo",
   hypothesisComments: "false",
-  reviewDateEnd: "2025-02-01",
   editors: [
     // alleen `name` is verplicht, https://respec.org/docs/#person
     {
