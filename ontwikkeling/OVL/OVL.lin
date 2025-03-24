@@ -1,0 +1,92 @@
+*OV-COMBIKABEL-SO,732 <- AANGEPAST
+A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1,["CK",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-3
+
+*V-OV-COMBIKABEL-SO,733 <- AANGEPAST
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.50],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.50],2,-1,["CK",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-3
+
+*OV-KABEL_VOEDING-SO,693 <- AANGEPAST
+A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1,["OV",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-3
+
+*V-OV-KABEL_VOEDING-SO,697 <- AANGEPAST
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.50],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.50],2,-1,["OV",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-3
+
+*OV-KABEL_AANSLUIT-SO,214	<- HERNOEMD
+A,2,-1,[flash,NLCS.SHX,s=.75],-1,2,-1,["OV",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-3
+
+*V-OV-KABEL_AANSLUIT-SO,215	<- HERONOEMD
+A,1,[VERWIJDEREN2,NLCS.SHX,s=0.50],1,-1,[flash,NLCS.SHX,s=.75],-1,1,[VERWIJDEREN2,NLCS.SHX,s=0.50],1,-1,["OV",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-3
+
+*OV-KABEL_AANSLUIT_3x2.5MM2-SO,??????	<- NIEUW
+A,2,-1,[flash,NLCS.SHX,s=.75],-1,2,-1,["3x2.5",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-4
+
+*V-OV-KABEL_AANSLUIT_3x2.5MM2-SO,??????	<- NIEUW
+A,1,[VERWIJDEREN2,NLCS.SHX,s=0.50],1,-1,[flash,NLCS.SHX,s=.75],-1,1,[VERWIJDEREN2,NLCS.SHX,s=0.50],1,-1,["3x2.5",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-4
+
+*OV-KABEL_AANSLUIT_3x10MM2-SO,??????	<- NIEUW
+A,2,-1,[flash,NLCS.SHX,s=.75],-1,2,-1,["3x10",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-4
+
+*V-OV-KABEL_AANSLUIT_3x10MM2-SO,??????	<- NIEUW
+A,1,[VERWIJDEREN2,NLCS.SHX,s=0.50],1,-1,[flash,NLCS.SHX,s=.75],-1,1,[VERWIJDEREN2,NLCS.SHX,s=0.50],1,-1,["3x10",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-4
+
+*OV-KABEL_AANSLUIT_4x2.5MM2-SO,??????	<- NIEUW
+A,2,-1,[flash,NLCS.SHX,s=.75],-1,2,-1,["4x2.5",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-4
+
+*V-OV-KABEL_AANSLUIT_4x2.5MM2-SO,??????	<- NIEUW
+A,1,[VERWIJDEREN2,NLCS.SHX,s=0.50],1,-1,[flash,NLCS.SHX,s=.75],-1,1,[VERWIJDEREN2,NLCS.SHX,s=0.50],1,-1,["4x2.5",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-4
+
+*OV-KABEL_AANSLUIT_4x10MM2-SO,??????	<- NIEUW
+A,2,-1,[flash,NLCS.SHX,s=.75],-1,2,-1,["4x10",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-4
+
+*V-OV-KABEL_AANSLUIT_4x10MM2-SO,??????	<- NIEUW
+A,1,[VERWIJDEREN2,NLCS.SHX,s=0.50],1,-1,[flash,NLCS.SHX,s=.75],-1,1,[VERWIJDEREN2,NLCS.SHX,s=0.50],1,-1,["4x10",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-4
+
+*OV-KABEL_SIGNAAL-SO,692 <- AANGEPAST
+A,4,-1,["S",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-1,4,-1,["OV",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-3
+
+*V-OV-KABEL_SIGNAAL-SO,696 <- AANGEPAST
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.50],2,-1,["S",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.50],2,-1,["OV",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-3
+
+*OV-KABELDOORVOER_MANTELBUIS-SO,?????? <- NIEUW
+A,0,-0.5,[DUB1,NLCS.SHX,s=1.0],-0.5
+
+*V-OV-KABELDOORVOER_MANTELBUIS-SO,?????? <- NIEUW
+A,0,-0.25,[VERWIJDEREN2,NLCS.SHX,x=0.25,s=0.5],-0.25,[DUB1,NLCS.SHX,s=1.0],-0.5
+
+
+
+
+*OV-LIJNV-SO,736
+A,0,-5,[drieh,NLCS.SHX,s=1,r=0,x=-.625],2.5,-0.5,[CIRC,NLCS.SHX,s=.5],-0.5,2.5,[drieh,NLCS.SHX,s=1,r=180,x=.625],-5
+
+*V-OV-LIJNV-SO,737
+A,0,-5,[drieh,NLCS.SHX,s=1,r=0,x=-.625],2.5,-0.5,[CIRC,NLCS.SHX,s=.5],-0.5,2.5,[drieh,NLCS.SHX,s=1,r=180,x=.625],-5,[VERWIJDEREN2,NLCS.SHX,x=1,s=1],-2
+
+*OV-KABELKOKER-SO,728 <- TE VERVALLEN
+A,0,-3,[DUB5,NLCS.SHX,s=1],-3
+
+*V-OV-KABELKOKER-SO,729 <-TE VERVALLEN
+A,0,-3,[DUB3,NLCS.SHX,s=1],-6,[DUB3,NLCS.SHX],-6,[DUB3,NLCS.SHX],-6,[VERWIJDEREN2,NLCS.SHX,s=1],-3
+
+*OV-KABEL_AARDING-SO,690 < - TE VERVALLEN
+A,14,-1,["OV",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,14,-.5,["A",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
+
+*V-OV-KABEL_AARDING-SO,694 < - TE VERVALLEN
+A,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-1,["OV",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-.5,["A",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
+
+*OV-AARDING-SO,730 < - TE VERVALLEN
+A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1,["A",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
+
+*V-OV-AARDING-SO,731 < - TE VERVALLEN
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,["A",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
+
+*OV-KABEL_BUNDEL-SO,698 < - TE VERVALLEN
+A,14,-1,["OV",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,14,-.5,["B",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
+
+*V-OV-KABEL_BUNDEL-SO,695 < - TE VERVALLEN
+A,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-1,["OV",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-.5,["B",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
+
+*OV-WEESLEIDING-SO,734 <- TE VERVALLEN
+A,0.25,-8
+
+*V-OV-WEESLEIDING-SO,735 <- TE VERVALLEN
+A,0.25,-4,[VERWIJDEREN2,NLCS.SHX,s=0.5],-4
