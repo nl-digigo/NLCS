@@ -1,6 +1,6 @@
 # Concept-versie 5.1 Voor Openbare Consultatie
 
-1 november 2024 is het concept van NLCS 5.1 gepubliceerd voor een openbare consultatie. Gebruikers, experts en softwareleveranciers kunnen dit concept vier maanden lang uitproberen in applicaties. Na verwerking van de review wordt een definitieve versie gepubliceerd op 1 april 2025. 
+1 november 2024 is het concept van NLCS 5.1 gepubliceerd voor een openbare consultatie. Gebruikers, experts en softwareleveranciers kunnen dit concept vier maanden lang uitproberen in applicaties. Na verwerking van de review wordt een definitieve versie gepubliceerd op 1 juni 2025. 
 
 Ter review ligt: de basis van NLCS, waarmee tekeningen gemaakt kunnen worden. Dat wil zeggen de objecten, symbolen, kleuren enzovoorts voor gebruik in CAD-software. 
 Na vaststelling van versie 5.1 worden de mappings naar de BGT en naar PDOK Thema Stedelijk Water geüpdatet met bijbehorende documentatie, deze worden dan ter review aangeboden. 
