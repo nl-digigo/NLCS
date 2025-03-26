@@ -8,7 +8,7 @@ PREFIX sh: <http://www.w3.org/ns/shacl#>
 
 # Retrieves all Object information and stores it in the familiar Excel/CSV format from the SQL database
 
-SELECT DISTINCT ?omschrijving ?status ?discipline ?hoofdgroep ?sobject ?aobject
+SELECT DISTINCT ?omschrijving ?status ?discipline ?hoofdgroep ?aobject ?sobject 
 ?lw_b ?kl_b ?kl_b_a ?kl_b_gd ?kl_b_gn ?kl_b_v ?lt_b
 ?lw_n ?kl_n ?kl_n_a ?kl_n_gd ?kl_n_gn ?kl_n_v ?lt_n
 ?lw_v ?kl_v ?kl_v_a ?kl_v_gd ?kl_v_gn ?kl_v_v ?lt_v
