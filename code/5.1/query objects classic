@@ -14,7 +14,7 @@ SELECT DISTINCT ?omschrijving ?status ?discipline ?hoofdgroep ?aobject ?sobject
 ?lw_v ?kl_v ?kl_v_a ?kl_v_gd ?kl_v_gn ?kl_v_v ?lt_v
 ?lw_t ?kl_t ?kl_t_a ?kl_t_gd ?kl_t_gn ?kl_t_v ?lt_t
 ?element ?vrkl_kort
-?id_nummer ?kind_van 
+?id_nummer ?kind_van ?objectURI ?kind_vanURI 
 WHERE {
   ?NLCSObjectTopConcept a owl:Class .
   ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
