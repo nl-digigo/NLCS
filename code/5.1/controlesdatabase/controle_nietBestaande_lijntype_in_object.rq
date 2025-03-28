@@ -1,0 +1,39 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX ls: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/>
+PREFIX lbm: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/blueprint-manager/>
+PREFIX otl: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/>
+
+SELECT ?hoofdgroepNaam ?laagnaamNaam ?infoTypeNaam ?infoFieldValue
+
+WHERE {
+  ?topLaagnaam a otl:PhysicalObject .
+  ?topLaagnaam otl:attr-Conceptual-name "NLCS-object" .
+  ?hoofdgroep otl:rel-Conceptual-isSpecializationOf ?topLaagnaam .
+  ?hoofdgroep otl:attr-Conceptual-name ?hoofdgroepNaam .
+  ?laagnaam otl:rel-Conceptual-isSpecializationOf+ ?hoofdgroep .
+  ?laagnaam otl:attr-Conceptual-name ?laagnaamNaam .
+
+  ?laagnaam otl:rel-Conceptual-isDescribedIn ?infoField .
+  ?infoField a otl:InformationField .
+  ?infoField otl:rel-InformationField-isClassifiedAs ?infoType .
+  ?infoType otl:attr-Conceptual-name ?infoTypeNaam .
+  FILTER (CONTAINS(?infoTypeNaam, "linetype")) .
+  ?infoField otl:attr-InformationField-value ?infoFieldValue .
+  FILTER NOT EXISTS {
+    ?topLijntype a otl:Document .
+    ?topLijntype otl:attr-Conceptual-name "Lijntype" .
+    ?hgTemp otl:rel-Conceptual-isSpecializationOf ?topLijntype .
+    ?hgTemp otl:attr-Conceptual-name ?hoofdgroepNaamTemp .
+    ?lijntype otl:rel-Conceptual-isSpecializationOf* ?hgTemp .
+    ?lijntype otl:attr-Conceptual-name ?lijntypeNaam .
+  
+    BIND ( IF(?lijntype = ?hgTemp, IF(?lijntypeNaam IN ("V-CONTINUOUS-SO", "CONTINUOUS", "NLCS_HIDDEN-SO"), ?lijntype, 1/0), ?lijntype) AS ?NotHoofdgroep) .
+    FILTER (?lijntype = ?NotHoofdgroep) .
+    FILTER (?infoFieldValue = ?lijntypeNaam) .
+    }
+}

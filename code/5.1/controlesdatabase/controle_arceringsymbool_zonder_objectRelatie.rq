@@ -1,0 +1,48 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX ls: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/>
+PREFIX lbm: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/blueprint-manager/>
+PREFIX otl: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/>
+
+SELECT ?type ?bibNaam ?conceptNaam
+
+WHERE {
+  ?topConcept a otl:Document .
+  ?topConcept otl:attr-Conceptual-name ?type .
+  FILTER (?type IN ("Arcering", "Symbool")) .
+  ?bib otl:rel-Conceptual-isSpecializationOf ?topConcept .
+  ?bib otl:attr-Conceptual-name ?bibNaam .
+  ?concept otl:rel-Conceptual-isSpecializationOf+ ?bib .
+  ?concept otl:attr-Conceptual-name ?conceptNaam .
+
+  BIND (IF( EXISTS {
+    ?topLaagnaam a otl:PhysicalObject .
+    ?topLaagnaam otl:attr-Conceptual-name "NLCS-object" .
+    ?hgLaagnaam otl:rel-Conceptual-isSpecializationOf ?topLaagnaam .
+    ?laagnaam otl:rel-Conceptual-isSpecializationOf+ ?hgLaagnaam .
+
+    ?conceptRelatie a otl:Document-describes-PhysicalObject .
+    ?conceptRelatie otl:rel-Relation-from ?concept .
+    ?conceptRelatie otl:rel-Relation-to ?laagnaam .        
+    }, TRUE, 1/0) AS ?conceptUsed) .
+  
+  BIND (IF( EXISTS {
+    ?topLaagnaam a otl:PhysicalObject .
+    ?topLaagnaam otl:attr-Conceptual-name "NLCS-object" .
+    ?hgLaagnaam2 otl:rel-Conceptual-isSpecializationOf ?topLaagnaam2 .
+    ?laagnaam2 otl:rel-Conceptual-isSpecializationOf+ ?hgLaagnaam2 .
+
+    ?concept otl:rel-Conceptual-isSpecializationOf+ ?conceptParents .
+    FILTER (?conceptParents NOT IN (?bib, ?topConcept)) .
+    ?conceptParentsRelatie a otl:Document-describes-PhysicalObject .
+    ?conceptParentsRelatie otl:rel-Relation-from ?conceptParents .
+    ?conceptParentsRelatie otl:rel-Relation-to ?laagnaam2 .
+  }, TRUE, 1/0) AS ?conceptParentsUsed) .
+
+  BIND (COALESCE(?conceptUsed, ?conceptParentsUsed) AS ?used) .
+  FILTER (!BOUND(?used)) .
+}
