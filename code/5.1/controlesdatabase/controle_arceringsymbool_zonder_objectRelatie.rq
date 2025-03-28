@@ -37,7 +37,7 @@ WHERE {
     ?laagnaam2 otl:rel-Conceptual-isSpecializationOf+ ?hgLaagnaam2 .
 
     ?concept otl:rel-Conceptual-isSpecializationOf+ ?conceptParents .
-    FILTER (?conceptParents NOT IN (?bib, ?topConcept)) .
+    FILTER (?conceptParents NOT IN (?topConcept)) .
     ?conceptParentsRelatie a otl:Document-describes-PhysicalObject .
     ?conceptParentsRelatie otl:rel-Relation-from ?conceptParents .
     ?conceptParentsRelatie otl:rel-Relation-to ?laagnaam2 .
