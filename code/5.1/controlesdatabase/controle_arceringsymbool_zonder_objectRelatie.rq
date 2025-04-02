@@ -8,7 +8,7 @@ PREFIX ls: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shap
 PREFIX lbm: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/blueprint-manager/>
 PREFIX otl: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/>
 
-SELECT ?type ?bibNaam ?conceptNaam
+SELECT DISTINCT ?type ?bibNaam ?conceptNaam
 
 WHERE {
   ?topConcept a otl:Document .
