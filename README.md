@@ -6,7 +6,7 @@ Informatie over de openbare consultatie van concept versie 5.1 van 1 november 20
 
 ## Beheer
 
-* [Beheerdocument DigiGO](https://www.digigo.nu/files/uploads/2024/09/BOMOS-Beheerdocument-Standaarden-digiGO-V1.0.pdf).
+* [Beheerdocument DigiGO](https://www.digigo.nu/wp-content/uploads/2024/09/BOMOS-Beheerdocument-Standaarden-digiGO-V1.0.pdf).
 * [Beheerorganisatie NLCS](https://www.digigo.nu/standaarden/nlcs/beheer)
 * [Beheerhandleiding NLCS](https://nl-digigo.github.io/NLCS/managementmanual)
 * [Releaseprotocol NLCS](https://nl-digigo.github.io/NLCS/releaseprotocol)
