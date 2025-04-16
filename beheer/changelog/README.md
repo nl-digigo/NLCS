@@ -6,7 +6,7 @@ This is a small Python tool for generating a customizable `.xlsx` changelog base
 ## Usage 
 
 ### 1. Configure the Tool
-Edit the configuration file (`bin/config.yml`) to provide the necessary information.
+Edit the configuration file (`config.yml`) to provide the necessary information.
 
 The configuration includes the following sections:
 
@@ -21,6 +21,8 @@ Specify the queries and the identifying columns to track changes.
 - If multiple records exist for a given set of identifying columns, the script compares all combinations (e.g., three unchanged records A1, A2, and A3 will generate six change comparisons: A1 → A2, A1 → A3, etc.).
 - You can define multiple queries to track different aspects of the data (e.g., changed objects vs. changed attributes).
 
+#### `include_unchanged`
+Specify whether the unchanged concepts are included in the output. This setting can be set as `True` or `False`.
 
 #### `endpoints`
 Define the URLs for the old and new datasets.
@@ -30,18 +32,9 @@ Define the URLs for the old and new datasets.
 #### `output_path`
 Set the name of the output Excel file.
 
-### 2a. Run the Executable
+### Run the Executable
 Execute the script by double-clicking the executable file. The output file will be generated in the specified output folder.
 
-### 2b. Run With the Source Code 
-
-#### pip Install the code into virtual environment 
-1. Go to this folder (`crow-imbor-changelog\sparql_diff`) in a command prompt / terminal
-2. While you have a [virtual environment](https://docs.python.org/3/library/venv.html) enabled, install the package using `pip install .`
-
-#### Run it via terminal
-Navigate to the folder including your config file. 
-Run `sparql-diff` OR `sparql-diff --username YOUR_USERNAME --password YOUR_PASSWORD` (username and password can also be stored in config.yml)
 
 ---
 
