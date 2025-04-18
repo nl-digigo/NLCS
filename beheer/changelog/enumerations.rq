@@ -1,0 +1,21 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX nen2660: <https://w3id.org/nen2660/def#>
+
+SELECT DISTINCT ?enumerationUri ?enumerationNaam ?enumerationGroupUri ?enumerationGroupNaam ?property ?propertyValue
+WHERE {
+  ?enumerationUri a ?enumerationGroupUri .
+  FILTER (?enumerationGroupUri NOT IN (owl:Class, owl:AnnotationProperty, owl:ObjectProperty, rdf:Property)) .
+  ?enumerationGroupUri skos:prefLabel ?enumerationGroupNaam .
+  ?enumerationUri skos:prefLabel ?enumerationNaam .
+  OPTIONAL {
+    ?enumerationUri ?property ?propertyValue .
+    FILTER (?property NOT IN ( rdf:type, skos:prefLabel)) .
+    FILTER (!isBlank(?propertyValue)) .
+  }
+}

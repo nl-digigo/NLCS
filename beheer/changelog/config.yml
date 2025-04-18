@@ -1,0 +1,65 @@
+queries:
+  Concepts:
+    file: "concepts.rq"
+    columns:
+      - conceptType
+      - groepNaam
+      - conceptUri
+  Properties:
+    file: "properties.rq"
+    columns:
+      - propertyUri
+  # PropertyValues:
+  #   file: "propertyValues.rq"
+  #   columns:
+  #     - conceptUri 
+  #     - conceptNaam 
+  #     - propertyUri 
+  #     - propertyNaam 
+  #     - propertyWaardeUri 
+  #     # - propertyWaardeNaam
+  Relations:
+    file: "relations.rq"
+    columns:
+      - conceptUri
+      # - conceptNaam
+      - type
+      - relatedConceptUri
+      # - relatedConceptNaam
+  Aspects:
+    file: "aspects.rq"
+    columns:
+      - conceptUri 
+      # - conceptNaam 
+      - propertyUri 
+      # - propertyNaam
+      # - propertyWaarde
+  Enumerations:
+    file: "enumerations.rq"
+    columns:
+      - enumerationUri 
+      # - enumerationNaam
+      - enumerationGroupUri
+      - enumerationGroupNaam
+      - property
+      # - propertyValue
+
+include_unchanged: False
+
+endpoints:
+  old:
+    url: https://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2/sparql?
+    username: 769811b6-47fb-4661-953b-86cc8a53e760
+    password: PublicAccess
+    default_graph_uri: []
+    named_graph_uri: []
+    
+  new: 
+    url:   https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs/versions/rv5_1_0/sparql?
+    username: 769811b6-47fb-4661-953b-86cc8a53e760
+    password: PublicAccess
+    default_graph_uri: []
+    named_graph_uri: []
+
+output_path: NLCS_changelog.xlsx
+

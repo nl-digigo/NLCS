@@ -1,0 +1,21 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX nen2660: <https://w3id.org/nen2660/def#>
+
+SELECT DISTINCT ?conceptType ?groepNaam ?conceptUri ?conceptNaam 
+WHERE {
+    ?topConcept a owl:Class .
+    ?topConcept skos:prefLabel ?conceptType .
+    FILTER(?conceptType IN ("NLCS-object", "Arcering", "Lijnkleur", "Lijntype", "Lijnweight", "Symbool")) .
+    ?groepUri rdfs:subClassOf ?topConcept .
+    ?groepUri skos:prefLabel ?groepNaamTemp .
+    ?conceptUri rdfs:subClassOf* ?groepUri .
+    ?conceptUri skos:prefLabel ?conceptNaam .
+    
+    BIND ( IF(?conceptUri = ?groepUri, IF(?conceptType IN ("NLCS-object", "Arcering", "Lijntype", "Symbool"), ?groepNaamTemp, ""), ?groepNaamTemp) AS ?groepNaam) .
+}
