@@ -1,5 +1,5 @@
 ## crow-imbor-changelog
-# Python Changelog Generator for IMBOR
+# Python Changelog Generator for NLCS
 
 This is a small Python tool for generating a customizable `.xlsx` changelog based on data differences.
 
