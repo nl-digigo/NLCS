@@ -1,6 +1,6 @@
 var respecConfig = {
   // => https://github.com/stichting-crow/respec/wiki
-  specStatus: "DRAFT",
+  specStatus: "LD",
   shortName: "NLCS/ontologyalignements",
   specType: "beheerdocumentatie", // vrije tekst, kleine letter
   imprint: "digigo",
