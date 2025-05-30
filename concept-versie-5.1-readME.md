@@ -31,7 +31,7 @@ Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS
 ## Voor softwareleveranciers en ontwikkelaars
 * [Eisen aan de software-implementatie van NLCS](https://nl-digigo.github.io/NLCS/requirementssoftware/) 
 * [Toelichting informatiemodel](https://nl-digigo.github.io/NLCS/code_documentation/5-1): De toelichting op de uitgangspunten en modelleringswijze van het  informatiemodel in linked data
-* [Toelichting gebruik sparql-endpoint en query's](https://nl-digigo.github.io/NLCS/howtoquery/): Een gebruikershandleiding voor gebruik van de linked data publicatie, met toelichting op de code van het informatiemodel, query's en beschikbare datasets
+* [Toelichting gebruik sparql-endpoint en query's](https://nl-digigo.github.io/NLCS/howtoquery/): Een gebruikershandleiding voor gebruik van de linked data publicatie, met toelichting op de code van het informatiemodel, query's en beschikbare datasets.
 
 
 ## Relaties tot andere standaarden
