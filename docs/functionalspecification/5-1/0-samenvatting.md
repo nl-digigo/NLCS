@@ -10,7 +10,7 @@ Dit document sluit aan op de volgende documenten:
 
 
 <figure>
-<img src="./h/media/voorbeeldtekening.jpg" alt="Visuele weergave van een NLCS tekening.">
+<img src="../../media/voorbeeldtekening.jpg" alt="Visuele weergave van een NLCS tekening.">
 <figcaption>Voorbeeld NLCS tekening</caption>
 </figure>
 
