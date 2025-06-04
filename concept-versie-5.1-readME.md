@@ -7,7 +7,7 @@ Opmerkingen bij dit concept:
 1. Stedelijk Spoor - voor de hoofdgroepen IS, ES en SB, die gemaakt zijn voor stedelijk spoor, geldt alleen de review voor de objecten, niet voor de visualisatie (kleuren, lijnweights en lijntypes). Aan de visualisatie wordt nog gewerkt. 
 2. Netbeheer - het energievoorzieningssysteem is nog niet aangepast. Op verzoek van de netbeheerders is hun publicatie in NLCS uitgesteld, omdat de technische wijzigingen in de standaard die nodig zijn voor de netbeheerders, onder meer voor bedrijfstoestanden verlaten en reserve, statussen voor oplevering van informatie van project aan beheer, en het kunnen uitwisselen van attribuutinformatie, nog niet ver genoeg zijn uitgewerkt in versie 5.1.
 
-Uitgebreidere release notes staan in de [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/reviewversies/CR-NLCS_functionalspecification-20241017.html).
+Uitgebreidere release notes staan in de [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/5-1/).
 
 Iedereen die het afgelopen jaar heeft meegewerkt aan de totstandkoming van deze versie wordt van harte bedankt.
 
