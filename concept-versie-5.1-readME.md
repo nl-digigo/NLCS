@@ -34,9 +34,9 @@ Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS
 * [Uitwisselafspraken](https://nl-digigo.github.io/NLCS/representations/5-1): Documentatie van hoe binnen NLCS wordt gewerkt met Uitwisseling van 3D objectinformatie; Hoe de uitwisseling tussen NLCS tekeningen en GIS kaarten op basis van IMGeo is geregeld; De openstaande onderzoeksvragen beschreven rondom NLCS en uitwisseling van tekeningen en modellen.
 
 
-### Actuele versie NLCS-publicatie
-De NLCS publicatie wordt gepubliceerd op een sparql-endpoint, die benaderbaar is vanuit applicaties. Voor uitleg zie [Toelichting gebruik sparql-endpoint en query's](https://nl-digigo.github.io/NLCS/howtoquery/).
-De statische URL (het adres) van de laatste NLCS 5.1 publicatie voor de openbare consultatie is: http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv5_1_2/sparql
+### Database NLCS
+Deze link verwijst naar de linked data hub, voor developers wordt in [Toelichting gebruik sparql-endpoint en query's](https://nl-digigo.github.io/NLCS/howtoquery/) uitgelegd hoe het sparql-endpoint rechtstreeks benaderd kan worden. 
+http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv5_1_2
 
 
 ### Symbolen, lijntypes, arceringen, font
