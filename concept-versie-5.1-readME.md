@@ -2,12 +2,7 @@
 
 1 november 2024 is het concept van NLCS 5.1 gepubliceerd voor een openbare consultatie. De bedoeling was dat gebruikers, experts en softwareleveranciers dit concept vier maanden lang konden uitproberen in applicaties. Op verzoek van de NLCS leveranciers wordt een technische commissie opgestart, om te onderzoeken wat er nodig is om de 5.1 versie te kunnen implementeren en te laten testen in applicaties. 
 
-Opmerkingen bij dit concept:
-
-1. Stedelijk Spoor - voor de hoofdgroepen IS, ES en SB, die gemaakt zijn voor stedelijk spoor, geldt alleen de review voor de objecten, niet voor de visualisatie (kleuren, lijnweights en lijntypes). Aan de visualisatie wordt nog gewerkt. 
-2. Netbeheer - het energievoorzieningssysteem is nog niet aangepast. Op verzoek van de netbeheerders is hun publicatie in NLCS uitgesteld, omdat de technische wijzigingen in de standaard die nodig zijn voor de netbeheerders, onder meer voor bedrijfstoestanden verlaten en reserve, statussen voor oplevering van informatie van project aan beheer, en het kunnen uitwisselen van attribuutinformatie, nog niet ver genoeg zijn uitgewerkt in versie 5.1.
-
-Uitgebreidere release notes staan in de [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/5-1/).
+Release notes staan in de [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/5-1/).
 
 Iedereen die het afgelopen jaar heeft meegewerkt aan de totstandkoming van deze versie wordt van harte bedankt.
 
@@ -41,7 +36,7 @@ Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS
 
 ### Actuele versie NLCS-publicatie
 De NLCS publicatie wordt gepubliceerd op een sparql-endpoint, die benaderbaar is vanuit applicaties. Voor uitleg zie [Toelichting gebruik sparql-endpoint en query's](https://nl-digigo.github.io/NLCS/howtoquery/).
-De statische URL (het adres) van de laatste NLCS 5.1 publicatie voor de openbare consultatie is: http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv5_1_1/sparql
+De statische URL (het adres) van de laatste NLCS 5.1 publicatie voor de openbare consultatie is: http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv5_1_2/sparql
 
 
 ### Symbolen, lijntypes, arceringen, font
@@ -54,7 +49,7 @@ De symbolen, lijntypes en arceringen die in de software kunnen worden ingeladen:
 
 ## Viewer 5.1
 
-Aan een viewer wordt nog gewerkt, zodra deze in de lucht is laten we het weten. Tot die tijd is de makkelijkste manier om de standaard te onderzoeken, kijken naar de verkorte objectentabellen die te vinden zijn bij de [NLCS tabellen](https://github.com/nl-digigo/NLCS/tree/main/tabellen) van elke versie.
+DigiGO heeft nog geen viewer waarin informatiemodellen op basis van de NEN 2660-2 kunnen worden getoond. De makkelijkste manier om door de standaard te browsen zijn de [NLCS tabellen concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/tabellen/concept/5.1).
 
 
 ![Architectuur van de standaard](<NLCS architectuur.png>)
@@ -74,5 +69,19 @@ This work is licensed under a
 [cc-by]: http://creativecommons.org/licenses/by/4.0/
 [cc-by-image]: https://i.creativecommons.org/l/by/4.0/88x31.png
 [cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg
+
+
+## Totstandkoming
+De issues die verwerkt zijn in versie 5.1 zijn gebundeld in de volgende milestones:
+* [Inhoudelijke issues voor 5.1](https://github.com/nl-digigo/NLCS/milestone/1)
+* [Uitbreiding verkeersborden in 5.1](https://github.com/nl-digigo/NLCS/milestone/8)
+* [Uitbreiding Tram voor 5.1](https://github.com/nl-digigo/NLCS/milestone/5)
+* [Technische issues voor 5.1](https://github.com/nl-digigo/NLCS/milestone/15)
+
+Reviewcommentaar op de documentatie van NLCS 5.1 is geleverd in de volgende documenten:
+* [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/reviewversies/CR-NLCS_functionalspecification-20241017.html)
+* [Eisen aan tekeningen en modellen](https://nl-digigo.github.io/NLCS/requirementscadmodels/reviewversies/CR-NLCS_requirementscadmodels-20241017.html) was beschikbaar voor review, maar is niet gebruikt.
+* [Eisen aan de software-implementatie van NLCS](https://nl-digigo.github.io/NLCS/requirementssoftware/ontwikkeling/reviewversies/CR-NLCS_requirementssoftware_ontwikkeling-20241017.html)
+
 
 

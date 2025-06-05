@@ -1,4 +1,4 @@
-# NLCS
+# NLCS 5.0
 Deze repository is de locatie voor technische documentatie en het inbrengen en opvolgen van gebruikerswensen voor NLCS, de Nederlandse CAD standaard van DigiGO.
 
 Links hieronder zijn voor de actuele versie, 5.0
