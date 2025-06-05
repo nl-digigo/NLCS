@@ -20,7 +20,7 @@ Reviewwijze:
 
 ## Zelf applicatie inrichten
 Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS is ook beschikbaar in tabellen:
-* [NLCS tabellen](https://github.com/nl-digigo/NLCS/tree/main/tabellen)
+* [NLCS tabellen concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/tabellen/concept/5.1).
 
 
 ## Voor softwareleveranciers en ontwikkelaars

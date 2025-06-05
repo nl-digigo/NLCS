@@ -1,7 +1,7 @@
 var respecConfig = {
   // => https://github.com/stichting-crow/respec/wiki
   specStatus: "DEF",
-  shortName: "NLCS/code_documentation",
+  shortName: "NLCS/code_documentation/5-0-2",
   specType: "technische documentatie", // vrije tekst, kleine letter
   imprint: "digigo",
   editors: [

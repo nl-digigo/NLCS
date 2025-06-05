@@ -1,11 +1,10 @@
 var respecConfig = {
   // => https://github.com/stichting-crow/respec/wiki
-  specStatus: "DEF",
-  shortName: "NLCS/requirementssoftware",
+  specStatus: "CR",
+ 
+  shortName: "NLCS/requirementssoftware/5-1",
   specType: "technische documentatie", // vrije tekst, kleine letter
   imprint: "digigo",
-  hypothesisComments: "false",
-  reviewDateEnd: "2024-09-01",
   editors: [
     // alleen `name` is verplicht, https://respec.org/docs/#person
     {
@@ -16,11 +15,7 @@ var respecConfig = {
   authors: [
     // alleen `name` is verplicht, https://respec.org/docs/#person
     {
-      name: "Corné Helmons",
-      company: "DigiGO",
-    },
-    {
-      name: "Niels Nederpel",
+      name: "Elisabeth de Vries",
       company: "DigiGO",
     },
   ],
@@ -43,6 +38,12 @@ var respecConfig = {
   NEN_EN_ISO_7200_2004: {
     title: "Technische productdocumentatie - Gegevensvelden in titelblokken",
     href: "https://www.nen.nl/nen-en-iso-7200-2004-en-93839",
+    status: "Actueel",
+    publisher: "NEN",
+  },
+  NEN3610: {
+    title: "Basismodel geo-informatie - Termen, definities, relaties en algemene regels voor de uitwisseling van informatie over aan de aarde gerelateerde ruimtelijke objecten",
+    href: "https://www.nen.nl/nen-3610-2022-nl-296137",
     status: "Actueel",
     publisher: "NEN",
   },
