@@ -22,7 +22,7 @@ NLCS 5.0 kan bekeken worden in de [NLCS 5.0 viewer](https://nlcs-viewer.crow.nl)
 
 ### Zelf applicatie inrichten
 Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS is ook beschikbaar in tabellen:
-* [Laagtabellen](https://github.com/nl-digigo/NLCS/tree/main/tabellen)
+* [Laagtabellen 5.0](https://github.com/nl-digigo/NLCS/tree/main/tabellen/definitief/5.0)
 
 
 ## Voor softwareleveranciers en ontwikkelaars
