@@ -2,6 +2,8 @@
 
 1 november 2024 is het concept van NLCS 5.1 gepubliceerd voor een openbare consultatie. De bedoeling was dat gebruikers, experts en softwareleveranciers dit concept vier maanden lang konden uitproberen in applicaties. Op verzoek van de NLCS leveranciers wordt een technische commissie opgestart, om te onderzoeken wat er nodig is om de 5.1 versie te kunnen implementeren en te laten testen in applicaties. 
 
+Daartoe is op 5 juni 2025 een nieuwe acceptatie-verise van de NLCS database gepubliceerd op het sparql-endpoint.
+
 Release notes staan in de [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/5-1/).
 
 Iedereen die het afgelopen jaar heeft meegewerkt aan de totstandkoming van deze versie wordt van harte bedankt.
@@ -12,10 +14,22 @@ Reviewwijze:
 * Tabellen, database en technische bestanden: via [issues](https://github.com/nl-digigo/NLCS/issues)
 * Documentatie in ReSpec: de reviewperiode voor de documentatie met opmerkingen in de kantlijn is **verlopen**. Eventuele review kan altijd worden ingediende via issues. 
 
+## Beheer
+
+* [Beheerdocument DigiGO](https://www.digigo.nu/wp-content/uploads/2024/09/BOMOS-Beheerdocument-Standaarden-digiGO-V1.0.pdf).
+* [Beheerorganisatie NLCS](https://www.digigo.nu/standaarden/nlcs/beheer)
+* [Beheerhandleiding NLCS](https://nl-digigo.github.io/NLCS/managementmanual)
+* [Releaseprotocol NLCS](https://nl-digigo.github.io/NLCS/releaseprotocol)
+* [Gebruikerswens / issue indienen](https://github.com/nl-digigo/NLCS/issues)
+* [Protocol afhandelen gebruikerswensen](https://nl-digigo.github.io/NLCS/protocolissues)
+
+## Viewer 5.1
+
+DigiGO heeft nog geen viewer waarin informatiemodellen op basis van de NEN 2660-2 kunnen worden getoond. De makkelijkste manier om door de standaard te browsen zijn de [NLCS tabellen concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/tabellen/concept/5.1).
 
 ## Voor ontwerpers en tekenaars
-* [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/5-1/)
-* [Eisen aan tekeningen en modellen](https://nl-digigo.github.io/NLCS/requirementscadmodels/5-1/) 
+* [Uitleg standaard 5.1](https://nl-digigo.github.io/NLCS/functionalspecification/5-1/)
+* [Eisen aan tekeningen en modellen 5.1](https://nl-digigo.github.io/NLCS/requirementscadmodels/5-1/) 
 * [Voorbeeldtekeningen](https://github.com/nl-digigo/NLCS/tree/main/docs/voorbeeldtekeningen)
 
 ## Zelf applicatie inrichten
@@ -24,14 +38,14 @@ Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS
 
 
 ## Voor softwareleveranciers en ontwikkelaars
-* [Eisen aan de software-implementatie van NLCS](https://nl-digigo.github.io/NLCS/requirementssoftware/) 
-* [Toelichting informatiemodel](https://nl-digigo.github.io/NLCS/code_documentation/5-1): De toelichting op de uitgangspunten en modelleringswijze van het  informatiemodel in linked data
+* [Eisen aan de software-implementatie van NLCS 5.1](https://nl-digigo.github.io/NLCS/requirementssoftware/5-1) 
+* [Toelichting informatiemodel 5.1](https://nl-digigo.github.io/NLCS/code_documentation/5-1): De toelichting op de uitgangspunten en modelleringswijze van het  informatiemodel in linked data
 * [Toelichting gebruik sparql-endpoint en query's](https://nl-digigo.github.io/NLCS/howtoquery/): Een gebruikershandleiding voor gebruik van de linked data publicatie, met toelichting op de code van het informatiemodel, query's en beschikbare datasets.
 
 
 ## Relaties tot andere standaarden
-* [Relaties tot andere standaarden](https://nl-digigo.github.io/NLCS/ontologyalignments/5-1): documentatie van de ontology alignments (mappings waar een computer mee kan redeneren) of voorbereidingen daartoe met andere standaarden, waaronder IMGeo (voor BGT kaartinformatie) en het GWSW (Gemeentelijk woordenboek stedelijk water)
-* [Uitwisselafspraken](https://nl-digigo.github.io/NLCS/representations/5-1): Documentatie van hoe binnen NLCS wordt gewerkt met Uitwisseling van 3D objectinformatie; Hoe de uitwisseling tussen NLCS tekeningen en GIS kaarten op basis van IMGeo is geregeld; De openstaande onderzoeksvragen beschreven rondom NLCS en uitwisseling van tekeningen en modellen.
+* [Relaties tot andere standaarden 5.1](https://nl-digigo.github.io/NLCS/ontologyalignments/5-1): documentatie van de ontology alignments (mappings waar een computer mee kan redeneren) of voorbereidingen daartoe met andere standaarden, waaronder IMGeo (voor BGT kaartinformatie) en het GWSW (Gemeentelijk woordenboek stedelijk water)
+* [Uitwisselafspraken 5.1](https://nl-digigo.github.io/NLCS/representations/5-1): Documentatie van hoe binnen NLCS wordt gewerkt met Uitwisseling van 3D objectinformatie; Hoe de uitwisseling tussen NLCS tekeningen en GIS kaarten op basis van IMGeo is geregeld; De openstaande onderzoeksvragen beschreven rondom NLCS en uitwisseling van tekeningen en modellen.
 
 
 ### Database NLCS
@@ -41,23 +55,17 @@ http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versio
 
 ### Symbolen, lijntypes, arceringen, font
 De symbolen, lijntypes en arceringen die in de software kunnen worden ingeladen:
-* [Symbolen](https://github.com/nl-digigo/NLCS/tree/main/symbolen)
-* [Lijntypes](https://github.com/nl-digigo/NLCS/tree/main/lijntypes)
-* [Arceringen](https://github.com/nl-digigo/NLCS/tree/main/arcering)
-* [Font](https://github.com/nl-digigo/NLCS/tree/main/font)
+* [Symbolen concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/symbolen)
+* [Lijntypes concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/lijntypes)
+* [Arceringen concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/arcering)
+* [Font concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/font)
 
 
-## Viewer 5.1
-
-DigiGO heeft nog geen viewer waarin informatiemodellen op basis van de NEN 2660-2 kunnen worden getoond. De makkelijkste manier om door de standaard te browsen zijn de [NLCS tabellen concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/tabellen/concept/5.1).
 
 
 ![Architectuur van de standaard](<NLCS architectuur.png>)
 
-
-
 ![Documentatie van de standaard](<NLCS documentatie.png>)
-
 
 Shield: [![CC BY 4.0][cc-by-shield]][cc-by]
 
