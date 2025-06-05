@@ -20,7 +20,7 @@ Reviewwijze:
 
 ## Voor ontwerpers en tekenaars
 * [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/5-1/)
-* [Eisen aan tekeningen en modellen](https://nl-digigo.github.io/NLCS/requirementscadmodels/reviewversies/CR-NLCS_requirementscadmodels-20241017.html) 
+* [Eisen aan tekeningen en modellen](https://nl-digigo.github.io/NLCS/requirementscadmodels/5-1/) 
 * [Voorbeeldtekeningen](https://github.com/nl-digigo/NLCS/tree/main/docs/voorbeeldtekeningen)
 
 ## Zelf applicatie inrichten
