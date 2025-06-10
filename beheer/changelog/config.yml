@@ -55,7 +55,7 @@ endpoints:
     named_graph_uri: []
     
   new: 
-    url:   https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs/versions/rv5_1_0/sparql?
+    url:   http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv5_1_2/sparql?
     username: 769811b6-47fb-4661-953b-86cc8a53e760
     password: PublicAccess
     default_graph_uri: []
