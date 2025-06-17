@@ -22,7 +22,7 @@ WHERE {
   ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
   ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
   ?objectURI skos:prefLabel ?omschrijving .
-  FILTER (?hoofdgroep = "AL") .  # INPUT REQUIRED - Change value to the desired hoofdgroep, AL is used as example
+  FILTER (?hoofdgroep = "GW") .  # INPUT REQUIRED - Change value to the desired hoofdgroep, AL is used as example
   OPTIONAL {
     ?objectURI <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308> ?id_nummer .  # ?objectURI ?idProperty ?id_nummer . ?idProperty skos:prefLabel "ID" .
   } 
@@ -257,4 +257,54 @@ OPTIONAL {
     ?aobjectURI skos:prefLabel ?aobject .
   }
   
+  BIND ("_" AS ?underscore) .
+  BIND ("_" AS ?underscore2) .
+  BIND ("_" AS ?underscore3) .
+  BIND ("_" AS ?underscore4) .
+  BIND ("_" AS ?underscore5) .
+  BIND ("_" AS ?underscore6) .
+  BIND ("_" AS ?underscore7) .
+  BIND ("_" AS ?underscore8) .
+  BIND ("-" AS ?streepje) .
+  BIND ("-" AS ?streepje2) .
+
+  OPTIONAL {
+    ?objectURI rdfs:subClassOf ?bnodeBewerking .
+    ?bnodeBewerking owl:onProperty ?BewerkingProperty .  # ?bnodeBewerking owl:onProperty ?BewerkingProperty . ?BewerkingProperty skos:prefLabel "Bewerking" .
+    ?bnodeBewerking owl:hasValue/skos:prefLabel ?bewerking .
+  }
+  
+  BIND (IF(CONTAINS(?omschrijving, "-"), STRBEFORE(?omschrijving, "-"), ?omschrijving) AS ?objectClean) .
+  BIND (STRBEFORE(?objectClean, "_") AS ?objectAttempt) .
+  BIND (IF(?objectAttempt != "", ?objectAttempt, ?objectClean) AS ?object) .
+  BIND (IF(?objectAttempt != "", STRAFTER(?objectClean, "_"), 1/0) AS ?rest) .
+  
+  BIND (STRBEFORE(?rest, "_") AS ?subobject01Attempt) .
+  BIND (IF(?subobject01Attempt != "", ?subobject01Attempt, ?rest) AS ?subobject01) .
+  BIND (IF(?subobject01Attempt != "", STRAFTER(?rest, "_"), 1/0) AS ?rest2) .
+  
+  BIND (STRBEFORE(?rest2, "_") AS ?subobject02Attempt) .
+  BIND (IF(?subobject02Attempt != "", ?subobject02Attempt, ?rest2) AS ?subobject02) .
+  BIND (IF(?subobject02Attempt != "", STRAFTER(?rest2, "_"), 1/0) AS ?rest3) .
+  
+  BIND (STRBEFORE(?rest3, "_") AS ?subobject03Attempt) .
+  BIND (IF(?subobject03Attempt != "", ?subobject03Attempt, ?rest3) AS ?subobject03) .
+  BIND (IF(?subobject03Attempt != "", STRAFTER(?rest3, "_"), 1/0) AS ?rest4) .
+  
+  BIND (STRBEFORE(?rest4, "_") AS ?subobject04Attempt) .
+  BIND (IF(?subobject04Attempt != "", ?subobject04Attempt, ?rest4) AS ?subobject04) .
+  BIND (IF(?subobject04Attempt != "", STRAFTER(?rest4, "_"), 1/0) AS ?rest5) .
+  
+  BIND (STRBEFORE(?rest5, "_") AS ?subobject05Attempt) .
+  BIND (IF(?subobject05Attempt != "", ?subobject05Attempt, ?rest5) AS ?subobject05) .
+
+  BIND (CONCAT(STR(?status), STR(?underscore), STR(?discipline), STR(?underscore2), 
+               STR(?hoofdgroep), STR(?underscore3), STR(?object), 
+               IF(BOUND(?subobject01), CONCAT(STR(?underscore4), STR(?subobject01)), ""),
+               IF(BOUND(?subobject02), CONCAT(STR(?underscore5), STR(?subobject02)), ""),
+               IF(BOUND(?subobject03), CONCAT(STR(?underscore6), STR(?subobject03)), ""),
+               IF(BOUND(?subobject04), CONCAT(STR(?underscore7), STR(?subobject04)), ""),
+               IF(BOUND(?subobject05), CONCAT(STR(?underscore8), STR(?subobject05)), ""),
+               IF(BOUND(?bewerking), CONCAT(STR(?streepje), STR(?bewerking)), ""))
+        AS ?laagnaam) .
 } ORDER BY ?id
