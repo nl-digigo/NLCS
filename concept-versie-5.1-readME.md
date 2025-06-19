@@ -2,7 +2,7 @@
 
 1 november 2024 is het concept van NLCS 5.1 gepubliceerd voor een openbare consultatie. De bedoeling was dat gebruikers, experts en softwareleveranciers dit concept vier maanden lang konden uitproberen in applicaties. Op verzoek van de NLCS leveranciers wordt een technische commissie opgestart, om te onderzoeken wat er nodig is om de 5.1 versie te kunnen implementeren en te laten testen in applicaties. 
 
-Daartoe is op 5 juni 2025 een nieuwe acceptatie-verise van de NLCS database gepubliceerd op het sparql-endpoint.
+Daartoe is op 18 juni 2025 een nieuwe acceptatie-verise van de NLCS database gepubliceerd op het sparql-endpoint.
 
 Release notes staan in de [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/5-1/).
 
