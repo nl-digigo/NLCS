@@ -50,7 +50,7 @@ Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS
 
 ### Database NLCS
 Deze link verwijst naar de linked data hub, voor developers wordt in [Toelichting gebruik sparql-endpoint en query's](https://nl-digigo.github.io/NLCS/howtoquery/) uitgelegd hoe het sparql-endpoint rechtstreeks benaderd kan worden. 
-http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv5_1_2
+http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv_5_1_3
 
 
 ### Symbolen, lijntypes, arceringen, font
