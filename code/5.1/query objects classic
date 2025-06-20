@@ -270,7 +270,7 @@ OPTIONAL {
 
   OPTIONAL {
     ?objectURI rdfs:subClassOf ?bnodeBewerking .
-    ?bnodeBewerking owl:onProperty ?BewerkingProperty .  # ?bnodeBewerking owl:onProperty ?BewerkingProperty . ?BewerkingProperty skos:prefLabel "Bewerking" .
+    ?bnodeBewerking owl:onProperty <http://digitalbuildingdata.tech/nlcs/def/9e8d26b2-e78a-40a5-84b7-765da5b6592f> .  # ?bnodeBewerking owl:onProperty ?BewerkingProperty . ?BewerkingProperty skos:prefLabel "Bewerking" .
     ?bnodeBewerking owl:hasValue/skos:prefLabel ?bewerking .
   }
   
@@ -307,4 +307,5 @@ OPTIONAL {
                IF(BOUND(?subobject05), CONCAT(STR(?underscore8), STR(?subobject05)), ""),
                IF(BOUND(?bewerking), CONCAT(STR(?streepje), STR(?bewerking)), ""))
         AS ?laagnaam) .
+ 
 } ORDER BY ?id
