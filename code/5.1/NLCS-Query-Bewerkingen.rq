@@ -1,0 +1,22 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+SELECT DISTINCT ?hoofdgroep ?bewerking
+WHERE {
+  ?topConcept a owl:Class ;
+              skos:prefLabel "NLCS-object" .
+
+  ?hoofdgroepURI rdfs:subClassOf ?topConcept ;
+                 skos:prefLabel ?hoofdgroep .
+
+  ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
+
+  OPTIONAL {
+    ?objectURI rdfs:subClassOf ?bnodeBewerking .
+    ?bnodeBewerking owl:onProperty <http://digitalbuildingdata.tech/nlcs/def/9e8d26b2-e78a-40a5-84b7-765da5b6592f> ;
+                     owl:hasValue/skos:prefLabel ?bewerking .
+  }
+}
+ORDER BY ?hoofdgroep ?bewerking
