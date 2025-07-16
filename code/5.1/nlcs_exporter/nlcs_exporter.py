@@ -5,6 +5,7 @@ from requests.auth import HTTPBasicAuth
 import pandas as pd
 from io import StringIO
 import glob
+import time
 
 HOOFDGROEPPEN = [
     "AL", "GR", "SC", "HC", "HU", "MO", "AM", "MW", "BV", "IW", "IS", "BC",
@@ -119,9 +120,9 @@ def run_all_queries_in_folder(endpoint, input_path, output_path):
         else:
             print(f"Data is validated, there is nothing to show in the {file_name} query result.")
 
-def write_query_results(results, output_path):
+def write_query_results(results, csv_output_path):
     df_objs = pd.read_csv(StringIO(results))
-    df_objs.to_csv(output_path, sep=";", index=False)
+    df_objs.to_csv(csv_output_path, sep=";", index=False)
 
 if __name__ == "__main__":
     query_folder = "./code/5.1/nlcs_exporter/queries/"
