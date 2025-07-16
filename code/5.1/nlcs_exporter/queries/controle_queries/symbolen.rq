@@ -7,8 +7,6 @@ PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 PREFIX schema: <https://schema.org/>
 
-# Retrieves all Symbool information and stores it in the familiar Excel/CSV format from the SQL database
-
 SELECT DISTINCT ?symboolURI ?id ?sbibliotheek ?sbibliotheekURI ?fase ?symbool ?optie ?fileURL
 WHERE {
   ?SymboolTopConcept a owl:Class .

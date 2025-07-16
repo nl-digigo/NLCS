@@ -6,8 +6,6 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 
-# Retrieves all Hoofdgroep information and stores it in the familiar Excel/CSV format from the SQL database
-
 SELECT DISTINCT ?hoofdgroepURI ?id ?hoofdgroep ?afkorting
 WHERE {
   ?NLCSObjectTopConcept a owl:Class .

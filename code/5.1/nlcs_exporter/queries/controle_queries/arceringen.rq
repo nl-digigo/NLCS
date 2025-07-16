@@ -7,8 +7,6 @@ PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 PREFIX schema: <https://schema.org/>
 
-# Retrieves all Arcering information and stores it in the familiar Excel/CSV format from the SQL database
-
 SELECT DISTINCT ?arceringURI ?id ?abibliotheekURI ?abibliotheek ?fase ?arcering ?optie ?schaal ?vrkl_kort ?vrkl_lang ?fileURL
 WHERE {
   ?ArceringTopConcept a owl:Class .
