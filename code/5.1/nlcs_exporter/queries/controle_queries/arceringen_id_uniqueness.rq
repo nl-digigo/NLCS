@@ -1,0 +1,30 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX schema: <https://schema.org/>
+
+# Retrieves all Arcering information and stores it in the familiar Excel/CSV format from the SQL database
+
+SELECT DISTINCT ?arceringURI ?id ?abibliotheekURI ?abibliotheek ?arcering ?arceringURI2
+WHERE {
+  ?ArceringTopConcept a owl:Class .
+  ?ArceringTopConcept skos:prefLabel "Arcering" .
+  ?abibliotheekURI rdfs:subClassOf ?ArceringTopConcept .
+  ?abibliotheekURI skos:definition ?omschrijving .
+  ?abibliotheekURI skos:prefLabel ?abibliotheek .
+  ?arceringURI rdfs:subClassOf+ ?abibliotheekURI .
+  ?arceringURI2 rdfs:subClassOf+ ?abibliotheekURI .
+  ?arceringURI skos:prefLabel ?arcering .
+  FILTER( NOT EXISTS { ?subArcering rdfs:subClassOf ?arceringURI . }) .
+  FILTER( NOT EXISTS { ?subArcering rdfs:subClassOf ?arceringURI2 . }) .
+      
+?idProperty skos:prefLabel "ID" .
+?arceringURI ?idProperty ?id .
+?arceringURI2 ?idProperty ?id .
+  
+FILTER(?arceringURI != ?arceringURI2)  
+} ORDER BY ?id

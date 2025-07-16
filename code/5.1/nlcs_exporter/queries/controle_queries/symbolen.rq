@@ -1,0 +1,56 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX schema: <https://schema.org/>
+
+# Retrieves all Symbool information and stores it in the familiar Excel/CSV format from the SQL database
+
+SELECT DISTINCT ?symboolURI ?id ?sbibliotheek ?sbibliotheekURI ?fase ?symbool ?optie ?fileURL
+WHERE {
+  ?SymboolTopConcept a owl:Class .
+  ?SymboolTopConcept skos:prefLabel "Symbool" .
+  ?sbibliotheekURI rdfs:subClassOf ?SymboolTopConcept .
+  ?sbibliotheekURI skos:prefLabel ?sbibliotheek .
+  ?symboolURI rdfs:subClassOf+ ?sbibliotheekURI .
+  ?symboolURI skos:prefLabel ?symbool .
+  FILTER (NOT EXISTS{?subSymbool rdfs:subClassOf ?symboolURI}) .  
+  OPTIONAL {
+    ?symboolURI ?idProperty ?id .
+    ?idProperty skos:prefLabel "ID" .
+  }
+  OPTIONAL {
+    ?symboolURI ?faseProperty ?fase .
+    ?faseProperty skos:prefLabel "Fase" .
+  }
+  OPTIONAL {
+    ?symboolURI ?optieProperty ?optie .
+    ?optieProperty skos:prefLabel "Optie" .
+  } 
+  OPTIONAL {
+    ?symboolURI schema:url ?fileURL .
+  } 
+  FILTER((!BOUND(?id) || (STRLEN(STR(?id)) = 0)) 
+        ||
+        IF(STRSTARTS(?symbool, "B-"), (str(?fase) != "B"), 
+            IF(STRSTARTS(?symbool, "N-"), (str(?fase) != "N"), 
+                IF(STRSTARTS(?symbool, "V-"), (str(?fase) != "V"), 
+                    IF(STRSTARTS(?symbool, "O-"), (str(?fase) != "O"), 
+                        IF(STRSTARTS(?symbool, "T-"), (str(?fase) != "T"), BOUND(?fase))
+                ))))
+        ||
+        IF(STRENDS(?symbool, "-SODMM"), (str(?optie) != "SODMM"), 
+            IF(STRENDS(?symbool, "-SO"), (str(?optie) != "SO"), 
+                IF(STRENDS(?symbool, "-S"), (str(?optie) != "S"), 
+                    IF(STRENDS(?symbool, "-D"), (str(?optie) != "D"), 
+                        IF(STRENDS(?symbool, "-DMM"), (str(?optie) != "DMM"),
+                            IF(STRENDS(?symbool, "-MM"), (str(?optie) != "MM"), 
+                                IF(STRENDS(?symbool, "-SOD"), (str(?optie) != "SOD"), 
+                                    IF(STRENDS(?symbool, "-SOMM"), (str(?optie) != "SOMM"), BOUND(?optie))
+                )))))))
+        )
+
+} ORDER BY ?id
