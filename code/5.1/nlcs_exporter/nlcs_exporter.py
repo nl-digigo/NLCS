@@ -5,7 +5,8 @@ from requests.auth import HTTPBasicAuth
 import pandas as pd
 from io import StringIO
 import glob
-import time
+from pathlib import Path
+from typing import Union
 
 HOOFDGROEPPEN = [
     "AL", "GR", "SC", "HC", "HU", "MO", "AM", "MW", "BV", "IW", "IS", "BC",
@@ -124,6 +125,69 @@ def write_query_results(results, csv_output_path):
     df_objs = pd.read_csv(StringIO(results))
     df_objs.to_csv(csv_output_path, sep=";", index=False)
 
+def merge_csv_files(
+    input_folder: Union[str, Path], 
+    output_file: Union[str, Path], 
+    file_pattern: str = "*.csv"
+    ):
+    """
+    Finds all CSV files in a folder that match a pattern, merges them
+    into a single DataFrame, and saves the result to a new CSV file.
+
+    It assumes all CSVs have the same (or compatible) headers. If headers
+    differ, it will create a union of all columns, filling missing values
+    with NaN.
+
+    Args:
+        input_folder (Union[str, Path]): 
+            The path to the folder containing the CSV files to merge.
+        output_file (Union[str, Path]): 
+            The file path for the final merged CSV.
+        file_pattern (str, optional): 
+            The glob pattern to find files. Defaults to "*.csv" to match all CSVs.
+    """
+    folder_path = Path(input_folder)
+    output_path = Path(output_file)
+
+    # 1. Find all files in the input folder matching the pattern
+    csv_files = sorted(list(folder_path.glob(file_pattern)))
+
+    if not csv_files:
+        print(f"Warning: No files found matching '{file_pattern}' in '{folder_path}'. No output file created.")
+        return
+
+    print(f"Found {len(csv_files)} files to merge:")
+    for f in csv_files:
+        print(f"  - {f.name}")
+
+    # 2. Read each CSV into a list of pandas DataFrames
+    df_list = []
+    for file in csv_files:
+        try:
+            df = pd.read_csv(file, delimiter=";")
+            df_list.append(df)
+        except pd.errors.EmptyDataError:
+            print(f"Warning: Skipping empty file: {file.name}")
+        except Exception as e:
+            print(f"Error reading {file.name}: {e}")
+
+    if not df_list:
+        print("No data was successfully read. Output file will not be created.")
+        return
+
+    # 3. Concatenate all DataFrames in the list into a single DataFrame
+    # ignore_index=True resets the index of the merged DataFrame to be continuous.
+    print("\nMerging data...")
+    merged_df = pd.concat(df_list, ignore_index=True)
+
+    # 4. Save the merged DataFrame to the output file
+    # index=False prevents pandas from writing a new index column to the CSV.
+    print(f"Saving merged file to: {output_path}")
+    merged_df.to_csv(output_path, index=False)
+
+    print("✅ Merge complete.")
+    print(f"Total rows in merged file: {len(merged_df)}")
+
 if __name__ == "__main__":
     query_folder = "./code/5.1/nlcs_exporter/queries/"
     csv_folder = "./code/5.1/nlcs_exporter/CSV_results/"
@@ -149,6 +213,7 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\nAn error occurred during the request: {e}")
 
+    
     run_all_queries_in_folder(client, validations_input_folder, validations_output_folder)
 
     for hg in HOOFDGROEPPEN:
@@ -163,3 +228,5 @@ if __name__ == "__main__":
             print(f"Configuration Error: {e}")
         except Exception as e:
             print(f"\nAn error occurred during the request: {e}")
+
+    merge_csv_files(objects_output_folder, f"{csv_folder}all_objects.csv")
