@@ -6,16 +6,13 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 
-SELECT ?hoofdgroep ?object ?parent WHERE {
+# Retrieves all general Hoofdgroep information and stores it in the familiar Excel/CSV format
+
+SELECT distinct ?Afkorting 
+
+WHERE {
   ?NLCSObjectTopConcept a owl:Class .
   ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
-  ?hoofdgroepURI rdfs:subClassOf ?NLCSObjectTopConcept .
-  ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
-
-  ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
-  ?objectURI skos:prefLabel ?object .
-  FILTER(contains(?object, " ")) .  
-  ?objectURI rdfs:subClassOf ?parentURI .
-  ?parentURI skos:prefLabel ?parent .
-  FILTER(strlen(?parent)>2) .  
-} ORDER BY ?hoofdgroep
+  ?HOOFDGROEP rdfs:subClassOf ?NLCSObjectTopConcept .
+  ?HOOFDGROEP skos:prefLabel ?Afkorting .
+} orderby ?Afkorting

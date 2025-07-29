@@ -6,9 +6,12 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 
-# Check if ID is unique within the category
+# Check if ID is unique within the category for following categories:
+# NLCS object, hoofdgroep, lijnkleur, Abibliotheek, Arcering, Discipline, Sbibliotheek, Symbool 
 
-SELECT DISTINCT ?abibliotheekURI ?abibliotheekURI2 ?arceringURI ?arceringURI2 ?disciplineURI ?disciplineURI2 ?hoofdgroepURI ?hoofdgroepURI2 ?lijnkleurURI ?lijnkleurURI2 ?sbibliotheekURI ?sbibliotheekURI2 ?symboolURI ?symboolURI2
+SELECT DISTINCT ?abibliotheekURI ?abibliotheekURI2 ?arceringURI ?arceringURI2 ?disciplineURI ?disciplineURI2 
+?hoofdgroepURI ?hoofdgroepURI2 ?objectURI ?objectURI2 ?lijnkleurURI ?lijnkleurURI2 
+?sbibliotheekURI ?sbibliotheekURI2 ?symboolURI ?symboolURI2
 WHERE {
     ?idProperty skos:prefLabel "ID" . 
 
@@ -44,6 +47,12 @@ WHERE {
     ?hoofdgroepURI ?idProperty ?idHoofdgroep .
     ?hoofdgroepURI2 ?idProperty ?idHoofdgroep .
     FILTER(?hoofdgroepURI != ?hoofdgroepURI2)
+
+    ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
+    ?objectURI2 rdfs:subClassOf+ ?hoofdgroepURI .
+    ?objectURI ?idProperty ?idObject1 .
+    ?objectURI2 ?idProperty ?idObject2 .
+    FILTER(?objectURI != ?objectURI2)
 
     ?LijnkleurTopConcept a owl:Class .
     ?LijnkleurTopConcept skos:prefLabel "Lijnkleur" . 

@@ -1,0 +1,31 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+# Check if nlcs object has more than one symbol connected
+
+SELECT ?hoofdgroep ?objectURI ?omschrijving (COUNT(DISTINCT ?sobjectURI) AS ?sobjectCount)
+WHERE {
+    ?NLCSObjectTopConcept a owl:Class .
+    ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
+    ?hoofdgroepURI rdfs:subClassOf ?NLCSObjectTopConcept .
+    ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
+    ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
+    ?objectURI skos:prefLabel ?omschrijving .
+
+    ?objectURI rdfs:subClassOf ?bnodeSymbool .
+    ?bnodeSymbool owl:onProperty <https://w3id.org/nen2660/def#isDescribedBy> .
+    ?bnodeSymbool owl:onClass ?sobjectURI .
+    ?sobjectURI rdfs:subClassOf* ?SymboolTopConcept .
+    ?SymboolTopConcept skos:prefLabel "Symbool" .
+    ?sobjectURI skos:prefLabel ?sobject .
+}
+# Group the results by each unique object so we can count things for it
+GROUP BY ?hoofdgroep ?objectURI ?omschrijving
+
+# Filter the groups, keeping only those where the count of distinct sobjectURIs is more than 1
+HAVING (COUNT(DISTINCT ?sobjectURI) > 1)

@@ -1,0 +1,35 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX nlcs: <http://digitalbuildingdata.tech/nlcs/def/>
+
+# Check if line type exists when associated color exists 
+
+SELECT DISTINCT ?hoofdgroep ?objectURI ?omschrijving ?lineTypePropertyLabel ?lijntypeURI ?lijntypeLabel
+WHERE {
+    ?NLCSObjectTopConcept a owl:Class .
+    ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
+    ?hoofdgroepURI rdfs:subClassOf ?NLCSObjectTopConcept .
+    ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
+    ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
+    ?objectURI skos:prefLabel ?omschrijving .
+
+    VALUES (?lineTypeProperty ?colorProperty) {
+        (nlcs:99271b8e4692f59ed33a550afaf542ac nlcs:2e7b1dc3283e79482dc1153895dbf149 ) # lt_b
+        (nlcs:fffb63ae8b6d147830578bf41ba4bfa3 nlcs:99c67830d90d074c22802a459c856f4c ) # lt_n
+        (nlcs:5f36dd80a4a3f96ed76158ec5d420be7 nlcs:3d9494010633141738dac4db0d4371bd ) # lt_t
+        (nlcs:965ac85b41943c884f3487cb131e05bd nlcs:641531752f6d7d9c46654b91db0f8ecd ) # lt_v
+    }
+	?objectURI ?colorProperty ?someColor .
+    ?someColor skos:prefLabel ?colorLabel .
+    FILTER NOT EXISTS {?objectURI ?lineTypeProperty ?lijntypeURI .}
+    OPTIONAL { 
+        ?lineTypeProperty skos:prefLabel ?lineTypePropertyLabel .
+        ?lijntypeURI skos:prefLabel ?lijntypeLabel . }
+    
+}
+ORDER BY ?hoofdgroep ?omschrijving ?lineTypePropertyLabel

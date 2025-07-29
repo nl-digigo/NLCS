@@ -7,6 +7,11 @@ PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 PREFIX schema: <https://schema.org/>
 
+# Checks:
+#   - existence & availability of ?id ?schaal ?vrkl_lang and ?fileURL
+#   - if omschrijving (name) starts with B-, V-, N-, O- or T, this value should be available as separate value as fase
+#   - if omschrijving (name) ends with -SO, -SOD, -SODMM , this value should be available as separate value as optie
+
 SELECT DISTINCT ?arceringURI ?id ?abibliotheekURI ?abibliotheek ?fase ?arcering ?optie ?schaal ?vrkl_kort ?vrkl_lang ?fileURL
 WHERE {
   ?ArceringTopConcept a owl:Class .

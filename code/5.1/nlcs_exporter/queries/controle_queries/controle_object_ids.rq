@@ -1,0 +1,27 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+# Check if NLCS object has an ID 
+
+SELECT ?id ?omschrijving
+
+WHERE {
+  ?NLCSObjectTopConcept a owl:Class .
+  ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
+  ?hoofdgroepURI rdfs:subClassOf ?NLCSObjectTopConcept .
+  ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
+  ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
+  ?objectURI skos:prefLabel ?omschrijving .
+
+    OPTIONAL {
+    ?objectURI ?idProperty ?id .
+    ?idProperty skos:prefLabel "ID" .
+  } 
+
+  FILTER((!BOUND(?id) || (STRLEN(STR(?id)) = 0) ) )
+} ORDER BY ?id
