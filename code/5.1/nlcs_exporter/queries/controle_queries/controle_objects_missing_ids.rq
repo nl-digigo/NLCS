@@ -8,7 +8,7 @@ PREFIX sh: <http://www.w3.org/ns/shacl#>
 
 # Check if NLCS object has an ID 
 
-SELECT ?id ?omschrijving
+SELECT ?omschrijving
 
 WHERE {
   ?NLCSObjectTopConcept a owl:Class .
@@ -24,4 +24,5 @@ WHERE {
   } 
 
   FILTER((!BOUND(?id) || (STRLEN(STR(?id)) = 0) ) )
-} ORDER BY ?id
+  
+} ORDER BY ?omschrijving
