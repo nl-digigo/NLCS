@@ -6,10 +6,6 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 
-# IMPORTANT - This should be done before publishing!!!!
-# AND this is missing nlcs object
-
-
 # Check if ID is unique within the category for following categories:
 # hoofdgroep, lijnkleur, Abibliotheek, Arcering, Discipline, Sbibliotheek, Symbool 
 
@@ -51,6 +47,12 @@ WHERE {
     ?hoofdgroepURI ?idProperty ?idHoofdgroep .
     ?hoofdgroepURI2 ?idProperty ?idHoofdgroep .
     FILTER(?hoofdgroepURI != ?hoofdgroepURI2)
+
+    ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
+    ?objectURI ?idProperty ?id .
+    ?objectURI2 rdfs:subClassOf+ ?hoofdgroepURI .
+    ?objectURI2 ?idProperty ?id .
+    FILTER(?objectURI != ?objectURI2) 
 
     ?LijnkleurTopConcept a owl:Class .
     ?LijnkleurTopConcept skos:prefLabel "Lijnkleur" . 

@@ -32,5 +32,6 @@ WHERE {
     ?sobjectURI2 skos:prefLabel ?sobject2 .
 
     FILTER(?sobjectURI != ?sobjectURI2)
+    FILTER(?sobject < ?sobject2)
   
 } ORDER BY ?omschrijving

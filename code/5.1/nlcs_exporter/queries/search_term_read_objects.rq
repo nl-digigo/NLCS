@@ -9,7 +9,9 @@ PREFIX sh: <http://www.w3.org/ns/shacl#>
 # IMPORTANT: this query involves a search term to be replaced by hoofdgroep names in a loop!
 # Retrieves all Object information per hoofdgroup and stores it in the familiar Excel/CSV format from the SQL database
 
-SELECT DISTINCT ?omschrijving ?status ?underscore ?discipline ?underscore2 ?hoofdgroep ?underscore3 ?object ?underscore4 ?subobject01 ?underscore5 ?subobject02 ?underscore6 ?subobject03 ?underscore7 ?subobject04 ?underscore8 ?subobject05 ?streepje ?bewerking ?underscore ?streepje2 ?schaal ?aobject ?sobject ?laagnaam
+SELECT DISTINCT ?omschrijving ?status ?underscore ?discipline ?underscore2 ?hoofdgroep ?underscore3 ?object ?underscore4 
+?subobject01 ?underscore5 ?subobject02 ?underscore6 ?subobject03 ?underscore7 ?subobject04 ?underscore8 ?subobject05 
+?streepje ?bewerking ?underscore ?streepje2 ?schaal ?aobject ?sobject ?laagnaam
 ?lw_b ?kl_b ?kl_b_a ?kl_b_gd ?kl_b_gn ?kl_b_v ?lt_b
 ?lw_n ?kl_n ?kl_n_a ?kl_n_gd ?kl_n_gn ?kl_n_v ?lt_n
 ?lw_v ?kl_v ?kl_v_a ?kl_v_gd ?kl_v_gn ?kl_v_v ?lt_v
