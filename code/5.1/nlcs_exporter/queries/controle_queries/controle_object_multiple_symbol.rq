@@ -1,0 +1,36 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+# check: if there is only 1 symbol connected directly to the nlcs object
+
+SELECT DISTINCT ?omschrijving ?sobject ?sobject2
+
+WHERE {
+  ?NLCSObjectTopConcept a owl:Class .
+  ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
+  ?hoofdgroepURI rdfs:subClassOf ?NLCSObjectTopConcept .
+  ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
+  ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
+  ?objectURI skos:prefLabel ?omschrijving .
+  
+    ?objectURI rdfs:subClassOf ?bnodeSymbool .
+    ?bnodeSymbool owl:onProperty <https://w3id.org/nen2660/def#isDescribedBy> .
+    ?bnodeSymbool owl:onClass ?sobjectURI .
+    ?SymboolTopConcept skos:prefLabel "Symbool" .
+    ?sobjectURI rdfs:subClassOf* ?SymboolTopConcept .
+    ?sobjectURI skos:prefLabel ?sobject .
+
+    ?objectURI rdfs:subClassOf ?bnodeSymbool2 .
+    ?bnodeSymbool2 owl:onProperty <https://w3id.org/nen2660/def#isDescribedBy> .
+    ?bnodeSymbool2 owl:onClass ?sobjectURI2 .
+    ?sobjectURI2 rdfs:subClassOf* ?SymboolTopConcept .
+    ?sobjectURI2 skos:prefLabel ?sobject2 .
+
+    FILTER(?sobjectURI != ?sobjectURI2)
+  
+} ORDER BY ?omschrijving
