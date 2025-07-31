@@ -5,11 +5,11 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
-PREFIX nlcs: <http://digitalbuildingdata.tech/nlcs/def/>
+PREFIX nlcs: <http://hub.laces.tech/digitalbuildingdata/nlcs/test/test/>
 
 # Check if line type exists when associated color exists 
 
-SELECT DISTINCT ?hoofdgroep ?objectURI ?omschrijving ?lineTypePropertyLabel ?lijntypeURI ?lijntypeLabel
+SELECT DISTINCT ?hoofdgroep ?objectURI ?omschrijving ?lineTypePropertyLabel 
 WHERE {
     ?NLCSObjectTopConcept a owl:Class .
     ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
@@ -24,12 +24,10 @@ WHERE {
         (nlcs:5f36dd80a4a3f96ed76158ec5d420be7 nlcs:3d9494010633141738dac4db0d4371bd ) # lt_t
         (nlcs:965ac85b41943c884f3487cb131e05bd nlcs:641531752f6d7d9c46654b91db0f8ecd ) # lt_v
     }
+    ?lineTypeProperty skos:prefLabel ?lineTypePropertyLabel .
 	?objectURI ?colorProperty ?someColor .
-    ?someColor skos:prefLabel ?colorLabel .
+    # ?someColor skos:prefLabel ?colorLabel .
     FILTER NOT EXISTS {?objectURI ?lineTypeProperty ?lijntypeURI .}
-    OPTIONAL { 
-        ?lineTypeProperty skos:prefLabel ?lineTypePropertyLabel .
-        ?lijntypeURI skos:prefLabel ?lijntypeLabel . }
     
 }
 ORDER BY ?hoofdgroep ?omschrijving ?lineTypePropertyLabel

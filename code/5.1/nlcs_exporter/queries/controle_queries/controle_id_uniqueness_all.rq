@@ -14,7 +14,7 @@ SELECT DISTINCT ?abibliotheekURI ?abibliotheekURI2 ?arceringURI ?arceringURI2 ?d
 ?sbibliotheekURI ?sbibliotheekURI2 ?symboolURI ?symboolURI2
 WHERE {
     ?idProperty skos:prefLabel "ID" . 
-
+{
     # Check for Abibliotheek and Arcering
     ?ArceringTopConcept a owl:Class .
     ?ArceringTopConcept skos:prefLabel "Arcering" .
@@ -23,7 +23,10 @@ WHERE {
     ?abibliotheekURI ?idProperty ?idAbibliotheek .
     ?abibliotheekURI2 ?idProperty ?idAbibliotheek .
     FILTER(?abibliotheekURI != ?abibliotheekURI2) .
-
+} UNION {
+    ?ArceringTopConcept a owl:Class .
+    ?ArceringTopConcept skos:prefLabel "Arcering" .
+    ?abibliotheekURI rdfs:subClassOf ?ArceringTopConcept .
     ?arceringURI rdfs:subClassOf+ ?abibliotheekURI .
     ?arceringURI2 rdfs:subClassOf+ ?abibliotheekURI .
     FILTER( NOT EXISTS { ?subArcering rdfs:subClassOf ?arceringURI . }) .
@@ -31,7 +34,7 @@ WHERE {
     ?arceringURI ?idProperty ?idArcering .
     ?arceringURI2 ?idProperty ?idArcering .
     FILTER(?arceringURI != ?arceringURI2) 
-
+} UNION {
     #Check for discipline
     ?DisciplineTopConcept skos:prefLabel "Disciplines" .
     ?disciplineURI a ?DisciplineTopConcept .
@@ -39,7 +42,7 @@ WHERE {
     ?disciplineURI ?idProperty ?idDiscipline .
     ?disciplineURI2 ?idProperty ?idDiscipline .
     FILTER(?disciplineURI != ?disciplineURI2) 
-
+} UNION {
     ?NLCSObjectTopConcept a owl:Class .
     ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
     ?hoofdgroepURI rdfs:subClassOf ?NLCSObjectTopConcept .
@@ -47,13 +50,16 @@ WHERE {
     ?hoofdgroepURI ?idProperty ?idHoofdgroep .
     ?hoofdgroepURI2 ?idProperty ?idHoofdgroep .
     FILTER(?hoofdgroepURI != ?hoofdgroepURI2)
-
+} UNION {
+    ?NLCSObjectTopConcept a owl:Class .
+    ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
+    ?hoofdgroepURI rdfs:subClassOf ?NLCSObjectTopConcept .
     ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
     ?objectURI ?idProperty ?id .
     ?objectURI2 rdfs:subClassOf+ ?hoofdgroepURI .
     ?objectURI2 ?idProperty ?id .
     FILTER(?objectURI != ?objectURI2) 
-
+} UNION {
     ?LijnkleurTopConcept a owl:Class .
     ?LijnkleurTopConcept skos:prefLabel "Lijnkleur" . 
     ?lijnkleurURI rdfs:subClassOf ?LijnkleurTopConcept .
@@ -62,7 +68,7 @@ WHERE {
   	?lijnkleurURI2 ?idProperty ?idLijnkleur .
     ?idProperty skos:prefLabel "ID" .
     FILTER(?lijnkleurURI != ?lijnkleurURI2)
-
+} UNION {
     ?SymboolTopConcept a owl:Class .
     ?SymboolTopConcept skos:prefLabel "Symbool" .
     ?sbibliotheekURI rdfs:subClassOf ?SymboolTopConcept .
@@ -70,7 +76,7 @@ WHERE {
     ?sbibliotheekURI ?idProperty ?idSbibliotheek .
     ?sbibliotheekURI2 ?idProperty ?idSbibliotheek .
     FILTER(?sbibliotheekURI != ?sbibliotheekURI2)
-
+} UNION {
     ?SymboolTopConcept a owl:Class .
     ?SymboolTopConcept skos:prefLabel "Symbool" .
     ?sbibliotheekURI rdfs:subClassOf ?SymboolTopConcept .
@@ -81,4 +87,5 @@ WHERE {
     FILTER (NOT EXISTS{?subSymbool rdfs:subClassOf ?symboolURI2}) .  
     ?symboolURI2 ?idProperty ?idSymbool .
     FILTER(?symboolURI != ?symboolURI2)
+}
 }
