@@ -6,7 +6,7 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 
-# Checks existence and uniqueness of ID property and omschrijving of Symbool
+# Checks existence of ID property and omschrijving of sbibliotheek
 
 SELECT DISTINCT ?sbibliotheekURI ?id ?sbibliotheek ?omschrijving
 WHERE {
