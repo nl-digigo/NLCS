@@ -7,7 +7,7 @@ PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 
 # Check if ID is unique within the category for following categories:
-# hoofdgroep, lijnkleur, Abibliotheek, Arcering, Discipline, Sbibliotheek, Symbool 
+# nlcs object, hoofdgroep, lijnkleur, Abibliotheek, Arcering, Discipline, Sbibliotheek, Symbool 
 
 SELECT DISTINCT ?abibliotheekURI ?abibliotheekURI2 ?arceringURI ?arceringURI2 ?disciplineURI ?disciplineURI2 
 ?hoofdgroepURI ?hoofdgroepURI2 ?objectURI ?objectURI2 ?lijnkleurURI ?lijnkleurURI2 

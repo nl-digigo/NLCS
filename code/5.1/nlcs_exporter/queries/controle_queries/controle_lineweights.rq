@@ -9,7 +9,7 @@ PREFIX nlcs: <http://digitalbuildingdata.tech/nlcs/def/>
 
 # Check if line type exists when associated color exists
 
-SELECT DISTINCT ?hoofdgroep ?objectURI ?omschrijving ?colorLabel ?lineWeightPropertyLabel ?lijnweightURI ?lijnweightLabel
+SELECT DISTINCT ?hoofdgroep ?objectURI ?omschrijving ?lineWeightPropertyLabel ?lijnweightURI ?lijnweightLabel
 WHERE {
     ?NLCSObjectTopConcept a owl:Class .
     ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
