@@ -7,17 +7,21 @@ PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 PREFIX schema: <https://schema.org/>
 
+#TODO: searchterm?
 # Retrieves all Symbool information and stores it in the familiar Excel/CSV format from the SQL database
 
-SELECT DISTINCT ?symboolURI ?id ?sbibliotheek ?sbibliotheekURI ?fase ?symbool ?finalCleanName ?optie ?fileURL  
+SELECT DISTINCT ?searchterm ?sbibliotheek ?fase ?symbool ?finalCleanName ?optie   
 WHERE {
   ?SymboolTopConcept a owl:Class .
   ?SymboolTopConcept skos:prefLabel "Symbool" .
   ?sbibliotheekURI rdfs:subClassOf ?SymboolTopConcept .
   ?sbibliotheekURI skos:prefLabel ?sbibliotheek .
-  ?symboolURI rdfs:subClassOf+ ?sbibliotheekURI .
+  ?symbolTopURI rdfs:subClassOf ?sbibliotheekURI .
+  ?symbolTopURI skos:prefLabel ?topSymbol .
+  BIND (SUBSTR(REPLACE(?topSymbol, ?sbibliotheek, ""), 2) AS ?searchterm) .
+  ?symboolURI rdfs:subClassOf+ ?symbolTopURI .
   ?symboolURI skos:prefLabel ?symbool .
-  FILTER (NOT EXISTS{?subSymbool rdfs:subClassOf ?symboolURI}) .  
+  # FILTER (NOT EXISTS{?subSymbool rdfs:subClassOf ?symboolURI}) .  
   OPTIONAL {
     ?symboolURI ?idProperty ?id .
     ?idProperty skos:prefLabel "ID" .
@@ -45,14 +49,42 @@ WHERE {
     IF(
       BOUND(?nameWithoutFase),
       IF(
-        BOUND(?optie) && CONTAINS(?nameWithoutFase, ?optie),
-        SUBSTR(REPLACE(?nameWithoutFase, ?optie, ""), 1, (?len - strlen(?optie))),
+        BOUND(?sbibliotheek) && CONTAINS(?nameWithoutFase, ?sbibliotheek),
+        SUBSTR(REPLACE(?nameWithoutFase, ?sbibliotheek, ""), 2),
         ?nameWithoutFase
       ),
       IF(
-        BOUND(?optie) && CONTAINS(?symbool, ?optie),
-        SUBSTR(REPLACE(?symbool, ?optie, ""), 1, (?len - strlen(?optie))),
+        BOUND(?sbibliotheek) && CONTAINS(?symbool, ?sbibliotheek),
+        SUBSTR(REPLACE(?symbool, ?sbibliotheek, ""), 2),
         ?symbool 
+      )
+    ) AS ?nameWithoutFaseSbibliotheek
+  )
+
+  BIND( IF(BOUND(?nameWithoutFaseSbibliotheek), 
+          STRLEN(?nameWithoutFaseSbibliotheek)-1, 
+          IF(BOUND(?nameWithoutFase), STRLEN(?nameWithoutFase)-1, STRLEN(?symbool)-1)
+          ) AS ?len2)
+  
+  BIND(
+    IF(
+      BOUND(?nameWithoutFaseSbibliotheek),
+      IF(
+        BOUND(?optie) && CONTAINS(?nameWithoutFaseSbibliotheek, ?optie),
+        SUBSTR(REPLACE(?nameWithoutFaseSbibliotheek, ?optie, ""), 1, (?len2 - strlen(?optie))),
+        ?nameWithoutFaseSbibliotheek
+      ),
+      IF(
+        BOUND(?nameWithoutFase),
+        IF( BOUND(?optie) && CONTAINS(?nameWithoutFase, ?optie),
+            SUBSTR(REPLACE(?nameWithoutFase, ?optie, ""), 1, (?len2 - strlen(?optie))),
+            ?nameWithoutFase
+        ),
+        IF(
+          BOUND(?optie) && CONTAINS(?symbool, ?optie),
+          SUBSTR(REPLACE(?symbool, ?optie, ""), 1, (?len2 - strlen(?optie))),
+          ?symbool 
+        )
       )
     ) AS ?finalCleanName
   )
