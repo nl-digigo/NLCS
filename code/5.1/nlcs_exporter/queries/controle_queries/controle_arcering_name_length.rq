@@ -6,8 +6,9 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 
+# Check if all arcerings has less than 31 character long string 
 
-SELECT ?arcering
+SELECT ?arcering ?length
 
 WHERE {
   ?ArceringTopConcept a owl:Class .
@@ -16,7 +17,8 @@ WHERE {
   ?arceringURI rdfs:subClassOf+ ?abibliotheekURI .
   ?arceringURI skos:prefLabel ?arcering .
   FILTER( NOT EXISTS { ?subArcering rdfs:subClassOf ?arceringURI . }) .
+  BIND(STRLEN(STR(?arcering)) AS ?length)
 
-  FILTER((STRLEN(STR(?arcering)) > 31) )
+  FILTER(?length > 31) 
   
 } ORDER BY ?arcering
