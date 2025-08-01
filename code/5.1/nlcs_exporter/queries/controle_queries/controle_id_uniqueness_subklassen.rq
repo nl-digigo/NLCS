@@ -1,0 +1,24 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+# Check if ID is unique within the category for following categories:
+# NLCS-object, Arcering, Symbool, Lijnkleur, Lijnweight, Lijntype 
+
+SELECT ?type ?id ?namen
+WHERE {
+  {SELECT DISTINCT ?type ?id (COUNT(?arceringNaam) AS ?number) (GROUP_CONCAT(?arceringNaam;separator=" | ") AS ?namen)
+  WHERE {
+    VALUES ?type { "Arcering" "Symbool" "NLCS-object" "Lijntype" "Lijnweight" "Lijnkleur" }
+    ?arceringHoofdKlasse skos:prefLabel ?type .
+    ?arceringBib rdfs:subClassOf ?arceringHoofdKlasse .
+    ?arcering rdfs:subClassOf+ ?arceringBib .
+    ?arcering skos:prefLabel ?arceringNaam .
+    #FILTER NOT EXISTS { ?something rdfs:subClassOf ?arcering } .
+    ?arcering ?idProp ?id .
+    ?idProp skos:prefLabel "ID" .
+  }
+  GROUP BY ?type ?id
+  ORDER BY DESC(?number)}
+  FILTER (?number > 1)
+}

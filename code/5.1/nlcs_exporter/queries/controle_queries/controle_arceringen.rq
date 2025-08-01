@@ -50,18 +50,28 @@ WHERE {
     ?arceringURI schema:url ?fileURL .
   } 
 
-  FILTER((!BOUND(?id) || (STRLEN(STR(?id)) = 0) ) || (!BOUND(?schaal) || (STRLEN(STR(?schaal)) = 0) ) || (!BOUND(?vrkl_lang) || (STRLEN(STR(?vrkl_lang)) = 0) ) || (!BOUND(?fileURL) || (STRLEN(STR(?fileURL)) = 0) )
+  FILTER((!BOUND(?id) || (STRLEN(STR(?id)) = 0)) 
+        || 
+        (!BOUND(?schaal) || (STRLEN(STR(?schaal)) = 0)) 
+        || 
+        (!BOUND(?vrkl_lang) || (STRLEN(STR(?vrkl_lang)) = 0)) 
+        || 
+        (!BOUND(?fileURL) || (STRLEN(STR(?fileURL)) = 0))
         ||
-        IF(STRSTARTS(?arcering, "B-"), (str(?fase) != "B"), 
-            IF(STRSTARTS(?arcering, "N-"), (str(?fase) != "N"), 
-                IF(STRSTARTS(?arcering, "V-"), (str(?fase) != "V"), 
-                    IF(STRSTARTS(?arcering, "O-"), (str(?fase) != "O"), 
-                        IF(STRSTARTS(?arcering, "T-"), (str(?fase) != "T"), BOUND(?fase))
-                ))))
+        (STRSTARTS(?arcering, "B-") && (str(?fase) != "B"))
         ||
-        IF(STRENDS(?arcering, "-SODMM"), (str(?optie) != "SODMM"), 
-            IF(STRENDS(?arcering, "-SO"), (str(?optie) != "SO"), 
-                IF(STRENDS(?arcering, "-SOD"), (str(?optie) != "SOD"), BOUND(?optie))
-                ))
+        (STRSTARTS(?arcering, "N-") && (str(?fase) != "N"))
+        ||
+        (STRSTARTS(?arcering, "V-") && (str(?fase) != "V"))
+        ||
+        (STRSTARTS(?arcering, "O-") && (str(?fase) != "O"))
+        ||
+        (STRSTARTS(?arcering, "T-") && (str(?fase) != "T"))
+        ||
+        (STRENDS(?arcering, "-SODMM") && (str(?optie) != "SODMM"))
+        ||
+        (STRENDS(?arcering, "-SO") && (str(?optie) != "SO"))
+        ||
+        (STRENDS(?arcering, "-SOD") && (str(?optie) != "SOD"))
   )
 } ORDER BY ?id
