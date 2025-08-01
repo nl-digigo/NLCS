@@ -9,16 +9,19 @@ PREFIX schema: <https://schema.org/>
 
 # Retrieves all Arcering information and stores it in the familiar Excel/CSV format from the SQL database
 
-SELECT DISTINCT ?arceringURI ?id ?abibliotheekURI ?abibliotheek ?fase ?arcering ?finalCleanName ?optie ?schaal ?vrkl_kort ?vrkl_lang ?fileURL
+SELECT DISTINCT ?searchterm ?arceringURI ?id ?abibliotheekURI ?abibliotheek ?fase ?arcering ?finalCleanName ?optie ?schaal ?vrkl_kort ?vrkl_lang ?fileURL
 WHERE {
   ?ArceringTopConcept a owl:Class .
   ?ArceringTopConcept skos:prefLabel "Arcering" .
   ?abibliotheekURI rdfs:subClassOf ?ArceringTopConcept .
   ?abibliotheekURI skos:definition ?omschrijving .
   ?abibliotheekURI skos:prefLabel ?abibliotheek .
-  ?arceringURI rdfs:subClassOf+ ?abibliotheekURI .
+  ?arceringTopURI rdfs:subClassOf ?abibliotheekURI .
+  ?arceringTopURI skos:prefLabel ?topArcering .
+  BIND (SUBSTR(REPLACE(?topArcering, ?abibliotheek, ""), 2) AS ?searchterm) .
+  ?arceringURI rdfs:subClassOf+ ?arceringTopURI .
   ?arceringURI skos:prefLabel ?arcering .
-  FILTER( NOT EXISTS { ?subArcering rdfs:subClassOf ?arceringURI . }) .
+  # FILTER( NOT EXISTS { ?subArcering rdfs:subClassOf ?arceringURI . }) .
   OPTIONAL {
     ?arceringURI ?faseProperty ?fase .
     ?faseProperty skos:prefLabel "Fase" .
