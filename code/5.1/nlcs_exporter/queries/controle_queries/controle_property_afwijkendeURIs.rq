@@ -8,17 +8,17 @@ PREFIX sh: <http://www.w3.org/ns/shacl#>
 
 # Een query om te checken of er class/property URIs afwijken van de gebruikte namespace
 # Geen output betekent geen afwijkende URIs
-SELECT DISTINCT ?p ?pName
+SELECT DISTINCT ?propertyURI ?propertyName
 WHERE {
   BIND("http://digitalbuildingdata.tech/nlcs/def/" AS ?correctNamespace) .
   
   ## Gebruik één van de volgende triples per testcase:
-  ?s ?p ?o .  # Test de property URIs
+  ?s ?propertyURI ?o .  # Test de property URIs
   #?p a owl:Class .  # Test de class URIs
 
-  ?p skos:prefLabel ?pName .
+  ?propertyURI skos:prefLabel ?propertyName .
 
-  FILTER(!CONTAINS(STR(?p), ?correctNamespace)) .
-	FILTER(!CONTAINS(STR(?p), "https://w3id.org/nen2660/def#")) .
+  FILTER(!CONTAINS(STR(?propertyURI), ?correctNamespace)) .
+	FILTER(!CONTAINS(STR(?propertyURI), "https://w3id.org/nen2660/def#")) .
 
 }
