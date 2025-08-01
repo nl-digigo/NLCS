@@ -9,7 +9,7 @@ PREFIX schema: <https://schema.org/>
 
 # Retrieves all Arcering information and stores it in the familiar Excel/CSV format from the SQL database
 
-SELECT DISTINCT ?arceringURI ?id ?abibliotheekURI ?abibliotheek ?fase ?arcering ?optie ?schaal ?vrkl_kort ?vrkl_lang ?fileURL
+SELECT DISTINCT ?arceringURI ?id ?abibliotheekURI ?abibliotheek ?fase ?arcering ?finalCleanName ?optie ?schaal ?vrkl_kort ?vrkl_lang ?fileURL
 WHERE {
   ?ArceringTopConcept a owl:Class .
   ?ArceringTopConcept skos:prefLabel "Arcering" .
@@ -46,4 +46,28 @@ WHERE {
   OPTIONAL {
     ?arceringURI schema:url ?fileURL .
   } 
+  
+  BIND (IF (
+            (BOUND(?abibliotheek) && CONTAINS(?arcering, ?abibliotheek)), 
+            SUBSTR(REPLACE(?arcering, ?abibliotheek, ""), 2),
+            ?arcering) AS ?nameWithoutFase)
+
+  BIND( IF(BOUND(?nameWithoutFase), STRLEN(?nameWithoutFase)-1, STRLEN(?arcering)-1) AS ?len)
+  
+  BIND(
+    IF(
+      BOUND(?nameWithoutFase),
+      IF(
+        BOUND(?optie) && CONTAINS(?nameWithoutFase, ?optie),
+        SUBSTR(REPLACE(?nameWithoutFase, ?optie, ""), 1, (?len - strlen(?optie))),
+        ?nameWithoutFase
+      ),
+      IF(
+        BOUND(?optie) && CONTAINS(?arcering, ?optie),
+        SUBSTR(REPLACE(?arcering, ?optie, ""), 1, (?len - strlen(?optie))),
+        ?arcering 
+      )
+    ) AS ?finalCleanName
+  )
+
 } ORDER BY ?id
