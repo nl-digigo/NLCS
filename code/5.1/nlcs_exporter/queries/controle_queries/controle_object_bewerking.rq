@@ -23,8 +23,6 @@ WHERE {
   BIND (STRAFTER(?omschrijving, "-") AS ?objectBewerking) .
 
   FILTER NOT EXISTS{
-    ?objectURI rdfs:subClassOf ?bnodeBewerking .
-    ?bnodeBewerking owl:onProperty <http://digitalbuildingdata.tech/nlcs/def/9e8d26b2-e78a-40a5-84b7-765da5b6592f> .  # ?bnodeBewerking owl:onProperty ?BewerkingProperty . ?BewerkingProperty skos:prefLabel "Bewerking" .
     ?bnodeBewerking owl:hasValue/skos:prefLabel ?objectBewerking .
   }
   
