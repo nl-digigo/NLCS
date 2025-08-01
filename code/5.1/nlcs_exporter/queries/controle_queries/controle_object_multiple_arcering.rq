@@ -6,32 +6,27 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 
-# check: if there is only 1 arcering connected directly to the nlcs object
+# Check if nlcs object has more than one arcering connected
 
-SELECT ?omschrijving ?aobject ?aobject2
-
+SELECT ?hoofdgroep ?objectURI ?omschrijving (COUNT(DISTINCT ?aobjectURI) AS ?aobjectCount)
 WHERE {
-  ?NLCSObjectTopConcept a owl:Class .
-  ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
-  ?hoofdgroepURI rdfs:subClassOf ?NLCSObjectTopConcept .
-  ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
-  ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
-  ?objectURI skos:prefLabel ?omschrijving .
-  
+    ?NLCSObjectTopConcept a owl:Class .
+    ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
+    ?hoofdgroepURI rdfs:subClassOf ?NLCSObjectTopConcept .
+    ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
+    ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
+    ?objectURI skos:prefLabel ?omschrijving .
+
     ?objectURI rdfs:subClassOf ?bnodeArcering .
     ?bnodeArcering owl:onProperty <https://w3id.org/nen2660/def#isDescribedBy> .
     ?bnodeArcering owl:onClass ?aobjectURI .
-    ?ArceringTopConcept skos:prefLabel "Arcering" .
     ?aobjectURI rdfs:subClassOf* ?ArceringTopConcept .
+    ?ArceringTopConcept skos:prefLabel "Arcering" .
     ?aobjectURI skos:prefLabel ?aobject .
 
-    ?objectURI rdfs:subClassOf ?bnodeArcering2 .
-    ?bnodeArcering2 owl:onProperty <https://w3id.org/nen2660/def#isDescribedBy> .
-    ?bnodeArcering2 owl:onClass ?aobjectURI2 .
-    ?aobjectURI2 rdfs:subClassOf* ?ArceringTopConcept .
-    ?aobjectURI2 skos:prefLabel ?aobject2 .
+}
+# Group the results by each unique object so we can count things for it
+GROUP BY ?hoofdgroep ?objectURI ?omschrijving
 
-    FILTER(?aobjectURI != ?aobjectURI2)
-    FILTER(?aobject < ?aobject2)
-  
-} ORDER BY ?omschrijving
+# Filter the groups, keeping only those where the count of distinct aobjectURIs is more than 1
+HAVING (COUNT(DISTINCT ?aobjectURI) > 1)

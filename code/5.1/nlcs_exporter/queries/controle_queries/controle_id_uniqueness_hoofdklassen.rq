@@ -13,7 +13,6 @@ WHERE {
     ?arceringHoofdKlasse skos:prefLabel ?type .
     ?arceringBib rdfs:subClassOf ?arceringHoofdKlasse .
     ?arceringBib skos:prefLabel ?arceringNaam .
-    #FILTER NOT EXISTS { ?something rdfs:subClassOf ?arcering } .
     ?arceringBib ?idProp ?id .
     ?idProp skos:prefLabel "ID" .
   }

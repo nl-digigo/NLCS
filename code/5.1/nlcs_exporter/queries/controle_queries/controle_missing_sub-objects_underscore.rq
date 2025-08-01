@@ -15,10 +15,13 @@ SELECT ?hoofdgroep ?object ?parent WHERE {
   ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
   ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
   ?objectURI skos:prefLabel ?object .
-  
+  BIND (strbefore(?object, "-")  AS ?objectName)
+
   ?objectURI rdfs:subClassOf ?parentURI .
   ?parentURI skos:prefLabel ?parent .
-  BIND((strlen(?object) - strlen(replace(?object, "_", ""))) AS ?object_underscore_count ) .
-  BIND((strlen(?parent) - strlen(replace(?parent, "_", ""))) AS ?parent_underscore_count ) .
-  FILTER(contains(?object, "_") && (?object_underscore_count != ?parent_underscore_count + 1)) .
+  BIND (strbefore(?parent, "-")  AS ?parentName)
+
+  BIND((strlen(?objectName) - strlen(replace(?objectName, "_", ""))) AS ?object_underscore_count ) .
+  BIND((strlen(?parentName) - strlen(replace(?parentName, "_", ""))) AS ?parent_underscore_count ) .
+  FILTER(contains(?objectName, "_") && (?object_underscore_count != ?parent_underscore_count + 1)) .
 } ORDER BY ?hoofdgroep
