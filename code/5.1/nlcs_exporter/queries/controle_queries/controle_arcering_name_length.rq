@@ -1,0 +1,22 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+
+SELECT ?arcering
+
+WHERE {
+  ?ArceringTopConcept a owl:Class .
+  ?ArceringTopConcept skos:prefLabel "Arcering" .
+  ?abibliotheekURI rdfs:subClassOf ?ArceringTopConcept .
+  ?arceringURI rdfs:subClassOf+ ?abibliotheekURI .
+  ?arceringURI skos:prefLabel ?arcering .
+  FILTER( NOT EXISTS { ?subArcering rdfs:subClassOf ?arceringURI . }) .
+
+  FILTER((STRLEN(STR(?arcering)) > 31) )
+  
+} ORDER BY ?arcering
