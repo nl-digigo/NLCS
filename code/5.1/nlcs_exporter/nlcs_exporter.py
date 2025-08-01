@@ -11,9 +11,9 @@ from typing import List
 # --- Configuration & Constants (Moved to top for easy modification) ---
 # IMPORTANT: Replace these with your actual values or set as environment variables
 # For simplicity, we'll put them here directly for this "basic" version.
-SPARQL_ENDPOINT = "https://hub.laces.tech/digitalbuildingdata/nlcs/test/test/sparql"
+SPARQL_ENDPOINT = "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-test-concept-with-current/sparql"
 # "https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv_5_1_3/sparql"
-LDP_TOKEN_ID = ""      
+LDP_TOKEN_ID =  ""     
 LDP_PASSWORD = ""      
 
 # Default folder paths
@@ -21,7 +21,7 @@ QUERY_FOLDER = "./code/5.1/nlcs_exporter/queries/"
 CONTROL_QUERY_FOLDER = "./code/5.1/nlcs_exporter/queries/controle_queries/"
 CSV_OUTPUT_ROOT_FOLDER = "tabellen/concept/5.1/"
 CSV_CONTROLS_FOLDER = "tabellen/concept/5.1/controles/"
-CSV_OBJECTS_FOLDER = "tabellen/concept/5.1/objectentabellen/"
+CSV_OBJECTS_FOLDER = "tabellen/concept/5.1/"
 # --- End Configuration ---
 
 
@@ -170,21 +170,10 @@ def run_queries_in_folder(
             query_content = load_query(query_file_path)
             results_text = client.run_query_clean_result(query_content)
             
-            output_filepath = os.path.join(output_folder, f"{file_name}.csv")
+            output_filepath = os.path.join(output_folder, f"{file_name}-concept-5.1.csv")
             save_csv_results(results_text, output_filepath)
         except Exception as e:
             print(f"ERROR: Skipping query {query_file_path} due to an error: {e}")
-
-        # control_query = load_query(query_file)        
-        # results = endpoint.run_query_clean_result(control_query)
-        # len_result = len(results.split('\n'))
-        # if len_result > 2: 
-        #     output_filename = f"{output_path}{file_name}.csv"
-        #     df_objs = pd.read_csv(StringIO(results))            
-        #     df_objs.to_csv(output_filename, sep=",", index=False)
-        #     print(f"All non-empty query results have been saved in {output_filename}...")
-        # else:
-        #     print(f"Data is validated, there is nothing to show in the {file_name} query result.")
 
 def run_query_write_result(endpoint, query_path, output_path):
     query = load_query(query_path)
@@ -244,7 +233,7 @@ def retrieve_hoofdgroepen(client: LacesRequest, query_path: str) -> List[str]:
     """
     print(f"INFO: Retrieving hoofdgroepen using query: {os.path.basename(query_path)}")
     try:
-        results_text = client.run_query_csv(load_query(query_path))
+        results_text = client.run_query_clean_result(load_query(query_path))
         df = pd.read_csv(StringIO(results_text))
         
         if df.empty or 'hoofdgroup_name' not in df.columns:
@@ -277,15 +266,13 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"FATAL ERROR: Could not initialize Laces client: {e}. Exiting.")
         exit(1)
-##################################################
-
-    single_output_file = os.path.join(CSV_CONTROLS_FOLDER, "controle_id_uniqueness_all.csv")
-    run_query_write_result(client, f"{CONTROL_QUERY_FOLDER}controle_id_uniqueness_all.rq", single_output_file)   
+        
 ##################################################
     print("\n--- Running all validation queries in folder ---")
     run_queries_in_folder(client, CONTROL_QUERY_FOLDER, CSV_CONTROLS_FOLDER)
 ##################################################
-
+    run_queries_in_folder(client, "./code/5.1/", CSV_OBJECTS_FOLDER)
+##################################################
     print("\n--- Retrieving Hoofdgroepen and running object queries ---")
     hoofdgroepen = retrieve_hoofdgroepen(client, hoofdgroepen_query_path)
     print(hoofdgroepen)
@@ -298,46 +285,14 @@ if __name__ == "__main__":
                     "$hoofdgroup_name", 
                     hg
                 )
-            objects_output_path = f"{CSV_OBJECTS_FOLDER}objecten-concept-5.1-{hg}.csv"
+            objects_output_path = f"{CSV_OBJECTS_FOLDER}/objectentabellen/objecten-concept-5.1-{hg}.csv"
             results = client.run_query_clean_result(hoofdgroup_query)
             save_csv_results(results, objects_output_path)
         except Exception as e:
             print(f"ERROR: Failed to process query for hoofdgroup '{hg}': {e}")
-
+##################################################
     print("\n--- Merging all object CSV files ---")
     merged_objects_output_file = os.path.join(CSV_OUTPUT_ROOT_FOLDER, "all_objects-concept-5.1.csv")
-    merge_csv_files(merged_objects_output_file, merged_objects_output_file)
+    merge_csv_files(CSV_OBJECTS_FOLDER, merged_objects_output_file)
 
     print("\nScript execution finished.")   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
