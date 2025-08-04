@@ -12,7 +12,6 @@ SELECT ?hoofdgroep ?object ?parent ?num_underscore_object ?num_underscore_parent
   
   ?hoofdgroepURI rdfs:subClassOf ?NLCSObjectTopConcept .
   ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
-  #FILTER(?hoofdgroep = "AL")
 
   ?topObjectURI rdfs:subClassOf ?hoofdgroepURI .
   ?topObjectURI skos:prefLabel ?topObject .
@@ -24,10 +23,10 @@ SELECT ?hoofdgroep ?object ?parent ?num_underscore_object ?num_underscore_parent
   ?parentURI skos:prefLabel ?parent .
   FILTER(contains(?object, "_")) .
 
-  BIND(strlen(?object) - strlen(replace(?object, "_", "")) AS ?num_underscore_object)
-  BIND(strlen(?parent) - strlen(replace(?parent, "_", "")) AS ?num_underscore_parent)
+  BIND(strlen(replace(?object, "[^-_]", "")) AS ?num_underscore_object)
+  BIND(strlen(replace(?parent, "[^-_]", "")) AS ?num_underscore_parent)
 
   BIND (IF ((?num_underscore_object != ?num_underscore_parent + 1), "yes", "no") AS ?missing_sub_object)
-  FILTER(!contains(?object, "-") && !contains(?object, " ") && (?missing_sub_object = "yes")) .
+  FILTER((?missing_sub_object = "yes")) .
 }
 ORDER BY ?hoofdgroep ?object
