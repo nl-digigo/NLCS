@@ -5,7 +5,8 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
-PREFIX nlcs: <http://hub.laces.tech/digitalbuildingdata/nlcs/test/test/>
+# PREFIX nlcs: <http://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-test-concept-with-current/>
+PREFIX nlcs: <http://digitalbuildingdata.tech/nlcs/def/>
 
 # Check if line weight exists when associated color exists.
 # If this lineweight is missing, this can mean two things:
