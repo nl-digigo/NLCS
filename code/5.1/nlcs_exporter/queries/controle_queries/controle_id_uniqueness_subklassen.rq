@@ -7,15 +7,15 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 SELECT ?type ?id ?namen
 WHERE {
-  {SELECT DISTINCT ?type ?id (COUNT(?arceringNaam) AS ?number) (GROUP_CONCAT(?arceringNaam;separator=" | ") AS ?namen)
+  {SELECT DISTINCT ?type ?id (COUNT(?conceptNaam) AS ?number) (GROUP_CONCAT(?conceptNaam;separator=" | ") AS ?namen)
   WHERE {
     VALUES ?type { "Arcering" "Symbool" "NLCS-object" "Lijntype" "Lijnweight" "Lijnkleur" }
-    ?arceringHoofdKlasse skos:prefLabel ?type .
-    ?arceringBib rdfs:subClassOf ?arceringHoofdKlasse .
-    ?arcering rdfs:subClassOf+ ?arceringBib .
-    ?arcering skos:prefLabel ?arceringNaam .
-    FILTER NOT EXISTS { ?something rdfs:subClassOf ?arcering } .
-    ?arcering ?idProp ?id .
+    ?HoofdKlasse skos:prefLabel ?type .
+    ?groupOrBib rdfs:subClassOf ?HoofdKlasse .
+    ?concept rdfs:subClassOf+ ?groupOrBib .
+    ?concept skos:prefLabel ?conceptNaam .
+    FILTER NOT EXISTS { ?something rdfs:subClassOf ?concept } .
+    ?concept ?idProp ?id .
     ?idProp skos:prefLabel "ID" .
   }
   GROUP BY ?type ?id

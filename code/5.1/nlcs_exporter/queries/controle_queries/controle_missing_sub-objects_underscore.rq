@@ -6,22 +6,28 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 
-# Check if a sub object is missing in the hierarchy
-
-SELECT ?hoofdgroep ?object ?parent WHERE {
+SELECT ?hoofdgroep ?object ?parent ?num_underscore_object ?num_underscore_parent WHERE {
   ?NLCSObjectTopConcept a owl:Class .
   ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
+  
   ?hoofdgroepURI rdfs:subClassOf ?NLCSObjectTopConcept .
   ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
-  ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
+  #FILTER(?hoofdgroep = "AL")
+
+  ?topObjectURI rdfs:subClassOf ?hoofdgroepURI .
+  ?topObjectURI skos:prefLabel ?topObject .
+  
+  ?objectURI rdfs:subClassOf+ ?topObjectURI .
   ?objectURI skos:prefLabel ?object .
-  BIND (strbefore(?object, "-")  AS ?objectName)
 
   ?objectURI rdfs:subClassOf ?parentURI .
   ?parentURI skos:prefLabel ?parent .
-  BIND (strbefore(?parent, "-")  AS ?parentName)
+  FILTER(contains(?object, "_")) .
 
-  BIND((strlen(?objectName) - strlen(replace(?objectName, "_", ""))) AS ?object_underscore_count ) .
-  BIND((strlen(?parentName) - strlen(replace(?parentName, "_", ""))) AS ?parent_underscore_count ) .
-  FILTER(contains(?objectName, "_") && (?object_underscore_count != ?parent_underscore_count + 1)) .
-} ORDER BY ?hoofdgroep
+  BIND(strlen(?object) - strlen(replace(?object, "_", "")) AS ?num_underscore_object)
+  BIND(strlen(?parent) - strlen(replace(?parent, "_", "")) AS ?num_underscore_parent)
+
+  BIND (IF ((?num_underscore_object != ?num_underscore_parent + 1), "yes", "no") AS ?missing_sub_object)
+  FILTER(!contains(?object, "-") && !contains(?object, " ") && (?missing_sub_object = "yes")) .
+}
+ORDER BY ?hoofdgroep ?object
