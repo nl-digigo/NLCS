@@ -43,16 +43,67 @@ WHERE {
     IF(
       BOUND(?nameWithoutFase),
       IF(
-        BOUND(?optie) && CONTAINS(?nameWithoutFase, ?optie),
-        SUBSTR(REPLACE(?nameWithoutFase, ?optie, ""), 1, (?len - strlen(?optie))),
+        BOUND(?hoofdgroep) && CONTAINS(?nameWithoutFase, ?hoofdgroep),
+        SUBSTR(REPLACE(?nameWithoutFase, ?hoofdgroep, ""), 2),
         ?nameWithoutFase
       ),
       IF(
-        BOUND(?optie) && CONTAINS(?omschrijving, ?optie),
-        SUBSTR(REPLACE(?omschrijving, ?optie, ""), 1, (?len - strlen(?optie))),
+        BOUND(?hoofdgroep) && CONTAINS(?omschrijving, ?hoofdgroep),
+        SUBSTR(REPLACE(?omschrijving, ?hoofdgroep, ""), 2),
         ?omschrijving 
+      )
+    ) AS ?nameWithoutFaseHoofdgroep
+  )
+
+  BIND( IF(BOUND(?nameWithoutFaseHoofdgroep), 
+          STRLEN(?nameWithoutFaseHoofdgroep)-1, 
+          IF(BOUND(?nameWithoutFase), STRLEN(?nameWithoutFase)-1, STRLEN(?omschrijving)-1)
+          ) AS ?len2)
+  
+  BIND(
+    IF(
+      BOUND(?nameWithoutFaseHoofdgroep),
+      IF(
+        BOUND(?optie) && CONTAINS(?nameWithoutFaseHoofdgroep, ?optie),
+        SUBSTR(REPLACE(?nameWithoutFaseHoofdgroep, ?optie, ""), 1, (?len2 - strlen(?optie))),
+        ?nameWithoutFaseHoofdgroep
+      ),
+      IF(
+        BOUND(?nameWithoutFase),
+        IF( BOUND(?optie) && CONTAINS(?nameWithoutFase, ?optie),
+            SUBSTR(REPLACE(?nameWithoutFase, ?optie, ""), 1, (?len2 - strlen(?optie))),
+            ?nameWithoutFase
+        ),
+        IF(
+          BOUND(?optie) && CONTAINS(?omschrijving, ?optie),
+          SUBSTR(REPLACE(?omschrijving, ?optie, ""), 1, (?len2 - strlen(?optie))),
+          ?omschrijving 
+        )
       )
     ) AS ?finalCleanName
   )
+
+  # BIND (IF (
+  #           (BOUND(?fase) && CONTAINS(?omschrijving, ?fase)), 
+  #           SUBSTR(REPLACE(?omschrijving, ?fase, ""), 2),
+  #           ?omschrijving) AS ?nameWithoutFase)
+
+  # BIND( IF(BOUND(?nameWithoutFase), STRLEN(?nameWithoutFase)-1, STRLEN(?omschrijving)-1) AS ?len)
+  
+  # BIND(
+  #   IF(
+  #     BOUND(?nameWithoutFase),
+  #     IF(
+  #       BOUND(?optie) && CONTAINS(?nameWithoutFase, ?optie),
+  #       SUBSTR(REPLACE(?nameWithoutFase, ?optie, ""), 1, (?len - strlen(?optie))),
+  #       ?nameWithoutFase
+  #     ),
+  #     IF(
+  #       BOUND(?optie) && CONTAINS(?omschrijving, ?optie),
+  #       SUBSTR(REPLACE(?omschrijving, ?optie, ""), 1, (?len - strlen(?optie))),
+  #       ?omschrijving 
+  #     )
+  #   ) AS ?finalCleanName
+  # )
 
 } ORDER BY ?id
