@@ -496,15 +496,12 @@ http://digitalbuildingdata.tech/nlcs/def/f3003ae1-d93b-4d97-8501-a07c6909e04d,78
 http://digitalbuildingdata.tech/nlcs/def/5347d761-752e-497c-a309-04e5a76e933f,785,GK,GK-PALENRIJ-SO,PALENRIJ,,SO,"A,0,-0.50,[CIRKEL,NLCS.SHX,s=0.50],-0.50"
 http://digitalbuildingdata.tech/nlcs/def/6269e30e-f250-4fad-b10d-de2f0df90703,786,GR,V-GR-HAAG2-SO,HAAG2,V,SO,"A,3,[VERWIJDEREN2,NLCS.shx,s=0.5],3,[HAAG2,NLCS.shx,s=0.5],-2"
 http://digitalbuildingdata.tech/nlcs/def/01c083fe-c22c-4b36-81ca-e1c9c4786eee,787,GR,V-GR-HAAG3-SO,HAAG3,V,SO,"A,3,[VERWIJDEREN2,NLCS.shx,s=0.5],3,[HAAG3,NLCS.shx,s=0.1815],-2"
-http://digitalbuildingdata.tech/nlcs/def/044e04ca-6f3a-49ac-9067-8d32ad1d5e64,788,GR,V-GR-HAAG_RASTER-SO,HAAG_RASTER,V,SO,"A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=0.6],2,[MARK,NLCS.SHX,r=45,s=0.75],2,[VERWIJDEREN2,NLCS.SHX,x=1,s=0.6],2,-2
-"
-http://digitalbuildingdata.tech/nlcs/def/8b82f04a-e90b-4ea9-b767-7ffffb3073fc,789,GR,GR-HAAG_RASTER-SO,HAAG_RASTER,,SO,"A,4,[MARK,NLCS.SHX,r=45,s=0.75],4,-1.5
-"
+http://digitalbuildingdata.tech/nlcs/def/044e04ca-6f3a-49ac-9067-8d32ad1d5e64,788,GR,V-GR-HAAG_RASTER-SO,HAAG_RASTER,V,SO,"A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=0.6],2,[MARK,NLCS.SHX,r=45,s=0.75],2,[VERWIJDEREN2,NLCS.SHX,x=1,s=0.6],2,-2"
+http://digitalbuildingdata.tech/nlcs/def/8b82f04a-e90b-4ea9-b767-7ffffb3073fc,789,GR,GR-HAAG_RASTER-SO,HAAG_RASTER,,SO,"A,4,[MARK,NLCS.SHX,r=45,s=0.75],4,-1.5"
 http://digitalbuildingdata.tech/nlcs/def/c3c4fb1e-34f2-4dd8-be76-f8070bb624aa,79,GR,GR-PLANTSOEN-SO,PLANTEN-,,SO,"A,0,[PLANTSOEN,NLCS.shx,s=1.5],-4"
 http://digitalbuildingdata.tech/nlcs/def/94a39c77-66c2-4a2b-a478-95e5e8c5785e,790,GW,GW-GRONDWERK_ONDERWATER-SO,GRONDWERK_ONDERWATER,,SO,"A,2,-2"
 http://digitalbuildingdata.tech/nlcs/def/94186217-6af4-4d54-b1d8-a417d4092529,791,GW,V-GW-GRONDWERK_ONDERWATER-SO,GRONDWERK_ONDERWATER,V,SO,"A,1,[VERWIJDEREN2,NLCS.SHX,s=0.5],1,-2"
-http://digitalbuildingdata.tech/nlcs/def/0826be2f-6fb4-49c6-915f-88cfb6f818ee,792,IE,V-IE-CONSTRUCTIEVE AFSCHEIDING_SCHUTTING-SO,CONSTRUCTE AFSCHEIDING_SCHUTTING,V,SO,"A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=0.6],2,[B20-10V,NLCS.SHX,r=90,s=0.75],2,[VERWIJDEREN2,NLCS.SHX,x=1,s=0.6],2,-2
-"
+http://digitalbuildingdata.tech/nlcs/def/0826be2f-6fb4-49c6-915f-88cfb6f818ee,792,IE,V-IE-CONSTRUCTIEVE AFSCHEIDING_SCHUTTING-SO,CONSTRUCTE AFSCHEIDING_SCHUTTING,V,SO,"A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=0.6],2,[B20-10V,NLCS.SHX,r=90,s=0.75],2,[VERWIJDEREN2,NLCS.SHX,x=1,s=0.6],2,-2"
 http://digitalbuildingdata.tech/nlcs/def/0b3e7206-bd61-4f71-a712-e0e95a35681c,793,IS,IS-PUNTTONG-SO,PUNTTONG-SO,,,"A,2,-2"
 http://digitalbuildingdata.tech/nlcs/def/28f46f26-b5ec-4297-b4a1-58913658be46,794,IW,IW-DATA_GLASVEZEL,DATA_GLASVEZEL,,,"A,1.75,-.5,[""GV"",NLCS-ISO,S=0.25,U=0.0,X=-0.20,Y=-0.15],-.55"
 http://digitalbuildingdata.tech/nlcs/def/732a3a14-e3b7-425a-a6d7-a3f61b786ed4,795,IW,IW-DATA_KOPER,DATA_KOPER,,,"A,1.75,-.55,[""K"",NLCS-ISO,S=0.25,U=0.0,X=-0.20,Y=-0.15],-.3"
@@ -592,8 +589,6 @@ http://digitalbuildingdata.tech/nlcs/def/4133b10a-128a-429e-a9e1-c6b6cca65cdd,87
 http://digitalbuildingdata.tech/nlcs/def/0da7bdb8-ba08-44b5-b2be-adb435976fd7,874,VH,VH-SCHIJNGOOT-SO,SCHIJNGOOT,,SO,"A,1,-1"
 http://digitalbuildingdata.tech/nlcs/def/0a06c234-76f2-4570-adaa-99fbc79da5f4,875,GR,V-GR-HAAG1-SO,HAAG1,V,SO,"A,3,[VERWIJDEREN2,NLCS.shx,s=0.5],3,[HAAG1,NLCS.shx,s=0.125],-2"
 http://digitalbuildingdata.tech/nlcs/def/124acf5c-1cc5-46e5-9d84-8c607e98be86,876,IE,IE-CONSTRUCTIEVE AFSCHEIDING_SCHUTTING-SO,CONSTRUCTVE AFSCHEIDING_SCHUTTING,,SO,"A,4,[B20-10V,NLCS.SHX,r=90,s=0.75],4,-2"
-http://digitalbuildingdata.tech/nlcs/def/30bf67ed-a7e8-4664-9b26-c11567516a15,88,IE,IE-CONSTRUCTIEVE AFSCHEIDING-SO,CONSTRUCTVE AFSCHEIDING,,SO,"A,8,-2"
-http://digitalbuildingdata.tech/nlcs/def/3a4423c3-020c-4981-baf9-d56d5c34fa50,89,IE,V-IE-CONSTRUCTIEVE AFSCHEIDING-SO,CONSTRUCTE AFSCHEIDING,V,SO,"A,8,[VERWIJDEREN2,NLCS.SHX,x=-4,s=0.6],-2"
 http://digitalbuildingdata.tech/nlcs/def/6f4724bd-e71e-480b-8529-be298d5c14c4,90,IE,IE-CONSTRUCTIEVE AFSCHEIDING-SO,CONSTRUCTVE AFSCHEIDING,,SO,"A,4,[B20-10V,NLCS.SHX,r=90,s=0.75],4,-2"
 http://digitalbuildingdata.tech/nlcs/def/097708b4-7953-4371-b3a5-19a078eda2c0,91,IE,V-IE-CONSTRUCTIEVE AFSCHEIDING-SO,CONSTRUCTE AFSCHEIDING,V,SO,"A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=0.6],2,[B20-10V,NLCS.SHX,r=90,s=0.75],2,[VERWIJDEREN2,NLCS.SHX,x=1,s=0.6],2,-2"
 http://digitalbuildingdata.tech/nlcs/def/b62e2a62-090b-46ec-8e9c-baab7250cc47,96,GR,GR-HAAG_DRAAD-SO,HAAG_DRAAD,,SO,"A,4,[MARK,NLCS.SHX,r=45,s=0.75],4,-1.5"
