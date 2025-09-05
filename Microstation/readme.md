@@ -1,1 +1,0 @@
-De actuele versie van de standaard staat in de map actueel, eerdere versies in de map archief en in ontwikkeling zijnde versies in de map ontwikkeling. 
