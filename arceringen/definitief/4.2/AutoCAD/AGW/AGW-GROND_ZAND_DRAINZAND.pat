@@ -1,5 +1,0 @@
-
-;;;Grontmij 2011
-
-*AGW-GROND_ZAND_DRAINZAND, DRAINZAND
-45, 0, 0, 0, 1.27, 0, -1.27
