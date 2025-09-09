@@ -1,0 +1,26 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+
+SELECT DISTINCT ?tgtArcering ?tgtArceringName ?tgtArceringVRKL_LANG ?tgtArceringVRKL_KORT
+WHERE {
+    ?Arcering a owl:Class .
+    ?Arcering skos:prefLabel "Arcering" .
+    ?tgtArcering rdfs:subClassOf+ ?Arcering .
+
+    ?tgtArcering skos:prefLabel ?tgtArceringName .
+    
+    ?tgtArcering ?VRKL_KORTProperty ?tgtArceringVRKL_KORT .
+    ?VRKL_KORTProperty a owl:AnnotationProperty .
+    ?VRKL_KORTProperty skos:prefLabel "VRKL_KORT" .
+
+    ?tgtArcering ?VRKL_LANGProperty ?tgtArceringVRKL_LANG .
+    ?VRKL_LANGProperty a owl:AnnotationProperty .
+    ?VRKL_LANGProperty skos:prefLabel "VRKL_LANG" .
+
+}
