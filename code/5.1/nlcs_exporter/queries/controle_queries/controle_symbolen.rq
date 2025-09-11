@@ -12,7 +12,8 @@ PREFIX schema: <https://schema.org/>
 #   - if omschrijving (name) starts with B-, V-, N-, O- or T, this value should be available as separate value as fase
 #   - if omschrijving (name) ends with -S, -SO, -D, - DMM,-MM, -SOD, -SODMM, -SOMM, this value should be available as separate value as optie
 
-SELECT DISTINCT ?symboolURI ?id ?sbibliotheek ?sbibliotheekURI ?fase ?symbool ?optie ?fileURL
+#SELECT DISTINCT ?symboolURI ?id ?sbibliotheek ?sbibliotheekURI ?fase ?symbool ?optie ?fileURL
+SELECT DISTINCT ?sbibliotheek ?symbool ?fase ?id ?optie ?fileURL
 WHERE {
   ?SymboolTopConcept a owl:Class .
   ?SymboolTopConcept skos:prefLabel "Symbool" .
@@ -33,27 +34,34 @@ WHERE {
     ?symboolURI ?optieProperty ?optie .
     ?optieProperty skos:prefLabel "Optie" .
   } 
-  OPTIONAL {
+  
+ OPTIONAL {
     ?symboolURI schema:url ?fileURL .
   } 
-  FILTER((!BOUND(?id) || (STRLEN(STR(?id)) = 0)) 
-        ||
-        IF(STRSTARTS(?symbool, "B-"), (str(?fase) != "B"), 
-            IF(STRSTARTS(?symbool, "N-"), (str(?fase) != "N"), 
-                IF(STRSTARTS(?symbool, "V-"), (str(?fase) != "V"), 
-                    IF(STRSTARTS(?symbool, "O-"), (str(?fase) != "O"), 
-                        IF(STRSTARTS(?symbool, "T-"), (str(?fase) != "T"), BOUND(?fase))
-                ))))
-        ||
-        IF(STRENDS(?symbool, "-SODMM"), (str(?optie) != "SODMM"), 
-            IF(STRENDS(?symbool, "-SO"), (str(?optie) != "SO"), 
-                IF(STRENDS(?symbool, "-S"), (str(?optie) != "S"), 
-                    IF(STRENDS(?symbool, "-D"), (str(?optie) != "D"), 
-                        IF(STRENDS(?symbool, "-DMM"), (str(?optie) != "DMM"),
-                            IF(STRENDS(?symbool, "-MM"), (str(?optie) != "MM"), 
-                                IF(STRENDS(?symbool, "-SOD"), (str(?optie) != "SOD"), 
-                                    IF(STRENDS(?symbool, "-SOMM"), (str(?optie) != "SOMM"), BOUND(?optie))
-                )))))))
-        )
-
+  
+  FILTER (
+	  # missing ID
+    (
+      !BOUND(?id)
+    ) ||
+    # missing/incorrect fase
+ 	  ( 
+      (STRSTARTS(?symbool, "B-") && (!BOUND(?fase) || ?fase != "B")) ||
+      (STRSTARTS(?symbool, "V-") && (!BOUND(?fase) || ?fase != "V")) ||
+      (STRSTARTS(?symbool, "N-") && (!BOUND(?fase) || ?fase != "N")) ||
+      (STRSTARTS(?symbool, "O-") && (!BOUND(?fase) || ?fase != "O")) ||
+      (STRSTARTS(?symbool, "T-") && (!BOUND(?fase) || ?fase != "T"))
+    ) ||
+    # missing/incorrect optie
+    ( 
+      (STRENDS(?symbool, "-S") && (!BOUND(?optie) || ?optie != "S")) ||
+      (STRENDS(?symbool, "-SO") && (!BOUND(?optie) || ?optie != "SO")) ||
+      (STRENDS(?symbool, "-D") && (!BOUND(?optie) || ?optie != "D")) ||
+      (STRENDS(?symbool, "-DMM") && (!BOUND(?optie) || ?optie != "DMM")) ||
+      (STRENDS(?symbool, "-MM") && (!BOUND(?optie) || ?optie != "MM")) ||
+      (STRENDS(?symbool, "-SOD") && (!BOUND(?optie) || ?optie != "SOD")) ||
+      (STRENDS(?symbool, "-SODMM") && (!BOUND(?optie) || ?optie != "SODMM")) ||
+      (STRENDS(?symbool, "-SOMM") && (!BOUND(?optie) || ?optie != "SOMM"))  
+    )
+  )
 } ORDER BY ?id
