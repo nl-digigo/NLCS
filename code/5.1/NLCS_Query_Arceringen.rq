@@ -21,7 +21,7 @@ WHERE {
   BIND (SUBSTR(REPLACE(?topArcering, ?abibliotheek, ""), 2) AS ?searchterm) .
   ?arceringURI rdfs:subClassOf+ ?arceringTopURI .
   ?arceringURI skos:prefLabel ?arcering .
-  # FILTER( NOT EXISTS { ?subArcering rdfs:subClassOf ?arceringURI . }) .
+  FILTER( NOT EXISTS { ?subArcering rdfs:subClassOf ?arceringURI . }) .
   OPTIONAL {
     ?arceringURI ?faseProperty ?fase .
     ?faseProperty skos:prefLabel "Fase" .
