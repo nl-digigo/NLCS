@@ -21,7 +21,7 @@ WHERE {
   BIND (SUBSTR(REPLACE(?topSymbol, ?sbibliotheek, ""), 2) AS ?searchterm) .
   ?symboolURI rdfs:subClassOf+ ?symbolTopURI .
   ?symboolURI skos:prefLabel ?symbool .
-  # FILTER (NOT EXISTS{?subSymbool rdfs:subClassOf ?symboolURI}) .  
+  FILTER (NOT EXISTS{?subSymbool rdfs:subClassOf ?symboolURI}) .  
   OPTIONAL {
     ?symboolURI ?idProperty ?id .
     ?idProperty skos:prefLabel "ID" .
