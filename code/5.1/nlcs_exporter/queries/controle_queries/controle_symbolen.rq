@@ -38,14 +38,15 @@ WHERE {
  OPTIONAL {
     ?symboolURI schema:url ?fileURL .
   } 
+
   
   FILTER (
-	  # missing ID
+	# missing ID
     (
       !BOUND(?id)
     ) ||
     # missing/incorrect fase
- 	  ( 
+ 	( 
       (STRSTARTS(?symbool, "B-") && (!BOUND(?fase) || ?fase != "B")) ||
       (STRSTARTS(?symbool, "V-") && (!BOUND(?fase) || ?fase != "V")) ||
       (STRSTARTS(?symbool, "N-") && (!BOUND(?fase) || ?fase != "N")) ||
@@ -62,6 +63,10 @@ WHERE {
       (STRENDS(?symbool, "-SOD") && (!BOUND(?optie) || ?optie != "SOD")) ||
       (STRENDS(?symbool, "-SODMM") && (!BOUND(?optie) || ?optie != "SODMM")) ||
       (STRENDS(?symbool, "-SOMM") && (!BOUND(?optie) || ?optie != "SOMM"))  
+    ) ||
+    # missing file
+    (
+      !BOUND(?fileURL)
     )
   )
 } ORDER BY ?id
