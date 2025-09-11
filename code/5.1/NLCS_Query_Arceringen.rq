@@ -30,10 +30,10 @@ WHERE {
     ?arceringURI ?optieProperty ?optie .
     ?optieProperty skos:prefLabel "Optie" .
   } 
-  OPTIONAL {
+  # OPTIONAL {  # no longer optional
     ?arceringURI ?idProperty ?id .
     ?idProperty skos:prefLabel "ID" .
-  } 
+  # } 
   OPTIONAL {
     ?arceringURI ?vrkl_kortProperty ?vrkl_kort .
     ?vrkl_kortProperty skos:prefLabel "VRKL_KORT" .
@@ -51,54 +51,18 @@ WHERE {
   } 
   
   BIND (IF (
-            (BOUND(?fase) && CONTAINS(?arcering, ?fase)), 
-            SUBSTR(REPLACE(?arcering, ?fase, ""), 2),
-            ?arcering) AS ?nameWithoutFase)
-
-  BIND( IF(BOUND(?nameWithoutFase), STRLEN(?nameWithoutFase)-1, STRLEN(?arcering)-1) AS ?len)
+    (BOUND(?fase) && CONTAINS(?arcering, CONCAT(?fase, "-"))),
+    REPLACE(?arcering, CONCAT(?fase, "-"), ""),
+    ?arcering) AS ?nameWithoutFase)
   
-  BIND(
-    IF(
-      BOUND(?nameWithoutFase),
-      IF(
-        BOUND(?abibliotheek) && CONTAINS(?nameWithoutFase, ?abibliotheek),
-        SUBSTR(REPLACE(?nameWithoutFase, ?abibliotheek, ""), 2),
-        ?nameWithoutFase
-      ),
-      IF(
-        BOUND(?abibliotheek) && CONTAINS(?arcering, ?abibliotheek),
-        SUBSTR(REPLACE(?arcering, ?abibliotheek, ""), 2),
-        ?arcering 
-      )
-    ) AS ?nameWithoutFaseAbibliotheek
-  )
+  BIND (IF (
+    CONTAINS(?nameWithoutFase, CONCAT(?abibliotheek, "-")),
+    REPLACE(?nameWithoutFase, CONCAT(?abibliotheek, "-"), ""),
+    ?nameWithoutFase) AS ?nameWithoutFaseAbibliotheek)
 
-  BIND( IF(BOUND(?nameWithoutFaseAbibliotheek), 
-          STRLEN(?nameWithoutFaseAbibliotheek)-1, 
-          IF(BOUND(?nameWithoutFase), STRLEN(?nameWithoutFase)-1, STRLEN(?arcering)-1)
-          ) AS ?len2)
-  
-  BIND(
-    IF(
-      BOUND(?nameWithoutFaseAbibliotheek),
-      IF(
-        BOUND(?optie) && CONTAINS(?nameWithoutFaseAbibliotheek, ?optie),
-        SUBSTR(REPLACE(?nameWithoutFaseAbibliotheek, ?optie, ""), 1, (?len2 - strlen(?optie))),
-        ?nameWithoutFaseAbibliotheek
-      ),
-      IF(
-        BOUND(?nameWithoutFase),
-        IF( BOUND(?optie) && CONTAINS(?nameWithoutFase, ?optie),
-            SUBSTR(REPLACE(?nameWithoutFase, ?optie, ""), 1, (?len2 - strlen(?optie))),
-            ?nameWithoutFase
-        ),
-        IF(
-          BOUND(?optie) && CONTAINS(?arcering, ?optie),
-          SUBSTR(REPLACE(?arcering, ?optie, ""), 1, (?len2 - strlen(?optie))),
-          ?arcering 
-        )
-      )
-    ) AS ?finalCleanName
-  )
+  BIND (IF (
+    BOUND(?optie) && CONTAINS(?nameWithoutFaseAbibliotheek, CONCAT("-", ?optie)),
+    REPLACE(?nameWithoutFaseAbibliotheek, CONCAT("-", ?optie), ""),
+    ?nameWithoutFaseAbibliotheek) AS ?finalCleanName)
 
 } ORDER BY ?id
