@@ -36,58 +36,21 @@ WHERE {
   } 
   OPTIONAL {
     ?symboolURI schema:url ?fileURL .
-  } 
+  }
 
   BIND (IF (
-            (BOUND(?fase) && CONTAINS(?symbool, ?fase)), 
-            SUBSTR(REPLACE(?symbool, ?fase, ""), 2),
-            ?symbool) AS ?nameWithoutFase)
-
-  BIND( IF(BOUND(?nameWithoutFase), STRLEN(?nameWithoutFase)-1, STRLEN(?symbool)-1) AS ?len)
+    (BOUND(?fase) && CONTAINS(?symbool, CONCAT(?fase, "-"))),
+    REPLACE(?symbool, CONCAT(?fase, "-"), ""),
+    ?symbool) AS ?nameWithoutFase)
   
-  BIND(
-    IF(
-      BOUND(?nameWithoutFase),
-      IF(
-        BOUND(?sbibliotheek) && CONTAINS(?nameWithoutFase, ?sbibliotheek),
-        SUBSTR(REPLACE(?nameWithoutFase, ?sbibliotheek, ""), 2),
-        ?nameWithoutFase
-      ),
-      IF(
-        BOUND(?sbibliotheek) && CONTAINS(?symbool, ?sbibliotheek),
-        SUBSTR(REPLACE(?symbool, ?sbibliotheek, ""), 2),
-        ?symbool 
-      )
-    ) AS ?nameWithoutFaseSbibliotheek
-  )
+  BIND (IF (
+    CONTAINS(?nameWithoutFase, CONCAT(?sbibliotheek, "-")),
+    REPLACE(?nameWithoutFase, CONCAT(?sbibliotheek, "-"), ""),
+    ?nameWithoutFase) AS ?nameWithoutFaseSbibliotheek)
 
-  BIND( IF(BOUND(?nameWithoutFaseSbibliotheek), 
-          STRLEN(?nameWithoutFaseSbibliotheek)-1, 
-          IF(BOUND(?nameWithoutFase), STRLEN(?nameWithoutFase)-1, STRLEN(?symbool)-1)
-          ) AS ?len2)
-  
-  BIND(
-    IF(
-      BOUND(?nameWithoutFaseSbibliotheek),
-      IF(
-        BOUND(?optie) && CONTAINS(?nameWithoutFaseSbibliotheek, ?optie),
-        SUBSTR(REPLACE(?nameWithoutFaseSbibliotheek, ?optie, ""), 1, (?len2 - strlen(?optie))),
-        ?nameWithoutFaseSbibliotheek
-      ),
-      IF(
-        BOUND(?nameWithoutFase),
-        IF( BOUND(?optie) && CONTAINS(?nameWithoutFase, ?optie),
-            SUBSTR(REPLACE(?nameWithoutFase, ?optie, ""), 1, (?len2 - strlen(?optie))),
-            ?nameWithoutFase
-        ),
-        IF(
-          BOUND(?optie) && CONTAINS(?symbool, ?optie),
-          SUBSTR(REPLACE(?symbool, ?optie, ""), 1, (?len2 - strlen(?optie))),
-          ?symbool 
-        )
-      )
-    ) AS ?finalCleanName
-  )
-
+  BIND (IF (
+    BOUND(?optie) && CONTAINS(?nameWithoutFaseSbibliotheek, CONCAT("-", ?optie)),
+    REPLACE(?nameWithoutFaseSbibliotheek, CONCAT("-", ?optie), ""),
+    ?nameWithoutFaseSbibliotheek) AS ?finalCleanName)
 
 } ORDER BY ?id
