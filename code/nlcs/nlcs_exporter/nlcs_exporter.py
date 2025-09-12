@@ -10,18 +10,18 @@ from typing import List
 
 # --- Configuration & Constants (Moved to top for easy modification) ---
 # SPARQL_ENDPOINT = "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-acceptatie/versions/rv5_1_4/sparql"
-SPARQL_ENDPOINT = "https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv5_1_4/sparql"
+SPARQL_ENDPOINT = "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-acceptatie/versions/rv5_1_5/sparql"
 
 LDP_TOKEN_ID = ""      
-LDP_PASSWORD = ""      
+LDP_PASSWORD = ""          
 
 # Default folder paths
-QUERY_FOLDER = "./code/5.1/nlcs_exporter/queries/"
-CONTROL_QUERY_FOLDER = "./code/5.1/nlcs_exporter/queries/controle_queries/"
+QUERY_FOLDER = "./code/nlcs/nlcs_exporter/queries/"
+CONTROL_QUERY_FOLDER = "./code/nlcs/nlcs_exporter/queries/controle_queries/"
 
-CSV_OUTPUT_ROOT_FOLDER = "tabellen/concept/5.1/"
-CSV_CONTROLS_FOLDER = "tabellen/concept/5.1/controles/"
-CSV_OBJECTS_FOLDER = "tabellen/concept/5.1/objectentabellen"
+CSV_OUTPUT_ROOT_FOLDER = "tabellen/"
+CSV_CONTROLS_FOLDER = "tabellen/controles/"
+CSV_OBJECTS_FOLDER = "tabellen/objectentabellen"
 # --- End Configuration ---
 
 
@@ -287,10 +287,10 @@ if __name__ == "__main__":
     run_queries_in_folder(client, CONTROL_QUERY_FOLDER, CSV_CONTROLS_FOLDER)
 
 ###################### ALL OBJECT QUERIES IN FOLDER ############################
-    run_queries_in_folder(client, "./code/5.1/", CSV_OUTPUT_ROOT_FOLDER)
+    run_queries_in_folder(client, "./code/nlcs/", CSV_OUTPUT_ROOT_FOLDER)
 
-    single_output_file = os.path.join(QUERY_FOLDER, "TEST.csv")
-    run_query_write_result(client, "./code/5.1/NLCS_Query_Lijntypes.rq", single_output_file)   
+    # single_output_file = os.path.join(QUERY_FOLDER, "TEST.csv")
+    # run_query_write_result(client, "./code/5.1/NLCS_Query_Lijntypes.rq", single_output_file)   
 ###################### OBJECTS PER HOOFDGROEP ############################
 
     print("\n--- Retrieving Hoofdgroepen and running object queries ---")
