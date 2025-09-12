@@ -14,7 +14,7 @@ WHERE {
     ?groupOrBib rdfs:subClassOf ?HoofdKlasse .
     ?concept rdfs:subClassOf+ ?groupOrBib .
     ?concept skos:prefLabel ?conceptNaam .
-    FILTER NOT EXISTS { ?something rdfs:subClassOf ?concept } .
+    #FILTER NOT EXISTS { ?something rdfs:subClassOf ?concept } .
     ?concept ?idProp ?id .
     ?idProp skos:prefLabel "ID" .
   }

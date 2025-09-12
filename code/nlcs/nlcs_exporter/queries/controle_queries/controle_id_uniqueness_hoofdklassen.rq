@@ -7,13 +7,13 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 SELECT ?type ?id ?namen
 WHERE {
-  {SELECT DISTINCT ?type ?id (COUNT(?arceringNaam) AS ?number) (GROUP_CONCAT(?arceringNaam;separator=" | ") AS ?namen)
+  {SELECT DISTINCT ?type ?id (COUNT(?groepNaam) AS ?number) (GROUP_CONCAT(?groepNaam;separator=" | ") AS ?namen)
   WHERE {
     VALUES ?type { "Arcering" "Symbool" "NLCS-object" "Disciplines" }
-    ?arceringHoofdKlasse skos:prefLabel ?type .
-    ?arceringBib rdfs:subClassOf ?arceringHoofdKlasse .
-    ?arceringBib skos:prefLabel ?arceringNaam .
-    ?arceringBib ?idProp ?id .
+    ?topConcept skos:prefLabel ?type .
+    ?groep rdfs:subClassOf ?topConcept .
+    ?groep skos:prefLabel ?groepNaam .
+    ?groep ?idProp ?id .
     ?idProp skos:prefLabel "ID" .
   }
   GROUP BY ?type ?id

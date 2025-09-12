@@ -6,7 +6,8 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 
-SELECT ?hoofdgroep ?object ?parent ?num_underscore_object ?num_underscore_parent WHERE {
+SELECT ?hoofdgroep ?object ?parent ?num_underscore_object ?num_underscore_parent 
+WHERE {
   ?NLCSObjectTopConcept a owl:Class .
   ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
   
