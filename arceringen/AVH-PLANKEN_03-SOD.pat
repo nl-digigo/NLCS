@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-PLANKEN_03-SOD,plankensoort03
 0,0,.4,0,2

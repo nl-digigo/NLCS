@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AGR-HEESTERS-SO,heesters
 0,-0.3832,-0.9361,0.0000,7.5000,0.76639,-6.73361

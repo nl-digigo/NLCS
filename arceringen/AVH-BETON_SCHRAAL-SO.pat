@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-BETON_SCHRAAL-SO,schraalbeton
 0,9.5,6.4,0,10,0,-10

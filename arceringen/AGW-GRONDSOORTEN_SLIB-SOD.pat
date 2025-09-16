@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AGW-GRONDSOORTEN_SLIB-SOD,slib
 0,0,0,0,10,2,-3,1,-4

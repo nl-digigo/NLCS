@@ -9,19 +9,19 @@ from pathlib import Path
 from typing import List
 
 # --- Configuration & Constants (Moved to top for easy modification) ---
-# IMPORTANT: Replace these with your actual values or set as environment variables
-# For simplicity, we'll put them here directly for this "basic" version.
-SPARQL_ENDPOINT = "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-test-concept-with-current/sparql"
-# "https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv_5_1_3/sparql"
-LDP_TOKEN_ID =  ""     
-LDP_PASSWORD = ""      
+# SPARQL_ENDPOINT = "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-acceptatie/versions/rv5_1_4/sparql"
+SPARQL_ENDPOINT = "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-acceptatie/versions/rv5_1_5/sparql"
+
+LDP_TOKEN_ID = ""      
+LDP_PASSWORD = ""          
 
 # Default folder paths
-QUERY_FOLDER = "./code/5.1/nlcs_exporter/queries/"
-CONTROL_QUERY_FOLDER = "./code/5.1/nlcs_exporter/queries/controle_queries/"
-CSV_OUTPUT_ROOT_FOLDER = "tabellen/concept/5.1/"
-CSV_CONTROLS_FOLDER = "tabellen/concept/5.1/controles/"
-CSV_OBJECTS_FOLDER = "tabellen/concept/5.1/"
+QUERY_FOLDER = "./code/nlcs/nlcs_exporter/queries/"
+CONTROL_QUERY_FOLDER = "./code/nlcs/nlcs_exporter/queries/controle_queries/"
+
+CSV_OUTPUT_ROOT_FOLDER = "tabellen/"
+CSV_CONTROLS_FOLDER = "tabellen/controles/"
+CSV_OBJECTS_FOLDER = "tabellen/objectentabellen"
 # --- End Configuration ---
 
 
@@ -83,7 +83,6 @@ def convert_response(output) -> str:
     data = data.replace('\r\n', '\n')
     return data
     
-
 # --- Helper Functions ---
 def load_query(query_path: str) -> str:
     """Loads a SPARQL query from a .rq file."""
@@ -128,21 +127,21 @@ def save_csv_results(
         if output_dir and not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        df = pd.read_csv(StringIO(csv_data), delimiter=output_delimiter)
+        df = pd.read_csv(StringIO(csv_data), delimiter=output_delimiter, dtype=str)
         
         # Check if DataFrame is empty after parsing (e.g., only header present)
         if df.empty:
-            print(f"INFO: Results for '{os.path.basename(output_filepath)}' are empty after parsing. No CSV saved.")
+            print(f"\tINFO (nothing saved): Results for '{os.path.basename(output_filepath)}' are empty after parsing. No CSV saved.")
             return False
 
         df.to_csv(output_filepath, sep=output_delimiter, index=False)
-        print(f"INFO: Results saved to {output_filepath}")
+        print(f"\tINFO (SAVED): Results saved to {output_filepath}")
         return True
     except pd.errors.EmptyDataError:
-        print(f"INFO: No data found to save for '{os.path.basename(output_filepath)}'.")
+        print(f"\tINFO (nothing saved): No data found to save for '{os.path.basename(output_filepath)}'.")
         return False
     except Exception as e:
-        print(f"ERROR: Failed to save CSV to {output_filepath}: {e}")
+        print(f"\tERROR (nothing saved): Failed to save CSV to {output_filepath}: {e}")
         return False
 
 def run_queries_in_folder(
@@ -155,7 +154,20 @@ def run_queries_in_folder(
     Runs all SPARQL queries in a folder and saves non-empty results as CSVs.
     """
     print(f"\nINFO: Running all queries in folder '{input_folder}'...")
-    os.makedirs(output_folder, exist_ok=True)
+
+    if os.path.exists(output_folder) and os.path.isdir(output_folder):
+        count = 0
+        print("Folder exists. Cleaning the files.")
+        for filename in os.listdir(output_folder):
+            file_path = os.path.join(output_folder, filename)
+            if os.path.isfile(file_path):
+                count += 1
+                os.remove(file_path)
+        print(f"{count} files are removed.")
+    else:
+        os.makedirs(output_folder, exist_ok=True)
+        print(f"Folder is created: {output_folder}")
+    
     query_files = glob.glob(os.path.join(input_folder, query_pattern))
     
     if not query_files:
@@ -208,7 +220,7 @@ def merge_csv_files(
     df_list = []
     for file in csv_files:
         try:
-            df = pd.read_csv(file, delimiter=input_delimiter)
+            df = pd.read_csv(file, delimiter=input_delimiter, dtype=str)
             df_list.append(df)
         except pd.errors.EmptyDataError:
             print(f"WARNING: Skipping empty file: {os.path.basename(file)}")
@@ -234,7 +246,7 @@ def retrieve_hoofdgroepen(client: LacesRequest, query_path: str) -> List[str]:
     print(f"INFO: Retrieving hoofdgroepen using query: {os.path.basename(query_path)}")
     try:
         results_text = client.run_query_clean_result(load_query(query_path))
-        df = pd.read_csv(StringIO(results_text))
+        df = pd.read_csv(StringIO(results_text), dtype=str)
         
         if df.empty or 'hoofdgroup_name' not in df.columns:
             print(f"WARNING: Hoofdgroepen query result is empty or missing 'hoofdgroup_name' column. Actual columns: {df.columns.tolist()}")
@@ -266,13 +278,21 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"FATAL ERROR: Could not initialize Laces client: {e}. Exiting.")
         exit(1)
-        
-##################################################
+##################### TEST #############################
+    # single_output_file = os.path.join(QUERY_FOLDER, "TEST.csv")
+    # run_query_write_result(client, f"{CONTROL_QUERY_FOLDER}controle_identiekenamen.rq", single_output_file)   
+
+##################### ALL CONTROL QUERIES IN FOLDER ############################
     print("\n--- Running all validation queries in folder ---")
     run_queries_in_folder(client, CONTROL_QUERY_FOLDER, CSV_CONTROLS_FOLDER)
-##################################################
-    run_queries_in_folder(client, "./code/5.1/", CSV_OBJECTS_FOLDER)
-##################################################
+
+###################### ALL OBJECT QUERIES IN FOLDER ############################
+    run_queries_in_folder(client, "./code/nlcs/", CSV_OUTPUT_ROOT_FOLDER)
+
+    # single_output_file = os.path.join(QUERY_FOLDER, "TEST.csv")
+    # run_query_write_result(client, "./code/5.1/NLCS_Query_Lijntypes.rq", single_output_file)   
+###################### OBJECTS PER HOOFDGROEP ############################
+
     print("\n--- Retrieving Hoofdgroepen and running object queries ---")
     hoofdgroepen = retrieve_hoofdgroepen(client, hoofdgroepen_query_path)
     print(hoofdgroepen)
@@ -285,12 +305,13 @@ if __name__ == "__main__":
                     "$hoofdgroup_name", 
                     hg
                 )
-            objects_output_path = f"{CSV_OBJECTS_FOLDER}/objectentabellen/objecten-concept-5.1-{hg}.csv"
+            objects_output_path = f"{CSV_OBJECTS_FOLDER}/objecten-concept-5.1-{hg}.csv"
             results = client.run_query_clean_result(hoofdgroup_query)
             save_csv_results(results, objects_output_path)
         except Exception as e:
             print(f"ERROR: Failed to process query for hoofdgroup '{hg}': {e}")
-##################################################
+####################### ALL OBJECT MERGED ###########################
+
     print("\n--- Merging all object CSV files ---")
     merged_objects_output_file = os.path.join(CSV_OUTPUT_ROOT_FOLDER, "all_objects-concept-5.1.csv")
     merge_csv_files(CSV_OBJECTS_FOLDER, merged_objects_output_file)

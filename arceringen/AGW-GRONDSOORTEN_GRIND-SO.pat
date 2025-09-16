@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AGW-GRONDSOORTEN_GRIND-SO,grind
 0,4,1,10,10,.5,-3,.5,-6

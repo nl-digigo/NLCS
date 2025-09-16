@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AGR-BOS-SO,bos
 000,-0.57735,-1.00000,2.88675,5.00000,1.15470,-4.61880

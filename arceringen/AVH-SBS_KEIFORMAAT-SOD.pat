@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-SBS_KEIFORMAAT-SOD,sbskeiformaat
 90.0,1.45998256,0.0,0.0,1.45998256,1.0,

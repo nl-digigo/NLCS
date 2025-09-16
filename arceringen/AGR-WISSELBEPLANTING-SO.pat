@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AGR-WISSELBEPLANTING-SO,eenjarigenofwisselbeplanting
 0,0,0,.25,.25,.125,-.375

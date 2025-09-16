@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-FUNDERING_SLAKKEN_01-SOD,avi-slakken/vliegas/vuilverbranding
 018.43495,0.00000,0.00000,6.32456,3.16228,5.27046,-10.54093

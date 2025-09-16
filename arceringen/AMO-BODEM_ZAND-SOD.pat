@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AMO-BODEM_ZAND-SOD,zand
 37.5,0,0,1.123,1.567,0,-1.52,0,-1.7,0,-1.625

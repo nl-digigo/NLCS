@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AKG-GRONDEIGENDOM_PARTIC_04-SO,eigendomparticulier4
 90,0,0,0,12.7

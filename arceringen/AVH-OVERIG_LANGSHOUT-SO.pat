@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-OVERIG_LANGSHOUT-SO,balkaanzicht
 176.82017,21.875,0.250,95.85219,5.32512,26.92677,-838.40553
