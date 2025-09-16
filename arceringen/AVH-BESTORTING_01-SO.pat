@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-BESTORTING_01-SO,bestorting
 342.7420615,40.8097,6.9338,2.2553,10.9353,2.7272,-10.9194

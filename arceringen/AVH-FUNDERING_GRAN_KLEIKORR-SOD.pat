@@ -1,7 +1,7 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
-*AVH-FUNDERING_GRAN_KLEIKORRELS-SOD,kleikorrels
+*AVH-FUNDERING_GRAN_KLEIKORR-SOD,kleikorrels
 036.9396,5.2,4.8,103.376036,0.687784,0.198446,-112.291664
 095.5906,5.3586,4.9192,38.843556,-1.628274,0.199742,-47.31615
 148.1230,5.3392,5.118,38.075534,1.178532,0.156,-65.492526

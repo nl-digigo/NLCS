@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-FUNDERING_GRAN_BETON-SOD,betongranulaat
 000.00000,0.25,0.75,4.00000,2.00000,1.00000,-9.00000

@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AGR-BEPLANTING_SOORT_01-SO,beplantingsoort01
 060,0.00000,0.00000,0.57735,1.00000,0.288676,-0.866026

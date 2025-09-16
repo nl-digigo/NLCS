@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-FUNDERING_SLAKKEN_02-SOD,slakken
 000.00000,3.33333,0.00000,5.00000,5.00000,3.33333,-6.66667

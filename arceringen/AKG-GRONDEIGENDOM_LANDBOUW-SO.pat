@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AKG-GRONDEIGENDOM_LANDBOUW-SO,eigendomlandbouw
 0.0,1.1246,1.6969,1.875,1.0825,0.2509,-3.4991

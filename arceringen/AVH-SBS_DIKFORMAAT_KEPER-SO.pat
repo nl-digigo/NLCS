@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-SBS_DIKFORMAAT_KEPER-SO,dikformaatkeperverband
 45,0,0,0.69,0.69,2.76,-1.38

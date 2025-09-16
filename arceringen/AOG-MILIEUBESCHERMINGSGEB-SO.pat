@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AOG-MILIEUBESCHERMINGSGEB-SO,aro-milieubeschermingsgebied
 225,0.79,0.82,0.70710678,0.70710678,0.07071068,-1.34350288

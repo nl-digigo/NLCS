@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-FUNDERING_OVERIG-SOD,funderingn.n.t.b.
 000,0.00000,0.00000,6.49519,1.25000,1.44338,-7.21688

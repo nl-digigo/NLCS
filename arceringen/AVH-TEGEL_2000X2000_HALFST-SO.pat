@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-TEGEL_2000X2000_HALFST-SO,tegel2mx2mhalfsteensverband
 0,0,0,0,20

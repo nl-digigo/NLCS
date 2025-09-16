@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AOG-ZONE_GEVAARLIJKE_STOF-SOD,zone_gevaarlijke_stoffen
 45,0.48,0.39,0.70710678,0.70710678,0.01414214,-1.40007143

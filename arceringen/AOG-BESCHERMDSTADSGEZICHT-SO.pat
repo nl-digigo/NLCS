@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AOG-BESCHERMDSTADSGEZICHT-SO,aro-beschermdstadsgezicht
 296.565051,0.56,0.36,1.34164079,0.4472136,0.02236068,-2.2137073
