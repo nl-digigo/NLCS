@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-HALFVERHARDING-SOD,halfverharding
 50,0,0,4.12975034,-5.89789472,0.75,-8.25

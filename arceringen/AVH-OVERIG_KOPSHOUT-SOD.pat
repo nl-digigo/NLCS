@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-OVERIG_KOPSHOUT-SOD,balkdoorsnede
 255.0686,1.3,5,41.22603,0.64416,4.06385,-151.1779

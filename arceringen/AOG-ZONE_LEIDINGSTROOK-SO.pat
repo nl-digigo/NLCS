@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AOG-ZONE_LEIDINGSTROOK-SO,aro-zone_leidingstrook
 180,0.04,0.95,0,1,0.04,-0.96

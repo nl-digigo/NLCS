@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-NATUURSTEEN_02-SO,natuursteen02
 075,0.00000,0.00000,11.00000,0.57735,2.00000,-4.00000,2.00000,-40.00000

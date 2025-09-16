@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-HALFVERHARDING_GRIND_01-SO,grind01
 342.74206149,13.0591,2.2188,0.7217,3.4993,0.8727,-3.4942

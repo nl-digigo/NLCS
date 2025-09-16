@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-SIERBESTRATING_01-SO,sierbestrating01
 0.000000,0.282840,0.000000,1.200000,1.200000,1.834310,-0.565690

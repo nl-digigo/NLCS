@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-SBS_KEIFORMAAT_BLOK-SO,straatbaksteenblokverband(patroonbssmetpuntj
 0.0,0,0,0,2

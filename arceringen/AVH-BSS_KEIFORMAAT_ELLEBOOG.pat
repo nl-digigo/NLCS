@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-BSS_KEIFORMAAT_ELLEBOOG,keiformaatelleboogverband
 0,0,0,0.105,0.105,0.315,-0.105

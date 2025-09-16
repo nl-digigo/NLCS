@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AVH-OVERIG_03-SO,overig03
 000,1.5,-0.5,3.0,-2.0,1.0,-1.0,1.0,-3.0

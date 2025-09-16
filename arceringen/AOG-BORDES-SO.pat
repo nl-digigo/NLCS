@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AOG-BORDES-SO,aro-bordes
 45.0000,0.040,0.500,0.707107,0.707107,0.650538,-0.763675

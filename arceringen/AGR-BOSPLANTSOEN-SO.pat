@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AGR-BOSPLANTSOEN-SO,bosplantsoen
 0,0.0000,0.0000,1.0,1.,1.2,-0.8

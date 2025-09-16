@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.4
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 ;;
 *AKG-GRONDEIGENDOM_DOMEINEN-SO,eigendomdomeinen
 11.234,14.027965,418.24295,2.810865,3.00142,1.09915,-9.4567
