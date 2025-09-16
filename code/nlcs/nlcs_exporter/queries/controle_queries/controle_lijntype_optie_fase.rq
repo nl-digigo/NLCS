@@ -1,0 +1,58 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+# Checks if the ID, fase and optie correctly exist for a lijntype 
+
+SELECT DISTINCT ?hoofdgroep ?liijntypeURI ?lijntype ?id ?fase ?optie
+WHERE {
+    ?NLCSObjectTopConcept a owl:Class .
+    ?NLCSObjectTopConcept skos:prefLabel "Lijntype" .
+    ?hoofdgroepURI rdfs:subClassOf ?NLCSObjectTopConcept .
+    ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
+    ?liijntypeURI rdfs:subClassOf+ ?hoofdgroepURI .
+  	?liijntypeURI skos:prefLabel ?lijntype .
+  	OPTIONAL {
+        ?liijntypeURI ?idProperty ?id .
+        ?idProperty skos:prefLabel "ID" .
+    }
+	OPTIONAL {
+        ?liijntypeURI ?faseProperty ?fase .
+        ?faseProperty skos:prefLabel "Fase" .
+    }
+    OPTIONAL {
+        ?liijntypeURI ?optieProperty ?optie .
+        ?optieProperty skos:prefLabel "Optie" .
+    } 
+    FILTER (
+        # missing ID
+        (
+        !BOUND(?id)
+        ) ||
+        # missing/incorrect fase
+        ( 
+        (STRSTARTS(?lijntype, "B-") && (!BOUND(?fase) || ?fase != "B")) ||
+        (STRSTARTS(?lijntype, "V-") && (!BOUND(?fase) || ?fase != "V")) ||
+        (STRSTARTS(?lijntype, "N-") && (!BOUND(?fase) || ?fase != "N")) ||
+        (STRSTARTS(?lijntype, "O-") && (!BOUND(?fase) || ?fase != "O")) ||
+        (STRSTARTS(?lijntype, "T-") && (!BOUND(?fase) || ?fase != "T"))
+        ) ||
+        # missing/incorrect optie
+        ( 
+        (STRENDS(?lijntype, "-S") && (!BOUND(?optie) || ?optie != "S")) ||
+        (STRENDS(?lijntype, "-SO") && (!BOUND(?optie) || ?optie != "SO")) ||
+        (STRENDS(?lijntype, "-D") && (!BOUND(?optie) || ?optie != "D")) ||
+        (STRENDS(?lijntype, "-DMM") && (!BOUND(?optie) || ?optie != "DMM")) ||
+        (STRENDS(?lijntype, "-MM") && (!BOUND(?optie) || ?optie != "MM")) ||
+        (STRENDS(?lijntype, "-SOD") && (!BOUND(?optie) || ?optie != "SOD")) ||
+        (STRENDS(?lijntype, "-SODMM") && (!BOUND(?optie) || ?optie != "SODMM")) ||
+        (STRENDS(?lijntype, "-SOMM") && (!BOUND(?optie) || ?optie != "SOMM"))  
+        ) 
+  )
+
+    
+} LIMIT 10
