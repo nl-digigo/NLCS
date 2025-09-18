@@ -1,8 +1,8 @@
-# Concept-versie 5.1 Voor Openbare Consultatie
+# Concept-versie 5.1.5 Voor Openbare Consultatie
 
 1 november 2024 is het concept van NLCS 5.1 gepubliceerd voor een openbare consultatie. De bedoeling was dat gebruikers, experts en softwareleveranciers dit concept vier maanden lang konden uitproberen in applicaties. Op verzoek van de NLCS leveranciers wordt een technische commissie opgestart, om te onderzoeken wat er nodig is om de 5.1 versie te kunnen implementeren en te laten testen in applicaties. 
 
-Daartoe is op 18 juni 2025 een nieuwe acceptatie-verise van de NLCS database gepubliceerd op het sparql-endpoint.
+Daartoe  worden steeds nieuwe acceptatie-versies van de NLCS database gepubliceerd op het sparql-endpoint, met bijbehoredne bestanden in de "acceptance"-branch van deze GitHub en een tag horend bij die publicatie.
 
 Release notes staan in de [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/5-1/).
 
@@ -34,7 +34,7 @@ DigiGO heeft nog geen viewer waarin informatiemodellen op basis van de NEN 2660-
 
 ## Zelf applicatie inrichten
 Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS is ook beschikbaar in tabellen:
-* [NLCS tabellen concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/tabellen/concept/5.1).
+* [NLCS tabellen concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/tabellen).
 
 
 ## Voor softwareleveranciers en ontwikkelaars
@@ -50,7 +50,7 @@ Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS
 
 ### Database NLCS
 Deze link verwijst naar de linked data hub, voor developers wordt in [Toelichting gebruik sparql-endpoint en query's](https://nl-digigo.github.io/NLCS/howtoquery/) uitgelegd hoe het sparql-endpoint rechtstreeks benaderd kan worden. 
-http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv_5_1_3
+http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie
 
 
 ### Symbolen, lijntypes, arceringen, font
