@@ -10,7 +10,7 @@ PREFIX schema: <https://schema.org/>
 #TODO: searchterm?
 # Retrieves all Symbool information and stores it in the familiar Excel/CSV format from the SQL database
 
-SELECT DISTINCT ?searchterm ?sbibliotheek ?fase ?id ?symbool ?finalCleanName ?optie   
+SELECT DISTINCT ?symboolURI ?searchterm ?sbibliotheek ?fase ?id ?symbool ?finalCleanName ?optie   
 WHERE {
   ?SymboolTopConcept a owl:Class .
   ?SymboolTopConcept skos:prefLabel "Symbool" .
