@@ -13,7 +13,7 @@ PREFIX schema: <https://schema.org/>
 #   - if omschrijving (name) ends with -S, -SO, -D, - DMM,-MM, -SOD, -SODMM, -SOMM, this value should be available as separate value as optie
 
 #SELECT DISTINCT ?symboolURI ?id ?sbibliotheek ?sbibliotheekURI ?fase ?symbool ?optie ?fileURL
-SELECT DISTINCT ?sbibliotheek ?symbool ?fase ?id ?optie ?fileURL
+SELECT DISTINCT ?symboolURI ?sbibliotheek ?symbool ?fase ?id ?optie ?fileURL
 WHERE {
   ?SymboolTopConcept a owl:Class .
   ?SymboolTopConcept skos:prefLabel "Symbool" .

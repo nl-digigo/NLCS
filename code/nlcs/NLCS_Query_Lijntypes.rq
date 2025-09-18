@@ -8,7 +8,7 @@ PREFIX sh: <http://www.w3.org/ns/shacl#>
 
 # Retrieves all Lijntype information and stores it in the familiar Excel/CSV format from the SQL database
 
-SELECT DISTINCT ?lijntypeURI ?id ?hoofdgroep ?omschrijving ?finalCleanName ?fase ?optie ?autocaddef 
+SELECT DISTINCT ?lijntypeURI ?id ?hoofdgroep ?omschrijving ?finalCleanName ?fase ?optie ?autocaddef
 WHERE {
   ?LijntypeTopConcept a owl:Class .
   ?LijntypeTopConcept skos:prefLabel "Lijntype" .
@@ -26,7 +26,8 @@ WHERE {
     ?lijntypeURI ?idProperty ?id .
     ?idProperty skos:prefLabel "ID" .
   } OPTIONAL {
-    ?lijntypeURI skos:definition ?autocaddef .
+    ?lijntypeURI skos:definition ?autocaddef_raw .
+    BIND (IF (CONTAINS(STR(?autocaddef_raw), "\n"), REPLACE(?autocaddef_raw, "\n", ""), ?autocaddef_raw) AS ?autocaddef) .
   } OPTIONAL {
     ?lijntypeURI ?faseProperty ?fase .
     ?faseProperty skos:prefLabel "Fase" .
