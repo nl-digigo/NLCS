@@ -161,9 +161,9 @@ def generate_pat(config):
     for _, arcering in result.iterrows():
 
         ## Replace whitespaces to linebreaks
-        allArcering += f"\n*{arcering.tgtArceringName},{arcering.tgtArceringVRKL_KORT}\n{arcering.tgtArceringVRKL_LANG}".replace(" ", "\n")
+        allArcering += f"\n*{arcering.tgtArceringName},{arcering.tgtArceringVRKL_KORT}\n{arcering.tgtArceringVRKL_LANG}\n".replace(" ", "\n")
         singleArcering = f";;\n;;pat definitie/bestand gegenereerd uit de NLCS database versie {type_publication}-{version}\n;;"
-        singleArcering += f"\n*{arcering.tgtArceringName},{arcering.tgtArceringVRKL_KORT}\n{arcering.tgtArceringVRKL_LANG}".replace(" ","\n")
+        singleArcering += f"\n*{arcering.tgtArceringName},{arcering.tgtArceringVRKL_KORT}\n{arcering.tgtArceringVRKL_LANG}\n".replace(" ","\n")
     
         with open(f"{arcering.tgtArceringName}.pat", "w") as f:
             f.write(singleArcering)
