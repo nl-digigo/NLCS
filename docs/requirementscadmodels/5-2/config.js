@@ -4,8 +4,8 @@ var respecConfig = {
   shortName: "NLCS/requirementscadmodels",
   specType: "technische documentatie", // vrije tekst, kleine letter
   imprint: "digigo",
-  // hypothesisComments: "false",
-  // reviewDateEnd: "2025-02-01",
+  // hypothesisComments: "true",
+  // reviewDateEnd: "2026-07-01",
   editors: [
     // alleen `name` is verplicht, https://respec.org/docs/#person
     {
