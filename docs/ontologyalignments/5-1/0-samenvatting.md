@@ -1,4 +1,12 @@
-Dit document beschrijft de relaties tussen NLCS en andere standaarden. Het doel van deze relaties is het samen kunnen gebruiken van NLCS en de andere standaard voor een specifieke use case. 
+<table>
+  <tr>
+    <td><figure>
+<img src="../../media/NLCS - logo klein.png" alt="NLCS logo" width="50%">
+</figure></td>
+    <td>Dit document beschrijft de relaties tussen NLCS en andere standaarden. Het doel van deze relaties is het samen kunnen gebruiken van NLCS en de andere standaard voor een specifieke use case. </td>
+  </tr>
+</table>
+
 De in dit document beschreven relaties zijn:
 
 * NLCS - IMGeo, voor gebruik van de <abbr title="Basisregistratie Grootschalige Topografie">BGT</abbr>;

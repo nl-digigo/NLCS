@@ -1,4 +1,15 @@
-Dit document bevat de uitleg van de standaard met daarin de toelichting op het beoogd doel en de werking van de standaard. 
+
+<table>
+  <tr>
+    <td><figure>
+<img src="../../media/NLCS - logo klein.png" alt="NLCS logo" width="50%">
+</figure></td>
+    <td>Dit document bevat de uitleg van de standaard met daarin de toelichting op het beoogd doel en de werking van de standaard.</td>
+  </tr>
+</table>
+
+
+
 
 Dit document sluit aan op de volgende documenten:
 

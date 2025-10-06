@@ -1,5 +1,15 @@
-Deze pagina beschrijft de technische documentatie van het objectgerichte informatiemodel van de NLCS. 
-Het objectgerichte informatiemodel van de NLCS uniformeert begrippen voor het vakgebied ‘ontwerp en realisatie van openbare ruimte en bovengrondse en ondergrondse infrastructuur’ en voorziet in een ontologie die geschikt is voor zowel mens en machine.
+
+<table>
+  <tr>
+    <td><figure>
+<img src="../../media/NLCS - logo klein.png" alt="NLCS logo" width="50%">
+</figure></td>
+    <td>Deze pagina beschrijft de technische documentatie van het objectgerichte informatiemodel van de NLCS. 
+Het objectgerichte informatiemodel van de NLCS uniformeert begrippen voor het vakgebied ‘ontwerp en realisatie van openbare ruimte en bovengrondse en ondergrondse infrastructuur’ en voorziet in een ontologie die geschikt is voor zowel mens en machine.</td>
+  </tr>
+</table>
+
+
 
 Het objectgerichte informatiemodel van de NLCS bestaat uit twee delen:
 * Het NLCS Vocabulaire is het begrippenkader dat gebruikt wordt tijdens ontwerp en aanleg van de openbare ruimte en infrastructuur. De vocabulaire is een invulling van het 'model van begrippen' zoals dat gehanteerd wordt in het MIM. Het is tevens de invulling van het 'Toepassingstype 1' vanuit de [[NEN_2660_2_2022]] (afstemming van termen en definities). De uitdrukking is volledig in [skos-primer].

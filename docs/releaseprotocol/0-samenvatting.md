@@ -1,4 +1,12 @@
-Dit document beschrijft het releaseprotocol van NLCS, de stappen die worden ondernomen om te komen tot een nieuwe release.
+<table>
+  <tr>
+    <td><figure>
+<img src="../../media/NLCS - logo klein.png" alt="NLCS logo" width="50%">
+</figure></td>
+    <td>Dit document beschrijft het releaseprotocol van NLCS, de stappen die worden ondernomen om te komen tot een nieuwe release.</td>
+  </tr>
+</table>
+
 
 Dit protocol is onderdeel van een reeks documenten over het beheer van NLCS:
 
