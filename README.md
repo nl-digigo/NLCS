@@ -1,18 +1,8 @@
-# Concept-versie 5.1.5 Voor Openbare Consultatie
+# NLCS 5.0
+Deze repository is de locatie voor technische documentatie en het inbrengen en opvolgen van gebruikerswensen voor NLCS, de Nederlandse CAD standaard van DigiGO.
 
-1 november 2024 is het concept van NLCS 5.1 gepubliceerd voor een openbare consultatie. De bedoeling was dat gebruikers, experts en softwareleveranciers dit concept vier maanden lang konden uitproberen in applicaties. Op verzoek van de NLCS leveranciers wordt een technische commissie opgestart, om te onderzoeken wat er nodig is om de 5.1 versie te kunnen implementeren en te laten testen in applicaties. 
-
-Daartoe  worden steeds nieuwe acceptatie-versies van de NLCS database gepubliceerd op het sparql-endpoint, met bijbehoredne bestanden in de "acceptance"-branch van deze GitHub en een tag horend bij die publicatie.
-
-Release notes staan in de [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/5-1/).
-
-Iedereen die het afgelopen jaar heeft meegewerkt aan de totstandkoming van deze versie wordt van harte bedankt.
-
-## Reviewen
-
-Reviewwijze:
-* Tabellen, database en technische bestanden: via [issues](https://github.com/nl-digigo/NLCS/issues)
-* Documentatie in ReSpec: de reviewperiode voor de documentatie met opmerkingen in de kantlijn is **verlopen**. Eventuele review kan altijd worden ingediende via issues. 
+Links hieronder zijn voor de actuele versie, 5.0
+Informatie over de openbare consultatie van concept versie 5.1 van 1 november 2024 t/m 1 maart 2025 staan [hier](https://github.com/nl-digigo/NLCS/blob/development/README-5-1.md)
 
 ## Beheer
 
@@ -23,49 +13,46 @@ Reviewwijze:
 * [Gebruikerswens / issue indienen](https://github.com/nl-digigo/NLCS/issues)
 * [Protocol afhandelen gebruikerswensen](https://nl-digigo.github.io/NLCS/protocolissues)
 
-## Viewer 5.1
-
-DigiGO heeft nog geen viewer waarin informatiemodellen op basis van de NEN 2660-2 kunnen worden getoond. De makkelijkste manier om door de standaard te browsen zijn de [NLCS tabellen concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/tabellen/concept/5.1).
+## Viewer
+NLCS 5.0 kan bekeken worden in de [NLCS 5.0 viewer](https://nlcs-viewer.crow.nl)
 
 ## Voor ontwerpers en tekenaars
-* [Uitleg standaard 5.1](https://nl-digigo.github.io/NLCS/functionalspecification/5-1/)
-* [Eisen aan tekeningen en modellen 5.1](https://nl-digigo.github.io/NLCS/requirementscadmodels/5-1/) 
+* [Formele specificatie 5.0](https://github.com/nl-digigo/NLCS/blob/main/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf)
 * [Voorbeeldtekeningen](https://github.com/nl-digigo/NLCS/tree/main/docs/voorbeeldtekeningen)
 
-## Zelf applicatie inrichten
+### Zelf applicatie inrichten
 Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS is ook beschikbaar in tabellen:
-* [NLCS tabellen concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/tabellen).
+* [Laagtabellen 5.0](https://github.com/nl-digigo/NLCS/tree/main/tabellen/definitief/5.0)
 
 
 ## Voor softwareleveranciers en ontwikkelaars
-* [Eisen aan de software-implementatie van NLCS 5.1](https://nl-digigo.github.io/NLCS/requirementssoftware/5-1) 
-* [Toelichting informatiemodel 5.1](https://nl-digigo.github.io/NLCS/code_documentation/5-1): De toelichting op de uitgangspunten en modelleringswijze van het  informatiemodel in linked data
-* [Toelichting gebruik sparql-endpoint en query's](https://nl-digigo.github.io/NLCS/howtoquery/): Een gebruikershandleiding voor gebruik van de linked data publicatie, met toelichting op de code van het informatiemodel, query's en beschikbare datasets.
-
+* [Formele specificatie 5.0](https://github.com/nl-digigo/NLCS/blob/main/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf)
+* [Toelichting gebruik sparql-endpoint en query's](https://nl-digigo.github.io/NLCS/howtoquery/): Een gebruikershandleiding voor gebruik van de linked data publicatie, met toelichting op de code van het informatiemodel, query's en beschikbare datasets
+* [Eisen aan de software-implementatie van NLCS 5.0](https://nl-digigo.github.io/NLCS/requirementssoftware/5-0) 
+* [Toelichting informatiemodel 5.0](https://nl-digigo.github.io/NLCS/code_documentation/5-0-2/): De toelichting op de uitgangspunten en modelleringswijze van het  informatiemodel in linked data
 
 ## Relaties tot andere standaarden
-* [Relaties tot andere standaarden 5.1](https://nl-digigo.github.io/NLCS/ontologyalignments/5-1): documentatie van de ontology alignments (mappings waar een computer mee kan redeneren) of voorbereidingen daartoe met andere standaarden, waaronder IMGeo (voor BGT kaartinformatie) en het GWSW (Gemeentelijk woordenboek stedelijk water)
-* [Uitwisselafspraken 5.1](https://nl-digigo.github.io/NLCS/representations/5-1): Documentatie van hoe binnen NLCS wordt gewerkt met Uitwisseling van 3D objectinformatie; Hoe de uitwisseling tussen NLCS tekeningen en GIS kaarten op basis van IMGeo is geregeld; De openstaande onderzoeksvragen beschreven rondom NLCS en uitwisseling van tekeningen en modellen.
-
+* [Uitwisselafspraken 5.0](https://nl-digigo.github.io/NLCS/representations/5-0-2): Documentatie van hoe binnen NLCS wordt gewerkt met Uitwisseling van 3D objectinformatie; Hoe de uitwisseling tussen NLCS tekeningen en GIS kaarten op basis van IMGeo is geregeld; De openstaande onderzoeksvragen beschreven rondom NLCS en uitwisseling van tekeningen en modellen.
 
 ### Database NLCS
 Deze link verwijst naar de linked data hub, voor developers wordt in [Toelichting gebruik sparql-endpoint en query's](https://nl-digigo.github.io/NLCS/howtoquery/) uitgelegd hoe het sparql-endpoint rechtstreeks benaderd kan worden. 
-http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie
+ https://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2
 
 
 ### Symbolen, lijntypes, arceringen, font
 De symbolen, lijntypes en arceringen die in de software kunnen worden ingeladen:
-* [Symbolen concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/symbolen)
-* [Lijntypes concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/lijntypes)
-* [Arceringen concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/arcering)
-* [Font concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/font)
-
-
+* [Symbolen 5.0](https://github.com/nl-digigo/NLCS/tree/main/symbolen/definitief/5.0)
+* [Lijntypes 5.0](https://github.com/nl-digigo/NLCS/tree/main/lijntypes/definitief/5.0)
+* [Arceringen 5.0](https://github.com/nl-digigo/NLCS/tree/main/arceringen/definitief/5.0)
+* [Font 5.0](https://github.com/nl-digigo/NLCS/tree/main/font/definitief/5.0)
 
 
 ![Architectuur van de standaard](<NLCS architectuur.png>)
 
+
+
 ![Documentatie van de standaard](<NLCS documentatie.png>)
+
 
 Shield: [![CC BY 4.0][cc-by-shield]][cc-by]
 
@@ -77,19 +64,4 @@ This work is licensed under a
 [cc-by]: http://creativecommons.org/licenses/by/4.0/
 [cc-by-image]: https://i.creativecommons.org/l/by/4.0/88x31.png
 [cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg
-
-
-## Totstandkoming
-De issues die verwerkt zijn in versie 5.1 zijn gebundeld in de volgende milestones:
-* [Inhoudelijke issues voor 5.1](https://github.com/nl-digigo/NLCS/milestone/1)
-* [Uitbreiding verkeersborden in 5.1](https://github.com/nl-digigo/NLCS/milestone/8)
-* [Uitbreiding Tram voor 5.1](https://github.com/nl-digigo/NLCS/milestone/5)
-* [Technische issues voor 5.1](https://github.com/nl-digigo/NLCS/milestone/15)
-
-Reviewcommentaar op de documentatie van NLCS 5.1 is geleverd in de volgende documenten:
-* [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/reviewversies/CR-NLCS_functionalspecification-20241017.html)
-* [Eisen aan tekeningen en modellen](https://nl-digigo.github.io/NLCS/requirementscadmodels/reviewversies/CR-NLCS_requirementscadmodels-20241017.html) was beschikbaar voor review, maar is niet gebruikt.
-* [Eisen aan de software-implementatie van NLCS](https://nl-digigo.github.io/NLCS/requirementssoftware/ontwikkeling/reviewversies/CR-NLCS_requirementssoftware_ontwikkeling-20241017.html)
-
-
 
