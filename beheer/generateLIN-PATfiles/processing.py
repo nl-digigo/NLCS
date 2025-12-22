@@ -116,21 +116,30 @@ def generate_lin(config):
     
     version = config['url'].split('/')[-2].replace('_','.')
 
-    lijntypes = f"Lin bestand gegenereerd uit de NLCS database versie {type_publication}-{version}"
+    header_info = f"Lin bestand gegenereerd uit de NLCS database versie {type_publication}-{version}"
 
     result = setup_api_request(config, query=config["query"])
-    for _, lijntype in result.iterrows():
-        lijntypes += f"\n\n*{lijntype.tgtLinetypeName},{lijntype.tgtLinetypeID if pd.notna(lijntype.tgtLinetypeID) else ''}"
-        # if lijntypes[-1] == ',':
-        #     lijntypes = lijntypes[:-1]
-        lijntypes += f"\n{lijntype.tgtLinetypeInfo}"
 
-    with open(f"NLCS-{type_publication}-{version.replace('.','-')}_linetypes.lin", "w") as f:
-        f.write(lijntypes)
+    lines_to_write = [header_info]
+
+    for _, lijntype in result.iterrows():
+        name = str(lijntype.tgtLinetypeName) if pd.notna(lijntype.tgtLinetypeName) else ""
+        linetype_id = str(lijntype.tgtLinetypeID) if pd.notna(lijntype.tgtLinetypeID) else ""
+        lines_to_write.append(f"\n*{name},{linetype_id}")
+        
+        info_line = str(lijntype.tgtLinetypeInfo)
+        info_line = info_line.replace("\\", "")
+        info_line = info_line.replace("“", '"').replace("”", '"').replace("‘", "'").replace("’", "'")
+        info_line = ','.join(part.strip() for part in info_line.split(',')) 
+        lines_to_write.append(info_line)
+
+    with open(f"NLCS-{type_publication}-{version.replace('.','-')}_linetypes.lin", "w", encoding="utf-8") as f:
+        f.write('\n'.join(lines_to_write))
         f.close()
         logging.info(".lin file saved")
     
-    return result, lijntypes
+    lijntypes_cleaned = '\n'.join(lines_to_write)
+    return result, lijntypes_cleaned
 
 def generate_pat(config):
     '''
