@@ -1,13 +1,9 @@
-<table>
-  <tr>
-    <td><figure>
-<img src="../../media/NLCS - logo klein.png" alt="NLCS logo" width="50%">
-</figure></td>
-    <td>Dit document bevat de beheerhandleiding van NLCS en is onderdeel van de volgende documentenreeks:</td>
-  </tr>
-</table>
 
 
+
+<img src="../media/NLCSlogoklein.png" alt="NLCS logo" width="10%">
+
+Dit document bevat de beheerhandleiding van NLCS en is onderdeel van de volgende documentenreeks:
 
 * [Beheerdocument DigiGO](https://www.bimloket.nl//documents/Beheerdocument_open_BIM-standaarden_v1_8.pdf)
 * [Beheerorganisatie NLCS](https://www.digigo.nu/standaarden/nlcs/beheer)
