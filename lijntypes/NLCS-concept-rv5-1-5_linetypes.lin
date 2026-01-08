@@ -1,7 +1,7 @@
 Lin bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
 
 *CONTINUOUS,1
-Doorgetrokken lijn. Deze lijnstijl heeft de naam CONTINUOUS in AutoCAD, in Microstation is dit lijntype 0.
+Doorgetrokken lijn. Deze lijnstijl heeft de naam CONTINUOUS in AutoCAD,in Microstation is dit lijntype 0.
 
 *V-CONTINUOUS-SO,12
 A,3.5,[VERWIJDEREN2,NLCS.SHX,S=0.5],3.5
@@ -13,7 +13,7 @@ A,7,-0.5,[WGOLF,NLCS.SHX,s=.75,r=0.0,x=0.75,y=0],-2
 A,3.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],3.5,-0.5,[WGOLF,NLCS.SHX,s=.75,r=0.0,x=0.75,y=0],-2
 
 *V-KL-GAS_LD-SO,233
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[CIRC,NLCS.SHX,s=0.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[\"L\",standard,U=0.0,s=1,r=0.0,x=.25,y=-.5],-2
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[CIRC,NLCS.SHX,s=0.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,["L",standard,U=0.0,s=1,r=0.0,x=.25,y=-.5],-2
 
 *RI-UITLEGGER-SO,347
 A,2.5,-1.8,1.8,-1.8
@@ -22,10 +22,10 @@ A,2.5,-1.8,1.8,-1.8
 A,1.25,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.25,-1.8,1.8,-1.8,2.5,-1.8,1.8,-1.8
 
 *KL-GAS_HD-SO,230
-A,4,-1,[CIRC,NLCS.SHX,s=0.5],-1,4,-1,[\"H\",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
+A,4,-1,[CIRC,NLCS.SHX,s=0.5],-1,4,-1,["H",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
 
 *V-KL-GAS_HD-SO,231
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[CIRC,NLCS.SHX,s=0.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[\"H\",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[CIRC,NLCS.SHX,s=0.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,["H",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
 
 *AM-AS-SO,10
 A,10,-2,2,-2
@@ -43,10 +43,10 @@ A,3.00,-1.50
 A,1.50,[VERWIJDEREN2,NLCS.shx,s=0.5],1.50,-1.50
 
 *KL-CV-SO,184
-A,7,-1.5,[\"CV\",standard,U=0.0,s=1,r=0.0,x=-0.5,y=-.5],-3
+A,7,-1.5,["CV",standard,U=0.0,s=1,r=0.0,x=-0.5,y=-.5],-3
 
 *V-KL-CV-SO,185
-A,3.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],3.5,-1.5,[\"CV\",standard,U=0.0,s=1,r=0.0,x=-0.5,y=-.5],-3
+A,3.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],3.5,-1.5,["CV",standard,U=0.0,s=1,r=0.0,x=-0.5,y=-.5],-3
 
 *GR-HAAG_DRAAD-SO,96
 A,4,[MARK,NLCS.SHX,r=45,s=0.75],4,-1.5
@@ -55,16 +55,16 @@ A,4,[MARK,NLCS.SHX,r=45,s=0.75],4,-1.5
 A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=0.6],2,[MARK,NLCS.SHX,r=45,s=0.75],2,[VERWIJDEREN2,NLCS.SHX,x=1,s=0.6],2,-2
 
 *KL-GAS_LD-SO,232
-A,4,-1,[CIRC,NLCS.SHX,s=0.5],-1,4,-1,[\"L\",standard,U=0.0,s=1,r=0.0,x=.25,y=-.5],-2
+A,4,-1,[CIRC,NLCS.SHX,s=0.5],-1,4,-1,["L",standard,U=0.0,s=1,r=0.0,x=.25,y=-.5],-2
 
 *KL-KOUDENET-SO,234
-A,7,-1.5,[\"KN\",standard,U=0.0,s=1,r=0.0,x=-0.3,y=-.5],-3
+A,7,-1.5,["KN",standard,U=0.0,s=1,r=0.0,x=-0.3,y=-.5],-3
 
 *V-KL-KOUDENET-SO,235
-A,3.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],3.5,-1.5,[\"KN\",standard,U=0.0,s=1,r=0.0,x=-0.3,y=-.5],-3
+A,3.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],3.5,-1.5,["KN",standard,U=0.0,s=1,r=0.0,x=-0.3,y=-.5],-3
 
 *KG-BGPRORAIL-SO,131
-A,5.5,-2,[\"PR\",standard,U=0.0,x=-1,y=-.9,s=1.8],-3,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2
+A,5.5,-2,["PR",standard,U=0.0,x=-1,y=-.9,s=1.8],-3,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2
 
 *V-MO-ARCHEOLOGIE-SO,313
 A,3.5,-5,0,[VERWIJDEREN2,NLCS.SHX,s=0.5],-5,7,-2.5,[ARCHEOLOGIE,NLCS.SHX,s=0.3],-2.5,3.5
@@ -85,7 +85,7 @@ A,10,-2,2,-2,2,-2,2,-2
 A,5,[VERWIJDEREN2,NLCS.SHX,s=0.5],5,-2,2,-2,2,-2,2,-2
 
 *V-OV-KABEL_BUNDEL-SO,695
-A,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-1,[\"OV\",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-.5,[\"B\",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
+A,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-1,["OV",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-.5,["B",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
 
 *VW-39_STREEP,564
 A,15,-45
@@ -118,10 +118,10 @@ A,6.00,-3.00,0,-3.00
 A,3.00,[VERWIJDEREN2,NLCS.shx,s=0.5],3.00,-3.00,0,-3.00
 
 *KL-WARMTENET-SO,241
-A,7,-1.5,[\"WN\",standard,U=0.0,s=1,r=0.0,x=-0.3,y=-.5],-3
+A,7,-1.5,["WN",standard,U=0.0,s=1,r=0.0,x=-0.3,y=-.5],-3
 
 *V-KL-WARMTENET-SO,242
-A,3.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],3.5,-1.5,[\"WN\",standard,U=0.0,s=1,r=0.0,x=-0.3,y=-.5],-3
+A,3.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],3.5,-1.5,["WN",standard,U=0.0,s=1,r=0.0,x=-0.3,y=-.5],-3
 
 *V-BV-VLP2DL13380-SO,62
 A,2,-1,[VLP2DL13380,NLCS.SHX,s=0.5],-1,2,-1,[VLP2DL13380,NLCS.SHX,s=0.5],-1,2,-1,[VLP2DL13380,NLCS.SHX,s=0.5],-1,2,-2,[VERWIJDEREN2,NLCS.SHX,s=0.6],-2
@@ -145,10 +145,10 @@ A,2.50,-2.50
 A,1.25,[VERWIJDEREN2,NLCS.SHX,s=1],1.25,-2.50
 
 *RI-ITR_AANSLUITLEIDING-SO,371
-A, 3.75, -0.75, 0.75, -0.75
+A,3.75,-0.75,0.75,-0.75
 
 *V-RI-ITR_AANSLUITLEIDING-SO,372
-A, 1.875,[VERWIJDEREN2,NLCS.shx,s=0.5],1.875,-0.75,0.375,[VERWIJDEREN2,NLCS.shx,s=0.5],0.375,-0.75
+A,1.875,[VERWIJDEREN2,NLCS.shx,s=0.5],1.875,-0.75,0.375,[VERWIJDEREN2,NLCS.shx,s=0.5],0.375,-0.75
 
 *VH-OPSLUITBAND-SO,462
 A,4,-2,2,-2
@@ -187,10 +187,10 @@ A,12.5,-2.5,1,-2.5
 A,12.5,-2.5,1,-2.5,12.5,-2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],-2.5
 
 *RI-ITR-SO,369
-A, 7.50, -1.50, 1.50, -1.50
+A,7.50,-1.50,1.50,-1.50
 
 *V-RI-ITR-SO,370
-A, 3.75,[VERWIJDEREN2,NLCS.shx,s=0.5],3.75,-1.50,0.75,[VERWIJDEREN2,NLCS.shx,s=0.5],0.75,-1.50
+A,3.75,[VERWIJDEREN2,NLCS.shx,s=0.5],3.75,-1.50,0.75,[VERWIJDEREN2,NLCS.shx,s=0.5],0.75,-1.50
 
 *BV-SLIPFORM-SO,25
 A,1,-1,[SLIBFORM,NLCS.SHX,x=-1,s=1],1
@@ -214,7 +214,7 @@ A,5,-7.25,0,-7.25,10,-4,[STRALING,NLCS.SHX,s=0.8],-4,5
 A,5,-7.25,0,[VERWIJDEREN2,NLCS.SHX,s=0.5],-7.25,10,-4,[STRALING,NLCS.SHX,s=0.8],-4,5
 
 *V-KL-HS-SO,210
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[\"H\",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,["H",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
 
 *KL-CHEMIE-SO,182
 A,7,-0.5,[VERT,NLCS.SHX,s=0.5,r=0.0,x=0.75,y=0],-2
@@ -229,10 +229,10 @@ A,5.5,-2,[WATERSCHAPSGOLF,NLCS.SHX,s=1],-2,5.5,-2,[KRUISJE,NLCS.SHX,s=0.75],-2
 A,1,-2.25,[KRUISJE,NLCS.SHX,s=1],-2.25
 
 *KL-STUURKABEL-SO,201
-A,4,-1,[v,NLCS.SHX,s=.5],-1,4,-1,[\"S\",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
+A,4,-1,[v,NLCS.SHX,s=.5],-1,4,-1,["S",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
 
 *V-KL-STUURKABEL-SO,202
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[v,NLCS.SHX,s=.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[\"S\",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[v,NLCS.SHX,s=.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,["S",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
 
 *V-RI-RWZI_DRIJFLEIDING-SO,645
 A,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-4,0,-4,5,-4,0,-4
@@ -259,19 +259,19 @@ A,1.50,-0.75,0,-0.75
 A,0.75,[VERWIJDEREN2,NLCS.shx,s=0.5],0.75,-0.75,0,-0.75
 
 *KL-WIM-SO,667
-A,14,-1,[\"WIM\",standard,U=0.0,x=-0.1,y=-.9,s=1],-5,30
+A,14,-1,["WIM",standard,U=0.0,x=-0.1,y=-.9,s=1],-5,30
 
 *RI-TRANSPORTLEIDING-SO,400
-A,7,-2,[\"T\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,7,-2,[drieh,NLCS.SHX,s=1,r=180,x=0,y=0],-2
+A,7,-2,["T",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,7,-2,[drieh,NLCS.SHX,s=1,r=180,x=0,y=0],-2
 
 *V-RI-TRANSPORTLEIDING-SO,401
-A,3.5,[VERWIJDEREN2,NLCS.SHX,s=1],3.5,-2,[\"T\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,3.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],3.5,-2,[drieh,NLCS.SHX,s=1,r=180,x=0,y=0],-2
+A,3.5,[VERWIJDEREN2,NLCS.SHX,s=1],3.5,-2,["T",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,3.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],3.5,-2,[drieh,NLCS.SHX,s=1,r=180,x=0,y=0],-2
 
 *MO-GRONDWATERINTERVENTIEWAARDE-SO,272
 A,17.25,-4,[GRONDWATER,NLCS.SHX,s=0.8],-4,17.25
 
 *KL-GMS-SO,665
-A,14,-1,[\"GMS\",standard,U=0.0,x=-0.5,y=-.9,s=1],-5,30
+A,14,-1,["GMS",standard,U=0.0,x=-0.5,y=-.9,s=1],-5,30
 
 *V-VW-91_STREEP,567
 A,22.50,[VERWIJDEREN2,NLCS.SHX,s=1],22.50,-5
@@ -319,7 +319,7 @@ A,0,-5,[drieh,NLCS.SHX,s=1,r=0,x=-.625],2.5,-0.5,[CIRC,NLCS.SHX,s=.5],-0.5,2.5,[
 A,3,-3.5,6,-4,[TRILLING,NLCS.SHX,s=0.8],-4,6,-3.5,6,-3.5,[VERWIJDEREN2,NLCS.SHX,x=-1.75,s=0.5],3
 
 *V-OV-AARDING-SO,731
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[\"A\",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,["A",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
 
 *V-OB-PEILVLAK-SO,315
 A,3,[VERWIJDEREN2,NLCS.SHX,s=0.5],3,-1.5
@@ -349,22 +349,22 @@ A,3.5,[VERWIJDEREN2,NLCS.SHX,s=1],3.5,-2,["P",standard,U=0.0,x=-0.5,y=-.9,s=1.8]
 A,3,-3.5,6,-4,[GELUID,NLCS.SHX,s=0.8],-4,6,-3.5,6,-3.5,3
 
 *KG-BGWATERSCHAP-SO,133
-A,5.5,-2,[\"W\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2
+A,5.5,-2,["W",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2
 
 *V-KG-BGWATERSCHAP-SO,134
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\"W\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,["W",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2
 
 *OV-AARDING-SO,730
-A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1,[\"A\",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
+A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1,["A",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
 
 *KL-TELPUNT-SO,669
-A,14,-1,[\"TP\",standard,U=0.0,x=1,y=-.9,s=1],-5,30
+A,14,-1,["TP",standard,U=0.0,x=1,y=-.9,s=1],-5,30
 
 *V-KL-TELPUNT-SO,670
-A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,[\"TP\",standard,U=0.0,x=1,y=-.9,s=1],-5
+A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,["TP",standard,U=0.0,x=1,y=-.9,s=1],-5
 
 *VH-GELEIDEBAND_STELLEN-SO,457
-A,2,-2,0,-2,1,[\"S\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],1,-2,0,-2
+A,2,-2,0,-2,1,["S",standard,U=0.0,x=-0.5,y=-.9,s=1.8],1,-2,0,-2
 
 *OV-KABELKOKER-SO,728
 A,0,-3,[DUB5,NLCS.SHX,s=1],-3
@@ -373,7 +373,7 @@ A,0,-3,[DUB5,NLCS.SHX,s=1],-3
 A,0,-3,[DUB3,NLCS.SHX,s=1],-6,[DUB3,NLCS.SHX],-6,[DUB3,NLCS.SHX],-6,[VERWIJDEREN2,NLCS.SHX,s=0.5],-3
 
 *V-KG-OGWATERSCHAP-SO,148
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\"W\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL,NLCS.SHX,s=0.5],-2
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,["W",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL,NLCS.SHX,s=0.5],-2
 
 *RI-RWZI_RECIRCULATIELEIDING-SO,638
 A,15,-1.5,1.5,-1.5,1.5,-1.5,1.5,-1.5
@@ -385,10 +385,10 @@ A,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2
 A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2
 
 *KL-WAN-SO,203
-A,4,-1,[v,NLCS.SHX,s=.5],-1,4,-2,[\"WAN\",standard,U=0.0,s=1,r=0.0,x=-1.25,y=-.5],-2.5
+A,4,-1,[v,NLCS.SHX,s=.5],-1,4,-2,["WAN",standard,U=0.0,s=1,r=0.0,x=-1.25,y=-.5],-2.5
 
 *V-KL-WAN-SO,204
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[v,NLCS.SHX,s=.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-2,[\"WAN\",standard,U=0.0,s=1,r=0.0,x=-1.75,y=-.5],-1.5
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[v,NLCS.SHX,s=.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-2,["WAN",standard,U=0.0,s=1,r=0.0,x=-1.75,y=-.5],-1.5
 
 *V-BV-BEVER-SO,37
 A,0.5,[STEPBARRIER-B,NLCS.SHX,s=1],-1,[STEPBARRIER-B,NLCS.SHX,s=1],-1,0.5,-1,[VERWIJDEREN2,NLCS.SHX,s=0.6],-1
@@ -421,22 +421,22 @@ A,6.75,[VERWIJDEREN2,NLCS.SHX,s=1],6.75,-1.50
 A,5,-5
 
 *V-KG-BGPRORAIL-SO,132
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\"PR\",standard,U=0.0,x=-1,y=-.9,s=1.8],-3,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,["PR",standard,U=0.0,x=-1,y=-.9,s=1.8],-3,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2
 
 *KL-DRIP-SO,661
-A,14,-1,[\"DRI\",standard,U=0.0,x=-0.5,y=-.9,s=1],-5,30
+A,14,-1,["DRI",standard,U=0.0,x=-0.5,y=-.9,s=1],-5,30
 
 *V-KL-DRIP-SO,662
-A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,[\"DRI\",standard,U=0.0,x=-0.5,y=-.9,s=1],-5
+A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,["DRI",standard,U=0.0,x=-0.5,y=-.9,s=1],-5
 
 *VH-OPSLUITBAND_STELLEN-SO,484
-A,4,-2,2,-2,2,[\"S\",standard,x=-0.5,y=-.9,s=1.8],2,-2,2,-2
+A,4,-2,2,-2,2,["S",standard,x=-0.5,y=-.9,s=1.8],2,-2,2,-2
 
 *V-KG-OGRIJKRWS-SO,152
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-3,[\"RWS\",standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2.5,[CIRKEL,NLCS.SHX,s=0.5],-2.5
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-3,["RWS",standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2.5,[CIRKEL,NLCS.SHX,s=0.5],-2.5
 
 *RI-VACUUM-SO,403
-A,7,-2,[\"V\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,7,-2,[drieh,NLCS.SHX,s=1,r=180,x=0,y=0],-2
+A,7,-2,["V",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,7,-2,[drieh,NLCS.SHX,s=1,r=180,x=0,y=0],-2
 
 *V-RI-VACUUM-SO,404
 A,3.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],3.5,-2,["V",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,3.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],3.5,-2,[drieh,NLCS.SHX,s=1,r=180,x=0,y=0],-2
@@ -445,7 +445,7 @@ A,3.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],3.5,-2,["V",standard,U=0.0,x=-0.5,y=-.9,s=1.
 A,3,-3.5,6,-4,[GRONDWATER,NLCS.SHX,s=0.8],-4,6,-3.5,6,-3.5,[VERWIJDEREN2,NLCS.SHX,x=-1.75,s=0.5],3
 
 *VH-SCHEIDINGSBAND_STELLEN-SO,523
-A,2,[\"S\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],2,-2,0,-2,0,-2
+A,2,["S",standard,U=0.0,x=-0.5,y=-.9,s=1.8],2,-2,0,-2,0,-2
 
 *MO-BODEM_CONTOUR_INTERVENTIEWAARDE-SO,266
 A,17.25,-7,[MAAIVELD,NLCS.SHX,s=1.8],-7,17.25
@@ -475,16 +475,16 @@ A,2,-1,[VLP1LV13360,NLCS.SHX,s=0.5],-1,2,-1,[VLP1LV13360,NLCS.SHX,s=0.5],-1,2,-1
 A,0.25,-8
 
 *V-OV-KABEL-SO,215
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1.5,[\"0V\",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-3
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1.5,["0V",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-3
 
 *V-KL-ELECTRICITEIT-SO,206
 A,3.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],3.5,-0.5,[flash,NLCS.SHX,s=.75,r=0.0,x=.75,y=0],-2
 
 *KL-DEF-SO,190
-A,4,-1,[v,NLCS.SHX,s=.5],-1,4,-2,[\"DEF\",standard,U=0.0,s=1,r=0.0,x=-1,y=-.5],-2.5
+A,4,-1,[v,NLCS.SHX,s=.5],-1,4,-2,["DEF",standard,U=0.0,s=1,r=0.0,x=-1,y=-.5],-2.5
 
 *V-KL-DEF-SO,191
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[v,NLCS.SHX,s=.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-2,[\"DEF\",standard,U=0.0,s=1,r=0.0,x=-1.5,y=-.5],-1.5
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[v,NLCS.SHX,s=.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-2,["DEF",standard,U=0.0,s=1,r=0.0,x=-1.5,y=-.5],-1.5
 
 *V-KG-GWBG-SO,112
 A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[WATERSCHAPSGOLF,NLCS.SHX,s=1],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[KRUISJE,NLCS.SHX,s=0.75],-2
@@ -496,10 +496,10 @@ A,6,[VERWIJDEREN2,NLCS.SHX,s=0.5],6,-1.5,3,-1.5
 A,3,-3.5,6,-4,[GELUID,NLCS.SHX,s=0.8],-4,6,-3.5,6,-3.5,[VERWIJDEREN2,NLCS.SHX,x=-1.75,s=0.5],3
 
 *KG-BGGEMEENTE-SO,129
-A,5.5,-2,[\"G\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2
+A,5.5,-2,["G",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2
 
 *V-KG-BGGEMEENTE-SO,130
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\"G\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,["G",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2
 
 *IE-CONSTRUCTIEVE AFSCHEIDING-SO,90
 A,4,[B20-10V,NLCS.SHX,r=90,s=0.75],4,-2
@@ -508,16 +508,16 @@ A,4,[B20-10V,NLCS.SHX,r=90,s=0.75],4,-2
 A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=0.6],2,[B20-10V,NLCS.SHX,r=90,s=0.75],2,[VERWIJDEREN2,NLCS.SHX,x=1,s=0.6],2,-2
 
 *RI-PERS-SO,383
-A,7,-2,[\"P\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,7,-2,[drieh,NLCS.SHX,s=1,r=180,x=0,y=0],-2
+A,7,-2,["P",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,7,-2,[drieh,NLCS.SHX,s=1,r=180,x=0,y=0],-2
 
 *V-KL-LS-SO,212
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[\"L\",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,["L",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
 
 *KG-BENOGPRORAIL-SO,159
-A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-2,[\"PR\",standard,U=0.0,x=-1.5,y=-.9,s=1.8],-3
+A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-2,["PR",standard,U=0.0,x=-1.5,y=-.9,s=1.8],-3
 
 *V-KG-BENOGPRORAIL-SO,160
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\"PR\",standard,U=0.0,x=-1.5,y=-.9,s=1.8],-3
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,["PR",standard,U=0.0,x=-1.5,y=-.9,s=1.8],-3
 
 *BV-STEPBARRIER_S-SO,17
 A,1,-1,[STEPBARRIER-S,NLCS.SHX,x=-.5,s=1],1
@@ -538,10 +538,10 @@ A,3,-3.5,6,-7,[MAAIVELD,NLCS.SHX,s=1.8],-7,6,-3.5,6,-3.5,3
 A,3,-3.5,6,-7,[MAAIVELD,NLCS.SHX,s=1.8],-7,6,-3.5,6,-3.5,[VERWIJDEREN2,NLCS.SHX,x=-1.75,s=0.5],3
 
 *V-KL-TDI-SO,664
-A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,[\"TDI\",standard,U=0.0,x=-0.5,y=-0.9,s=1],-5
+A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,["TDI",standard,U=0.0,x=-0.5,y=-0.9,s=1],-5
 
 *V-KG-OGGEMEENTE-SO,144
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\"G\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL,NLCS.SHX,s=0.5],-2
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,["G",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL,NLCS.SHX,s=0.5],-2
 
 *KL-BUNDEL-SO,213
 A,28,-5,[flash,NLCS.SHX,s=.75],-5,[flash,NLCS.SHX,s=.75],-5,[flash,NLCS.SHX,s=.75],-5,[flash,NLCS.SHX,s=.75],-5
@@ -550,7 +550,7 @@ A,28,-5,[flash,NLCS.SHX,s=.75],-5,[flash,NLCS.SHX,s=.75],-5,[flash,NLCS.SHX,s=.7
 A,12,-3,0,-3
 
 *V-KL-WIM-SO,668
-A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,[\"WIM\",standard,U=0.0,x=-0.1,y=-.9,s=1],-5
+A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,["WIM",standard,U=0.0,x=-0.1,y=-.9,s=1],-5
 
 *GR-PLANTSOEN-SO,79
 A,0,[PLANTSOEN,NLCS.shx,s=1.5],-4
@@ -559,10 +559,10 @@ A,0,[PLANTSOEN,NLCS.shx,s=1.5],-4
 A,0,-0.0001,[VERWIJDEREN2,NLCS.SHX,s=0.5,y=1],-0.0001,[PLANTSOEN,NLCS.shx,s=1.5],-4
 
 *RI-DRAINAGE_AANSLUITLEIDING-SO,325
-A, 3.00, -1.50
+A,3.00,-1.50
 
 *VH-TROTTOIRBAND_STELLEN-SO,727
-A,2.5,[\"S\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],2.5,-2,2,-2,2,-2
+A,2.5,["S",standard,U=0.0,x=-0.5,y=-.9,s=1.8],2.5,-2,2,-2,2,-2
 
 *VH-HAVENBAND-SO,458
 A,12,-3,1.5,-3,0,-3,1.5,-3
@@ -577,7 +577,7 @@ A,1,[VERWIJDEREN2,NLCS.SHX,s=0.5],1,[CIRC,NLCS.SHX,s=0.2],1,[VERWIJDEREN2,NLCS.S
 A,6,[HAAG2,NLCS.shx,s=0.5],-2
 
 *V-KL-BEWEGWIJZERING-SO,660
-A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,[\"BEW\",standard,U=0.0,x=-0.9,y=-.9,s=1],-5
+A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,["BEW",standard,U=0.0,x=-0.9,y=-.9,s=1],-5
 
 *BV-VLP1DL13360-SO,65
 A,2,-1,[VLP1DL13360,NLCS.SHX,s=0.5],-1
@@ -595,13 +595,13 @@ A,0.25,-8
 A,0.25,-4,[VERWIJDEREN2,NLCS.SHX,s=0.5],-4
 
 *V-KG-KADASTRALEPERCEELGRENS-SO,118
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\"P\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[KRUISJE,NLCS.SHX,s=0.75],-2
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,["P",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[KRUISJE,NLCS.SHX,s=0.75],-2
 
 *V-KL-SIGNAALKABEL-SO,200
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[v,NLCS.SHX,s=.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[\"SI\",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[v,NLCS.SHX,s=.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,["SI",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
 
 *VH-BUSHALTEBAND_STELLEN-SO,429
-A,2,-2,1,[\"S\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],1,-2
+A,2,-2,1,["S",standard,U=0.0,x=-0.5,y=-.9,s=1.8],1,-2
 
 *V-BV-STEPBARRIER_BG-SO,24
 A,0.5,-1,[STEPBARRIER-B,NLCS.SHX,x=-1,s=1],1,[VERTIKAAL,NLCS.SHX,s=1],0.5,-1,[VERWIJDEREN2,NLCS.SHX,s=0.6],-1
@@ -613,7 +613,7 @@ A,6,[HAAG1,NLCS.shx,s=0.125],-2
 A,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5
 
 *KG-OGRIJK-SO,149
-A,5.5,-2,[\"R\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[CIRKEL,NLCS.SHX,s=0.5],-2
+A,5.5,-2,["R",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[CIRKEL,NLCS.SHX,s=0.5],-2
 
 *ZZ-FASEGRENS-SO,173
 A,2,-2
@@ -625,10 +625,10 @@ A,2.5,-1.5,1,-1.5,1,-1.5,2.5
 A,5,[VERWIJDEREN2,NLCS.SHX,x=10.5,s=0.6],5,-3,[GELEIDERAIL,NLCS.SHX,s=1],-3
 
 *KL-UWKS-SO,677
-A,14,-1,[\"UWKS\",standard,U=0.0,x=-0.6,y=-.9,s=1],-5,30
+A,14,-1,["UWKS",standard,U=0.0,x=-0.6,y=-.9,s=1],-5,30
 
 *V-KL-UWKS-SO,678
-A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,[\"UWKS\",standard,U=0.0,x=-0.6,y=-.9,s=1],-5
+A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,["UWKS",standard,U=0.0,x=-0.6,y=-.9,s=1],-5
 
 *OB-PEILVLAK-SO,314
 A,6,-1.5
@@ -643,16 +643,16 @@ A,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-2.4,0,-2.4,0,-2.4
 A,3,-1.75,["ZB",standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-1.75,3,-1.75
 
 *KG-BGRIJKRWS-SO,137
-A,5.5,-3,[\"RWS\",standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3,5.5,-2.5,[DRIEHOEK,NLCS.SHX,s=1],-2.5
+A,5.5,-3,["RWS",standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3,5.5,-2.5,[DRIEHOEK,NLCS.SHX,s=1],-2.5
 
 *V-KG-BGRIJKRWS-SO,138
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-3,[\"RWS\",standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2.5,[DRIEHOEK,NLCS.SHX,s=1],-2.5
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-3,["RWS",standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2.5,[DRIEHOEK,NLCS.SHX,s=1],-2.5
 
 *KL-MS-SO,224
-A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1,[\"M\",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
+A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1,["M",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
 
 *V-KL-MS-SO,225
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[\"M\",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,["M",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
 
 *VH-ZAAGSNEDE-SO,555
 A,.00001,-2.54,[ZAAGSNEDE1,NLCS.SHX,x=-2.54,s=2.54],-5.08,[ZAAGSNEDE1,NLCS.SHX,r=180,x=2.54,s=2.54],-2.54
@@ -661,19 +661,19 @@ A,.00001,-2.54,[ZAAGSNEDE1,NLCS.SHX,x=-2.54,s=2.54],-5.08,[ZAAGSNEDE1,NLCS.SHX,r
 A,2,-1,[VERTIKAAL,NLCS.SHX,s=1],-1
 
 *KL-VS-SO,673
-A,14,-1,[\"VS\",standard,U=0.0,x=0.5,y=-.9,s=1],-5,30
+A,14,-1,["VS",standard,U=0.0,x=0.5,y=-.9,s=1],-5,30
 
 *V-KG-BENOGGEMEENTE-SO,158
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[\"G\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,["G",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5
 
 *V-MO-LUCHTTUSSENWAARDE-SO,283
 A,5,-7.25,0,[VERWIJDEREN2,NLCS.SHX,s=0.5],-7.25,10,-4,[WOLK,NLCS.SHX,s=0.8],-4,5
 
 *KL-HS-SO,209
-A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1,[\"H\",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
+A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1,["H",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
 
 *KG-BGPROVINCIE-SO,127
-A,5.5,-2,[\"P\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2
+A,5.5,-2,["P",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2
 
 *V-VH-LEICON-SO,461
 A,7.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],7.5,-2,1,-2,2,-2,1,-2
@@ -697,13 +697,13 @@ A,2,[VERWIJDEREN2,NLCS.SHX,s=0.6],2,-2,[UGG,nlcs.shx,x=-1.4,s=1],-2
 A,5,-7.25,0,[VERWIJDEREN2,NLCS.SHX,s=0.5],-7.25,10,-4,[GRONDWATER,NLCS.SHX,s=0.8],-4,5
 
 *KG-OPNAME-SO,123
-A,5.5,-2,[\"O\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[KRUISJE,NLCS.SHX,s=0.75],-2
+A,5.5,-2,["O",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[KRUISJE,NLCS.SHX,s=0.75],-2
 
 *V-BV-STEPBARRIER_BV-SO,22
 A,1,-1,[STEPBARRIER-BV,NLCS.SHX,x=-1,s=1],1,-1,[VERWIJDEREN2,NLCS.SHX,s=0.6],-1
 
 *KL-BEWEGWIJZERING-SO,659
-A,14,-1,[\"BEW\",standard,U=0.0,x=-0.9,y=-.9,s=1],-5,30
+A,14,-1,["BEW",standard,U=0.0,x=-0.9,y=-.9,s=1],-5,30
 
 *KL-TELECOM-SO,194
 A,7,-1,[v,NLCS.SHX,s=.5],-1
@@ -727,7 +727,7 @@ A,2,-1,[VLP1Z13360,NLCS.SHX,s=0.5],-1
 A,6,[VERWIJDEREN2,NLCS.SHX,x=-3,s=0.6],-3,0,-3,6,-3
 
 *V-KG-BENOGWATERSCHAP-SO,162
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[\"W\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,["W",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5
 
 *VW-93_STREEP,568
 A,45,-15
@@ -757,10 +757,10 @@ A,3,[VERWIJDEREN1,NLCS.SHX,s=0.5],3,[WATERLIJN,NLCS.SHX,s=1],6
 A,0.5,-2,[VARIOGUARD,NLCS.SHX,x=-1,s=1],0.5,-1,[VERWIJDEREN2,NLCS.SHX,s=0.5],-1
 
 *KG-OGPRORAIL-SO,145
-A,5.5,-2,[\"PR\",standard,U=0.0,x=-1.5,y=-.9,s=1.8],-2,5.5,-2,[CIRKEL,NLCS.SHX,s=0.5],-2
+A,5.5,-2,["PR",standard,U=0.0,x=-1.5,y=-.9,s=1.8],-2,5.5,-2,[CIRKEL,NLCS.SHX,s=0.5],-2
 
 *V-KG-OGPRORAIL-SO,146
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\"PR\",standard,U=0.0,x=-1.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL,NLCS.SHX,s=0.5],-2
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,["PR",standard,U=0.0,x=-1.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL,NLCS.SHX,s=0.5],-2
 
 *V-BV-VLP2Z26780-SO,46
 A,2,-1,[VLP2Z26780,NLCS.SHX,s=0.5],-1,2,-1,[VLP2Z26780,NLCS.SHX,s=0.5],-1,2,-1,[VLP2Z26780,NLCS.SHX,s=0.5],-1,2,-2,[VERWIJDEREN2,NLCS.SHX,s=0.6],-2
@@ -787,7 +787,7 @@ A,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-1,0,-1,5,-1
 A,5,-3,0,-3
 
 *V-KL-VS-SO,674
-A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,[\"VS\",standard,U=0.0,x=0.5,y=-.9,s=1],-5
+A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,["VS",standard,U=0.0,x=0.5,y=-.9,s=1],-5
 
 *BC-STORTNAAD-SO,609
 A,15,-1,[ZZ,NLCS.SHX,S=1],-1
@@ -796,16 +796,16 @@ A,15,-1,[ZZ,NLCS.SHX,S=1],-1
 A,5.5,-2,[KRUISJE,NLCS.SHX,s=0.75],-3,[KRUISJE,NLCS.SHX,s=0.75],-2
 
 *KL-LS-SO,211
-A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1,[\"L\",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
+A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1,["L",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
 
 *V-KG-BENOGRIJK-SO,164
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[\"R\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,["R",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5
 
 *V-MO-BODEMTUSSENWAARDE-SO,265
 A,5,-7.25,0,[VERWIJDEREN2,NLCS.SHX,s=0.5],-7.25,10,-7,[MAAIVELD,NLCS.SHX,s=1.8],-7,5
 
 *VH-GAZONBAND_STELLEN-SO,442
-A,2.5,[\"S\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],2.5,-2
+A,2.5,["S",standard,U=0.0,x=-0.5,y=-.9,s=1.8],2.5,-2
 
 *VH-GELEIDEBAND-SO,443
 A,2,-2,0,-2
@@ -820,7 +820,7 @@ A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-4,0,-2,2,-2,0,-4
 A,2.5,[VKGZ,nlcs.shx,s=1],2.5,-2.75
 
 *KG-BENOGRIJK-SO,163
-A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-1.5,[\"R\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5
+A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-1.5,["R",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5
 
 *MO-GEURSTREEFWAARDE-SO,304
 A,3,-3.5,6,-4,[GEUR,NLCS.SHX,s=0.8],-4,6,-3.5,6,-3.5,3
@@ -832,13 +832,13 @@ A,2,-1,[VLP2Z26780,NLCS.SHX,s=0.5],-1
 A,3,[VERWIJDEREN2,NLCS.SHX,s=0.5],3,-1.8,2.4,-1.8,1.8,-1.8,2.4,-1.8
 
 *RI-DRAINAGE-SO,323
-A, 6.00, -3.00
+A,6.00,-3.00
 
 *V-RI-DRAINAGE-SO,324
 A,3,[VERWIJDEREN2,NLCS.SHX,s=0.5],3,-1.8,1.8,-1.8,2.4,-1.8,1.8,-1.8
 
 *KG-OGGEMEENTE-SO,143
-A,5.5,-2,[\"G\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[CIRKEL,NLCS.SHX,s=0.5],-2
+A,5.5,-2,["G",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[CIRKEL,NLCS.SHX,s=0.5],-2
 
 *V-WH-WATERBODEM-SO,598
 A,4,[VERWIJDEREN1,NLCS.SHX,s=0.5],12,[MAAIVELD,NLCS.SHX,y=-0.50,s=1],12
@@ -892,13 +892,13 @@ A,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-3,0,-3
 A,8.625,-4,[STRALING,NLCS.SHX,s=0.8],-4,17.25,[VERWIJDEREN2,NLCS.SHX,s=0.5],8.625
 
 *KL-GLASVEZEL-SO,192
-A,4,-1,[v,NLCS.SHX,s=.5],-1,4,-1,[\"G\",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
+A,4,-1,[v,NLCS.SHX,s=.5],-1,4,-1,["G",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
 
 *V-KL-GLASVEZEL-SO,193
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[v,NLCS.SHX,s=.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[\"G\",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[v,NLCS.SHX,s=.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,["G",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
 
 *V-RI-DRAINAGE_AANSLUITLEIDING-SO,326
-A, 1.50,[VERWIJDEREN2,NLCS.shx,s=0.5],1.50,-1.50
+A,1.50,[VERWIJDEREN2,NLCS.shx,s=0.5],1.50,-1.50
 
 *KG-BESTEMMINGSPLAN-SO,110
 A,3.4,-1,[BBG,nlcs.shx,s=1],-1
@@ -907,7 +907,7 @@ A,3.4,-1,[BBG,nlcs.shx,s=1],-1
 A,6,-3,0,-3,6,-3
 
 *KG-BENOGGEMEENTE-SO,157
-A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-1.5,[\"G\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5
+A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-1.5,["G",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5
 
 *KG-GV-SO,167
 A,12,-6,0,-6,12,-6
@@ -934,22 +934,22 @@ A,2,-1,[VLP2ZC13380,NLCS.SHX,s=0.5],-1
 A,3,[VERWIJDEREN2,NLCS.SHX,s=0.5],3,-1.8,1.75,-1.8,1.75,-1.8,1.75,-1.8
 
 *OV-KABEL-SO,214
-A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1.5,[\"0V\",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-3
+A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1.5,["0V",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-3
 
 *V-VW-93_STREEP,569
 A,22.50,[VERWIJDEREN2,NLCS.SHX,s=1],22.50,-15
 
 *KG-BENOGWATERSCHAP-SO,161
-A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-1.5,[\"W\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5
+A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-1.5,["W",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5
 
 *V-BV-ANTIVERBLINDINGSSCHERM-SO,72
-A,1,[VERWIJDEREN2,NLCS.SHX,s=0.6],1,-1,[VERTIKAAL,NLCS.SHX,s=1],-1, 2,-1,[VERTIKAAL,NLCS.SHX,s=1],-1
+A,1,[VERWIJDEREN2,NLCS.SHX,s=0.6],1,-1,[VERTIKAAL,NLCS.SHX,s=1],-1,2,-1,[VERTIKAAL,NLCS.SHX,s=1],-1
 
 *ZZ-ONDERZOEKSGRENS-SO,750
 A,3,-2,0,-2,3
 
 *WH-ZOMERBED-SO,604
-A,3,-1.75,[\"ZB\",standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,3,-1.75,3,-1.75
+A,3,-1.75,["ZB",standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,3,-1.75,3,-1.75
 
 *MO-EXPLOSIEVEN-SO,310
 A,17.25,-4,[EXPLOSIEF,NLCS.SHX,s=0.8],-4,17.25
@@ -967,16 +967,16 @@ A,17.25,-4,[GEUR,NLCS.SHX,s=0.8],-4,17.25
 A,8.625,-4,[GEUR,NLCS.SHX,s=0.8],-4,17.25,[VERWIJDEREN2,NLCS.SHX,s=0.5],8.625
 
 *KL-BRANDSTOF-SO,180
-A,4,-0.5,[VERT,NLCS.SHX,s=0.5,r=0.0,x=0.75,y=0],-2,4,-1,[\"B\",standard,U=0.0,x=-0.15,y=-.5,s=1],-1.5
+A,4,-0.5,[VERT,NLCS.SHX,s=0.5,r=0.0,x=0.75,y=0],-2,4,-1,["B",standard,U=0.0,x=-0.15,y=-.5,s=1],-1.5
 
 *V-KL-BRANDSTOF-SO,181
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-0.5,[VERT,NLCS.SHX,s=0.5,r=0.0,x=0.75,y=0],-2,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[\"B\",standard,U=0.0,x=-0.15,y=-.5,s=1],-1.5
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-0.5,[VERT,NLCS.SHX,s=0.5,r=0.0,x=0.75,y=0],-2,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,["B",standard,U=0.0,x=-0.15,y=-.5,s=1],-1.5
 
 *V-MO-EXPLOSIEVEN-SO,311
 A,8.625,-4,[EXPLOSIEF,NLCS.SHX,s=0.8],-4,17.25,[VERWIJDEREN2,NLCS.SHX,s=0.5],8.625
 
 *V-KL-MONITORING-SO,672
-A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,[\"MON\",standard,U=0.0,x=-0.5,y=-.9,s=1],-5
+A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,["MON",standard,U=0.0,x=-0.5,y=-.9,s=1],-5
 
 *BV-VLP2Z13380-SO,47
 A,2,-1,[VLP2Z13380,NLCS.SHX,s=0.5],-1
@@ -985,7 +985,7 @@ A,2,-1,[VLP2Z13380,NLCS.SHX,s=0.5],-1
 A,3,-3.5,6,-4,[TRILLING,NLCS.SHX,s=0.8],-4,6,-3.5,6,-3.5,3
 
 *V-KL-GMS-SO,666
-A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,[\"GMS\",standard,U=0.0,x=-0.5,y=-.9,s=1],-5
+A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,["GMS",standard,U=0.0,x=-0.5,y=-.9,s=1],-5
 
 *MO-LUCHTINTERVENTIEWAARDE-SO,284
 A,17.25,-4,[WOLK,NLCS.SHX,s=0.8],-4,17.25
@@ -994,13 +994,13 @@ A,17.25,-4,[WOLK,NLCS.SHX,s=0.8],-4,17.25
 A,8.625,-4,[WOLK,NLCS.SHX,s=0.8],-4,17.25,[VERWIJDEREN2,NLCS.SHX,s=0.5],8.625
 
 *KL-AARDING-SO,207
-A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1,[\"A\",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
+A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1,["A",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
 
 *V-KL-AARDING-SO,208
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[\"A\",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,["A",standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2
 
 *KL-SIGNAALKABEL-SO,199
-A,4,-1,[v,NLCS.SHX,s=.5],-1,4,-1,[\"SI\",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
+A,4,-1,[v,NLCS.SHX,s=.5],-1,4,-1,["SI",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
 
 *VW-31_STREEP,560
 A,15.00,-5.00
@@ -1021,7 +1021,7 @@ A,16,-1,0,-1,0,-1
 A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,0,-1,0,-1
 
 *KG-BENOGPROVINCIE-SO,155
-A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-1.5,[\"P\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5
+A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-1.5,["P",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5
 
 *V-BV-VLP1DL13360-SO,66
 A,2,-1,[VLP1DL13360,NLCS.SHX,s=0.5],-1,2,-1,[VLP1DL13360,NLCS.SHX,s=0.5],-1,2,-1,[VLP1DL13360,NLCS.SHX,s=0.5],-1,2,-2,[VERWIJDEREN2,NLCS.SHX,s=0.6],-2
@@ -1039,10 +1039,10 @@ A,7,-0.5,[CIRC,NLCS.SHX,s=0.5,r=0.0,x=0.75,y=0],-2
 A,2,-1,[VLP1Z26760,NLCS.SHX,s=0.5],-1
 
 *KL-DATA_PRORAIL-SO,681
-A,4,-2,[\"PR\",standard,U=0.0,s=1,r=0.0,x=-0.9,y=-0.5],-1,4,-1,[\"PR\",standard,U=0.0,s=1,r=0.0,x=0,y=-0.5],-1.5
+A,4,-2,["PR",standard,U=0.0,s=1,r=0.0,x=-0.9,y=-0.5],-1,4,-1,["PR",standard,U=0.0,s=1,r=0.0,x=0,y=-0.5],-1.5
 
 *V-KL-DATA_PRORAIL-SO,682
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-2,[\"PR\",standard,U=0.0,s=1,r=0.0,x=-0.9,y=-0.5],-1,4,-1,[\"PR\",standard,U=0.0,s=1,r=0.0,x=0,y=-0.5],-1.5
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-2,["PR",standard,U=0.0,s=1,r=0.0,x=-0.9,y=-0.5],-1,4,-1,["PR",standard,U=0.0,s=1,r=0.0,x=0,y=-0.5],-1.5
 
 *V-KL-GAS_AL-SO,229
 A,3.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],3.5,-0.5,[CIRC,NLCS.SHX,s=0.5,r=0.0,x=0.75,y=0],-2
@@ -1054,7 +1054,7 @@ A,3,-3.5,6,-4,[GEUR,NLCS.SHX,s=0.8],-4,6,-3.5,6,-3.5,[VERWIJDEREN2,NLCS.SHX,x=-1
 A,8.625,-4,[GRONDWATER,NLCS.SHX,s=0.8],-4,17.25,[VERWIJDEREN2,NLCS.SHX,s=0.5],8.625
 
 *KL-CAI-SO,188
-A,4,-1,[v,NLCS.SHX,s=.5],-1,4,-1,[\"C\",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
+A,4,-1,[v,NLCS.SHX,s=.5],-1,4,-1,["C",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
 
 *V-OV-LIJNV-SO,737
 A,0,-5,[drieh,NLCS.SHX,s=1,r=0,x=-.625],2.5,-0.5,[CIRC,NLCS.SHX,s=.5],-0.5,2.5,[drieh,NLCS.SHX,s=1,r=180,x=.625],-5,[VERWIJDEREN2,NLCS.SHX,x=1,s=0.5],-2
@@ -1069,10 +1069,10 @@ A,6,[HAAG3,NLCS.shx,s=0.1815],-2
 A,5,-7.25,0,-7.25,10,-4,[GRONDWATER,NLCS.SHX,s=0.8],-4,5
 
 *VH-RWSBAND_STELLEN-SO,554
-A,5,[\"S\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],5,-2,2,-2,2,-2,2,-2
+A,5,["S",standard,U=0.0,x=-0.5,y=-.9,s=1.8],5,-2,2,-2,2,-2,2,-2
 
 *V-OV-KABEL_SIGNAAL-SO,696
-A,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-1,[\"OV\",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-.5,[\"S\",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
+A,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-1,["OV",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-.5,["S",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
 
 *BV-VARIOGUARD-SO,34
 A,0.5,-2,[VARIOGUARD,NLCS.SHX,x=-1,s=1],0.5
@@ -1090,13 +1090,13 @@ A,5,-7.25,0,[VERWIJDEREN2,NLCS.SHX,s=0.5],-7.25,10,-4,[LICHT,NLCS.SHX,s=0.8],-4,
 A,10,[VERWIJDEREN2,NLCS.SHX,s=0.5],10,-3.5,[BESCHOEIING,NLCS.SHX,s=0.5],-3.5
 
 *KL-MONITORING-SO,671
-A,14,-1,[\"MON\",standard,U=0.0,x=-0.5,y=-.9,s=1],-5,30
+A,14,-1,["MON",standard,U=0.0,x=-0.5,y=-.9,s=1],-5,30
 
 *KG-OGRIJKRWS-SO,151
-A,5.5,-3,[\"RWS\",standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3,5.5,-2.5,[CIRKEL,NLCS.SHX,s=0.5],-2.5
+A,5.5,-3,["RWS",standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3,5.5,-2.5,[CIRKEL,NLCS.SHX,s=0.5],-2.5
 
 *KG-SECTIE-SO,119
-A,5.5,-2,[\"S\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[KRUISJE,NLCS.SHX,s=0.75],-2
+A,5.5,-2,["S",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[KRUISJE,NLCS.SHX,s=0.75],-2
 
 *GW-MAAIVELD-SO,83
 A,12,[MAAIVELD,NLCS.SHX,y=-0.50,s=1],12
@@ -1138,7 +1138,7 @@ A,8.625,-4,[LICHT,NLCS.SHX,s=0.8],-4,17.25,[VERWIJDEREN2,NLCS.SHX,s=0.5],8.625
 A,0,-0.01,[SLOOP,NLCS.SHX,S=2],-8
 
 *V-KG-OGRIJK-SO,150
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\"R\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL,NLCS.SHX,s=0.5],-2
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,["R",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL,NLCS.SHX,s=0.5],-2
 
 *V-VH-GAZONBAND-SO,431
 A,2.5,[VERWIJDEREN2,NLCS.SHX,s=1],2.5,-2
@@ -1147,22 +1147,22 @@ A,2.5,[VERWIJDEREN2,NLCS.SHX,s=1],2.5,-2
 A,0.5,[STEPBARRIER-S,NLCS.SHX,x=.5,s=1],-1,[STEPBARRIER-S,NLCS.SHX,x=.5,s=1],-1,0.5
 
 *VH-PWSBAND_STELLEN-SO,495
-A,2.5,[\"S\",standard,x=-0.5,y=-.9,s=1.8],2.5,-5
+A,2.5,["S",standard,x=-0.5,y=-.9,s=1.8],2.5,-5
 
 *BV-F2M40080-SO,43
 A,2,-1,[F2M40080,NLCS.SHX,s=0.5],-1
 
 *KG-BGRIJK-SO,135
-A,5.5,-2,[\"R\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2
+A,5.5,-2,["R",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2
 
 *V-KG-BGRIJK-SO,136
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\"R\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,["R",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2
 
 *KL-ZHS-SO,226
-A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-2,[\"ZHS\",standard,U=0.0,s=1,r=0.0,x=-0.7,y=-.5],-3
+A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-2,["ZHS",standard,U=0.0,s=1,r=0.0,x=-0.7,y=-.5],-3
 
 *V-KL-ZHS-SO,227
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-2,[\"ZHS\",standard,U=0.0,s=1,r=0.0,x=-0.7,y=-.5],-3
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-2,["ZHS",standard,U=0.0,s=1,r=0.0,x=-0.7,y=-.5],-3
 
 *BV-VECUSEC-SO,32
 A,0.5,-2,[VECUSEC,NLCS.SHX,x=-1,s=1],0.5
@@ -1180,13 +1180,13 @@ A,17.25,-4,[GELUID,NLCS.SHX,s=0.8],-4,17.25
 A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL_HALF,NLCS.SHX,s=1],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[KRUISJE,NLCS.SHX,s=0.75],-2
 
 *V-KL-CAI-SO,189
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[v,NLCS.SHX,s=.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[\"C\",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[v,NLCS.SHX,s=.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,["C",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
 
 *V-BV-GELEIDERAIL_K-SO,58
 A,2,-1,[GELEIDERAIL-K,NLCS.SHX,s=0.5],-1,2,-1,[GELEIDERAIL-K,NLCS.SHX,s=0.5],-1,2,-1,[GELEIDERAIL-K,NLCS.SHX,s=0.5],-1,2,-2,[VERWIJDEREN2,NLCS.SHX,s=0.5],-2
 
 *KG-KADASTRALEPERCEELGRENS-SO,117
-A,5.5,-2,[\"P\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[KRUISJE,NLCS.SHX,s=0.75],-2
+A,5.5,-2,["P",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[KRUISJE,NLCS.SHX,s=0.75],-2
 
 *KG-GVVERKOOP-SO,171
 A,15,-3,3,-3,3,-3
@@ -1204,7 +1204,7 @@ A,10,-3,[GELEIDEBARRIER,NLCS.SHX,s=1],-3
 A,1.50,-13.50
 
 *V-KG-OPNAME-SO,124
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\"O\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[KRUISJE,NLCS.SHX,s=0.75],-2
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,["O",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[KRUISJE,NLCS.SHX,s=0.75],-2
 
 *V-RI-RWZI_KORTSLUITLEIDING-SO,653
 A,1.25,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.25,-1,1,-1,1,-1
@@ -1216,13 +1216,13 @@ A,0.25,-4,[VERWIJDEREN2,NLCS.SHX,s=0.5],-4
 A,20,-3.5,[BESCHOEIING,NLCS.SHX,s=0.5],-3.5
 
 *KG-OGPROVINCIE-SO,141
-A,5.5,-2,[\"P\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[CIRKEL,NLCS.SHX,s=0.5],-2
+A,5.5,-2,["P",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[CIRKEL,NLCS.SHX,s=0.5],-2
 
 *MO-TRILLINGINTERVENTIEWAARDE-SO,302
 A,17.25,-4,[TRILLING,NLCS.SHX,s=0.8],-4,17.25
 
 *KG-BENOGRIJKRWS-SO,165
-A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-3,[\"RWS\",standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3
+A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-3,["RWS",standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3
 
 *V-MO-STRALINGSTREEFWAARDE-SO,293
 A,3,-3.5,6,-4,[STRALING,NLCS.SHX,s=0.8],-4,6,-3.5,6,-3.5,[VERWIJDEREN2,NLCS.SHX,x=-1.75,s=0.5],3
@@ -1237,13 +1237,13 @@ A,5,-7.25,0,-7.25,10,-4,[WOLK,NLCS.SHX,s=0.8],-4,5
 A,5,-1,0,-1,5,-1
 
 *KL-DATA-SO,186
-A,4,-1,[v,NLCS.SHX,s=.5],-1,4,-1,[\"D\",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
+A,4,-1,[v,NLCS.SHX,s=.5],-1,4,-1,["D",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
 
 *V-KL-DATA-SO,187
-A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[v,NLCS.SHX,s=.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[\"D\",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
+A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[v,NLCS.SHX,s=.5],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,["D",standard,U=0.0,s=1,r=0.0,x=-.25,y=-.5],-1.5
 
 *KL-VRI-SO,675
-A,14,-1,[\"VRI\",standard,U=0.0,x=-0.5,y=-.9,s=1],-5,30
+A,14,-1,["VRI",standard,U=0.0,x=-0.5,y=-.9,s=1],-5,30
 
 *GW-RAAI-SO,85
 A,15,-1,2,-1
@@ -1252,7 +1252,7 @@ A,15,-1,2,-1
 A,8.625,-4,[TRILLING,NLCS.SHX,s=0.8],-4,17.25,[VERWIJDEREN2,NLCS.SHX,s=0.5],8.625
 
 *V-KG-BENOGPROVINCIE-SO,156
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[\"P\",standard,U=0.0,y=-0.5,s=1.8],-1.5
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,["P",standard,U=0.0,y=-0.5,s=1.8],-1.5
 
 *KG-PROVINCIE-SO,107
 A,2.5,-2.75,[KRUISJE,NLCS.SHX,s=1],-2.75
@@ -1261,7 +1261,7 @@ A,2.5,-2.75,[KRUISJE,NLCS.SHX,s=1],-2.75
 A,5,-7.25,0,[VERWIJDEREN2,NLCS.SHX,s=0.5],-7.25,10,-4,[GELUID,NLCS.SHX,s=0.8],-4,5
 
 *WH-WINTERBED-SO,600
-A,3,-1.75,[\"WB\",standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,3,-1.75,3,-1.75
+A,3,-1.75,["WB",standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,3,-1.75,3,-1.75
 
 *V-BC-KABEL-SO,612
 A,10,-1,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-1
@@ -1273,13 +1273,13 @@ A,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5
 A,2,-1,[GELEIDERAIL-K,NLCS.SHX,s=0.5],-1
 
 *V-KL-VRI-SO,676
-A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,[\"VRI\",standard,U=0.0,x=-0.5,y=-.9,s=1],-5
+A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,["VRI",standard,U=0.0,x=-0.5,y=-.9,s=1],-5
 
 *V-RI-RWZI_INFLUENTIELEIDING-SO,629
 A,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-1.8
 
 *V-KG-OGPROVINCIE-SO,142
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\"P\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL,NLCS.SHX,s=0.5],-2
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,["P",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL,NLCS.SHX,s=0.5],-2
 
 *V-BV-VLP2Z13380-SO,48
 A,2,-1,[VLP2Z13380,NLCS.SHX,s=0.5],-1,2,-1,[VLP2Z13380,NLCS.SHX,s=0.5],-1,2,-1,[VLP2Z13380,NLCS.SHX,s=0.5],-1,2,-2,[VERWIJDEREN2,NLCS.SHX,s=0.6],-2
@@ -1297,7 +1297,7 @@ A,5,-2
 A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5
 
 *V-KG-SECTIE-SO,120
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\"S\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[KRUISJE,NLCS.SHX,s=0.75],-2
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,["S",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[KRUISJE,NLCS.SHX,s=0.75],-2
 
 *VH-LEICON-SO,460
 A,15,-2,1,-2,2,-2,1,-2
@@ -1321,7 +1321,7 @@ A,0.5,[STEPBARRIER-S,NLCS.SHX,x=.5,s=1],-1,[STEPBARRIER-S,NLCS.SHX,x=.5,s=1],-1,
 A,0.5,[STEPBARRIER-S,NLCS.SHX,x=.5,s=1],-1,[STEPBARRIER-S,NLCS.SHX,x=.5,s=1],-1,0.5,-1,[VERWIJDEREN2,NLCS.SHX,s=0.5],-1
 
 *OV-KABEL_SIGNAAL-SO,692
-A,14,-1,[\"OV\",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,14,-.5,[\"S\",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
+A,14,-1,["OV",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,14,-.5,["S",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
 
 *V-GW-MAAIVELD-SO,84
 A,4,[VERWIJDEREN2,NLCS.SHX,s=0.5],12,[MAAIVELD,NLCS.SHX,y=-0.50,s=1],12
@@ -1348,13 +1348,13 @@ A,10,[WATERLIJN,NLCS.SHX,s=2],-12
 A,3,[VERWIJDEREN2,NLCS.SHX,s=0.5],3,-1.8,1.75,-1.8,1.75,-1.8,1.75,-1.8
 
 *OV-KABEL_VOEDING-SO,693
-A,14,-1,[\"OV\",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,14,-.5,[\"V\",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
+A,14,-1,["OV",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,14,-.5,["V",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
 
 *V-KG-VERKOOP-SO,688
 A,1.25,[VERWIJDEREN2,NLCS.SHX,s=0.6],1.25,[VKGZ,nlcs.shx,s=1],2.5,-2.75
 
 *V-KG-BGPROVINCIE-SO,128
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\"P\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,["P",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2
 
 *MO-GRONDWATERSTREEFWAARDE-SO,268
 A,3,-3.5,6,-4,[GRONDWATER,NLCS.SHX,y=-0.35,s=0.8],-4,6,-3.5,6,-3.5,3
@@ -1363,13 +1363,13 @@ A,3,-3.5,6,-4,[GRONDWATER,NLCS.SHX,y=-0.35,s=0.8],-4,6,-3.5,6,-3.5,3
 A,4,-2,1,-2,4
 
 *KL-TDI-SO,663
-A,14,-1,[\"TDI\",standard,U=0.0,x=-0.5,y=-0.9,s=1],-5,30
+A,14,-1,["TDI",standard,U=0.0,x=-0.5,y=-0.9,s=1],-5,30
 
 *MO-TRILLINGTUSSENWAARDE-SO,300
 A,5,-7.25,0,-7.25,10,-4,[TRILLING,NLCS.SHX,s=0.8],-4,5
 
 *OV-KABEL_BUNDEL-SO,698
-A,14,-1,[\"OV\",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,14,-.5,[\"B\",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
+A,14,-1,["OV",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,14,-.5,["B",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
 
 *BV-STEPBARRIER_BV-SO,21
 A,1,-1,[STEPBARRIER-BV,NLCS.SHX,x=-1,s=1],1
@@ -1378,7 +1378,7 @@ A,1,-1,[STEPBARRIER-BV,NLCS.SHX,x=-1,s=1],1
 A,15,[VERWIJDEREN2,NLCS.SHX,x=-7.5,s=0.6],-3,3,-3,3,-3
 
 *OV-KABEL_AARDING-SO,690
-A,14,-1,[\"OV\",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,14,-.5,[\"A\",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
+A,14,-1,["OV",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,14,-.5,["A",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
 
 *V-BV-F2M40080-SO,44
 A,2,-1,[F2M40080,NLCS.SHX,s=0.5],-1,2,-1,[F2M40080,NLCS.SHX,s=0.5],-1,2,-1,[F2M40080,NLCS.SHX,s=0.5],-1,2,-2,[VERWIJDEREN2,NLCS.SHX,s=0.6],-2
@@ -1393,7 +1393,7 @@ A,5,-7.25,0,[VERWIJDEREN2,NLCS.SHX,s=0.5],-7.25,10,-4,[TRILLING,NLCS.SHX,s=0.8],
 A,2,-2
 
 *V-OV-KABEL_AARDING-SO,694
-A,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-1,[\"OV\",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-.5,[\"A\",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
+A,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-1,["OV",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-.5,["A",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
 
 *BV-STEPBARRIER-SO,15
 A,1,-1,[STEPBARRIER,NLCS.SHX,x=-1,s=1],1
@@ -1402,13 +1402,13 @@ A,1,-1,[STEPBARRIER,NLCS.SHX,x=-1,s=1],1
 A,0.5,-2,[VECUSEC,NLCS.SHX,x=-1,s=1],0.5,-1,[VERWIJDEREN2,NLCS.SHX,s=0.5],-1
 
 *V-OV-KABEL_VOEDING-SO,697
-A,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-1,[\"OV\",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-.5,[\"V\",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
+A,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-1,["OV",standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-.5,["V",standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5
 
 *ZZ-AFBREEKLIJN-SO,606
 A,4,-1,1,-1
 
 *V-KG-BENOGRIJKRWS-SO,166
-A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-3,[\"RWS\",standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3
+A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-3,["RWS",standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3
 
 *KW-PVR-SO,256
 A,6,-1.5
@@ -1420,7 +1420,7 @@ A,2,-1,[GELEIDERAIL-A,NLCS.SHX,s=0.5],-1
 A,5,-7.25,0,-7.25,10,-4,[GEUR,NLCS.SHX,s=0.8],-4,5
 
 *KG-OGWATERSCHAP-SO,147
-A,5.5,-2,[\"W\",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[CIRKEL,NLCS.SHX,s=0.5],-2
+A,5.5,-2,["W",standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[CIRKEL,NLCS.SHX,s=0.5],-2
 
 *V-BV-GELEIDERAIL_A-SO,42
 A,2,-1,[GELEIDERAIL-A,NLCS.SHX,s=0.5],-1,2,-1,[GELEIDERAIL-A,NLCS.SHX,s=0.5],-1,2,-1,[GELEIDERAIL-A,NLCS.SHX,s=0.5],-1,2,-2,[VERWIJDEREN2,NLCS.SHX,s=0.6],-2
@@ -1590,7 +1590,6 @@ A,3,-2,0,-2
 *GR-HAAG_RASTER-SO,789
 A,4,[MARK,NLCS.SHX,r=45,s=0.75],4,-1.5
 
-
 *KL-OLIE-SO,832
 A,7,-0.5,[VERT,NLCS.SHX,s=0.5,r=0.0,x=0.75,y=0],-2
 
@@ -1648,7 +1647,6 @@ A,1,-1
 *V-GR-HAAG_RASTER-SO,788
 A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=0.6],2,[MARK,NLCS.SHX,r=45,s=0.75],2,[VERWIJDEREN2,NLCS.SHX,x=1,s=0.6],2,-2
 
-
 *V-OV-STROOK-SO,857
 A,1,[VERWIJDEREN2,NLCS.SHX,s=0.5],1,-2
 
@@ -1688,13 +1686,11 @@ A,1,[VERWIJDEREN2,NLCS.SHX,s=0.5],1,-2
 *IE-CONSTRUCTIEVE AFSCHEIDING_SCHUTTING-SO,876
 A,4,[B20-10V,NLCS.SHX,r=90,s=0.75],4,-2
 
-
 *V-MC-HYDRAULIEKVORM_SCHEMA_LEIDING_STUUR-SO,849
 A,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-2,0,-2
 
 *V-IE-CONSTRUCTIEVE AFSCHEIDING_SCHUTTING-SO,792
 A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=0.6],2,[B20-10V,NLCS.SHX,r=90,s=0.75],2,[VERWIJDEREN2,NLCS.SHX,x=1,s=0.6],2,-2
-
 
 *V-OG-BEBOUWING_FUNDERING-SO,852
 A,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-2,0,-2
