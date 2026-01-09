@@ -1,0 +1,36 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+SELECT DISTINCT ?nameGWSWStelselType ?GwswStelselType ?nameGWSWType ?GwswType ?nameStelselType ?nameNLCSLaagnaam ?NLCSLaagnaam ?nameNLCSSymbool  ?NLCSSymbool
+WHERE {  
+  ?uriRi a owl:Class .
+  ?uriRi skos:prefLabel "RI" .
+  ?uriStelselType rdfs:subClassOf ?uriRi .
+  ?uriStelselType skos:exactMatch ?GwswStelselType .
+  FILTER (CONTAINS(STR(?GwswStelselType), "http://data.gwsw.nl/")) .
+  BIND(REPLACE(STR(?uriStelselType ), "^.*/", "") AS ?nameGWSWStelselType)
+  
+  ?uriType rdfs:subClassOf+ ?uriStelselType .
+  ?uriType skos:exactMatch ?GwswType .
+  FILTER (CONTAINS(STR(?GwswType), "http://data.gwsw.nl/")) .
+  BIND(REPLACE(STR(?uriType ), "^.*/", "") AS ?nameGWSWType)
+  
+  ?uriStelselType skos:prefLabel ?nameStelselType .
+  
+  ?uriType skos:prefLabel ?nameType .
+  ?uriType rdfs:seeAlso ?NLCSLaagnaam .
+  FILTER (CONTAINS(STR(?NLCSLaagnaam), "http://digitalbuildingdata.tech/nlcs/def/")) .
+  
+  ?NLCSLaagnaam rdfs:subClassOf+/skos:prefLabel "NLCS-object" .
+  ?NLCSLaagnaam skos:prefLabel ?nameNLCSLaagnaam .
+  OPTIONAL {  
+    ?uriType rdfs:seeAlso ?NLCSSymbool .
+    FILTER (CONTAINS(STR(?NLCSSymbool), "http://digitalbuildingdata.tech/nlcs/def/")) .
+    ?NLCSSymbool rdfs:subClassOf+/skos:prefLabel "Symbool" .
+    ?NLCSSymbool skos:prefLabel ?nameNLCSSymbool .
+  } 
+}
