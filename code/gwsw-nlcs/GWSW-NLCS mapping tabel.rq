@@ -12,12 +12,12 @@ WHERE {
   ?uriStelselType rdfs:subClassOf ?uriRi .
   ?uriStelselType skos:exactMatch ?GwswStelselType .
   FILTER (CONTAINS(STR(?GwswStelselType), "http://data.gwsw.nl/")) .
-  BIND(REPLACE(STR(?uriStelselType ), "^.*/", "") AS ?nameGWSWStelselType)
+  BIND(REPLACE(STR(?GwswStelselType ), "^.*/", "") AS ?nameGWSWStelselType)
   
   ?uriType rdfs:subClassOf+ ?uriStelselType .
   ?uriType skos:exactMatch ?GwswType .
   FILTER (CONTAINS(STR(?GwswType), "http://data.gwsw.nl/")) .
-  BIND(REPLACE(STR(?uriType ), "^.*/", "") AS ?nameGWSWType)
+  BIND(REPLACE(STR(?GwswType ), "^.*/", "") AS ?nameGWSWType)
   
   ?uriStelselType skos:prefLabel ?nameStelselType .
   
