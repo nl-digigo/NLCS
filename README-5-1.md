@@ -4,7 +4,7 @@
 
 Daartoe  worden steeds nieuwe acceptatie-versies van de NLCS database gepubliceerd op het sparql-endpoint, met bijbehoredne bestanden in de "acceptance"-branch van deze GitHub en een tag horend bij die publicatie.
 
-Release notes staan in de [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/5-1/).
+**Release notes** staan in de [Uitleg standaard](https://nl-digigo.github.io/NLCS/functionalspecification/5-1/#release-5-1)
 
 Iedereen die het afgelopen jaar heeft meegewerkt aan de totstandkoming van deze versie wordt van harte bedankt.
 
