@@ -270,6 +270,7 @@ OPTIONAL {
   BIND ("_" AS ?underscore8) .
   BIND ("-" AS ?streepje) .
   BIND ("-" AS ?streepje2) .
+  BIND ("-" AS ?streepje3) .
 
   OPTIONAL {
     ?objectURI rdfs:subClassOf ?bnodeBewerking .
