@@ -13,11 +13,11 @@ PREFIX nen2660: <https://w3id.org/nen2660/def#>
 
 SELECT DISTINCT ?vervallenProperty ?vervallenPropertyName
 # This should be the URL of the previous NLCS publication, the URL should be provided with 'http' and NOT 'https'
-FROM NAMED <http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv5_1_4> 
+FROM NAMED <http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2> 
 WHERE {
 
   # The URL of the previous NLCS publication again
-  GRAPH <http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv5_1_4> {
+  GRAPH <http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2> {
     ?vervallenProperty a ?property .
     FILTER (?property IN (rdf:Property, owl:AnnotationProperty, owl:ObjectProperty)) .
     ?vervallenProperty skos:prefLabel ?vervallenPropertyName .
