@@ -1,36 +1,45 @@
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-PREFIX dcterms: <http://purl.org/dc/terms/>
-PREFIX sh: <http://www.w3.org/ns/shacl#>
-SELECT DISTINCT ?nameGWSWStelselType ?GwswStelselType ?nameGWSWType ?GwswType ?nameStelselType ?nameNLCSLaagnaam ?NLCSLaagnaam ?nameNLCSSymbool  ?NLCSSymbool
+PREFIX nen2660: <https://w3id.org/nen2660/def#>
+
+SELECT DISTINCT ?nameStelselType ?uriStelselType ?nameGWSWStelselType ?GwswStelselType ?nameType ?uriType ?nameGWSWType ?GwswType ?nameNLCSLaagnaam ?NLCSLaagnaam ?nameNLCSSymbool ?NLCSSymbool
 WHERE {  
-  ?uriRi a owl:Class .
-  ?uriRi skos:prefLabel "RI" .
-  ?uriStelselType rdfs:subClassOf ?uriRi .
-  ?uriStelselType skos:exactMatch ?GwswStelselType .
+  ?uriStelsel a owl:Class .
+  ?uriStelsel skos:prefLabel "Stelsel" .
+
+  ?uriStelselType rdfs:subClassOf ?uriStelsel .
+  ?uriStelselType skos:prefLabel ?nameStelselType .
+
+  ?uriStelselType skos:exactMatch ?GwswStelselType . 
   FILTER (CONTAINS(STR(?GwswStelselType), "http://data.gwsw.nl/")) .
   BIND(REPLACE(STR(?GwswStelselType ), "^.*/", "") AS ?nameGWSWStelselType)
-  
-  ?uriType rdfs:subClassOf+ ?uriStelselType .
-  ?uriType skos:exactMatch ?GwswType .
-  FILTER (CONTAINS(STR(?GwswType), "http://data.gwsw.nl/")) .
-  BIND(REPLACE(STR(?GwswType ), "^.*/", "") AS ?nameGWSWType)
-  
-  ?uriStelselType skos:prefLabel ?nameStelselType .
-  
+
+  ?uriStelselType rdfs:subClassOf/owl:onProperty nen2660:hasPart .
+  ?uriStelselType rdfs:subClassOf/owl:onClass ?uriType . 
   ?uriType skos:prefLabel ?nameType .
-  ?uriType rdfs:seeAlso ?NLCSLaagnaam .
-  FILTER (CONTAINS(STR(?NLCSLaagnaam), "http://digitalbuildingdata.tech/nlcs/def/")) .
+
+  FILTER (!contains(str(?uriType), "http://digitalbuildingdata.tech/nlcs-class/def/Persleiding") )
+    
+  ?uriType skos:exactMatch ?GwswType .
+  FILTER (CONTAINS(STR(?GwswType), "http://data.gwsw.nl/")) . 
+  BIND(REPLACE(STR(?GwswType ), "^.*/", "") AS ?nameGWSWType)
+
+  #OPTIONAL {?uriType rdfs:seeAlso ?NLCSClassificationTerm . } # not in Select
   
-  ?NLCSLaagnaam rdfs:subClassOf+/skos:prefLabel "NLCS-object" .
-  ?NLCSLaagnaam skos:prefLabel ?nameNLCSLaagnaam .
-  OPTIONAL {  
-    ?uriType rdfs:seeAlso ?NLCSSymbool .
+  # Following part requires named graph (postman)
+  OPTIONAL { 
+    ?uriType nen2660:isDescribedBy ?NLCSLaagnaam .
+    FILTER (CONTAINS(STR(?NLCSLaagnaam), "http://digitalbuildingdata.tech/nlcs/def/")) .
+    ?NLCSLaagnaam rdfs:subClassOf+/skos:prefLabel "NLCS-object" .
+    ?NLCSLaagnaam skos:prefLabel ?nameNLCSLaagnaam .
+  }
+  
+  OPTIONAL {
+    ?uriType nen2660:isDescribedBy ?NLCSSymbool .
     FILTER (CONTAINS(STR(?NLCSSymbool), "http://digitalbuildingdata.tech/nlcs/def/")) .
     ?NLCSSymbool rdfs:subClassOf+/skos:prefLabel "Symbool" .
-    ?NLCSSymbool skos:prefLabel ?nameNLCSSymbool .
-  } 
+	  ?NLCSSymbool skos:prefLabel ?nameNLCSSymbool .
+  }
 }
