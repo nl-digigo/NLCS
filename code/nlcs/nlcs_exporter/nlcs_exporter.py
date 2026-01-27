@@ -10,7 +10,7 @@ from typing import List
 
 # --- Configuration & Constants (Moved to top for easy modification) ---
 # SPARQL_ENDPOINT = "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-acceptatie/versions/rv5_1_4/sparql"
-SPARQL_ENDPOINT = "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-acceptatie/versions/rv5_1_5/sparql"
+SPARQL_ENDPOINT = "https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv5_1_5/sparql"
 
 LDP_TOKEN_ID = ""      
 LDP_PASSWORD = ""          
@@ -22,6 +22,7 @@ CONTROL_QUERY_FOLDER = "./code/nlcs/nlcs_exporter/queries/controle_queries/"
 CSV_OUTPUT_ROOT_FOLDER = "tabellen/"
 CSV_CONTROLS_FOLDER = "tabellen/controles/"
 CSV_OBJECTS_FOLDER = "tabellen/objectentabellen"
+CHANGELOG_OUTPUT_FOLDER = "tabellen/changelog/"
 # --- End Configuration ---
 
 
@@ -263,6 +264,7 @@ def retrieve_hoofdgroepen(client: LacesRequest, query_path: str) -> List[str]:
 if __name__ == "__main__":
     hoofdgroepen_query_path = os.path.join(QUERY_FOLDER, "NLCS_Retrieve_Hoofdgroepen.rq")
     objects_query_template_path = os.path.join(QUERY_FOLDER, "search_term_read_objects.rq")
+    changelog_queries_folder = "./code/nlcs/changelog/"
 
     my_config = {
         "url": SPARQL_ENDPOINT,
@@ -280,7 +282,7 @@ if __name__ == "__main__":
         exit(1)
 ##################### TEST #############################
     # single_output_file = os.path.join(QUERY_FOLDER, "TEST.csv")
-    # run_query_write_result(client, f"{CONTROL_QUERY_FOLDER}controle_identiekenamen.rq", single_output_file)   
+    # run_query_write_result(client, f"{changelog_queries_folder}NLCS_Query_NieuweConcepten.rq", single_output_file)   
 
 ##################### ALL CONTROL QUERIES IN FOLDER ############################
     print("\n--- Running all validation queries in folder ---")
@@ -315,5 +317,8 @@ if __name__ == "__main__":
     print("\n--- Merging all object CSV files ---")
     merged_objects_output_file = os.path.join(CSV_OUTPUT_ROOT_FOLDER, "all_objects-concept-5.1.csv")
     merge_csv_files(CSV_OBJECTS_FOLDER, merged_objects_output_file)
+
+###################### CHANGELOG QUERIES ###########################
+    run_queries_in_folder(client, changelog_queries_folder, CHANGELOG_OUTPUT_FOLDER)
 
     print("\nScript execution finished.")   

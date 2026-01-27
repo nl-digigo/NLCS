@@ -1,20 +1,20 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.0.6 Chrome/138.0.7204.100 Electron/37.2.3 Safari/537.36" version="28.0.6">
   <diagram name="Page-1" id="HJKMv31KwwvU-WNw4rma">
-    <mxGraphModel dx="2339" dy="1031" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2916" dy="1201" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="g4_LSQxHM8NTxLbnwser-72" value="IMBOR" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;" parent="1" vertex="1">
-          <mxGeometry x="1090" width="130" height="650" as="geometry" />
+        <mxCell id="g4_LSQxHM8NTxLbnwser-72" value="IMBOR" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="1150" width="130" height="650" as="geometry" />
         </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-62" value="GWSW" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;" parent="1" vertex="1">
-          <mxGeometry x="900" width="190" height="650" as="geometry" />
+        <mxCell id="g4_LSQxHM8NTxLbnwser-62" value="GWSW" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="960" width="190" height="650" as="geometry" />
         </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-1" value="NLCS Tekenstandaard" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;" parent="1" vertex="1">
+        <mxCell id="g4_LSQxHM8NTxLbnwser-1" value="NLCS Tekenstandaard" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;" parent="1" vertex="1">
           <mxGeometry x="-140" width="480" height="650" as="geometry" />
         </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-2" value="NLCS Classificatie" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;" parent="1" vertex="1">
-          <mxGeometry x="340" width="560" height="650" as="geometry" />
+        <mxCell id="g4_LSQxHM8NTxLbnwser-2" value="NLCS Classificatie" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="340" width="620" height="650" as="geometry" />
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-29" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;" parent="1" source="g4_LSQxHM8NTxLbnwser-3" target="g4_LSQxHM8NTxLbnwser-28" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -24,11 +24,11 @@
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="g4_LSQxHM8NTxLbnwser-4" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="100" y="180" as="targetPoint" />
             <Array as="points">
               <mxPoint x="-5" y="210" />
               <mxPoint x="100" y="210" />
             </Array>
+            <mxPoint x="100" y="180" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-4" value="NLCS laagnaam&lt;div&gt;&lt;i&gt;DWA_RIOOLLEIDING_BETON&lt;/i&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -40,27 +40,29 @@
         <mxCell id="g4_LSQxHM8NTxLbnwser-5" value="NLCS laagnaam&lt;div&gt;&lt;i&gt;DWA_RIOOLLEIDING_BETON_1000&lt;/i&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="-117.5" y="480" width="225" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;" parent="1" source="g4_LSQxHM8NTxLbnwser-9" target="g4_LSQxHM8NTxLbnwser-30" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" parent="1" source="g4_LSQxHM8NTxLbnwser-9" target="g4_LSQxHM8NTxLbnwser-3" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-56" value="rdfs:seeAlso" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-55" vertex="1" connectable="0">
-          <mxGeometry x="-0.0631" y="2" relative="1" as="geometry">
-            <mxPoint x="8" y="-2" as="offset" />
+        <mxCell id="g4_LSQxHM8NTxLbnwser-31" value="nen2660:hasPart" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" parent="1" source="g4_LSQxHM8NTxLbnwser-9" target="g4_LSQxHM8NTxLbnwser-30" edge="1">
+          <mxGeometry x="0.25" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" parent="1" source="g4_LSQxHM8NTxLbnwser-9" target="g4_LSQxHM8NTxLbnwser-65" edge="1">
+        <mxCell id="g4_LSQxHM8NTxLbnwser-55" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" parent="1" source="g4_LSQxHM8NTxLbnwser-9" target="g4_LSQxHM8NTxLbnwser-3" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-70" value="skos:exactMatch" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-68" vertex="1" connectable="0">
+        <mxCell id="g4_LSQxHM8NTxLbnwser-56" value="nen2660:isDescribedBy" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-55" connectable="0" vertex="1">
+          <mxGeometry x="-0.0631" y="2" relative="1" as="geometry">
+            <mxPoint x="38" y="5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g4_LSQxHM8NTxLbnwser-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" parent="1" source="1JGRLMvyC8QsY2Ymd6_8-1" target="g4_LSQxHM8NTxLbnwser-65" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g4_LSQxHM8NTxLbnwser-70" value="skos:exactMatch" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-68" connectable="0" vertex="1">
           <mxGeometry x="-0.1844" relative="1" as="geometry">
-            <mxPoint x="2" as="offset" />
+            <mxPoint x="-31" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-9" value="NLCS FysiekObject&lt;div&gt;&lt;i&gt;DWA_RIOOLLEIDING&lt;/i&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="569" y="120" width="140" height="60" as="geometry" />
+          <mxGeometry x="569" y="170" width="140" height="60" as="geometry" />
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;" parent="1" source="g4_LSQxHM8NTxLbnwser-10" target="g4_LSQxHM8NTxLbnwser-9" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -68,9 +70,9 @@
         <mxCell id="g4_LSQxHM8NTxLbnwser-57" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" parent="1" source="g4_LSQxHM8NTxLbnwser-10" target="g4_LSQxHM8NTxLbnwser-4" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-58" value="rdfs:seeAlso" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-57" vertex="1" connectable="0">
+        <mxCell id="g4_LSQxHM8NTxLbnwser-58" value="nen2660:isDescribedBy" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-57" connectable="0" vertex="1">
           <mxGeometry x="-0.5618" y="-2" relative="1" as="geometry">
-            <mxPoint x="-58" y="2" as="offset" />
+            <mxPoint x="-28" y="2" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-10" value="NLCS FysiekObject&lt;div&gt;&lt;i&gt;DWA_RIOOLLEIDING_BETON&lt;/i&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -79,9 +81,9 @@
         <mxCell id="g4_LSQxHM8NTxLbnwser-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" parent="1" source="g4_LSQxHM8NTxLbnwser-11" target="g4_LSQxHM8NTxLbnwser-5" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-23" value="rdfs:seeAlso" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-14" vertex="1" connectable="0">
+        <mxCell id="g4_LSQxHM8NTxLbnwser-23" value="nen2660:isDescribedBy" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-14" connectable="0" vertex="1">
           <mxGeometry x="-0.3553" y="-3" relative="1" as="geometry">
-            <mxPoint x="-2" y="3" as="offset" />
+            <mxPoint x="18" y="3" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;" parent="1" source="g4_LSQxHM8NTxLbnwser-11" target="g4_LSQxHM8NTxLbnwser-10" edge="1">
@@ -90,7 +92,7 @@
         <mxCell id="g4_LSQxHM8NTxLbnwser-60" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" parent="1" source="g4_LSQxHM8NTxLbnwser-11" target="g4_LSQxHM8NTxLbnwser-59" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-61" value="nlcs-class:Afmeting" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-60" vertex="1" connectable="0">
+        <mxCell id="g4_LSQxHM8NTxLbnwser-61" value="nlcs-class:Afmeting" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-60" connectable="0" vertex="1">
           <mxGeometry x="0.1672" y="-1" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
@@ -98,34 +100,35 @@
         <mxCell id="g4_LSQxHM8NTxLbnwser-11" value="NLCS FysiekObject&lt;div&gt;&lt;i&gt;DWA_RIOOLLEIDING_BETON_1000&lt;/i&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="528.5" y="480" width="221" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-19" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;" parent="1" source="g4_LSQxHM8NTxLbnwser-10" target="g4_LSQxHM8NTxLbnwser-12" edge="1">
+        <mxCell id="g4_LSQxHM8NTxLbnwser-19" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" parent="1" source="g4_LSQxHM8NTxLbnwser-10" target="g4_LSQxHM8NTxLbnwser-12" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-21" value="nen2660:consistsOf" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-19" vertex="1" connectable="0">
+        <mxCell id="g4_LSQxHM8NTxLbnwser-21" value="nen2660:consistsOf" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-19" connectable="0" vertex="1">
           <mxGeometry x="-0.24" y="3" relative="1" as="geometry">
-            <mxPoint x="-6" y="6" as="offset" />
+            <mxPoint x="32" y="7" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-66" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;jumpStyle=sharp;dashed=1;dashPattern=8 8;jumpSize=14;" parent="1" target="g4_LSQxHM8NTxLbnwser-64" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="500" y="440" as="sourcePoint" />
+            <mxPoint x="835.5" y="440" as="sourcePoint" />
+            <mxPoint x="1295.5" y="457" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-67" value="skos:exactMatch" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-66" vertex="1" connectable="0">
+        <mxCell id="g4_LSQxHM8NTxLbnwser-67" value="skos:exactMatch" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-66" connectable="0" vertex="1">
           <mxGeometry x="0.3708" y="-4" relative="1" as="geometry">
-            <mxPoint x="12" y="-4" as="offset" />
+            <mxPoint x="-46" y="-16" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-75" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;jumpStyle=sharp;jumpSize=14;dashed=1;dashPattern=8 8;" parent="1" source="g4_LSQxHM8NTxLbnwser-12" target="g4_LSQxHM8NTxLbnwser-73" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-76" value="skos:exactMatch" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-75" vertex="1" connectable="0">
+        <mxCell id="g4_LSQxHM8NTxLbnwser-76" value="skos:exactMatch" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-75" connectable="0" vertex="1">
           <mxGeometry x="-0.0187" y="1" relative="1" as="geometry">
-            <mxPoint x="26" y="1" as="offset" />
+            <mxPoint x="-89" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-12" value="NLCS Materiaal&lt;div&gt;&lt;i&gt;BETON&lt;/i&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="359" y="400" width="140" height="60" as="geometry" />
+          <mxGeometry x="694.5" y="400" width="140" height="60" as="geometry" />
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-28" value="NLCS laagnaam&lt;div&gt;&lt;i&gt;DWA&lt;/i&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="30" y="30" width="140" height="60" as="geometry" />
@@ -133,17 +136,17 @@
         <mxCell id="g4_LSQxHM8NTxLbnwser-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" parent="1" source="g4_LSQxHM8NTxLbnwser-30" target="g4_LSQxHM8NTxLbnwser-28" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-39" value="rdfs:seeAlso" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-36" vertex="1" connectable="0">
+        <mxCell id="g4_LSQxHM8NTxLbnwser-39" value="nen2660:isDescribedBy" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-36" connectable="0" vertex="1">
           <mxGeometry x="0.0024" relative="1" as="geometry">
-            <mxPoint x="21" as="offset" />
+            <mxPoint x="51" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-69" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" parent="1" source="g4_LSQxHM8NTxLbnwser-30" target="g4_LSQxHM8NTxLbnwser-63" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-71" value="skos:exactMatch" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-69" vertex="1" connectable="0">
+        <mxCell id="g4_LSQxHM8NTxLbnwser-71" value="skos:exactMatch" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-69" connectable="0" vertex="1">
           <mxGeometry x="-0.1411" y="-2" relative="1" as="geometry">
-            <mxPoint x="-3" y="-2" as="offset" />
+            <mxPoint x="53" y="-2" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-30" value="NLCS FysiekObject&lt;div&gt;&lt;i&gt;DWA&lt;/i&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -158,35 +161,44 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-41" value="NLCS laagnaam&lt;div&gt;&lt;i&gt;DWA_RIOOLLEIDING-VOLZANDEN&lt;/i&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="110" y="230" width="210" height="60" as="geometry" />
+          <mxGeometry x="107.5" y="250" width="210" height="60" as="geometry" />
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-47" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="g4_LSQxHM8NTxLbnwser-46" target="g4_LSQxHM8NTxLbnwser-9" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="530" y="190" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="g4_LSQxHM8NTxLbnwser-49" value="nen2660:transforms" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-47" vertex="1" connectable="0">
+        <mxCell id="g4_LSQxHM8NTxLbnwser-49" value="nen2660:transforms" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g4_LSQxHM8NTxLbnwser-47" connectable="0" vertex="1">
           <mxGeometry x="-0.13" relative="1" as="geometry">
-            <mxPoint y="5" as="offset" />
+            <mxPoint x="2" y="1" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-46" value="NLCS Activiteit&lt;div&gt;&lt;i style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;VOLZANDEN&lt;/i&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="401.5" y="230" width="155" height="60" as="geometry" />
+          <mxGeometry x="373.5" y="250" width="155" height="60" as="geometry" />
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-59" value="&quot;1000&quot;" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="370" y="560" width="100" height="45" as="geometry" />
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-63" value="&lt;i&gt;Vuilwaterstelsel&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1000" y="30" width="120" height="60" as="geometry" />
+          <mxGeometry x="1060" y="30" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-64" value="&lt;i&gt;Beton&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="960" y="427" width="70" height="60" as="geometry" />
+          <mxGeometry x="1020" y="470" width="70" height="60" as="geometry" />
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-65" value="&lt;i&gt;Rioolleiding&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1000" y="120" width="120" height="60" as="geometry" />
+          <mxGeometry x="1060" y="120" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="g4_LSQxHM8NTxLbnwser-73" value="&lt;i&gt;Beton&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1120" y="367" width="70" height="60" as="geometry" />
+          <mxGeometry x="1180" y="380" width="70" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1JGRLMvyC8QsY2Ymd6_8-1" value="NLCS FysiekObject&lt;div&gt;&lt;i&gt;Rioolleiding&lt;/i&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="726" y="120" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1JGRLMvyC8QsY2Ymd6_8-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" parent="1" source="g4_LSQxHM8NTxLbnwser-9" target="1JGRLMvyC8QsY2Ymd6_8-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="350" as="sourcePoint" />
+            <mxPoint x="630" y="220" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>

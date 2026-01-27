@@ -8,7 +8,10 @@ PREFIX sh: <http://www.w3.org/ns/shacl#>
 
 # Retrieves all Object information and stores it in the familiar Excel/CSV format from the SQL database
 
-SELECT DISTINCT ?omschrijving ?status ?underscore ?discipline ?underscore2 ?hoofdgroep ?underscore3 ?object ?underscore4 ?subobject01 ?underscore5 ?subobject02 ?underscore6 ?subobject03 ?underscore7 ?subobject04 ?underscore8 ?subobject05 ?streepje ?bewerking ?underscore ?streepje2 ?schaal ?aobject ?sobject ?laagnaam
+SELECT DISTINCT ?omschrijving ?status ?underscore ?discipline ?underscore2 ?hoofdgroep ?underscore3 ?object ?underscore4 ?subobject01 ?underscore5 ?subobject02 ?underscore6 ?subobject03 ?underscore7 ?subobject04 ?underscore8 ?subobject05 
+?streepje ?bewerking 
+?streepje3 ?element 
+?streepje2 ?schaal ?aobject ?sobject ?laagnaam
 ?lw_b ?kl_b ?kl_b_a ?kl_b_gd ?kl_b_gn ?kl_b_v ?lt_b
 ?lw_n ?kl_n ?kl_n_a ?kl_n_gd ?kl_n_gn ?kl_n_v ?lt_n
 ?lw_v ?kl_v ?kl_v_a ?kl_v_gd ?kl_v_gn ?kl_v_v ?lt_v
@@ -33,9 +36,9 @@ WHERE {
       ?kind_vanURI <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308> ?kind_van .  # ?kind_vanURI ?idProperty ?kind_van . ?idProperty skos:prefLabel "ID" .
     }
   }
-  OPTIONAL {
-    ?objectURI <http://digitalbuildingdata.tech/nlcs/def/231afe47f3f37d3808096b36c28b4ded> ?element .  # ?objectURI ?elementProperty ?element . ?elementProperty skos:prefLabel "Element" .
-  }
+  #OPTIONAL {
+  #  ?objectURI <http://digitalbuildingdata.tech/nlcs/def/231afe47f3f37d3808096b36c28b4ded> ?element .  # ?objectURI ?elementProperty ?element . ?elementProperty skos:prefLabel "Element" .
+  #}
   OPTIONAL {
     ?objectURI <http://digitalbuildingdata.tech/nlcs/def/9c241815bb021ad8b7146ffb88dcf856> ?vrkl_kort .  # ?objectURI ?vrkl_kortProperty ?vrkl_kort . ?vrkl_kortProperty skos:prefLabel "VRKL_KORT" .
   } 
@@ -267,12 +270,50 @@ OPTIONAL {
   BIND ("_" AS ?underscore8) .
   BIND ("-" AS ?streepje) .
   BIND ("-" AS ?streepje2) .
+  BIND ("-" AS ?streepje3) .
 
   OPTIONAL {
     ?objectURI rdfs:subClassOf ?bnodeBewerking .
     ?bnodeBewerking owl:onProperty <http://digitalbuildingdata.tech/nlcs/def/9e8d26b2-e78a-40a5-84b7-765da5b6592f> .  # ?bnodeBewerking owl:onProperty ?BewerkingProperty . ?BewerkingProperty skos:prefLabel "Bewerking" .
     ?bnodeBewerking owl:hasValue/skos:prefLabel ?bewerking .
   }
+
+  # Creation of attribute "Element" here:
+  OPTIONAL {
+    ?objectURI rdfs:subClassOf/owl:onClass ?symbol .
+    ?symbol rdfs:subClassOf+/skos:prefLabel "Symbool" .
+    ?symbol skos:prefLabel ?symbolName .
+  }
+  OPTIONAL {
+    ?objectURI rdfs:subClassOf/owl:onClass ?arcering .
+    ?arcering rdfs:subClassOf+/skos:prefLabel "Arcering" .
+    ?arcering skos:prefLabel ?arceringName .
+  }
+  
+  BIND (BOUND(?symbol) as ?hasSymbol) 
+  BIND (BOUND(?arcering) as ?hasArcering) 
+  BIND(
+        # Condition 1: Starts with "("
+        IF(STRSTARTS(?name, "("), 
+            # Extract text between parentheses: (Value) -> Value
+            REPLACE(?name, "^\\\\((.*)\\\\).*", "$1"),
+            
+            # Condition 2: Both S and A
+            IF(?hasSymbol && ?hasArcering, "G/A/S",
+                
+                # Condition 3: Only S
+                IF(?hasSymbol, "G/S",
+                    
+                    # Condition 4: Only A
+                    IF(?hasArcering, "G/A", 
+                        
+                        # Default
+                        "G"
+                    )
+                )
+            )
+        ) AS ?element
+      )
   
   BIND (IF(CONTAINS(?omschrijving, "-"), STRBEFORE(?omschrijving, "-"), ?omschrijving) AS ?objectClean) .
   BIND (STRBEFORE(?objectClean, "_") AS ?objectAttempt) .
