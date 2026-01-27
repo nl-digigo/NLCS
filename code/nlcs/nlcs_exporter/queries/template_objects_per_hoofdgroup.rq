@@ -280,11 +280,11 @@ OPTIONAL {
   
   # Creation of attribute "Element" here:
   OPTIONAL {
-    ?objectURI rdfs:subClassOf/owl:onClass ?symbol .
+    ?objectURI rdfs:subClassOf+/owl:onClass ?symbol .
     ?symbol rdfs:subClassOf+/skos:prefLabel "Symbool" .
   }
   OPTIONAL {
-    ?objectURI rdfs:subClassOf/owl:onClass ?arcering .
+    ?objectURI rdfs:subClassOf+/owl:onClass ?arcering .
     ?arcering rdfs:subClassOf+/skos:prefLabel "Arcering" .
   }
   
