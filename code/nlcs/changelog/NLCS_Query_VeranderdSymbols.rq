@@ -1,0 +1,30 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX nlcs: <http://digitalbuildingdata.tech/nlcs/def/>
+
+SELECT DISTINCT ?NLCSSymbool ?id_nummer ?oudeNLCSSymboolName ?nieuweNLCSSymboolName
+FROM NAMED <http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2> 
+
+WHERE {
+
+    FILTER (STRSTARTS(STR(?NLCSSymbool), "http://digitalbuildingdata.tech/nlcs/def/"))
+    
+    ?NLCSSymbool rdfs:subClassOf+/skos:prefLabel "Symbool" ;
+                 skos:prefLabel ?nieuweNLCSSymboolName .
+
+    OPTIONAL {
+        ?NLCSSymbool <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308> ?id_nummer .
+    }
+
+    GRAPH <http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2> {
+        FILTER (STRSTARTS(STR(?NLCSSymbool), "http://digitalbuildingdata.tech/nlcs/def/"))
+    
+        ?NLCSSymbool skos:prefLabel ?oudeNLCSSymboolName .
+
+        # OPTIONAL {
+        #     ?NLCSSymbool <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308> ?id_nummer .
+        # }
+    }
+    FILTER (?nieuweNLCSSymboolName != ?oudeNLCSSymboolName)
+}

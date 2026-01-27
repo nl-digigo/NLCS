@@ -1,0 +1,166 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX nlcs: <http://digitalbuildingdata.tech/nlcs/def/>
+
+SELECT DISTINCT ?objectURI ?id_nummer ?oudLaagnaam ?nieuweLaagnaam
+FROM NAMED <http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2> 
+
+WHERE {
+    ?NLCSObjectTopConcept a owl:Class .
+    ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
+    ?hoofdgroepURI rdfs:subClassOf ?NLCSObjectTopConcept .
+    ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
+    ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
+    ?objectURI skos:prefLabel ?omschrijving .
+    
+    OPTIONAL {
+    ?objectURI nlcs:b718adec73e04ce3ec720dd11a06a308 ?id_nummer . 
+    } 
+    OPTIONAL {
+        ?objectURI rdfs:subClassOf ?bnodeStatus .
+        ?bnodeStatus owl:onProperty nlcs:580a54a5-3f8e-4d92-afac-24eb23707884 .  
+        OPTIONAL {
+        ?bnodeStatus owl:hasValue/skos:prefLabel ?status .
+        }
+    }
+    OPTIONAL {
+        ?objectURI rdfs:subClassOf ?bnodeDiscipline .
+        ?bnodeDiscipline owl:onProperty nlcs:d01031dc-9abe-47d3-9656-17185c986709 .  
+        OPTIONAL {
+        ?bnodeDiscipline owl:hasValue/skos:prefLabel ?discipline .
+        }
+    }
+    
+    BIND (IF(CONTAINS(?omschrijving, "-"), STRBEFORE(?omschrijving, "-"), ?omschrijving) AS ?objectClean) .
+    BIND (STRBEFORE(?objectClean, "_") AS ?objectAttempt) .
+    BIND (IF(?objectAttempt != "", ?objectAttempt, ?objectClean) AS ?object) .
+    BIND (IF(?objectAttempt != "", STRAFTER(?objectClean, "_"), 1/0) AS ?rest) .
+    
+    BIND (STRBEFORE(?rest, "_") AS ?subobject01Attempt) .
+    BIND (IF(?subobject01Attempt != "", ?subobject01Attempt, ?rest) AS ?subobject01) .
+    BIND (IF(?subobject01Attempt != "", STRAFTER(?rest, "_"), 1/0) AS ?rest2) .
+    
+    BIND (STRBEFORE(?rest2, "_") AS ?subobject02Attempt) .
+    BIND (IF(?subobject02Attempt != "", ?subobject02Attempt, ?rest2) AS ?subobject02) .
+    BIND (IF(?subobject02Attempt != "", STRAFTER(?rest2, "_"), 1/0) AS ?rest3) .
+    
+    BIND (STRBEFORE(?rest3, "_") AS ?subobject03Attempt) .
+    BIND (IF(?subobject03Attempt != "", ?subobject03Attempt, ?rest3) AS ?subobject03) .
+    BIND (IF(?subobject03Attempt != "", STRAFTER(?rest3, "_"), 1/0) AS ?rest4) .
+    
+    BIND (STRBEFORE(?rest4, "_") AS ?subobject04Attempt) .
+    BIND (IF(?subobject04Attempt != "", ?subobject04Attempt, ?rest4) AS ?subobject04) .
+    BIND (IF(?subobject04Attempt != "", STRAFTER(?rest4, "_"), 1/0) AS ?rest5) .
+    
+    BIND (STRBEFORE(?rest5, "_") AS ?subobject05Attempt) .
+    BIND (IF(?subobject05Attempt != "", ?subobject05Attempt, ?rest5) AS ?subobject05) .
+
+    OPTIONAL {
+        ?objectURI rdfs:subClassOf ?bnodeBewerking .
+        ?bnodeBewerking owl:onProperty nlcs:9e8d26b2-e78a-40a5-84b7-765da5b6592f .  # ?bnodeBewerking owl:onProperty ?BewerkingProperty . ?BewerkingProperty skos:prefLabel "Bewerking" .
+        ?bnodeBewerking owl:hasValue/skos:prefLabel ?bewerking .
+    }
+
+     BIND (
+            CONCAT(
+                COALESCE(STR(?status), "*"), 
+                COALESCE(STR(?underscore), "_"), 
+                COALESCE(STR(?discipline), "**"), 
+                COALESCE(STR(?underscore2), "_"), 
+                COALESCE(STR(?hoofdgroep), ""), 
+                COALESCE(STR(?underscore3), "_"), 
+                COALESCE(STR(?object), ""), 
+                
+                IF(BOUND(?subobject01), CONCAT(COALESCE(STR(?underscore4), "_"), STR(?subobject01)), ""),
+                IF(BOUND(?subobject02), CONCAT(COALESCE(STR(?underscore5), "_"), STR(?subobject02)), ""),
+                IF(BOUND(?subobject03), CONCAT(COALESCE(STR(?underscore6), "_"), STR(?subobject03)), ""),
+                IF(BOUND(?subobject04), CONCAT(COALESCE(STR(?underscore7), "_"), STR(?subobject04)), ""),
+                IF(BOUND(?subobject05), CONCAT(COALESCE(STR(?underscore8), "_"), STR(?subobject05)), ""),
+                
+                IF(BOUND(?bewerking), CONCAT(COALESCE(STR(?streepje), "-"), STR(?bewerking)), "")
+            )
+            AS ?nieuweLaagnaam
+            )
+
+
+    GRAPH <http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2> {
+        
+        ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
+        ?objectURI skos:prefLabel ?omschrijving .
+        ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
+        
+        # OPTIONAL {
+        #     ?objectURI nlcs:b718adec73e04ce3ec720dd11a06a308 ?id_nummer . 
+        # } 
+        OPTIONAL {
+            ?objectURI rdfs:subClassOf ?bnodeStatus .
+            ?bnodeStatus owl:onProperty nlcs:580a54a5-3f8e-4d92-afac-24eb23707884 .  
+            OPTIONAL {
+            ?bnodeStatus owl:hasValue/skos:prefLabel ?status .
+            }
+        }
+        OPTIONAL {
+            ?objectURI rdfs:subClassOf ?bnodeDiscipline .
+            ?bnodeDiscipline owl:onProperty nlcs:d01031dc-9abe-47d3-9656-17185c986709 .  
+            OPTIONAL {
+            ?bnodeDiscipline owl:hasValue/skos:prefLabel ?discipline .
+            }
+        }
+        
+        BIND (IF(CONTAINS(?omschrijving, "-"), STRBEFORE(?omschrijving, "-"), ?omschrijving) AS ?objectClean) .
+        BIND (STRBEFORE(?objectClean, "_") AS ?objectAttempt) .
+        BIND (IF(?objectAttempt != "", ?objectAttempt, ?objectClean) AS ?object) .
+        BIND (IF(?objectAttempt != "", STRAFTER(?objectClean, "_"), 1/0) AS ?rest) .
+        
+        BIND (STRBEFORE(?rest, "_") AS ?subobject01Attempt) .
+        BIND (IF(?subobject01Attempt != "", ?subobject01Attempt, ?rest) AS ?subobject01) .
+        BIND (IF(?subobject01Attempt != "", STRAFTER(?rest, "_"), 1/0) AS ?rest2) .
+        
+        BIND (STRBEFORE(?rest2, "_") AS ?subobject02Attempt) .
+        BIND (IF(?subobject02Attempt != "", ?subobject02Attempt, ?rest2) AS ?subobject02) .
+        BIND (IF(?subobject02Attempt != "", STRAFTER(?rest2, "_"), 1/0) AS ?rest3) .
+        
+        BIND (STRBEFORE(?rest3, "_") AS ?subobject03Attempt) .
+        BIND (IF(?subobject03Attempt != "", ?subobject03Attempt, ?rest3) AS ?subobject03) .
+        BIND (IF(?subobject03Attempt != "", STRAFTER(?rest3, "_"), 1/0) AS ?rest4) .
+        
+        BIND (STRBEFORE(?rest4, "_") AS ?subobject04Attempt) .
+        BIND (IF(?subobject04Attempt != "", ?subobject04Attempt, ?rest4) AS ?subobject04) .
+        BIND (IF(?subobject04Attempt != "", STRAFTER(?rest4, "_"), 1/0) AS ?rest5) .
+        
+        BIND (STRBEFORE(?rest5, "_") AS ?subobject05Attempt) .
+        BIND (IF(?subobject05Attempt != "", ?subobject05Attempt, ?rest5) AS ?subobject05) .
+
+        OPTIONAL {
+            ?objectURI rdfs:subClassOf ?bnodeBewerking .
+            ?bnodeBewerking owl:onProperty nlcs:9e8d26b2-e78a-40a5-84b7-765da5b6592f . 
+            ?bnodeBewerking owl:hasValue/skos:prefLabel ?bewerking .
+        }
+
+        BIND (
+            CONCAT(
+                COALESCE(STR(?status), "*"), 
+                COALESCE(STR(?underscore), "_"), 
+                COALESCE(STR(?discipline), "**"), 
+                COALESCE(STR(?underscore2), "_"), 
+                COALESCE(STR(?hoofdgroep), ""), 
+                COALESCE(STR(?underscore3), "_"), 
+                COALESCE(STR(?object), ""), 
+                
+                IF(BOUND(?subobject01), CONCAT(COALESCE(STR(?underscore4), "_"), STR(?subobject01)), ""),
+                IF(BOUND(?subobject02), CONCAT(COALESCE(STR(?underscore5), "_"), STR(?subobject02)), ""),
+                IF(BOUND(?subobject03), CONCAT(COALESCE(STR(?underscore6), "_"), STR(?subobject03)), ""),
+                IF(BOUND(?subobject04), CONCAT(COALESCE(STR(?underscore7), "_"), STR(?subobject04)), ""),
+                IF(BOUND(?subobject05), CONCAT(COALESCE(STR(?underscore8), "_"), STR(?subobject05)), ""),
+                
+                IF(BOUND(?bewerking), CONCAT(COALESCE(STR(?streepje), "-"), STR(?bewerking)), "")
+            )
+            AS ?oudLaagnaam
+            )
+
+    } 
+
+    FILTER(?nieuweLaagnaam != ?oudLaagnaam)
+
+}

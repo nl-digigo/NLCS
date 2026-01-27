@@ -1,0 +1,22 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?NLCSLijntype ?id_nummer ?oudeNLCSLijntypeName ?nieuweNLCSLijntypeName
+FROM NAMED <http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2> 
+
+WHERE {
+
+    FILTER (STRSTARTS(STR(?NLCSLijntype), "http://digitalbuildingdata.tech/nlcs/def/"))
+    ?NLCSLijntype rdfs:subClassOf+/skos:prefLabel "Lijntype" ;
+                 skos:prefLabel ?nieuweNLCSLijntypeName .
+    OPTIONAL {
+        ?NLCSLijntype <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308> ?id_nummer .
+    }
+
+    GRAPH <http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2> {
+        FILTER (STRSTARTS(STR(?NLCSLijntype), "http://digitalbuildingdata.tech/nlcs/def/"))
+        ?NLCSLijntype skos:prefLabel ?oudeNLCSLijntypeName .
+    }
+
+    FILTER (?nieuweNLCSLijntypeName != ?oudeNLCSLijntypeName)
+}
