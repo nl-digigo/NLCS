@@ -2,7 +2,7 @@
 <table>
   <tr>
     <td><figure>
-<img src="../../media/NLCS - logo klein.png" alt="NLCS logo" width="50%">
+<img src="../../media/NLCSlogoklein.png" alt="NLCS logo" width="50%">
 </figure></td>
     <td>Dit document beschrijft uitwisselingsafsopraken rondom NLCS 5.1:</td>
   </tr>

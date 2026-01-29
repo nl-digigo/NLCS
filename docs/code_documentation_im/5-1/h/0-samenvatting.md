@@ -2,7 +2,7 @@
 <table>
   <tr>
     <td><figure>
-<img src="../../media/NLCS - logo klein.png" alt="NLCS logo" width="50%">
+<img src="../../media/NLCSlogoklein.png" alt="NLCS logo" width="50%">
 </figure></td>
     <td>Deze pagina beschrijft de technische documentatie van het objectgerichte informatiemodel van de NLCS. 
 Het objectgerichte informatiemodel van de NLCS uniformeert begrippen voor het vakgebied ‘ontwerp en realisatie van openbare ruimte en bovengrondse en ondergrondse infrastructuur’ en voorziet in een ontologie die geschikt is voor zowel mens en machine.</td>

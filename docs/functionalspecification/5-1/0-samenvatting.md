@@ -2,7 +2,7 @@
 <table>
   <tr>
     <td><figure>
-<img src="../../media/NLCS - logo klein.png" alt="NLCS logo" width="50%">
+<img src="../../media/NLCSlogoklein.png" alt="NLCS logo" width="50%">
 </figure></td>
     <td>Dit document bevat de uitleg van de standaard met daarin de toelichting op het beoogd doel en de werking van de standaard.</td>
   </tr>

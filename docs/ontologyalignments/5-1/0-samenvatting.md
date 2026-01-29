@@ -1,7 +1,7 @@
 <table>
   <tr>
     <td><figure>
-<img src="../../media/NLCS - logo klein.png" alt="NLCS logo" width="50%">
+<img src="../../media/NLCSlogoklein.png" alt="NLCS logo" width="50%">
 </figure></td>
     <td>Dit document beschrijft de relaties tussen NLCS en andere standaarden. Het doel van deze relaties is het samen kunnen gebruiken van NLCS en de andere standaard voor een specifieke use case. </td>
   </tr>
