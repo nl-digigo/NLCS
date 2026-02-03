@@ -337,14 +337,26 @@ OPTIONAL {
   BIND (STRBEFORE(?rest5, "_") AS ?subobject05Attempt) .
   BIND (IF(?subobject05Attempt != "", ?subobject05Attempt, ?rest5) AS ?subobject05) .
 
-  BIND (CONCAT(STR(?status), STR(?underscore), STR(?discipline), STR(?underscore2), 
-               STR(?hoofdgroep), STR(?underscore3), STR(?object), 
-               IF(BOUND(?subobject01), CONCAT(STR(?underscore4), STR(?subobject01)), ""),
-               IF(BOUND(?subobject02), CONCAT(STR(?underscore5), STR(?subobject02)), ""),
-               IF(BOUND(?subobject03), CONCAT(STR(?underscore6), STR(?subobject03)), ""),
-               IF(BOUND(?subobject04), CONCAT(STR(?underscore7), STR(?subobject04)), ""),
-               IF(BOUND(?subobject05), CONCAT(STR(?underscore8), STR(?subobject05)), ""),
-               IF(BOUND(?bewerking), CONCAT(STR(?streepje), STR(?bewerking)), ""))
-        AS ?laagnaam) .
+
+  BIND (
+    CONCAT(
+        IF(!BOUND(?status) || STR(?status) = "X", "*", STR(?status)),
+        COALESCE(STR(?underscore), "_"), 
+        IF(!BOUND(?discipline) || STR(?discipline) = "XX", "**", STR(?discipline)),
+        COALESCE(STR(?underscore2), "_"), 
+        COALESCE(STR(?hoofdgroep), ""), 
+        COALESCE(STR(?underscore3), "_"), 
+        COALESCE(STR(?object), ""), 
+        
+        IF(BOUND(?subobject01), CONCAT(COALESCE(STR(?underscore4), "_"), STR(?subobject01)), ""),
+        IF(BOUND(?subobject02), CONCAT(COALESCE(STR(?underscore5), "_"), STR(?subobject02)), ""),
+        IF(BOUND(?subobject03), CONCAT(COALESCE(STR(?underscore6), "_"), STR(?subobject03)), ""),
+        IF(BOUND(?subobject04), CONCAT(COALESCE(STR(?underscore7), "_"), STR(?subobject04)), ""),
+        IF(BOUND(?subobject05), CONCAT(COALESCE(STR(?underscore8), "_"), STR(?subobject05)), ""),
+        
+        IF(BOUND(?bewerking), CONCAT(COALESCE(STR(?streepje), "-"), STR(?bewerking)), "")
+    )
+    AS ?laagnaam
+    )
  
 } ORDER BY ?id
