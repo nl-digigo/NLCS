@@ -9,7 +9,6 @@ from pathlib import Path
 from typing import List
 
 # --- Configuration & Constants (Moved to top for easy modification) ---
-# SPARQL_ENDPOINT = "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-acceptatie/versions/rv5_1_4/sparql"
 SPARQL_ENDPOINT = "https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv5_1_5/sparql"
 
 LDP_TOKEN_ID = ""      
@@ -23,6 +22,8 @@ CSV_OUTPUT_ROOT_FOLDER = "tabellen/"
 CSV_CONTROLS_FOLDER = "tabellen/controles/"
 CSV_OBJECTS_FOLDER = "tabellen/objectentabellen"
 CHANGELOG_OUTPUT_FOLDER = "tabellen/changelog/"
+
+version = "5.1" # SPARQL_ENDPOINT.split("/versions/")[1].split("/")[0]
 # --- End Configuration ---
 
 
@@ -263,7 +264,7 @@ def retrieve_hoofdgroepen(client: LacesRequest, query_path: str) -> List[str]:
 
 if __name__ == "__main__":
     hoofdgroepen_query_path = os.path.join(QUERY_FOLDER, "NLCS_Retrieve_Hoofdgroepen.rq")
-    objects_query_template_path = os.path.join(QUERY_FOLDER, "search_term_read_objects.rq")
+    objects_query_template_path = os.path.join(QUERY_FOLDER, "template_objects_per_hoofdgroup.rq")
     changelog_queries_folder = "./code/nlcs/changelog/"
 
     my_config = {
@@ -280,20 +281,18 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"FATAL ERROR: Could not initialize Laces client: {e}. Exiting.")
         exit(1)
-##################### TEST #############################
-    # single_output_file = os.path.join(QUERY_FOLDER, "TEST.csv")
-    # run_query_write_result(client, f"{changelog_queries_folder}NLCS_Query_NieuweConcepten.rq", single_output_file)   
+# ##################### TEST #############################
+    # single_output_file = os.path.join(CHANGELOG_OUTPUT_FOLDER, "NLCS_Query_VeranderdObjects-concept-5.1.csv")
+    # run_query_write_result(client, f"{changelog_queries_folder}NLCS_Query_VeranderdObjects.rq", single_output_file)   
 
 ##################### ALL CONTROL QUERIES IN FOLDER ############################
     print("\n--- Running all validation queries in folder ---")
     run_queries_in_folder(client, CONTROL_QUERY_FOLDER, CSV_CONTROLS_FOLDER)
 
-###################### ALL OBJECT QUERIES IN FOLDER ############################
+##################### ALL OBJECT QUERIES IN FOLDER ############################
     run_queries_in_folder(client, "./code/nlcs/", CSV_OUTPUT_ROOT_FOLDER)
 
-    # single_output_file = os.path.join(QUERY_FOLDER, "TEST.csv")
-    # run_query_write_result(client, "./code/5.1/NLCS_Query_Lijntypes.rq", single_output_file)   
-###################### OBJECTS PER HOOFDGROEP ############################
+#################### OBJECTS PER HOOFDGROEP ############################
 
     print("\n--- Retrieving Hoofdgroepen and running object queries ---")
     hoofdgroepen = retrieve_hoofdgroepen(client, hoofdgroepen_query_path)
@@ -307,18 +306,18 @@ if __name__ == "__main__":
                     "$hoofdgroup_name", 
                     hg
                 )
-            objects_output_path = f"{CSV_OBJECTS_FOLDER}/objecten-concept-5.1-{hg}.csv"
+            objects_output_path = f"{CSV_OBJECTS_FOLDER}/objecten-concept-{version}-{hg}.csv"
             results = client.run_query_clean_result(hoofdgroup_query)
             save_csv_results(results, objects_output_path)
         except Exception as e:
             print(f"ERROR: Failed to process query for hoofdgroup '{hg}': {e}")
-####################### ALL OBJECT MERGED ###########################
+###################### ALL OBJECT MERGED ###########################
 
     print("\n--- Merging all object CSV files ---")
-    merged_objects_output_file = os.path.join(CSV_OUTPUT_ROOT_FOLDER, "all_objects-concept-5.1.csv")
+    merged_objects_output_file = os.path.join(CSV_OUTPUT_ROOT_FOLDER, f"all_objects-concept-{version}.csv")
     merge_csv_files(CSV_OBJECTS_FOLDER, merged_objects_output_file)
 
-###################### CHANGELOG QUERIES ###########################
+################### CHANGELOG QUERIES ###########################
     run_queries_in_folder(client, changelog_queries_folder, CHANGELOG_OUTPUT_FOLDER)
 
     print("\nScript execution finished.")   
