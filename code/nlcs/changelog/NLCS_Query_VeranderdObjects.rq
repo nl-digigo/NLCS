@@ -107,6 +107,8 @@ WHERE {
         }
         
         BIND (IF(CONTAINS(?old_omschrijving, "-"), STRBEFORE(?old_omschrijving, "-"), ?old_omschrijving) AS ?old_objectClean) .
+        BIND (IF(CONTAINS(?old_omschrijving, "-"), STRAFTER(?old_omschrijving, "-"), "") AS ?old_bewerking) .
+
         BIND (STRBEFORE(?old_objectClean, "_") AS ?old_objectAttempt) .
         BIND (IF(?old_objectAttempt != "", ?old_objectAttempt, ?old_objectClean) AS ?old_object) .
         BIND (IF(?old_objectAttempt != "", STRAFTER(?old_objectClean, "_"), 1/0) AS ?old_rest) .
@@ -130,12 +132,6 @@ WHERE {
         BIND (STRBEFORE(?old_rest5, "_") AS ?old_subobject05Attempt) .
         BIND (IF(?old_subobject05Attempt != "", ?old_subobject05Attempt, ?old_rest5) AS ?old_subobject05) .
 
-        OPTIONAL {
-            ?old_objectURI rdfs:subClassOf ?old_bnodeBewerking .
-            ?old_bnodeBewerking owl:onProperty nlcs:9e8d26b2-e78a-40a5-84b7-765da5b6592f . 
-            ?old_bnodeBewerking owl:hasValue/skos:prefLabel ?old_bewerking .
-        }
-
         BIND (
             CONCAT(
                 IF(!BOUND(?old_status) || STR(?old_status) = "X", "*", STR(?old_status)),
@@ -152,7 +148,7 @@ WHERE {
                 IF(BOUND(?old_subobject04), CONCAT(COALESCE(STR(?old_underscore7), "_"), STR(?old_subobject04)), ""),
                 IF(BOUND(?old_subobject05), CONCAT(COALESCE(STR(?old_underscore8), "_"), STR(?old_subobject05)), ""),
                 
-                IF(BOUND(?old_bewerking), CONCAT(COALESCE(STR(?old_streepje), "-"), STR(?old_bewerking)), "")
+                IF(BOUND(?old_bewerking) && STRLEN(STR(?old_bewerking)) > 0, CONCAT(COALESCE(STR(?old_streepje), "-"), STR(?old_bewerking)), "")
             )
             AS ?oudLaagnaam
             )
