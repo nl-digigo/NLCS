@@ -15,12 +15,15 @@ LDP_TOKEN_ID = ""
 LDP_PASSWORD = ""          
 
 # Default folder paths
-QUERY_FOLDER = "./code/nlcs/nlcs_exporter/queries/"
-CONTROL_QUERY_FOLDER = "./code/nlcs/nlcs_exporter/queries/controle_queries/"
+PUBLICATIE_QUERY_FOLDER = "./code/nlcs/publicatie/"
+CONTROL_QUERY_FOLDER = "./code/nlcs/controlesdatabase/"
+CHANGELOG_QUERY_FOLDER = "./code/nlcs/changelog/"
 
-CSV_OUTPUT_ROOT_FOLDER = "tabellen/"
-CSV_CONTROLS_FOLDER = "tabellen/controles/"
-CSV_OBJECTS_FOLDER = "tabellen/objectentabellen"
+TEMPLATE_QUERY_PATH = "./code/nlcs/nlcs_exporter/template_objects_per_hoofdgroup.rq"
+
+PUBLICATIE_OUTPUT_FOLDER = "tabellen/publicatie"
+OBJECTS_OUTPUT_FOLDER = "tabellen/publicatie/objectentabellen"
+CONTROL_OUTPUT_FOLDER = "tabellen/controles/"
 CHANGELOG_OUTPUT_FOLDER = "tabellen/changelog/"
 
 version = "5.1" # SPARQL_ENDPOINT.split("/versions/")[1].split("/")[0]
@@ -263,9 +266,7 @@ def retrieve_hoofdgroepen(client: LacesRequest, query_path: str) -> List[str]:
 
 
 if __name__ == "__main__":
-    hoofdgroepen_query_path = os.path.join(QUERY_FOLDER, "NLCS_Retrieve_Hoofdgroepen.rq")
-    objects_query_template_path = os.path.join(QUERY_FOLDER, "template_objects_per_hoofdgroup.rq")
-    changelog_queries_folder = "./code/nlcs/changelog/"
+    hoofdgroepen_query_path = "./code/nlcs/nlcs_exporter/NLCS_Retrieve_Hoofdgroepen.rq"
 
     my_config = {
         "url": SPARQL_ENDPOINT,
@@ -287,37 +288,39 @@ if __name__ == "__main__":
 
 ##################### ALL CONTROL QUERIES IN FOLDER ############################
     print("\n--- Running all validation queries in folder ---")
-    run_queries_in_folder(client, CONTROL_QUERY_FOLDER, CSV_CONTROLS_FOLDER)
+    run_queries_in_folder(client, CONTROL_QUERY_FOLDER, CONTROL_OUTPUT_FOLDER)
 
 ##################### ALL OBJECT QUERIES IN FOLDER ############################
-    run_queries_in_folder(client, "./code/nlcs/", CSV_OUTPUT_ROOT_FOLDER)
+    run_queries_in_folder(client, PUBLICATIE_QUERY_FOLDER, PUBLICATIE_OUTPUT_FOLDER)
 
 #################### OBJECTS PER HOOFDGROEP ############################
 
     print("\n--- Retrieving Hoofdgroepen and running object queries ---")
     hoofdgroepen = retrieve_hoofdgroepen(client, hoofdgroepen_query_path)
-    print(hoofdgroepen)
+    # print(hoofdgroepen)
 
     for hg in hoofdgroepen:
         print(f"INFO: Sending objects query for hoofdgroup '{hg}'...")
         try:
             hoofdgroup_query = build_parameterized_query(
-                    objects_query_template_path,
+                    TEMPLATE_QUERY_PATH,
                     "$hoofdgroup_name", 
                     hg
                 )
-            objects_output_path = f"{CSV_OBJECTS_FOLDER}/objecten-concept-{version}-{hg}.csv"
+            objects_output_path = f"{OBJECTS_OUTPUT_FOLDER}/objecten-concept-{version}-{hg}.csv"
             results = client.run_query_clean_result(hoofdgroup_query)
             save_csv_results(results, objects_output_path)
         except Exception as e:
             print(f"ERROR: Failed to process query for hoofdgroup '{hg}': {e}")
+
 ###################### ALL OBJECT MERGED ###########################
 
     print("\n--- Merging all object CSV files ---")
-    merged_objects_output_file = os.path.join(CSV_OUTPUT_ROOT_FOLDER, f"all_objects-concept-{version}.csv")
-    merge_csv_files(CSV_OBJECTS_FOLDER, merged_objects_output_file)
+    merged_objects_output_file = os.path.join(PUBLICATIE_OUTPUT_FOLDER, f"all_objects-concept-{version}.csv")
+    merge_csv_files(OBJECTS_OUTPUT_FOLDER, merged_objects_output_file)
 
 ################### CHANGELOG QUERIES ###########################
-    run_queries_in_folder(client, changelog_queries_folder, CHANGELOG_OUTPUT_FOLDER)
+
+    run_queries_in_folder(client, CHANGELOG_QUERY_FOLDER, CHANGELOG_OUTPUT_FOLDER)
 
     print("\nScript execution finished.")   
