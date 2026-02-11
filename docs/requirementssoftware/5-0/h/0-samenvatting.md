@@ -1,1 +1,0 @@
-Dit document beschrijft de eisen aan software-implementatie, de voorwaarden om NLCS-leverancier te kunnen zijn

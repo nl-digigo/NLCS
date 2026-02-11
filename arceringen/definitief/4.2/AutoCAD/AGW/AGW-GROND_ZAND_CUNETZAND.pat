@@ -1,4 +1,0 @@
-
-;;;Grontmij 2011
-*AGW-GROND_ZAND_CUNETZAND, CUNETZAND
-0, 0, 0, 0.625, 0.625, 0, -1.25 
