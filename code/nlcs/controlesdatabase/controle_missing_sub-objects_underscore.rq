@@ -2,6 +2,8 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
+# Detects missing sub-objects indicated by underscore naming conventions
+
 SELECT ?hoofdgroep ?object ?parent ?num_underscore_object ?num_underscore_parent 
 WHERE {
   ?NLCSObjectTopConcept a owl:Class .

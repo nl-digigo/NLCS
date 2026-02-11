@@ -11,9 +11,9 @@ WHERE {
   ?abibliotheekURI rdfs:subClassOf ?ArceringTopConcept .
   ?abibliotheekURI skos:prefLabel ?abibliotheek .
   ?abibliotheekURI skos:definition ?omschrijving .
-  ?idProperty skos:prefLabel "ID" .
 
   OPTIONAL {
+    ?idProperty skos:prefLabel "ID" .
     ?abibliotheekURI ?idProperty ?id .
   }
 
