@@ -1,0 +1,54 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX nlcs: <http://digitalbuildingdata.tech/nlcs/def/>
+
+SELECT ?omschrijving_5_0 ?max_id_of_last_publication ?omschrijving_5_1 ?min_id_of_current_publication #(MAX(?id_nummer) AS ?max_id) 
+FROM NAMED <http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2>
+WHERE {
+    {
+    SELECT ?omschrijving_5_0 ?max_id_of_last_publication #(MAX(xsd:integer(?id_nummer)) AS ?max_id_of_last_publication)
+    WHERE {
+            GRAPH <http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2> {
+                ?TopConcept a owl:Class .
+                ?TopConcept skos:prefLabel "Lijntype" .
+                ?groupURI rdfs:subClassOf ?TopConcept .
+                ?objectURI rdfs:subClassOf+ ?groupURI .
+                ?objectURI skos:prefLabel ?omschrijving_5_0 .
+                ?objectURI nlcs:b718adec73e04ce3ec720dd11a06a308 ?str_id_nummer .
+                BIND(xsd:integer(?str_id_nummer) AS ?max_id_of_last_publication)
+                
+            }
+        } ORDER BY DESC(?max_id_of_last_publication)
+        LIMIT 1
+    }
+
+    {
+    SELECT ?omschrijving_5_1 ?min_id_of_current_publication #(MIN(xsd:integer(?id_nummer)) AS ?min_id_of_current_publication)
+    WHERE {
+        ?TopConcept a owl:Class .
+        ?TopConcept skos:prefLabel "Lijntype" .
+        ?groupURI rdfs:subClassOf ?TopConcept .
+        ?objectURI rdfs:subClassOf+ ?groupURI .
+        ?objectURI skos:prefLabel ?omschrijving_5_1 .
+        
+        FILTER NOT EXISTS {
+            GRAPH <http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2> {
+            ?objectURI nlcs:b718adec73e04ce3ec720dd11a06a308 ?oldId .
+            }
+        }
+
+        MINUS {
+            {{VALUES_BLOCK}}
+        }
+
+        ?objectURI nlcs:b718adec73e04ce3ec720dd11a06a308 ?str_id_nummer .
+        BIND(xsd:integer(?str_id_nummer) AS ?min_id_of_current_publication)
+
+        } ORDER BY ASC(?min_id_of_current_publication)
+        LIMIT 1
+    }
+    
+   
+} 

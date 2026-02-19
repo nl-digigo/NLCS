@@ -1,0 +1,11 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX nlcs: <http://digitalbuildingdata.tech/nlcs/def/>
+
+SELECT ?URI ?label ?id
+WHERE {
+  ?URI skos:prefLabel ?label .
+  OPTIONAL { ?URI nlcs:b718adec73e04ce3ec720dd11a06a308 ?id }
+
+  FILTER(?label IN ({{VALUES_BLOCK}}))
+  
+}
