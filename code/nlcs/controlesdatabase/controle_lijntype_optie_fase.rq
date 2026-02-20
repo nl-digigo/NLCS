@@ -3,6 +3,8 @@ PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 # Checks if the ID, fase and optie correctly exist for a lijntype 
+# AND
+# if any linetype starts with N- or R-
 
 SELECT DISTINCT ?hoofdgroep ?liijntypeURI ?lijntype ?id ?fase ?optie
 WHERE {
@@ -33,7 +35,7 @@ WHERE {
         ( 
         (STRSTARTS(?lijntype, "B-") && (!BOUND(?fase) || ?fase != "B")) ||
         (STRSTARTS(?lijntype, "V-") && (!BOUND(?fase) || ?fase != "V")) ||
-        (STRSTARTS(?lijntype, "N-") && (!BOUND(?fase) || ?fase != "N")) ||
+        (STRSTARTS(?lijntype, "N-")) || (STRSTARTS(?lijntype, "R-")) ||
         (STRSTARTS(?lijntype, "O-") && (!BOUND(?fase) || ?fase != "O")) ||
         (STRSTARTS(?lijntype, "T-") && (!BOUND(?fase) || ?fase != "T"))
         ) ||

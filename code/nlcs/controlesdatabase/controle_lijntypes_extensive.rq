@@ -1,0 +1,59 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX nlcs: <http://digitalbuildingdata.tech/nlcs/def/>
+
+# Checks if statuses are correct for lijntypes 
+# AND
+# if all linetypes have V component
+
+SELECT DISTINCT ?object ?line_type_b ?line_type_b_label ?line_type_n ?line_type_n_label ?line_type_t ?line_type_t_label ?line_type_v ?line_type_v_label
+WHERE {
+    ?NLCSObjectTopConcept a owl:Class .
+    ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
+    ?hoofdgroepURI rdfs:subClassOf ?NLCSObjectTopConcept .
+    ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
+    ?obj rdfs:subClassOf+ ?hoofdgroepURI .
+    ?obj skos:prefLabel ?object .
+    
+    OPTIONAL {
+        ?obj nlcs:99271b8e4692f59ed33a550afaf542ac ?line_type_b .
+        ?line_type_b skos:prefLabel ?line_type_b_label .
+    }
+    OPTIONAL {
+        ?obj nlcs:fffb63ae8b6d147830578bf41ba4bfa3 ?line_type_n .
+        ?line_type_n skos:prefLabel ?line_type_n_label .
+    }
+    OPTIONAL {
+        ?obj nlcs:5f36dd80a4a3f96ed76158ec5d420be7 ?line_type_t .
+        ?line_type_t skos:prefLabel ?line_type_t_label .
+    }
+    OPTIONAL {
+        ?obj nlcs:965ac85b41943c884f3487cb131e05bd ?line_type_v .
+        ?line_type_v skos:prefLabel ?line_type_v_label .
+    }
+
+
+    FILTER (
+        (BOUND(?line_type_b) 
+            && 
+            (STRSTARTS(?line_type_b_label, "V-") ||  STRSTARTS(?line_type_b_label, "O-") || STRSTARTS(?line_type_b_label, "T-") ) )
+        ||
+        (BOUND(?line_type_n) 
+            && 
+            (STRSTARTS(?line_type_n_label, "V-") ||  STRSTARTS(?line_type_n_label, "O-") || STRSTARTS(?line_type_n_label, "T-") || STRSTARTS(?line_type_n_label, "B-")) )
+        ||
+        (BOUND(?line_type_t) 
+            && 
+            (STRSTARTS(?line_type_t_label, "V-") ||  STRSTARTS(?line_type_t_label, "O-") || STRSTARTS(?line_type_t_label, "B-") ) )
+        ||
+        (BOUND(?line_type_v) 
+            && 
+            (STRSTARTS(?line_type_v_label, "B-") ||  STRSTARTS(?line_type_v_label, "O-") || STRSTARTS(?line_type_v_label, "T-") ) )
+            &&
+            (str(?line_type_v_label) = "CONTINUOUS")
+        ||
+        !BOUND (?line_type_v)
+    )	
+      
+} 
