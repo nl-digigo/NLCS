@@ -5,8 +5,8 @@ from requests.auth import HTTPBasicAuth
 import pandas as pd
 from io import StringIO
 import glob
-from pathlib import Path
 from typing import List
+from html_exporter import sparql_to_html, COLUMN_RULES
 
 # --- Configuration & Constants (Moved to top for easy modification) ---
 SPARQL_ENDPOINT = "https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv5_1_5/sparql"
@@ -101,7 +101,7 @@ def load_query(query_path: str) -> str:
 
 def build_parameterized_query(template_path: str, placeholder: str, value: str) -> str:
     """
-    Reads a SPARQL query template, replaces a placeholder, and returns the query.
+    Reads a SPARQL query template, replaces a placeholder with the value, and returns the query.
     e.g., placeholder="$hoofdgroup_name", value="SomeGroup"
     """
     query_template = load_query(template_path)
@@ -264,10 +264,90 @@ def retrieve_hoofdgroepen(client: LacesRequest, query_path: str) -> List[str]:
         print(f"ERROR: Failed to retrieve hoofdgroepen: {e}")
         return []
 
+# only for increasing id check 
+def build_values_block(uris, var_name="?objectURI"):
+    values = "\n".join(f"<{uri}>" for uri in uris)
+    return f"VALUES {var_name} {{\n{values}\n}}"
+
+def build_excluded_uris_for_id_check(export_uris_csv_path, template_query):
+    df = pd.read_csv(export_uris_csv_path)
+    uris = (
+        df["s"]
+        .dropna()
+        .astype(str)
+        .str.strip()
+        .str.strip('"')
+        .tolist()
+    )
+    values_block = build_values_block(uris)
+    # template_query = template_query
+    placeholder = "{{VALUES_BLOCK}}"
+    parameterized_query = build_parameterized_query(template_path=template_query, placeholder=placeholder, value=values_block)
+    return parameterized_query
+
+def check_increasing_ids():
+    # increasing IDs for objects
+    objects_csv_path = "./code/nlcs/controls_within_versions/helpers/expired_objects_export_uris.csv"
+    template_query = "./code/nlcs/controls_within_versions/Template_NLCS_Query_Objects_Increasing_ID_Numbers.rq"
+    query = build_excluded_uris_for_id_check(objects_csv_path, template_query)
+
+    single_output_file = os.path.join(CONTROL_OUTPUT_FOLDER, "NLCS_Query_Objects_Increasing_ID_Numbers-concept-5.1.csv")
+    results = client.run_query_clean_result(query)
+    save_csv_results(results, single_output_file)
+
+    # increasing IDs for arceringen
+    objects_csv_path = "./code/nlcs/controls_within_versions/helpers/expired_documents_export_uris.csv"
+    template_query = "./code/nlcs/controls_within_versions/Template_NLCS_Query_Arcering_Increasing_ID_Numbers.rq"
+    query = build_excluded_uris_for_id_check(objects_csv_path, template_query)
+
+    single_output_file = os.path.join(CONTROL_OUTPUT_FOLDER, "NLCS_Query_Arcering_Increasing_ID_Numbers-concept-5.1.csv")
+    results = client.run_query_clean_result(query)
+    save_csv_results(results, single_output_file)
+
+    # increasing IDs for symbols
+    objects_csv_path = "./code/nlcs/controls_within_versions/helpers/expired_documents_export_uris.csv"
+    template_query = "./code/nlcs/controls_within_versions/Template_NLCS_Query_Symbool_Increasing_ID_Numbers.rq"
+    query = build_excluded_uris_for_id_check(objects_csv_path, template_query)
+
+    single_output_file = os.path.join(CONTROL_OUTPUT_FOLDER, "NLCS_Query_Symbool_Increasing_ID_Numbers-concept-5.1.csv")
+    results = client.run_query_clean_result(query)
+    save_csv_results(results, single_output_file)
+
+    # increasing IDs for line types
+    objects_csv_path = "./code/nlcs/controls_within_versions/helpers/expired_documents_export_uris.csv"
+    template_query = "./code/nlcs/controls_within_versions/Template_NLCS_Query_Linetype_Increasing_ID_Numbers.rq"
+    query = build_excluded_uris_for_id_check(objects_csv_path, template_query)
+
+    single_output_file = os.path.join(CONTROL_OUTPUT_FOLDER, "NLCS_Query_Lijntype_Increasing_ID_Numbers-concept-5.1.csv")
+    results = client.run_query_clean_result(query)
+    save_csv_results(results, single_output_file)
+
+# check if any label of a vervallen (deleted) object is used in the new version
+def check_vervallen_object_labels():
+    csv_path = "./tabellen/changelog/NLCS_Query_VervallenConcepts-concept-5.1.csv"
+    template_query = "./code/nlcs/controls_within_versions/Template_NLCS_Query_Vervallen_Objects_Reused_Labels.rq"
+    df = pd.read_csv(csv_path)
+    if "vervallenConceptName" not in df.columns:
+        raise ValueError("CSV must contain 'vervallenConceptName'")
+    
+    labels = (
+        df["vervallenConceptName"]
+        .dropna()
+        .astype(str)
+        .str.strip()
+        .tolist()
+    )
+
+    labels_for_query = ", ".join(f'"{v.replace('"', '\\"')}"' for v in labels)
+    placeholder = "{{VALUES_BLOCK}}"
+    parameterized_query = build_parameterized_query(template_path=template_query, placeholder=placeholder, value=labels_for_query)
+    
+    single_output_file = os.path.join(CONTROL_OUTPUT_FOLDER, "NLCS_Query_Vervallen_Objects_Reused_Labels-concept-5.1.csv")
+    results = client.run_query_clean_result(parameterized_query)
+    save_csv_results(results, single_output_file)
+
 
 if __name__ == "__main__":
-    hoofdgroepen_query_path = "./code/nlcs/nlcs_exporter/NLCS_Retrieve_Hoofdgroepen.rq"
-
     my_config = {
         "url": SPARQL_ENDPOINT,
         "username": LDP_TOKEN_ID,
@@ -283,12 +363,14 @@ if __name__ == "__main__":
         print(f"FATAL ERROR: Could not initialize Laces client: {e}. Exiting.")
         exit(1)
 # ##################### TEST #############################
-    # single_output_file = os.path.join(CHANGELOG_OUTPUT_FOLDER, "NLCS_Query_VeranderdObjects-concept-5.1.csv")
-    # run_query_write_result(client, f"{changelog_queries_folder}NLCS_Query_VeranderdObjects.rq", single_output_file)   
+    # run_query_write_result(client, query, single_output_file) 
+    # run_queries_in_folder(client, "./code/nlcs/controls_within_versions/", "./code/nlcs/Test/")
 
 ##################### ALL CONTROL QUERIES IN FOLDER ############################
-    print("\n--- Running all validation queries in folder ---")
+    print("\n--- Running all validation queries in folder ---")    
     run_queries_in_folder(client, CONTROL_QUERY_FOLDER, CONTROL_OUTPUT_FOLDER)
+    check_increasing_ids()
+    check_vervallen_object_labels()
 
 ##################### ALL OBJECT QUERIES IN FOLDER ############################
     run_queries_in_folder(client, PUBLICATIE_QUERY_FOLDER, PUBLICATIE_OUTPUT_FOLDER)
@@ -296,6 +378,7 @@ if __name__ == "__main__":
 #################### OBJECTS PER HOOFDGROEP ############################
 
     print("\n--- Retrieving Hoofdgroepen and running object queries ---")
+    hoofdgroepen_query_path = "./code/nlcs/nlcs_exporter/NLCS_Retrieve_Hoofdgroepen.rq"
     hoofdgroepen = retrieve_hoofdgroepen(client, hoofdgroepen_query_path)
     # print(hoofdgroepen)
 
@@ -322,5 +405,23 @@ if __name__ == "__main__":
 ################### CHANGELOG QUERIES ###########################
 
     run_queries_in_folder(client, CHANGELOG_QUERY_FOLDER, CHANGELOG_OUTPUT_FOLDER)
+
+##################### HTML Per Hoofdgroep (uses html_exporter.py) #############################
+    hoofdgroepen_query_path = "./code/nlcs/nlcs_exporter/NLCS_Retrieve_Hoofdgroepen.rq"
+    hoofdgroepen = retrieve_hoofdgroepen(client, hoofdgroepen_query_path)
+    for hg in hoofdgroepen:
+        print(f"INFO: Sending objects query for hoofdgroup '{hg}'...")
+        try:
+            hoofdgroup_query = build_parameterized_query(
+                    TEMPLATE_QUERY_PATH,
+                    "$hoofdgroup_name", 
+                    hg
+                )
+            objects_output_path = f"./html/objecten-concept-{version}-{hg}.html"
+            results = client.run_query_clean_result(hoofdgroup_query)
+            sparql_to_html(results, objects_output_path, column_rules=COLUMN_RULES)
+        except Exception as e:
+            print(f"ERROR: Failed to process query for hoofdgroup '{hg}': {e}")
+
 
     print("\nScript execution finished.")   
