@@ -13,23 +13,24 @@ WHERE {
     ?NLCSObjectTopConcept skos:prefLabel "NLCS-object" .
     ?hoofdgroepURI rdfs:subClassOf ?NLCSObjectTopConcept .
     ?hoofdgroepURI skos:prefLabel ?hoofdgroep .
-    ?obj rdfs:subClassOf+ ?hoofdgroepURI .
-    ?obj skos:prefLabel ?object .
+    ?object rdfs:subClassOf+ ?hoofdgroepURI .
+    ?object skos:prefLabel ?objectLabel .
+    FILTER (?hoofdgroep != "AL") .
     
     OPTIONAL {
-        ?obj nlcs:99271b8e4692f59ed33a550afaf542ac ?line_type_b .
+        ?object nlcs:99271b8e4692f59ed33a550afaf542ac ?line_type_b .
         ?line_type_b skos:prefLabel ?line_type_b_label .
     }
     OPTIONAL {
-        ?obj nlcs:fffb63ae8b6d147830578bf41ba4bfa3 ?line_type_n .
+        ?object nlcs:fffb63ae8b6d147830578bf41ba4bfa3 ?line_type_n .
         ?line_type_n skos:prefLabel ?line_type_n_label .
     }
     OPTIONAL {
-        ?obj nlcs:5f36dd80a4a3f96ed76158ec5d420be7 ?line_type_t .
+        ?object nlcs:5f36dd80a4a3f96ed76158ec5d420be7 ?line_type_t .
         ?line_type_t skos:prefLabel ?line_type_t_label .
     }
     OPTIONAL {
-        ?obj nlcs:965ac85b41943c884f3487cb131e05bd ?line_type_v .
+        ?object nlcs:965ac85b41943c884f3487cb131e05bd ?line_type_v .
         ?line_type_v skos:prefLabel ?line_type_v_label .
     }
 
@@ -53,7 +54,7 @@ WHERE {
             &&
             (str(?line_type_v_label) = "CONTINUOUS")
         ||
-        !BOUND (?line_type_v)
+        (!BOUND (?line_type_v) || (STRLEN(STR(?line_type_v_label)) = 0))
     )	
       
 } 
