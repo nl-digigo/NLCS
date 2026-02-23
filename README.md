@@ -17,7 +17,7 @@ Informatie over de openbare consultatie van concept versie 5.1 van 1 november 20
 NLCS 5.0 kan bekeken worden in de [NLCS 5.0 viewer](https://nlcs-viewer.crow.nl)
 
 ## Voor ontwerpers en tekenaars
-* [Formele specificatie 5.0](https://github.com/nl-digigo/NLCS/blob/main/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf)
+* [Formele specificatie 5.0]([https://github.com/nl-digigo/NLCS/blob/main/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf](https://github.com/nl-digigo/NLCS/blob/development/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf))
 * [Voorbeeldtekeningen](https://github.com/nl-digigo/NLCS/tree/main/docs/voorbeeldtekeningen)
 
 ### Zelf applicatie inrichten
