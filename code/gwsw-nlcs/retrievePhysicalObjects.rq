@@ -1,0 +1,56 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX nen2660: <https://w3id.org/nen2660/def#>
+
+SELECT ?physicalObject ?physicalObjectName ?matter ?activity ?property ?propertyValue ?NLCSobject ?NLCSobjectName ?NLCSsymbool ?NLCSsymboolName
+WHERE {
+  ?physicalObject a owl:Class .
+  ?physicalObject rdfs:subClassOf+ nen2660:RealObject .
+  FILTER (CONTAINS(STR(?physicalObject),"http://digitalbuildingdata.tech/nlcs-class/"))
+  ?physicalObject skos:prefLabel ?physicalObjectName .
+  FILTER ( ?physicalObjectName NOT IN ("actor"@nl, "agent"@en))
+  # Matter
+  OPTIONAL {
+    ?shapeMatter a sh:NodeShape .
+    ?shapeMatter sh:targetClass ?physicalObject .
+    ?shapeMatter sh:property ?bnodeMatter .
+    ?bnodeMatter sh:path nen2660:consistsOf .
+    ?bnodeMatter sh:qualifiedValueShape/sh:class ?matter .
+  }
+  # Activity
+  OPTIONAL {
+    ?shapeActivity a sh:NodeShape .
+    ?shapeActivity sh:targetClass ?activity .
+    ?shapeActivity sh:property ?bnodeActivity .
+    ?bnodeActivity sh:path nen2660:transforms .
+    ?bnodeActivity sh:qualifiedValueShape/sh:class ?physicalObject .
+  }
+  # Aspect
+  OPTIONAL {
+    ?shapeProperty a sh:NodeShape .
+    ?shapeProperty sh:targetClass ?physicalObject .
+    ?shapeProperty sh:property ?bnodeProperty .
+    ?bnodeProperty sh:path ?property .
+    FILTER (?property NOT IN (nen2660:consistsOf, nen2660:hasPart))
+    OPTIONAL { ?bnodeProperty sh:hasValue ?propertyValue . }
+  }
+  # NLCS object
+  OPTIONAL {
+    ?physicalObject nen2660:isDescribedBy ?NLCSobject .
+    FILTER (CONTAINS(STR(?NLCSobject), "http://digitalbuildingdata.tech/nlcs/def/")).
+    ?NLCSobject rdfs:subClassOf+/skos:prefLabel "NLCS-object" .
+    ?NLCSobject skos:prefLabel ?NLCSobjectName .
+  }
+  # NLCS symbool
+  OPTIONAL {
+    ?physicalObject nen2660:isDescribedBy ?NLCSsymbool .
+    FILTER (CONTAINS(STR(?NLCSsymbool), "http://digitalbuildingdata.tech/nlcs/def/")).
+    ?NLCSsymbool rdfs:subClassOf+/skos:prefLabel "Symbool" .
+    ?NLCSsymbool skos:prefLabel ?NLCSsymboolName .
+  }
+}

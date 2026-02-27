@@ -1,0 +1,25 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX nen2660: <https://w3id.org/nen2660/def#>
+
+SELECT DISTINCT ?activity ?activityName ?activityNLCS
+WHERE {
+  # NLCS Classificatie
+  ?activity a owl:Class .
+  ?activity rdfs:subClassOf+ nen2660:Activity .
+  ?activity skos:prefLabel ?activityName .
+  FILTER ( ?activityName NOT IN ("risk"@en, "functie"@nl, "risico"@nl, "function"@en))
+  
+  # NCLS Tekenstandaard
+  ?hoofdgroep skos:prefLabel "RI" .
+  ?laagnaam rdfs:subClassOf+ ?hoofdgroep .
+  ?laagnaam rdfs:subClassOf ?bnodeBewerking .
+  ?bnodeBewerking owl:onProperty <http://digitalbuildingdata.tech/nlcs/def/9e8d26b2-e78a-40a5-84b7-765da5b6592f> .
+  ?bnodeBewerking owl:hasValue ?activityNLCS .
+  ?activityNLCS skos:prefLabel ?activityName .
+}
