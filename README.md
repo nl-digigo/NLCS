@@ -4,6 +4,7 @@ Deze repository is de locatie voor technische documentatie en het inbrengen en o
 Links hieronder zijn voor de actuele versie, 5.0
 Informatie over de openbare consultatie van concept versie 5.1 van 1 november 2024 t/m 1 maart 2025 staan [hier](https://github.com/nl-digigo/NLCS/blob/development/README-5-1.md)
 
+
 ## Beheer
 
 * [Beheerdocument DigiGO](https://www.digigo.nu/wp-content/uploads/2024/09/BOMOS-Beheerdocument-Standaarden-digiGO-V1.0.pdf).
@@ -14,7 +15,7 @@ Informatie over de openbare consultatie van concept versie 5.1 van 1 november 20
 * [Protocol afhandelen gebruikerswensen](https://nl-digigo.github.io/NLCS/protocolissues)
 
 ## Viewer
-NLCS 5.0 kan bekeken worden in de [NLCS 5.0 viewer](https://nlcs-viewer.crow.nl)
+Er is geen viewer van de standaard, men kan wel de [Tabellen 5.0](https://github.com/nl-digigo/NLCS/tree/main/tabellen/publicatie) bekijken om de inhoud van de database te onderzoeken. 
 
 ## Voor ontwerpers en tekenaars
 * [Formele specificatie 5.0](https://github.com/nl-digigo/NLCS/blob/development/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf)
@@ -22,7 +23,7 @@ NLCS 5.0 kan bekeken worden in de [NLCS 5.0 viewer](https://nlcs-viewer.crow.nl)
 
 ### Zelf applicatie inrichten
 Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS is ook beschikbaar in tabellen:
-* [Laagtabellen 5.0](https://github.com/nl-digigo/NLCS/tree/main/tabellen/definitief/5.0)
+* [Tabellen 5.0](https://github.com/nl-digigo/NLCS/tree/main/tabellen/publicatie)
 
 
 ## Voor softwareleveranciers en ontwikkelaars
@@ -64,5 +65,4 @@ This work is licensed under a
 [cc-by]: http://creativecommons.org/licenses/by/4.0/
 [cc-by-image]: https://i.creativecommons.org/l/by/4.0/88x31.png
 [cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg
-
 
