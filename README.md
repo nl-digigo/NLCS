@@ -42,10 +42,10 @@ Deze link verwijst naar de linked data hub, voor developers wordt in [Toelichtin
 
 ### Symbolen, lijntypes, arceringen, font
 De symbolen, lijntypes en arceringen die in de software kunnen worden ingeladen:
-* [Symbolen 5.0](https://github.com/nl-digigo/NLCS/tree/main/symbolen/definitief/5.0)
-* [Lijntypes 5.0](https://github.com/nl-digigo/NLCS/tree/main/lijntypes/definitief/5.0)
-* [Arceringen 5.0](https://github.com/nl-digigo/NLCS/tree/main/arceringen/definitief/5.0)
-* [Font 5.0](https://github.com/nl-digigo/NLCS/tree/main/font/definitief/5.0)
+* [Symbolen 5.0](https://github.com/nl-digigo/NLCS/tree/main/symbolen)
+* [Lijntypes 5.0](https://github.com/nl-digigo/NLCS/tree/main/lijntypes)
+* [Arceringen 5.0](https://github.com/nl-digigo/NLCS/tree/main/arceringen)
+* [Font 5.0](https://github.com/nl-digigo/NLCS/tree/main/font)
 
 
 ![Architectuur van de standaard](<NLCS architectuur.png>)
