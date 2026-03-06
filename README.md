@@ -4,6 +4,7 @@ Deze repository is de locatie voor technische documentatie en het inbrengen en o
 Links hieronder zijn voor de actuele versie, 5.0
 Informatie over de openbare consultatie van concept versie 5.1 van 1 november 2024 t/m 1 maart 2025 staan [hier](https://github.com/nl-digigo/NLCS/blob/development/README-5-1.md)
 
+
 ## Beheer
 
 * [Beheerdocument DigiGO](https://www.digigo.nu/wp-content/uploads/2024/09/BOMOS-Beheerdocument-Standaarden-digiGO-V1.0.pdf).
@@ -41,10 +42,10 @@ Deze link verwijst naar de linked data hub, voor developers wordt in [Toelichtin
 
 ### Symbolen, lijntypes, arceringen, font
 De symbolen, lijntypes en arceringen die in de software kunnen worden ingeladen:
-* [Symbolen 5.0](https://github.com/nl-digigo/NLCS/tree/main/symbolen/definitief/5.0)
-* [Lijntypes 5.0](https://github.com/nl-digigo/NLCS/tree/main/lijntypes/definitief/5.0)
-* [Arceringen 5.0](https://github.com/nl-digigo/NLCS/tree/main/arceringen/definitief/5.0)
-* [Font 5.0](https://github.com/nl-digigo/NLCS/tree/main/font/definitief/5.0)
+* [Symbolen 5.0](https://github.com/nl-digigo/NLCS/tree/main/symbolen)
+* [Lijntypes 5.0](https://github.com/nl-digigo/NLCS/tree/main/lijntypes)
+* [Arceringen 5.0](https://github.com/nl-digigo/NLCS/tree/main/arceringen)
+* [Font 5.0](https://github.com/nl-digigo/NLCS/tree/main/font)
 
 
 ![Architectuur van de standaard](<NLCS architectuur.png>)
@@ -64,4 +65,3 @@ This work is licensed under a
 [cc-by]: http://creativecommons.org/licenses/by/4.0/
 [cc-by-image]: https://i.creativecommons.org/l/by/4.0/88x31.png
 [cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg
-
