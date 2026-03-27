@@ -19,7 +19,7 @@ Er is geen viewer van de standaard, men kan wel de [Tabellen 5.0](https://github
 
 ## Voor ontwerpers en tekenaars
 * [Formele specificatie 5.0](https://github.com/nl-digigo/NLCS/blob/development/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf)
-* [Voorbeeldtekeningen](https://github.com/nl-digigo/NLCS/tree/main/docs/voorbeeldtekeningen)
+* [Voorbeeldtekeningen](https://github.com/nl-digigo/NLCS/tree/development/docs/voorbeeldtekeningen)
 
 ### Zelf applicatie inrichten
 Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS is ook beschikbaar in tabellen:
