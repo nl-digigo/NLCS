@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -66,7 +66,7 @@
 </head>
 <body>
     <h1>NLCS GitHub Issues - Release Notes</h1>
-    <p class="info">Totaal: 557 gesloten issues | 
+    <p class="info">Totaal: 558 gesloten issues |
     Gesorteerd op milestone, daarna op issue nummer</p>
     <table>
         <thead>
@@ -79,8 +79,7 @@
                 <th>Laatste Comment</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
+        <tbody>            <tr>
                 <td><a href="https://github.com/nl-digigo/NLCS/issues/13" target="_blank">#13</a></td>
                 <td><span class="milestone">Alignment GWSW</span></td>
                 <td><span class="label">RI_riolering-en-GWSW</span></td>
@@ -687,6 +686,14 @@
                 <td>[[release note]] De ReadME van de 5.0 is aangepast nadat de main branch is opgeschoond tot puur de 5.0 publicatie zonder historie.</td>
                 <td></td>
                 <td></td>
+            </tr>
+            <tr>
+                <td><a href="https://github.com/nl-digigo/NLCS/issues/814" target="_blank">#814</a></td>
+                <td><span class="milestone">Gebruikersvragen</span></td>
+                <td><span class="label">BGT</span> <span class="label">implementatie</span></td>
+                <td></td>
+                <td></td>
+                <td>Beantwoord: De mapping van BGT naar NLCS en van PDOK Thema stedelijk water (gwsw) naar NLCS staan hier: https://github.com/nl-digigo/NLCS/tree/main/tabellen/publicatie/NLCS-mappingen<br><br>Er is ooit een lijst gemaakt met objecten voor planvorming, staat in deze pdf, pagina 67: https://github.com/nl-digigo/NLCS/blob/development/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf<br><br><br>De laagnaam opbouw staat hier beschreven: https://nl-digigo.github.io/NLCS/requirementscadmodels/5-1/#opbouw-laagnaam (documentatie is 5.1, maar voor 5.0 is hetzelfde en die is alleen in een reuzen pdf beschikbaar).<br><br>STATUS is gedefinieerd als status van het object tijdens het project, N (nieuw) kies je voor een gepland object in een ontwerp en R voor een gerealiseerd object (Revisie). Voor  planstudies nieuwe objecten N is dus correct. <br><br>Discipline is een vrije keuze van gebruikers, maar je moet kiezen uit één van de disciplines in de laagnaam. PV, planvorming staat daar tussen dus is goed: https://github.com/nl-digigo/NLCS/blob/main/tabellen/publicatie/5.02_disciplines.csv<br><br>Per hoofdgroep is er een tabel beschikbaar (naast de publicatie op het sparql-endpoint), het is niet zo dat je alleen kan kiezen voor objecten uit “ONDERGROND” voor planstudies. https://github.com/nl-digigo/NLCS/tree/main/tabellen/publicatie/objectentabellen-verkort<br><br>De subobjecten worden al meegegeven in de laagnaam, na de underscores staan de subobjecten: BEBOUWING_WONINGBOUW  woningbouw is het subobject<br>Je mag eigen aanvullingen maken op de laagnamen in de NLCS, maar dan wil ik graag een verzoek om ze in de volgende versie van de standaard op te nemen, want maatwerk is zonde.</td>
             </tr>
             <tr>
                 <td><a href="https://github.com/nl-digigo/NLCS/issues/198" target="_blank">#198</a></td>
@@ -4045,32 +4052,32 @@
                 <td><span class="milestone">Release Verkeersborden in NLCS 5.1</span></td>
                 <td><span class="label">objectattributen</span> <span class="label">dynamische symbolen</span></td>
                 <td></td>
+                <td>[[release note: no change from issue]] Gebruikerswens: de verkeersborden opnemen in slimme symbolen waarmee en objectinformatie / attributen en snelle keuze uit de typen gemaakt kan worden. De wens is nog niet opgenomen in de 5.1 release en wordt geagendeerd in een ander issue.</td>
                 <td></td>
-                <td>Dit issue wordt verder onderzocht als onderdeel van #447</td>
             </tr>
             <tr>
                 <td><a href="https://github.com/nl-digigo/NLCS/issues/478" target="_blank">#478</a></td>
                 <td><span class="milestone">Release Verkeersborden in NLCS 5.1</span></td>
                 <td><span class="label">VW Verkeersmaatregelen Weg</span></td>
                 <td></td>
+                <td>[[release note: no change from issue]] De issue beschrijft een onderzoek rondom de spike om verkeersborden uit te wisselen met het George dataportaal. De issue heeft niet geleid tot wijzigingen in de 5.1 release.</td>
                 <td></td>
-                <td>Hiermee is de voorbereiding van de spike afgerond</td>
             </tr>
             <tr>
                 <td><a href="https://github.com/nl-digigo/NLCS/issues/489" target="_blank">#489</a></td>
                 <td><span class="milestone">Release Verkeersborden in NLCS 5.1</span></td>
                 <td><span class="label">VW Verkeersmaatregelen Weg</span> <span class="label">besluit OG</span></td>
                 <td></td>
+                <td>[[release note: no change from issue]] De issue geeft uitgangspunten weer voor de spike met het NDW waarin onderzocht wordt of George dataportal bron kan zijn voor verkeersborden op de NLCS-tekening, en of nieuwe borden kunnen worden geüploaded naar het George dataportaal. Uitgangspunt van de spike is het feit dat het dataportaal nog niet de datastructuur van het informatiemodel verkeerstekens volgt, daarom is de spike uitgevoerd met de huidige inrichting van het dataportaal. Dit heeft niet geleid tot wijzigingen in de 5.1 release, enkel tot inzichten in doorontwikkeling.</td>
                 <td></td>
-                <td>Dit besluit is in mondeling overleg op 4 oktober na de bijeenkomst met de werkgroep op 3 okt akkoord bevonden</td>
             </tr>
             <tr>
                 <td><a href="https://github.com/nl-digigo/NLCS/issues/492" target="_blank">#492</a></td>
                 <td><span class="milestone">Release Verkeersborden in NLCS 5.1</span></td>
                 <td><span class="label">VW Verkeersmaatregelen Weg</span></td>
                 <td></td>
+                <td>[[release note: no change from issue]] De issue geeft resultaten weer van de leerpunten uit de spike met het NDW waarin onderzocht is of George dataportal bron kan zijn voor verkeersborden op de NLCS-tekening, en of nieuwe borden kunnen worden geüploaded naar het George dataportaal. Hieruit zijn aanbevelingen en leerpunten gekomen. Dit onderzoek heeft niet geleid tot aanpassingen in de NLCS standaard.</td>
                 <td></td>
-                <td>Rob zegt: Zojuist even gecontroleerd en zo te zien krijg ik wel een csv in gzip, middels onderstaand commando:<br>curl --header 'Accept: text/csv' --header 'Accept-Encoding: gzip' --output current-state.csv.gz https://data.ndw.nu/api/rest/static-road-data/traffic-signs/v4/current-state?contentType=csv&amp;countyCode=GM0321<br>Dit lijkt dus gewoon te werken.<br><br>Voor het uitsnijden van een klein gebied was inderdaad de vraag neergelegd en deze staat op de backlog. Voor de spike was dit voor zover ik weet niet direct nodig, omdat het vooral in de hoeveelheid data die gedownload wordt zou schelen. Je kunt natuurlijk een kleine filtering doen voor of tijdens de mapping, zolang het niet beperkter op te vragen is. Eerder was volgens mij aangegeven dat het voor de spike geen blocking issue was.</td>
             </tr>
             <tr>
                 <td><a href="https://github.com/nl-digigo/NLCS/issues/539" target="_blank">#539</a></td>
@@ -4092,7 +4099,7 @@
                 <td><a href="https://github.com/nl-digigo/NLCS/issues/543" target="_blank">#543</a></td>
                 <td><span class="milestone">Release Verkeersborden in NLCS 5.1</span></td>
                 <td><span class="label">VW Verkeersmaatregelen Weg</span></td>
-                <td>[[release note]] De issue adresseert het verschil in codering van rvv-borden in de wet en in de symboolnamen; Waar de wet bijvoorbeeld bord E8a kent is dit in de symboolnaam met hoofdletters geschreven; waar de wet bord A1 ken is hier A0130 gebruikt: de 0 zorgt voor betere sortering van de bordsymbolen in de software; de toevoeging 30 omdat er een snelheidskeuze is gemaakt terwijl in de wet één naam gebruikt wordt voor alle snelheidsborden. Er zijn geen wijzigingen in de voor 5.1 nieuw gemaakte namen van symbolen nodig op basis van deze review.</td>
+                <td>[[release note]] De issue adresseert van de in 5.1 nieuw geïntroduceerde symbolen voor verkeersborden het verschil in codering van rvv-borden in de wet en in de symboolnamen; Waar de wet bijvoorbeeld bord E8a kent is dit in de symboolnaam met hoofdletters geschreven; waar de wet bord A1 ken is hier A0130 gebruikt: de 0 zorgt voor betere sortering van de bordsymbolen in de software; de toevoeging 30 omdat er een snelheidskeuze is gemaakt terwijl in de wet één naam gebruikt wordt voor alle snelheidsborden. Er zijn geen wijzigingen in de namen van symbolen nodig op basis van deze review.</td>
                 <td></td>
                 <td></td>
             </tr>

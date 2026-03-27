@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Lijntypes vergelijking 5.0 vs 5.1 — VW</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { color: #333; }
+    .legend { margin: 10px 0 20px 0; }
+    .legend span { padding: 4px 12px; margin-right: 10px; border-radius: 3px; font-size: 14px; }
+    .changed { background-color: #FFDD57; }
+    .new-row { background-color: #d4edda; }
+    .removed-row { background-color: #f8d7da; }
+    table { border-collapse: collapse; width: 100%; font-size: 13px; }
+    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+    th { background: #f0f0f0; position: sticky; top: 0; z-index: 1; }
+    tr:hover { background-color: #f5f5f5; }
+    tr.new-row:hover { background-color: #c3e6cb; }
+    tr.removed-row:hover { background-color: #f1b0b7; }
+    .stats { margin: 10px 0; font-size: 14px; color: #555; }
+</style>
+</head>
+<body>
+<h1>Lijntypes vergelijking 5.0 vs 5.1 — VW</h1>
+<div class="legend">
+    <span class="changed">Gewijzigd</span>
+    <span class="new-row">Nieuw in 5.1</span>
+    <span class="removed-row">Verwijderd (was in 5.0)</span>
+</div>
+<table>
+<thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+<tbody>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/81e0e66c-b258-4e57-9c79-2b024f294db0</td><td>556</td><td>VW</td><td>VW-11_STREEP</td><td>11_STREEP</td><td></td><td></td><td class="changed" title="5.0: A,1,-1">5.0 = A,1,-1<br>5.1 = A,5.00,-5.00</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/85b89543-4363-4b64-a744-dd66c54a8b9f</td><td>557</td><td>VW</td><td>V-VW-11_STREEP</td><td>11_STREEP</td><td>V</td><td></td><td class="changed" title="5.0: A,1,-1,1,-1,0.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],0.5,-1">5.0 = A,1,-1,1,-1,0.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],0.5,-1<br>5.1 = A,2.50,[VERWIJDEREN2,NLCS.SHX,s=1],2.50,-5.00</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/6e1d8dbd-475c-4294-a035-0e60a3a016b6</td><td>558</td><td>VW</td><td>VW-13_STREEP</td><td>13_STREEP</td><td></td><td></td><td class="changed" title="5.0: A,1,-3">5.0 = A,1,-3<br>5.1 = A,5.00,-15.00</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/78a321bc-95b6-4f70-bd07-d872d03edda4</td><td>559</td><td>VW</td><td>V-VW-13_STREEP</td><td>13_STREEP</td><td>V</td><td></td><td class="changed" title="5.0: A,1,-3,.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],.5,-3">5.0 = A,1,-3,.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],.5,-3<br>5.1 = A,2.50,[VERWIJDEREN2,NLCS.SHX,s=1],2.50,-15.00</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/5429b2bf-9649-4c81-aaf9-ad80f2711db6</td><td>560</td><td>VW</td><td>VW-31_STREEP</td><td>31_STREEP</td><td></td><td></td><td class="changed" title="5.0: A,3,-1">5.0 = A,3,-1<br>5.1 = A,15.00,-5.00</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/d7eec4e9-ecc0-45e3-ba88-b8182af882b8</td><td>561</td><td>VW</td><td>V-VW-31_STREEP</td><td>31_STREEP</td><td>V</td><td></td><td class="changed" title="5.0: A,3,-1,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-1">5.0 = A,3,-1,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-1<br>5.1 = A,7.50,[VERWIJDEREN2,NLCS.SHX,s=1],7.50,-5.00</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/5cae6902-ef51-4d38-a4e2-31f156ca66ab</td><td>562</td><td>VW</td><td>VW-33_STREEP</td><td>33_STREEP</td><td></td><td></td><td class="changed" title="5.0: A,3,-3">5.0 = A,3,-3<br>5.1 = A,15.00,-15.00</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/72dce356-016e-4a12-956c-ce25d529ff7f</td><td>563</td><td>VW</td><td>V-VW-33_STREEP</td><td>33_STREEP</td><td>V</td><td></td><td class="changed" title="5.0: A,3,-3,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-3">5.0 = A,3,-3,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-3<br>5.1 = A,7.50,[VERWIJDEREN2,NLCS.SHX,s=1],7.50,-15.00</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/ee97d784-02ad-46ac-8b49-8a49def286de</td><td>564</td><td>VW</td><td>VW-39_STREEP</td><td>39_STREEP</td><td></td><td></td><td class="changed" title="5.0: A,3,-9">5.0 = A,3,-9<br>5.1 = A,15,-45</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/32980d3d-d6e1-4fd2-91d4-a13108c61050</td><td>565</td><td>VW</td><td>V-VW-39_STREEP</td><td>39_STREEP</td><td>V</td><td></td><td class="changed" title="5.0: A,3,-9,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-9">5.0 = A,3,-9,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-9<br>5.1 = A,7.50,[VERWIJDEREN2,NLCS.SHX,s=1],7.50,-45</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/e06efcb2-bfa6-4503-bda8-b4e02df753f6</td><td>566</td><td>VW</td><td>VW-91_STREEP</td><td>91_STREEP</td><td></td><td></td><td class="changed" title="5.0: A,9,-1">5.0 = A,9,-1<br>5.1 = A,45,-5</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/df259d5e-d185-48ce-bbed-c1ad5a538c57</td><td>567</td><td>VW</td><td>V-VW-91_STREEP</td><td>91_STREEP</td><td>V</td><td></td><td class="changed" title="5.0: A,4.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],4.5,-1">5.0 = A,4.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],4.5,-1<br>5.1 = A,22.50,[VERWIJDEREN2,NLCS.SHX,s=1],22.50,-5</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/afc9cad0-e18c-4a76-a138-2444797b832e</td><td>568</td><td>VW</td><td>VW-93_STREEP</td><td>93_STREEP</td><td></td><td></td><td class="changed" title="5.0: A,9,-3">5.0 = A,9,-3<br>5.1 = A,45,-15</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/634ccf31-d03a-43da-b891-6782ec858e86</td><td>569</td><td>VW</td><td>V-VW-93_STREEP</td><td>93_STREEP</td><td>V</td><td></td><td class="changed" title="5.0: A,9,-3,4.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],4.5,-3">5.0 = A,9,-3,4.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],4.5,-3<br>5.1 = A,22.50,[VERWIJDEREN2,NLCS.SHX,s=1],22.50,-15</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/63ec4006-fd29-4a49-a9a9-04db0b4a63b7</td><td>570</td><td>VW</td><td>VW-27030_STREEP</td><td>27030_STREEP</td><td></td><td></td><td class="changed" title="5.0: A,2.7,-0.3">5.0 = A,2.7,-0.3<br>5.1 = A,13.50,-1.50</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/71ba0540-f66b-4878-a305-8bdbb3abc578</td><td>571</td><td>VW</td><td>V-VW-27030_STREEP</td><td>27030_STREEP</td><td>V</td><td></td><td class="changed" title="5.0: A,1.35,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.35,-0.3,2.7,-0.3">5.0 = A,1.35,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.35,-0.3,2.7,-0.3<br>5.1 = A,6.75,[VERWIJDEREN2,NLCS.SHX,s=1],6.75,-1.50</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/92f43852-15df-4296-a2f4-cdc29230ea14</td><td>572</td><td>VW</td><td>VW-30270_STREEP</td><td>30270_STREEP</td><td></td><td></td><td class="changed" title="5.0: A,0.3,-2.7">5.0 = A,0.3,-2.7<br>5.1 = A,1.50,-13.50</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/03c50205-aa67-46ba-b63d-869a9e902b35</td><td>573</td><td>VW</td><td>V-VW-30270_STREEP</td><td>30270_STREEP</td><td>V</td><td></td><td class="changed" title="5.0: A,0.3,-1.35,[VERWIJDEREN2,NLCS.SHX,s=0.5],-1.35,0.3,-2.7">5.0 = A,0.3,-1.35,[VERWIJDEREN2,NLCS.SHX,s=0.5],-1.35,0.3,-2.7<br>5.1 = A,0.75,[VERWIJDEREN2,NLCS.SHX,s=1],0.75,-13.50</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/d57b6f0e-abe9-413f-9f0e-244054e4959c</td><td>580</td><td>VW</td><td>VW-5050_STREEP</td><td>5050_STREEP</td><td></td><td></td><td class="changed" title="5.0: A,0.5,-0.5">5.0 = A,0.5,-0.5<br>5.1 = A,2.50,-2.50</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/db94c9c2-5831-4051-92a0-bc6a8fdb4af0</td><td>581</td><td>VW</td><td>V-VW-5050_STREEP</td><td>5050_STREEP</td><td>V</td><td></td><td class="changed" title="5.0: A,0.5,-0.25,[VERWIJDEREN2,NLCS.SHX,s=0.5],-0.25,0.5,-0.5,0.5,-0.5">5.0 = A,0.5,-0.25,[VERWIJDEREN2,NLCS.SHX,s=0.5],-0.25,0.5,-0.5,0.5,-0.5<br>5.1 = A,1.25,[VERWIJDEREN2,NLCS.SHX,s=1],1.25,-2.50</td></tr>
+<tr class="removed-row"><td>http://digitalbuildingdata.tech/nlcs/def/b4c4e144-527b-4771-ad9f-a7e74734f623</td><td>574</td><td>VW</td><td>VW-HAAIETAND50_L</td><td></td><td></td><td></td><td>A,0,-0.5,[HAAI5-N,NLCS.SHX,x=-0.625,y=-0.25,s=1],-0.5</td></tr>
+<tr class="removed-row"><td>http://digitalbuildingdata.tech/nlcs/def/a400984b-0d4c-416c-91ee-5d755ceed9e5</td><td>575</td><td>VW</td><td>V-VW-HAAIETAND50_L</td><td></td><td>V</td><td></td><td>A,0,-0.5,[HAAI5-V,NLCS.SHX,x=-0.625,y=-0.25,s=1],-0.5</td></tr>
+<tr class="removed-row"><td>http://digitalbuildingdata.tech/nlcs/def/fdef1aeb-d619-4771-a100-bf5390df2e4c</td><td>585</td><td>VW</td><td>VW-BLOK50</td><td></td><td></td><td></td><td>A,0,-0.5,[BLOK5-N,NLCS.SHX,s=1,x=-0.5],-0.5</td></tr>
+<tr class="removed-row"><td>http://digitalbuildingdata.tech/nlcs/def/edcefc9d-3cda-4d91-99ec-0be22fd05107</td><td>586</td><td>VW</td><td>V-VW-BLOK50</td><td></td><td>V</td><td></td><td>A,0,-0.5,[BLOK5-V,NLCS.SHX,x=-0.5,s=1],-0.5</td></tr>
+</tbody>
+</table>
+
+<div class="stats">Gewijzigde cellen: 20 | Nieuwe rijen: 0 | Verwijderde rijen: 4</div>
+</body>
+</html>

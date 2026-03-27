@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Statussen vergelijking 5.0 vs 5.1</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { color: #333; }
+    .legend { margin: 10px 0 20px 0; }
+    .legend span { padding: 4px 12px; margin-right: 10px; border-radius: 3px; font-size: 14px; }
+    .changed { background-color: #FFDD57; }
+    .new-row { background-color: #d4edda; }
+    .removed-row { background-color: #f8d7da; }
+    table { border-collapse: collapse; width: 100%; font-size: 13px; }
+    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+    th { background: #f0f0f0; position: sticky; top: 0; z-index: 1; }
+    tr:hover { background-color: #f5f5f5; }
+    tr.new-row:hover { background-color: #c3e6cb; }
+    tr.removed-row:hover { background-color: #f1b0b7; }
+    .stats { margin: 10px 0; font-size: 14px; color: #555; }
+</style>
+</head>
+<body>
+<h1>Statussen vergelijking 5.0 vs 5.1</h1>
+<div class="legend">
+    <span class="changed">Gewijzigd</span>
+    <span class="new-row">Nieuw in 5.1</span>
+    <span class="removed-row">Verwijderd (was in 5.0)</span>
+</div>
+<table>
+<thead><tr><th>statusURI</th><th>id</th><th>status</th><th>omschrijving</th><th>weergave_als</th></tr></thead>
+<tbody>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/1530e0da-0d59-4846-87fe-6e0462d7e914</td><td>1</td><td>N</td><td>nieuw werk</td><td>N</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/82773ef1-a4b2-42a9-803d-7078ac1db883</td><td>2</td><td>B</td><td>bestaand werk</td><td>B</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/86c1a3da-c5fd-4af8-9d5f-7864605779d7</td><td>3</td><td>V</td><td>verwijderd/vervallen werk</td><td>V</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/a70f9a1f-4bf0-425b-80bf-0e058f695e76</td><td>4</td><td>T</td><td>tijdelijk werk</td><td>T</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66</td><td>5</td><td>X</td><td>onafhankelijk van status/fase</td><td>B</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/3264cca5-3ae5-4a4b-85b3-40dd2c0d1957</td><td>6</td><td>R</td><td>revisie</td><td>N</td></tr>
+</tbody>
+</table>
+
+<div class="stats">Gewijzigde cellen: 0 | Nieuwe rijen: 0 | Verwijderde rijen: 0</div>
+</body>
+</html>

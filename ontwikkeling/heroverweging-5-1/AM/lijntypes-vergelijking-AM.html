@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Lijntypes vergelijking 5.0 vs 5.1 — AM</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { color: #333; }
+    .legend { margin: 10px 0 20px 0; }
+    .legend span { padding: 4px 12px; margin-right: 10px; border-radius: 3px; font-size: 14px; }
+    .changed { background-color: #FFDD57; }
+    .new-row { background-color: #d4edda; }
+    .removed-row { background-color: #f8d7da; }
+    table { border-collapse: collapse; width: 100%; font-size: 13px; }
+    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+    th { background: #f0f0f0; position: sticky; top: 0; z-index: 1; }
+    tr:hover { background-color: #f5f5f5; }
+    tr.new-row:hover { background-color: #c3e6cb; }
+    tr.removed-row:hover { background-color: #f1b0b7; }
+    .stats { margin: 10px 0; font-size: 14px; color: #555; }
+</style>
+</head>
+<body>
+<h1>Lijntypes vergelijking 5.0 vs 5.1 — AM</h1>
+<div class="legend">
+    <span class="changed">Gewijzigd</span>
+    <span class="new-row">Nieuw in 5.1</span>
+    <span class="removed-row">Verwijderd (was in 5.0)</span>
+</div>
+<table>
+<thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+<tbody>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/aac8b44e-f3a0-459c-9d99-3e13f2e0ab93</td><td>10</td><td>AM</td><td>AM-AS-SO</td><td>AS</td><td></td><td>SO</td><td>A,10,-2,2,-2</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/b820bb90-1d83-4888-a875-8987d2f26af7</td><td>11</td><td>AM</td><td>V-AM-AS-SO</td><td>AS</td><td>V</td><td>SO</td><td>A,10,[VERWIJDEREN2,NLCS.SHX,x=-5,s=1],-2,2,-2</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/b33dc061-4d4a-4c32-afc7-8027f554b990</td><td>756</td><td>AM</td><td>AM-AS_SPOOR-SO</td><td>AS_SPOOR</td><td></td><td>SO</td><td>A,5,-1,1,-1</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/a0b03546-1441-4da0-85c5-7a630405f9aa</td><td>757</td><td>AM</td><td>V-AM-AS_SPOOR-SO</td><td>AS_SPOOR</td><td>V</td><td>SO</td><td>A,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-1,1,-1</td></tr>
+</tbody>
+</table>
+
+<div class="stats">Gewijzigde cellen: 0 | Nieuwe rijen: 2 | Verwijderde rijen: 0</div>
+</body>
+</html>

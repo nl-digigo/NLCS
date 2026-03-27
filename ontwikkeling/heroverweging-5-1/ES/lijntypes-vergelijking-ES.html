@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Lijntypes vergelijking 5.0 vs 5.1 — ES</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { color: #333; }
+    .legend { margin: 10px 0 20px 0; }
+    .legend span { padding: 4px 12px; margin-right: 10px; border-radius: 3px; font-size: 14px; }
+    .changed { background-color: #FFDD57; }
+    .new-row { background-color: #d4edda; }
+    .removed-row { background-color: #f8d7da; }
+    table { border-collapse: collapse; width: 100%; font-size: 13px; }
+    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+    th { background: #f0f0f0; position: sticky; top: 0; z-index: 1; }
+    tr:hover { background-color: #f5f5f5; }
+    tr.new-row:hover { background-color: #c3e6cb; }
+    tr.removed-row:hover { background-color: #f1b0b7; }
+    .stats { margin: 10px 0; font-size: 14px; color: #555; }
+</style>
+</head>
+<body>
+<h1>Lijntypes vergelijking 5.0 vs 5.1 — ES</h1>
+<div class="legend">
+    <span class="changed">Gewijzigd</span>
+    <span class="new-row">Nieuw in 5.1</span>
+    <span class="removed-row">Verwijderd (was in 5.0)</span>
+</div>
+<table>
+<thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+<tbody>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/46ef4f37-9624-4c74-a3bc-754ac98cc256</td><td>759</td><td>ES</td><td>ES-AFSPANNING-SO</td><td>AFSPANNING</td><td></td><td>SO</td><td>A,3,-2,0,-2,3</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/c2f32f00-126f-4ebd-b4a1-33108bfe4460</td><td>760</td><td>ES</td><td>ES-BEVESTIGINGSCONSTRUCTIE_PORTAAL-SO</td><td>BEVESTIGINGSCONSTRUCTIE_PORTAAL</td><td></td><td>SO</td><td>A,2,-2</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/cbcc40cb-a089-4151-9736-cf4283bca48f</td><td>761</td><td>ES</td><td>ES-BEVESTIGINGSCONSTRUCTIE_SCHOOR-SO</td><td>BEVESTIGINGSCONSTRUCTIE_SCHOOR</td><td></td><td>SO</td><td>A,3,-2,0,-2,3</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/4854021e-f31b-4f26-b536-37615119df85</td><td>762</td><td>ES</td><td>ES-BEVESTIGINGSCONSTRUCTIE_TUI-SO</td><td>BEVESTIGINGSCONSTRUCTIE_TUI</td><td></td><td>SO</td><td>A,2,-2</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/8a50c48f-2d60-48d8-a290-abc5c418c6ee</td><td>763</td><td>ES</td><td>ES-DRAAGKABEL-SO</td><td>DRAAGKABEL</td><td></td><td>SO</td><td>A,3,-2,0,-2,3</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/17e48bfd-33ae-4b46-a086-8a05fa9f2aba</td><td>764</td><td>ES</td><td>ES-DRAAGKABEL_150MM2-SO</td><td>DRAAGKABEL_150MM2</td><td></td><td>SO</td><td>A,2.5,-1.25</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/3a502652-d673-4678-b1d1-160308f53ee4</td><td>765</td><td>ES</td><td>ES-DRAAGKABEL_70MM2-SO</td><td>DRAAGKABEL_70MM2</td><td></td><td>SO</td><td>A,2.5,-1.25</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/3d44a4f5-c18a-4c9d-9520-74c59774b2e2</td><td>766</td><td>ES</td><td>ES-DRAAGKABEL_DUBBEL-SO</td><td>DRAAGKABEL_DUBBEL</td><td></td><td>SO</td><td>A,3,-2,0,-2,3</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/54a18217-f582-43ea-a096-b3a56f5874a2</td><td>767</td><td>ES</td><td>ES-MAST-SO</td><td>MAST</td><td></td><td>SO</td><td>A,2,-2</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/9258ed2e-d899-44ed-bc8c-e67691f5e760</td><td>768</td><td>ES</td><td>ES-OPHANGCONSTRUCTIE_HALVE TREK-SO</td><td>OPHANGCONSTRUCTIE_HALVE TREK</td><td></td><td>SO</td><td>A,2,-2</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/ada31326-1d1c-413a-8ae6-9316392877ad</td><td>769</td><td>ES</td><td>ES-OPHANGCONSTRUCTIE_JUK-SO</td><td>OPHANGCONSTRUCTIE_JUK</td><td></td><td>SO</td><td>A,2,-2</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/a519ca6a-13f9-47b7-8846-3aa8e8b207ea</td><td>770</td><td>ES</td><td>ES-OPHANGCONSTRUCTIE_PARAFIL-SO</td><td>OPHANGCONSTRUCTIE_PARAFIL</td><td></td><td>SO</td><td>A,5,-1,1,-1</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/0481cf4b-f3bb-4779-8617-8128a96f7a94</td><td>771</td><td>ES</td><td>ES-OPHANGCONSTRUCTIE_SPANDRAAD-SO</td><td>OPHANGCONSTRUCTIE_SPANDRAAD</td><td></td><td>SO</td><td>A,2,-2</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/fb038808-79f0-42ff-93ec-d9d3661753c2</td><td>772</td><td>ES</td><td>ES-SCHAKELAAR-SO</td><td>SCHAKELAAR</td><td></td><td>SO</td><td>A,2,-2</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/0582c64f-bdc1-4f90-863c-f61928983b7f</td><td>773</td><td>ES</td><td>ES-STROOMRAIL-SO</td><td>STROOMRAIL</td><td></td><td>SO</td><td>A,5,-1,1,-1</td></tr>
+</tbody>
+</table>
+
+<div class="stats">Gewijzigde cellen: 0 | Nieuwe rijen: 15 | Verwijderde rijen: 0</div>
+</body>
+</html>

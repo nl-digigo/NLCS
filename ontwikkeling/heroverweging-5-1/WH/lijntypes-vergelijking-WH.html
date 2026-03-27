@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Lijntypes vergelijking 5.0 vs 5.1 — WH</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { color: #333; }
+    .legend { margin: 10px 0 20px 0; }
+    .legend span { padding: 4px 12px; margin-right: 10px; border-radius: 3px; font-size: 14px; }
+    .changed { background-color: #FFDD57; }
+    .new-row { background-color: #d4edda; }
+    .removed-row { background-color: #f8d7da; }
+    table { border-collapse: collapse; width: 100%; font-size: 13px; }
+    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+    th { background: #f0f0f0; position: sticky; top: 0; z-index: 1; }
+    tr:hover { background-color: #f5f5f5; }
+    tr.new-row:hover { background-color: #c3e6cb; }
+    tr.removed-row:hover { background-color: #f1b0b7; }
+    .stats { margin: 10px 0; font-size: 14px; color: #555; }
+</style>
+</head>
+<body>
+<h1>Lijntypes vergelijking 5.0 vs 5.1 — WH</h1>
+<div class="legend">
+    <span class="changed">Gewijzigd</span>
+    <span class="new-row">Nieuw in 5.1</span>
+    <span class="removed-row">Verwijderd (was in 5.0)</span>
+</div>
+<table>
+<thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+<tbody>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/f6952592-d9c0-430a-8c0c-94433be6c171</td><td>592</td><td>WH</td><td>WH-GRONDWATERLIJN-SO</td><td>GRONDWATERLIJN</td><td></td><td>SO</td><td>A,6,[WATERLIJN,NLCS.SHX,s=1],6</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/2a0edafa-5805-4627-bb15-a4924d651a3e</td><td>593</td><td>WH</td><td>V-WH-GRONDWATERLIJN-SO</td><td>GRONDWATERLIJN</td><td>V</td><td>SO</td><td>A,3,[VERWIJDEREN1,NLCS.SHX,s=0.5],3,[WATERLIJN,NLCS.SHX,s=1],6</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/211aec51-517e-4bd0-b64c-632a2024d774</td><td>595</td><td>WH</td><td>WH-OVERLOOPGEBIED-SO</td><td>OVERLOOPGEBIED</td><td></td><td>SO</td><td>A,12,-1.5,3,-1.5</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/a40240c3-b62e-4f8c-a817-953b155f42cf</td><td>596</td><td>WH</td><td>V-WH-OVERLOOPGEBIED-SO</td><td>OVERLOOPGEBIED</td><td>V</td><td>SO</td><td class="changed" title="5.0: A,6,[VERWIJDEREN2,NLCS.SHX,s=1],6,-1.5,3,-1.5">5.0 = A,6,[VERWIJDEREN2,NLCS.SHX,s=1],6,-1.5,3,-1.5<br>5.1 = A,6,[VERWIJDEREN2,NLCS.SHX,s=0.5],6,-1.5,3,-1.5</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/c07af75b-f50b-445b-ac33-aee779f4fff2</td><td>597</td><td>WH</td><td>WH-WATERBODEM-SO</td><td>WATERBODEM</td><td></td><td>SO</td><td>A,12,[MAAIVELD,NLCS.SHX,y=-0.50,s=1],12</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/39ede391-463c-40bb-8bc8-e31040ed338c</td><td>598</td><td>WH</td><td>V-WH-WATERBODEM-SO</td><td>WATERBODEM</td><td>V</td><td>SO</td><td>A,4,[VERWIJDEREN1,NLCS.SHX,s=0.5],12,[MAAIVELD,NLCS.SHX,y=-0.50,s=1],12</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/e06cbd8b-690a-4309-a2d6-e7fa17b1b3bc</td><td>600</td><td>WH</td><td>WH-WINTERBED-SO</td><td>WINTERBED</td><td></td><td>SO</td><td>A,3,-1.75,[\&quot;WB\&quot;,standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,3,-1.75,3,-1.75</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/1d3b88de-b089-42de-85cc-c80fa9f434a6</td><td>601</td><td>WH</td><td>V-WH-WINTERBED-SO</td><td>WINTERBED</td><td>V</td><td>SO</td><td class="changed" title="5.0: A,3,-1.75,[\&quot;WB\&quot;,standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,1.5,[VERWIJDEREN2,NLCS.SHX,s=1],1.5,-1.75,3,-1.75">5.0 = A,3,-1.75,[\&quot;WB\&quot;,standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,1.5,[VERWIJDEREN2,NLCS.SHX,s=1],1.5,-1.75,3,-1.75<br>5.1 = A,3,-1.75,[&quot;WB&quot;,standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-1.75,3,-1.75</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/cd0f6a7b-ccdf-44b1-8ff9-c0499c2c96e0</td><td>602</td><td>WH</td><td>WH-WINTERBERGING-SO</td><td>WINTERBERGING</td><td></td><td>SO</td><td>A,3,-6.5</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/e7f728da-dc04-42e2-898a-425ec5226daa</td><td>603</td><td>WH</td><td>V-WH-WINTERBERGING-SO</td><td>WINTERBERGING</td><td>V</td><td>SO</td><td class="changed" title="5.0: A,1.5,[VERWIJDEREN2,NLCS.SHX,s=1],1.5,-6.5">5.0 = A,1.5,[VERWIJDEREN2,NLCS.SHX,s=1],1.5,-6.5<br>5.1 = A,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-6.5</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/68c9f556-7710-4eec-b461-ddded12d9fc2</td><td>604</td><td>WH</td><td>WH-ZOMERBED-SO</td><td>ZOMERBED</td><td></td><td>SO</td><td>A,3,-1.75,[\&quot;ZB\&quot;,standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,3,-1.75,3,-1.75</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/54c76313-80ce-4d68-b93d-bd7485194058</td><td>605</td><td>WH</td><td>V-WH-ZOMERBED-SO</td><td>ZOMERBED</td><td>V</td><td>SO</td><td class="changed" title="5.0: A,3,-1.75,[\&quot;ZB\&quot;,standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,1.5,[VERWIJDEREN2,NLCS.SHX,s=1],1.5,-1.75,3,-1.75">5.0 = A,3,-1.75,[\&quot;ZB\&quot;,standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,1.5,[VERWIJDEREN2,NLCS.SHX,s=1],1.5,-1.75,3,-1.75<br>5.1 = A,3,-1.75,[&quot;ZB&quot;,standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-1.75,3,-1.75</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/d3832dff-2002-4f65-b7fe-4cb9abab4096</td><td>620</td><td>WH</td><td>WH-OVERSTORT-SO</td><td>OVERSTORT</td><td></td><td>SO</td><td>A,10,-1.5,2.5,-1.5</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/c7ef16ef-e165-4a8b-870d-4727f43871bb</td><td>621</td><td>WH</td><td>V-WH-OVERSTORT-SO</td><td>OVERSTORT</td><td>V</td><td>SO</td><td class="changed" title="5.0: A,5,[VERWIJDEREN2,NLCS.SHX,s=1],5,-1.5,2.5,-1.5">5.0 = A,5,[VERWIJDEREN2,NLCS.SHX,s=1],5,-1.5,2.5,-1.5<br>5.1 = A,5,[VERWIJDEREN2,NLCS.SHX,s=0.5],5,-1.5,2.5,-1.5</td></tr>
+</tbody>
+</table>
+
+<div class="stats">Gewijzigde cellen: 5 | Nieuwe rijen: 4 | Verwijderde rijen: 0</div>
+</body>
+</html>

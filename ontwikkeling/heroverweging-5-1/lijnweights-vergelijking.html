@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Lijnweights vergelijking 5.0 vs 5.1</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { color: #333; }
+    .legend { margin: 10px 0 20px 0; }
+    .legend span { padding: 4px 12px; margin-right: 10px; border-radius: 3px; font-size: 14px; }
+    .changed { background-color: #FFDD57; }
+    .new-row { background-color: #d4edda; }
+    .removed-row { background-color: #f8d7da; }
+    table { border-collapse: collapse; width: 100%; font-size: 13px; }
+    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+    th { background: #f0f0f0; position: sticky; top: 0; z-index: 1; }
+    tr:hover { background-color: #f5f5f5; }
+    tr.new-row:hover { background-color: #c3e6cb; }
+    tr.removed-row:hover { background-color: #f1b0b7; }
+    .stats { margin: 10px 0; font-size: 14px; color: #555; }
+</style>
+</head>
+<body>
+<h1>Lijnweights vergelijking 5.0 vs 5.1</h1>
+<div class="legend">
+    <span class="changed">Gewijzigd</span>
+    <span class="new-row">Nieuw in 5.1</span>
+    <span class="removed-row">Verwijderd (was in 5.0)</span>
+</div>
+<table>
+<thead><tr><th>lijnweightURI</th><th>id</th><th>omschrijving</th><th>unit</th><th>lijngroep35</th><th>dunner</th><th>dikker</th><th>microstation</th></tr></thead>
+<tbody>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/4ac13ce8-5524-44d2-8ed4-de62452a9027</td><td>0</td><td>0.13</td><td>mm</td><td></td><td></td><td class="changed" title="5.0: ">5.0 = <em>(leeg)</em><br>5.1 = 0.18</td><td>0</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/bacc787a-3288-4f27-a233-6a58ce3d5c65</td><td>1</td><td>0.18</td><td>mm</td><td>X</td><td>0.13</td><td>0.25</td><td>1</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/f14aa137-98dc-41ad-8dc5-fad94cb489e4</td><td>2</td><td>0.25</td><td>mm</td><td></td><td class="changed" title="5.0: ">5.0 = <em>(leeg)</em><br>5.1 = 0.18</td><td class="changed" title="5.0: ">5.0 = <em>(leeg)</em><br>5.1 = 0.35</td><td>2</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/fa7f8757-afa0-4bbc-b556-734091491e54</td><td>3</td><td>0.35</td><td>mm</td><td>X</td><td>0.25</td><td class="changed" title="5.0: 0.5">5.0 = 0.5<br>5.1 = 0.50</td><td>3</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/b1f85d1c-b368-428c-9a6d-6a045b4a389e</td><td>4</td><td class="changed" title="5.0: 0.5">5.0 = 0.5<br>5.1 = 0.50</td><td>mm</td><td></td><td class="changed" title="5.0: ">5.0 = <em>(leeg)</em><br>5.1 = 0.35</td><td class="changed" title="5.0: ">5.0 = <em>(leeg)</em><br>5.1 = 0.70</td><td>4</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/0ed07195-cd00-494b-b858-f267996e8f29</td><td>5</td><td class="changed" title="5.0: 0.7">5.0 = 0.7<br>5.1 = 0.70</td><td>mm</td><td>X</td><td>0.5</td><td>1</td><td>5</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/6ece8cab-5b41-4d02-af27-9b797d2184bd</td><td>6</td><td>1</td><td>mm</td><td></td><td></td><td></td><td>6</td></tr>
+</tbody>
+</table>
+
+<div class="stats">Gewijzigde cellen: 8 | Nieuwe rijen: 0 | Verwijderde rijen: 0</div>
+</body>
+</html>

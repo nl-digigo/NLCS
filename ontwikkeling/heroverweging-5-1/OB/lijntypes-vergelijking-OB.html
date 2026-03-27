@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Lijntypes vergelijking 5.0 vs 5.1 — OB</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { color: #333; }
+    .legend { margin: 10px 0 20px 0; }
+    .legend span { padding: 4px 12px; margin-right: 10px; border-radius: 3px; font-size: 14px; }
+    .changed { background-color: #FFDD57; }
+    .new-row { background-color: #d4edda; }
+    .removed-row { background-color: #f8d7da; }
+    table { border-collapse: collapse; width: 100%; font-size: 13px; }
+    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+    th { background: #f0f0f0; position: sticky; top: 0; z-index: 1; }
+    tr:hover { background-color: #f5f5f5; }
+    tr.new-row:hover { background-color: #c3e6cb; }
+    tr.removed-row:hover { background-color: #f1b0b7; }
+    .stats { margin: 10px 0; font-size: 14px; color: #555; }
+</style>
+</head>
+<body>
+<h1>Lijntypes vergelijking 5.0 vs 5.1 — OB</h1>
+<div class="legend">
+    <span class="changed">Gewijzigd</span>
+    <span class="new-row">Nieuw in 5.1</span>
+    <span class="removed-row">Verwijderd (was in 5.0)</span>
+</div>
+<table>
+<thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+<tbody>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/bd9fedbf-ce99-4ebf-8399-baa5b982a967</td><td>314</td><td>OB</td><td>OB-PEILVLAK-SO</td><td>PEILVLAK</td><td></td><td>SO</td><td>A,6,-1.5</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/a29bff8d-79ae-4636-9acc-2cc6ad690c86</td><td>315</td><td>OB</td><td>V-OB-PEILVLAK-SO</td><td>PEILVLAK</td><td>V</td><td>SO</td><td>A,3,[VERWIJDEREN2,NLCS.SHX,s=0.5],3,-1.5</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/0a07466a-3905-4407-8410-eff70585d089</td><td>316</td><td>OB</td><td>OB-WATERLIJN-SO</td><td>WATERLIJN</td><td></td><td>SO</td><td>A,10,[WATERLIJN,NLCS.SHX,s=2],-12</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/52bc210a-99a3-4bcf-b7c7-6aba990d4bf4</td><td>317</td><td>OB</td><td>OB-BESCHOEIING-SO</td><td>BESCHOEIING</td><td></td><td>SO</td><td>A,20,-3.5,[BESCHOEIING,NLCS.SHX,s=0.5],-3.5</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/684ca7f2-59bc-462f-a3e2-1903efb6fb2d</td><td>318</td><td>OB</td><td>V-OB-BESCHOEIING-SO</td><td>BESCHOEIING</td><td>V</td><td>SO</td><td class="changed" title="5.0: A,10,[VERWIJDEREN2,NLCS.SHX,s=1],10,-3.5,[BESCHOEIING,NLCS.SHX,s=0.5],-3.5">5.0 = A,10,[VERWIJDEREN2,NLCS.SHX,s=1],10,-3.5,[BESCHOEIING,NLCS.SHX,s=0.5],-3.5<br>5.1 = A,10,[VERWIJDEREN2,NLCS.SHX,s=0.5],10,-3.5,[BESCHOEIING,NLCS.SHX,s=0.5],-3.5</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/02734549-58ce-4154-969e-d6c15fdff0a1</td><td>319</td><td>OB</td><td>OB-PERKOEN-SO</td><td>PERKOEN</td><td></td><td>SO</td><td>A,0,-1,[CIRKEL,NLCS.SHX,s=1],-1</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/c8213b7c-5f02-4bb4-bd8b-3dc869a789af</td><td>320</td><td>OB</td><td>V-OB-PERKOEN-SO</td><td>PERKOEN</td><td>V</td><td>SO</td><td class="changed" title="5.0: A,0,-1,[CIRKEL,NLCS.SHX,s=1],-2,[CIRKEL,NLCS.SHX,s=1],-2,[CIRKEL,NLCS.SHX,s=1],-6,[VERWIJDEREN2,NLCS.SHX,s=1],-6">5.0 = A,0,-1,[CIRKEL,NLCS.SHX,s=1],-2,[CIRKEL,NLCS.SHX,s=1],-2,[CIRKEL,NLCS.SHX,s=1],-6,[VERWIJDEREN2,NLCS.SHX,s=1],-6<br>5.1 = A,0,-1,[CIRKEL,NLCS.SHX,s=1],-2,[CIRKEL,NLCS.SHX,s=1],-2,[CIRKEL,NLCS.SHX,s=1],-6,[VERWIJDEREN2,NLCS.SHX,s=0.5],-6</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/389870d6-b419-4033-8dfe-240642556098</td><td>321</td><td>OB</td><td>OB-SCHANSKORF-SO</td><td>SCHANSKORF</td><td></td><td>SO</td><td>A,5,-1,[BLOK5-V,NLCS.SHX,s=2,x=-0.5],-1</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/f1a47a6f-9f05-44db-ad04-3af852ecfb67</td><td>322</td><td>OB</td><td>V-OB-SCHANSKORF-SO</td><td>SCHANSKORF</td><td>V</td><td>SO</td><td class="changed" title="5.0: A,2.5,[VERWIJDEREN2,NLCS.SHX,s=1],2.5,-1,[BLOK5-V,NLCS.SHX,s=2,x=-0.5],-1">5.0 = A,2.5,[VERWIJDEREN2,NLCS.SHX,s=1],2.5,-1,[BLOK5-V,NLCS.SHX,s=2,x=-0.5],-1<br>5.1 = A,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-1,[BLOK5-V,NLCS.SHX,s=2,x=-0.5],-1</td></tr>
+</tbody>
+</table>
+
+<div class="stats">Gewijzigde cellen: 3 | Nieuwe rijen: 0 | Verwijderde rijen: 0</div>
+</body>
+</html>

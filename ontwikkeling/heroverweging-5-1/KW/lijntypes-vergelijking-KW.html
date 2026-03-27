@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Lijntypes vergelijking 5.0 vs 5.1 — KW</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { color: #333; }
+    .legend { margin: 10px 0 20px 0; }
+    .legend span { padding: 4px 12px; margin-right: 10px; border-radius: 3px; font-size: 14px; }
+    .changed { background-color: #FFDD57; }
+    .new-row { background-color: #d4edda; }
+    .removed-row { background-color: #f8d7da; }
+    table { border-collapse: collapse; width: 100%; font-size: 13px; }
+    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+    th { background: #f0f0f0; position: sticky; top: 0; z-index: 1; }
+    tr:hover { background-color: #f5f5f5; }
+    tr.new-row:hover { background-color: #c3e6cb; }
+    tr.removed-row:hover { background-color: #f1b0b7; }
+    .stats { margin: 10px 0; font-size: 14px; color: #555; }
+</style>
+</head>
+<body>
+<h1>Lijntypes vergelijking 5.0 vs 5.1 — KW</h1>
+<div class="legend">
+    <span class="changed">Gewijzigd</span>
+    <span class="new-row">Nieuw in 5.1</span>
+    <span class="removed-row">Verwijderd (was in 5.0)</span>
+</div>
+<table>
+<thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+<tbody>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/6a727e4b-4062-4918-a487-4b2b6b23abb8</td><td>256</td><td>KW</td><td>KW-PVR-SO</td><td>PVR</td><td></td><td>SO</td><td>A,6,-1.5</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/3fd9e965-3575-458d-a11f-d0cb6fc791e2</td><td>257</td><td>KW</td><td>V-KW-PVR-SO</td><td>PVR</td><td>V</td><td>SO</td><td class="changed" title="5.0: A,3,[VERWIJDEREN1,NLCS.SHX,s=0.5],3,-1.5">5.0 = A,3,[VERWIJDEREN1,NLCS.SHX,s=0.5],3,-1.5<br>5.1 = A,3,[VERWIJDEREN2,NLCS.SHX,s=0.5],3,-1.5</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/9c5ac7a1-71fa-480e-b210-0ecc07a94e0e</td><td>258</td><td>KW</td><td>KW-ZICHTRUIMTE-SO</td><td>ZICHTRUIMTE</td><td></td><td>SO</td><td>A,3,-4.5</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/84484cee-65c6-42c0-8fdb-9d1353c2032a</td><td>259</td><td>KW</td><td>V-KW-ZICHTRUIMTE-SO</td><td>ZICHTRUIMTE</td><td>V</td><td>SO</td><td class="changed" title="5.0: A,1.5,[VERWIJDEREN1,NLCS.SHX,s=0.5],1.5,-4.5">5.0 = A,1.5,[VERWIJDEREN1,NLCS.SHX,s=0.5],1.5,-4.5<br>5.1 = A,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-4.5</td></tr>
+</tbody>
+</table>
+
+<div class="stats">Gewijzigde cellen: 2 | Nieuwe rijen: 0 | Verwijderde rijen: 0</div>
+</body>
+</html>

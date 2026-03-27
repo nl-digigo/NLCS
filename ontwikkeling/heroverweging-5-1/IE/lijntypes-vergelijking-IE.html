@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Lijntypes vergelijking 5.0 vs 5.1 — IE</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { color: #333; }
+    .legend { margin: 10px 0 20px 0; }
+    .legend span { padding: 4px 12px; margin-right: 10px; border-radius: 3px; font-size: 14px; }
+    .changed { background-color: #FFDD57; }
+    .new-row { background-color: #d4edda; }
+    .removed-row { background-color: #f8d7da; }
+    table { border-collapse: collapse; width: 100%; font-size: 13px; }
+    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+    th { background: #f0f0f0; position: sticky; top: 0; z-index: 1; }
+    tr:hover { background-color: #f5f5f5; }
+    tr.new-row:hover { background-color: #c3e6cb; }
+    tr.removed-row:hover { background-color: #f1b0b7; }
+    .stats { margin: 10px 0; font-size: 14px; color: #555; }
+</style>
+</head>
+<body>
+<h1>Lijntypes vergelijking 5.0 vs 5.1 — IE</h1>
+<div class="legend">
+    <span class="changed">Gewijzigd</span>
+    <span class="new-row">Nieuw in 5.1</span>
+    <span class="removed-row">Verwijderd (was in 5.0)</span>
+</div>
+<table>
+<thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+<tbody>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/0826be2f-6fb4-49c6-915f-88cfb6f818ee</td><td>792</td><td>IE</td><td>V-IE-CONSTRUCTIEVE AFSCHEIDING_SCHUTTING-SO</td><td>CONSTRUCTIEVE AFSCHEIDING_SCHUTTING</td><td>V</td><td>SO</td><td>A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=0.6],2,[B20-10V,NLCS.SHX,r=90,s=0.75],2,[VERWIJDEREN2,NLCS.SHX,x=1,s=0.6],2,-2</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/124acf5c-1cc5-46e5-9d84-8c607e98be86</td><td>876</td><td>IE</td><td>IE-CONSTRUCTIEVE AFSCHEIDING_SCHUTTING-SO</td><td>CONSTRUCTIEVE AFSCHEIDING_SCHUTTING</td><td></td><td>SO</td><td>A,4,[B20-10V,NLCS.SHX,r=90,s=0.75],4,-2</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/6f4724bd-e71e-480b-8529-be298d5c14c4</td><td>90</td><td>IE</td><td class="changed" title="5.0: IE-TERREINAFSCHEIDING_KUNSTMATIG-SO">5.0 = IE-TERREINAFSCHEIDING_KUNSTMATIG-SO<br>5.1 = IE-CONSTRUCTIEVE AFSCHEIDING-SO</td><td>CONSTRUCTIEVE AFSCHEIDING</td><td></td><td>SO</td><td>A,4,[B20-10V,NLCS.SHX,r=90,s=0.75],4,-2</td></tr>
+<tr><td>http://digitalbuildingdata.tech/nlcs/def/097708b4-7953-4371-b3a5-19a078eda2c0</td><td>91</td><td>IE</td><td class="changed" title="5.0: V-IE-TERREINAFSCHEIDING_KUNSTMATIG-SO">5.0 = V-IE-TERREINAFSCHEIDING_KUNSTMATIG-SO<br>5.1 = V-IE-CONSTRUCTIEVE AFSCHEIDING-SO</td><td>CONSTRUCTIEVE AFSCHEIDING</td><td>V</td><td>SO</td><td>A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=0.6],2,[B20-10V,NLCS.SHX,r=90,s=0.75],2,[VERWIJDEREN2,NLCS.SHX,x=1,s=0.6],2,-2</td></tr>
+<tr class="removed-row"><td>http://digitalbuildingdata.tech/nlcs/def/30bf67ed-a7e8-4664-9b26-c11567516a15</td><td>88</td><td>IE</td><td>IE-TERREINAFSCHEIDING-SO</td><td></td><td></td><td>SO</td><td>A,8,-2</td></tr>
+<tr class="removed-row"><td>http://digitalbuildingdata.tech/nlcs/def/3a4423c3-020c-4981-baf9-d56d5c34fa50</td><td>89</td><td>IE</td><td>V-IE-TERREINAFSCHEIDING-SO</td><td></td><td>V</td><td>SO</td><td>A,8,[VERWIJDEREN2,NLCS.SHX,x=-4,s=0.6],-2</td></tr>
+<tr class="removed-row"><td>http://digitalbuildingdata.tech/nlcs/def/b62e2a62-090b-46ec-8e9c-baab7250cc47</td><td>96</td><td>IE</td><td>IE-TERREINAFSCHEIDING_NATUURLIJK-SO</td><td></td><td></td><td>SO</td><td>A,4,[MARK,NLCS.SHX,r=45,s=0.75],4,-1.5</td></tr>
+<tr class="removed-row"><td>http://digitalbuildingdata.tech/nlcs/def/55df7bd9-5189-472e-a640-06f5c2817cf1</td><td>97</td><td>IE</td><td>V-IE-TERREINAFSCHEIDING_NATUURLIJK-SO</td><td></td><td>V</td><td>SO</td><td>A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=0.6],2,[MARK,NLCS.SHX,r=45,s=0.75],2,[VERWIJDEREN2,NLCS.SHX,x=1,s=0.6],2,-2</td></tr>
+</tbody>
+</table>
+
+<div class="stats">Gewijzigde cellen: 2 | Nieuwe rijen: 2 | Verwijderde rijen: 4</div>
+</body>
+</html>
