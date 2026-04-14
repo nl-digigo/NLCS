@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NLCS_Query_Symbolen-concept-5.1-SGR</title>
+  <style>
+    body { font-family: Arial, sans-serif; font-size: 13px; margin: 20px; }
+    h1 { font-size: 1.2em; margin-bottom: 10px; }
+    table { border-collapse: collapse; width: 100%; }
+    th { background-color: #003865; color: white; text-align: left;
+          padding: 6px 8px; white-space: nowrap; }
+    td { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; }
+    tr:nth-child(even) td { background-color: #f2f2f2; }
+    tr:hover td { background-color: #dde8f0; }
+    .new-row td    { background-color: #d4edda !important; }
+    .new-row:hover td { background-color: #b8dfc4 !important; }
+    .changed       { background-color: #cce5ff !important; }
+    .old-val { color: #555; font-size: 0.85em; }
+    .new-val { font-weight: normal; }
+    .section-header td { background-color: #a0a0a0 !important;
+                          color: white; font-weight: bold; padding: 4px 8px; }
+    .deleted td    { background-color: #d0d0d0 !important; }
+    .deleted:hover td { background-color: #b8b8b8 !important; }
+  </style>
+</head>
+<body>
+  <h1>NLCS_Query_Symbolen-concept-5.1-SGR</h1>
+  <!-- legenda -->
+  <div style="margin-bottom:12px;font-size:12px;display:flex;gap:16px;flex-wrap:wrap;">
+    <span style="background:#d4edda;border:1px solid #b8dfc4;padding:2px 8px;border-radius:3px;">Nieuw in versie 5.1</span>
+    <span style="background:#cce5ff;border:1px solid #99caff;padding:2px 8px;border-radius:3px;">Gewijzigd ten opzichte van 5.0.2</span>
+    <span style="background:#d0d0d0;border:1px solid #aaa;padding:2px 8px;border-radius:3px;">Aanwezig in 5.0.2, verwijderd in 5.1</span>
+  </div>
+  <table>
+    <thead><tr><th>symboolURI</th><th>searchterm</th><th>sbibliotheek</th><th>fase</th><th>id</th><th>symbool</th><th>finalCleanName</th><th>optie</th></tr></thead>
+    <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/6ca73d0f-f0c1-4c0e-9f7d-9a2b741a5d96</td><td>BEPLANTING</td><td>SGR</td><td></td><td>3039</td><td>SGR-BEPLANTING_MATERIAALGRENS</td><td>BEPLANTING_MATERIAALGRENS</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/47f97655-ac26-4898-b78c-a3de18c7ebe8</td><td>BEPLANTING</td><td>SGR</td><td></td><td>3457</td><td>SGR-BEPLANTING_SOORT_01_KL-SO</td><td>BEPLANTING_SOORT_01_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/fa6c9e34-0679-4287-9c3b-e296d1792ec4</td><td>BEPLANTING</td><td>SGR</td><td></td><td>3458</td><td>SGR-BEPLANTING_SOORT_02_KL-SO</td><td>BEPLANTING_SOORT_02_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/640766ea-d2a5-4de6-b85c-7775c5c66e85</td><td>BEPLANTING</td><td>SGR</td><td>V</td><td>3494</td><td>V-SGR-BEPLANTING_SOORT_01_KL-SO</td><td>BEPLANTING_SOORT_01_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/920930c4-602d-4cd9-a933-03185259a713</td><td>BEPLANTING</td><td>SGR</td><td>V</td><td>3495</td><td>V-SGR-BEPLANTING_SOORT_02_KL-SO</td><td>BEPLANTING_SOORT_02_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/a038bb97-9ebe-44d8-a9a6-87193389b46f</td><td>BEPLANTING</td><td>SGR</td><td>V</td><td>358</td><td>V-SGR-BEPLANTING_SOORT_01-SO</td><td>BEPLANTING_SOORT_01</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/28336088-9a9d-436d-bc3e-4e8b2ad8839d</td><td>BEPLANTING</td><td>SGR</td><td>V</td><td>359</td><td>V-SGR-BEPLANTING_SOORT_02-SO</td><td>BEPLANTING_SOORT_02</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ce2d1feb-8f8f-4248-bedb-c7fbd9dbb0e1</td><td>BEPLANTING</td><td>SGR</td><td></td><td>450</td><td>SGR-BEPLANTING_SOORT_01-SO</td><td>BEPLANTING_SOORT_01</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/be46b272-de49-4e09-b566-8b1af6abe095</td><td>BEPLANTING</td><td>SGR</td><td></td><td>451</td><td>SGR-BEPLANTING_SOORT_02-SO</td><td>BEPLANTING_SOORT_02</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/610c4d53-8e93-4f3f-9fcf-844c242d7434</td><td>BODEMBEDEKKER</td><td>SGR</td><td></td><td>3038</td><td>SGR-BODEMBEDEKKER-SO</td><td>BODEMBEDEKKER</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ff5de895-15c4-42c0-9911-1638ea601ce8</td><td>BOLLEN</td><td>SGR</td><td></td><td>3459</td><td>SGR-BOLLEN_KL-SO</td><td>BOLLEN_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c26936cd-e99c-4d9f-80e3-20dda0efa90d</td><td>BOLLEN</td><td>SGR</td><td>V</td><td>3496</td><td>V-SGR-BOLLEN_KL-SO</td><td>BOLLEN_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/abe276f4-b807-434a-84fd-01e35e749fe9</td><td>BOLLEN</td><td>SGR</td><td>V</td><td>360</td><td>V-SGR-BOLLEN-SO</td><td>BOLLEN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/51c8f57d-10ad-44be-a8da-09c27f88374b</td><td>BOLLEN</td><td>SGR</td><td></td><td>452</td><td>SGR-BOLLEN-SO</td><td>BOLLEN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/8e7991ed-f1c3-4fae-b207-3d93b5fc4c9b</td><td>BOOM</td><td>SGR</td><td>B</td><td>3031</td><td>B-SGR-BOOM_1E GROOTTE</td><td>BOOM_1E GROOTTE</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/3a785d46-620c-4372-9672-725fc874ce0b</td><td>BOOM</td><td>SGR</td><td>B</td><td>3032</td><td>B-SGR-BOOM_2E GROOTTE</td><td>BOOM_2E GROOTTE</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e440cbfb-8bdc-47d6-a4c7-9d03f0e8f9a1</td><td>BOOM</td><td>SGR</td><td>B</td><td>3033</td><td>B-SGR-BOOM_3E GROOTTE</td><td>BOOM_3E GROOTTE</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/2d36caf8-7e35-4c93-86a3-9758e8679822</td><td>BOOM</td><td>SGR</td><td></td><td>3035</td><td>SGR-BOOM_1E GROOTTE</td><td>BOOM_1E GROOTTE</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0fc47238-a16c-425d-a134-5887b6e7e260</td><td>BOOM</td><td>SGR</td><td></td><td>3036</td><td>SGR-BOOM_2E GROOTTE</td><td>BOOM_2E GROOTTE</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/13e7a2b4-5a5c-49da-a666-71e549f7d84f</td><td>BOOM</td><td>SGR</td><td></td><td>3037</td><td>SGR-BOOM_3E GROOTTE</td><td>BOOM_3E GROOTTE</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d20273b2-0e65-4c06-a9ea-2980209ee5d2</td><td>BOOM</td><td>SGR</td><td></td><td>3047</td><td>SGR-BOOM_SNOEIEN-SO</td><td>BOOM_SNOEIEN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c44c0542-f53f-49e6-988b-3ee892b64c43</td><td>BOOM</td><td>SGR</td><td></td><td>3048</td><td>SGR-BOOM_VERPLANTEN-SO</td><td>BOOM_VERPLANTEN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/01ef4daf-9115-4971-85e3-3dddca3505ff</td><td>BOOM</td><td>SGR</td><td>V</td><td>3059</td><td>V-SGR-BOOM_1E GROOTTE</td><td>BOOM_1E GROOTTE</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/2d039faa-0c19-496f-b6f7-e338eef2c3df</td><td>BOOM</td><td>SGR</td><td>V</td><td>3060</td><td>V-SGR-BOOM_2E GROOTTE</td><td>BOOM_2E GROOTTE</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/7dc94c1d-0293-4cf3-8121-8d7eab34f287</td><td>BOOM</td><td>SGR</td><td>V</td><td>3061</td><td>V-SGR-BOOM_3E GROOTTE</td><td>BOOM_3E GROOTTE</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/456ce217-e15c-43f7-aeca-8b9576a6b897</td><td>BOOM</td><td>SGR</td><td>V</td><td>363</td><td>V-SGR-BOOM_01</td><td>BOOM_01</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/7366b37e-0560-426a-8062-38a2ba054fe5</td><td>BOOM</td><td>SGR</td><td>V</td><td>364</td><td>V-SGR-BOOM_02</td><td>BOOM_02</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f364af6d-e6d6-411d-a04f-784481550ea7</td><td>BOOM</td><td>SGR</td><td>V</td><td>365</td><td>V-SGR-BOOM_03</td><td>BOOM_03</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/cd6527ae-0b5e-4d2b-8bbf-fa14fbb779a5</td><td>BOOM</td><td>SGR</td><td>V</td><td>366</td><td>V-SGR-BOOM_04</td><td>BOOM_04</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/39407577-e856-4f5f-9b33-5cbff1dfbc07</td><td>BOOM</td><td>SGR</td><td>V</td><td>367</td><td>V-SGR-BOOM_05</td><td>BOOM_05</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b22a4b43-7b13-4c7e-8858-e95c55e1d3e6</td><td>BOOM</td><td>SGR</td><td>V</td><td>368</td><td>V-SGR-BOOM_06</td><td>BOOM_06</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b8a9d83b-37c0-4a92-b53f-682130a6f727</td><td>BOOM</td><td>SGR</td><td>V</td><td>369</td><td>V-SGR-BOOM_07</td><td>BOOM_07</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/7ed97647-d223-4aed-b2a0-4f425e8819dc</td><td>BOOM</td><td>SGR</td><td>V</td><td>370</td><td>V-SGR-BOOM_08</td><td>BOOM_08</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/80c8270f-de5a-473c-9355-174ad106d743</td><td>BOOM</td><td>SGR</td><td>V</td><td>371</td><td>V-SGR-BOOM_09</td><td>BOOM_09</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1ca62d73-37ad-4083-8926-b40b54d86759</td><td>BOOM</td><td>SGR</td><td>V</td><td>372</td><td>V-SGR-BOOM_10</td><td>BOOM_10</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0805b23c-9847-44b5-ba32-82217c7f1756</td><td>BOOM</td><td>SGR</td><td>V</td><td>373</td><td>V-SGR-BOOM_11</td><td>BOOM_11</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/9cfc84d7-1e28-4290-8612-27c8ba10fbbc</td><td>BOOM</td><td>SGR</td><td>V</td><td>374</td><td>V-SGR-BOOM_12</td><td>BOOM_12</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ea50f580-2f35-4105-b907-ab81c84bb62d</td><td>BOOM</td><td>SGR</td><td>V</td><td>375</td><td>V-SGR-BOOM_13</td><td>BOOM_13</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/3dc0574c-b466-4762-97f0-4536f49250cf</td><td>BOOM</td><td>SGR</td><td>V</td><td>376</td><td>V-SGR-BOOM_14</td><td>BOOM_14</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/85ed3114-7f7c-4dfc-8f21-7bdb56ee289e</td><td>BOOM</td><td>SGR</td><td>V</td><td>377</td><td>V-SGR-BOOM_15</td><td>BOOM_15</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/abae293b-84bc-4d10-8b4d-bf39dac2141e</td><td>BOOM</td><td>SGR</td><td>V</td><td>378</td><td>V-SGR-BOOM_16</td><td>BOOM_16</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/19033f29-8c31-4306-902d-a88eca6dcd7c</td><td>BOOM</td><td>SGR</td><td>V</td><td>379</td><td>V-SGR-BOOM_17</td><td>BOOM_17</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f2ace33b-ce60-4537-806c-19e738ddb677</td><td>BOOM</td><td>SGR</td><td>V</td><td>380</td><td>V-SGR-BOOM_18</td><td>BOOM_18</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e8f15f3b-9b6c-4f2f-8130-4ca7564afaa5</td><td>BOOM</td><td>SGR</td><td>V</td><td>381</td><td>V-SGR-BOOM_19</td><td>BOOM_19</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/01de6cda-655d-4e3f-ac45-c514f27e95e7</td><td>BOOM</td><td>SGR</td><td>V</td><td>382</td><td>V-SGR-BOOM_20</td><td>BOOM_20</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/fb3a3cf2-2293-4139-983d-51c0f3726ed9</td><td>BOOM</td><td>SGR</td><td>V</td><td>383</td><td>V-SGR-BOOM_21</td><td>BOOM_21</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/03ebddec-a491-4979-8588-55c2e6dad0a2</td><td>BOOM</td><td>SGR</td><td>V</td><td>384</td><td>V-SGR-BOOM_22</td><td>BOOM_22</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/db545e39-55ee-4962-91f7-24c45af2c0d8</td><td>BOOM</td><td>SGR</td><td>V</td><td>385</td><td>V-SGR-BOOM_23</td><td>BOOM_23</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/faa026b5-cc2f-4bc9-975d-10625e7a83db</td><td>BOOM</td><td>SGR</td><td>V</td><td>386</td><td>V-SGR-BOOM_24</td><td>BOOM_24</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/96869f24-f7f4-45db-8182-97a9da7aa18b</td><td>BOOM</td><td>SGR</td><td>V</td><td>387</td><td>V-SGR-BOOM_25</td><td>BOOM_25</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e0d62f12-0b75-480d-85da-4e45ba1edf87</td><td>BOOM</td><td>SGR</td><td>V</td><td>388</td><td>V-SGR-BOOM_26</td><td>BOOM_26</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b87a3e58-952e-4a7b-9d0d-ca7488739440</td><td>BOOM</td><td>SGR</td><td>V</td><td>389</td><td>V-SGR-BOOM_27</td><td>BOOM_27</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/54949ca5-950b-46dc-9269-95afc350ef95</td><td>BOOM</td><td>SGR</td><td>V</td><td>390</td><td>V-SGR-BOOM_28</td><td>BOOM_28</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b52f6abb-ae4d-490f-9aa6-9d27190c70ed</td><td>BOOM</td><td>SGR</td><td>V</td><td>391</td><td>V-SGR-BOOM_29</td><td>BOOM_29</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d2293c19-bd35-42dd-baf6-3bdab4d084eb</td><td>BOOM</td><td>SGR</td><td>V</td><td>392</td><td>V-SGR-BOOM_30</td><td>BOOM_30</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1e4c6850-b1c0-4502-9e5e-364c2e791ad5</td><td>BOOM</td><td>SGR</td><td>V</td><td>393</td><td>V-SGR-BOOM_31</td><td>BOOM_31</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1218c7b9-c4c7-4103-b675-6dd967049c56</td><td>BOOM</td><td>SGR</td><td>V</td><td>394</td><td>V-SGR-BOOM_32</td><td>BOOM_32</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f142bf1d-149d-42be-9ecf-eae2bf20f91d</td><td>BOOM</td><td>SGR</td><td>V</td><td>395</td><td>V-SGR-BOOM_33</td><td>BOOM_33</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0f73e254-61a5-4511-94b8-d249e02d6214</td><td>BOOM</td><td>SGR</td><td>V</td><td>396</td><td>V-SGR-BOOM_34</td><td>BOOM_34</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d9a3fe41-003c-4bd6-ab8b-5bb43ccbbb2c</td><td>BOOM</td><td>SGR</td><td>V</td><td>397</td><td>V-SGR-BOOM_35</td><td>BOOM_35</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/af031a14-2189-42c3-8a24-839338468e0f</td><td>BOOM</td><td>SGR</td><td>V</td><td>398</td><td>V-SGR-BOOM_36</td><td>BOOM_36</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/972b5b3f-8318-477f-ae15-18ac71f34deb</td><td>BOOM</td><td>SGR</td><td>V</td><td>399</td><td>V-SGR-BOOM_37</td><td>BOOM_37</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/91fef84b-1822-459c-b430-3206097aadfc</td><td>BOOM</td><td>SGR</td><td>V</td><td>400</td><td>V-SGR-BOOM_38</td><td>BOOM_38</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/a65cd8aa-6019-4d28-a677-7f0b971d3634</td><td>BOOM</td><td>SGR</td><td>V</td><td>401</td><td>V-SGR-BOOM_39</td><td>BOOM_39</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/7a8be940-39c7-4f8a-8c00-09a8b0d42669</td><td>BOOM</td><td>SGR</td><td>V</td><td>402</td><td>V-SGR-BOOM_40</td><td>BOOM_40</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/671e058c-063b-4c8a-987e-2f5f7db56e37</td><td>BOOM</td><td>SGR</td><td>V</td><td>403</td><td>V-SGR-BOOM_41</td><td>BOOM_41</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d4ef8343-1f97-4e41-839b-cfcd1a3975e5</td><td>BOOM</td><td>SGR</td><td>V</td><td>404</td><td>V-SGR-BOOM_GBKN-SO</td><td>BOOM_GBKN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/40d01327-8ab0-4606-805f-8cf893642b34</td><td>BOOM</td><td>SGR</td><td>V</td><td>405</td><td>V-SGR-BOOM_KROON-SO</td><td>BOOM_KROON</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/83a1f267-444b-4b74-8db6-72d39abec5ca</td><td>BOOM</td><td>SGR</td><td>V</td><td>406</td><td>V-SGR-BOOM_STAM-SO</td><td>BOOM_STAM</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/56ebd117-cc9c-4c0a-b144-19d1e00af890</td><td>BOOM</td><td>SGR</td><td>V</td><td>407</td><td>V-SGR-BOOM_VERPLANTEN_KROON-SO</td><td>BOOM_VERPLANTEN_KROON</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/facd1666-26d8-4e8d-8e00-e6b0a03b475f</td><td>BOOM</td><td>SGR</td><td>V</td><td>408</td><td>V-SGR-BOOM_VERPLANTEN_STAM-SO</td><td>BOOM_VERPLANTEN_STAM</td><td>SO</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/c2a441e7-d9a5-40e6-bd7b-ddac3b5fcfb1</td><td>BOOM</td><td>SGR</td><td></td><td>4186</td><td>SGR-BOOM-SO</td><td>BOOM</td><td>SO</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/db7adddc-d80f-40c5-b6a9-1b0f1032cfe7</td><td>BOOM</td><td>SGR</td><td></td><td>4187</td><td>V-SGR-BOOM-SO</td><td>V-BOOM</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/32ebd3e3-adff-48d1-98b4-2ea441fb097b</td><td>BOOM</td><td>SGR</td><td></td><td>455</td><td>SGR-BOOM_01</td><td>BOOM_01</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c0ef9abe-d788-407d-be4e-9d8388b22c60</td><td>BOOM</td><td>SGR</td><td></td><td>456</td><td>SGR-BOOM_02</td><td>BOOM_02</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ef39edde-a979-4c37-ae1b-02889a372be1</td><td>BOOM</td><td>SGR</td><td></td><td>457</td><td>SGR-BOOM_03</td><td>BOOM_03</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5a15293a-724e-46ed-ae09-797aa9cada6f</td><td>BOOM</td><td>SGR</td><td></td><td>458</td><td>SGR-BOOM_04</td><td>BOOM_04</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/3e16ad94-174e-4850-bdc7-fec9b2eefe8c</td><td>BOOM</td><td>SGR</td><td></td><td>459</td><td>SGR-BOOM_05</td><td>BOOM_05</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/4d90e009-12ec-49d5-9c58-be6f36450cdf</td><td>BOOM</td><td>SGR</td><td></td><td>460</td><td>SGR-BOOM_06</td><td>BOOM_06</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/77b868ae-acef-4599-aa4c-bf510ad72876</td><td>BOOM</td><td>SGR</td><td></td><td>461</td><td>SGR-BOOM_07</td><td>BOOM_07</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/590d57aa-1d96-4fea-ab1e-9deddd3f4b61</td><td>BOOM</td><td>SGR</td><td></td><td>462</td><td>SGR-BOOM_08</td><td>BOOM_08</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/63135b4e-d74a-4b28-b891-14f2890111d3</td><td>BOOM</td><td>SGR</td><td></td><td>463</td><td>SGR-BOOM_09</td><td>BOOM_09</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/9af34323-e072-42d0-bb19-e58444f3d244</td><td>BOOM</td><td>SGR</td><td></td><td>464</td><td>SGR-BOOM_10</td><td>BOOM_10</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/4580b331-7cde-4dd7-99fd-54b654b252f9</td><td>BOOM</td><td>SGR</td><td></td><td>465</td><td>SGR-BOOM_11</td><td>BOOM_11</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/899e4d9d-e5d3-4ea3-81ee-d060e1a51995</td><td>BOOM</td><td>SGR</td><td></td><td>466</td><td>SGR-BOOM_12</td><td>BOOM_12</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c1831c8d-fe94-4b7e-a234-b391c963149d</td><td>BOOM</td><td>SGR</td><td></td><td>467</td><td>SGR-BOOM_13</td><td>BOOM_13</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d7be22fd-4b19-4c23-9e39-c869d06b5d3e</td><td>BOOM</td><td>SGR</td><td></td><td>468</td><td>SGR-BOOM_14</td><td>BOOM_14</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/4648bd53-b832-454c-9838-b713491b648b</td><td>BOOM</td><td>SGR</td><td></td><td>469</td><td>SGR-BOOM_15</td><td>BOOM_15</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c35f706f-767b-4d77-a47e-462b46f1eeff</td><td>BOOM</td><td>SGR</td><td></td><td>470</td><td>SGR-BOOM_16</td><td>BOOM_16</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/882ed5b2-6749-4a50-b838-0fcb649d1066</td><td>BOOM</td><td>SGR</td><td></td><td>471</td><td>SGR-BOOM_17</td><td>BOOM_17</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e6006ecd-6a59-4b12-b186-b0dfeb2e6cc2</td><td>BOOM</td><td>SGR</td><td></td><td>472</td><td>SGR-BOOM_18</td><td>BOOM_18</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/9cb37258-9281-4c73-9491-faf6bf0ffd56</td><td>BOOM</td><td>SGR</td><td></td><td>473</td><td>SGR-BOOM_19</td><td>BOOM_19</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/8c62114d-2375-45cf-a0f6-39664ddaee21</td><td>BOOM</td><td>SGR</td><td></td><td>474</td><td>SGR-BOOM_20</td><td>BOOM_20</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/16f538fc-c7c9-4746-bcb1-2c3cbe4d7899</td><td>BOOM</td><td>SGR</td><td></td><td>475</td><td>SGR-BOOM_21</td><td>BOOM_21</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/120838b3-7347-44e6-ae2c-00bc6e13b2f7</td><td>BOOM</td><td>SGR</td><td></td><td>476</td><td>SGR-BOOM_22</td><td>BOOM_22</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/101e243f-ab19-4182-bae2-66e8d89a098e</td><td>BOOM</td><td>SGR</td><td></td><td>477</td><td>SGR-BOOM_23</td><td>BOOM_23</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e85b91c2-5eff-4f30-bc55-4e7630a96080</td><td>BOOM</td><td>SGR</td><td></td><td>478</td><td>SGR-BOOM_24</td><td>BOOM_24</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f68b13b2-328a-40b6-a7e7-46fb0e94df69</td><td>BOOM</td><td>SGR</td><td></td><td>479</td><td>SGR-BOOM_25</td><td>BOOM_25</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/a0bf124b-b612-4ac0-a3d8-fc5876a5b5b4</td><td>BOOM</td><td>SGR</td><td></td><td>480</td><td>SGR-BOOM_26</td><td>BOOM_26</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/49d95677-57c8-4a4a-9b3b-dfe1f3efd50e</td><td>BOOM</td><td>SGR</td><td></td><td>481</td><td>SGR-BOOM_27</td><td>BOOM_27</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/cb16468f-c1b1-4205-826a-14e8f907170c</td><td>BOOM</td><td>SGR</td><td></td><td>482</td><td>SGR-BOOM_28</td><td>BOOM_28</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/9f400ce1-d870-42cd-8f8a-1ee77b883674</td><td>BOOM</td><td>SGR</td><td></td><td>483</td><td>SGR-BOOM_29</td><td>BOOM_29</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c8d6db8a-feb4-496b-902b-997cdc46af34</td><td>BOOM</td><td>SGR</td><td></td><td>484</td><td>SGR-BOOM_30</td><td>BOOM_30</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/8337ffe2-9ccd-4661-b5a7-85a6547bf08b</td><td>BOOM</td><td>SGR</td><td></td><td>485</td><td>SGR-BOOM_31</td><td>BOOM_31</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/7a14ca4f-4a22-4766-bfe4-ff13f85a69e3</td><td>BOOM</td><td>SGR</td><td></td><td>486</td><td>SGR-BOOM_32</td><td>BOOM_32</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1d37ba92-5eed-4371-824d-c34f41953c9a</td><td>BOOM</td><td>SGR</td><td></td><td>487</td><td>SGR-BOOM_33</td><td>BOOM_33</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/51f8c549-82d2-47b1-aec8-c957e31e7c70</td><td>BOOM</td><td>SGR</td><td></td><td>488</td><td>SGR-BOOM_34</td><td>BOOM_34</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/a7e5e311-064d-40b5-9bb9-114bdfc8fbda</td><td>BOOM</td><td>SGR</td><td></td><td>489</td><td>SGR-BOOM_35</td><td>BOOM_35</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/02900008-cf8a-4d27-a929-923a382a904b</td><td>BOOM</td><td>SGR</td><td></td><td>490</td><td>SGR-BOOM_36</td><td>BOOM_36</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/2dc1064e-eee7-4484-bdd5-09922892484c</td><td>BOOM</td><td>SGR</td><td></td><td>491</td><td>SGR-BOOM_37</td><td>BOOM_37</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/243ab322-0196-48f6-ad8a-ed9889d6fd1b</td><td>BOOM</td><td>SGR</td><td></td><td>492</td><td>SGR-BOOM_38</td><td>BOOM_38</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/2a174055-6476-4c29-a693-434b6c41015a</td><td>BOOM</td><td>SGR</td><td></td><td>493</td><td>SGR-BOOM_39</td><td>BOOM_39</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/30fd45a1-bb9a-434f-9809-2d76bb5f5c01</td><td>BOOM</td><td>SGR</td><td></td><td>494</td><td>SGR-BOOM_40</td><td>BOOM_40</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/86e98f6d-8ac3-42c3-b33c-83daf8d3578c</td><td>BOOM</td><td>SGR</td><td></td><td>495</td><td>SGR-BOOM_41</td><td>BOOM_41</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d2c3e1d5-3746-4d3c-8330-62d12f799170</td><td>BOOM</td><td>SGR</td><td></td><td>496</td><td>SGR-BOOM_GBKN-SO</td><td>BOOM_GBKN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/123df073-f773-4ec9-9b0c-231d62029ebb</td><td>BOOM</td><td>SGR</td><td></td><td>497</td><td>SGR-BOOM_KROON-SO</td><td>BOOM_KROON</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/df6dca54-6dc9-4a83-8b73-f33b956e3b72</td><td>BOOM</td><td>SGR</td><td></td><td>498</td><td>SGR-BOOM_STAM-SO</td><td>BOOM_STAM</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f05f7979-c083-4102-9cc8-fcb3b86b0f90</td><td>BOOM</td><td>SGR</td><td></td><td>499</td><td>SGR-BOOM_VERPLANTEN_KROON-SO</td><td>BOOM_VERPLANTEN_KROON</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/9dd307d9-3ff3-4b6d-b28e-aa7695fd2c8d</td><td>BOOM</td><td>SGR</td><td></td><td>500</td><td>SGR-BOOM_VERPLANTEN_STAM-SO</td><td>BOOM_VERPLANTEN_STAM</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/002303b3-0ac1-4e31-9400-9573423ed61f</td><td>BOOM</td><td>SGR</td><td></td><td>544</td><td>SGR-BOOM_S01_A_ZIJ-D</td><td>BOOM_S01_A_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/76fb0528-f996-4646-9c6d-3460a4214683</td><td>BOOM</td><td>SGR</td><td></td><td>545</td><td>SGR-BOOM_S01_B_ZIJ-D</td><td>BOOM_S01_B_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1686dc89-4591-4854-8bcc-c0087f17905a</td><td>BOOM</td><td>SGR</td><td></td><td>546</td><td>SGR-BOOM_S01_C_ZIJ-D</td><td>BOOM_S01_C_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ab091922-6129-400b-8a1f-56b9af40b81b</td><td>BOOM</td><td>SGR</td><td></td><td>547</td><td>SGR-BOOM_S01_D_ZIJ-D</td><td>BOOM_S01_D_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/25b9f4a1-41a9-4697-9293-e469fec7b99b</td><td>BOOM</td><td>SGR</td><td></td><td>548</td><td>SGR-BOOM_S01_E_ZIJ-D</td><td>BOOM_S01_E_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/11b7d054-90c6-4fcc-af8b-ad38ba6d9c50</td><td>BOOM</td><td>SGR</td><td></td><td>549</td><td>SGR-BOOM_S01_F_ZIJ-D</td><td>BOOM_S01_F_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d3a65abd-d079-451e-bf5e-3488d8bb82ce</td><td>BOOM</td><td>SGR</td><td></td><td>550</td><td>SGR-BOOM_S01_G_ZIJ-D</td><td>BOOM_S01_G_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ef375103-6189-4b30-a052-cea68796a63f</td><td>BOOM</td><td>SGR</td><td></td><td>551</td><td>SGR-BOOM_S01_H_ZIJ-D</td><td>BOOM_S01_H_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c62b15ba-e85e-4cef-9f7a-8bf4bd729b3b</td><td>BOOM</td><td>SGR</td><td></td><td>552</td><td>SGR-BOOM_S01_I_ZIJ-D</td><td>BOOM_S01_I_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ead0ce38-043f-418f-ae09-87da59e115d4</td><td>BOOM</td><td>SGR</td><td></td><td>553</td><td>SGR-BOOM_S01_J_ZIJ-D</td><td>BOOM_S01_J_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/8c9ccb87-e3b8-4c9e-baf6-1d027101a9ad</td><td>BOOM</td><td>SGR</td><td></td><td>554</td><td>SGR-BOOM_S01_K_ZIJ-D</td><td>BOOM_S01_K_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/71f91d99-a418-4b14-93dd-afc0ca0f5372</td><td>BOOM</td><td>SGR</td><td></td><td>555</td><td>SGR-BOOM_S01_L_ZIJ-D</td><td>BOOM_S01_L_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/bff661a8-4415-4b33-97fa-c08416a283e1</td><td>BOOM</td><td>SGR</td><td></td><td>556</td><td>SGR-BOOM_S01_M_ZIJ-D</td><td>BOOM_S01_M_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/4fabe817-9931-4a22-a679-38c1091bfdee</td><td>BOOM</td><td>SGR</td><td></td><td>557</td><td>SGR-BOOM_S01_N_ZIJ-D</td><td>BOOM_S01_N_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b736f5a6-aa16-4bac-b5ad-ad95ba8cdf89</td><td>BOOM</td><td>SGR</td><td></td><td>558</td><td>SGR-BOOM_S01_O_ZIJ-D</td><td>BOOM_S01_O_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/15fc69ad-7faf-46ac-bdd9-10c81b5ee49f</td><td>BOOM</td><td>SGR</td><td></td><td>559</td><td>SGR-BOOM_S01_P_ZIJ-D</td><td>BOOM_S01_P_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c2d29fa7-5977-4025-a9e0-13f973c5d86a</td><td>BOOM</td><td>SGR</td><td></td><td>560</td><td>SGR-BOOM_S01_Q_ZIJ-D</td><td>BOOM_S01_Q_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/cf04d15b-9ac8-4445-9085-e1fd1c909c0b</td><td>BOOM</td><td>SGR</td><td></td><td>561</td><td>SGR-BOOM_S01_R_ZIJ-D</td><td>BOOM_S01_R_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5fdd9fbd-1005-4ea4-a0f7-0b6ffc4c6931</td><td>BOOM</td><td>SGR</td><td></td><td>562</td><td>SGR-BOOM_S01_S_ZIJ-D</td><td>BOOM_S01_S_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/a3080032-d4f8-4526-8c9f-a8ab4d71cb9d</td><td>BOOM</td><td>SGR</td><td></td><td>563</td><td>SGR-BOOM_S01_T_ZIJ-D</td><td>BOOM_S01_T_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/3346c75f-6652-4fe9-a4e5-deb6cbe6a18e</td><td>BOOM</td><td>SGR</td><td></td><td>564</td><td>SGR-BOOM_S01_U_ZIJ-D</td><td>BOOM_S01_U_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/45f44c01-3303-4885-b594-900135397512</td><td>BOOM</td><td>SGR</td><td></td><td>565</td><td>SGR-BOOM_S01_V_ZIJ-D</td><td>BOOM_S01_V_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/bc84da44-0f76-4de4-ba7c-8773fa4b5d44</td><td>BOOM</td><td>SGR</td><td></td><td>566</td><td>SGR-BOOM_S01_W_ZIJ-D</td><td>BOOM_S01_W_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b47489df-c3c5-4b0d-9a94-10c78b8409e7</td><td>BOOM</td><td>SGR</td><td></td><td>567</td><td>SGR-BOOM_S01_X_ZIJ-D</td><td>BOOM_S01_X_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/7bb9ac9f-f0b6-433f-80a9-c5294d140d5f</td><td>BOOM</td><td>SGR</td><td></td><td>568</td><td>SGR-BOOM_S01_Y_ZIJ-D</td><td>BOOM_S01_Y_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/9302be99-9ab2-4c3d-ad7b-97cab9c55c0f</td><td>BOOM</td><td>SGR</td><td></td><td>569</td><td>SGR-BOOM_S02_A_ZIJ-D</td><td>BOOM_S02_A_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/04970d10-82ec-4b8a-978b-0e88c6488996</td><td>BOOM</td><td>SGR</td><td></td><td>570</td><td>SGR-BOOM_S02_B_ZIJ-D</td><td>BOOM_S02_B_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/85f658a0-dc07-446b-a4ba-0d954a06c7e2</td><td>BOOM</td><td>SGR</td><td></td><td>571</td><td>SGR-BOOM_S02_C_ZIJ-D</td><td>BOOM_S02_C_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/218cf0d3-cf2c-44c3-ba0f-a5f5056d8da5</td><td>BOOM</td><td>SGR</td><td></td><td>572</td><td>SGR-BOOM_S02_D_ZIJ-D</td><td>BOOM_S02_D_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/920ac971-23ac-4e87-a610-cea2c067fd29</td><td>BOOM</td><td>SGR</td><td></td><td>573</td><td>SGR-BOOM_S02_E_ZIJ-D</td><td>BOOM_S02_E_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/6d493666-ff16-4f92-a17e-bfcc577abcd0</td><td>BOOM</td><td>SGR</td><td></td><td>574</td><td>SGR-BOOM_S02_F_ZIJ-D</td><td>BOOM_S02_F_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/3b743f74-e2b4-4d78-840b-c06865519c00</td><td>BOOM</td><td>SGR</td><td></td><td>575</td><td>SGR-BOOM_S02_G_ZIJ-D</td><td>BOOM_S02_G_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/65de8d69-b25b-460c-b537-d422625949bc</td><td>BOOM</td><td>SGR</td><td></td><td>576</td><td>SGR-BOOM_S03_A_ZIJ-D</td><td>BOOM_S03_A_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/4ad1cb38-4cb1-43ef-bf41-b432fc8941e0</td><td>BOOM</td><td>SGR</td><td></td><td>577</td><td>SGR-BOOM_S03_B_ZIJ-D</td><td>BOOM_S03_B_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f1b5aafc-3b2e-4e21-b966-e011c0edbd56</td><td>BOOM</td><td>SGR</td><td></td><td>578</td><td>SGR-BOOM_S03_C_ZIJ-D</td><td>BOOM_S03_C_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f91bbc5f-e02d-453a-bcd7-88e8f85b2c6b</td><td>BOOM</td><td>SGR</td><td></td><td>579</td><td>SGR-BOOM_S03_D_ZIJ-D</td><td>BOOM_S03_D_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/9910b70c-00b4-497e-a4ea-981a10960874</td><td>BOOM</td><td>SGR</td><td></td><td>580</td><td>SGR-BOOM_S04_A_ZIJ-D</td><td>BOOM_S04_A_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d037b698-a8eb-4378-9d95-5e1e18474e39</td><td>BOOM</td><td>SGR</td><td></td><td>581</td><td>SGR-BOOM_S04_B_ZIJ-D</td><td>BOOM_S04_B_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/4c8f1060-8807-4eea-86e6-9fa408112735</td><td>BOOM</td><td>SGR</td><td></td><td>582</td><td>SGR-BOOM_S04_C_ZIJ-D</td><td>BOOM_S04_C_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1357caf0-ddc6-4b38-adc3-5ae62b6cad2d</td><td>BOOM</td><td>SGR</td><td></td><td>583</td><td>SGR-BOOM_S05_A_ZIJ-D</td><td>BOOM_S05_A_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d9c81383-0434-404c-8c9f-e7fce8fdb6c2</td><td>BOOM</td><td>SGR</td><td></td><td>584</td><td>SGR-BOOM_S05_B_ZIJ-D</td><td>BOOM_S05_B_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/2b815c8b-a131-4825-a35c-b9c080cfe03a</td><td>BOOM</td><td>SGR</td><td></td><td>585</td><td>SGR-BOOM_S05_C_ZIJ-D</td><td>BOOM_S05_C_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5fae5593-33b9-402c-9499-450254637326</td><td>BOOM</td><td>SGR</td><td></td><td>586</td><td>SGR-BOOM_S05_D_ZIJ-D</td><td>BOOM_S05_D_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/99cf6e14-0d86-4e7b-90ea-906cddbb2f62</td><td>BOOM</td><td>SGR</td><td></td><td>587</td><td>SGR-BOOM_S05_E_ZIJ-D</td><td>BOOM_S05_E_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0837cf2c-586f-4e46-9cbc-96f2f54dcc34</td><td>BOOM</td><td>SGR</td><td></td><td>588</td><td>SGR-BOOM_S05_F_ZIJ-D</td><td>BOOM_S05_F_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/995e1117-e58c-4515-8cdf-a759e267cdc0</td><td>BOOM</td><td>SGR</td><td></td><td>589</td><td>SGR-BOOM_S05_G_ZIJ-D</td><td>BOOM_S05_G_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/96c55c63-0023-48e9-b795-2e8421ed5292</td><td>BOOM</td><td>SGR</td><td></td><td>590</td><td>SGR-BOOM_S05_H_ZIJ-D</td><td>BOOM_S05_H_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/15bc1919-0131-4e5e-ba98-b3aa1c28a816</td><td>BOOM</td><td>SGR</td><td></td><td>602</td><td>SGR-BOOM_S07_B_ZIJ-D</td><td>BOOM_S07_B_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/57770c17-f340-48c2-9df2-2cd282c2d43c</td><td>BOOM</td><td>SGR</td><td></td><td>603</td><td>SGR-BOOM_S07_C_ZIJ-D</td><td>BOOM_S07_C_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/4006a88a-1afb-4908-9d26-501c94aaa6e3</td><td>BOOM</td><td>SGR</td><td></td><td>605</td><td>SGR-BOOM_S07_E_ZIJ-D</td><td>BOOM_S07_E_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f5eb5f9d-09ee-4b14-a366-19672eb65ab2</td><td>BOOM</td><td>SGR</td><td></td><td>606</td><td>SGR-BOOM_S08_A_ZIJ-D</td><td>BOOM_S08_A_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/4034a3b4-949a-47ce-ba8a-bd1bef66ce44</td><td>BOOM</td><td>SGR</td><td></td><td>607</td><td>SGR-BOOM_S08_B_ZIJ-D</td><td>BOOM_S08_B_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d140f657-1c8c-40b0-8a54-b11aa3377c2b</td><td>BOOM</td><td>SGR</td><td></td><td>608</td><td>SGR-BOOM_S08_C_ZIJ-D</td><td>BOOM_S08_C_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/86664898-db35-42b0-9790-9333fffc9924</td><td>BOOM</td><td>SGR</td><td></td><td>609</td><td>SGR-BOOM_S08_D_ZIJ-D</td><td>BOOM_S08_D_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ec25cd3b-277e-4179-9639-402471b62bab</td><td>BOOM</td><td>SGR</td><td></td><td>610</td><td>SGR-BOOM_S09_A_ZIJ-D</td><td>BOOM_S09_A_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/a60d35cd-4a52-4980-9cab-d2fbb84eba9a</td><td>BOOM</td><td>SGR</td><td></td><td>611</td><td>SGR-BOOM_S09_B_ZIJ-D</td><td>BOOM_S09_B_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/2784c25a-cf11-4573-a2e0-57606606d7d6</td><td>BOOM</td><td>SGR</td><td></td><td>612</td><td>SGR-BOOM_S09_C_ZIJ-D</td><td>BOOM_S09_C_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/2060c557-caf8-4861-a70c-f290849391b1</td><td>BOOM</td><td>SGR</td><td></td><td>613</td><td>SGR-BOOM_S09_D_ZIJ-D</td><td>BOOM_S09_D_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b9d93430-95e0-4bcf-b796-93559eef5f57</td><td>BOOM</td><td>SGR</td><td></td><td>614</td><td>SGR-BOOM_S09_E_ZIJ-D</td><td>BOOM_S09_E_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/7314d7d6-93eb-4497-948f-1fe43830b6be</td><td>BOOM</td><td>SGR</td><td></td><td>615</td><td>SGR-BOOM_S09_F_ZIJ-D</td><td>BOOM_S09_F_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/aae3c45d-fee4-4bba-ada2-afaf5d4bc3b8</td><td>BOOM</td><td>SGR</td><td></td><td>616</td><td>SGR-BOOM_S10_A_ZIJ-D</td><td>BOOM_S10_A_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/df47857a-d75b-41f7-b7be-c1263ac4224a</td><td>BOOM</td><td>SGR</td><td></td><td>617</td><td>SGR-BOOM_S10_B_ZIJ-D</td><td>BOOM_S10_B_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d8beba55-d71a-4abf-9d21-5e49e0f0b635</td><td>BOOM</td><td>SGR</td><td></td><td>618</td><td>SGR-BOOM_S11_A_ZIJ-D</td><td>BOOM_S11_A_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d45891ad-9876-4b09-8538-88cf23d0aade</td><td>BOOM</td><td>SGR</td><td></td><td>619</td><td>SGR-BOOM_S11_B_ZIJ-D</td><td>BOOM_S11_B_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0375b066-461c-4b0c-bfd7-ac9c05b154eb</td><td>BOOM</td><td>SGR</td><td></td><td>620</td><td>SGR-BOOM_S12_A_ZIJ-D</td><td>BOOM_S12_A_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e2093380-bbd1-4d4a-8a15-45f7d85c351f</td><td>BOOM</td><td>SGR</td><td></td><td>621</td><td>SGR-BOOM_S12_B_ZIJ-D</td><td>BOOM_S12_B_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5ee2178b-1fea-4df1-adc5-5f92c0fba89c</td><td>BOOMGAARD</td><td>SGR</td><td></td><td>3042</td><td>SGR-BOOMGAARD_HOOGSTAM-SO</td><td>BOOMGAARD_HOOGSTAM</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b47616df-d43d-4281-bf91-3143817ef8df</td><td>BOOMGAARD</td><td>SGR</td><td></td><td>3043</td><td>SGR-BOOMGAARD_KLEINFRUIT-SO</td><td>BOOMGAARD_KLEINFRUIT</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ef71d5dc-9e36-429e-aecf-79dfec4f4680</td><td>BOOMGAARD</td><td>SGR</td><td></td><td>3044</td><td>SGR-BOOMGAARD_LAAGSTAM-SO</td><td>BOOMGAARD_LAAGSTAM</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/8addb635-4b11-46e6-ad1a-27d99eb2d95d</td><td>BOOMGAARD</td><td>SGR</td><td></td><td>3045</td><td>SGR-BOOMGAARD_WIJN-SO</td><td>BOOMGAARD_WIJN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/08931fb0-7f9d-4d4c-8bbf-a4b2609f1db1</td><td>BOOMTEELT</td><td>SGR</td><td></td><td>3046</td><td>SGR-BOOMTEELT-SO</td><td>BOOMTEELT</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/299cbfac-efea-4417-be0d-fd73ac37ba7b</td><td>BOS</td><td>SGR</td><td></td><td>3462</td><td>SGR-BOS_KL-SO</td><td>BOS_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/a9cb7051-1f83-41ec-b5ee-ac59052fa1b0</td><td>BOS</td><td>SGR</td><td></td><td>3463</td><td>SGR-BOS_GEMENGD_KL-SO</td><td>BOS_GEMENGD_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/6045d99c-0eaa-4a50-b80f-35fe59d80b4e</td><td>BOS</td><td>SGR</td><td></td><td>3464</td><td>SGR-BOS_LOOF_KL-SO</td><td>BOS_LOOF_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f9f3d826-dff0-4365-af23-78488a21243b</td><td>BOS</td><td>SGR</td><td></td><td>3465</td><td>SGR-BOS_NAALD_KL-SO</td><td>BOS_NAALD_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b99914fb-a9c8-4647-9646-39df0085bff4</td><td>BOS</td><td>SGR</td><td>V</td><td>3499</td><td>V-SGR-BOS_KL-SO</td><td>BOS_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d406e944-9cc8-4a9d-a2a3-8f9f962ea072</td><td>BOS</td><td>SGR</td><td>V</td><td>3500</td><td>V-SGR-BOS_GEMENGD_KL-SO</td><td>BOS_GEMENGD_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ad78a7ba-adbe-4e22-9c7c-f8859af7a648</td><td>BOS</td><td>SGR</td><td>V</td><td>3501</td><td>V-SGR-BOS_LOOF_KL-SO</td><td>BOS_LOOF_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/db75f0c6-5feb-40c4-b046-41e43e2285e6</td><td>BOS</td><td>SGR</td><td>V</td><td>3502</td><td>V-SGR-BOS_NAALD_KL-SO</td><td>BOS_NAALD_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1f56bc94-b635-4220-9cef-64bc0408c625</td><td>BOS</td><td>SGR</td><td>V</td><td>409</td><td>V-SGR-BOS_GEMENGD-SO</td><td>BOS_GEMENGD</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/a568bcb1-4357-4214-924b-9ed40f82e0ff</td><td>BOS</td><td>SGR</td><td>V</td><td>410</td><td>V-SGR-BOS_LOOF-SO</td><td>BOS_LOOF</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/12249108-d6cb-4483-aa16-ab98e8d81837</td><td>BOS</td><td>SGR</td><td>V</td><td>411</td><td>V-SGR-BOS_NAALD-SO</td><td>BOS_NAALD</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c77c3b9b-baec-477a-9bcf-a55a01660ee3</td><td>BOS</td><td>SGR</td><td>V</td><td>412</td><td>V-SGR-BOS-SO</td><td>BOS</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/9a28fa92-8317-4527-8efb-7607f8839580</td><td>BOS</td><td>SGR</td><td></td><td>501</td><td>SGR-BOS_GEMENGD-SO</td><td>BOS_GEMENGD</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/9fc63c3d-cf5f-454d-abd5-23e62d0666a8</td><td>BOS</td><td>SGR</td><td></td><td>502</td><td>SGR-BOS_LOOF-SO</td><td>BOS_LOOF</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/3709d0f7-b568-400a-8a1a-9d8d8a1efb84</td><td>BOS</td><td>SGR</td><td></td><td>503</td><td>SGR-BOS_NAALD-SO</td><td>BOS_NAALD</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c49e0b24-fa3e-45b6-aa85-ad1327f38536</td><td>BOS</td><td>SGR</td><td></td><td>504</td><td>SGR-BOS-SO</td><td>BOS</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/4815fb47-6ef0-4479-bec5-2d27019b7184</td><td>BOSPLANTSOEN</td><td>SGR</td><td></td><td>3466</td><td>SGR-BOSPLANTSOEN_KL-SO</td><td>BOSPLANTSOEN_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ebbaea0d-7025-44f3-b43d-e9e25d636f55</td><td>BOSPLANTSOEN</td><td>SGR</td><td>V</td><td>3503</td><td>V-SGR-BOSPLANTSOEN_KL-SO</td><td>BOSPLANTSOEN_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ac8e8f2f-65eb-44dc-8ed0-01731d74a532</td><td>BOSPLANTSOEN</td><td>SGR</td><td>V</td><td>413</td><td>V-SGR-BOSPLANTSOEN-SO</td><td>BOSPLANTSOEN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/74fa2c42-8d8d-466c-8aa4-a597f2a7f3c6</td><td>BOSPLANTSOEN</td><td>SGR</td><td></td><td>505</td><td>SGR-BOSPLANTSOEN-SO</td><td>BOSPLANTSOEN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c1f55c3f-d282-41b1-b18c-0ec9e568f81e</td><td>BOUWLAND</td><td>SGR</td><td></td><td>3049</td><td>SGR-BOUWLAND-SO</td><td>BOUWLAND</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/73eac197-2603-4fb0-9bc5-2f8d56cbab2f</td><td>BOUWLAND</td><td>SGR</td><td></td><td>3050</td><td>SGR-BOUWLAND_AKKERBOUW-SO</td><td>BOUWLAND_AKKERBOUW</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/aa7af56c-be7c-4ec9-89c3-59c258bb31c6</td><td>BOUWLAND</td><td>SGR</td><td></td><td>3051</td><td>SGR-BOUWLAND_BOLLENTEELT-SO</td><td>BOUWLAND_BOLLENTEELT</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f2dd682b-3ecd-4523-ab03-c94579ad306b</td><td>BOUWLAND</td><td>SGR</td><td></td><td>3052</td><td>SGR-BOUWLAND_BRAAKLIGGEND-SO</td><td>BOUWLAND_BRAAKLIGGEND</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/8b794d4b-43d8-42ce-8eac-bf0586a5c7ee</td><td>BOUWLAND</td><td>SGR</td><td></td><td>3053</td><td>SGR-BOUWLAND_VOLLEGRONDSTEELT-SO</td><td>BOUWLAND_VOLLEGRONDSTEELT</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c1cab0b1-1351-46a4-8c70-7c775da4dcaa</td><td>DUIN</td><td>SGR</td><td></td><td>3055</td><td>SGR-DUIN-SO</td><td>DUIN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0365c166-fcd8-4f6a-b71c-02b2fb84f53d</td><td>FRUITTEELT</td><td>SGR</td><td></td><td>3056</td><td>SGR-FRUITTEELT-SO</td><td>FRUITTEELT</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e5f3eb28-1be8-4037-8882-479420d89693</td><td>GRAS</td><td>SGR</td><td></td><td>3467</td><td>SGR-GRAS_01_KL-SO</td><td>GRAS_01_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/52d5bfe5-156b-48ab-8150-6ef70f85a539</td><td>GRAS</td><td>SGR</td><td></td><td>3469</td><td>SGR-GRAS_GAZON_KL-SO</td><td>GRAS_GAZON_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/953de820-f602-415f-a173-01cdd8944fbc</td><td>GRAS</td><td>SGR</td><td></td><td>3470</td><td>SGR-GRAS_GESTABILISEERD_KL-SO</td><td>GRAS_GESTABILISEERD_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/67072cb9-8e7d-4bce-bf33-8e65842b8d25</td><td>GRAS</td><td>SGR</td><td></td><td>3471</td><td>SGR-GRAS_KUNSTGRAS_KL-SO</td><td>GRAS_KUNSTGRAS_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/2895abd4-6db8-4278-be2f-572bda81984d</td><td>GRAS</td><td>SGR</td><td></td><td>3472</td><td>SGR-GRAS_RUIGGRAS_KL-SO</td><td>GRAS_RUIGGRAS_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c2826ff4-ff41-4ed3-a928-472a8295fbf3</td><td>GRAS</td><td>SGR</td><td>V</td><td>3504</td><td>V-SGR-GRAS_01_KL-SO</td><td>GRAS_01_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/7fd1ff76-66fb-4a11-a0f6-39f0594ae5ef</td><td>GRAS</td><td>SGR</td><td>V</td><td>3506</td><td>V-SGR-GRAS_GAZON_KL-SO</td><td>GRAS_GAZON_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/be071f73-f74d-45ce-ba03-ec01f2a5537b</td><td>GRAS</td><td>SGR</td><td>V</td><td>3507</td><td>V-SGR-GRAS_GESTABILISEERD_KL-SO</td><td>GRAS_GESTABILISEERD_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1a7ab624-d227-4f65-b866-236124f07ea3</td><td>GRAS</td><td>SGR</td><td>V</td><td>3508</td><td>V-SGR-GRAS_KUNSTGRAS_KL-SO</td><td>GRAS_KUNSTGRAS_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0faeefd0-2b69-4f0d-9d94-bab05e72189e</td><td>GRAS</td><td>SGR</td><td>V</td><td>3509</td><td>V-SGR-GRAS_RUIGGRAS_KL-SO</td><td>GRAS_RUIGGRAS_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/a8b6c4d7-d39b-48da-a9f8-38d458635162</td><td>GRAS</td><td>SGR</td><td>V</td><td>415</td><td>V-SGR-GRAS_01-SO</td><td>GRAS_01</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e1e9d5fd-0a3e-4e98-be34-93dfcd240119</td><td>GRAS</td><td>SGR</td><td>V</td><td>417</td><td>V-SGR-GRAS_GAZON-SO</td><td>GRAS_GAZON</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/75b1603e-5fea-4906-b496-9347fa1640d6</td><td>GRAS</td><td>SGR</td><td>V</td><td>418</td><td>V-SGR-GRAS_GESTABILISEERD-SO</td><td>GRAS_GESTABILISEERD</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ea689927-56d7-4a44-8f89-c267753c9a0d</td><td>GRAS</td><td>SGR</td><td>V</td><td>419</td><td>V-SGR-GRAS_KUNSTGRAS-SO</td><td>GRAS_KUNSTGRAS</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/68027152-f793-4b21-8067-50e70facbe50</td><td>GRAS</td><td>SGR</td><td>V</td><td>420</td><td>V-SGR-GRAS_RUIGGRAS-SO</td><td>GRAS_RUIGGRAS</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f7d4dda6-a8f0-469d-8c37-2795d7456cd4</td><td>GRAS</td><td>SGR</td><td></td><td>507</td><td>SGR-GRAS_01-SO</td><td>GRAS_01</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f34a3352-e784-43c3-b184-ab4af7ce3859</td><td>GRAS</td><td>SGR</td><td></td><td>509</td><td>SGR-GRAS_GAZON-SO</td><td>GRAS_GAZON</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5dea4505-d46f-423a-99a7-774a74c1a4a4</td><td>GRAS</td><td>SGR</td><td></td><td>510</td><td>SGR-GRAS_GESTABILISEERD-SO</td><td>GRAS_GESTABILISEERD</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ab7756cc-cd5a-471f-94fd-80e704756cca</td><td>GRAS</td><td>SGR</td><td></td><td>511</td><td>SGR-GRAS_KUNSTGRAS-SO</td><td>GRAS_KUNSTGRAS</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/14264034-7193-4c59-913b-111675de84ad</td><td>GRAS</td><td>SGR</td><td></td><td>512</td><td>SGR-GRAS_RUIGGRAS-SO</td><td>GRAS_RUIGGRAS</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/951b17ee-6673-4088-86a9-5e646dc1bc3a</td><td>HAAG</td><td>SGR</td><td></td><td>956</td><td>SGR-HAAG-D</td><td>HAAG</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/91d14b64-2645-44b9-a32c-d6686dd0f1e2</td><td>HEESTER</td><td>SGR</td><td></td><td>3474</td><td>SGR-HEESTERS_KL-SO</td><td>HEESTERS_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/490412e8-3a72-4159-8365-f9cfe2c6d5b3</td><td>HEESTER</td><td>SGR</td><td>V</td><td>3511</td><td>V-SGR-HEESTERS_KL-SO</td><td>HEESTERS_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/8dc08093-91c1-4207-846a-7cbc4ead5efc</td><td>HEESTER</td><td>SGR</td><td>V</td><td>424</td><td>V-SGR-HEESTER_01</td><td>HEESTER_01</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f494b8a0-0d1e-4079-a9e2-15d86b881e2d</td><td>HEESTER</td><td>SGR</td><td>V</td><td>425</td><td>V-SGR-HEESTER_02</td><td>HEESTER_02</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/091d3a99-7d16-4143-a04e-aa823a24abf4</td><td>HEESTER</td><td>SGR</td><td>V</td><td>426</td><td>V-SGR-HEESTER_03</td><td>HEESTER_03</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/fdc3f6e4-aa0b-4e4d-a99f-c2f59b7bb1b0</td><td>HEESTER</td><td>SGR</td><td>V</td><td>427</td><td>V-SGR-HEESTER_04</td><td>HEESTER_04</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/7e6db402-ba2e-4001-bceb-58c540e7ca3d</td><td>HEESTER</td><td>SGR</td><td>V</td><td>428</td><td>V-SGR-HEESTER_05</td><td>HEESTER_05</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/9bdf5f54-4c9b-4661-b592-3352b6d50b96</td><td>HEESTER</td><td>SGR</td><td>V</td><td>429</td><td>V-SGR-HEESTER_06</td><td>HEESTER_06</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/9e594dbd-d066-4df5-8397-6ec863614f8d</td><td>HEESTER</td><td>SGR</td><td>V</td><td>430</td><td>V-SGR-HEESTERS-SO</td><td>HEESTERS</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/cb71520c-e8e1-41d9-8d96-3d38f4a29edf</td><td>HEESTER</td><td>SGR</td><td></td><td>516</td><td>SGR-HEESTER_01</td><td>HEESTER_01</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/791c07cc-aa85-4b01-a4c9-5571f409c126</td><td>HEESTER</td><td>SGR</td><td></td><td>517</td><td>SGR-HEESTER_02</td><td>HEESTER_02</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e60611ae-2745-4534-a823-f1f27a659420</td><td>HEESTER</td><td>SGR</td><td></td><td>518</td><td>SGR-HEESTER_03</td><td>HEESTER_03</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/6f4a0323-4f02-484f-b820-3179a3bbd61e</td><td>HEESTER</td><td>SGR</td><td></td><td>519</td><td>SGR-HEESTER_04</td><td>HEESTER_04</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/af950dcf-898e-44ed-af7b-30fe821b2fa5</td><td>HEESTER</td><td>SGR</td><td></td><td>520</td><td>SGR-HEESTER_05</td><td>HEESTER_05</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c0249e4c-4ef5-4dce-8aad-dd52d2c85d7e</td><td>HEESTER</td><td>SGR</td><td></td><td>521</td><td>SGR-HEESTER_06</td><td>HEESTER_06</td><td></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e3cf1c56-193c-460b-bd4d-3841689e546d</td><td>HEESTER</td><td>SGR</td><td></td><td>522</td><td>SGR-HEESTERS-SO</td><td>HEESTERS</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5861fd4e-3731-421a-9ee8-894b92de4abc</td><td>HEESTER</td><td>SGR</td><td></td><td>622</td><td>SGR-HEESTER_S01_A_ZIJ-D</td><td>HEESTER_S01_A_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/374199f3-43fb-4244-97c6-e74afbfabcce</td><td>HEESTER</td><td>SGR</td><td></td><td>623</td><td>SGR-HEESTER_S01_B_ZIJ-D</td><td>HEESTER_S01_B_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/253f3541-2b74-430c-828c-b46d27e33111</td><td>HEESTER</td><td>SGR</td><td></td><td>624</td><td>SGR-HEESTER_S01_C_ZIJ-D</td><td>HEESTER_S01_C_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/3c119806-9752-4b46-9de8-24b2ad40c6a5</td><td>HEESTER</td><td>SGR</td><td></td><td>625</td><td>SGR-HEESTER_S01_E_ZIJ-D</td><td>HEESTER_S01_E_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/486f7e21-68ee-48fd-a3a2-87c1830f96d5</td><td>HEESTER</td><td>SGR</td><td></td><td>626</td><td>SGR-HEESTER_S01_F_ZIJ-D</td><td>HEESTER_S01_F_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/03120fb8-5dec-418b-b6e2-49675abdc7e6</td><td>HEESTER</td><td>SGR</td><td></td><td>627</td><td>SGR-HEESTER_S01_G_ZIJ-D</td><td>HEESTER_S01_G_ZIJ</td><td>D</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b0d02317-2ce1-4369-8350-60675edd268b</td><td>HEIDE</td><td>SGR</td><td></td><td>3057</td><td>SGR-HEIDE-SO</td><td>HEIDE</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/426b14d1-d59a-466c-a1b5-67b3dbf45a9f</td><td>HOUTOPSTAND</td><td>SGR</td><td></td><td>3475</td><td>SGR-HOUTOPSTAND_KL-SO</td><td>HOUTOPSTAND_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/66e01336-0f4f-4e22-af62-4d27d410d650</td><td>HOUTOPSTAND</td><td>SGR</td><td></td><td>3476</td><td>SGR-HOUTOPSTAND_GEMENGD_KL-SO</td><td>HOUTOPSTAND_GEMENGD_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/8ebf2dec-143a-4988-9f7f-f18b36eb18ba</td><td>HOUTOPSTAND</td><td>SGR</td><td></td><td>3477</td><td>SGR-HOUTOPSTAND_LOOF_KL-SO</td><td>HOUTOPSTAND_LOOF_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/258b815b-419d-4ca2-b66a-488ab274b877</td><td>HOUTOPSTAND</td><td>SGR</td><td></td><td>3478</td><td>SGR-HOUTOPSTAND_NAALD_KL-SO</td><td>HOUTOPSTAND_NAALD_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c7077940-32dd-411e-b745-8d9f82fcdb2b</td><td>HOUTOPSTAND</td><td>SGR</td><td>V</td><td>3512</td><td>V-SGR-HOUTOPSTAND_KL-SO</td><td>HOUTOPSTAND_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e3d455f7-ad80-4abd-8edd-6615b43fd73f</td><td>HOUTOPSTAND</td><td>SGR</td><td>V</td><td>3513</td><td>V-SGR-HOUTOPSTAND_GEMENGD_KL-SO</td><td>HOUTOPSTAND_GEMENGD_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/2b6d6755-59b8-4a2e-86cd-427c132dfbbf</td><td>HOUTOPSTAND</td><td>SGR</td><td>V</td><td>3514</td><td>V-SGR-HOUTOPSTAND_LOOF_KL-SO</td><td>HOUTOPSTAND_LOOF_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/317d45e2-b067-45eb-83ed-5539327ee484</td><td>HOUTOPSTAND</td><td>SGR</td><td>V</td><td>3515</td><td>V-SGR-HOUTOPSTAND_NAALD_KL-SO</td><td>HOUTOPSTAND_NAALD_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0d91069d-c19d-4bd0-9a7f-93eec4464940</td><td>HOUTOPSTAND</td><td>SGR</td><td>V</td><td>432</td><td>V-SGR-HOUTOPSTAND_GEMENGD-SO</td><td>HOUTOPSTAND_GEMENGD</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/43988a11-268e-4c43-8bf2-74e74c119c69</td><td>HOUTOPSTAND</td><td>SGR</td><td>V</td><td>433</td><td>V-SGR-HOUTOPSTAND_LOOF-SO</td><td>HOUTOPSTAND_LOOF</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ca9b8bcf-05f9-400f-aaca-301a56446c8c</td><td>HOUTOPSTAND</td><td>SGR</td><td>V</td><td>434</td><td>V-SGR-HOUTOPSTAND_NAALD-SO</td><td>HOUTOPSTAND_NAALD</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/df23ce4c-9372-41c1-bdee-5b3a525513e1</td><td>HOUTOPSTAND</td><td>SGR</td><td>V</td><td>435</td><td>V-SGR-HOUTOPSTAND-SO</td><td>HOUTOPSTAND</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/425798a6-9ea8-4660-ab61-a7049c22b6b1</td><td>HOUTOPSTAND</td><td>SGR</td><td></td><td>524</td><td>SGR-HOUTOPSTAND_GEMENGD-SO</td><td>HOUTOPSTAND_GEMENGD</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c62e06bf-55fd-4ca9-b9b5-3ccf8ed0ec6c</td><td>HOUTOPSTAND</td><td>SGR</td><td></td><td>525</td><td>SGR-HOUTOPSTAND_LOOF-SO</td><td>HOUTOPSTAND_LOOF</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/48d2c8d0-6507-4aef-babd-449cb6e44548</td><td>HOUTOPSTAND</td><td>SGR</td><td></td><td>526</td><td>SGR-HOUTOPSTAND_NAALD-SO</td><td>HOUTOPSTAND_NAALD</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f61fed35-a7e7-4599-a185-53a8144a87a1</td><td>HOUTOPSTAND</td><td>SGR</td><td></td><td>527</td><td>SGR-HOUTOPSTAND-SO</td><td>HOUTOPSTAND</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/dbb919a5-0adb-4aae-ae29-ffecaf4734f7</td><td>HOUTWAL</td><td>SGR</td><td></td><td>3062</td><td>SGR-HOUTWAL-SO</td><td>HOUTWAL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/2e82d611-6bea-4662-8496-eafdd3a0eb10</td><td>KRUIDEN</td><td>SGR</td><td></td><td>3479</td><td>SGR-KRUIDEN_KL-SO</td><td>KRUIDEN_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0325aaeb-77e9-4cb4-b353-7eabf4b03d3d</td><td>KRUIDEN</td><td>SGR</td><td>V</td><td>3516</td><td>V-SGR-KRUIDEN_KL-SO</td><td>KRUIDEN_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/965e09f0-ad06-412d-9d98-f46c5ea12cb1</td><td>KRUIDEN</td><td>SGR</td><td>V</td><td>436</td><td>V-SGR-KRUIDEN-SO</td><td>KRUIDEN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/fd5f798b-dd52-4089-931d-fb946c2b658a</td><td>KRUIDEN</td><td>SGR</td><td></td><td>528</td><td>SGR-KRUIDEN-SO</td><td>KRUIDEN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d920b384-ed84-4129-a037-9b90eaaee1a7</td><td>KWELDER</td><td>SGR</td><td></td><td>3333</td><td>SGR-KWELDER-SO</td><td>KWELDER</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/9ce24a47-b982-48ce-8189-8c9973b3ca6a</td><td>MOERAS</td><td>SGR</td><td></td><td>3481</td><td>SGR-MOERAS_KL-SO</td><td>MOERAS_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/865c71a5-765f-48cb-9418-e9f59d85e9c7</td><td>MOERAS</td><td>SGR</td><td>V</td><td>3518</td><td>V-SGR-MOERAS_KL-SO</td><td>MOERAS_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c26a7468-ae7a-4b3b-8b4b-65b5850872ff</td><td>MOERAS</td><td>SGR</td><td>V</td><td>438</td><td>V-SGR-MOERAS-SO</td><td>MOERAS</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/7328c81e-e620-4238-935a-41001f5c22ab</td><td>MOERAS</td><td>SGR</td><td></td><td>530</td><td>SGR-MOERAS-SO</td><td>MOERAS</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ee051c98-604a-4c31-a895-55e897f88d26</td><td>PLANTENBAK</td><td>SGR</td><td>V</td><td>439</td><td>V-SGR-PLANTENBAK-SO</td><td>PLANTENBAK</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f50ca5b2-a566-4a87-84a6-5da6995e3b58</td><td>PLANTENBAK</td><td>SGR</td><td></td><td>531</td><td>SGR-PLANTENBAK-SO</td><td>PLANTENBAK</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/062d0b6e-2712-409d-9581-2a90867b2bda</td><td>PLANTGATVERBETERING</td><td>SGR</td><td></td><td>3482</td><td>SGR-PLANTGATVERBETERING_01_KL-SO</td><td>PLANTGATVERBETERING_01_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/cf5b1671-441e-43c7-84c9-ed46b0948005</td><td>PLANTGATVERBETERING</td><td>SGR</td><td></td><td>3483</td><td>SGR-PLANTGATVERBETERING_02_KL-SO</td><td>PLANTGATVERBETERING_02_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/28fbcac8-3748-458a-a7b1-ea5bddb00d84</td><td>PLANTGATVERBETERING</td><td>SGR</td><td>V</td><td>3519</td><td>V-SGR-PLANTGATVERBETERING_01_KL-SO</td><td>PLANTGATVERBETERING_01_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b82f2c71-2450-49db-bad8-0d659b698da3</td><td>PLANTGATVERBETERING</td><td>SGR</td><td>V</td><td>3520</td><td>V-SGR-PLANTGATVERBETERING_02_KL-SO</td><td>PLANTGATVERBETERING_02_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/658eb562-85f6-4a39-9b3a-24221fdd47ba</td><td>PLANTGATVERBETERING</td><td>SGR</td><td>V</td><td>440</td><td>V-SGR-PLANTGATVERBETERING_01-SO</td><td>PLANTGATVERBETERING_01</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/94e27594-a682-4d97-9999-99af571ebd9e</td><td>PLANTGATVERBETERING</td><td>SGR</td><td>V</td><td>441</td><td>V-SGR-PLANTGATVERBETERING_02-SO</td><td>PLANTGATVERBETERING_02</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f643cad0-6e7e-4550-9532-948163afff0c</td><td>PLANTGATVERBETERING</td><td>SGR</td><td></td><td>532</td><td>SGR-PLANTGATVERBETERING_01-SO</td><td>PLANTGATVERBETERING_01</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/87cf39d4-9a32-45dc-8794-ec652472257d</td><td>PLANTGATVERBETERING</td><td>SGR</td><td></td><td>533</td><td>SGR-PLANTGATVERBETERING_02-SO</td><td>PLANTGATVERBETERING_02</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c6dc66da-884d-4698-ab67-157378af28c9</td><td>RIETLAND</td><td>SGR</td><td></td><td>3484</td><td>SGR-RIETLAND_KL-SO</td><td>RIETLAND_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/3d5df8bc-a91f-4fb3-a788-a8ff73788a38</td><td>RIETLAND</td><td>SGR</td><td>V</td><td>3521</td><td>V-SGR-RIETLAND_KL-SO</td><td>RIETLAND_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5348e51f-9cb7-4bad-b2e9-6cd2fb0d57e7</td><td>RIETLAND</td><td>SGR</td><td>V</td><td>442</td><td>V-SGR-RIETLAND-SO</td><td>RIETLAND</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/60488251-b52c-469d-bf07-a93e3d770e64</td><td>RIETLAND</td><td>SGR</td><td></td><td>534</td><td>SGR-RIETLAND-SO</td><td>RIETLAND</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5e52f8da-c0f3-434a-bfaf-bc67b647af76</td><td>ROOS</td><td>SGR</td><td></td><td>3058</td><td>SGR-ROOS-SO</td><td>ROOS</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/6a3003b6-2532-4eb7-b095-1ff2959eb2a6</td><td>SOORTAANDUIDING</td><td>SGR</td><td></td><td>536</td><td>SGR-SOORTAANDUIDING-SO</td><td>SOORTAANDUIDING</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1fb88a2c-08f2-44e9-b9b3-9c2e7cb7c5a5</td><td>SPORTVELD</td><td>SGR</td><td></td><td>3486</td><td>SGR-SPORTVELD_GRAS_KL-SO</td><td>SPORTVELD_GRAS_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/41c3a1b5-5c6f-4b52-b763-3fd7a4d5c572</td><td>SPORTVELD</td><td>SGR</td><td></td><td>3487</td><td>SGR-SPORTVELD_GRAS_KUNSTGRAS_KL-SO</td><td>SPORTVELD_GRAS_KUNSTGRAS_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/8640b603-7e13-44a2-97a9-7289528a5fe2</td><td>SPORTVELD</td><td>SGR</td><td>V</td><td>3523</td><td>V-SGR-SPORTVELD_GRAS_KL-SO</td><td>SPORTVELD_GRAS_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ccfd3a9a-60ed-4786-adbb-8cf3ddaf72e7</td><td>SPORTVELD</td><td>SGR</td><td>V</td><td>3524</td><td>V-SGR-SPORTVELD_GRAS_KUNSTGRAS_KL-SO</td><td>SPORTVELD_GRAS_KUNSTGRAS_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/4ac21dff-b9ca-4020-afe7-c830096d1d75</td><td>SPORTVELD</td><td>SGR</td><td>V</td><td>421</td><td>V-SGR-SPORTVELD_GRAS-SO</td><td>SPORTVELD_GRAS</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e63f08b1-5ac5-42b9-8df8-104dafe137c4</td><td>SPORTVELD</td><td>SGR</td><td>V</td><td>422</td><td>V-SGR-SPORTVELD_GRAS_KUNSTGRAS-SO</td><td>SPORTVELD_GRAS_KUNSTGRAS</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/784e4c2d-5bf0-45b4-9b04-937bab33452c</td><td>SPORTVELD</td><td>SGR</td><td></td><td>513</td><td>SGR-SPORTVELD_GRAS-SO</td><td>SPORTVELD_GRAS</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/516b8968-5783-479a-ad08-1636dae31803</td><td>SPORTVELD</td><td>SGR</td><td></td><td>514</td><td>SGR-SPORTVELD_GRAS_KUNSTGRAS-SO</td><td>SPORTVELD_GRAS_KUNSTGRAS</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/fa900acd-a94b-4365-8aae-0dec1833974d</td><td>STRUWEEL</td><td>SGR</td><td></td><td>3488</td><td>SGR-STRUWEEL_KL-SO</td><td>STRUWEEL_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1f9affe9-b279-4b62-9bc0-efe072cc86af</td><td>STRUWEEL</td><td>SGR</td><td>V</td><td>3525</td><td>V-SGR-STRUWEEL_KL-SO</td><td>STRUWEEL_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c361ce36-cbe3-43d5-be66-2426efa31204</td><td>STRUWEEL</td><td>SGR</td><td>V</td><td>444</td><td>V-SGR-STRUWEEL-SO</td><td>STRUWEEL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d9251120-6f74-4b2b-9fd5-44d09e63bde9</td><td>STRUWEEL</td><td>SGR</td><td></td><td>537</td><td>SGR-STRUWEEL-SO</td><td>STRUWEEL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e164fc5b-6ad0-4c8a-8199-98daa7a935c9</td><td>VASTEPLANTEN</td><td>SGR</td><td></td><td>3491</td><td>SGR-VASTEPLANTEN_KL-SO</td><td>VASTEPLANTEN_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/6e0a0c46-c9bf-4aed-bbb1-2d31c68f81e9</td><td>VASTEPLANTEN</td><td>SGR</td><td>V</td><td>3528</td><td>V-SGR-VASTEPLANTEN_KL-SO</td><td>VASTEPLANTEN_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/95e344c8-ec3f-4a9e-9617-261413392d5c</td><td>VASTEPLANTEN</td><td>SGR</td><td>V</td><td>447</td><td>V-SGR-VASTEPLANTEN-SO</td><td>VASTEPLANTEN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/551d30c7-bdb1-4f5e-891c-9b5e4087c5ed</td><td>VASTEPLANTEN</td><td>SGR</td><td></td><td>541</td><td>SGR-VASTEPLANTEN-SO</td><td>VASTEPLANTEN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d13b9ab5-2871-4708-895e-8827308f603d</td><td>VEGETATIE_GESLOTEN</td><td>SGR</td><td></td><td>3332</td><td>SGR-VEGETATIE_GESLOTEN-SO</td><td>VEGETATIE_GESLOTEN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/04acd1b1-9767-4ce5-a9de-d06a927afee6</td><td>VEGETATIE_OPEN</td><td>SGR</td><td></td><td>3331</td><td>SGR-VEGETATIE_OPEN-SO</td><td>VEGETATIE_OPEN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ba6707f8-63b1-4112-b29c-0d59c606a8ed</td><td>WATERPLANTEN</td><td>SGR</td><td></td><td>3492</td><td>SGR-WATERPLANTEN_KL-SO</td><td>WATERPLANTEN_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ffabb96d-3f9f-46ef-acae-1c066b0436b4</td><td>WATERPLANTEN</td><td>SGR</td><td>V</td><td>3529</td><td>V-SGR-WATERPLANTEN_KL-SO</td><td>WATERPLANTEN_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e978de10-bfe5-42e8-b6fe-4ed71424e0ef</td><td>WATERPLANTEN</td><td>SGR</td><td>V</td><td>448</td><td>V-SGR-WATERPLANTEN-SO</td><td>WATERPLANTEN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/4bd567c5-8447-4800-8ef0-a280c0b039fe</td><td>WATERPLANTEN</td><td>SGR</td><td></td><td>542</td><td>SGR-WATERPLANTEN-SO</td><td>WATERPLANTEN</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/2d1feca0-c671-421d-a9be-1a220274a564</td><td>WISSELBEPLANTING</td><td>SGR</td><td></td><td>3493</td><td>SGR-WISSELBEPLANTING_KL-SO</td><td>WISSELBEPLANTING_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1e8f18a8-248f-46de-b4d0-11f686293013</td><td>WISSELBEPLANTING</td><td>SGR</td><td>V</td><td>3530</td><td>V-SGR-WISSELBEPLANTING_KL-SO</td><td>WISSELBEPLANTING_KL</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/2f3cceba-e202-4aa7-9370-962e6b98bfb5</td><td>WISSELBEPLANTING</td><td>SGR</td><td>V</td><td>449</td><td>V-SGR-WISSELBEPLANTING-SO</td><td>WISSELBEPLANTING</td><td>SO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5a44c5f4-8ea8-4589-8c9b-25780a4a48d3</td><td>WISSELBEPLANTING</td><td>SGR</td><td></td><td>543</td><td>SGR-WISSELBEPLANTING-SO</td><td>WISSELBEPLANTING</td><td>SO</td></tr>
+      <tr class="section-header"><td colspan="8">Aanwezig in versie 5.0.2 &ndash; verwijderd in versie 5.1</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/c536ba00-1564-473a-ba90-a23e6548d5f7</td><td></td><td>SGR</td><td></td><td>3040</td><td>SGR-BLOEMBAK-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/125df176-50e3-4bb2-8e17-34206a7762b0</td><td></td><td>SGR</td><td></td><td>3041</td><td>SGR-BOMENRIJ</td><td></td><td></td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/3782eb45-c2b4-4da1-bafa-b6e840bff067</td><td></td><td>SGR</td><td></td><td>3054</td><td>SGR-DOORWORTELBARE RUIMTE</td><td></td><td></td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/2b34ef22-b5ad-4992-a259-f9efd6961b6a</td><td></td><td>SGR</td><td></td><td>3460</td><td>SGR-BOMENGROND_KL-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/42a7ef0e-cf65-4b12-b61b-24ebf1578e98</td><td></td><td>SGR</td><td></td><td>3461</td><td>SGR-BOMENZAND_KL-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/0cb88ca1-3a9f-419d-a659-ee9044e9bb3a</td><td></td><td>SGR</td><td></td><td>3468</td><td>SGR-GRAS_02_KL-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/1816265c-828c-4ab9-8d6c-50eedee95f85</td><td></td><td>SGR</td><td></td><td>3473</td><td>SGR-GROND_KL-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/95e5250c-ce5c-4122-8d17-6830073958b9</td><td></td><td>SGR</td><td></td><td>3480</td><td>SGR-MAAIVELD_KL-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/0088bcf4-91e2-44eb-add6-efc45fdd4982</td><td></td><td>SGR</td><td></td><td>3485</td><td>SGR-SIERPLANTSOEN_KL-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/f11b9f0e-74b0-4534-a72e-efe61a6ace82</td><td></td><td>SGR</td><td></td><td>3489</td><td>SGR-TEELGROND_01_KL-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/23f0df22-4bef-44b2-9dfd-b467ec168154</td><td></td><td>SGR</td><td></td><td>3490</td><td>SGR-TEELGROND_02_KL-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/c37c47bc-997e-4741-9c6b-185155f4586c</td><td></td><td>SGR</td><td>V</td><td>3497</td><td>V-SGR-BOMENGROND_KL-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/b47f6a0e-b2a5-47a1-975e-400e1cb673ae</td><td></td><td>SGR</td><td>V</td><td>3498</td><td>V-SGR-BOMENZAND_KL-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/ddffa983-21fe-486b-afab-3cbbc04a0d7f</td><td></td><td>SGR</td><td>V</td><td>3505</td><td>V-SGR-GRAS_02_KL-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/25d6823f-c514-4ce3-bdae-c0d0a2f068ef</td><td></td><td>SGR</td><td>V</td><td>3510</td><td>V-SGR-GROND_KL-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/54054ac2-c8ff-428c-850f-4f1c1b56e806</td><td></td><td>SGR</td><td>V</td><td>3517</td><td>V-SGR-MAAIVELD_KL-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/2f6be81f-df8d-49b8-ade4-ad49cabec111</td><td></td><td>SGR</td><td>V</td><td>3522</td><td>V-SGR-SIERPLANTSOEN_KL-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/27b19a09-9818-431d-894e-fa854fe0279c</td><td></td><td>SGR</td><td>V</td><td>3526</td><td>V-SGR-TEELGROND_01_KL-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/fa7b3adf-0441-4ccb-b0a1-59ead0081eb5</td><td></td><td>SGR</td><td>V</td><td>3527</td><td>V-SGR-TEELGROND_02_KL-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/47b57c89-08ce-4b73-a464-061aa840d4aa</td><td></td><td>SGR</td><td>V</td><td>361</td><td>V-SGR-BOMENGROND-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/aa16f1e1-0a0a-4c06-8fe2-8fbca7dc60b0</td><td></td><td>SGR</td><td>V</td><td>362</td><td>V-SGR-BOMENZAND-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/db1ce118-51d2-42cb-b327-f7c63d1d7840</td><td></td><td>SGR</td><td>V</td><td>414</td><td>V-SGR-CONIFEER</td><td></td><td></td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/5f8fd674-3c7b-48a9-b0b3-01ecfc600876</td><td></td><td>SGR</td><td>V</td><td>416</td><td>V-SGR-GRAS_02-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/d4a4adcc-f618-4471-87ae-0fc930fbc19c</td><td></td><td>SGR</td><td>V</td><td>423</td><td>V-SGR-GROND-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/891d7041-763f-4afa-9dce-6c79fe79245e</td><td></td><td>SGR</td><td>V</td><td>431</td><td>V-SGR-HONDENTOILET-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/8bfba883-651a-421c-8fbd-641f5555f26c</td><td></td><td>SGR</td><td>V</td><td>437</td><td>V-SGR-MAAIVELD-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/52c95c7f-4ae0-4bd8-9a96-232303af6a55</td><td></td><td>SGR</td><td>V</td><td>443</td><td>V-SGR-SIERPLANTSOEN-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/7f9b0ea2-583e-414f-a4e0-e585c98d9c8b</td><td></td><td>SGR</td><td>V</td><td>445</td><td>V-SGR-TEELGROND_01-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/8535ea5d-e075-4e1f-a799-fc2878c5a6d4</td><td></td><td>SGR</td><td>V</td><td>446</td><td>V-SGR-TEELGROND_02-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/9d6ce5bc-66cf-44e6-bc47-b759e59f728e</td><td></td><td>SGR</td><td></td><td>453</td><td>SGR-BOMENGROND-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/0fb736d4-7d51-4149-ac06-97c6ddec2a52</td><td></td><td>SGR</td><td></td><td>454</td><td>SGR-BOMENZAND-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/4e574d98-5bb9-41e2-ad05-4170a1d6e5f6</td><td></td><td>SGR</td><td></td><td>506</td><td>SGR-CONIFEER</td><td></td><td></td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/f64e50ae-3f8d-4d39-98f4-fd2731ed09bd</td><td></td><td>SGR</td><td></td><td>508</td><td>SGR-GRAS_02-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/8cc47f24-f9ed-473d-9ed9-b12596451719</td><td></td><td>SGR</td><td></td><td>515</td><td>SGR-GROND-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/52ef091f-6bd9-4806-abb1-67d4c4fd0a65</td><td></td><td>SGR</td><td></td><td>523</td><td>SGR-HONDENTOILET-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/434f0e97-78c0-46cc-8cf6-532c3635ce04</td><td></td><td>SGR</td><td></td><td>529</td><td>SGR-MAAIVELD-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/2e5034e8-24e6-4c84-a2e8-5a1e2fe76941</td><td></td><td>SGR</td><td></td><td>535</td><td>SGR-SIERPLANTSOEN-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/647bcf55-a2fe-4ef4-8c15-dcfbeed9d53a</td><td></td><td>SGR</td><td></td><td>538</td><td>SGR-TEELGROND_01-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/7bf317b9-8693-439b-9884-44e4330493ac</td><td></td><td>SGR</td><td></td><td>539</td><td>SGR-TEELGROND_02-SO</td><td></td><td>SO</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/af39e903-55d4-441e-bdb6-2d8c881bd10c</td><td></td><td>SGR</td><td></td><td>540</td><td>SGR-TYPEAANDUIDING-SO</td><td></td><td>SO</td></tr>
+    </tbody>
+  </table>
+</body>
+</html>

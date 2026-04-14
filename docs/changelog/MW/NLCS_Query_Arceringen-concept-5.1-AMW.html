@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NLCS_Query_Arceringen-concept-5.1-AMW</title>
+  <style>
+    body { font-family: Arial, sans-serif; font-size: 13px; margin: 20px; }
+    h1 { font-size: 1.2em; margin-bottom: 10px; }
+    table { border-collapse: collapse; width: 100%; }
+    th { background-color: #003865; color: white; text-align: left;
+          padding: 6px 8px; white-space: nowrap; }
+    td { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; }
+    tr:nth-child(even) td { background-color: #f2f2f2; }
+    tr:hover td { background-color: #dde8f0; }
+    .new-row td    { background-color: #d4edda !important; }
+    .new-row:hover td { background-color: #b8dfc4 !important; }
+    .changed       { background-color: #cce5ff !important; }
+    .old-val { color: #555; font-size: 0.85em; }
+    .new-val { font-weight: normal; }
+    .section-header td { background-color: #a0a0a0 !important;
+                          color: white; font-weight: bold; padding: 4px 8px; }
+    .deleted td    { background-color: #d0d0d0 !important; }
+    .deleted:hover td { background-color: #b8b8b8 !important; }
+  </style>
+</head>
+<body>
+  <h1>NLCS_Query_Arceringen-concept-5.1-AMW</h1>
+  <!-- legenda -->
+  <div style="margin-bottom:12px;font-size:12px;display:flex;gap:16px;flex-wrap:wrap;">
+    <span style="background:#d4edda;border:1px solid #b8dfc4;padding:2px 8px;border-radius:3px;">Nieuw in versie 5.1</span>
+    <span style="background:#cce5ff;border:1px solid #99caff;padding:2px 8px;border-radius:3px;">Gewijzigd ten opzichte van 5.0.2</span>
+    <span style="background:#d0d0d0;border:1px solid #aaa;padding:2px 8px;border-radius:3px;">Aanwezig in 5.0.2, verwijderd in 5.1</span>
+  </div>
+  <table>
+    <thead><tr><th>searchterm</th><th>arceringURI</th><th>id</th><th>abibliotheekURI</th><th>abibliotheek</th><th>fase</th><th>arcering</th><th>finalCleanName</th><th>optie</th><th>schaal</th><th>vrkl_kort</th><th>vrkl_lang</th><th>fileURL</th></tr></thead>
+    <tbody>
+      <tr><td>METSELWERK</td><td>http://digitalbuildingdata.tech/nlcs/def/300b3191-6108-4b3f-8a58-0a0b63aae920</td><td>107</td><td>http://digitalbuildingdata.tech/nlcs/def/e615dec4-bbaa-4c49-adca-4b6950f55546</td><td>AMW</td><td></td><td>AMW-METSELWERK-SOD</td><td>METSELWERK</td><td>SOD</td><td>1</td><td>metselwerk</td><td>45,0,0,0,4.4 45,0.5,0,0,4.4</td><td class="changed"><div class="old-val">5.0.2: </div><div class="new-val">5.1&#58; https://github.com/nl-digigo/NLCS/tree/main/arceringen/concept/5.1/AMW-METSELWERK-SOD.pat</div></td></tr>
+    </tbody>
+  </table>
+</body>
+</html>

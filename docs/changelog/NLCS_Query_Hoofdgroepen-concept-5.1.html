@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NLCS_Query_Hoofdgroepen-concept-5.1</title>
+  <style>
+    body { font-family: Arial, sans-serif; font-size: 13px; margin: 20px; }
+    h1 { font-size: 1.2em; margin-bottom: 10px; }
+    table { border-collapse: collapse; width: 100%; }
+    th { background-color: #003865; color: white; text-align: left;
+          padding: 6px 8px; white-space: nowrap; }
+    td { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; }
+    tr:nth-child(even) td { background-color: #f2f2f2; }
+    tr:hover td { background-color: #dde8f0; }
+    .new-row td    { background-color: #d4edda !important; }
+    .new-row:hover td { background-color: #b8dfc4 !important; }
+    .changed       { background-color: #cce5ff !important; }
+    .old-val { color: #555; font-size: 0.85em; }
+    .new-val { font-weight: normal; }
+    .section-header td { background-color: #a0a0a0 !important;
+                          color: white; font-weight: bold; padding: 4px 8px; }
+    .deleted td    { background-color: #d0d0d0 !important; }
+    .deleted:hover td { background-color: #b8b8b8 !important; }
+  </style>
+</head>
+<body>
+  <h1>NLCS_Query_Hoofdgroepen-concept-5.1</h1>
+  <!-- legenda -->
+  <div style="margin-bottom:12px;font-size:12px;display:flex;gap:16px;flex-wrap:wrap;">
+    <span style="background:#d4edda;border:1px solid #b8dfc4;padding:2px 8px;border-radius:3px;">Nieuw in versie 5.1</span>
+    <span style="background:#cce5ff;border:1px solid #99caff;padding:2px 8px;border-radius:3px;">Gewijzigd ten opzichte van 5.0.2</span>
+    <span style="background:#d0d0d0;border:1px solid #aaa;padding:2px 8px;border-radius:3px;">Aanwezig in 5.0.2, verwijderd in 5.1</span>
+  </div>
+  <table>
+    <thead><tr><th>hoofdgroepURI</th><th>id</th><th>hoofdgroep</th><th>afkorting</th></tr></thead>
+    <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5b0d986a-88d3-4bb4-bc6f-fe940836c242</td><td>1</td><td>Voor alle hoofdgroepen</td><td>ZZ</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/6c4b8ac2-7a72-4ae6-b169-4dec77be3f02</td><td>10</td><td>Kadastrale informatie en Grenzen</td><td>KG</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/cf3d9f17-91ab-409b-be8b-25391d045637</td><td>11</td><td>Kabels en Leidingen</td><td>KL</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/99cd5c2b-367e-499a-aff4-393ad9176c5e</td><td>12</td><td>KunstWerken</td><td>KW</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/6f49b1fc-fcaf-4169-a2ab-d6e5db04466e</td><td>13</td><td>Milieu en Onderzoek</td><td>MO</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0672f3a1-e7aa-4b9c-96bc-1a5ece50c636</td><td>14</td><td>Oever- en Bodembescherming</td><td>OB</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c39aba0a-3716-47e0-ac95-897696f1ca62</td><td>15</td><td>OnderGrond</td><td>OG</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/02dbaa02-0a5a-4065-8f87-0a4a3846a490</td><td>16</td><td>RIolering</td><td>RI</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/be7423a8-a108-405c-9606-76ec0d4744d7</td><td>17</td><td>VerHardingen</td><td>VH</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1ed2ccbc-b998-47a3-860b-9e785b5ff1ad</td><td>18</td><td>Verkeersmaatregelen Vaarweg</td><td>VV</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/788fa0df-c3df-4d9e-8378-4ff971ed9f96</td><td>19</td><td>Verkeersmaatregelen Weg</td><td>VW</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/a6dd3cd1-92f9-4f48-b418-a556c3475b60</td><td>2</td><td>ALgemeen</td><td>AL</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/df6302c3-2eeb-4970-aeb1-507b48b83425</td><td>20</td><td>WaterHuishouding</td><td>WH</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/728cc0c7-844e-4d27-b39f-910196fd7051</td><td>21</td><td>BetonConstructies</td><td>BC</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0d5581ed-6b1d-4d66-b59b-0be0e8dbe9d8</td><td>22</td><td>FunderingsConstructies</td><td>FC</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e6c0356d-0b0d-4916-86fd-e7fd6da29c06</td><td>23</td><td>GrondkerendeConstructies</td><td>GC</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/71aa99d2-4883-4a04-9eec-fc3cdf98a9bd</td><td>24</td><td>HoutConstructies</td><td>HC</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/6b9fa994-c423-4e2b-83f1-0f4b215126ff</td><td>25</td><td>HUlpconstructies</td><td>HU</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ddaec266-08de-44de-9ff1-7ff1f19a85f1</td><td>26</td><td>MechanischeConstructies</td><td>MC</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/db46ddd0-a2a8-4998-884e-f34657984c67</td><td>27</td><td>StaalConstructies</td><td>SC</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/bdebc154-3fef-4148-94eb-a02b978d9e55</td><td>28</td><td>KunststofConstructies</td><td>KC</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/856a1bbf-b6ce-4b3d-8984-35bec5550839</td><td>29</td><td>MetselWerk</td><td>MW</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/4f7a98d7-331f-4ef0-8a16-3a3f9ffce5db</td><td>3</td><td>Assen en Metrering</td><td>AM</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/35cbcf61-cb29-4a6b-b0a1-c1d98c2813e9</td><td>30</td><td>Installaties Weg</td><td>IW</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/bea7d7a4-9cf7-4f39-a22d-f4f2706f7b8e</td><td>31</td><td>Installaties Vaarweg</td><td>IV</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ef67e7fd-7893-4179-bf25-0222e1b3744b</td><td>32</td><td>Openbare Verlichting</td><td>OV</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/39fe1834-0ba3-4bc5-9ef0-ced9a784c9b0</td><td>33</td><td>Installaties Spoor</td><td>IS</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/d0cdf0f4-34e2-4e93-aafa-d8771d113f5c</td><td>34</td><td>SpoorBaan</td><td>SB</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/23f2dd56-9672-4608-aeed-c4b24b36a964</td><td>35</td><td>Heet nu Energievoorziening Spoor, ID 36</td><td>VS</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/3f404b4b-a21a-4772-9a3c-4d9a94c2e6a0</td><td>36</td><td>Energievoorziening Spoor</td><td>ES</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0a74f373-7382-405d-99ec-50e44e6483fc</td><td>4</td><td>BermbeveiligingsVoorzieningen</td><td>BV</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d490e785-a03d-49e7-863d-5996ace24951</td><td>5</td><td>FaunaVoorzieningen</td><td>FV</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/24f9762b-7cd6-41ca-b087-f49b19970669</td><td>6</td><td>GrondKeringen</td><td>GK</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/a8f72862-d638-4081-b758-efa6911fd659</td><td>7</td><td>GRoen</td><td>GR</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/3b00b99b-145f-4dd0-81fc-bee2103cb6d2</td><td>8</td><td>GrondWerk</td><td>GW</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/27b56e60-4d27-442b-9b5b-65330f387d2f</td><td>9</td><td>InrichtingsElementen</td><td>IE</td></tr>
+    </tbody>
+  </table>
+</body>
+</html>
