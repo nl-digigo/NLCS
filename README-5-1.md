@@ -25,7 +25,7 @@ Reviewwijze:
 
 ## Viewer 5.1
 
-DigiGO heeft nog geen viewer waarin informatiemodellen op basis van de NEN 2660-2 kunnen worden getoond. De makkelijkste manier om door de standaard te browsen zijn de [NLCS tabellen concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/tabellen/concept/5.1).
+Er is een viewer: ://nlcs.ldviewer.com, voor makkelijker sorteren kan men de [NLCS tabellen concept 5.1](https://github.com/nl-digigo/NLCS/tree/main/tabellen/concept/5.1) downloaden.
 
 ## Voor ontwerpers en tekenaars
 * [Uitleg standaard 5.1](https://nl-digigo.github.io/NLCS/functionalspecification/5-1/)
