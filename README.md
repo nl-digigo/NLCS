@@ -15,7 +15,7 @@ Informatie over de openbare consultatie van concept versie 5.1 van 1 november 20
 * [Protocol afhandelen gebruikerswensen](https://nl-digigo.github.io/NLCS/protocolissues)
 
 ## Viewer
-Er is geen viewer van de standaard, men kan wel de [Tabellen 5.0](https://github.com/nl-digigo/NLCS/tree/main/tabellen/publicatie) bekijken om de inhoud van de database te onderzoeken. 
+Er is een viewer: ://nlcs.ldviewer.com, voor makkelijker sorteren kan men de [Tabellen 5.0](https://github.com/nl-digigo/NLCS/tree/main/tabellen/publicatie) bekijken. 
 
 ## Voor ontwerpers en tekenaars
 * [Formele specificatie 5.0](https://github.com/nl-digigo/NLCS/blob/development/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf)
