@@ -1,0 +1,106 @@
+[
+  {
+    "number": 454,
+    "title": "verhardingssymbolen bevatten soms een vulling, is dit bewust of een fout in het betreffende symbool. ",
+    "closed_at": "2024-07-13T12:25:00Z",
+    "labels": [
+      "VH - verhardingen"
+    ],
+    "milestone": null,
+    "body": "Een klant vermeldde dat een verhardingssymbool een vulling bevat, bv. **SVH-TEGEL_300X33--_DIK_BLOK-SO.dwg**.\r\n\r\n\r\n\r\nIs dit een bewuste keuze of een fout in het betreffende symbool.\r\nVoor hoeveel symbolen dit voorkomt hebben we niet onderzocht.",
+    "comments": [
+      "@DerkNouwensTPG er zijn inderdaad een aantal verhardingssymbolen waar dit voorkomt.\r\nVoornamelijk de betontegelsymbolen om visueel verschil tussen dunne en dikke tegels te kunnen maken."
+    ]
+  },
+  {
+    "number": 472,
+    "title": "gebruikersvraag WIBON",
+    "closed_at": "2024-08-05T11:50:49Z",
+    "labels": [
+      "Netbeheer",
+      "KL kabels en leidingen"
+    ],
+    "milestone": null,
+    "body": "Per mail binnengekomen: \r\nIk werk sinds kort bij de RU en wil graag een revisie inhaalslag voor de assets van de WIBON laten maken. Onze huidige 'platte' autocad tekeningen komen niet goed door de conversie heen t.b.v. aanlevering bij het Kadaster (via GoConnectIT). \r\n\r\nEind deze week lever ik daarvoor een projectplan in. Kun jij mij achtergrondinformatie verschaffen?",
+    "comments": [
+      "ik heb dit geantwoord: \r\n\r\nDe NLCS standaard heeft op dit moment geen “mapping” of vertaalslag richting IMKL of de WIBON. Deze service wordt mogelijk wel door een NLCS-leverancier aangeboden, en is dan een commerciële uitbreiding bij de NLCS standaard. \r\n\r\n\r\nUiteraard zou ik graag hebben dat de standaarden goed op elkaar aansluiten, en krijg dan ook graag feedback over de bevindingen uit je project, als de NLCS hiervoor moet worden uitgebreid of aangepast, of als er een vergelijkingstabel moet worden opgenomen bij de standaard. Ik volg ook de samenwerking van netbeheerders op de voet. De netbeheerders zijn onder de vlag van DigiGO aan het samenwerken en focussen zich in eerste instantie op een uitbreiding van NLCS voor energienetten, waarbinnen ook rekening gehouden gaat worden met de bedrijfstoestanden reserve en verlaten. In dit samenwerkingsverband zal de aansluiting op de WIBON vast ook gaan spelen."
+    ]
+  },
+  {
+    "number": 564,
+    "title": "Terugtrekken aanvulling werkgroep stedelijk spoor in hoofdgroep KL",
+    "closed_at": "2025-03-14T11:49:15Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "KL kabels en leidingen"
+    ],
+    "milestone": null,
+    "body": "cf https://github.com/nl-digigo/NLCS/blob/main/ontwikkeling/stedelijk%20spoor/maart2025/vervallen-in-concept-5.1/HBA_KL-Kabels.en.Leidingen.20250117%20-%20te%20vervallen.xls\n\nvervalt\n\nTRACE_HDPE\nTRACE_KABELKOKER\nTRACE_LS\nTRACE_LS_GEULINHOUD\nTRACE_LS_HDPE\nTRACE_LS_KABEL\nTRACE_LS_PVC\nTRACE_MANTELBUIS\nTRACE_PUTTEN\nTRACE_PVC\nTRACE_THYLEEN\nTRACE_THYLEEN_30MM\nTRACE_THYLEEN_40MM",
+    "comments": [
+      "verwerkt"
+    ]
+  },
+  {
+    "number": 614,
+    "title": "Gebruikersvraag lintypen, arceringen en symbolen",
+    "closed_at": "2025-05-08T11:21:49Z",
+    "labels": [],
+    "milestone": null,
+    "body": "Ik heb een vraag over deze FAQ:\n\n•\t[Waarom is het gebruik van lijntypen, symbolen en arceringen van NLCS verplicht?](https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.digigo.nu%2Ffaq-nlcs%2F&data=05%7C02%7Celisabeth.devries%40crow.nl%7Cc89f35903d0b4bae3bdf08dd863e4173%7C1e0440a2a638433189c766de8119b255%7C0%7C0%7C638814324153190718%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=yKNxtG43Fr9vKcuymH3g%2F7MCE6T79g1Icf1FU8ubWkI%3D&reserved=0)\nOpdrachtgevende organisaties, zoals Rijkswaterstaat, provincies en gemeenten, besteden steeds meer tekenwerk uit. Ze schakelen voor hun projecten verschillende ingenieursbureaus en uitvoerende bedrijven in. Niettemin wensen ze uniformiteit in het tekenwerk. Ofwel: voor een gemeente is het belangrijk dat het tekenwerk van het ene ingenieursbureau er hetzelfde uitziet als het tekenwerk van een ander ingenieursbureau. Daarom is het gebruik van de NLCS lijntypen, symbolen en arceringen verplicht bij toepassing van de standaard.\n\nBij gemeente Nijmegen maken we gebruik van NLCS in Microstation, maar we hebben een diverse club werkvoorbereiders en zijn het daarom dus niet altijd eens over bepaalde zaken. Een ding is bijvoorbeeld hoe je om moet gaan met de weergave van objecten als het gaat om kleuren, lijndiktes en lijntypes. Als je een tekening niet prettig vindt ogen als je zuiver tekent met de toolbox, wat zijn dan je beperkingen en vrijheden om wat aan te passen?\n\n1.\tIk laat de laagnaam ongemoeid, ik pas in level manager de kleur, dikte en heel soms de stijl aan als ik vind het de leesbaarheid bevordert. Een klassiek voorbeeld is die van een bandenlijn, die is geel maar op wit papier is dat niet handig. Ik wil die zwart. Is level manager dan de manier?\n2.\tEen collega zegt dat je niet met level manager die drie eigenschappen mag aanpassen, maar dat persoonlijke smaak moet worden doorgevoerd met zogeheten  ‘level overrides’. Ik ben daar zelf geen voorstander van, ik vind dat geen fijne manier van werken.\n\nAls we kijken naar de afspraken, wie heeft dan gelijk? Want als ik naar de FAQ kijk, zie ik daar geen duidelijk antwoord op. In beide gevallen is de presentatie gewijzigd, maar de manier erop is anders. Bij optie 1 is dit een “what you see is what you get”. Bij optie 2 kun je schakelen tussen overrides aan of uit. Dit moet je dus wel weten dat hier gebruik van is gemaakt. Als je deze optie niet kent zit je je maar af te vragen waarom die lijn maar geel is terwijl level manager zegt dat die zwart moest zijn.",
+    "comments": [
+      "ik heb deze gebruiker dit antwoord gegeven: De stelregel is dat een tekening goed leesbaar moet zijn voor gebruik, daarom kan je altijd kiezen om kleuren of diktes aan te passen. Dat gaat vooral over het gebruik van die tekening voor dat specifieke werk.\n\nTegelijkertijd is het goed voor de uitwisseling van modellen, om terug te kunnen schakelen naar de standaard weergave, met voor de software herkenbare symbolen, arceringen en lijntypes. Daar kan een andere partij namelijk mee verder werken. Wellicht hebben die voor hun werkproces wel een script om een tekening ergens voor te gebruiken. Dat is een heel ander vraagstuk. \n\nNu hebben wij niet per applicatie vastgesteld met welke instellingen je kunt afwijken, alleen dat je nlcs-leverancier je moet kunnen ondersteunen om terug te schakelen naar de standaard presentatie. Flauw gezegd is dit niet aan de standaard, maar een werkafspraak of een werkinstructie over hoe specifieke software te gebruiken. \n\nDe kleur geel gaan we er in 5.1 uit halen, wegens dit probleem met de weergave op een witte ondergrond."
+    ]
+  },
+  {
+    "number": 668,
+    "title": "check control query bewerkingen & new output",
+    "closed_at": "2025-08-04T10:00:44Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": null,
+    "body": "",
+    "comments": []
+  },
+  {
+    "number": 671,
+    "title": "unique ID check for BESCHOEIING_COMBINATIE",
+    "closed_at": "2025-08-05T08:43:55Z",
+    "labels": [],
+    "milestone": null,
+    "body": "Control query to check the uniqueness of IDs has returned only one concept: BESCHOEIING_COMBINATIE (with id 350)\nHowever, this looks fine in the workspace + publication. Investigate this further!",
+    "comments": [
+      "the same object is placed under two different hoofdgroepen: GK & OB\nProbably the one under OB needs to be updated, they shouldn't have the same name and id",
+      "Ohh this is again one of these mistakes, the user interface is very difficult to navigate with a mousepad you can make mistakes like this easily. It should be fine now"
+    ]
+  },
+  {
+    "number": 672,
+    "title": "Check/Fix mistakes in line weights",
+    "closed_at": "2025-08-04T13:11:51Z",
+    "labels": [],
+    "milestone": null,
+    "body": "https://github.com/nl-digigo/NLCS/blob/main/tabellen/concept/5.1/controles/controle_lineweights-concept-5.1.csv",
+    "comments": [
+      "done"
+    ]
+  },
+  {
+    "number": 726,
+    "title": "STROMINGSRICHTING of STROOMRICHTING",
+    "closed_at": "2026-01-08T15:33:04Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": null,
+    "body": "Ik moet in tekeningen van onszelf en derden steeds lagen STROOMRICHTING wijzigigen naar STROMINGSRICHTING.\n\nt/m NLCS 4.2 was in de laagnaam STROOMRICHTING opgenomen, in NLCS 5.0 is dit gewijzigd naar STROMINGSRICHTING. bijv. **R-WE-RI-HWA_STROMINGSRICHTING-S**\n\nDacht dat dit misschien vanwege GWSW is aangepast, maar dat lijkt niet zo te zijn: https://data.gwsw.nl/1.4.1/Basis/NLCS_STROOMRICHTING/\n\nVolgens AI/internet is STROOMRICHTING de meest gebruikte en aanbevolen term.\n\nAanpassen/terugdraaien/herstellen in de volgenden versie van de NLCS?",
+    "comments": [
+      "de gwsw link laat dit zien, dat is de link naar de NLCS term STROOMRICHTING\n\nDat laat zien dat de gangbare GWSW term STROMINGSRICHTING is en het synoniem STROOMRICHTING.\nDus NLCS 5.0 volgt de gangbare GWSW term",
+      "Ja klopt, maar:\nSTROOMRICHTING is altijd toegepast in de NLCS en ineens in NLCS 5.0 gewijzigd naar STROMINGSRICHTING. Daardoor klopt de NLCS representatie niet meer met wat in de GWSW is opgenomen. Dus of de GWSW aanpassen of NLCS herstellen naar STROOMRICHTING.\n\nLijkt mij vanzelfsprekend dat herstellen van de NLCS naar STROOMRICHTING de minste impact heeft, maar  beter goed over nadenken ipv zomaar weer zaken veranderen.",
+      "Ik begrijp het commentaar niet, de standaarden komen nu overeen, allebei hebben STROMINGSRICHTING als voorkeursterm. Op de GWSW website wordt nog verwezen naar NLCS 4.2, maar de GWSW term is dus hetzelfde als in onze laagnamen",
+      "De GWSW (1.4 en 1.5)  verwijst naar de representatie van NLCS 4.2: NLCS_**STROOM**RICHTING, maar met NLCS 5.0 is dat nu NLCS_**STROMINGS**RICHTING geworden. \nMoet hierom iets aangepast worden, ivm digitale herkenning/verwerking, of is dat niet nodig?",
+      "we werken samen met stichting rioned, zodra we de link hebben gelegd tussen gwsw en nlcs (zijn we deze maanden mee bezig) kunnen zij op iets geautomatiseerde manier de links ook in hun viewer gaan opnemen",
+      "Ik gebruik liever zo veel mogelijk de voorkeurstermen uit GWSW, tenzij dit zorgt voor overschrijding van de laagnamen. Daarom sluit ik deze issue."
+    ]
+  }
+]

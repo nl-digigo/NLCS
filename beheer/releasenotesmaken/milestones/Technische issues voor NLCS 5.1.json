@@ -1,0 +1,653 @@
+[
+  {
+    "number": 149,
+    "title": "Wijzigingen / versiebeheer linked data publicatie documenteren en queries maken",
+    "closed_at": "2025-06-10T13:19:31Z",
+    "labels": [
+      "documentation",
+      "publicatie",
+      "Vastgesteld-in-EC"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "In te regelen: versies & wijzigingen\n\nActies: \n- [x] Documenteren hoe met wijzigingen wordt omgegaan\n- [x] Maken van een query waarmee je van huidige versie de actuele, en van vorige versie de vervallen objecten toont (zodat je de identieke objecttabellen krijgt met daarin ook de vervallen versies uit 1 eerdere standaard.); en bij de objecten, of deze inhoudelijk gewijzigd zijn tussen de twee versies (attributen zoals kleuren gewijzigd)",
+    "comments": [
+      "Onderzocht: Te onderzoeken: \r\n\r\n1. Wat waren de functionaliteiten van de SQL database op het gebied van wijzigingen tussen versies? Werden gewoon beide versies gehost, of was er een publicatie van de verschillen?\r\n2.  Welke functionaliteiten moet de nieuwe database hebben > oa  URI's stabiel in volgende publicaties?\r\nOp te nemen in: [Beheerhandleiding NLCS](https://nl-digigo.github.io/NLCS/managementmanual)\r\n\r\n\r\nConform input expert in issue #160 \r\n\r\nHuidige functionaliteit database:\r\nDoel 1 is: Vervallen objecten uit de vorige versie kunnen blijven herkennen voor compatibiliteit van 2 versies\r\nDoel 2: We moeten wijzigingen publiceren waardoor gebruikers weten wat vervallen is\r\n\r\nNodig bij huidige publicatie:\r\nPubliceren wijzigingen & maken van een query waarmee je van huidige versie de actuele, en van vorige versie de vervallen objecten toont (zodat je de identieke objecttabellen krijgt met daarin ook de vervallen versies uit 1 eerdere standaard.",
+      "Voor de query is een apaerte issue gemaakt. Wijzigingen zijn beschreven in de documentatie",
+      "Herstel, deze query's moeten nog gemaakt worden; dit wordt opgepakt in versie 5.1, dan wordt het ook relevant",
+      "Lijstje met vervallen concepten, lijst met nieuwe concepten, lijst met concepten die van naam veranderd zijn",
+      "Ik ga nog kijken naar het changelog. Met[ deze query](https://github.com/nl-digigo/NLCS/blob/main/code/actueel/NLCS_Query_Version.rq) kan de huidige versie van de publicatie opgehaald worden",
+      "Bare minimum: query met lijst vervallen in 5.1, nieuw in 5.1 tov 5.02",
+      "De queries staan hier: https://github.com/nl-digigo/NLCS/tree/main/code/5.1/changelog",
+      "ik moet hier nog naar kijken, de vervallen concepten query lukt  niet",
+      "Is dit inmiddels gelukt @ElisabethDeVries? Anders kunnen we hier samen een keer doorheen lopen",
+      "Query nieuw / vervallen\nik merk op, dat de query's voor nieuwe of vervallen concepten gewoon alle 9000 concepten geven? probleem is hier dat we uri's per versie maken, maar we willen niet weten of alle uri's veranderd zijn, maar of een concept ook echt nieuw is toegevoegd. Deze query's moeten dus iets anders worden\n\nQuery nieuwe/vervallen properties\nHaalt de eigenschappen op die aanwezig zijn in de huidige NLCS-versie, maar ontbreken in de vorige NLCS-publicatie. Let op, dit gaat om de \"naam van de kolommen\", niet of een object nieuwe kleuren of lijnstijlen heeft.  \nJe wilt eigenlijk weten of Kleur 101 is veranderd in 203. Net een andere vraag.\nProbleem is dat we de property namen hebben veranderd tussen 5.0 en 5.1, omdat ze niet overeenkwamen met de oude kolommen, dat moeten we dan nu hard-coded regelen in de query ben ik bang?",
+      "De NLCS changelog executable is [hier](https://github.com/nl-digigo/NLCS/tree/main/beheer/changelog) beschikbaar. Op dit moment opent de executable een console scherm om de voortgang aan te tonen. Laat het aub even weten als je dit liever niet hebt, dan kunnen we een andere variant pushen die geen voortgang weergeeft (het is dan wel lastig te zien of de executable wel of niet actief is). \nJe vindt hier alle queries die gebruikt worden om de changelog te genereren, en het config bestand waarin de settings staan. In de config kan je dus de endpoints aangeven van de publicaties die vergeleken moeten worden en je kunt bepaalde queries 'commenten' als je ze niet wilt toepassen (door # voor de tekst te plaatsen). Je kunt de changelog genereren door op de executable te klikken.",
+      "dit opgenomen in https://nl-digigo.github.io/NLCS/howtoquery/#wijzigingen-tussen-versies-query-en"
+    ]
+  },
+  {
+    "number": 534,
+    "title": "bewerkingen niet als data in database",
+    "closed_at": "2025-06-24T12:24:58Z",
+    "labels": [
+      "publicatie",
+      "status&bewerking",
+      "KL kabels en leidingen"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "Gebruikersvraag vanuit software-implementatie: Bij het bestuderen van de object-tabellen, mis ik in ieder geval nog de kolom ‘Bewerking’. Is het mogelijk om die nog toe te voegen aan de tabellen?",
+    "comments": [
+      "Geantwoord: De bewerking kun je in de laagnaam detecteren, maar zit niet als losse data in de database. Aan je vraag te horen is dit mogelijk wel gewenst. Mag ik vragen, waar gebruiken jullie dit voor? Krijgen gebruikers de bewerking op een andere manier voorgeschoteld dan objecten met subobjecten? \r\n\r\n\r\nIk kan wel aan mijn informatiemodelleurs vragen een query te maken die de bewerking uit de laagnaam haalt en in een kolom zet (maar dat kunnen jullie wellicht ook zelf?)",
+      "er zit een fout in de laagnamen van de warmtenette4n waardoor splitsen op de min niet goed gaat :",
+      "> De bewerking kun je in de laagnaam detecteren, maar zit niet als losse data in de database.\r\n\r\nIk begrijp dit niet. De laagnaam wordt toch opgebouwd uit de database? Dus dan zit de kolom met 'bewerking' toch ook in de database?\r\nHoe worden nu de laagnamen met bewerkingen opgebouwd dan als deze niet in de database zitten?",
+      "In de database beheren we nu de samengestelde naam vanaf het eerste hoofdobject t/m het veld bewerking; in query's zouden we dit weer kunnen splitsen",
+      "De fouten in de warmtenet-aanvulling met - in de objectnamen nu gecorrigeerd naar spaties. Blijft openstaan, bewerking als aparte informatie publiceren in publicatie of in query, ga ik naar kijken als odnerdeel van de vraag of we toch de oude exceltabellen met de opsplitsding van de laagnaam in alle velden weer terug kunnen brengen.",
+      "deze ga ik toevoegen als aspect, ze blijven ook gepubliceerd in de laagnaam",
+      "input voor technische commissie: ik kan de bewerkingen apart publiceren, ik heb daarvoor een proef gepubliceerd in de laatste acceptance versie, lost dit het probleem op dan kan ik dit verder uitwerken",
+      "overigens alle huidige bewerkingen als zodanig opgenomen",
+      "Ik zie de Bewerkingen nog niet terugkomen op deze plek: https://github.com/nl-digigo/NLCS/tree/main/tabellen/concept/5.1 \nIk denk dat het toegevoegde waarde heeft om Bewerkingen te standaardiseren en als afzonderlijk herkenbaar onderdeel te kunnen registreren in de database.",
+      "nu wel, heb ook zelf (met AI) de query gemaakt en toegevoegd onder code. daarmee is deze issue afgesloten voor digiGO"
+    ]
+  },
+  {
+    "number": 609,
+    "title": "Gebruikersvraag nlcs-leverancier, feedback op 5.01 en 5.1",
+    "closed_at": "2025-08-06T12:14:08Z",
+    "labels": [
+      "implementatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "ontvangen per mail 8-5-2025: \nOm te beginnen, het is niet mogelijk om NLCS v5.1 te benaderen via Linked Data. De endpoint op Laces is niet toegankelijk, het lijkt niet mogelijk om nieuwe accounts aan te maken op Laces. \n\nEr zijn verder geen/weinig verschillen in de queries met 5.0.2, we gaan er dus maar vanuit dat het resultaat van 5.0.2 en 5.1 gelijk is. \n\nVerschillen tussen SQL 5.0 en LD 5.0.2:\nDe data uit SQL en Linked Data is niet identiek. Er zijn velden hernoemd en vervallen, data is samengevoegd of van een ander type. Voorbeelden:\n-\tAbibliotheek:\no\t'bibliotheek' -> 'abibliotheek', geen gevolgen\n-\tArcering:\no\t'abibliotheek' is nieuw, geen gevolgen\no\t'abib_id' mist, kan mogelijk verwijzen naar 'id'\no\tInhoud 'arcering' is verschillend, heeft gevolgen\no\tInhoud 'vkrl_lang' is anders, kan gevolgen hebben\no\t'versie' ontbreekt, kan gevolgen hebben voor beheer\no\t'status' ontbreekt, kan gevolgen hebben\no\t'opmerkingen' ontbreekt, kan gevolgen hebben\n-\tLijnkleur:\no\t'opt' lijkt 'optie' te zijn geworden, geen gevolgen\no\t'omschrijving' ontbreekt, kan gevolgen hebben\n-\tLijntype:\no\t'lijntype' ontbreekt, heeft gevolgen\no\t'autocaddef' is verschillend, kan gevolgen hebben\no\t'versie' ontbreekt, kan gevolgen hebben\no\t'status' ontbreekt, kan gevolgen hebben\no\t'omschrijving_old' ontbreekt, onbekend\no\t'opmerkingen' ontbreekt, kan gevolgen hebben\no\t'fileURL' is nieuw, onbekend\n-\tObject:\no\t'nummer' lijkt 'id_nummer' te zijn geworden\no\t'hoofdgroep' heeft andere inhoud, heeft gevolgen\no\t'kind_van' is verschillend, heeft gevolgen\no\t'bewerking' ontbreekt, heeft gevolgen\no\t'lt_b', 'lt_n', 'lt_t', 'lt_v' heeft andere inhoud, heeft gevolgen\no\t'element' is verschillend, heeft gevolgen\no\t'sbib' ontbreekt, heeft gevolgen\no\t'abib' ontbreekt, heeft gevolgen\no\t'vrkl_lang' ontbreekt, heeft gevolgen\no\t'fase' ontbreekt, heeft gevolgen\no\t'opmerkingen' ontbreekt, kan gevolgen hebben\no\t'teller' ontbreekt, kan gevolgen hebben\n-\tSbibliotheek:\no\t'bibliotheek' -> 'sbibliotheek', geen gevolgen\n-\tSymbool:\no\t'sbib_id' ontbreekt, heeft gevolgen\no\t'symbool' heeft andere inhoud, heeft gevolgen\no\t'vrkl_kort' ontbreekt, kan gevolgen hebben\no\t'vrkl_lang' ontbreekt, kan gevolgen hebben\no\t'versie' ontbreekt, kan gevolgen hebben\no\t'status' ontbreekt, heeft gevolgen\no\t'opmerkingen' ontbreekt, kan gevolgen hebben\no\t'sbibliotheek' is nieuw, geen gevolgen\no\t'fileURL' is nieuw, onbekend\n\nAanvullende opmerkingen van onze ontwikkelaars: Er is niet een eenduidige connectie tussen oude en nieuwe bibliotheek. Veel data is afwijkend te interpreteren. Wijzigingen zijn niet voldoende gedocumenteerd. Er zou een betere samenwerking moeten zijn tussen de beheerder en de uitvoerende partijen.\n\nNLCS v5.1 uit Excel/CSV bestanden:\n-\tInhoudelijk is nog niet gekeken naar de symbolen (DWG's) en lijntypes. \n-\tDe documentbestanden zijn nog niet gereviewd. Een korte scan geeft wel aan dat daar intussen achterhaalde rules in staan.\n-\tIn de CSV bestanden, object-tabellen, ontbreekt het veld 'bewerking'.\n-\tIn de object-tabellen, is de bewerking opgenomen in de objectnaam. Dit leidt tot een extra, foutgevoelige handeling bij de softwareleveranciers om deze los te weken.\n-\tVeel nieuw toegevoegde objecten bevatten (meerdere) streepjes in de objectnaam zoals: 'WARMTENET_REDUCTIESTUK_SPP_DN250-450_DN150-280'. Dit is niet te herstellen door de softwareleveranciers. Bovendien had dit al onderschept moeten worden voordat deze aan de database werden toegevoegd, want het zijn geen geldige NLCS objecten.\n-\tHet ID veld is leeg voor alle nieuwe objecten.\n-\tDiverse velden ontbreken of bevatten andere data (zie ook de SQL/LD verschillen).\n\nOmdat het onmogelijk is om een test-bibliotheek te genereren, is het niet mogelijk geweest om deze versie te testen/controleren.\n\nGevolgen van de verschillen:\n-\tDoor de verschillende aanlevering van de bibliotheek, wordt er buitengewoon veel gevraagd van de softwareleveranciers om de knelpunten op te lossen. Dit kan naar twee kanten leiden:\no\tNieuwe leveringen ombouwen en naar eigen inzicht invullen zodat huidige software blijft werken (gevolg: interpretaties kunnen leiden tot verschillen tussen leveranciers, geen eenduidige NLCS meer)\no\tSoftware aanpassen zodat de nieuwe bibliotheekdata gebruikt kan worden (gevolg: geen compatibiliteit meer, harde knip, veel verlies van inspanningen van derden die eigen bibliotheken beheren)\n-\tAlle leveranciers hebben zwaar tekort aan resources, tijd en ontwikkelaars. Acteren op de veranderingen zorgt ervoor dat kostbare ontwikkeltijd verloren gaat voor andere noodzakelijke ontwikkelingen, en dat per leverancier.\n-\tAls leveranciers besluiten om de software aan te passen, kan dit tot gevolg hebben dat:\no\tDe nieuwe bibliotheek niet in te lezen is in huidige software (forewards incompabiliteit)\no\tDe oude bibliotheek niet meer in te lezen is in de nieuwe software (backwards incompatibiliteit)\no\tAlle mappings naar andere databronnen opnieuw gedaan moeten worden (en niet meer compatibel zijn)\no\tGebruikers al hun inspanningen met eigen bibliotheken, scripts en meetcoderingen verloren zien gaan\no\tAlle zijdelings betrokkenen die bijvoorbeeld FME, Lisp of Dynamo scripts baseren op NLCS bibliotheken, achterblijven en niet meer compatibel zijn\no\tBijzonder veel ontwikkeltijd verloren gaat omwille van niet-noodzakelijke veranderingen\n\nDit alles kan voorkomen worden als de levering in Linked Data exact de gegevens levert zoals voorheen in SQL. Dat wil zeggen: alle velden, met dezelfde inhoud. Indien een kleine naamswijziging noodzakelijk is (bijvoorbeeld veldnaam), dan kan dit (indien gedocumenteerd) worden toegepast. Maar velden compleet weglaten is niet op te lossen door de leveranciers. Linked Data is niet een probleem, maar een verschil in aanleveren van de data wel.\n\nVerder moet voorkomen worden dat softwareleveranciers nog aparte bewerkingen moeten doen op de data, zoals het splitsen van waarden. Bijvoorbeeld 'ACO-BALLAST_01-SODMM' terugbrengen naar de eerder geleverde naam 'BALLAST_01'. Dit is alleen maar foutgevoelig en kan leiden tot afwijkende bibliotheken bij verschillende softwareleveranciers.\n\nDaarnaast is het onbegrijpelijk waarom er zoveel weerstand bij DigiGO lijkt te zijn om het ID veld te behouden. Het ID veld is altijd leidend geweest. Niet alleen in de software, ook in mappings, in eigen tooling en scripts van gebruikers, gebruikersbibliotheken, noem maar op. Het switchen naar een URI zorgt voor gelijksoortige problematiek als de recente discussie om SO uit de symboolnaam te halen en te vervangen door een nieuwe toevoeging met een andere betekenis.\n\nOok in het rapport van Corné wordt benoemd dat het ID veld van essentieel belang is, maar met deze aanbeveling wordt blijkbaar niets gedaan.\n\nAls softwareleveranciers zelf ID's bij moeten gaan houden om de software en bibliotheken compatibel te kunnen houden, zorgt dit ervoor dat de ID's geen eenduidige NLCS data opleveren (verschillen tussen leveranciers) terwijl het een unieke identifier moet zijn, en dat mappings niet getest kunnen worden tot de bibliotheek definitief samengesteld is.\n\nOok dit kan voorkomen worden als DigiGO het ID veld intact laat en zorgvuldig blijft beheren. Het moet niet heel moeilijk zijn om een veld te voorzien van een autonummering, dit is standaard database functionaliteit. Deze kleine moeite weegt niet op tegen de honderden uren die wij als leveranciers (allemaal apart, nog afgezien van de tientallen gebruikers die zelf tooltjes en scripts beheren) moeten besteden om deze issue te verhelpen. \n\nOverige opmerkingen:\n-\tEr is betere documentatie noodzakelijk (bij voorkeur in het Engels: het is niet heel bijzonder meer om gebruik te maken van buitenlandse ontwikkelaars),\n-\tPerformance van het endpoint is een bottleneck, het is vrijwel onmogelijk om alle data ineens op te halen door een korte time-out van 100 seconden,\n-\tWaarom een Linked Data bron achter een login? Dit is lastiger voor leveranciers en bedrijven die eigen tooling maken, zeker als het platform zelf niet in staat is om te voorzien in credentials",
+    "comments": [
+      "> Om te beginnen, het is niet mogelijk om NLCS v5.1 te benaderen via Linked Data. De endpoint op Laces is niet toegankelijk, het lijkt niet mogelijk om nieuwe accounts aan te maken op Laces.\n\nJe kunt inderdaad even niet geautomatiseerd een nieuw account aanmaken, je krijgt deze melding om dit per mail wel te krijgen: Due to overwhelming requests, automatic sign-up for Laces Data Platform is currently disabled. Please raise a request at support.laces.tech to request a new account. Thank you for your understanding.",
+      "> Er zijn verder geen/weinig verschillen in de queries met 5.0.2, we gaan er dus maar vanuit dat het resultaat van 5.0.2 en 5.1 gelijk is.\n\nInhoudelijk is 5.1 heel anders dan 5.0.2, ik bedoel qua aanpassingen aan laagnamen, symbolen ed. Ik ga ervan uit dat je hier doelt op de datastructuur? In principe niet, er zijn wel wat namen van informatie attributen gewijzigd om te zorgen dat deze overeen kwamen met de output tabellen dus waar eerst lw_b gebruikt werd staat nu B lineweight. Verder is bijvoorbeeld bij de lijnweight een attribuut “microstation” opgenomen met het microstation nummer, iets wat eerst in de documentatie stond. Dat heeft geen gevolgen voor je eigen inrichting van je applicatie.",
+      "> De data uit SQL en Linked Data is niet identiek. Er zijn velden hernoemd en vervallen, data is samengevoegd of van een ander type. \n\nWe hebben in de reviewronde gewerkt met de aanname, dat de outputtabellen overeen moesten komen qua kolommen. Dit kun je volgen via #216 \n\n> * o\t'abib_id' mist, kan mogelijk verwijzen naar 'id'\n\nDe naamgeving is inderdaad soms anders, bijvoorbeeld de id is altijd hetzelfde soort attribuut in linked data, maar kreeg in de sql database verschillende namen afhankelijk van het soort concept. In de query's die geleverd zijn, is het mogelijk de oude tabellen op te roepen. Als je wilt dat de kolomnamen in de output van de query's anders zijn, is dit aan te passen in de query.",
+      "> * Abibliotheek:\n>   o\t'bibliotheek' -> 'abibliotheek', geen gevolgen\n> * Arcering:\n>   o\t'abibliotheek' is nieuw, geen gevolgen\n>   o\t'abib_id' mist, kan mogelijk verwijzen naar 'id'\n>   o\tInhoud 'arcering' is verschillend, heeft gevolgen\n\nDit zou niet zo moeten zijn, dat moet gecontroleerd worden, hiervoor heb ik issue #610 aangemaakt\n\n>   o\tInhoud 'vkrl_lang' is anders, kan gevolgen hebben\n\nDit zou niet zo moeten zijn, dat moet gecontroleerd worden, hiervoor heb ik issue #611 aangemaakt\n\n>   o\t'versie' ontbreekt, kan gevolgen hebben voor beheer\n>   o\t'status' ontbreekt, kan gevolgen hebben\n\nInderdaad wordt geen versiebeheer-informatie meer opgenomen in de database. Conform issue https://github.com/nl-digigo/NLCS/issues/149\n\n>   o\t'opmerkingen' ontbreekt, kan gevolgen hebben\n\nVerzoeken tot wijzigingen en hoe deze verwerkt zijn worden op GitHub gelogd met issues en verwerking daarvan. Er owrden geen opmerkingen meer in de database gezet.",
+      "> * Lijntype:\n>   o\t'lijntype' ontbreekt, heeft gevolgen\n\nDeze begrijp ik niet, er worden wel degelijk lijntypes gepubliceerd?\n\n>   o\t'autocaddef' is verschillend, kan gevolgen hebben\n\nDat hoort niet zo, ik heb issue #612 aangemaakt\n\n>   o\t'versie' ontbreekt, kan gevolgen hebben\n>   o\t'status' ontbreekt, kan gevolgen hebben\n>   o\t'omschrijving_old' ontbreekt, onbekend\n>   o\t'opmerkingen' ontbreekt, kan gevolgen hebben\n\nZie eerder commentaar over versiebeheer.\n\n>   o\t'fileURL' is nieuw, onbekend\n\nKlopt, we gaan een link toevoegen naar de locatie van bestanden van arceringen en symbolen, dit kenmerk blijft leeg bij lijntypes",
+      "met het bespreken van de issues in #641 zijn nieuwe afspraken gemaakt over de publicatie, wat er in de tabellen moet staan en de checks. Daarmee kan deze issue ook worden afgesloten."
+    ]
+  },
+  {
+    "number": 610,
+    "title": "vergelijking 5.0 sql met 5.01 linked data: Inhoud 'arcering' is verschillend , heeft gevolgen",
+    "closed_at": "2025-09-16T13:07:53Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "Dit zou niet zo moeten zijn, dat moet gecontroleerd worden",
+    "comments": [
+      "dit gaat om harde returns in de sql deze zijn vervangen door spaties om de output naar csv niet te bemoeilijken.\n\nde .PAT bestanden hebben wel harde returns"
+    ]
+  },
+  {
+    "number": 611,
+    "title": "Vergelijking 5.0 met 5.01 Inhoud 'vkrl_lang' is anders, kan gevolgen hebben",
+    "closed_at": "2025-09-16T13:04:26Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "Dit zou niet zo moeten zijn, dat moet gecontroleerd worden",
+    "comments": [
+      "er is nu een nieuwe uitdraai in .PAt bestanden, dit zou de vraag moeten oplossen.\nin de linked-0data publicatie wordt niet meer met harde pagina-returns gewerkt omdat dit de output naar csv-tabellen verstoort."
+    ]
+  },
+  {
+    "number": 612,
+    "title": "Vergelijking 5.0 en 5.01: 'autocaddef' is verschillend, kan gevolgen hebben",
+    "closed_at": "2025-09-16T13:17:45Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "Dit hoort niet zo",
+    "comments": [
+      "Ja, dit gaat over de harde return in de lijntypes, elk lijntype eindigt in de sql database met /n. Dat is verwijderd om te zorgen dat een output naar csv goed gaat\n\nin de .lin gaat het wel goed.",
+      "en by the way, uiteraard zijn er ook inhoudelijk gezien lijnstijlen gewijzigd"
+    ]
+  },
+  {
+    "number": 620,
+    "title": "Vraag toegang en performance linked data platform",
+    "closed_at": "2025-06-10T11:57:59Z",
+    "labels": [
+      "implementatie",
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "Gebruikersvraag: \n1. Performance van het endpoint is een bottleneck, het is vrijwel onmogelijk om alle data ineens op te halen door een korte time-out van 100 seconden,\n2. Waarom een Linked Data bron achter een login? Dit is lastiger voor leveranciers en bedrijven die eigen tooling maken, zeker als het platform zelf niet in staat is om te voorzien in credentials",
+    "comments": [
+      "> 1. Performance van het endpoint is een bottleneck, het is vrijwel onmogelijk om alle data ineens op te halen door een korte time-out van 100 seconden,\n\nDit weten wij, daarom hebben we query's gemaakt voor objecten per hoofdgroep. We gaan ervan uit dat de NLCS leveranciers een eigen database gebruiken voor productie",
+      "> 2\\. Waarom een Linked Data bron achter een login? Dit is lastiger voor leveranciers en bedrijven die eigen tooling maken, zeker als het platform zelf niet in staat is om te voorzien in credentials\n\nHet platform wat we inkopen heeft dit, daar kunnen wij niets aan veranderen. We kunnen wel een yasgui omgeving klaarzetten waar al wachtwoorden zijn ingesteld. Dan hoeven de devopers geen eigen wachtwoord meer te hebben. Maar als je iets rechtstreeks wil inlezen in je eigen development omgeving, moet je toch een acces token krijgen. We gaan dit aanmaken en met jullie delen. \nVoor de LACES hub moet je een verzoek indienen, daar heb je wel een eigen individueel account voor nodig.",
+      "Voor nu kan de NLCS Acceptatie publicatie nog zonder authentication bevraagd worden via het SPARQL endpoint. Als je de publicatie via de Laces Hub wilt bevragen moet je een Laces Hub account hebben. Deze moet inderdaad aangevraagd worden.\n\nWaarschijnlijk zal eind van het jaar/begin volgend jaar ook een authenticatie nodig zijn om het SPARQL endpoint te bevragen. Om deze overgang niet moeilijker te maken dan het is, heb ik nu alvast een access token aangemaakt die toegang geeft tot de NLCS Acceptatie publicatie, zodat het proces straks niet meer aangepast hoeft te worden.\n\nBij bijvoorbeeld Yasui kan je deze authorisatie meegeven als Header Argument aan de request. Dit kan met de volgende header en waarde:\n\nAuthorization: Basic YjkwYWRhODUtYWQ4ZC00NTZmLWI5MjctMzk3YTc2ZjBlNTI1Ok5MQ1NhY2NlcHRhbmNlMjAyNQ==\n\nIk heb de Authorization en het dynamische SPARQL endpoint van de NLCS Acceptatie publicatie al klaargezet in [deze yasgui omgeving](https://api.triplydb.com/s/LU1BPdvto). Je hoeft hier zelf dus geen authorization meer toe te voegen.\n\nBinnen Postman kan je de authorization aangeven middels Basic Authentication. Dit kan met de volgende gegevens:\n\nUsername: b90ada85-ad8d-456f-b927-397a76f0e525\nPassword: NLCSacceptance2025",
+      "verwerkt in documentatie"
+    ]
+  },
+  {
+    "number": 622,
+    "title": "Beter regelen mutatiestructuur releases NLCS",
+    "closed_at": "2025-08-06T12:16:18Z",
+    "labels": [
+      "BOMOS"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "Uit brief DigiGO aan softwareleveranciers: \n> Mutatiestructuur\n> Hiermee worden twee aspecten bedoeld:\n> •\teen toepassing bedoeld om alle wijzigingen te managen. Dit kan Jira of DevOps zijn. Er is geen specifieke voorkeur. digiGO > zullen met een voorstel komen. \n> •\tEr is een wens om te werken met een OTAP-straat. De productmanager zal de huidige situatie verduidelijken. Vervolgens zal besproken worden > of er aanvullende eisen en wensen zijn. \n> Een professionalisering van change,- en releasemanagement is, ook wat digiGO betreft, erg gewenst.\n\nVoorstel DigiGO: de gehele organisatie heeft net besloten om met GitHub te werken, wegens de makkelijke toegang voor alle samenwerkingspartners.\n\nVoor wijzigingsmanagement wordt het volgende voorgesteld: \nUitgangspunt is een jaarlijkse release van NLCS. \nWijzigingen worden vastgelegd in issues. De issues zijn gelabeld en kunnen gaan over een hoofdgroep, symbolen, arceringen, kleuren, elementen. Daarnaast zijn er labels die gebruikt worden om het beheerproces te ondersteunen, bijvoorbeeld \"ter bespreking expertcommissie\" als een hele bulk issues klaargezet is voor beoordeling.\n \nDaarnaast worden issues toebedeeld aan Milestones waardoor duidelijk wordt welke grote wijzigingen er in de volgende release aankomen. De milestones zijn zo ingericht: \n\n1. **Inhoudelijke issues voor de volgende versie**. Issues die worden meegenomen in de eerstvolgende release, in dit geval 5.1: Gewenste verandering van kleur, toevoegen van enkele laagnamen, verbetering van bestaande symbolen et cetera en kleine aanpassingen in documentatie, controles door product manager. Hiervoor is enkel een besluit van de Expertcommissie nodig of een actie van de productmanager. [Inhoudelijke issues 5.1](https://github.com/nl-digigo/NLCS/milestone/1)  [Release xx](https://github.com/nl-digigo/NLCS/milestone/12)\n2. **[Inhoudelijke Backlog](https://github.com/nl-digigo/NLCS/milestone/9)**: Inhoudelijke issues die nog niet in de volgende versie worden meegenomen. Gewenste verandering van kleur, toevoegen van enkele laagnamen, verbetering van bestaande symbolen et cetera. Hiervoor is enkel een besluit van de Expertcommissie nodig.\n3. **Technische issues voor de volgende versie**. De technische commissie krijgt van de Beheercommissie een verzoek welke issues te prioriteren qua uitwerking van de oplossing en te beoordelen of de wijziging haalbaar is voor de softwareleveranciers om te implementeren in de volgende versie. De issues in deze lijst zijn al geselecteerd voor de volgende versie. [Technische issues voor NLCS 5.1](https://github.com/nl-digigo/NLCS/milestone/15)\n4. **[Technische issues op de backlog](https://github.com/nl-digigo/NLCS/milestone/16)**: De technische commissie krijgt van de Beheercommissie een verzoek welke issues te prioriteren qua uitwerking van de oplossing en te beoordelen of deze mee kunnen in de volgende release. De issues op deze lijst zijn nog niet geschikt voor de volgende versie. Er kan wel zijn gepland in welk jaar de wijziging van kracht wordt. \n5. **Inhoudelijke uitwerking van een nieuw vakgebied voor de volgende versie**. Dit zijn nieuwe hoofdgroepen / uitgebreide aanpassingen aan bestaande hoofdgroepen waar aan gewerkt wordt in een inhoudelijke werkgroep met uiteindelijk advies van de expertcommissie of dit past binnen de uitgangspunten van de standaard.  [Verkeersborden voor 5.1](https://github.com/nl-digigo/NLCS/milestone/8) [Stedelijk Spoor Tram voor 5.1](https://github.com/nl-digigo/NLCS/milestone/5)\n7.  **Inhoudelijke uitwerking van een nieuw vakgebied voor de backlog**: Idem, maar aanpassingen die nog niet klaar zijn voor de volgende release. Op dit moment spelen: [Alignment GWSW](https://github.com/nl-digigo/NLCS/milestone/13)  [Alignment NLCS-IMBOR](https://github.com/nl-digigo/NLCS/milestone/7) [Backlog stedelijk spoor](https://github.com/nl-digigo/NLCS/milestone/19) [Netbeheer Backlog](https://github.com/nl-digigo/NLCS/milestone/6)\n8. **[Gebruikersvragen](https://github.com/nl-digigo/NLCS/milestone/17)** Milestone voor gebruikersvragen en onderzoeksvragen die niet leiden tot aanpassingen in de standaard. \n\nVraag aan technische commissie: Biedt deze werkwijze voldoende inzicht in wijzigingen en wat wordt meegenomen in de volgende release?",
+    "comments": [
+      "Dit voorstel is besproken in de technische commissie van 24 juni en akkoord bevonden"
+    ]
+  },
+  {
+    "number": 625,
+    "title": "Groeperen symboolnamen VW",
+    "closed_at": "2025-08-05T08:45:22Z",
+    "labels": [
+      "publicatie",
+      "VW Verkeersmaatregelen Weg"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "De symbolen in VW zijn nu allemaal individueel gekoppeld aan laagnamen, dat leidt tot een te grote objectentabel\nook niet handig voor de inrichting van applicaties",
+    "comments": [
+      "@gerritversteegh hier lijkt iets mis te gaan in het verschil tussen een symbool en de groepering van een symbool: \nSVW-POLLER_KAST zou de placeholder moeten zijn van de onderliggende symbolen\nGebeurt dit omdat hij (per ongeluk) een ID heeft gekregen?",
+      "dan moet ik checken of dit ook mis gaat voor: \nSVW-BEWEGWIJZERING_DRAAGCONSTRUCTIE_PORTAAL",
+      "dit is nu weer goedgegaan in de laatste uitdraai, issue resolved",
+      "Ik heb [een query](https://github.com/nl-digigo/NLCS/blob/main/code/5.1/controlesdatabase/controle_laagnaam_relaties_parentchild_saobject.rq) geschreven die voor alle nlcs-objecten kijkt of er relaties zijn naar zowel een parent als een child symbool/arcering. In dat geval zouden de relaties met de children verwijderd moeten in de beheeromgeving. \n\nOp dit moment ([NLCS Acceptatie rv5_1_3](https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv_5_1_3)) zijn er 117 instanties waar zowel children en parents gelinkt zijn. Zie bijlage.\n\n[tableDownload(15).csv](https://github.com/user-attachments/files/20833847/tableDownload.15.csv)",
+      "fixed this",
+      "[[release note: no change from issue]] De issue betreft een fout tijdens het testen van de nieuwe publicatie van 5.1 en is niet in de acceptatie-publicatie terecht gekomen."
+    ]
+  },
+  {
+    "number": 626,
+    "title": "bewerking in de objectentabellen-query",
+    "closed_at": "2025-06-17T11:06:05Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "@gerritversteegh  kun je me helpen met een query om bewerkingen te vinden in de objectenquery: https://github.com/nl-digigo/NLCS/blob/main/code/5.1/query%20objects%20classic\n\nin hoofdgroep GW zitten bijvoorbeeld bewerkingen (alke hoofdgroep heeft een eigen domeinwaardenlijst gekregen met bewerkingen)\n\noverigens heb ik wat lege \"kolommen\" toegevoegd omdat ik de laagnamen splits, als jij weet hoe je die automatisch kan invullen zou dat heel fijn zijn",
+    "comments": [
+      "Ik heb de query van bovenstaande link geupdated zodat de bewerking evenals de splitsing van de laagnamen in de verschillende output kolommen is toegevoegd",
+      "nice, thanks",
+      "Ik heb ook een [controle query](https://github.com/nl-digigo/NLCS/blob/main/code/5.1/controlesdatabase/controle_nlcs-objecten_te_veel_subobjecten.rq) toegevoegd die checkt of er NLCS-objecten met meer dan 5 subobjecten zijn. In de query wordt nu gezocht tot 5 subobjecten, als er meer zijn moet de query uitgebreid worden of de laagnaam aangepast worden"
+    ]
+  },
+  {
+    "number": 641,
+    "title": "Feedback op tabellen 5.1",
+    "closed_at": "2025-07-24T15:48:33Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "Om te beginnen, de aangeleverde data is wel werkbaarder dan de vorige levering maar helaas nog steeds niet geschikt om te testen. Van alle tabellen behalve de objecten heb ik intussen een werkbare versie. De object-tabellen bevatten teveel fouten om op te lossen of een workaround voor te bedenken aan onze kant. \n\nDe actie staat op afgerond als er een nieuwe tabel beschikbaar is waarin dit is opgelost, of de technische commissie aangeeft dat dit niet nodig is.\n\nObjecttabellen:\n- Alle hoofdgroepen hebben een eigen bestand, met als volgende issue: \n- [x] Objecten IV en HU hebben een andere kolomindeling en zijn niet samen te voegen met de andere tabellen.\n- [x] De data in de cellen is niet als Tekst gemarkeerd, met de volgende issues:\n- [x] Nummers worden soms anders genoteerd, zoals 4,1E+02.\n- [x] Nummers met volgnummer zoals in \"HAAG_01\" wordt omgezet naar \"HAAG\", \"1\".\n- [x] Kolommen 'sobject' en 'aobject' bevatten ook de prefixen en suffixen, dit is erg complex om weer op te breken in het object dat nodig is (zie #654)\n- [x] Uit bijvoorbeeld \"SVW-POLLER\" heb ik \"POLLER\" nodig, opbreken op min-teken zou ik of het tweede element of het laatste element moeten kiezen. Maar selecteren op laatste gaat niet op bij \"SAM-ASPUNTNUMMER-SO\". Selecteren op tweede kan ook niet, want bij \"V-SOG-BEBOUWING_TRAFO_LAGE-SO\" moet het derde element uitgefilterd worden.\n- [x] Verder worden er ook foute verwijzingen geconstateerd, zo wordt verwezen naar \"SOG-BEBOUWING_OPENBAAR_TOILET\" en \"SOG-BEBOUWING_OPENBAAR_TOILET-SO\", bij de symbolen bestaat de eerste variant niet.\n- [x] Kolommen 'abib' en 'sbib' ontbreken. Het is ook niet mogelijk om uit de kolommen 'sobject' en 'aobject' de bibliotheken te filteren vanwege de hierboven genoemde issues. zie #654 \n- [x] De data bevat erg veel dubbele regels (gelijke ID's, gelijke GUID's). Het gaat om de volgende ID's:\no\t350, 427, 483, 485, 487, 489, 493, 495, 497, 499, 501, 509, 630, 644, 725, 729, 739, 743, 751, 755, 761, 767, 771, 781, 782, 791, 795, 803, 807, 816, 820, 829, 833, 839, 841, 857, 863, 866, 870, 873, 874, 878, 879, 884, 888, 892, 894, 895, 910, 953, 964, 968, 977, 981, 984, 989, 993, 996, 1110, 1111, 1176, 1195, 1229, 1244, 1278, 1281, 1310, 1356, 1361, 1362, 1364, 1478, 1480, 1484, 1486, 1487, 1489, 1490, 1491, 1494, 1729, 1858, 1989, 2014, 2015, 2074, 2076, 2214, 2223, 2283, 2639, 2910, 2911, 2912, 2913, 3041, 3042, 3043, 3044, 3105, 3106, 3122, 3151, 3153, 3163, 3168, 3255, 3256, 3257, 3258, 3259, 3261, 3262, 3366, 3385, 3387, 3389, 3390, 3396, 3397, 3399, 3400, 3407, 3411, 3412, 3420, 3423, 3424, 3425, 3426, 3428, 3474, 3497, 3533, 3534, 3543, 3544, 3545, 3546, 3547, 3548, 3559, 3560, 3561, 3562, 3565, 3566, 3567, 3568, 3569, 3570, 3571, 3572, 3573, 3574, 3575, 3576, 3852, 4413, 4564, 4675, 4765, 4767, 4769, 4799, 4849, 4886, 5079, 5197, 5310, 5917\n- [x] Maar het grootste probleem is dat er veel objecten zijn die geen correcte parent hebben! In ieder geval bij het object \"WARMTENET\", verder nog niet gezocht. zie #643 \n- [x] Bijvoorbeeld de objecten \"WARMTENET_EINDKAP_SPP\" en \"WARMTENET_AANVOER_SPP\" (en vele andere) verwijzen naar het object \"WARMTENET\" als ouder. Er is geen object \"WARMTENET_EINDKAP\" en geen \"WARMTENET_AANVOER\", waardoor genoemde objecten allemaal als \"WARMTENET_SPP\" worden samengesteld door de software. Tenzij de underscore er niet tussen hoort bij \"EINDKAP\" en \"SPP\", maar dan kunnen we nu nog steeds niets met deze aangeleverde data.\n\nArceringsbibliotheken:\n- [x] De omschrijving wisselt tussen \"Arceringenbibliotheek\" en \"Arceringsbibliotheek\". Beter om beide weg te laten uit de omschrijving.\n- [x] De naam zou de hoofdletters moeten bevatten van de afkorting. \n\nArceringen:\n- [x] De naam bevat de optie als toevoeging, lastig om te splitsen.\n- [x] Bij object met ID:451 mist de schaalwaarde.\n- [x] Bij sommige objecten is geen \"vrkl_kort\" waarde aanwezig (nog niet bekend of dit een probleem is).\n- [x] Het veld \"vrkl_lang\" bevat de patroon (nog niet bekend of dit een probleem is).\n\nHoofdgroep:\n- [x] Hoofdgroep met ID:35 heette in v5.0 nog \"VS\", heet nu \"ES\". Dit kan mogelijk tot problemen leiden als er al objecten of symbolen voor gemaakt zijn (bijvoorbeeld in aanvullende eigen bibliotheken). Hoort bij naamswijziging geen nieuw ID toegekend te worden? Zie #657\n\nLijntypes:\n- [x] De kolom \"lijntype\" ontbreekt (of de kolom \"omschrijving\" bevat de prefixen en suffixen waardoor het complex is om deze op te breken).  zie #658 \n- [x] Ontbreekt een object met ID:1 (Continuous) voor alle hoofdgroepen? In de bibliotheekbestanden van 5.0 wel gevonden. Er is wel eentje voor fase \"V\" namelijk.\n\nSymbolenbibliotheken:\n- [x] \"Verhardingen\" heeft geen prefix \"Symbolenbibliotheek\" in de omschrijving. Beter om bij alle anderen deze toevoeging te verwijderen.\n- [x] Er zijn twee bibliotheken met dezelfde naam: SHC en SHU.\n- [x] SHC moet \"HoutConstructies\" zijn.\n\nSymbolen:\n- [x] De naam bevat de optie en fase als prefix en suffix, wat het complex maakt om weer op te breken. Zie #656 \n- [x] Meerdere objecten hebben wel de fase en optie in de symboolnaam, maar niet in de kolom \"optie\" en \"fase\", waardoor de symboolnaam niet klopt en het onmogelijk is om geautomatiseerd op te breken.  Zie #656 \n- [x] Bestaande objecten veranderd van SO naar SOMM? Is het dan geen nieuw symbool?  zie #657\n\nKortom:\nHet kost best veel tijd om de data om te zetten. Als de aanlevering al meer gestructureerd gebeurt dan scheelt dit heel veel tijd die we uiteindelijk kunnen besteden aan de inhoud. Bij elke wijziging of definitieve versie moet alles weer opnieuw, tot we onze tooling op orde hebben (wat ook veel tijd kost en waarvoor we gegarandeerd consequent dezelfde input moeten ontvangen). Graag zou ik de volgende verbeteringen zien in de aanlevering, om het technische deel zo efficiënt mogelijk te maken:\n- [x] Objecten zonder de toevoegingen (V/B/SO/D/etc) die ook in andere kolommen/tabellen te vinden zijn aanleveren, want zelf opbreken op basis van die toevoegingen is namelijk erg complex en foutgevoelig.\n- [x] Fouten zoals dubbelingen voorkomen. Dit hoort aan de bron al opgelost te zijn, niet pas bij ons als onderzoeks-item.\n- [x] Zelfde geldt voor niet-ingevulde kolommen die op basis van andere data duidelijk wel gevuld hadden moeten zijn.\n- [x] Objecten met foutieve underscores of objecten zonder correcte ouder horen bij de bron al opgelost te zijn.\n- [x] Foute naamgeving zoals bij SHC en SHU horen in de bron al opgelost te zijn.\n- [x] Bij voorkeur alle object-tabellen samengevoegd aanleveren in Excel.",
+    "comments": [
+      "> * Objecten IV en HU hebben een andere kolomindeling en zijn niet samen te voegen met de andere tabellen.\n\nEr zijn nieuwe tabellen klaargezet",
+      "> * De data in de cellen is niet als Tekst gemarkeerd, met de volgende issues:\n> * [x]  Nummers worden soms anders genoteerd, zoals 4,1E+02.\n> * [x]  Nummers met volgnummer zoals in \"HAAG_01\" wordt omgezet naar \"HAAG\", \"1\".\n\nIk zie het, de csv output is correct, de Excel doet dit bij het opsplitsen naar cellen. Oplossing: de csv moet worden geïmporteerd via het tabblad gegevens dan kun je de kolom op tekst zetten. Er zijn nieuwe tabellen klaargezet",
+      "> * [x]  Kolommen 'sobject' en 'aobject' bevatten ook de prefixen en suffixen, dit is erg complex om weer op te breken in het object dat nodig is:\n\n> * [x]  Uit bijvoorbeeld \"SVW-POLLER\" heb ik \"POLLER\" nodig, opbreken op min-teken zou ik of het tweede element of het laatste element moeten kiezen. \n\nIn de 5.0 sql database stond op deze regel \"SKL-POLLER\". Dat is de manier waarop nu alle \"zoektermen\" voor symbolen zijn opgebouwd. De symboolnamen zouden allemaal de afkorting van de symbolenbibliotheek moeten bevatten als ik naar de oude database kijk. De afspraak was, publicatie zoveel mogelijk conform sql maar ook, outputtabellen  voor objecten conform eerder geleverd, hier zit een verschil tussen. \n- [x] In de Excel-tabel van 5.0 stond SKL:SKL-POLLER, er staat nu SKL:POLLER Vraag aan technische commissie: wat is de gewenste output? is ook een aanpassing in de linked data publicatie nodig?\n\n> * [x] Maar selecteren op laatste gaat niet op bij \"SAM-ASPUNTNUMMER-SO\".\n\n> * [x]  Selecteren op tweede kan ook niet, want bij \"V-SOG-BEBOUWING_TRAFO_LAGE-SO\" moet het derde element uitgefilterd worden.\n\nSAM-ASPUNTNUMMER stond als naam in sql versie 5.0, omdat er maar één symbool is is dit in de nieuwe database rechtstreeks gekoppeld aan het object zonder zoekterm. Hier kun je letterlijk het bestand SAM-ASPUNTNUMMER-SO voor terugvinden. \n\n- [x] Vraag aan technische commissie: Is dit een probleem? Je kunt hier toch een symbool vinden die de gehele naam bevat? of wil je alleen de zoekterm en niet de symboolnaam?\n\n> * [x]  Verder worden er ook foute verwijzingen geconstateerd, zo wordt verwezen naar \"SOG-BEBOUWING_OPENBAAR_TOILET\" en \"SOG-BEBOUWING_OPENBAAR_TOILET-SO\", bij de symbolen bestaat de eerste variant niet.\n\nEr is iets misgegaan in de publicatie waarbij de symbolen soms ook zijn gekoppeld aan het object, niet alleen de zoekterm. De eerste variant is de zoekterm waarmee je de tweede zou moeten vinden. \n\n- [x] Vraag aan technische commissie: moet er altijd gewerkt worden met één \"zoekterm\" voor de symbolen / arceringen, of kan een object ook een rechtstreekse relatie hebben met de twee symbolen die gebruikt kunnen worden? \n\nZie #654",
+      "> * [x]  Kolommen 'abib' en 'sbib' ontbreken. Het is ook niet mogelijk om uit de kolommen 'sobject' en 'aobject' de bibliotheken te filteren vanwege de hierboven genoemde issues.\n\nin de originele sql staan deze kolommen wel, in de oude Excels niet, daar staat SKL:SKL..... Vraag aan technische commissie, kolommen toevoegen in Excel, of tweede werkwijze, of anders?\n\nVoorgestelde oplossing: we voegen de kolommen sbib en abib toe zie #654",
+      "> * De data bevat erg veel dubbele regels (gelijke ID's, gelijke GUID's). Het gaat om de volgende ID's:\n>   o\t350, 427, 483, 485, 487, 489, 493, 495, 497, 499, 501, 509, 630, 644, 725, 729, 739, 743, 751, 755, 761, 767, 771, 781, 782, 791, 795, 803, 807, 816, 820, 829, 833, 839, 841, 857, 863, 866, 870, 873, 874, 878, 879, 884, 888, 892, 894, 895, 910, 953, 964, 968, 977, 981, 984, 989, 993, 996, 1110, 1111, 1176, 1195, 1229, 1244, 1278, 1281, 1310, 1356, 1361, 1362, 1364, 1478, 1480, 1484, 1486, 1487, 1489, 1490, 1491, 1494, 1729, 1858, 1989, 2014, 2015, 2074, 2076, 2214, 2223, 2283, 2639, 2910, 2911, 2912, 2913, 3041, 3042, 3043, 3044, 3105, 3106, 3122, 3151, 3153, 3163, 3168, 3255, 3256, 3257, 3258, 3259, 3261, 3262, 3366, 3385, 3387, 3389, 3390, 3396, 3397, 3399, 3400, 3407, 3411, 3412, 3420, 3423, 3424, 3425, 3426, 3428, 3474, 3497, 3533, 3534, 3543, 3544, 3545, 3546, 3547, 3548, 3559, 3560, 3561, 3562, 3565, 3566, 3567, 3568, 3569, 3570, 3571, 3572, 3573, 3574, 3575, 3576, 3852, 4413, 4564, 4675, 4765, 4767, 4769, 4799, 4849, 4886, 5079, 5197, 5310, 5917\n\nIn de Excel komt een dubbele regel met hetzelfde object, als er twee arceringen of twee symbolen aan het object gekoppeld zijn. Het gaat in dat geval niet om dubbele ID's.  Dit zijn de verklaringen:\n1. Soms is per ongeluk een symbool gekoppeld aan het object, terwijl ook een zoekterm is gekoppeld. Deze gevallen wijzig ik in de publicatie en output.\n2. Soms zijn twee arceringen of symbolen gekoppeld, in plaats van één zoekterm. In linked data heeft dit dezelfde betekenis, ik kan me voorstellen dat dit lastig is voor relationele databases. Deze gevallen wijzig ik in de publicatie en output.\n- [x] 3. Soms zijn twee groepen symbolen gekoppeld, bijvoorbeeld bij ITR_RIOOLPUT: SRI-PUT_INSPECTIE\nen SRI-PUT_SWA; dit moet inhoudelijk gecheckt worden, vraag aan technische commissie: is het bezwaarlijk als er twee groepen symbolen aan hangen; overigens leidt dit dan wel automatisch tot twee regels in de outputtabellen.\n- [x] 4. in het verleden zijn symbolen op hoger liggend niveau gekoppeld, dat is nog niet allemaal naar beneden gemaakt. Voorbeeld zijn alle symbolen voor afscheider. Daar waren soms in de linked data publicatie nu ook op onderliggend niveau twee individuele symbolen gekoppeld. Die heb ik weer losgemaakt, zonder aan de actie te beginnen om onderliggende zoektermen te gaan maken. Vraag aan technische commissie: moeten we ook onderliggende zoektermen gaan maken? Nu wordt gebruiker niet goed geholpen de juiste symbolen te vinden op het laagste niveau\n\nAntwoord 24-7-2025: is voor latere publicatie, dit werkt wel zo\n\n- [x] NLCS Object 350 = BESCHOEIING_COMBINATIE, ik zie geen dubbele regel? \n- [x] NLCS object 427 = TALUD\n- [x] NLCS Object 483 = GRONDSOORTEN_AFVAL\n- [x] NLCS object 485 = GRONDSOORTEN_GRIND\n- [x] NLCS Object 487 = GRONDSOORTEN_KERNMATERIAAL\n- [x] NLCS Object 489 = GRONDSOORTEN_KLEI\n- [x] NLCS Object 493 = GRONDSOORTEN_SLIB\n- [x] NLCS Object 495 =GRONDSOORTEN_STABILISATIE\n- [x] NLCS Object 497 =GRONDSOORTEN_STEEN\n- [x] NLCS Object 499 =GRONDSOORTEN_VEEN\n- [x] NLCS Object 501 = GRONDSOORTEN_ZAND\n- [x] NLCS Object 509 = GRONDSOORTEN_ZAVEL\n- [x] NLCS Object 630 = BRANDSTOF_PUT\n- [x] NLCS Object 644 = CHEMIE_PUT\n- [x] NLCS Object 725 = DATA_CAI_HULPSTUK\n- [x] NLCS Object 729 = DATA_CAI_KAST\n- [x] NLCS Object 739 = DATA_DEFENSIE_HULPSTUK\n- [x] NLCS Object 743 = DATA_DEFENSIE_KAST\n- [x] NLCS Object 751 = DATA_GLASVEZEL_HULPSTUK\n- [x] NLCS Object 755 = DATA_GLASVEZEL_KAST\n- [x] NLCS Object 761 = DATA_HULPSTUK\n- [x] NLCS Object 767 = DATA_INTERCOM_HULPSTUK\n- [x] NLCS Object 771 = DATA_INTERCOM_KAST\n- [x] NLCS Object 781 = DATA_KABELROL\n- [x] NLCS Object 782 = DATA_KAST\n- [x] NLCS Object 791 = DATA_SIGNAALKABEL_HULPSTUK\n- [x] NLCS Object 795 = DATA_SIGNAALKABEL_KAST\n- [x] NLCS Object 803 = DATA_STUURKABEL_HULPSTUK\n- [x] NLCS Object 807 = DATA_STUURKABEL_KAST\n- [x] NLCS Object 816 = DATA_TELECOM_HULPSTUK\n- [x] NLCS Object 820 = DATA_TELECOM_KAST\n- [x] NLCS Object 829 = DATA_WAN_HULPSTUK\n- [x] NLCS Object 833 = DATA_WAN_KAST\n- [x] NLCS Object 839 = DATA_ZENDMAST\n- [x] NLCS Object 841 = ET_AARDING\n- [x] NLCS Object 857 = ET_AARDING_KAST\n- [x] NLCS Object 863 = ET_HS\n- [x] NLCS Object 866 = ET_HS_HULPSTUK\n- [x] NLCS Object 870 = ET_HS_KABELROL\n- [x] NLCS Object 873 = ET_HS_TRANSFORMATORSTATION\n- [x] NLCS Object 874 = ET_HULPSTUK\n- [x] NLCS Object 878 = ET_LS\n- [x] NLCS Object 879 = ET_LS_HULPSTUK\n- [x] NLCS Object 884 = ET_LS_KABELROL\n- [x] NLCS Object 888 = ARMATUUR_BOLDER\n- [x] NLCS Object 892 = ARMATUUR_SCHIJNWERPER\n- [x] NLCS Object 894 = HULPSTUK_AANSLUITPUNT\n- [x] NLCS Object 895 = HULPSTUK_MOF\n- [x] NLCS Object 910 = KAST_PUTKAST\n- [x] NLCS Object 953 = ET_LS_SR_KAST\n- [x] NLCS Object 964 = ET_LS_VOEDINGSKABEL_KABELROL\n- [x] NLCS Object 968 = ET_LICHTGEVOELIGE CEL\n- [x] NLCS Object 977 = ET_MS_HULPSTUK\n- [x] NLCS Object 981 = ET_MS_KABELROL\n- [x] NLCS Object 984 = ET_MS_TRANSFORMATORSTATION\n- [x] NLCS Object 989 = ET_ZHS_HULPSTUK\n- [x] NLCS Object 993 = ET_ZHS_KABELROL\n- [x] NLCS Object 996 = ET_ZHS_TRANSFORMATORSTATION\n- [x] NLCS Object 1176 = GAS_PUT\n- [x] NLCS Object 1195 = KOUDENET_BRONPUT\n- [x] NLCS Object 1229 = OLIE_PUT\n- [x] NLCS Object 1244 = WARMTENET_BRONPUT\n- [x] NLCS Object 1278 = WATER_BEREGENING_SPROEIER\n- [x] NLCS Object 1281 = WATER_BRANDLEIDING_BRANDHYDRANT\n- [x] NLCS Object 1310 = WATER_BRANDLEIDING_PUT\n- [x] NLCS Object 1356 = WATER_INKOOPPUNT\n- [x] NLCS Object 1361 = WATER_PUT\n- [x] NLCS Object 1362 = WATER_PUT_POMPPUT\n- [x] NLCS Object 1364 = WATER_STRAATPOT\n- [x] NLCS Object 1478 = ONDERZOEK_SONDERING\n- [x] NLCS Object 1480 = ONDERZOEK_BORING\n- [x] NLCS Object 1484 = ONDERZOEK_PEILBUIS\n- [x] NLCS Object 1486 = ONDERZOEK_SLIBMONSTER\n- [x] NLCS Object 1487 = ONDERZOEK_ZAKBAAK\n- [x] NLCS Object 1489 = ONDERZOEK_HELLINGMETERBUIS\n- [x] NLCS Object 1490 = ONDERZOEK_MINIFILTER\n- [x] NLCS Object 1491 = ONDERZOEK_GRAAFGAT\n- [x] NLCS Object 1494 = ONDERZOEK_SPANNINGSMETER\n- [x] NLCS Object 1729 = GWA_RIOOLPUT_KRUISINGSPUT\n- [x] NLCS Object 1858 = HWA_RIOOLPUT_KRUISINGSPUT\n- [x] NLCS Object 1989 = ITR_RIOOLPUT  er zijn twee soorten symbolen: SRI-PUT_INSPECTIE\nen SRI-PUT_SWA; dit moet inhoudelijk gecheckt worden.  #644 \n- [x] NLCS Object 2014 = ITR_RIOOLPUT_KOPPELPUT\n- [x] NLCS Object 2015 = ITR_RIOOLPUT_KRUISINGSPUT\n- [x] NLCS Object 2074 = PERSLEIDING_RIOOLPUT  er zijn twee soorten symbolen:  SRI-PUT_INSPECTIE en SRI-PUT_PERS; dit moet inhoudelijk gecheckt worden.  #644 \n- [x] NLCS Object 2076 = PERSLEIDING_RIOOLPUT_POMPPUT\n- [x] NLCS Object 2214 = VACUUMLEIDING_RIOOLPUT  er zijn twee soorten symbolen:  SRI-PUT_INSPECTIE SRI-PUT_VACUUM; dit moet inhoudelijk gecheckt worden.  #644 \n- [x] NLCS Object 2223 = DWA_AFSCHEIDER_VET  er zijn twee zoektermen SRI-PUT_DEKSEL en \nSRI-PUT_DEKSEL_DWA; dit moet inhoudelijk gecheckt worden.   #644 \n- [x] NLCS Object 2283 = DWA_RIOOLPUT_KRUISINGSPUT\n- [x] NLCS Object 2639 = VERKEERSTEKEN_BEBAKENING\n- [x] NLCS Object 2910 = DATA_SIGNAALGEVER\n- [x] NLCS Object 2911 = ONDERZOEK_SLEUF\n- [x] NLCS Object 2912 = ONDERZOEK_STEEK\n- [x] NLCS Object 2913 = ONDERZOEK_VASTPUNT\n- [x] NLCS Object 3041 = BODEM_CONCENTRATIE\n- [x] NLCS Object 3042 = BODEM_GEHALTE\n- [x] NLCS Object 3043 = BODEM_MONSTER\n- [x] NLCS Object 3044 = BODEM_NULPUNT\n- [x] NLCS Object 3105 = MEUBILAIR_STADSPLATTEGROND\n- [x] NLCS Object 3106 = MEUBILAIR_STROOIRESERVOIR\n- [x] NLCS Object 3122 = AFZETTING_POLLER_KAST\n- [x] NLCS Object 3151 = BEBOUWING_ENTREE, verklaring 3\n- [x] NLCS Object 3153 = BEBOUWING_FIETSENSTALLING, verklaring 3\n- [x] NLCS Object 3163 = BEBOUWING_LAGE TRAFO, verklaring 3\n- [x] NLCS Object 3168 = BEBOUWING_OPENBAAR TOILET, verklaring 3\n- [x] NLCS Object 3255 = ZONE_ECOGEBIED, verklaring 3\n- [x] NLCS Object 3256 = ZONE_GEVAARLIJKE STOFFEN, verklaring 3\n- [x] NLCS Object 3257 = ZONE_HOOGSPANNINGSTRACE, verklaring 3\n- [x] NLCS Object 3258 = ZONE_LEIDINGSTROOK, verklaring 3\n- [x] NLCS Object 3259 = ZONE_LPG, verklaring 3\n- [x] NLCS Object 3261 = ZONE_BELEMMERING_LEIDINGSTROOK, verklaring 3\n- [x] NLCS Object 3262 = ZONE_BELEMMERING_OBJECT, verklaring 3\n- [x] NLCS Object 3366 = DUIN \n- [x] NLCS Object 3385 = MEUBILAIR_DIJKPAAL - gekoppeld aan groepen SIE-MEUBILAIR_DIJKPAAL en SIE-MEUBILAIR_PAAL_DIJKPAAL, dit moet inhoudelijk gecheckt worden.  #645\n- [x] NLCS Object 3387 = MEUBILAIR_FONTEIN\n- [x] NLCS Object 3389 = MEUBILAIR_RECLAMEZUIL\n- [x] NLCS Object 3390 = MEUBILAIR_SLAGBOOM\n- [x] NLCS Object 3396 = MEUBILAIR_SCHRIKHEK\n- [x] NLCS Object 3397 = MEUBILAIR_TANK\n- [x] NLCS Object 3399 = MEUBILAIR_TRAP\n- [x] NLCS Object 3400 = MEUBILAIR_MAST\n- [x] NLCS Object 3407 = MEUBILAIR_LICHTMAST\n- [x] NLCS Object 3411 = MEUBILAIR_VERKEERSLICHT\n- [x] NLCS Object 3412 = MEUBILAIR_VLAGGENMAST\n- [x] NLCS Object 3420 = MEUBILAIR_HOOGTEDETECTIEMETER\n- [x] NLCS Object 3423 = MEUBILAIR_FIETSENKLUIS  er zijn twee groepen symbolen aan gekoppeld: \nSIE-MEUBILAIR_FIETSENKLUIS en SIE-MEUBILAIR_FIETSKLUIS dit moet inhoudelijk gecheckt worden  #646\n- [x] NLCS Object 3424 = DATA_RADARMAST\n- [x] NLCS Object 3425 = DATA_STRAALZENDER\n- [x] NLCS Object 3426 = DATA_TELPAAL\n- [x] NLCS Object 3428 = GAS_TERREINKAST\n- [x] NLCS Object 3474 = MEUBILAIR_HALTEPAAL\n- [x] NLCS Object 3497 = DRAINAGE_RIOOLPUT_BLINDEPUT\n- [x] NLCS Object 3533 = ARMATUUR_SPOT\n- [x] NLCS Object 3534 = HULPSTUK_LAS\n- [x] NLCS Object 3543 = KAST_DOORVERBINDINGSKAST\n- [x] NLCS Object 3544 = KAST_HOOGSPANNING\n- [x] NLCS Object 3545 = KAST_ONTSTEEKPUNT\n- [x] NLCS Object 3546 = KAST_SEKTIEKAST\n- [x] NLCS Object 3547 = KAST_TRANSFORMATORKAST\n- [x] NLCS Object 3548 = KAST_VOEDINGSPUNT\n- [x] NLCS Object 3559 = MEUBILAIR_MEERPAAL\n- [x] NLCS Object 3560 = MEUBILAIR_MEERSTOEL\n- [x] NLCS Object 3561 = MEUBILAIR_MERKPAAL\n- [x] NLCS Object 3562 = MEUBILAIR_WATERSTANDMETER\n- [x] NLCS Object 3565 = MEUBILAIR_FLITSPAAL\n- [x] NLCS Object 3566 = MEUBILAIR_GLASBOLREFLECTOR\n- [x] NLCS Object 3567 = MEUBILAIR_GRONDSPOT\n- [x] NLCS Object 3568 = MEUBILAIR_PARKEERAUTOMAAT\n- [x] NLCS Object 3569 = MEUBILAIR_PEUKENPAAL\n- [x] NLCS Object 3570 = MEUBILAIR_PICKNICKSET\n- [x] NLCS Object 3571 = MEUBILAIR_PRAATPAAL\n- [x] NLCS Object 3572 = MEUBILAIR_SCHIJNWERPER\n- [x] NLCS Object 3573 = MEUBILAIR_SNUFFELPAAL\n- [x] NLCS Object 3574 = MEUBILAIR_TELEFOONCEL\n- [x] NLCS Object 3575 = MEUBILAIR_WINDZAK\n- [x] NLCS Object 3576 = MEUBILAIR_WEGWIJZER\n- [x] NLCS Object 3852 = PERSLEIDING_HULPSTUK_ONTLUCHTING\n- [x] NLCS Object 4413 = COMPONENT_RASBAK  heeft twee zoektermen: SIS-COMPONENT_AANSLUITKAST  SIS-RAILAANSLUITBAK, dit moet inhoudelijk uitgezocht worden #648\n- [x] NLCS Object 4564 = DRAINAGE_RIOOLPUT_PUTDEKSEL heeft twee zoektermen: SRI-PUT_DEKSEL\n SRI-PUT_DEKSEL_DRAINAGE, dit moet inhoudelijk uitgezocht worden: #644 \n- [x] NLCS Object 4675 = DWA_RIOOLPUT_PUTDEKSEL heeft twee zoektermen SRI-PUT_DEKSEL en \nSRI-PUT_DEKSEL_DWA , dit moet inhoudelijk uitgezocht worden  #644 \n- [x] NLCS Object 4765 = GRONDSOORTEN_BOMENGROND\n- [x] NLCS Object 4767 = GRONDSOORTEN_BOMENZAND\n- [x] NLCS Object 4769 = GRONDSOORTEN_GROND\n- [x] NLCS Object 4799 = GWA_RIOOLPUT_PUTDEKSEL heeft twee zoektermen: GWA_RIOOLPUT_PUTDEKSEL en SRI-PUT_DEKSEL , dit moet inhoudelijk uitgezocht worden  #644 \n- [x] NLCS Object 4849 = HWA_RIOOLPUT_PUTDEKSEL twee zoektermen,   #644 \n- [x] NLCS Object 4886 = ITR_RIOOLPUT_PUTDEKSEL twee zoektermen,   #644 \n- [x] NLCS Object 5079 = MEUBILAIR_WATERPOMP\n- [x] NLCS Object 5197 = OVERIG_RIOOLPUT_PUTDEKSEL   #644 \n- [x] NLCS Object 5310 = SPOOR_LASSEN_STOMP\n- [x] NLCS Object 5917 = ITR_DOORSPOELPUT  #644",
+      "> * [x]  Maar het grootste probleem is dat er veel objecten zijn die geen correcte parent hebben! In ieder geval bij het object \"WARMTENET\", verder nog niet gezocht.\n> * [x]  Bijvoorbeeld de objecten \"WARMTENET_EINDKAP_SPP\" en \"WARMTENET_AANVOER_SPP\" (en vele andere) verwijzen naar het object \"WARMTENET\" als ouder. Er is geen object \"WARMTENET_EINDKAP\" en geen \"WARMTENET_AANVOER\", waardoor genoemde objecten allemaal als \"WARMTENET_SPP\" worden samengesteld door de software. Tenzij de underscore er niet tussen hoort bij \"EINDKAP\" en \"SPP\", maar dan kunnen we nu nog steeds niets met deze aangeleverde data.\n\nAls ik het goed begrijp, mis je soms een nlcs-object met het subobject x-1 voor het nlcs object met het subobject x. \n\n- [x] #643 we gaan een query maken om op deze fout te controleren zodat het eruit gehaald wordt voor publicatie\n- [x] Ik pas het aan in de database waarbij ik beoordeel of de underscore verwijderd kan worden, of een tussenobject nodig is. Dit komt voor bij warmtenet en koudenet",
+      "@ElisabethDeVries Zie [hier](https://github.com/user-attachments/files/21137514/tableDownload.16.csv) een lijst van NLCS objecten die zowel een relatie hebben naar een groep Symbolen/Arceringen & hun onderliggende symbolen/arceringen. De relatie met het onderliggende symbool/arcering moet verwijderd worden.\n\nedit Elisabeth: alles nagelopen en dubbele koppelingen verwijderd",
+      "> \"In de 5.0 sql database stond op deze regel \"SKL-POLLER\". Dat is de manier waarop nu alle \"zoektermen\" voor symbolen zijn opgebouwd. De symboolnamen zouden allemaal de afkorting van de symbolenbibliotheek moeten bevatten als ik naar de oude database kijk. De afspraak was, publicatie zoveel mogelijk conform sql. Vraag aan technische commissie: is dit inderdaad de regel?\n> In de Excel-tabel van 5.0 stond SKL:SKL-POLLER. Vraag aan technische commissie: is dit wenselijk om in de output-query te maken?\"\n\nEr is een verschil in hoe de data is aangeleverd met de 5.0 en de 5.02. Bij de 5.0 (ook de SQL data) staat er alleen de naam, zonder prefix van een bibliotheek of suffix van een optie. Bij de 5.02 is het in de naam samengevoegd. Dit is inconsequentie in de data. Hieronder een voorbeeld voor TEKENBLAD_A0_841X1050. Bij 5.02 en 5.1 wordt dat SAL-TEKENBLAD_A0_841X1050-SO.\nIn de 5.0 sql:\nINSERT INTO `symbolen` VALUES('2','1','','TEKENBLAD_A0_841X1050','SO','','','3.0','GEWIJZIGD','ontbrekende symbool verwijzing');\n\nIn de 5.02 csv\n\"http://digitalbuildingdata.tech/nlcs/def/d2e26a67-326a-4b64-8180-deffd224fe9b,\"\"2\"\",\"\"SAL\"\",\"\"http://digitalbuildingdata.tech/nlcs/def/1e02896a-657e-4b98-8558-746485c91f82\"\",\"\"\"\",\"\"SAL-TEKENBLAD_A0_841X1050-SO\"\",\"\"SO\"\",\"\"\"\"\"\n\nAls de 5.1 de data op dezelfde manier zou moeten bevatten als de 5.0 (en niet 5.02) dan zou de waarde in veld Symbool \"TEKENBLAD_A0_841X1050\" moeten zijn.",
+      "> Als de 5.1 de data op dezelfde manier zou moeten bevatten als de 5.0 (en niet 5.02) dan zou de waarde in veld Symbool \"TEKENBLAD_A0_841X1050\" moeten zijn.\n\nwe hadden voor de linked data publicatie de afspraak gemaakt om in de **outputtabellen** de methode van de expertcommissie te gebruiken, dus dan moet je het vergelijken met de outputtabellen van 5.0, daar staat in de  Objectentabel voor dit voorbeeld: SAL:SAL-TEKENBLAD en in de symbolentabel voor dit voorbeeld staat de naam gesplitst in cellen:\nSAL | - | TEKENBLAD | _ | A0 | _ | 841X1050\n\nde **linked database** levert de volledige naam van het symbool in dit geval SAL-TEKENBLAD_A0_841X1050-SOMM\n\n- [x] De vraag aan de technische commissie is: moeten we de **tabellen** kunnen genereren zoals bij 5.0, dan moet ik de query's aanpassen voor bijvoorbeeld de symbolentabellen; of moeten we (ook) de namen van de symbolen die uitgespuugd worden verkorten in de **linked database** en deze als TEKENBLAD_A0_841X1050 publiceren?\n\n- [x] Antwoord 24-7-2025: graag outputtabellen maken waarin die scheidingen wel worden aangebracht, zo veel mogelijk sql volgen",
+      "> Arceringsbibliotheken:\n> \n> * [x]  De omschrijving wisselt tussen \"Arceringenbibliotheek\" en \"Arceringsbibliotheek\". Beter om beide weg te laten uit de omschrijving.[ ]  De naam zou de hoofdletters moeten bevatten van de afkorting.\n\nDit gaat om de omschrijving, dit is de definitie van het concept. Als we alleen de naam van de hoofdgroep geven is de definitie niet erg duidelijk\n\n- [x] Vraag aan technische commissie: dit is niet relevant voor technische implementatie? Is dit een discussiepunt voor de inhoudelijke experts?\n\n- [x] Antwoord 24-7-2025: de software geeft voor de gebruikers al aan dat ze een arcering zoeken, liefst alleen de naam van de hoofdgroep, niet de term symbolenbibliotheek of arceringsbibliotheek. Graag met hoofdletters voor de afkortingen.",
+      "> Arceringen:\n> \n> * [x]  De naam bevat de optie als toevoeging, lastig om te splitsen.\n\n- [x]  vraag aan technische commissie, gaat het hier om de outputtabellen, en wil je hierin de naam gesplitst zien? of wil je dit ook in de linked database?\n- [x] Antwoord 24-7-2025: hele naam in tabellen, daarnaast voor- en navoegsels los & zoekterm. Query dus aanpassen, publicatie niet.\n\n in de output die we nu maken wordt de gehele naam gegeven van de arcering (van het bestand) met daarnaast de optie en de \n\n| id | abib_id | fase | arcering   | optie | schaal  | vrkl_kort | vrkl_lang                                                                                                                                       | versie | status    | opmerkingen                                                                                   |\n|----|---------|------|------------|-------|---------|-----------|------------------------------------------------------------------------------------------------------------------------------------------------|--------|-----------|------------------------------------------------------------------------------------------------|\n| 1  | 1       |      | BALLAST_01 | SODMM | 1.00000 | ballast01 | 45,0,0,0,5.715<br>45,1.34704,0,0,5.715<br>45,2.69408,0,0,5.715<br>45,4.04112,0,0,5.715                                                          | 5.0    | GEWIJZIGD | Uniforme Pat file, SO > SODMM, verklaring kort aangepast                                      |\n\ndit Excel 5.02 zoals geleverd bij de linked data publicatie in 2023:\n| FASE | BIB | ARCERING | > | > | > | > | > | > | > | OPT | SCHAAL  | VERSIE | WIJZIGING                                | STATUS    | ID  | VRKL-KORT | VRKL-LANG                                                                                                                  |\n|------|-----|----------|---|---|---|---|---|---|---|-----|---------|--------|------------------------------------------|-----------|-----|------------|-----------------------------------------------------------------------------------------------------------------------------|\n|      | AGW | BAGGERVAK|   |   |   |   |   |   |   | SO  | 1.00000 | 5.0    | Uniforme Pat file, verklaring kort aangepast | GEWIJZIGD | 283 | baggervak  | \"60,0,0,2.38125,4.124445,2.38125,-2.38125<br>120,0,0,2.38125,4.124445,2.38125,-2.38125<br>0,-1.190625,2.062225,2.38125,4.124445,2.38125,-2.38125\" |\n\nDit 5.1, de naam van de arcering wordt als één geheel gepubliceerd ook in linked data\n| arceringURI                                                                                 | id | abibliotheekURI                                                                   | abibliotheek | fase | arcering              | optie | schaal | vrkl_kort | vrkl_lang                                                                                   | fileURL                                                                                                                     |\n|---------------------------------------------------------------------------------------------|----|------------------------------------------------------------------------------------|---------------|------|------------------------|-------|--------|-----------|----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|\n| http://digitalbuildingdata.tech/nlcs/def/56665ec5-9e58-4357-b282-a88dac73ab23               | 1  | http://digitalbuildingdata.tech/nlcs/def/b60398de-34f8-4300-8826-acdb4f01f561     | ACO           |      | ACO-BALLAST_01-SODMM  | SODMM | 1      | ballast01 | 45,0,0,0,5.715 45,1.34704,0,0,5.715 45,2.69408,0,0,5.715 45,4.04112,0,0,5.715              | https://github.com/nl-digigo/NLCS/tree/main/arceringen/concept/5.1/ACO-BALLAST_01-SODMM.pat                                 |\n\n>  [ ]  Bij object met ID:451 mist de schaalwaarde.  \n\nBij object met ID:451 mist de schaalwaarde > dit heb ik aangepast naar 1\n\n> Bij sommige objecten is geen \"vrkl_kort\" waarde aanwezig (nog niet bekend of dit een probleem is).\n\ndit was al zo in de 5.0, voorstel: geen actie\n\n> Het veld \"vrkl_lang\" bevat de patroon (nog niet bekend of dit een probleem is).\n\ndit was al zo in de 5.0, voorstel: geen actie",
+      "> Hoofdgroep:\n> \n> * [x]  Hoofdgroep met ID:35 heette in v5.0 nog \"VS\", heet nu \"ES\". Dit kan mogelijk tot problemen leiden als er al objecten of symbolen voor gemaakt zijn (bijvoorbeeld in aanvullende eigen bibliotheken). Hoort bij naamswijziging geen nieuw ID toegekend te worden?\n\n- [x] Graag respons van technische commissie, de ID blijft hetzelfde, de naam wijzigt. Is dit technisch een probleem? De werkgroep stedelijk spoor vindt dit inhoudelijk beter aansluiten op de gebruikelijke spoorse termen. Dat individuele gebruikers wellicht al deze term hadden in hun oude systeem is jammer, maar gebruikelijk bij standaardisatie.\nAntwoord 24-7-2025: We publiceren ES onder een nieuw ID, in de definitie van hoofdgroep VS wordt verwezen naar de niewe hoofdgroep en term. dit geldt dan ook voor SES/AES\n\n- [x] Antwoord 24-7-2025: Issue ter discussie aanmaken voor volgende versies: omgang met wijzigingen, is  iets altijd een nieuwe ID > maar dan weet je niet meer dat je hetzelfde object bedoelt, maar een naam/informatieattribuut hebt gewijzigd. In de 5.1 zijn heel veel objecten van naam gewijzigd, symbolen hebben wel of geen SO toevoeging meer, dat soort vragen.",
+      "> Lijntypes:\n> \n> * [x]  De kolom \"lijntype\" ontbreekt (of de kolom \"omschrijving\" bevat de prefixen en suffixen waardoor het complex is om deze op te breken).[ ]  Ontbreekt een object met ID:1 (Continuous) voor alle hoofdgroepen? In de bibliotheekbestanden van 5.0 wel gevonden. Er is wel eentje voor fase \"V\" namelijk.\n\nwederom de discussie, welke output moet uit de database komen, en welke in tabellen staan.\n\nsql 5.0: \n| id | hoofdgroep | lijntype   | fase | optie | autocaddef | versie | status    | omschrijving | omschrijving_old | opmerkingen                         |\n|----|------------|------------|------|-------|------------|--------|-----------|--------------|------------------|-------------------------------------|\n| 1  |            | CONTINUOUS |      |       |            | 5.0    | GEWIJZIGD | CONTINUOUS   | CONTINUOUS       | Naamgeving aangepast aan FB 5.0     |\n\nExcel 5.0\n| ID | HOOFDGROEP | LIJNTYPE   | FASE | OPTIE | DEFINITIE                                              | VERSIE | STATUS    | OPMERKINGEN                         |\n|----|------------|------------|------|-------|---------------------------------------------------------|--------|-----------|-------------------------------------|\n| 1  |            | CONTINUOUS |      |       |                                                         | 5.0    | GEWIJZIGD | Naamgeving aangepast aan FB 5.0     |\n| 12 |            | CONTINUOUS | V    | SO    | A,3.5,[VERWIJDEREN2,NLCS.SHX,S=0.5],3.5                 | 5.0    | GEWIJZIGD | Naamgeving aangepast aan FB 5.0     |\n\nnlcs 5.1:\n| lijntypeURI                                                                                   | id | hoofdgroep | omschrijving        | fase | optie | autocaddef                         |\n|-----------------------------------------------------------------------------------------------|----|-------------|----------------------|------|-------|------------------------------------|\n| http://digitalbuildingdata.tech/nlcs/def/472b6144-39d6-4c45-afa9-84f3b501e0d9                 | 8  | AL          | AL-TEKENBLADGRENS-SO |      | SO    | A,2.5,-1.5,1,-1.5,1,-1.5,2.5       |",
+      "> Symbolenbibliotheken:\n> \n> * [x]  \"Verhardingen\" heeft geen prefix \"Symbolenbibliotheek\" in de omschrijving. Beter om bij alle anderen deze toevoeging te verwijderen.[x]  Er zijn twee bibliotheken met dezelfde naam: SHC en SHU.[x]  SHC moet \"HoutConstructies\" zijn.\n\nDefinities van bibliotheken is inhoud, is aan de expertcommissie > zijn deze definities überhaupt ergens zichtbaar voor eindgebruikers in de applicaties?",
+      "> * In de Excel-tabel van 5.0 stond SKL:SKL-POLLER, er staat nu SKL:POLLER Vraag aan technische commissie: wat is de gewenste output? is ook een aanpassing in de linked data publicatie nodig?\n> * \nAntwoord 24-7-2025: \n\n- [x] Actie: query aanpassen zodat SKL: eraf gehaald wordt; in linked data publicatie blijft de hoofdgroep erbij staan\n\nHierover heb ik wel een vraag gesteld in #659 want in de objectentabel in sql staat toch echt de bibliotheeknaam erbij, dus het zou kunnen dat elke leversncier dit anders heeft in de eigen database: INSERT INTO `object` VALUES('377','7','SIERPLANTSOEN','375','','0.13','90','92','90','90','253','1','0.35','90','92','90','90','253','1','0.35','90','92','90','90','253','1','0.35','90','92','90','90','253','12','G/A/S','SGR','SGR-SIERPLANTSOEN','AGR','AGR-SIERPLANTSOEN','','','3.1','VERVALLEN','Vervallen vanwege vervanging','11');",
+      "> * [x]  Vraag aan technische commissie: Is dit een probleem? Je kunt hier toch een symbool vinden die de gehele naam bevat? of wil je alleen de zoekterm en niet de symboolnaam?\n\nAntwoord 24-7-2025: \n- [x] Actie: zorgen dat er altijd een zoekerm is: ASPUNTNUMMER, de voorvoegsels met status en de SO/SOD... moeten niet in de tabel komen, ook al is er maar één symbool. Altijd zoekterm, nooit symboolnaam. Aanpassen stylesheet voor publicatie.  #654",
+      "> * [x]  Ontbreekt een object met ID:1 (Continuous) voor alle hoofdgroepen? In de bibliotheekbestanden van 5.0 wel gevonden. Er is wel eentje voor fase \"V\" namelijk.\n\nDeze zit nu wel in de outputtabel",
+      "Deze vragen en antwoorden zijn nu allemaal of opgelost in de database, of in een issue gezet als het gaat om het aanpassen van een query"
+    ]
+  },
+  {
+    "number": 651,
+    "title": "30 Arceringen in NLCS 5.0 passen niet in AutoCAD & pat bestand mist prefix",
+    "closed_at": "2025-08-04T13:01:03Z",
+    "labels": [
+      "Arceringen"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "De hatchpattern file die uit de NLCS komt heeft 2 problemen:\n•\tDe comment regel \"pat bestand gegenereerd uit de NLCS database versie 5.0\" mist de ;; prefix om deze tekst als comment te zien. Dit is makkelijk aan te passen en heb ik op onze cloud omgeving gedaan.\n•\tDe naam van de hatchpattern is te lang. Volgens de AutoCAD documentatie mag deze maximaal 31 tekens lang zijn. Zie AutoCAD help https://help.autodesk.com/view/ACD/2026/ENU/?guid=GUID-A6F2E6FF-1717-44B6-A476-0CA817ADD77E\n\no\tDit is een lastiger issue en komt bij 33 hatch patterns voor.\n \nBeide punten zijn issues in de NLCS en moeten daar opgelost worden! Dit moet terug gekoppeld worden bij de NLCS.",
+    "comments": [
+      "@gulaycanbaloglu there is a script generating the .PAT file, we need to ask Gerrit were this is?\n\nAnd can we make a query checking if a \"arcering\" has VRKL_LANG longer than 31 signs",
+      "@gerritversteegh",
+      "@gulaycanbaloglu I read the error, and it is not the VRKL_LANG that has a problem, its the lenght of the name in the .PAT:\n\n*ACO-BETON_IHWERKGESTORT-SODMM,inhetwerkgestort\n\nSo the query should check is the \"name\" together more than 31 characters\nI don't read anything about the description",
+      "there are still 40 arceringen with a name longer than 31 characters"
+    ]
+  },
+  {
+    "number": 654,
+    "title": "Always work with search-term for symbolen / arceringen and new query objects classic",
+    "closed_at": "2025-08-11T08:00:52Z",
+    "labels": [
+      "Symbolen",
+      "Arceringen"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "- [ ] We need a change in the stylesheet I'm afraid. If there is only one symbol or arcering connected to an NLCS Object, it still needs to get a \"searchterm\" in the publication:\n\nFor example this one: \n\n- [ ] In [query objects classic](https://github.com/nl-digigo/NLCS/blob/main/code/5.1/query%20objects%20classic) there should be no name for the hoofdgroep in the searchterm, in the example the searchterm should be \"SITUATIE\" not \"SMO-SITUATIE\"\n- [ ] In the same query, please ad a kolumn \"SBIB\"  and a kolumn \"ABIB\" were the name comes: SMO in ths example",
+    "comments": [
+      "We couldn't find any relevant section in the stylesheet. Maybe it was for the queries? If so, the searchterm for symbols exists and works correctly right now. Let me know if this is not sufficient.",
+      "Yep , it works. I found some mistakes but those were my faults in the database, I fixed those\n\nSGR-VEGETATIE_OPEN-SO\nSGR-VEGETATIE_GESLOTEN-SO\nB-SKL-ET_HS_OLIEDRUKINSTALLATIE-SO\nSMO-SITUATIE_RUIMTELIJKE EENHEID-SO\nSRI-PUT_OPHOOGTEBRENGEN-SO\nSVW-POLLER_VAST-SO\nSVW-POLLER_SCANPAAL-SO\nSVW-POLLER_BEWEEGBAAR-SO"
+    ]
+  },
+  {
+    "number": 655,
+    "title": "Query Arceringen, more columns",
+    "closed_at": "2025-08-04T10:15:13Z",
+    "labels": [
+      "Arceringen"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "[Query Arceringen](https://github.com/nl-digigo/NLCS/blob/main/code/5.1/NLCS_Query_Arceringen.rq) needs more columns: \n\nNow: ?arceringURI ?id ?abibliotheekURI ?abibliotheek ?fase ?arcering ?optie ?schaal ?vrkl_kort ?vrkl_lang ?fileURL\n\n- [x] Addition 1: after ?arcering which gives the entire name we need the \"searchterm\" for the arcering without the libraryname: in the example it shoud be \"BALLAST\"\n\n- [x] Addition 2 the name without the fase (N-,B-), and without the -optie (-SOMM) in the example: BALLAST_01, BALLAST_02, BALLAST_GROF",
+    "comments": [
+      "?searchterm and ?finalCleanName variables are added for this"
+    ]
+  },
+  {
+    "number": 656,
+    "title": "Query symbolen needs more colums",
+    "closed_at": "2025-08-04T10:14:30Z",
+    "labels": [
+      "Symbolen"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "[Query Symbolen](https://github.com/nl-digigo/NLCS/blob/main/code/5.1/NLCS_Query_Symbolen.rq) needs more columns:\n\nNow: ?symboolURI ?id ?sbibliotheek ?sbibliotheekURI ?fase ?symbool ?optie ?fileURL\n\n- [x] Addition 1: after ?symbool which gives the entire name we need the \"searchterm\" for the symbol without the library name: in the example it shoud be \"BOLLEN\"\nImage\n\n- [x] Addition 2 the name without the fase (N-,B-), and without the -optie (-SO) in the example: BOLLEN or BOLLEN_KL",
+    "comments": [
+      "?searchterm and ?finalCleanName variables are added for this"
+    ]
+  },
+  {
+    "number": 658,
+    "title": "Query lijntype aanvullen",
+    "closed_at": "2025-08-04T10:13:43Z",
+    "labels": [
+      "Lijnen"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "The [query for linetype](https://github.com/nl-digigo/NLCS/blob/main/code/5.1/NLCS_Query_Lijntypes.rq) needs one more column\n\nNow  ?lijntypeURI ?id ?hoofdgroep ?omschrijving ?fase ?optie ?autocaddef\n\n- [x] Addition 1 after omschrijving: the name without fase (N-, B- et cetera) and without the optie \"-SO\"",
+    "comments": [
+      "?finalCleanName variable added for this"
+    ]
+  },
+  {
+    "number": 659,
+    "title": "Checkvraag technische commissie; short name van symbolen / arceringen",
+    "closed_at": "2025-09-16T13:05:49Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "in de oude sql stond dit: 'SGR','SGR-SIERPLANTSOEN','AGR','AGR-SIERPLANTSOEN'  in de **objectentabel**\nINSERT INTO `object` VALUES('377','7','SIERPLANTSOEN','375','','0.13','90','92','90','90','253','1','0.35','90','92','90','90','253','1','0.35','90','92','90','90','253','1','0.35','90','92','90','90','253','12','G/A/S','SGR','SGR-SIERPLANTSOEN','AGR','AGR-SIERPLANTSOEN','','','3.1','VERVALLEN','Vervallen vanwege vervanging','11');\n\nin de discussie bij issue #641 leek het zo te zijn dat er alleen 'SGR','SIERPLANTSOEN','AGR','SIERPLANTSOEN' moet komen te staan. \n\nIk denk dat we hier de **objectentabel** en de **andere tabellen** door elkaar halen:\nINSERT INTO `symbolen` VALUES('443','6','V','SIERPLANTSOEN','SO','','','5.0','GEWIJZIGD','FORMAAT AANGEPAST');\nINSERT INTO `arceringen` VALUES('57','2','','SIERPLANTSOEN','SO','1.00000','sierplantsoen','030,-0.86603,-0.50000,5.00000,2.88675,2.00000,-8.00000\\r\\n090,0.00000,-1.00000,5.00000,2.88675,2.00000,-8.00000\\r\\n150,0.86603,-0.50000,5.00000,2.88675,2.00000,-8.00000\\r\\n','5.0','GEWIJZIGD','Uniforme Pat file');\n\nDus checkvraag aan de technische commissie: willen we inderdaad in de objectentabel dit genereren voor de 5.1:\n\nSGR','SIERPLANTSOEN','AGR','SIERPLANTSOEN'",
+    "comments": [
+      "in de laatste acceptatie-publicatie zijn we hier maar van uitgegaan, mondeling besproken dat het samenvoegen van kolommen voor iedere levernaicer haalbaar is, terwijl het splitsen van namen kan leiden tot fouten en dus beter bij de standaard al kan gebeuren"
+    ]
+  },
+  {
+    "number": 663,
+    "title": "Afwijkende URI's",
+    "closed_at": "2025-08-04T10:03:06Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "@gulaycanbaloglu I think you are the only one that can fix the [afwijkende URI's](https://github.com/nl-digigo/NLCS/blob/main/tabellen/concept/5.1/controles/controle_afwijkendeURIs.csv)",
+    "comments": []
+  },
+  {
+    "number": 664,
+    "title": "Checks arceringen, expired objects?",
+    "closed_at": "2025-08-04T10:02:59Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "@gulaycanbaloglu in the check for [arceringen]() are 4 expired objects, maybe that's what took so long we only export current objects\n\nI also can't see what went wrong with these, there is no clear error?",
+    "comments": []
+  },
+  {
+    "number": 665,
+    "title": "all-objects-concept-51 misses values",
+    "closed_at": "2025-08-04T10:02:44Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "the colors & id's are not there in this all objects table [all_objects-concept-5.1](https://github.com/nl-digigo/NLCS/blob/main/tabellen/concept/5.1/all_objects-concept-5.1.csv)\n\nthere is also a tabel with name [objects-concept-5-1](https://github.com/nl-digigo/NLCS/blob/main/tabellen/concept/5.1/objects-concept-5-1.csv) this one has only AL in it\n\nand another with name 5.1",
+    "comments": []
+  },
+  {
+    "number": 666,
+    "title": "CHECK DOUBLE id'S SYMBOLS",
+    "closed_at": "2025-08-01T12:23:59Z",
+    "labels": [
+      "Symbolen"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "",
+    "comments": []
+  },
+  {
+    "number": 667,
+    "title": "CHECK MISSING SUBOBJECTS & CHANGE QUERY",
+    "closed_at": "2025-08-04T11:36:08Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "@gulaycanbaloglu bewerkingen like -GRONDWERK are  correct",
+    "comments": []
+  },
+  {
+    "number": 669,
+    "title": "check control query object name should be arcering name",
+    "closed_at": "2025-08-04T09:59:54Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "",
+    "comments": []
+  },
+  {
+    "number": 670,
+    "title": "fix missing id & symbolen fase / optie",
+    "closed_at": "2025-08-01T10:22:03Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "",
+    "comments": []
+  },
+  {
+    "number": 674,
+    "title": "Nieuwe acceptatie-versie voor nlcs leveranciers",
+    "closed_at": "2025-09-16T12:57:04Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "Mail aan technische commissie en nlcs-leveranciers op 6-8-2025:\n\nGraag verwijs ik jullie naar de nieuwe acceptatie-versie van 5.1. Deze is opgesteld na feedback door de technische commissie, waarbij extra controles zijn uitgevoerd, en ook extra kolommen zijn toegevoegd aan de output tabellen. Voor de uitgebreide discussie verwijs ik naar #641. \nMet deze nieuwe versie moet het mogelijk zijn om een test-versie van de 5.1 te installeren in de NLCS-applicaties zonder nieuwe functionaliteiten ten opzichte van de 5.0 versie.\n\n- [Nieuwe acceptatie-versie[(http://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv5_1_4)  of link met /sparql erachteraan voor developers\n- [Tabellen](https://github.com/nl-digigo/NLCS/tree/main/tabellen/concept/5.1)\n- [Symbolen](https://github.com/nl-digigo/NLCS/tree/main/symbolen/concept/5.1)\n- [Arceringen](https://github.com/nl-digigo/NLCS/tree/main/arceringen/concept/5.1)\n\nVan de Beheercommissie het verzoek aan de NLCS-leveranciers om aan te geven op welke termijn jullie deze test-versie kunnen installeren en vrijgeven aan de expertcommissie en andere gebruikers.",
+    "comments": []
+  },
+  {
+    "number": 677,
+    "title": "feedback op acceptatieversie 5.0 van 1 juli",
+    "closed_at": "2025-09-16T13:06:59Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "We hebben alle data uit Laces gehaald met de geleverde sparql queries;\nHier een csv bestand van gedownload, hiervan sql queries gemaakt en import in de Bim database van Optimize.\nDit lukt met enige omwegen en wat handigheid;\n\nWat ik wel gecontroleerd heb zijn de dubbele Nummer in tabel Object;\nEnigszins verontrustend is dat de primary key in tabel object uitgezet moest worden (in de bim databse) om te kunnen importeren!;\nEn dan idd gelijke NUMMER zoals Anton aangeeft;\nDit is onze basis, dus zoals eerder gezegd, enigszins verontrustend;\n\nIk kan van de nlcs objecten die bestaan in de 5.0 de juiste Nummer achterhalen, kind_van uitzoeken enz.\nVan de nieuwe kan ik zelf Nummer genereren en de kind_van uitzoeken.\nDus het is allemaal op te lossen maar niet echt de bedoeling dat wij dat als leverancier moeten doen want beginnen met een brakke database is niet best, je wilt zeker weten dat alles klopt.\n\n•\tData zit in onze database, dat is al iets, dit lukt nu dus met wat sql scripts enz.\n(onze applicatie draait nog niet, eerst allerlei in orde maken in de database);\n•\tZoals het er nu voorstaat dus zelf de id’s matchen en allerlei in orde maken/controleren om te komen tot iets;\n•\tVeelal met sql scripts denk. Mogelijk voor tabel Object iets meer nodig;\n•\tControle’s op database integriteit, interne consistentie tussen de verschillende tabellen binnen die database nog niet gecontroleerd;\nMoet van aantal velden nl de Not Null clausule uitzetten en in tabel Object de primairy key om te kunnen importeren;\n(die Not Null niet altijd persé rampzalig, maar aantal velden zal toch gevuld moeten zijn);  \n\nEr zijn hierdoor twijfels of er nog meer niet klopt na bovenstaande;\n\n///////////////////////////////////////\n\nHet lijkt erop dat niet alle oude id’s uit de Oracle database gehandhaafd worden;\nDe sql tabellen kunnen op dit moment niet zonder meer nagebootst worden;\n\nNieuwe items mogen niet de id krijgen van een item dat vervallen is;\nBeter om vanaf maxId + 10 te beginnen met nieuwe id’s;\nDe id’s van nieuwe items moeten ook voor de toekomst gewaarborgd blijven.\n\nWij hebben naast de Bim database een Optimize- en Client database;\nOok hierin relaties met de id’s;\n\nOm verder te kunnen controleren in hoeverre de database klopt, moeten eerst de id’s in orde gemaakt worden.\nBehalve de id’s moet er nog eea gedaan worden om alles in te kunnen richten zoals voorheen.\nIn principe willen we dat niet zelf doen omdat we dan te veel aan de ‘originele’ set moeten gaan sleutelen en dit onderling tussen de leveranciers verschillen in de hand zou kunnen werken;\n\nHoofdgroep\nDe id van VS (in de 5.1 vervallen) was 35;\nDe id 35 wordt nu gegeven aan ES (nieuw in 5.1);\nIn de relaties in de database naar id 35 wordt nu dus ES gebruik.\nDat is niet goed.\nES zou nieuw uniek id horen te krijgen.\n(voor de Bim objecten lijkt dit geen kwaad te kunnen omdat deze geen VS objecten levert, maar als klanten getekend hebben op hoofdgroep 35 uit klant database, dan klopt dit niet.\n\nAbibliotheken\nHier verschillen groot deel van de id’s tussen de 5.0 en 5.1.\nDe ablibliotheken id heeft relatie naar andere database tabellen;\nDeze kloppen dan niet meer;\nDus om onze databases op orde te krijgen hoop werk;\nHet nut van meegeven id is zo weinig zinvol denk;\n\nSbibliotheken\nHier verschillen groot deel van de id’s tussen de 5.0 en 5.1.\nDe ablibliotheken id heeft relatie naar andere database tabellen;\nDeze kloppen dan niet meer;\nDus om onze databases op orde te krijgen hoop werk;\nHet nut van meegeven id is zo weinig zinvol denk;\n\nLijntypes\nOok hier verschillen de id’s tussen 5.0 en 5.1.\nEn in de 5.1 is in kolom de volledige lijntype naam opgegeven;\nIn de 5.0 slechts de  ‘main’gedeelte, de status en achtervoegsel (bijv. SO) volgen uit de kolommen fase en optie; \n\nArceringen\nOok hier verschillen de id’s tussen 5.0 en 5.1. (dit is geen probleem, deze id heeft geen relatie naar andere items);\nEn in de 5.1 is in kolom de volledige naam van de arcering opgegeven;\nIn de 5.0 slechts de  ‘main’gedeelte, de status en achtervoegsel (bijv. SO) volgen uit de kolommen fase en optie; \nEn de kolom met de id van de arcering bibliotheek onbetrouwbaar;\n\nSymbolen\nOok hier verschillen de id’s tussen 5.0 en 5.1. (dit is geen probleem, deze id heeft geen relatie naar andere items);\nEn in de 5.1 is in kolom de volledige naam van het symbool opgegeven;\nIn de 5.0 slechts de  ‘main’gedeelte, de status en achtervoegsel (bijv. SO) volgen uit de kolommen fase en optie; \nEn de kolom met de id van de symbool bibliotheek onbetrouwbaar;\n\nObject\nOf de Kind_van relaties kloppen heb ik nog niet gecontroleerd;\nOok niet of de Nummers kloppen met de 5.0;\n\nKolom naam\tBevinding\n\t\nHoofdgroep\tHier staat de afkorting van de hoofdgroep ipv de hoofdgroep id;\n\t\nOmschrijving\tHele levelnaam ipv objectnaam op diepste nivo;\n\t\nBewerking\tOntbreekt\nIs er geen Bewerking meer?\n\t\nNummer\t?\nNog niet volledig gecontroleerd\n\nZie wel dat niet alle nummers uniek zijn!\n\nDe reeds bestaande object Nummer zou moeten matchen met de object Nummer uit de 5.0.\n\t\nKind_van\t?\nNog niet gecontroleerd;\n\nDe reeds bestaande object Nummer met kind_van id zou moeten matchen met de object Nummer en kind_van uit de 5.0. Tenzij bewust aanpassingen gemaakt;\n\t\nLinetype\tHier staat volledige naam van linetype ipv id;\n\t\nElement\tKolom niet gevuld;\n\t\nSobject\n\tOntbreekt in de Objecten_verkort;\t\nAobject\n\tOntbreekt in de Objecten_verkort;\t\nVersie \tKolom bestaat niet;\n\t\nFase\tKolom bestaat niet;\n\t\nOpmerkingen \tKolom bestaat niet;",
+    "comments": [
+      "Deze feedback is grotendeels dubbel met #609 \n\nHet ging om de eerlaatst gepubliceerde versie; een groot deel van de problemen met ID’s blijkt te komen doordat de in plaats van naar een zoekterm voor symbolen te verwijzen, soms twee symbolen aan één object hadden gelinkt; bij output naar tabellen krijg je dan meer regels in plaats van één per object, omdat er per link naar een symbool een regel wordt aangemaakt. De database is dan niet per sé brak, maar de output wel. We hebben nu automatische checks gemaakt om te zorgen dat dit soort voorwaarden erin zitten en we niet meer dubbele links kunnen hebben. Dus als het goed is heb je deze problemen niet meer bij de nieuwste publicatie.\n\nWel is het zo, en ook besproken in de laatste technische commissie, dat niet elke naamswijziging van laagnaam leidt tot een nieuw ID, als wel hetzelfde object wordt bedoeld maar de laagnaamindeling veranderd is krijg je dus bij het bestaande ID een andere laagnaam. Dit moet geen probleem zijn bij het controleren van tekeningen, omdat daarbij de juiste versie van NLCS gebruikt kan worden om tegen te checken."
+    ]
+  },
+  {
+    "number": 693,
+    "title": "Kleurenkolommen en kind van kolommen  in objectentabellen geen geheel getal, maar decimaal",
+    "closed_at": "2025-09-16T12:56:29Z",
+    "labels": [],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "",
+    "comments": [
+      "kind van kolommen zijn gefixed, bij kleuren kon ik dit niet terug vinden"
+    ]
+  },
+  {
+    "number": 694,
+    "title": "Hoofdgroep constructies typefout \"Acceptatie versie 5.1.4\"",
+    "closed_at": "2025-09-11T07:30:59Z",
+    "labels": [
+      "disciplines"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "Ik heb achterhaald waar dit was: in Disciplines\nDe namen van de Disciplines horen ook de twee hoofdletters te bevatten (zoals in Hoofdgroepen het geval is), in de aangeleverde data is dat bij geen enkele het geval, 'milieu' wordt volledig in kleine letters geschreven en 'Contructies' is fout geschreven",
+    "comments": []
+  },
+  {
+    "number": 695,
+    "title": "GitHub inrichten met releases zodat we elke test versie goed kunnen tracken",
+    "closed_at": "2025-09-05T12:37:21Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "in de linked data publicatie is dat al zo, nu ook nog met de bestanden",
+    "comments": [
+      "Dit is wat ChatGPT als beste optie geeft: \nStappenplan (complexe manier)\n1. Basis: main en develop\n\nmain = alleen stabiele releases.\n\ndevelop = de branch waar je normaal in werkt.\n\n2. Nieuwe features ontwikkelen\n\nVoor een nieuwe functie maak je een aparte branch:\n\ngit checkout -b feature/mijn-feature develop\n\nAls je klaar bent:\n\ngit checkout develop\ngit merge feature/mijn-feature\ngit push\n\n3. Release voorbereiden\n\nWanneer je klaar bent voor een release, maak je een release branch:\n\ngit checkout -b release/v1.0 develop\n\nHierin doe je alleen bugfixes en kleine tweaks.\n\nAls alles goed is:\n\ngit checkout main\ngit merge release/v1.0\ngit tag -a v1.0 -m \"Release 1.0\"\ngit push origin main --tags\n\n4. Doorwerken aan de volgende versie\n\nNa de release merge je ook terug naar develop:\n\ngit checkout develop\ngit merge release/v1.0\ngit push\n\nNu werk je verder op develop richting v1.1 of v2.0.\n\n5. Hotfixes voor oude versies\n\nAls er een bug in een oude release zit:\n\ngit checkout -b hotfix/v1.0.1 main\n\nFix maken → committen → dan weer mergen in main én develop.\n\nTag aanmaken:\n\ngit tag -a v1.0.1 -m \"Hotfix release 1.0.1\"\ngit push origin main --tags\n\n✅ Voordelen:\n\n- main bevat alleen stabiele releases.\n- \n- develop is je speelveld voor doorontwikkeling.\n- \n- Tags markeren de exacte versies.\n- \n- Je kunt oude versies blijven onderhouden met hotfix branches.",
+      "De respecs blijven gewoon vanyuit docs gepubliceerd, daar werkt versie management ouderwetser met bestanden per versie",
+      "ingericht en gedocumenteerd: Werkafspraak: branch- en releasebeleid\nDoel en scope\n\nDit document legt vast hoe we versies beheren en publiceren met drie vaste branches:\n\nmain – definitieve (productie)releases.\n\nacceptance – acceptatieversies voor openbare consultaties en testen in software.\n\ndevelopment – doorontwikkeling (dagelijks werk, features).\n\nBranches en gebruik\n\ndevelopment\n\nStartpunt voor alle feature-branches: feature/<korte-naam>.\n\nRegel: ontwikkel en review via Pull Requests (PR’s). Squash-merge features terug naar development.\n\nacceptance\n\nOntstaat door merge van development → acceptance wanneer we “code freeze” voor de volgende versie willen.\n\nAlleen bugfixes en tekstafspraken voor de consultatie/performance-tests.\n\nmain\n\nOntstaat door merge van acceptance → main nadat de acceptatie is goedgekeurd.\n\nBevat uitsluitend stabiele, gepubliceerde releases.\n\nVersietags (naming)\n\nProductie (main): SemVer vMAJOR.MINOR.PATCH (bijv. v1.3.0).\n\nAcceptatie: vMAJOR.MINOR.PATCH-acc.N (bijv. v1.3.0-acc.1, v1.3.0-acc.2).\n\nGebruik altijd een tag bij een release zodat de versie exact herleidbaar is.\n\nReleaseproces (samengevat)\n\nVoorbereiden\n\nFeatures afronden in development.\n\nPR’s reviewen, CI groen.\n\nAcceptatieversie\n\ndevelopment → acceptance (merge).\n\nTag: vX.Y.Z-acc.1 (en eventueel -acc.2, … bij extra correcties).\n\nPubliceer naar de acceptatieomgeving (zie CI/CD).\n\nDefinitieve release\n\nNa goedgekeurde acceptatie: acceptance → main (merge).\n\nTag: vX.Y.Z.\n\nPubliceer naar productieomgeving (zie CI/CD).\n\nNa release\n\nBack-merge fixes van main terug naar acceptance en development (repository blijft in sync).\n\nHotfixes\n\nKritieke bug in productie?\n\nBranch: hotfix/vX.Y.Z+1 vanaf main.\n\nFix → PR → merge naar main → tag vX.Y.(Z+1) → publiceer.\n\nAltijd terug mergen naar acceptance en development.\n\nPublicatiebeleid (ReSpec & sites)\n\nAlleen releases publiceren; geen automatische publicatie bij gewone commits.\n\nAcceptatiepublicatie: bij tags met -acc. op acceptance.\n\nProductiepublicatie: bij SemVer-tags (zonder -acc) op main."
+    ]
+  },
+  {
+    "number": 698,
+    "title": "Feedback on \"Acceptatie versie 5.1.4\"",
+    "closed_at": "2025-09-16T12:55:22Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "De laatste versie (van 04-09-2025) van de datatabellen heb ik nu beoordeeld voor het omzetten naar ons bibliotheekformaat. Ondanks de aanpassingen gaat het helaas nog steeds niet goed:\n\n- [x] \tHet veld 'finalCleanName' in 'Arceringen', 'Lijntypes' en 'Symbolen' (andere niet getest) wordt op een verkeerde manier samengesteld. Vermoedelijk gebruik je een zoek-vervang functie wat destructiever is dan gewenst. \no\tVerwijderen van optie 'SO': Bijvoorbeeld namen met 'SONDERING' wordt 'NDERING', 'BOSPLANTSOEN' wordt 'BOSPLANTEN', 'SOORT' wordt 'ORT'\no\tVerwijderen van optie 'D': Bijvoorbeeld 'MAAIVELD' wordt 'MAAIVEL'\no\tVerwijderen van fase 'V': Bijvoorbeeld 'BEVER' wordt 'BEER'\n- [x] In ieder geval Arceringen bevat een serie objecten zonder ID\n- [x] De ID's in Arceringen bevatten een decimale punt en één decimaal\n- [x] De namen van de Disciplines horen ook de twee hoofdletters te bevatten (zoals in Hoofdgroepen het geval is), in de aangeleverde data is dat bij geen enkele het geval, 'milieu' wordt volledig in kleine letters geschreven en 'Contructies' is fout geschreven\n\nMet name de eerste twee issues zijn door ons niet op te lossen. Bovendien wil ik toch benadrukken dat deze issues in een eerder stadium al onderschept hadden moeten worden. Het kost ons behoorlijk veel tijd en inspanning om dit te constateren en weer te wachten op nieuwe data, waar dan hopelijk niet nieuwe issues in voorkomen. We zouden erop moeten vertrouwen dat wat aan ons aangeleverd wordt, in ieder geval correcte data is.",
+    "comments": [
+      "@gerritversteegh kunnen we in de stylesheet zorgen dat alle ID's alleen gehele getallen zijn?",
+      "@gulaycanbaloglu didn't we make a script checking for the absence of ID's?",
+      "> * [x]  De namen van de Disciplines horen ook de twee hoofdletters te bevatten (zoals in Hoofdgroepen het geval is), in de aangeleverde data is dat bij geen enkele het geval, 'milieu' wordt volledig in kleine letters geschreven en 'Contructies' is fout geschreven\n\nfixed this",
+      "> * [x]  In ieder geval Arceringen bevat een serie objecten zonder ID\n\nAnalyse van het probleem: bij de arceringen zijn ook \"zoektermen\" gepubliceerd, deze leiden niet naar een bestand maar zijn in gebruik om te zoeken naar arceringen die deze zoekterm bevatten. Deze zoektermen hebben geen ID en moeten ook niet worden gepubliceerd in de lijst met arceringen. \n\n@gulaycanbaloglu in the export table of arceringen, we need to leave the search terms out, example is \"FUNDERING_GRAN\" this is not an actual arcering-file, only a search term. These are the ones without ID",
+      "> * Het veld 'finalCleanName' in 'Arceringen', 'Lijntypes' en 'Symbolen' (andere niet getest) wordt op een verkeerde manier samengesteld. Vermoedelijk gebruik je een zoek-vervang functie wat destructiever is dan gewenst.\n>   o\tVerwijderen van optie 'SO': Bijvoorbeeld namen met 'SONDERING' wordt 'NDERING', 'BOSPLANTSOEN' wordt 'BOSPLANTEN', 'SOORT' wordt 'ORT'\n>   o\tVerwijderen van optie 'D': Bijvoorbeeld 'MAAIVELD' wordt 'MAAIVEL'\n>   o\tVerwijderen van fase 'V': Bijvoorbeeld 'BEVER' wordt 'BEER'\n\n@gulaycanbaloglu your script for the table of areceringen removed SO, B and V bot only from the beginning or end, but also in names, it needs to be rewritten",
+      "> * [x]  De ID's in Arceringen bevatten een decimale punt en één decimaal\n\n@gerritversteegh kun je meteen ook zorgen dat er geen decimaal wordt gepubliceerd bij de schaal, daar staat ook in de database gewoon 1 en in de output 1.0",
+      "> [@gerritversteegh](https://github.com/gerritversteegh) kunnen we in de stylesheet zorgen dat alle ID's alleen gehele getallen zijn?\n\nIk heb de publicatie bekeken en daarin lijkt het goed te gaan, ik kijk nu naar het script",
+      "> > * [x]   De namen van de Disciplines horen ook de twee hoofdletters te bevatten (zoals in Hoofdgroepen het geval is), in de aangeleverde data is dat bij geen enkele het geval, 'milieu' wordt volledig in kleine letters geschreven en 'Contructies' is fout geschreven\n> \n> fixed this\n\nMoet er een nieuwe publicatie gemaakt worden?",
+      "> > * [x]   In ieder geval Arceringen bevat een serie objecten zonder ID\n> \n> Analyse van het probleem: bij de arceringen zijn ook \"zoektermen\" gepubliceerd, deze leiden niet naar een bestand maar zijn in gebruik om te zoeken naar arceringen die deze zoekterm bevatten. Deze zoektermen hebben geen ID en moeten ook niet worden gepubliceerd in de lijst met arceringen.\n> \n> [@gulaycanbaloglu](https://github.com/gulaycanbaloglu) in the export table of arceringen, we need to leave the search terms out, example is \"FUNDERING_GRAN\" this is not an actual arcering-file, only a search term. These are the ones without ID\n\nDo you want to keep the searchterm present as a column in the Excel files? We will definitely remove the rows for searchterms",
+      "> > * Het veld 'finalCleanName' in 'Arceringen', 'Lijntypes' en 'Symbolen' (andere niet getest) wordt op een verkeerde manier samengesteld. Vermoedelijk gebruik je een zoek-vervang functie wat destructiever is dan gewenst.\n> >   o\tVerwijderen van optie 'SO': Bijvoorbeeld namen met 'SONDERING' wordt 'NDERING', 'BOSPLANTSOEN' wordt 'BOSPLANTEN', 'SOORT' wordt 'ORT'\n> >   o\tVerwijderen van optie 'D': Bijvoorbeeld 'MAAIVELD' wordt 'MAAIVEL'\n> >   o\tVerwijderen van fase 'V': Bijvoorbeeld 'BEVER' wordt 'BEER'\n> \n> [@gulaycanbaloglu](https://github.com/gulaycanbaloglu) your script for the table of areceringen removed SO, B and V bot only from the beginning or end, but also in names, it needs to be rewritten\n\nI updated the queries and this issue seems to be resolved now. However, some symbols do not have a filled in information attribute for e.g. Optie which makes it seem like the query can still give faulty results. This would need to be resolved in the workspace ideally. Ill check the controle queries to see what is going wrong",
+      "@ElisabethDeVries [The output tables have been updated](https://github.com/nl-digigo/NLCS/tree/main/tabellen/concept/5.1). Im still checking some controle queries and it seems like there's still some information missing for the Symbols, so we might need to update the publication soon. First ill finish checking all the queries and then ill let you know",
+      "I think the controle queries are all good now. I did have to update a few of them and now I do see some results. I asked Gulay to provide you with the output tables for those queries",
+      "> > > * [x]    De namen van de Disciplines horen ook de twee hoofdletters te bevatten (zoals in Hoofdgroepen het geval is), in de aangeleverde data is dat bij geen enkele het geval, 'milieu' wordt volledig in kleine letters geschreven en 'Contructies' is fout geschreven\n> > \n> > \n> > fixed this\n> \n> Moet er een nieuwe publicatie gemaakt worden?\n\nNee, foutjes in de definities van disciplines zijn tekstueel en kunnen straks in de definitieve publicatie meekomen",
+      "> > > * [x]    In ieder geval Arceringen bevat een serie objecten zonder ID\n> > \n> > \n> > Analyse van het probleem: bij de arceringen zijn ook \"zoektermen\" gepubliceerd, deze leiden niet naar een bestand maar zijn in gebruik om te zoeken naar arceringen die deze zoekterm bevatten. Deze zoektermen hebben geen ID en moeten ook niet worden gepubliceerd in de lijst met arceringen.\n> > [@gulaycanbaloglu](https://github.com/gulaycanbaloglu) in the export table of arceringen, we need to leave the search terms out, example is \"FUNDERING_GRAN\" this is not an actual arcering-file, only a search term. These are the ones without ID\n> \n> Do you want to keep the searchterm present as a column in the Excel files? We will definitely remove the rows for searchterms\n\nyes, I would like to keep the column and delete the rows",
+      "@gerritversteegh in de symbolentabel zitten nu geen ID's  ik zie inderdaad ook dat er opties missen; en soms is de fase niet van de naam afgesplitst waarschijnlijk omdat ook de fase niet was ingevuld \n\nik dahct dat we hier al automatische checks voor hadden gemaakt, en er nu een controletabel die er eerst niet meer was toen we de laatste versie gingen publiceren, gek. Ik ga in elk geval in LACES de opties en fases van symbolen invullen en dat betekent dat we inderdaad een nieuwe publicatie moeten doen",
+      "- [x] en. Ik zag in ieder geval bij de symbolen nog wel wat foutjes. Daarna is het waarschijnlijk goed om opnw te publiceren.\n- [x]  Ik zag trouwens dat bij arceringen er nog niet op missende vrkl_kort werd gezocht, klopt het dat die mogen ontbreken? ja die mogen ontbreken\n- [x] Anders kloppen de .PAT bestanden ook niet allemaal. \n- [x] Daarnaast zag ik bij de normale & de controle query van de symbolen geen ID in de output werd verwerkt. Is dit ook goed zo of moet deze toegevoegd worden? @gulaycanbaloglu we need an ID column in the table for symbols",
+      "I've made a new (test) publication and updated the queries and tables in the development branch. \nLet me know if the tables look how you expected, so that I can update the acceptatie publication as well. @ElisabethDeVries",
+      "I made issue #700 \nlets fix this before publishing a new acceptance version",
+      "made new release"
+    ]
+  },
+  {
+    "number": 700,
+    "title": "missing values SO and phase for linetypes",
+    "closed_at": "2025-09-16T12:14:41Z",
+    "labels": [
+      "Lijnen"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "example missing V-SB-OMGRENZINGSPROFIEL_DYNAMISCH-SO  V and SO missing in data\n\nwe need a controle query to check for this\n\nI'll make the additions in the database",
+    "comments": [
+      "Database for 5.1 has been updated",
+      "I wrote the query and it returned this one only:",
+      "that's great, the query is working, let ignore this one mistake and continue publishing for the test"
+    ]
+  },
+  {
+    "number": 704,
+    "title": "Feedback rv5.1.5",
+    "closed_at": "2025-09-19T09:14:29Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "Bedankt voor de verbeteringen. Bij het verwerken kom ik helaas nog wel nieuwe issues tegen:\n\n-\tArceringen: Bij een handvol arceerpatronen zitten nu tab-tekens die ervoor zorgen dat het veld niet goed ingelezen kan worden in Excel,\n-\tLijntypes: Meerdere regels hebben het afsluitende aanhalingsteken op de volgende regel staan (mogelijk een EOL teken ervoor?)\n-\tSymbolen: De data mist een veld 'id' en een veld \"guid\". Deze ontbreekt ook in de vorige levering van 04-09, toen ben ik niet toegekomen aan dit bestand. In de levering van 16-07 zijn deze kolommen wel geleverd.\n\nVerder is het databestand Disciplines niet aangepast (dubbele hoofdletters in de naam en typefout 'Contructies').\n\nOm verder de kunnen, heb ik een bijgewerkt databestand nodig van de Symbolen. De overige meldingen heb ik handmatig opgelost maar horen in een volgende levering wel aangepast te zijn. Kun je een nieuwe levering klaarzetten?",
+    "comments": [
+      "> * Arceringen: Bij een handvol arceerpatronen zitten nu tab-tekens die ervoor zorgen dat het veld niet goed ingelezen kan worden in Excel,\n\nHeb dit gevraagd: \nBij mij komt elke arcering in de csv op één regel en kan dit naar excel met keuze komma-separated worden omgezet in op één regel, ik snap hier niet goed wat het probleem is? Kun je ook even kijken of dit aan je branch versie ligt of mij een voorbeeld sturen van het probleem?",
+      "> * Lijntypes: Meerdere regels hebben het afsluitende aanhalingsteken op de volgende regel staan (mogelijk een EOL teken ervoor?)\n\nIk zie inderdaad dat er enkele EOL in de database staan die leiden tot lege regels in de csv, ik zal zorgen voor een extra controle die dit er voortaan uithaalt in nieuwe publicaties. Heb issue #705 aangemaakt hiervoor.",
+      "> * Symbolen: De data mist een veld 'id' en een veld \"guid\". Deze ontbreekt ook in de vorige levering van 04-09, toen ben ik niet toegekomen aan dit bestand. In de levering van 16-07 zijn deze kolommen wel geleverd.\n\nID is al toegevoegd in de juiste branch, de GUID niet > ik zal vragen om dit nog toe te voegen, ik wist niet dat degenen die de csv’s gebruiken deze informatie al kunnen opnemen, zat niet in de oude sql database. Heb issue #706 aangemaakt hiervoor",
+      "> Verder is het databestand Disciplines niet aangepast (dubbele hoofdletters in de naam en typefout 'Contructies').\n\nDit zie ik niet, in de release op de acceptatie-branch is dit wel aangepast\nJe hebt op dit moment waarschijnlijk een clone van de “main” branch van GitHub op je computer staan, zoals in een eerdere mail gestuurd publiceren we vanaf nu releases op branches, de huidige acceptatieversie staat dus op een andere branch. Tip: even je lokale clone weggooien en de acceptatie-branch clonen werkt het makkelijkst met al onze bestanden."
+    ]
+  },
+  {
+    "number": 705,
+    "title": "end of lines in linetypes",
+    "closed_at": "2025-09-18T13:05:19Z",
+    "labels": [],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "@gulaycanbaloglu we had a few linetypes with an end of line-symbol, this shouldn't be in there. Can we add a check on this in the query checking the linetypes?",
+    "comments": [
+      "could you please provide an example for this?",
+      "In the LACES space, I already removed them, it was litterally an empty line as last line, in the csv it looks like this: \n\nhttp://digitalbuildingdata.tech/nlcs/def/124acf5c-1cc5-46e5-9d84-8c607e98be86,876,IE,IE-CONSTRUCTIEVE AFSCHEIDING_SCHUTTING-SO,CONSTRUCTIEVE AFSCHEIDING_SCHUTTING,,SO,\"A,4,[B20-10V,NLCS.SHX,r=90,s=0.75],4,-2\n\"\nhttp://digitalbuildingdata.tech/nlcs/def/6f4724bd-e71e-480b-8529-be298d5c14c4,90,IE,IE-CONSTRUCTIEVE AFSCHEIDING-SO,CONSTRUCTIEVE AFSCHEIDING,,SO,\"A,4,[B20-10V,NLCS.SHX,r=90,s=0.75],4,-2\"\n\nyou can see in the first line, the \" is on the next line this is the error",
+      "It leaves an empty row if you open this in Excel",
+      "thank you, i updated the query to check for wrong (unnecessary) new lines and fix it for output"
+    ]
+  },
+  {
+    "number": 706,
+    "title": "add column URI's to symbols-query",
+    "closed_at": "2025-09-19T09:14:46Z",
+    "labels": [],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "@gulaycanbaloglu can we add a column with the uri's of the symbols to the query and output tabels of the symbols",
+    "comments": [
+      "added in acceptance"
+    ]
+  },
+  {
+    "number": 737,
+    "title": "SIS-symbolen hebben unit ipv unitless",
+    "closed_at": "2025-11-28T14:23:57Z",
+    "labels": [
+      "IS installaties spoor"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "•\tSommige SO symbolen zijn toch met units Meters getekend, in plaats van unitless. Bijvoorbeeld de SIS symbolen.",
+    "comments": [
+      "@ElisabethDeVries De symbolen zijn voorbereid voor versie 5.1\nIn deze versie is opgenomen dat alle symbolen op 'Meters' of 'Millimeters' moeten staan.\nUnitless is vanaf 5.1 volledig vanaf gestapt.\n\nDeze wijziging is ook te zien tussen de beschrijving van versie 5.0 en 5.1",
+      "dank, dat was me even ontglipt."
+    ]
+  },
+  {
+    "number": 741,
+    "title": "feedback 5.1.5",
+    "closed_at": "2026-01-13T13:13:36Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "ontvangen per mail, vinkjes geven aan of opgelost, of onderliggende issue gemaakt voor uitwerking \n- [x] Lijntypes met teksten geven een '?' als preview en een foutmelding zodra dit lijntype geladen wordt. Een snelle blik in het LIN bestand lijkt het probleem gevonden, aanhalingstekens rondom de tekst worden geëscaped. Ik heb niet verder onderzocht of dit het probleem verhelpt en of er nog meer fouten zitten in de lijntypes.\n- [x] Symbolen zijn niet geoptimaliseerd en geven geen preview. Normaliter doen wij dat in onze beheersoftware zelf nog een keer, maar vanwege de vele wijzigingen in het aanleveren moeten we onze beheertools eerst herschrijven.\n- [x] Sommige SO symbolen zijn toch met units Meters getekend, in plaats van unitless. Bijvoorbeeld de SIS symbolen.\n- [x] Veel dubbele objecten, zoals \"RIOOLLEIDING\":\n\nDit lijkt op te treden bij objecten met een bewerking. In de vorige bibliotheek zijn dan de omschrijving-velden leeg gelaten. Misschien is dit iets typisch voor InfraCAD en kunnen we het zelf oplossen in de data, maar mogelijk hebben andere leveranciers hetzelfde?\n- [x] SBS arceringen lijken nog steeds fouten te geven, waren die niet opgelost in 5.0.1?\n- [x] Veel symbolen hebben ook een status B voorkomen terwijl ze inhoudelijk gelijk zijn, zoals SKL-DATA_AANSLUITPUNT\n- [ ] Op de een of andere manier is het onmogelijk om een tekst- of maatvoeringsobject aan te maken in InfraCAD, maar het is nog niet duidelijk waarom de nieuwe data dit tegengaat.\n- [x] Kloppen zoekfilters wel, zoals de sub-objecten van IS >> KAST? BAKEN, DRIS, MINUS, enz hebben allemaal dezelfde symbolen als hun parent.\n- [x] Objecten die verwijderd worden en met een nieuwe ID toegevoegd worden? Bijvoorbeeld \"BORD\" met ID 2638 is verdwenen, maar er is een nieuw BORD object met ID 5415, waardoor er ineens twee BORD objecten in onze bibliotheek voorkomen (wij hadden onder het oorspronkelijke object nog eigen sub-objecten toegevoegd)\nMaar de grote vraag: Waarom?\n\nInhoudelijke opmerkingen bij deze dataset:\n\n- [x] Er zijn behoorlijk wat nieuwe objecten bijgekomen en ook veel verwijderd, verplaatst of kleuren gewijzigd. Of zomaar van ID veranderd. Wordt ergens gedocumenteerd welke objecten worden verwijderd en waarom? Er wordt namelijk geen versie-historie meer beheerd en het is dus voor mappings niet te achterhalen waarheen een object nu moet verwijzen. Dit kost ongelofelijk veel werk om weer goed te krijgen. Niet alleen zoals het bovenstaande voorbeeld van de borden, maar ook zijn er objecten KADASTRAAL verdwenen:\n \nWie bepaalt dat het object met het specifieke lijntype moet verdwijnen? Ook het object uit de ondergrond is weg, wat misschien wel een heel andere betekenis heeft. Veel objecten worden ook gebruikt in mappings, en werken nu niet meer. Vandaar de vraag, is het gedocumenteerd waarom, en waarheen nu verwezen moet worden?\n- [x] Er zijn veel objecten met haakjes, in een andere discussie op GitHub wordt genoemd dat dit een structuur-breek is. Worden deze objecten toegevoegd zonder een degelijke beoordeling?\n- [ ] Aanvullende vraag: wie controleert de aangeleverde nieuwe objecten en symbolen? Het lijkt alsof ze ongezien aan de bibliotheek worden toegevoegd. Er worden nu regelmatig opschoonrondes gehouden, gaan we over een paar jaar pas deze nieuwe aanleveringen beoordelen en opschonen?",
+    "comments": [
+      "> * [x]  Objecten die verwijderd worden en met een nieuwe ID toegevoegd worden? Bijvoorbeeld \"BORD\" met ID 2638 is verdwenen, maar er is een nieuw BORD object met ID 5415, waardoor er ineens twee BORD objecten in onze bibliotheek voorkomen (wij hadden onder het oorspronkelijke object nog eigen sub-objecten toegevoegd)\n>   Maar de grote vraag: Waarom?\n\ngaat verder bij issue #736",
+      "> * Veel dubbele objecten, zoals \"RIOOLLEIDING\":\n> \n> \n> Dit lijkt op te treden bij objecten met een bewerking. In de vorige bibliotheek zijn dan de omschrijving-velden leeg gelaten. Misschien is dit iets typisch voor InfraCAD en kunnen we het zelf oplossen in de data, maar mogelijk hebben andere leveranciers hetzelfde?\n\ndit gaat verder als vraag bij issue #744",
+      "> * [ ]  Lijntypes met teksten geven een '?' als preview en een foutmelding zodra dit lijntype geladen wordt. Een snelle blik in het LIN bestand lijkt het probleem gevonden, aanhalingstekens rondom de tekst worden geëscaped. Ik heb niet verder onderzocht of dit het probleem verhelpt en of er nog meer fouten zitten in de lijntypes.\n\ndit wordt verder uitgewerkt in #749",
+      "> * [ ]  Sommige SO symbolen zijn toch met units Meters getekend, in plaats van unitless. Bijvoorbeeld de SIS symbolen.\n\nzie #737",
+      "> * Symbolen zijn niet geoptimaliseerd en geven geen preview. Normaliter doen wij dat in onze beheersoftware zelf nog een keer, maar vanwege de vele wijzigingen in het aanleveren moeten we onze beheertools eerst herschrijven.\n\nzie \n#750",
+      "> SBS arceringen lijken nog steeds fouten te geven, waren die niet opgelost in 5.0.1?\n\nvraag gesteld wat hier het probleem is in issue #761",
+      "> Veel symbolen hebben ook een status B voorkomen terwijl ze inhoudelijk gelijk zijn, zoals SKL-DATA_AANSLUITPUNT\n\nIssue #762 aangemaakt",
+      "> \nKloppen zoekfilters wel, zoals de sub-objecten van IS >> KAST? BAKEN, DRIS, MINUS, enz hebben allemaal dezelfde symbolen als hun parent.\n\nZie issue #763",
+      "> Er zijn behoorlijk wat nieuwe objecten bijgekomen en ook veel verwijderd, verplaatst of kleuren gewijzigd. Of zomaar van ID veranderd. Wordt ergens gedocumenteerd welke objecten worden verwijderd en waarom? Er wordt namelijk geen versie-historie meer beheerd en het is dus voor mappings niet te achterhalen waarheen een object nu moet verwijzen. Dit kost ongelofelijk veel werk om weer goed te krijgen. Niet alleen zoals het bovenstaande voorbeeld van de borden, maar ook zijn er objecten KADASTRAAL verdwenen:\n\n> Wie bepaalt dat het object met het specifieke lijntype moet verdwijnen? Ook het object uit de ondergrond is weg, wat misschien wel een heel andere betekenis heeft. Veel objecten worden ook gebruikt in mappings, en werken nu niet meer. Vandaar de vraag, is het gedocumenteerd waarom, en waarheen nu verwezen moet worden?\n\nwordt opgepakt in issue #736",
+      "> Er zijn veel objecten met haakjes, in een andere discussie op GitHub wordt genoemd dat dit een structuur-breek is. Worden deze objecten toegevoegd zonder een degelijke beoordeling?",
+      "ik sluit deze issue, alle vragen zijn verwerkt tot onderliggende issues",
+      "> Aanvullende vraag: wie controleert de aangeleverde nieuwe objecten en symbolen? Het lijkt alsof ze ongezien aan de bibliotheek worden toegevoegd. Er worden nu regelmatig opschoonrondes gehouden, gaan we over een paar jaar pas deze nieuwe aanleveringen beoordelen en opschonen?\n\nalle wijzigingen vanuit issues en werkgroepen zijn eerst door de expertcommissie vastgesteld, of ingebracht door een werkgroep, een expert heeft vervolgens nieuwe symbolen en objectentabellen uitgewerkt die door de product manager zijn verwerkt. Na feedback door de technische commissie zijn ook controle queries gebouwd op de output. \n\nOmdat de standaard een aantal jaar niks heeft gedaan is het aantal wijzigingen heel groot geworden."
+    ]
+  },
+  {
+    "number": 764,
+    "title": "Objecten met haakjes",
+    "closed_at": "2026-01-22T11:12:04Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "Feedbck was: Er zijn veel objecten met haakjes, in een andere discussie op GitHub wordt genoemd dat dit een structuur-breek is. Worden deze objecten toegevoegd zonder een degelijke beoordeling?\n\nIk zie geen objecten met haakjes in de database?",
+    "comments": [
+      "Voor technische commissie 2026-02-22: Vaststellen wat het probleem is, ik kan geen objectnamen met haakjes vinden\n\nBlijkt om de \"specials\" te gaan van tekstobjecten en maatvoeringen in ZZ. Geen probleem in de publicatie."
+    ]
+  },
+  {
+    "number": 768,
+    "title": "Gebruikersvraag: nieuwe, vervallen, gewijzigde objecten",
+    "closed_at": "2026-02-06T10:50:33Z",
+    "labels": [
+      "ID en wijzigingen"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "**Kreeg deze vraag van softwareleverancier:**\n\nIs er een lijst beschikbaar vanuit Digigo met de nieuwe , gewijzigde en de vervallen objecten?\n\nKan ik ervan uitgaan dat voor een nieuw object altijd een ‘nieuw’ nummer gebruikt is? Dus niet een nummer van een vervallen of gewijzigd  object?\n\nEn van de gewijzigde objecten, hier zijn alle nummers intact gebleven?\nWordt er aangegeven wat er gewijzigd is? Bijv. Kleur, sobjec, abobject, hoofdgroep enz?\n\n**geantwoord:**\nIk heb query’s hiervoor klaarstaan https://github.com/nl-digigo/NLCS/tree/acceptance/code/nlcs/changelog\n\nHeb de tabellen nog niet uitgedraaid. Omdat ik deze vraag van meerdere kanten heb ontvangen zal ik ook de tabellen laten uitdraaien en dit opnemen in ons script wat bij elke publicatie de downloads draait, dan is het voortaan beschikbaar bij elke (acceptatie-)release.\n\n@gulaycanbaloglu this is a question about changed objects, can we make these query's part of the NLCS exporter? Can you put the output tables for the current acceptance-publication 5.1.5 in a new folder \"changelog\" in https://github.com/nl-digigo/NLCS/tree/acceptance/tabellen?",
+    "comments": [
+      "i added the folder and tables, updated the queries and the exporter",
+      "@gulaycanbaloglu there are 5 queries in the changelog, i only see two tables in https://github.com/nl-digigo/NLCS/tree/development/tabellen/changelog and they are nearly empty, something goes wrong",
+      "this was because of the comparison with previous acceptance version. It's changed to live one",
+      "I'll need these extra query's, could you make these and add them in the exporter, also export these to tables?\n\n1. NLCS objects with changed names, give the uri, id,  previous name and the new name,  (please use the full name: \t*_**_BV_OBSTAKELBEVEILIGER\n2. Symbols with new names, give the uri, id,  previous name and the new name,  \n3. Arceringen with new names, give the uri, id,  previous name and the new name,  \n4. Linetypes with new names, give the uri, id,  previous name and the new name,",
+      "i added the queries and tables now",
+      "something strange happens to the query changed names of nlcs objects, al 5.0 objects are like this: X_XX_....VOLZANDEN so you'll need to check that the query really gives the old name",
+      "X and XX are coming from the status and discipline in the data, shall I overwrite them as * and  ** in the script/query?",
+      "> X and XX are coming from the status and discipline in the data, shall I overwrite them as * and ** in the script/query?\n\nyes please",
+      "but the real problem is that every single object has the formula with volzanden, that can't be true",
+      "Sorry, what do you mean?",
+      "i'm looking at all the names in de \"old layername\" they are not correct, the query for the layername for 5.0 and for 5.1 is not working\n\n3017\t*_**_VH_GESLOTENVERHARDING_ASFALT_TUSSENLAAG_2-OPNIEUW STELLEN\t*_**_VH_GESLOTENVERHARDING_ASFALT_TUSSENLAAG_2\n2498\t*_**_VH_FUNDERING_GRANULAAT_MENG_HYDRAULISCH-OPNIEUW STELLEN\t*_**_VH_FUNDERING_GRANULAAT_MENG_HYDRAULISCH\n557\t*_**_KG_GRENS-OPNIEUW STELLEN\t*_**_KG_GRENS\n598\t*_**_KG_GRONDEIGENDOM-OPNIEUW STELLEN\t*_**_KG_GRONDEIGENDOM\n\nexample: 598 old name was *-**-KG-GRONDEIGENDOM  and the new name is also *-**-KG-GRONDEIGENDOM I don't know why this one is in the list?",
+      "I think the correct query for layernae is somewhere in the https://github.com/nl-digigo/NLCS/blob/development/code/nlcs/query%20objects%20classic",
+      "I think I got the issue, there is no Bewerking in 5.0, so it cannot attach it to laagnaam althugh it does for 5.1\n\nWhen I disregard bewerking, and put stars instead of Xs, it gives no changed names. Is that expected?",
+      "no, that is not expected\n\nexample 3122:\n 5.1  *-**-VW_AFZETTING_POLLER_KAST  \n 5.0  *-**-KL-POLLER_KAST\n\nan object kan have other hoofdgroep and other name both leads to a change in layer name",
+      "Okay I fixed the query now:\nhttps://github.com/nl-digigo/NLCS/blob/development/tabellen/changelog/NLCS_Query_VeranderdObjects-concept-5.1.csv",
+      "Better. one small thing, I think you are missing the -BEWERKING in the 5.0 version. Example are these objects, they seem to have the same name in 5.0 but in 5.1 you can see the bewerking\n\n3942\t*_**_RI_DWA_RIOOLLEIDING\t*_**_RI_DWA_RIOOLLEIDING-LINING\n3943\t*_**_RI_DWA_RIOOLLEIDING\t*_**_RI_DWA_RIOOLLEIDING-VOLSCHUIMEN\n3944\t*_**_RI_DWA_RIOOLLEIDING\t*_**_RI_DWA_RIOOLLEIDING-VOLZANDEN",
+      "Could you also check that the correct query's are here: https://github.com/nl-digigo/NLCS/tree/development/code/nlcs/changelog (I think you did update the query)",
+      "query and the table is updated"
+    ]
+  },
+  {
+    "number": 789,
+    "title": "Maken controle-query ongeldige karakters",
+    "closed_at": "2026-02-18T17:26:00Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "no \"-\" unless it's the last part & is a \"BEWERKING\"\nno “\\” en “/”\nno ,\nno blokhaken []\nlet's assume no ()\n\noutput = html tabel with green and red for above and orange if lower cases are used (BOVEN=green  versus boven=orange",
+    "comments": []
+  },
+  {
+    "number": 791,
+    "title": "Controle-query maken \"RGB-colors\"",
+    "closed_at": "2026-02-18T17:03:58Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "RGB-colors can only be used in information object N/b?V/.. color-v (for all statusses)\n\nkl_b_v\nkl_n_v\nthose can have RGB-color\n\nall the other colors need to be a color number",
+    "comments": []
+  },
+  {
+    "number": 792,
+    "title": "Controle-query kleuren",
+    "closed_at": "2026-02-20T09:30:33Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "Can there be a check that colors used are (a) one of the list of linecolors, or rgb; we had this problem that there were colors \"251.0\" imported, that's why this check is necessary",
+    "comments": []
+  },
+  {
+    "number": 793,
+    "title": "Cotrole-query op invullen van kleuren, lijnen enzovoorts bij objecten",
+    "closed_at": "2026-02-19T15:26:26Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "all information objects should be filled\n\nhtml-output per hoofdgroep object-tables with green and red",
+    "comments": [
+      "see html folder"
+    ]
+  },
+  {
+    "number": 799,
+    "title": "missing controle-querys in nlcs exporter",
+    "closed_at": "2026-02-11T14:51:51Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Technische issues voor NLCS 5.1",
+    "body": "i think we made these, but they arte not in de exporter, lets check this: \n\n1. Namen symbolen/arceringen: Bestaande controle-query die controleert of optie en fase in de symboolnaam, arceringnaam, lijntypenaam ook als data staan geregistreerd. \n2. Maximum lenght of name arceringen . #651 \n\nGeneral: for all control queries, make html-output tables with visible checks in red and green. Output a \"positive/complete\" list and a \"negative list\"",
+    "comments": [
+      "these queries were already processed, and now put under the 'contolesdatabase' folder.\nI'll open a new issue for general request about html files.",
+      "[[releasenote]] test functionality of release note"
+    ]
+  }
+]

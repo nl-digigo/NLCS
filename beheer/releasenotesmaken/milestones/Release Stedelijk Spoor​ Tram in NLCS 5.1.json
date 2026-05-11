@@ -1,0 +1,831 @@
+[
+  {
+    "number": 114,
+    "title": "Review objectentabel stedelijk spoor: Check op decompositie",
+    "closed_at": "2024-03-11T09:25:40Z",
+    "labels": [
+      "Stedelijk Spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "@NielsNederpel  zegt: •\tcheck goed of de nieuwe subobjecten wel allemaal een bovenliggen bestaand of nieuw object heeft zodat de decompositie goed gaat. aantal heb ik al aangegeven die ontbreken.\r\n\r\nActie Marco & Erwin & Paul",
+    "comments": [
+      "[Reactie HTM 20230619 - NLCS-OBJECTEN doorgenomen via Teams_opm_NN.xlsx](https://github.com/bimloket/NLCS/files/12534573/Reactie.HTM.20230619.-.NLCS-OBJECTEN.doorgenomen.via.Teams_opm_NN.xlsx)",
+      "Bestand geplaatst op https://github.com/bimloket/NLCS/blob/main/ontwikkeling/stedelijk%20spoor/Reactie%20HTM%2020230619%20-%20NLCS-OBJECTEN%20doorgenomen%20via%20Teams_opm_NN.xlsx",
+      "Besproken 11-12-2023: Aanvulling vanuit Marco en Erwin is gereed en er zijn 3 Excell bestanden naar Paul gestuurd. Paul maakt hier een Optimize-bestand van om daarna te laten testen door Marco&Erwin&Romano&Gerben.\r\nActie Paul -> na samenvoegen en controle excelllijst, delen en laten vaststellen door Expertcommissie. -> Bentley\r\nActie Romano en Gerbert -> Autodesk, CADAC en Arkance Systems.",
+      "22-01-2024: navraag gedaan er was is niet helemaal goed gedaan met het maken van 1 tabel, actie loopt nog.",
+      "Besproken 29-01-2024: actie loopt nog (Paul/Erwin/Marco)",
+      "Besproken 11-3-2024: Controle op de decompositie heeft plaatsgevonden door Corné en Niels.\r\nDe lijsten nu samenvoegen. Paul is hier nog mee bezig. Eind deze maand gereed en dan check door werkgroepleden.\r\nIssue afsluiten, Dit wordt verder afgehandeld onder #120"
+    ]
+  },
+  {
+    "number": 115,
+    "title": "Stedelijk Spoor, lagen met alleen tekst",
+    "closed_at": "2024-01-29T09:41:20Z",
+    "labels": [
+      "Informatiemodel",
+      "Stedelijk Spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Toetsen uitgangspunt bij expertcommissie: er zijn lagen met alleen tekst. Beschrijven waarom, toets of dit voldoet aan de uitgangspunten van NLCS\r\n\r\nActie: Marco & Erwin & Paul\r\n\r\n@NielsNederpel  zegt: •\ter zijn veel lagen als alleen tekst (-T) aangegeven in de database geven we dit niet aan en moeten dit dus wel objectenlagen worden (-G). Begrijp ik het goed dat je deze nooit zult tekenen als zijnde lijn/vlak/symbool? kunnen de teksten dan niet op een hoger of algemeen object gemaakt worden? Moet deze een herkenbare eigenlaag hebben?",
+    "comments": [
+      "Voorstel is om de teksten in een G-laag te zetten, om de gewone structuur van NLCs aan te houden; issue open laten staan om discussie te voeren over het informatiemodel en een eventuele formele ontologie",
+      "Besproken 11-12-2023: Erwin bespreekt dit met Marco. Normaal gesproken geen teksten in geometrielaag, Geen symbolen. Teksten apart in laag_label.",
+      "22-01-2024: teksten komen op lagen die eindigen op: -T te staan",
+      "Besproken 29-01-2024: Akkoord & issue afsluiten"
+    ]
+  },
+  {
+    "number": 116,
+    "title": "Stedelijk spoor: spaties en hoofdletter",
+    "closed_at": "2023-09-06T08:56:21Z",
+    "labels": [
+      "Netbeheer",
+      "Stedelijk Spoor",
+      "Bespreken EC"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "•\thoe gaan we nu om met spaties en hoofd en kleine letters bij bijbvoorbeeld kN. hier een besluit in nemen i.o.m. Expertcommissie. dit speelt ook bij werkgroep Netbeheer.",
+    "comments": [
+      "Objectnamen worden in principe in hoofdletters geschreven, en er zitten af en toe spaties in namen als er spaties nodig zijn om de  dingen als minuskabel600-700volt goed te kunnen lezen. Dit om leesbaarheid te verbeteren. Voor leesbaarheid is dit akkoord voor de expertcommissie",
+      "EC 2023-10-03: wens netbeheer is om kleine letters op te nemen in laagnamen, voor chemische elementen, verschil in \r\n\r\nNog even terugkomend op de SI-eenheden: die zouden inderdaad met kleine letters moeten - net zoals mBar of MBar (milli - of mega?)."
+    ]
+  },
+  {
+    "number": 117,
+    "title": "Stedelijk spoor: kabels en leidingen afstemmen met netbeheer",
+    "closed_at": "2023-09-06T08:32:07Z",
+    "labels": [
+      "Netbeheer",
+      "Stedelijk Spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "@NielsNederpel zegt: •\tzoek ook de afstemming voor KL met werkgroep Netbeheer",
+    "comments": [
+      "Binnen Stedelijk spoor is zoveel mogelijk gebruik gemaakt van de bestaande objecten; er is wel sprake van een aggregatiesniveau, een kabel- en leidingtracé. Dat is ok. Verder zijn alleen de uitzonderingen qua kabels en leidingen overgenomen. De werkgroep snapt dat er vanuit het traject met NLCS netbeheer wijzigingen kunnen komen in de kabels en leidingen."
+    ]
+  },
+  {
+    "number": 118,
+    "title": "Opstellen symbolen voor Stedelijk Spoor door werkgroep",
+    "closed_at": "2025-04-08T11:03:47Z",
+    "labels": [
+      "Stedelijk Spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Opstellen symbolen voor Stedelijk Spoor: actie voor werkgroep\r\n\r\nActie: Marco, Tim, Gerbert",
+    "comments": [
+      "Erwin zegt: Ik heb een overzicht van de concept NLCS symbolen voor HTM op de volgende locatie in Teams gezet:\r\n[ProductNLCS-Stedelijkspoor/Gedeelde documenten/Stedelijk spoor/Symbolen HTM](https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdigigonu.sharepoint.com%2F%3Af%3A%2Fr%2Fsites%2FProductNLCS-Stedelijkspoor%2FGedeelde%2520documenten%2FStedelijk%2520spoor%2FSymbolen%2520HTM%3Fcsf%3D1%26web%3D1%26e%3DD2j5k5&data=05%7C01%7Celisabeth.devries%40crow.nl%7C784c176892b6407094c908dbf263dd22%7C1e0440a2a638433189c766de8119b255%7C0%7C0%7C638370282956827457%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=GO7anyoZVmAKY%2FrRMSRYz3%2B%2FmJ9j2MvWfy3QiU4X2Tk%3D&reserved=0)\r\nDe symbolen zijn niet op de juiste schaal afgedrukt.\r\n\r\nDe werkgroep kan deze input gebruiken om gezamenlijke symbolen te ontwikkelen en op GitHub te plaatsen op deze locatie: https://github.com/nl-digigo/NLCS/tree/main/ontwikkeling/stedelijk%20spoor",
+      "Besproken 11-12-2023: Erwin heeft symbolen gedeeld, er komt nog een update. Gerbert deelt binnenkort in teams zijn symbolen. Verzoek aan Marco de GVB symbolen te delen. Romano bekijkt gedeelde lijst en vult aan.",
+      "Ik heb op Teams (een deel van) de BAM symbolen die we nu gebruiken geplaatst. De kleuren zijn voor de status NIEUW, bestaand is in het algemeen grijs/zwart, verwijderen blauw en tijdelijk/hergebruik groen.\r\n\r\nde excel-lijst staat hier:\r\nhttps://github.com/nl-digigo/NLCS/tree/main/ontwikkeling/stedelijk%20spoor",
+      "Besproken 29-01-2024: Erwin stelt voor een aparte sessie te plannen om gezamenlijk symbolen vast te stellen.\r\nReeds gedaan: afstemming (vorm) tussen HTM en GVB is al geweest.\r\nGVB tekent de symbolen\r\nTe plannen afstemoverleg met Erwin, Marco, Gerbert, Romano. Erwin plant sessie op 12-feb van 9-11u\r\nVoorstel maken en in de werkgroep bespreken.",
+      "Toegevoegd 19-02-2024: Overzicht van de geinventariseerde symbolen, besproken met Marco op 09-02-2024 en besproken met Gerben en Romano op 12-02-2024.\r\nVorm van de symbolen is akkoord. \r\nNaamgeving is globaal besproken en dient nog een akkoord te krijgen.\r\n\r\nSymbolen t.b.v. situatietekeningen: [ALG-HTM-IB-SPO-00158.pdf](https://github.com/nl-digigo/NLCS/files/14330948/ALG-HTM-IB-SPO-00158.pdf)\r\nSymbolen t.b.v. dwarsprofielen/doorsnedes: [ALG-HTM-IB-SPO-00159.pdf](https://github.com/nl-digigo/NLCS/files/14330950/ALG-HTM-IB-SPO-00159.pdf)",
+      "Toegevoegd 23-02-2024: overzicht van de HTM symbolen voor wisselinstallatie en tramwaarschuwingsinstallatie.\r\n\r\nSymbolen t.b.v.  situatietekeningen: [ALG-HTM-IB-WSB-00161.pdf](https://github.com/nl-digigo/NLCS/files/14383455/ALG-HTM-IB-WSB-00161.pdf)",
+      "Besproken 11-3-2024: werksessie 12-2 is geweest en huiswerk is gedaan. \r\nVoorstel HTM symboolnamen moet getoetst worden door DigiGo/Expertcommisie? (dit deed corné) .  Harm vraagt na bij Aydemir/Elisabeth wie dat kan doen.\r\nGVB symbolen is gecombineerd met HTM\r\nGerbert voegt symboolnamen nog toe aan zijn tekeningen.\r\nCheck generieke NLCS eis dat vervallen objecten 'geschrapt' of gekruist moeten zijn door Erwin en Gerbert. Paul deelt voorbeeld\r\nActie voor werkgroepleden: bekijken input HTM/GVB en BAM en feedback geven aan Erwin en Gerbert.",
+      "[BAM_NLCS-Objecten.xlsx](https://github.com/nl-digigo/NLCS/files/14560854/BAM_NLCS-Objecten.xlsx)\r\n[BAM_Blocks_v5.11.pdf](https://github.com/nl-digigo/NLCS/files/14560855/BAM_Blocks_v5.11.pdf)\r\n\r\nDe symbolen met laagnamen (en dus symboolnamen), en gelijk ook de update van de excel-lijst. Beide zijn vast nog niet 100% compleet, maar wel een heel eind op weg. Om verwarring te voorkomen heb ik de vorige PDF's verwijderd",
+      "Symbolen t.b.v situatietekeningen, nu met kruis en verwijderen spoorstaaf met dubbele schrap: \r\n[ALG-HTM-IB-SPO-00158 verwijderen met kruis.pdf](https://github.com/nl-digigo/NLCS/files/14567974/ALG-HTM-IB-SPO-00158.verwijderen.met.kruis.pdf)\r\n[ALG-HTM-IB-WSB-00161 verwijderen met kruis.pdf](https://github.com/nl-digigo/NLCS/files/14598341/ALG-HTM-IB-WSB-00161.verwijderen.met.kruis.pdf)",
+      "Besproken 15-4-2024: De blocks worden 24-4 besproken. (Paul, Erwin, Marco)\r\nDWG's als Zip bestand uploaden",
+      "Dit zijn de symbolen als dwg bestanden. Dit betreft een export uit Microstation. Iemand met Autocad zal moeten controleren of alles correct is geëxporteerd. \r\n[SIS-symbolen.zip](https://github.com/nl-digigo/NLCS/files/15244563/SIS-symbolen.zip)\r\n[SSB-symbolen.zip](https://github.com/nl-digigo/NLCS/files/15244564/SSB-symbolen.zip)",
+      "04-10-2024: Bijgewerkte symbolen, Energievoorziening Spoor (SES) wordt nog aan gewerkt.\r\n[20241004 Stedelijk Spoor symbolen SAM.zip](https://github.com/user-attachments/files/17254956/20241004.Stedelijk.Spoor.symbolen.SAM.zip)\r\n[20241004 Stedelijk Spoor symbolen SIS.zip](https://github.com/user-attachments/files/17254957/20241004.Stedelijk.Spoor.symbolen.SIS.zip)\r\n[20241004 Stedelijk Spoor symbolen SKL.zip](https://github.com/user-attachments/files/17254958/20241004.Stedelijk.Spoor.symbolen.SKL.zip)\r\n[20241004 Stedelijk Spoor symbolen SSB.zip](https://github.com/user-attachments/files/17254959/20241004.Stedelijk.Spoor.symbolen.SSB.zip)\r\n[20241004 Stedelijk Spoor symbolen SVW.zip](https://github.com/user-attachments/files/17254960/20241004.Stedelijk.Spoor.symbolen.SVW.zip)",
+      "@ehensing super, dank hiervoor!",
+      "> 04-10-2024: Bijgewerkte symbolen, Energievoorziening Spoor (SES) wordt nog aan gewerkt. [20241004 Stedelijk Spoor symbolen SAM.zip](https://github.com/user-attachments/files/17254956/20241004.Stedelijk.Spoor.symbolen.SAM.zip) [20241004 Stedelijk Spoor symbolen SIS.zip](https://github.com/user-attachments/files/17254957/20241004.Stedelijk.Spoor.symbolen.SIS.zip) [20241004 Stedelijk Spoor symbolen SKL.zip](https://github.com/user-attachments/files/17254958/20241004.Stedelijk.Spoor.symbolen.SKL.zip) [20241004 Stedelijk Spoor symbolen SSB.zip](https://github.com/user-attachments/files/17254959/20241004.Stedelijk.Spoor.symbolen.SSB.zip) [20241004 Stedelijk Spoor symbolen SVW.zip](https://github.com/user-attachments/files/17254960/20241004.Stedelijk.Spoor.symbolen.SVW.zip)\r\n\r\nik heb deze symbolen opgenomen in concept 5.1",
+      "@MvanderHulst : de BAM-tekening met 'onze' symbolen is bijgevoegd als ZIP-file.\r\nIn de tekening voornamelijk de nieuwe, maar in de lagenstructuur zijn B,V en T ook opgenomen. Vanwege de informatie die wij op de tekeningen kwijt willen kunnen is overal kleur toegepast, niet geheel conform NLCS maar voor ons wel noodzakelijk.\r\nWij gebruiken InfraCAD als tool, en die slaat alles op in XML-bestanden, heb je daar eventueel ook wat aan ?\r\n\r\n[2024-10-14_BAM tbv Werkgroep.zip](https://github.com/user-attachments/files/17364391/2024-10-14_BAM.tbv.Werkgroep.zip)",
+      "@GerbertVerheij \r\nVanuit InfraCAD is dan waarschijnlijk een projectenbibliotheek aangemaakt?\r\nAls deze deze als zip zou kunnen delen is dat helemaal perfect!",
+      "@MvanderHulst \r\nJazeker: **_..\\NLCSLIB\\v5.0\\Project\\SpoorBouw._**\r\nDie zip is met 76Mb groter dan de 25Mb limiet van GitHub, deze [link](https://bamgroup-my.sharepoint.com/:u:/g/personal/gerbert_verheij_bam_com/EY88TvU3M0ZLrfgATi9-RH0Bs4oEe5ZAepV1F21HZk0OhA?email=m.vanderhulst%40hbadvies.nl&e=3W08wR) gaat naar een gedeelde zip-file op OneDrive. Ik hoop dat dat wel werkt.",
+      "@GerbertVerheij \r\nDownloaden is gelukt, dank voor de data! :-)",
+      "@MvanderHulst kun jij dit ook uploaden op deze plek: https://github.com/nl-digigo/NLCS/tree/main/ontwikkeling/bijlagen_bij_issues  naam van het mapje graag 118 naar deze issue\r\n\r\nDe datalimiet geldt alleen voor issues",
+      "Gekregen van michel bestanden: https://github.com/nl-digigo/NLCS/tree/main/ontwikkeling/stedelijk%20spoor/2024-10-28\r\nMet mail:\r\nIn de ZIP zit:\r\n\r\nEen word bestandje, waar ik per hoofdgroep mijn vragen heb gesteld.\r\nDe excelstaten, waarin ik met een kleur heb aangegeven waar mijn vragen over gaan, voor de herleidbaarheid.\r\nEen .LIN file met de (op dit moment) op te nemen lijntypes, deze zal nog uitgebreid worden, dus zie het als een tussentijds resultaat).\r\nAlle symbolen, welke zijn bijgewerkt volgens de NLCS 5.1 regels. Dit is al met al nog een hele operatie geweest. 😓\r\nHet lijjkt me goed om het Wordbestand met de werkgroep te bespreken én vooral te spiegelen aan de NLCS regels.\r\nIk bemerk zo links en rechts dat de manier van tekenen waaraan ze gewend zijn niet helemaal strookt met de NLCS gedachte.\r\nHierbij is ook raakval met issue: [Omgang status 'Vervallen' i.r.t. allerlei beheer wensen / presentatie vervallen met scraps versus rood · Issue https://github.com/nl-digigo/NLCS/issues/251\r\nStedelijk spoor wil geen SCRAPS in de vervallen lagen, dat is mij wel duidelijk geworden. 😉",
+      "@ElisabethDeVries deze issue is verwerkt in het concept voorstel en kan volgens mij gesloten worden.",
+      "de symbolen voor tram zijn verwerkt, voor de andere spoorse objecten komen nieuwe issues"
+    ]
+  },
+  {
+    "number": 119,
+    "title": "We nemen geen status op in de laagnaam bij Stedelijk spoor, ook niet als het altijd meetgegevens zijn",
+    "closed_at": "2023-12-11T08:56:09Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "status&bewerking"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Toets nodig door expertcommissie op uitgangspunt We nemen geen status op in de laagnaam bij Stedelijk spoor, ook niet als het altijd meetgegevens zijn\r\n\r\nActie Marco & Erwin & Paul\r\n\r\nUitgangspunt beschrijven, en toetsen of dit past binnen de uitgangspunten van NLCS",
+    "comments": [
+      "Besproken 12-12-2023: Akkoord, de lagen kunnen alle statussen krijgen."
+    ]
+  },
+  {
+    "number": 120,
+    "title": "Uitbreiden NLCS met Stedelijk Spoor: tabellen vaststellen in werkgroep",
+    "closed_at": "2024-05-27T08:20:44Z",
+    "labels": [
+      "duplicate",
+      "Stedelijk Spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "De werkgroep Stedelijk spoor gaat de tabellen vaststellen voor Stedelijk Spoor, om in te dienen bij de Expertcommissie. Doel is een concept-versie vaststellen voor het uitvoeren van eerste tests in software. \r\nBaan, bovenbouw, beveiliging, bovenleiding\r\n\r\nActiehouders Marco & Erwin & Paul",
+    "comments": [
+      "80% versie Stedelijk Spoor: https://github.com/bimloket/NLCS/blob/main/ontwikkeling/stedelijk%20spoor/Reactie%20HTM%2020230619%20-%20NLCS-OBJECTEN%20doorgenomen%20via%20Teams_opm_NN.xlsx",
+      "Besproken 11-12-2023: Eerst beproeven (zie #114), daarna vaststellen in Expertcommissie",
+      "Besproken 29-01-2024: Eind feb 2024 gereed (Erwin en Marco)",
+      "Besproken 11-3-2024: Dit wordt eind maart/begin april.",
+      "Besproken 15-4-2024: De lijst wordt 24-4 besproken, samen met de de blocks/DWG's",
+      "De laatste versie kan op dit moment worden gereviewed in #190, daarom sluit ik deze issue af"
+    ]
+  },
+  {
+    "number": 121,
+    "title": "Concept publicatie & documentatie Stedelijk Spoor",
+    "closed_at": "2024-10-17T12:28:50Z",
+    "labels": [
+      "Stedelijk Spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Na vaststellen tabellen en symbolen Stedelijk Spoor in Expertcommissie de Concept publicatie (in database) & documentatie Stedelijk Spoor klaarzetten voor test door softwareleveranciers",
+    "comments": [
+      "Besproken 11-12-2023: Actie hoort bij Paul, gekoppeld",
+      "Besproken 29-01-2024: Status, Paul stemt lijst af met Erwin en Marco (symbolen). De lijst met objecten is goed nog koppelen met symboliek (oa kleur, lijndikte, etc).\r\nactie 1: lagenlijst met symboliek afmaken (Paul-Marco/Erwin) : gereed eind feb.\r\nactie 2: vaststellen in werkgroep : gereed eind feb.\r\nactie 3: lijst gereed dan aanleveren aan Expertcommissie tbv aanleveren aan softwareleveranciers (Paul) : \r\nactie 4: verwerken feedback leveranciers (Paul-Marco/Erwin+expertcom)\r\nactie 5: vaststellen in expertcommissie en positief advies aan beheercommissie\r\nactie 6: Release",
+      "Besproken 11-3-2024:\r\nactie 1: lagenlijst met symboliek afmaken (Paul-Marco/Erwin) : gereed eind **maart**\r\nactie 2: vaststellen in werkgroep : gereed begin **april**\r\nactie 3: lijst gereed dan aanleveren aan Expertcommissie tbv aanleveren aan softwareleveranciers (Paul) :\r\nactie 4: verwerken feedback leveranciers (Paul-Marco/Erwin+expertcom)\r\nactie 5: vaststellen in expertcommissie en positief advies aan beheercommissie\r\nactie 6: Release\r\n\r\nHarm stemt af wanneer de release-deadline is met Aydemir.",
+      "Besproken 15-4-2024: na 24-4 wordt lijst toegevoegd (actie Paul)",
+      "de tabellen en symbolen zijn opgenomen in release 5.1 van de standaard"
+    ]
+  },
+  {
+    "number": 188,
+    "title": "Opstellen toelichting bij huidige versie Stedelijk Spoor, focus op tram",
+    "closed_at": "2024-08-07T14:07:41Z",
+    "labels": [
+      "Stedelijk Spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Opstellen toelichting bij huidige versie Stedelijk Spoor, focus op tram \r\n\r\nactie: Marco & Erwin & Paul",
+    "comments": [
+      "Besproken 11-12-2023: Nog geen voortgang. De bedoeling om een korte alinea te schrijven voor de release-notes.",
+      "22-01-2024:  hieronder een concept tekst voor de release-notes\r\n\r\nNLCS stedelijke spoor lagen betreft een 1e release. De lagen zijn opgezet voor spoorse infra in stedelijke omgeving met name gericht op tram. De lagen voor metro en lightrail zullen in later stadium toegevoegd.\r\nDe lagen zijn onderverdeeld in 3 disciplines spoor , bovenleiding en wisselaansturing.\r\nDe lagen voor discipline spoor komen voor namelijk in hoofdgroep SB terecht. De lagen voor bovenleiding en wisselaansturing zullen voor namelijk in hoofdgroep IS terecht komen. Tevens is gekeken waar lagen eventueel in de huidige NLCS structuur passen en daar geplaatst.",
+      "Besproken 29-01-2024: Wat vindt de groep van de tekst van Erwin?\r\n\r\nTekst aangepast naar:\r\nNLCS stedelijke spoor lagen betreft een 1e release. De lagen zijn opgezet voor spoorse infra in stedelijke omgeving met name gericht op tram. De lagen voor metro/lightrail zullen in later stadium worden toegevoegd.\r\nDe lagen zijn onderverdeeld in 4 hoofdgroepen Spoorbouw (SB), Energievoorziening (EV)=Nieuw, Installatie Spoor (IS) (=wisselaansturing en -verwarming), Verkeersmaatregelen Spoorweg (VS) (=seinen, etc)\r\nTevens is gekeken waar lagen eventueel in de huidige NLCS structuur passen en zijn daar geplaatst.\r\n\r\nDiscussie om hoofdgroep EV Energievoorziening te maken -> bespreken met Elisabeth",
+      "Besproken 11-03-2024: Erwin bespreekt met Elisabeth om hoofdgroep EV Energievoorziening te maken.",
+      "Besproken 15-04-2024:\r\n\r\nTekst aangepast naar:\r\nNLCS stedelijke spoor lagen betreft een 1e release. De lagen zijn opgezet voor spoorse infra in stedelijke omgeving met name gericht op tram. De lagen voor metro/lightrail zullen in later stadium worden toegevoegd.\r\nDe lagen zijn onderverdeeld in 4 hoofdgroepen Spoorbouw (SB), **Energievoorziening Spoor (ES)**=Nieuw, Installatie Spoor (IS) (=wisselaansturing en -verwarming), Verkeersmaatregelen Spoorweg (VS) (=seinen, etc)\r\nTevens is gekeken waar lagen eventueel in de huidige NLCS structuur passen en zijn daar geplaatst.",
+      "ik heb dit opgenomen in de documentatie"
+    ]
+  },
+  {
+    "number": 190,
+    "title": "Review concept-versie door werkgroepleden",
+    "closed_at": "2025-03-14T10:20:40Z",
+    "labels": [
+      "Stedelijk Spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Actie Harm: sessie met Marco, Erwin, Tim en Gerbert, Romano om de tabellen van de huidige disciplines te reviewen",
+    "comments": [
+      "Besproken 11-12-2023: Geen aparte sessie organiseren; Iedereen lijst zelf nalopen (zie #114). Erwin neemt contact op met Paul om af te stemmen of de Excell af gereed is.",
+      "Besproken 29-01-2024: Erwin heeft met Paul afgestemd. De excell lijsten moeten nog een slag krijgen. Actie ligt nu bij Paul en hij probeert dit binnen 2 weken af te ronden.",
+      "Besproken 11-3-2024: Is nog niet gereed. Paul heeft wel al samen met Erwin er naar gekeken. Excel ligt nu weer bij Paul/collega. Over een paar dagen excel gereed en bespreekt Paul met Erwin en Marco en zet de excel op Github.\r\nDaarna de andere leden een check op de objecten uitvoeren.",
+      "Besproken 15-4-2024: De Excellijst is nagenoeg klaar. Alle objecten staan erin.\r\nVolgende week (24-4) gaan Paul, Erwin en Marco er nog 1x doorheen.\r\nEen aantal verbeeldingen moeten nog door Marco aangevuld worden.\r\nDaarna op Github voor laatste check door werkgroep. Daarna vaststellen door expertcommissie.",
+      "Hierbij de Excel-bladen van de hoofdgroepen ES, IS en SB :\r\n[ES-Energievoorziening Spoor 20240424.xls](https://github.com/nl-digigo/NLCS/files/15244011/ES-Energievoorziening.Spoor.20240424.xls)\r\n\r\n21 mei: symbolen toegevoegd\r\n[IS-Installaties spoorwegen 20240521.xls](https://github.com/nl-digigo/NLCS/files/15385635/IS-Installaties.spoorwegen.20240521.xls)\r\n[SB-Spoorbouw 20240521.xls](https://github.com/nl-digigo/NLCS/files/15385636/SB-Spoorbouw.20240521.xls)",
+      "Hierbij de Excel-bladen, incl. de verbeeldingen. Deze betreffende aanvullingen op de huidige hoofdgroepen:\r\n[AL-Algemeen 20240424.xls](https://github.com/nl-digigo/NLCS/files/15244179/AL-Algemeen.20240424.xls)\r\n[AM-Assen en Metrering 20240424.xls](https://github.com/nl-digigo/NLCS/files/15244180/AM-Assen.en.Metrering.20240424.xls)\r\n[GR-Groen 20240424.xls](https://github.com/nl-digigo/NLCS/files/15244181/GR-Groen.20240424.xls)\r\n[IE-Inrichtingselementen 20240424.xls](https://github.com/nl-digigo/NLCS/files/15244182/IE-Inrichtingselementen.20240424.xls)\r\n[KG-kadastrale informatie en grenzen 20240424.xls](https://github.com/nl-digigo/NLCS/files/15244183/KG-kadastrale.informatie.en.grenzen.20240424.xls)\r\n[KL-Kabels en Leidingen 20240424.xls](https://github.com/nl-digigo/NLCS/files/15244184/KL-Kabels.en.Leidingen.20240424.xls)\r\n[OG-Ondergronden 20240424.xls](https://github.com/nl-digigo/NLCS/files/15244185/OG-Ondergronden.20240424.xls)\r\n[RI-Riolering 20240424.xls](https://github.com/nl-digigo/NLCS/files/15244187/RI-Riolering.20240424.xls)\r\n[VH-Verhardingen 20240424.xls](https://github.com/nl-digigo/NLCS/files/15244188/VH-Verhardingen.20240424.xls)\r\n[VW-Verkeerskunde Wegen 20240424.xls](https://github.com/nl-digigo/NLCS/files/15244189/VW-Verkeerskunde.Wegen.20240424.xls)",
+      "AL verwerkt; ASSETGRENS opgenomen in ZZ: GRENS_ASSET\r\n\r\nIk heb maar als linetype CONTINUOUS opgenomen, was niet ingevuld, ook lineweight maar als 0.35 bij nieuwe objecten\r\n\r\nwerkzaamheden op tekenbladen toch maar als B niet als N, gek om bij Algemeen iets anders te gebruiken dan B trouwens maar ik snap het wel bij asset nummer\r\n\r\nTrouwens, moet asset beschrijving, asset kader, asset nummer niet onder ZZ komen, omdat de asset wel een object is die onder een bepaalde hoofdgroep valt?",
+      "assen en metrering\r\n\r\nAS bestaat al generiek, ik heb de bestaande kleuren niet aangepast\r\nAS_SPOOR bestond ook al, heb ik de kleuren wel van aangepast\r\n\r\nAS_SPOOR_TRAM_AFWIJKING_ONBEKEND is hetzelfde als AS_SPOOR_TRAM_AFWIJKING en heb ik daarom niet overgenomen, gezien alle discussies over \"onbekend\" en \"overig\"\r\n\r\nAS_SPOOR_TRAM_ONTWERP snap ik niet, dat geeft je toch aan met status N, dat heb je ook als linetype ingevuld, dus overbodige laagnaam. Tenzij je juist van het bestaande spoor het ontwerp wilt aangeven maar dan moet de status toch als B worden ingevuld? Ik heb dit object ook even weggelaten",
+      "Energievoorziening Spoor verwerkt (importsheet gestuurd) Het valt me op dat lineweight en linetype niet de in de standaard gebruikelijke waarden zijn, ik ga straks in de beheeromgeving standaard B 0.18, N,T en V 0.35 lineweight geven, en alle lijnen op continuous zetten.\r\n\r\nAls er voor de gebruikte nummers een lijntype gedefinieerd wordt conform NLCS kan ik andere lijntypes opnemen.",
+      "GR verwerkt\r\n\r\nGRAS bestaat al, met andewre kleuren, heb ik niet gewijzigd",
+      "IE verwerkt\r\n\r\nVoor de MUPI heb ik gewoon de standaard kleuren van meubilair overgenomen\r\n\r\nVoor de masten in IE geldt dat deze een generieke laagnaam hebben (\"mast\"); als een symbool wordt aangeleverd kan ik deze eraan koppelen",
+      "IS verwerk (importsheet opgesteld)\r\n\r\nzijn de masten in IS anders dan in ES? Wat zijn dit voor \"masten\"?",
+      "KG verwerkt, al twijfel ik een beetje of grenzen voor landmeten niet in ZZ horen, zodat je ze op elke hoofdgroep kunt plaatsen?",
+      "KL verwerkt, TRACE bestond al, alles daaronder geplaatst",
+      "RI, STIPDRAIN verwerkt. Vraag is, moet dit andere kleur hebben dan andere drains?",
+      "SB verwerkt. \r\n\r\nVraagje, zijn alignementen strict gesproken niet ook assen en metrering? Wat is het verschil met de as?",
+      "VH verwerkt",
+      "VW geeft vraag, de blindengeleideroute is meer zoiets als een as of metrering,  maar omdat het wordt ingevuld door een type tegels zou je dit ook onder verhardingen kunnen plaatsen? Ik zet het voor nu onder VW",
+      "ik sluit hiermee deze issue af, omdat de verdere review nu plaats gaat vinden via het testen van de concept-publicatie 5.1 in september",
+      "> ik sluit hiermee deze issue af, omdat de verdere review nu plaats gaat vinden via het testen van de concept-publicatie 5.1 in september\r\n\r\n5.1? Ik ging er zomaar vanuit dat '**milestone NLCS 5.3**' betekent dat deze met release 5.3 wordt meegenomen en niet 5.1.\r\n\r\nHeb even snel naar _ES-Energievoorziening.Spoor.20240424.xls_ gekeken.\r\nDe kleuren in de tabellen kloppen inhoudelijk niet met de basisregels FB, die verdienen nog wat aandacht. \r\n\r\nDe lagen:\r\n```\r\nES-AFSPANCONSTRUCTIE\r\nES-AFSPANNING\r\n```\r\nBeogen niet hetzelfde object?\r\n\r\nDe laag:\r\n`ES-DRAAGKABEL_LIGGING`\r\nDat is een object? Volstaat ES-DRAAGKABEL niet?\r\n\r\nIk zie bijvoorbeeld ook laagnamen als:\r\n```\r\nES-SCHAKELAAR_GESLOTEN\r\nES-SCHAKELAAR_OPEN\r\n```\r\n\r\nZijn dat uitvoeringen of toestanden? Of gaan we in de groep ES hier anders mee om dan in de andere hoofdgroepen?\r\n\r\nWat is een 'ZIJWAARTSE':\r\n```\r\nES-OPHANGCONSTRUCTIE_UITLEGGER\t\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE\t\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE_DRIEHOEK\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE_ENKEL\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE_PARALLEL\r\n```\r\n\r\nDat zijn geen type uitleggers? Optie;\r\n```\r\nES-OPHANGCONSTRUCTIE_UITLEGGER\t\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE DRIEHOEK\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE ENKEL\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE PARALLEL\r\n```\r\n(met spaties) \r\n\r\nHeeft het nog zin dat ik er nog wat beter naar kijk en de rest ook nog doorloop?",
+      "> AL verwerkt; ASSETGRENS opgenomen in ZZ: GRENS_ASSET\r\n\r\n:thumbsup:\r\n\r\nZijn er actuele versies van de excel bestanden dan de versies die hier gepost zijn?\r\n\r\n`*-**-AL-ASSETKADER-G/S`\r\nMoet dat niet zijn: **AL-TEKENBLAD_ASSETKADER** ? of betreft dit een kadertype in het ontwerp model? Hoe ziet dit element eruit? Wat is een assetkader object? Iets anders dan een 'tekenblad_deelkader'?\r\n\r\nHoe worden _*-**-AL-ASSETBESCHRIJVING-G/S_ en _*-**-AL-ASSETNUMMER-G/S_ toegepast? Op het tekenblad? In een tabel? Kunnen deze juist naar de **ZZ-groep**?\r\n\r\n\r\n```\r\n*-**-AL-TABEL-G/S\r\n*-**-AL-TABEL_BESTELTEKENINGEN-G\r\n*-**-AL-TABEL_PLAATSBEPALING-G\r\n*-**-AL-TABEL_PLAATSBEPALING_TRAVERSEN-G\r\n*-**-AL-TABEL_UITSLAG-G\r\n*-**-AL-TABEL_UITZETTING-G\r\n```\r\n\r\nIk vind deze best uitgebreid en specifiek. Mij is niet direct duidelijk waar deze lagen 'algemeen' voor gebruikt worden. \r\nIs alleen **AL-TABEL-G** niet voldoende?\r\nIk neem aan dat het niet AL-TEKENBLAD_TABEL is omdat de tabellen ook in het ontwerp model worden geplaatst?\r\n\r\nWaarvoor dienen de lagen : \r\n```\r\n*-**-AL-TEKENBLAD_WERKZAAMHEDEN-G/S\r\n*-**-AL-TEKENBLAD_WERKZAAMHEDEN_LIJN-G\r\n*-**-AL-TEKENBLAD_WERKZAAMHEDEN_LIJST-G\r\n*-**-AL-TEKENBLAD_WERKZAAMHEDEN_NUMMER-G/S\r\n```\r\n\r\nZijn al die lagen algemeen nodig? Moeten al deze onderdelen aparte eigenschappen krijgen/apart gefilterd kunnen worden? \r\nStaan die WERKZAAMHEDEN niet ook in een TABEL ? \r\n\r\nWat mij betreft die AL-lagen sterk beperken, de lagen met subobjecten niet (allemaal) toevoegen.",
+      "Hoi Sander,\r\n\r\nEen paar van de zaken die je noemt kan ik wel verklaren, de rest weten Erwin Hensing en Marco Linnenbank waarschijnlijk beter.\r\n\r\n\r\nES-SCHAKELAAR_GESLOTEN\r\n\r\nES-SCHAKELAAR_OPEN\r\n\r\nAls ik het goed zeg heb je twee typen schakelaars:\r\n\r\n  1.  Schakelaar die in ruststand ‘gesloten’ staat\r\n  2.  Schakelaar die in ruststand ‘open’ staat\r\nHet gaat hier dus niet om de fysieke status van de schakelaar (bedrijfstoestand zoals we bij kabels en leidingen zeggen) maar echt om het type.\r\n\r\n\r\nWat is een 'ZIJWAARTSE':\r\n\r\nES-OPHANGCONSTRUCTIE_UITLEGGER\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE_DRIEHOEK\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE_ENKEL\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE_PARALLEL\r\n\r\nDat zijn geen type uitleggers? Optie;\r\n\r\nES-OPHANGCONSTRUCTIE_UITLEGGER\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE DRIEHOEK\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE ENKEL\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE PARALLEL\r\n\r\nIk denk dat je bij deze gelijk hebt en dat we jouw optie moeten volgen voor de ophangconstructie. Komende donderdag zit ik weer met Erwin en Marco om tafel, dan zal ik deze meenemen.\r\n\r\n\r\n\r\nMet vriendelijke groet,\r\n\r\nPaul Haffmans\r\nSenior consultant,\r\n\r\n***@***.***\r\n\r\nBentley Qualified trainer\r\nfor MicroStation\r\n\r\n\r\n\r\n***@***.***<http://www.thepeoplegroup.nl/>\r\n\r\n\r\nThe People Group | Software & Trainingen\r\nMiddelweg 2 | 5253 CA, NIEUWKUIJK | Nederland\r\nM +31(0)6 55 165 140<tel:+31655165140> | T +31(0)85 22 40 000<tel:+31852240000>\r\n\r\nClick for disclaimer<https://www.thepeoplegroup.nl/e-mail-disclaimer/>\r\n\r\nVan: Sander Nijhof ***@***.***>\r\nVerzonden: Monday, 12 August 2024 16:44\r\nAan: nl-digigo/NLCS ***@***.***>\r\nCC: Paul Haffmans | The People Group ***@***.***>; Assign ***@***.***>\r\nOnderwerp: Re: [nl-digigo/NLCS] Review concept-versie door werkgroepleden (Issue #190)\r\n\r\n\r\nik sluit hiermee deze issue af, omdat de verdere review nu plaats gaat vinden via het testen van de concept-publicatie 5.1 in september\r\n\r\n5.1? Ik ging er zomaar vanuit dat 'milestone NLCS 5.3' betekent dat deze met release 5.3 wordt meegenomen en niet 5.1.\r\n\r\nHeb even snel naar ES-Energievoorziening.Spoor.20240424.xls gekeken.\r\nDe kleuren in de tabellen kloppen inhoudelijk niet met de basisregels FB, die verdienen nog wat aandacht.\r\n\r\nDe lagen:\r\n\r\nES-AFSPANCONSTRUCTIE\r\n\r\nES-AFSPANNING\r\n\r\nBeogen niet hetzelfde object?\r\n\r\nDe laag:\r\nES-DRAAGKABEL_LIGGING\r\nDat is een object? Volstaat ES-DRAAGKABEL niet?\r\n\r\nIk zie bijvoorbeeld ook laagnamen als:\r\n\r\nES-SCHAKELAAR_GESLOTEN\r\n\r\nES-SCHAKELAAR_OPEN\r\n\r\nZijn dat uitvoeringen of toestanden? Of gaan we in de groep ES hier anders mee om dan in de andere hoofdgroepen?\r\n\r\nWat is een 'ZIJWAARTSE':\r\n\r\nES-OPHANGCONSTRUCTIE_UITLEGGER\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE_DRIEHOEK\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE_ENKEL\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE_PARALLEL\r\n\r\nDat zijn geen type uitleggers? Optie;\r\n\r\nES-OPHANGCONSTRUCTIE_UITLEGGER\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE DRIEHOEK\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE ENKEL\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE PARALLEL\r\n\r\n(met spaties)\r\n\r\nHeeft het nog zin dat ik er nog wat beter naar kijk en de rest ook nog doorloop?\r\n\r\n—\r\nReply to this email directly, view it on GitHub<https://github.com/nl-digigo/NLCS/issues/190#issuecomment-2284179342>, or unsubscribe<https://github.com/notifications/unsubscribe-auth/BCNET7LMWHDBM4K7OEOZAKTZRDC4XAVCNFSM6AAAAAA7BJJGXKVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZDEOBUGE3TSMZUGI>.\r\nYou are receiving this because you were assigned.Message ID: ***@***.******@***.***>>",
+      "> ES-SCHAKELAAR_GESLOTEN ES-SCHAKELAAR_OPEN Als ik het goed zeg heb je twee typen schakelaars: 1. Schakelaar die in ruststand ‘gesloten’ staat 2. Schakelaar die in ruststand ‘open’ staat\r\n\r\n:thumbsup: Die lagen zijn goed dus.\r\n\r\nIs **ES-DRAAGKABEL_TRACE** een bespreekbaar alternatief voor _ES-DRAAGKABEL_LIGGING_ ?\r\n'TRACE' wordt nl. vaker in de NLCS toegepast en lijkt me een gangbare term.",
+      "> De kleuren in de tabellen kloppen inhoudelijk niet met de basisregels FB, die verdienen nog wat aandacht.\r\n\r\n:exclamation: :exclamation: Niet alleen de kleuren, maar ook de lijnstijlen en diktes verdienen aandacht :exclamation: :exclamation:\r\n\r\nAandachtspunten:\r\n1. Volgens mij kent AutoCAD kleur 0 niet, bij voorkeur kleur 7 gebruiken. \r\n2. De (standaard) toe te passen kleurenserie voor lijnen en arceringen is genoemd in de Formele Beschrijving paragraaf 3.5.9. Daar wordt vooral van afgeweken.\r\n3. De NLCS maakt onderscheid tussen 'bestaand' en 'nieuw' door nieuwe objecten een dikkere lijndikte te geven. De minimale lijndikte voor status N is dan '1' en status B krijgt de dunste lijndikte t.o.v. de andere statussen.\r\n4. De tabellen van Stedelijk Spoor maken gebruik van verschillende kleuren per status. Het resultaat is altijd een kleuren afdruk. De kleuren zijn conform NLCS (in de regel) voor alle statussen gelijk. Onderscheid tussen bestaand/oud/nieuw wordt niet gemaakt met kleuren. Toepassen van kleuren op de afdruk is per uitzondering toegestaan maar zijn bij StedelijkSpoor regulier toegepast. \r\n5. Voor de lijnstijlen zijn nummers gebruikt. We hebben afgesproken dat lijnstijl 0 = lijnstijl CONTINUOUS, maar de overige lijnstijlnummers liggen niet vast en kunnen per CAD-pakket afwijken. Hiervoor dus bestaande NLCS_lijnstijlen gebruiken of nieuwe lijnstijlen definiëren.\r\n\r\nNiet dat ik het met alle regels eens ben of fan ben van de NLCS-kleurentabel, maar hier wordt met StedelijkSpoor wel sterk afgeweken van de overige objecten in de NLCS. Ook krijg ik niet de indruk dat op de afdruk duidelijk is te zien welke objecten bestaand zijn en welke nieuw.\r\nGebruik van kleuren in (presentatie)tekeningen zou worden opgepakt met \"(display) thema's\".",
+      "Hoi Sander,\r\n\r\nEerst maar even punt 1:\r\nEnige tijd geleden is afgesproken dat met name binnen MicroStation kleur 0 ook is toegestaan omdat kleur 7 bij Autocad en kleur 0 bij MS beide de basiskleur wit zijn. Als het goed is, is dat ook in de FB opgenomen.\r\n\r\nDe andere punten zal ik van de week ook met Marco en Erwin bespreken.\r\n\r\nGr,\r\n\r\nPaul\r\n~~\r\n\r\n\r\nMet vriendelijke groet,\r\n\r\nPaul Haffmans\r\nSenior consultant,\r\n\r\n***@***.***\r\n\r\nBentley Qualified trainer\r\nfor MicroStation\r\n\r\n\r\n\r\n***@***.***<http://www.thepeoplegroup.nl/>\r\n\r\n\r\nThe People Group | Software & Trainingen\r\nMiddelweg 2 | 5253 CA, NIEUWKUIJK | Nederland\r\nM +31(0)6 55 165 140<tel:+31655165140> | T +31(0)85 22 40 000<tel:+31852240000>\r\n\r\nClick for disclaimer<https://www.thepeoplegroup.nl/e-mail-disclaimer/>\r\n\r\nVan: Sander Nijhof ***@***.***>\r\nVerzonden: Tuesday, 13 August 2024 12:33\r\nAan: nl-digigo/NLCS ***@***.***>\r\nCC: Paul Haffmans | The People Group ***@***.***>; Assign ***@***.***>\r\nOnderwerp: Re: [nl-digigo/NLCS] Review concept-versie door werkgroepleden (Issue #190)\r\n\r\n\r\nDe kleuren in de tabellen kloppen inhoudelijk niet met de basisregels FB, die verdienen nog wat aandacht.\r\n\r\n❗ ❗ Niet alleen de kleuren, maar ook de lijnstijlen en diktes verdienen aandacht ❗ ❗\r\n\r\nAandachtspunten:\r\n\r\n  1.  Volgens mij kent AutoCAD kleur 0 niet, bij voorkeur kleur 7 gebruiken.\r\n  2.  De (standaard) toe te passen kleurenserie voor lijnen en arceringen is genoemd in de Formele Beschrijving paragraaf 3.5.9. Daar wordt vooral van afgeweken.\r\n  3.  De NLCS maakt onderscheid tussen 'bestaand' en 'nieuw' door nieuwe objecten een dikkere lijndikte te geven. De minimale lijndikte voor status N is dan '1' en status B krijgt de dunste lijndikte t.o.v. de andere statussen.\r\n  4.  De tabellen van Stedelijk Spoor maken gebruik van verschillende kleuren per status. Het resultaat is altijd een kleuren afdruk. De kleuren zijn conform NLCS (in de regel) voor alle statussen gelijk. Onderscheid tussen bestaand/oud/nieuw wordt niet gemaakt met kleuren. Toepassen van kleuren op de afdruk is per uitzondering toegestaan maar zijn bij StedelijkSpoor regulier toegepast.\r\n  5.  Voor de lijnstijlen zijn nummers gebruikt. We hebben afgesproken dat lijnstijl 0 = lijnstijl CONTINUOUS, maar de overige lijnstijlnummers liggen niet vast en kunnen per CAD-pakket afwijken. Hiervoor dus bestaande NLCS_lijnstijlen gebruiken of nieuwe lijnstijlen definiëren.\r\n\r\nNiet dat ik het met alle regels eens ben of fan ben van de NLCS-kleurentabel, maar hier wordt met StedelijkSpoor wel sterk afgeweken van de overige objecten in de NLCS. Ook krijg ik niet de indruk dat op de afdruk duidelijk is te zien welke objecten bestaand zijn en welke nieuw.\r\nGebruik van kleuren in (presentatie)tekeningen zou worden opgepakt met \"(display) thema's\".\r\n\r\n—\r\nReply to this email directly, view it on GitHub<https://github.com/nl-digigo/NLCS/issues/190#issuecomment-2285920029>, or unsubscribe<https://github.com/notifications/unsubscribe-auth/BCNET7MPVULIRCSXXPJ76R3ZRHOELAVCNFSM6AAAAAA7BJJGXKVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZDEOBVHEZDAMBSHE>.\r\nYou are receiving this because you were assigned.Message ID: ***@***.******@***.***>>",
+      "https://github.com/nl-digigo/NLCS/issues/190#issuecomment-2272764722\r\n\r\nNee, deze objecten zijn nodig voor onze beheerskaart. Met ONTWERP wordt in onze beheerskaarten projecten in uitvoering aangeduid en waarvan de revisie meting nog uitgevoerd moer worden. Zodra een revisiemeting is verwerkt worden deze objecten geüpdatet naar een laag met AFWIJKING.",
+      "https://github.com/nl-digigo/NLCS/issues/190#issuecomment-2272964599\r\n\r\nDit zijn andere masten met andere diameters en lengtes",
+      "https://github.com/nl-digigo/NLCS/issues/190#issuecomment-2284179342\r\n\r\nCorrect, de Stedelijke Spoor bedrijven zouden eerst testen met ons voorgestelde lagen en deze finetunen. Na het finetunes zouden de lagen als concept/review versie voor andere beschikbaar worden gesteld.",
+      "> Nee, deze objecten zijn nodig voor onze beheerskaart. Met ONTWERP wordt in onze beheerskaarten projecten in uitvoering aangeduid en waarvan de revisie meting nog uitgevoerd moer worden. Zodra een revisiemeting is verwerkt worden deze objecten geüpdatet naar een laag met AFWIJKING.\r\n\r\nDit gaat over de laag **AS_SPOOR_TRAM_ONTWERP**.\r\n\r\nDe NLCS hanteert een methodiek voor bestaande objecten en nieuwe objecten. Lijkt mij niet raadzaam van die methodiek af te wijken met \"_ONTWERP\" lagen. Als hier onduidelijkheid over is dan is dit wel een belangrijk bespreekpunt.",
+      "Hallo Sander,\r\n\r\nHierbij reactie op:\r\n\r\nDe laag:\r\nES-DRAAGKABEL_LIGGING\r\nDat is een object? Volstaat ES-DRAAGKABEL niet?\r\n\r\nAkkoord op voorstel\r\n\r\nHierbij reactie op:\r\n\r\nWat is een 'ZIJWAARTSE':\r\n\r\nES-OPHANGCONSTRUCTIE_UITLEGGER\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE_DRIEHOEK\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE_ENKEL\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE_PARALLEL\r\n\r\nDat zijn geen type uitleggers? Optie;\r\n\r\nES-OPHANGCONSTRUCTIE_UITLEGGER\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE DRIEHOEK\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE ENKEL\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE PARALLEL\r\n\r\n(met spaties)\r\n\r\nAkkoord op voorstel\r\n\r\nOverige vragen heb ik nagevraagd, maar nog geen reactie ontvangen.\r\n\r\nMet vriendelijke groet,\r\nErwin\r\n\r\nIk werk op maandag en vrijdag thuis\r\n\r\n\r\nVan: Sander Nijhof ***@***.***>\r\nVerzonden: maandag 12 augustus 2024 16:44\r\nAan: nl-digigo/NLCS ***@***.***>\r\nCC: Hensing, E.G. (Erwin) ***@***.***>; Assign ***@***.***>\r\nOnderwerp: Re: [nl-digigo/NLCS] Review concept-versie door werkgroepleden (Issue #190)\r\n\r\n\r\nLET OP: Deze e-mail komt van buiten de organisatie. Wees voorzichtig met het openen van links en bijlagen, tenzij je de afzender herkent en zeker weet dat de inhoud veilig is.\r\n\r\nik sluit hiermee deze issue af, omdat de verdere review nu plaats gaat vinden via het testen van de concept-publicatie 5.1 in september\r\n\r\n5.1? Ik ging er zomaar vanuit dat 'milestone NLCS 5.3' betekent dat deze met release 5.3 wordt meegenomen en niet 5.1.\r\n\r\nHeb even snel naar ES-Energievoorziening.Spoor.20240424.xls gekeken.\r\nDe kleuren in de tabellen kloppen inhoudelijk niet met de basisregels FB, die verdienen nog wat aandacht.\r\n\r\nDe lagen:\r\n\r\nES-AFSPANCONSTRUCTIE\r\n\r\nES-AFSPANNING\r\n\r\nBeogen niet hetzelfde object?\r\n\r\nDe laag:\r\nES-DRAAGKABEL_LIGGING\r\nDat is een object? Volstaat ES-DRAAGKABEL niet?\r\n\r\nIk zie bijvoorbeeld ook laagnamen als:\r\n\r\nES-SCHAKELAAR_GESLOTEN\r\n\r\nES-SCHAKELAAR_OPEN\r\n\r\nZijn dat uitvoeringen of toestanden? Of gaan we in de groep ES hier anders mee om dan in de andere hoofdgroepen?\r\n\r\nWat is een 'ZIJWAARTSE':\r\n\r\nES-OPHANGCONSTRUCTIE_UITLEGGER\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE_DRIEHOEK\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE_ENKEL\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE_PARALLEL\r\n\r\nDat zijn geen type uitleggers? Optie;\r\n\r\nES-OPHANGCONSTRUCTIE_UITLEGGER\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE DRIEHOEK\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE ENKEL\r\n\r\nES-OPHANGCONSTRUCTIE_ZIJWAARTSE PARALLEL\r\n\r\n(met spaties)\r\n\r\nHeeft het nog zin dat ik er nog wat beter naar kijk en de rest ook nog doorloop?\r\n\r\n—\r\nReply to this email directly, view it on GitHub<https://github.com/nl-digigo/NLCS/issues/190#issuecomment-2284179342>, or unsubscribe<https://github.com/notifications/unsubscribe-auth/BCN5QGPBYBFWI26PKLR3CADZRDC4XAVCNFSM6AAAAAA7BJJGXKVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZDEOBUGE3TSMZUGI>.\r\nYou are receiving this because you were assigned.Message ID: ***@***.******@***.***>>\r\n\r\n________________________________\r\n\r\nDISCLAIMER:\r\n\r\n“Als de informatie in dit e-mailbericht onverhoopt niet voor jou bestemd is, meld dit aan de afzender en wis vervolgens het bericht. Wees altijd voorzichtig met het delen van e-mails waarin persoonsgegevens staan en bewaar deze niet langer dan noodzakelijk.\"\r\n\r\n________________________________\r\n\r\nDisclaimer:\r\n\r\nDe informatie in dit e-mailbericht is uitsluitend bestemd voor de geadresseerde. Verstrekking aan en gebruik door derden is niet toegestaan. Als dit bericht niet voor u bestemd is, wordt u vriendelijk verzocht dit aan de afzender te melden en het bericht te wissen. Door de elektronische verzending van het bericht kunnen er geen rechten worden ontleend aan de informatie. Indien u twijfelt aan de correctheid of volledigheid van dit e-mail bericht, neemt u dan contact op met de verzender. HTM sluit elke aansprakelijkheid uit wanneer informatie in dit e-mail bericht niet correct, onvolledig of niet tijdig overkomt of wanneer er schade ontstaat ten gevolge van dit e-mail bericht. De hoofdvestiging van HTM Personenvervoer N.V. is gevestigd aan het Koningin Julianaplein 10 te Den Haag (KvK nummer 27014495) – www.htm.nl/over-htm.\r\n\r\nThis email message is intended solely for the addressee. This email (including any attachments) may be privileged or confidential. If this email is received by mistake, please notify the sender by return e-mail and delete this message from your system. When in doubt whether this message is correct or complete, please contact the sender. This message shall not constitute any rights or obligations. HTM Personenvervoer N.V. has its registered office in The Hague (Companies’ Register 27014495) – www.htm.nl/over-htm.",
+      "yep, we hebben in de werkgroep afgesproken dat ik dit wel mee zal nemen in de concept-release van 5.1, omdat het dan getest kan worden in alle pakketten, ook al is stedelijk spoor nog maar op 50% kwaliteit; ook omdat we als digiGO wel beloofd hebben dit mogelijk te maken in 2024",
+      "ik kan zeker nog verbeteringen doorvoeren vóór de concept-release stuur dit vooral door!",
+      "Zoals gezegd: In de Excel tabellen zijn waarden 1 t/m 7 opgenomen voor lijnstijlen. Dit zijn (waarschijnlijk Microstation, AutoCAD) lijnstijlen, geen NLCS-lijnstijlen. Ik weet niet wat de software daarmee gaat doen. \r\n\r\nDe kleuren in de tabellen matchen niet met de systematiek van de NLCS-standaard. Ik weet niet wat discipline SPOOR nu aan kleuren, lijnstijlen en lijndikten gebruikt/nodig heeft voor de presentatie van haar tekeningen, dus lastig om daar voorstellen voor te doen.\r\nOnderscheid in STATUS is in de NLCS m.n. door lijndikten en lijnstijlen, beslist niet door toepassen van verschillende kleuren (niet op de afdruk en niet op het scherm). We kunnen daar wel van afwijken, maar dan wel graag volgens een beschreven systematiek en niet willekeurig.\r\n\r\nWelke lijnstijlen en kleuren gebruikt discipline SPOOR nu? Kunnen we met de NLCS daar (zoveel mogelijk) op aansluiten zodat de tekeningen herkenbaar blijven voor SPOOR?\r\nZijn er bestaande normen en/of standaarden waar rekening mee gehouden moet worden?",
+      "Ik haal het label extra review door de expertcommissie weg; er wordt iemand ingehuurd om een NLCS-proof voorstel voor kleuren en lijnstijlen te maken, alleen de objecten / laagnamen zijn onderdeel van de algemene revioew van concept-versie 5.1",
+      "[AL-Algemeen 20240912.xls](https://github.com/user-attachments/files/16978923/AL-Algemeen.20240912.xls)\r\n[AM-Assen en Metrering 20240912.xls](https://github.com/user-attachments/files/16978925/AM-Assen.en.Metrering.20240912.xls)\r\n[ES-Energievoorziening Spoor 20240912.xls](https://github.com/user-attachments/files/16978926/ES-Energievoorziening.Spoor.20240912.xls)\r\n[GR-Groen 20240912.xls](https://github.com/user-attachments/files/16978927/GR-Groen.20240912.xls)\r\n[GW-Grondwerk 20240912.xls](https://github.com/user-attachments/files/16978928/GW-Grondwerk.20240912.xls)\r\n[HC-Houtconstruties 20240912.xls](https://github.com/user-attachments/files/16978929/HC-Houtconstruties.20240912.xls)\r\n[IE-Inrichtingselementen 20240912.xls](https://github.com/user-attachments/files/16978930/IE-Inrichtingselementen.20240912.xls)\r\n[IS-Installaties spoorwegen 20240912.xls](https://github.com/user-attachments/files/16978932/IS-Installaties.spoorwegen.20240912.xls)\r\n[KG-kadastrale informatie en grenzen 20240912.xls](https://github.com/user-attachments/files/16978933/KG-kadastrale.informatie.en.grenzen.20240912.xls)\r\n[KL-Kabels en Leidingen 20240912.xls](https://github.com/user-attachments/files/16978934/KL-Kabels.en.Leidingen.20240912.xls)\r\n[KW-Kunstwerken 20240912.xls](https://github.com/user-attachments/files/16978935/KW-Kunstwerken.20240912.xls)\r\n[OG-Ondergronden 20240912.xls](https://github.com/user-attachments/files/16978936/OG-Ondergronden.20240912.xls)\r\n[RI-Riolering 20240912.xls](https://github.com/user-attachments/files/16978937/RI-Riolering.20240912.xls)\r\n[SB-Spoorbouw 20240912.xls](https://github.com/user-attachments/files/16978938/SB-Spoorbouw.20240912.xls)\r\n[SC-Staalconstructies 20240912.xls](https://github.com/user-attachments/files/16978939/SC-Staalconstructies.20240912.xls)\r\n[VH-Verhardingen 20240912.xls](https://github.com/user-attachments/files/16978940/VH-Verhardingen.20240912.xls)\r\n[VW-Verkeerskunde Wegen 20240912.xls](https://github.com/user-attachments/files/16978941/VW-Verkeerskunde.Wegen.20240912.xls)\r\n[ZZ-Voorallehoofdgroepen 20240912.xls](https://github.com/user-attachments/files/16978942/ZZ-Voorallehoofdgroepen.20240912.xls)\r\n\r\nBijgevoegde lijsten zijn vanmorgen met Marco Linnenbank en Paul Haffmans doorgenomen of een object een symbool nodig heeft",
+      "10-04-2024 Bijgewerkte Excel-bestanden.\r\n- Bestaande NLCS objecten zijn uit deze bestanden verwijderd\r\n- Symbolen zoveel mogelijk toegevoegd, deze zijn bij issue #118 geupload.\r\n- Lijndiktes in mm, i.p.v. Microstation nummer\r\n\r\n[AL-Algemeen 20241004.xls](https://github.com/user-attachments/files/17255004/AL-Algemeen.20241004.xls)\r\n[AM-Assen en Metrering 20241004.xls](https://github.com/user-attachments/files/17255005/AM-Assen.en.Metrering.20241004.xls)\r\n[ES-Energievoorziening Spoor 20241004.xls](https://github.com/user-attachments/files/17255006/ES-Energievoorziening.Spoor.20241004.xls)\r\n[GR-Groen 20241004.xls](https://github.com/user-attachments/files/17255007/GR-Groen.20241004.xls)\r\n[IS-Installaties spoorwegen 20241004.xls](https://github.com/user-attachments/files/17255008/IS-Installaties.spoorwegen.20241004.xls)\r\n[KG-kadastrale informatie en grenzen 20241004.xls](https://github.com/user-attachments/files/17255009/KG-kadastrale.informatie.en.grenzen.20241004.xls)\r\n[KL-Kabels en Leidingen 20241004.xls](https://github.com/user-attachments/files/17255010/KL-Kabels.en.Leidingen.20241004.xls)\r\n[OG-Ondergronden 20241004.xls](https://github.com/user-attachments/files/17255011/OG-Ondergronden.20241004.xls)\r\n[RI-Riolering 20241004.xls](https://github.com/user-attachments/files/17255012/RI-Riolering.20241004.xls)\r\n[SB-Spoorbouw 20241004.xls](https://github.com/user-attachments/files/17255013/SB-Spoorbouw.20241004.xls)\r\n[VH-Verhardingen 20241004.xls](https://github.com/user-attachments/files/17255014/VH-Verhardingen.20241004.xls)\r\n[VW-Verkeerskunde Wegen 20241004.xls](https://github.com/user-attachments/files/17255015/VW-Verkeerskunde.Wegen.20241004.xls)\r\n[ZZ-Voorallehoofdgroepen 20241004.xls](https://github.com/user-attachments/files/17255016/ZZ-Voorallehoofdgroepen.20241004.xls)",
+      "Ik heb de tabellen voor AL, AM en ES even kort bekeken:\r\n\r\nKleuren eindigend op ‘2’ zijn gereserveerd voor arceringen (al is dat niet consequent doorgevoerd in de NLCS-tabellen). Kan i.p.v. kleur 92 voor AM-AS-SPOOR_TRAM_RECHT ook kleur 90 worden toegepast?\r\n\r\nAL-VERWIJZING_DOORSNEDE is een bestaande NLCS-laag met lijndikte 0.18mm , in de tabel voor AL-Algemeen 20241004.xls is dezelfde laag opgenomen met lijndikte 0.25mm, dat is tegenstrijdig.\r\n\r\nWat is het verschil tussen deze lagen:\r\n?-??-AM-AS_SPOOR_TRAM_AFWIJKING-G\r\n?-??-AM-AS_SPOOR_TRAM_AFWIJKING_ONBEKEND-G\r\nDeze lagen hebben alleen voor status ‘B’ verschillende presentatie eigenschappen, die weer afwijken van de overige statussen voor deze objecten, waarbij geen onderscheid in presentatie eigenschappen is gemaakt. Ofwel: alleen bij status 'B' zien deze 2 lagen er verschillend uit.\r\n1.\tIn principe zijn kleuren voor alle NLCS-statussen gelijk\r\n2.\tAls iets (nog) niet bekend is vul je dat volgens het principe van de NLCS niet in, dus dan geldt: ?-??-AM-AS_SPOOR_TRAM_AFWIJKING-G **=** ?-??-AM-AS_SPOOR_TRAM_AFWIJKING_ONBEKEND-G.\r\n\r\nMij valt op dat onderscheid in status word gemaakt met kleuren en niet met lijndikten. Zowel deze systematiek als de gekozen kleuren en lijndikten zijn niet conform NLCS. Dat wil niet zeggen dat dit niet mogelijk is, maar er is wel een betere afstemming met de NLCS nodig! Zowel qua laageigenschappen als qua Formele Beschrijving NLCS.",
+      "@SanderNijhof dank voor de input, er gaat een NLCS expert betaald aan het werk om een voorstel te maken voor kleuren en lijntypes conform NLCS, dit gebeurt tijdens de reviewperiode van het concept 5.1. In het concept zullen dus de verkeerde lijnen en kleuren gepubliceerd worden, maar dan kaunnen al wel de objecten gereviewed worden.",
+      "AL-VERWIJZING_DOORSNEDE deze is bij uitzoeken van de bestaande en nieuwe objecten per ongeluk blijven staan, deze kan je dus negeren.\r\n\r\nDat kleuren die eindigen op 2 voor arceringen bedoeld zijn is bij Stedelijk Spoor niet bekend. \r\n\r\n?-??-AM-AS_SPOOR_TRAM_AFWIJKING-G --> bovenliggende object om onderscheid te kunnen maken tussen de verschillenden  sub objecten: afwijkingen 0 tot 5 cm, 5 tot 10 en onbekend\r\n\r\nDeze lagen komen alleen in de bestaande situatie voor. Deze worden gebruikt om de nauwkeurigheid van de assen aan te geven. Dus als ik goed begreep moeten voor deze lagen hoeven dan geen kleur, lijn stijl en dikte niet voor N, T en V worden opgegeven.",
+      "> Dat kleuren die eindigen op 2 voor arceringen bedoeld zijn is bij Stedelijk Spoor niet bekend.\r\n\r\nDit blijkt enigszins uit de Formele Beschrijving NLCS (par. 3.5.9, blz 25) en uit de NLCS objecttabellen. Dat wil niet zeggen dat kleur 92 niet ook anders gebruikt mag worden, maar als in dit geval kleur 90 ook volstaat dan heeft dat de voorkeur.\r\n\r\n> ?-??-AM-AS_SPOOR_TRAM_AFWIJKING-G --> bovenliggende object om onderscheid te kunnen maken tussen de verschillenden sub objecten: afwijkingen 0 tot 5 cm, 5 tot 10 en onbekend\r\n\r\nIk vroeg me af of de laag met toevoeging ONBEKEND nodig is. De laag ?-??-AM-AS_SPOOR_TRAM_AFWIJKING-G geeft al aan dat er geen nadere info over de 'afwijking' bekend is. 'Onbekend' erachter zetten voegt een extra laagnaam toe voor een object waar al een laagnaam voor is.\r\n\r\n> Dus als ik goed begreep moeten voor deze lagen hoeven dan geen kleur, lijn stijl en dikte niet voor N, T en V worden opgegeven.\r\n\r\nIk begrijp dat er nog naar de kleuren en lijndikten gekeken wordt in de review periode, dus het zal uiteindelijk allemaal wel goed komen. :expressionless:\r\n\r\nEr is in ieder geval al goed werk verzet! :thumbsup:",
+      "Gekregen van michel bestanden: https://github.com/nl-digigo/NLCS/tree/main/ontwikkeling/stedelijk%20spoor/2024-10-28\r\nMet mail: \r\nIn de ZIP zit:\r\n-\tEen word bestandje, waar ik per hoofdgroep mijn vragen heb gesteld.\r\n-\tDe excelstaten, waarin ik met een kleur heb aangegeven waar mijn vragen over gaan, voor de herleidbaarheid.\r\n-\tEen .LIN file met de (op dit moment) op te nemen lijntypes, deze zal nog uitgebreid worden, dus zie het als een tussentijds resultaat).\r\n-\tAlle symbolen, welke zijn bijgewerkt volgens de NLCS 5.1 regels. Dit is al met al nog een hele operatie geweest. 😓\r\n\r\nHet lijjkt me goed om het Wordbestand met de werkgroep te bespreken én vooral te spiegelen aan de NLCS regels.\r\nIk bemerk zo links en rechts dat de manier van tekenen waaraan ze gewend zijn niet helemaal strookt met de NLCS gedachte.\r\nHierbij is ook raakval met issue: [Omgang status 'Vervallen' i.r.t. allerlei beheer wensen / presentatie vervallen met scraps versus rood · Issue #251 \r\nStedelijk spoor wil geen SCRAPS in de vervallen lagen, dat is mij wel duidelijk geworden. 😉",
+      "Goed werk Michel!\r\nIk hoop dat we bij een volgend NLCS-EC de reacties van de werkgroep op jouw vragen kunnen bespreken.\r\nHeb je zelf lijnstijlen en symbolen gemaakt of zijn die aangeleverd vanuit de werkgroep?\r\n\r\nJe stelt voor om LIGGING_PROFIELDRAAD te wijzigen naar PROFIELDRAAD_LIGGING.\r\nIs 'LIGGING' wel geen object/subobject, of meer een verwijzing of feit. \r\n\r\n1. Wat is qua betekenis het verschil tussen de lagen LIGGING_PROFIELDRAAD of PROFIELDRAAD_LIGGING en PROFIELDRAAD ? Zijn dit meerdere lagen met dezelfde betekenis? Voor mij i.i.g. verwarrend welke wanneer te gebruiken. Is het niet logisch dat een profieldraad ligt waar die is getekend?\r\n2. M.a.w. : Wat gaat er mis als we deze lijn op dezelfde laag zetten: PROFIELDRAAD.",
+      "@SanderNijhof \r\nDe vragen die ik gesteld heb hoop ik met de werkgroep spoor al te kunnen ondervangen, zodat we voor de NLCS-EC gewoon een concreet stuk hebben zonder open eindjes.\r\n\r\nDe lijnstylen heb ik zelf gemaakt, met de imput vanuit de spoor werkgroep.\r\nDe symbolen zijn aangeleverd door de werkgroep, maar die heb ik wel allemaal moeten bijpoetsen om te voldoen aan de NLCS.\r\n\r\nJe vragen zijn terecht en gaan ook zeker besproken worden. ;-)",
+      "[Vragen en feedback voorstel stedelijk spoor - reactie EGH en MLI.docx](https://github.com/user-attachments/files/17698614/Vragen.en.feedback.voorstel.stedelijk.spoor.-.reactie.EGH.en.MLI.docx)\r\nIn dit document staat de gezamenlijk reactie van GVB en HTM op de opmerkingen/vragen van Michel van der Hulst",
+      "Alle issues zijn bijgewerkt op basis van de reacties van @ehensing \r\nDit is vermeld in issues:\r\n#532 \r\n#531 \r\n#530 \r\n#529 \r\n#528 \r\n#527 \r\n#526 \r\n#525 \r\n#524 \r\n#523 \r\n#522 \r\n\r\nHiervoor is de logica aangehouden (zie presentatiegebruik)\r\nVRAAG\r\n**ANTWOORD WERKGROEP**\r\n`RESULTAAT`\r\n\r\nTotaal overzicht in bijgevoegde document.\r\n[MHT_241125 Vragen.en.feedback.voorstel.stedelijk.spoor.-.reactie.EGH.en.MLI.docx](https://github.com/user-attachments/files/17993181/MHT_241125.Vragen.en.feedback.voorstel.stedelijk.spoor.-.reactie.EGH.en.MLI.docx)\r\n\r\nOpenstaande vragen en opmerkingen:\r\nES: Graag ontvang ik een voorbeeld van BEREKENEN KRACHTEN GAWIRE hoe dit wordt toegepast in een model.\r\nES: Vraag m.b.t. presentatie van het object MAST\r\nGR: Wat is een graskrat?\r\nKG: in zijn geheel.\r\nKL: in zijn geheel.\r\nSB: Omgang ONTWERP/Civil3D\r\nSB: ASFALT, BALAST en BETON, naar VH?\r\n\r\nTotale huidige stand van zaken:\r\n[NLCS Stedelijk Spoor stand van zaken 03-12-2024.zip](https://github.com/user-attachments/files/17993311/NLCS.Stedelijk.Spoor.stand.van.zaken.03-12-2024.zip)",
+      "@ElisabethDeVries \r\nHierbij de definitieve levering voor 'Tram', dit op basis van de issues:\r\n#118 \r\n#522 \r\n#523 \r\n#524 \r\n#525 \r\n#526 \r\n#527 \r\n#528 \r\n#529 \r\n#530 \r\n#531 \r\n#532 \r\n#533 \r\n\r\n[NLCS Stedelijk Spoor levering 13-01-2025.zip](https://github.com/user-attachments/files/18408022/NLCS.Stedelijk.Spoor.levering.13-01-2025.zip)",
+      "> @ElisabethDeVries Hierbij de definitieve levering voor 'Tram', dit op basis van de issues: #118 #522 #523 #524 #525 #526 #527 #528 #529 #530 #531 #532 #533\r\n> \r\n> [NLCS Stedelijk Spoor levering 13-01-2025.zip](https://github.com/user-attachments/files/18408022/NLCS.Stedelijk.Spoor.levering.13-01-2025.zip)\r\n\r\n@ElisabethDeVries  en @MvanderHulst : \r\nIk zag in de opleveringen een aantal objecten die nog niet correct waren verwerkt\r\n[Opm EGH - NLCS Stedelijke spoor levering 13-01-2025.zip](https://github.com/user-attachments/files/18425794/Opm.EGH.-.NLCS.Stedelijke.spoor.levering.13-01-2025.zip)",
+      "@ehensing Dank voor de controleslag, vervelend dat ik deze zaken gemist heb.\nDe Kabelkoker heb ik weer 'erin gezet'.\n\nHierbij de bijgewerkte, volledige levering.\n\n[NLCS Stedelijk Spoor levering 17-01-2025.zip](https://github.com/user-attachments/files/18454591/NLCS.Stedelijk.Spoor.levering.17-01-2025.zip)\n\n@ElisabethDeVries",
+      "@MvanderHulst en @ElisabethDeVries:  \nIk zie dat de symbolen voor SIS niet compleet is,. Waarschijnlijk komt dit doordat wij deze in diverse stappen hebben geüpload. \n\nHierbij upload ik de alle symbolen in één zip-bestand:\n[20250122_Symbolen_SIS_totaal.zip](https://github.com/user-attachments/files/18500383/20250122_Symbolen_SIS_totaal.zip)",
+      "@ehensing Hi Erwin, dit zijn inderdaad aanzienlijk meer symbolen dan ik in de issues kon terugvinden.\nIk ga er mee aan de slag en een nieuwe totaal ZIP uploaden.",
+      "@ehensing ik heb alle symbolen (eindelijk) kunnen nalopen. Hierover heb ik nog twee vragen:\nVragen/opmerkingen:\n- De symbolen SIS-Punttong hebben in het block een layer 'X-XX-IS-HULPLIJN_01-G'\nHet toepassen van layers in blocks, anders dan layer 0, is niet toegestaan. Dit geeft problemen met 'statuswissel acties' omdat de layer hard-coded is.\nOplossing is om deze layer gewoon te presenteren op laag '0', of om per status een seperaat symbool te maken om het 'hard-coded' probleem te omzeilen.\n- De SIS_verkeersborden hebben het lettertype STANDAARD in zich. Dit is niet volgens NLCS.\nTevens verwacht ik dat de 'officiele' verkeersborden een echt lettertype hebben, net als voor verkeersborden RVV wordt toegepast.\nHoe is dit voor spoor?\n- Het block 'SIS-SEIN_WISSELSTANDSAANWIJZER' was eerder wel aangeleverd, maar komt niet meer voor in de laatste aangeleverde totaal ZIP. Kan deze komen te vervallen of is deze vergeten in de TOTAAL zip?\n\nTussentijdse symbolen: ter ondersteuning van bovenstaande vragen.\n[Symbolen SIS 250304.zip](https://github.com/user-attachments/files/19071572/Symbolen.SIS.250304.zip)\n\nKan jij hier nog antwoord op geven?",
+      "> * in het block een layer 'X-XX-IS-HULPLIJN_01-G'\n\nen daar bovenop: X-XX is alleen toegestaan i.c.m. hoofdgroep AL, dus X-XX-AL-...-G",
+      "@SanderNijhof indien de hulplijnen ín de block moeten blijven, wil ik voorstellen om een symbool per status te maken, waarbij de laagnaam inderdaad is N-SB-SB-HULPLIJN-G waarbij de status dus per block anders is. Bij voorkeur haal ik de hulplijn helemaal weg of wordt hij op laag 0 gezet, om deze omslachtigheid op te lossen. Maargoed, de nut en noodzaak kan ik niet beoordelen.",
+      "@MvanderHulst \nBullet 1\nDit is een hulplaag om het symbool goed te kunnen maken. Deze ben ik vergeten te verwijderen en kan dus vervallen.\n\nBullet 2\nBij het exporten vanuit MicroStation naar dwg-bestand wordt het lettertype gewijzigd. Deze staat in MicroStation op NLCS-RVV.\nIk weet alleen niet of de stedelijke spoorbedrijven en ProRail een standaard font hebben voor borden.\n\nBullet 3\nDit zijn symbool is gesplitst in 2 symbolen SIS_SIS-SEIN_WISSELSTANDSAANWIJZER_01-S en SIS_SIS-SEIN_WISSELSTANDSAANWIJZER_02-S. Voor de zekerheid upload ik deze hierbij.\n\n[Symbolen SIS-SEIN_WISSELSTANDSAANWIJZER.zip](https://github.com/user-attachments/files/19083153/Symbolen.SIS-SEIN_WISSELSTANDSAANWIJZER.zip)",
+      "@ElisabethDeVries \n\nHierbij de definitieve levering voor NLCS Stedelijk Spoor, waarin de 'vermiste' SIS symbolen ook zijn opgenomen.\nBovenstaande vragen en opmerkingen zijn er allemaal in verwerkt.\n\nEDIT:\nNog een schrijffout gevonden in de namen van de SSB symbolen, deze is gecorrigeerd.\nNu doe ik er echt niks meer aan...\n\n[Levering NLCS Stedelijk Spoor 05-03-2025 Versie2.zip](https://github.com/user-attachments/files/19086025/Levering.NLCS.Stedelijk.Spoor.05-03-2025.Versie2.zip)",
+      "dit is uitgevoerd, de nieuwste verwerking van alle review gaat naar de expertcommissie in #558"
+    ]
+  },
+  {
+    "number": 191,
+    "title": "Verkenning Informatiemodel / OTL Stedelijk Spoor",
+    "closed_at": "2023-11-27T09:50:51Z",
+    "labels": [
+      "Stedelijk Spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "OTL spoor voor stedelijk vervoerders i.c.m. NLCS, NEN 2660-2, ISO 19650 Aydemir & Elisabeth\r\n\r\nActie Aydemir stuurt Elisabeth verkenning van bim connected op op Github te zetten",
+    "comments": [
+      "https://github.com/nl-digigo/NLCS/blob/main/ontwikkeling/stedelijk%20spoor/20210802_OTL%20Metro%20en%20Tram%20-%20Pijnpunten%20en%20behoefte%20v0.1.pdf"
+    ]
+  },
+  {
+    "number": 192,
+    "title": "Stedelijk Spoor: SAP en GIS versus NLCS en CAD",
+    "closed_at": "2024-02-27T09:55:56Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "CAD<>GIS datatransformaties"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Beschrijven wat het probleem is voor de gebruiker, de integratie van GIS en SAP, de relatie met NLCS tekeningen, wat hebben we nodig van de standaard\r\n\r\nGerben, geholpen door Aydemir, Marco, Erwin, Romano zoekt GIS specialist >",
+    "comments": [
+      "Besproken 11-12-2023: Objectinformatie uit NLCS tekeningen naar GIS en AM-systeem (bijv SAP, Maximo) uitwisselbaar maken (eerste versie)",
+      "Besproken 29-01-2024:  Gerben is nog niet gestart. Issue samenvoegen met #189. Gerben stemt dit af met Elisabeth.",
+      "dan sluit ik dit issue af omdat het probleem  in #189 wordt uitgewerkt"
+    ]
+  },
+  {
+    "number": 252,
+    "title": "Stappenplan om tot Release NLCS Stedelijk Spoor te komen toevoegen als Milestones",
+    "closed_at": "2023-12-12T14:33:19Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "implementatie"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "1 Objectenlijst vaststellen\r\n2 Symbolen bibliotheek vaststellen\r\n3 Aanvullende bibliotheken (Linestyles, Arceringen) vaststellen\r\n4 Importeren als POC in tools leveranciers (TPG, Arkance, Cad&Company zijn in gebruik bij SS beheerders)\r\n5 Bug fixes NLCS Stedelijk Spoor \r\n6 Release NLCS Stedelijk Spoor\r\n\r\nBespreken met Elisabeth of dit stappenplan voor meerdere milestones opgenomen kan worden.",
+    "comments": [
+      "Goed idee, ik heb bovenstaande details opgenomen in het [Releaseprotocol](https://nl-digigo.github.io/NLCS/releaseprotocol/) en kom dan tot de volgende stappen:\r\n\r\n## Wijzigingsvoorstel uitwerken\r\n\r\n### Gebruikerswensen\r\nEen gebruiker dient voorstellen in voor een (onderdeel van) een release van NLCS, in de vorm van issues op Github.\r\n\r\n### Rol inhoudelijke werkgroep \r\nEen inhoudelijke werkgroep kan samenwerken aan een voorstel voor het toeoegen of wijzigen van een specifieke groep objecten of een technisch onderdeel van NLCS.\r\n\r\nTopevoegen of wijzigen van objecten:\r\n1. Laagtabellen \r\n2. Symbolen bibliotheek \r\n3. Aanvullende bibliotheken (Linestyles, Arceringen) \r\n\r\n\r\n### Release volgen in Github \r\nVoorafgaand aan een potentiële release wordt deze in GitHub opgenomen als [Milestone](https://github.com/nl-digigo/NLCS/milestones). De issues die in de release worden afgehandeld, worden gekoppeld aan deze milestone.\r\n\r\n## Advies expertcommissie\r\nDe geselecteerde issues in een release worden één voor één beoordeeld door de expertcommissie. Als het voorstel past binnen de structuur en werkwijze van NLCS en het betreft slechts een uitbreiding van objecten, kan de expertcommissie direct een positief advies geven. Bij fundamentele beslissingen die de werking van de standaard aanpassen of uitbreiden wordt de keuze voorgelegd aan de beheercommissie. Vervolgens wordt de issue afgehandeld, met de uitwerking klaar in de beheeromgeving voor de release van een concept-publicatie.\r\n\r\nIssues worden afgehandeld volgens [dit protocol](https://github.com/nl-digigo/NLCS/blob/main/instructies/RASCI%20Github%20issues%20NLCS.pdf).\r\n\r\n### Tegenvoorstel\r\nAls een door een inhoudelijke werkgroep of gebruiker ingediende uitbreiding van NLCS volgens de expertcommissie niet past binnen de werking van NLCs, doet zij een tegenvoorstel zodat de werkgroep richting krijgt voor het uitwerken van een voorstel dat wel binnen de scope van NLCS past.\r\n\r\n## Publicatie concept\r\nNa positief adview van de expertcommissie worden issues verwerkt en wordt een concept-release gepubliceerd. Hierna worden drie parallelle trajecten gelijktijdig opgestart:\r\n\r\n* Openbare consultatie\r\n* Test-implementatie softwareleveranciers\r\n* Verwerken issues in definitieve publicatie\r\n\r\n## Openbare consultatie\r\nEen openbare consultatie wordt gehouden om feedback te verzamelen van belanghebbenden.\r\n\r\n## Test-implementatie softwareleveranciers\r\nVóór de definitieve publicatie wordt samen met de leveranciers getest, inclusief compatibiliteit met tekeningen van de twee eerdere versies die vanaf dat moment worden ondersteund.\r\n\r\n## Verwerken issues\r\nEventuele nieuwe issues die tijdens de testfase naar voren komen, worden door de expertcommissie beoordeeld. Bij een positief advies worden de issue verwerkt voor de definitieve release.\r\n\r\n## Publicatie definitief\r\nNa succesvolle tests en verwerking van issues wordt de definitieve versie gepubliceerd.\r\n\r\n## Implementatieperiode\r\nEr volgt een implementatieperiode waarin CAD softwareleveranciers zich voorbereiden op de overgang naar de nieuwe versie. Deze periode kan reltief kort duren, omdat de concept-release al eerder is geimplementeerd en getest. \r\n\r\n## Formele release\r\nOp het vastgestelde moment van formele release kunnen eindgebruikers van CAD-software aan de slag met de nieuwe versie van de standaard.\r\n\r\nNiet opgenomen als milestones, die worden gebruikt op 1 niveau hoger, wel opgenomen als stappen in de issue van het project: #184"
+    ]
+  },
+  {
+    "number": 331,
+    "title": "nieuwe hoofdgroep Energievoorziening Spoor (ES) ",
+    "closed_at": "2024-05-27T08:22:32Z",
+    "labels": [
+      "Stedelijk Spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Voorstel om voor stedelijk spoor een tweede hoofdgroep beschikbaar te stellen: Energievoorziening Spoor (ES) \r\n\r\nals verzamelgroep voor alle assets die daaronder vallen, dus: bovenleiding, tractie, aarding, etc.",
+    "comments": [
+      "Dit om betere onderscheid te kunnen maken en scheelt ook in decompositie van de laagnamen:\r\n \r\n \r\n \r\n\r\n\r\nIn de huidige decompositie kan dan bij 165 objecten SB-BOVENLEIDING worden voor vervangen door EV wat decompositie overzichtelijker en beheersbaarder maakt.",
+      "Besproken 15-4-2024: Besluit werkgroep: Energievoorziening Spoor (ES) is akkoord.\r\nVoorleggen aan expertcommissie.",
+      "Dit wordt samen met de objectentabellen voorgesteld aan de expertcommissie, zie daarvoor #190"
+    ]
+  },
+  {
+    "number": 522,
+    "title": "input stedelijk spoor, hoofdgroep AL",
+    "closed_at": "2025-03-10T11:39:43Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "AL - Algemeen"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Toelichting: De hoofdgroep AL is primair bedoeld voor de algemene aankleding van een tekening in de ‘layout’ omgeving en algemene aankleding van details.\r\n\r\ninput werkgroep: https://github.com/nl-digigo/NLCS/blob/main/ontwikkeling/stedelijk%20spoor/2024-10-28/HBA_AL-Algemeen.20241004.xls\r\n\r\nVraag aan werkgroep:\r\nKan worden toegelicht wat de toepassing is van object: assetbeschrijving, assetgrens, assetkader en assetnummer?\r\n\r\n\r\nVraag aan werkgroep en productmanager:\r\nObject Tabel is toegevoegd, welke ontbreekt in de NLCS.\r\nAanvullend zijn diverse soorten tabellen als ‘subobjecten’ toegevoegd. Dit zijn zéér specifieke tabellen. Zodoende een tweetal vragen:\r\n-\tIs het noodzakelijke om elke soort tabel op een eigen layer te zetten?\r\n-\tIs het gewenst dat voor alle soorten tabellen een subobject wordt opgenomen? Als we GWW-breed beschouwen wordt dat een enorme lijst aan mogelijkheden.\r\nVoorstel is om de subobjecten voor tabellen achterwege te laten. Als dit wel gewenst is stel ik voor om onder ‘SB’ een eigen object Tabellen aan te maken met de sub-soorten erin en dan in AL achterwege te laten.\r\n\r\n\r\nVraag aan werkgroep:\r\nKan worden toegelicht wat wordt bedoeld met objecten ‘tekenblad_werkzaamheden’ en alle varianten hierop?\r\n\r\n\r\nTer info:\r\nVERWIJZIGING_DOORSNEDE is reeds onderdeel van de NLCS. Hiervoor is in versie 5.1 al een aangepast lijntype AL-DOORSNEDE-SO",
+    "comments": [
+      "We gaan alleen het object \"tabel\" aanmaken; het is dan altijd mogelijk om individuele laagnamen te maken in aanvulling op NLCS. Om grote hoeveelheden laagnamen voor elke discipline te voorkomen.",
+      "11-11-2024 werkgroep stedelijk spoor\r\n\r\n> Vraag aan werkgroep: Kan worden toegelicht wat de toepassing is van object: assetbeschrijving, assetgrens, assetkader en assetnummer?\r\nOp de DO/bestekstekeningen krijgen de assets een nummer en van de assets staan de belangrijkste gegevens op tekening\r\nVanuit NLCS logica is hoofdgroep algemeen bedoeld voor de plotomgeving, zoals kaders et cetera, is dat als onderdeel van het model, of voor op de plotomgeving?\r\nantwoord; dit wordt op de plotomgeving gezet\r\ndan hebben we uitleg nodig voor in de documentatie\r\nactie @ehensing en marco om voorbeeld tekening te delen\r\n\r\n> * Is het noodzakelijke om elke soort tabel op een eigen layer te zetten?\r\nHet is niet nodig om de tabellen op verschillende lagen te zetten, dit is meegekomen vanuit de historie. Dit mag dus wat mij betreft zonder subobjecten\r\nVariaties qua tabellen, blokken, et cetera kan in één laag worden samengevat\r\nactie @ElisabethKloren geen subobjecten opnemen\r\n\r\n\r\n> Vraag aan werkgroep: Kan worden toegelicht wat wordt bedoeld met objecten ‘tekenblad_werkzaamheden’ en alle varianten hierop?\r\nDit is de laag waarop wij op de bestekstekeningen de werkzaamheden beschrijven en nummeren. Mag niet weg\r\nZijn onderdelen in de model, maar bedoeld om te kunnen kiezen om dit wel of niet te visualiseren op de tekeningen.\r\nOpnemen als AL-WERKZAAMHEDEN los van tekenblad? @MvanderHulst checkt dit met Marco\r\n\r\n> Ter info: VERWIJZIGING_DOORSNEDE is reeds onderdeel van de NLCS. Hiervoor is in versie 5.1 al een aangepast lijntype AL-DOORSNEDE-SO\r\nS is toegevoegd om de doorsnede pijlen als symbool te kunnen plaatsen\r\n@michel checkt of dit foutje in de database is",
+      "Voorbeeld tekeningen discipline sporen (hoofdgroep SB), niet alle kleuren en lijnstylen komen overeen met de voorgestelde objecten lijst\r\n\r\n[P500-538-BO-HTM-IB-SPO-00056 versie 0.pdf](https://github.com/user-attachments/files/17841954/P500-538-BO-HTM-IB-SPO-00056.versie.0.pdf)\r\n[P500-538-BO-HTM-IB-SPO-00057 versie 0.pdf](https://github.com/user-attachments/files/17841955/P500-538-BO-HTM-IB-SPO-00057.versie.0.pdf)\r\n[P500-538-BO-HTM-IB-SPO-00058 versie 0.pdf](https://github.com/user-attachments/files/17841956/P500-538-BO-HTM-IB-SPO-00058.versie.0.pdf)\r\n[P500-538-BO-HTM-IB-SPO-00059 versie 0.pdf](https://github.com/user-attachments/files/17841957/P500-538-BO-HTM-IB-SPO-00059.versie.0.pdf)\r\n[P500-538-BO-HTM-IB-SPO-00060 versie 1.pdf](https://github.com/user-attachments/files/17841958/P500-538-BO-HTM-IB-SPO-00060.versie.1.pdf)\r\n[P500-538-BO-HTM-IB-SPO-00061 versie 1.pdf](https://github.com/user-attachments/files/17841959/P500-538-BO-HTM-IB-SPO-00061.versie.1.pdf)\r\n[P500-538-BO-HTM-IB-SPO-00062 versie 1.pdf](https://github.com/user-attachments/files/17841960/P500-538-BO-HTM-IB-SPO-00062.versie.1.pdf)\r\n[P500-538-BO-HTM-IB-SPO-00063 versie 3.pdf](https://github.com/user-attachments/files/17841961/P500-538-BO-HTM-IB-SPO-00063.versie.3.pdf)\r\n[P500-538-BO-HTM-IB-SPO-00082 versie 0.pdf](https://github.com/user-attachments/files/17841963/P500-538-BO-HTM-IB-SPO-00082.versie.0.pdf)\r\n[P500-538-DO-HTM-IB-SPO-00028 versie 0.pdf](https://github.com/user-attachments/files/17841964/P500-538-DO-HTM-IB-SPO-00028.versie.0.pdf)\r\n[P500-538-DO-HTM-IB-SPO-00029 versie 1.pdf](https://github.com/user-attachments/files/17841965/P500-538-DO-HTM-IB-SPO-00029.versie.1.pdf)\r\n[P500-538-DO-HTM-IB-SPO-00030 versie 1.pdf](https://github.com/user-attachments/files/17841966/P500-538-DO-HTM-IB-SPO-00030.versie.1.pdf)\r\n[P500-538-DO-HTM-IB-SPO-00031 versie 3.pdf](https://github.com/user-attachments/files/17841967/P500-538-DO-HTM-IB-SPO-00031.versie.3.pdf)\r\n[P500-538-DO-HTM-IB-SPO-00032 versie 2.pdf](https://github.com/user-attachments/files/17841968/P500-538-DO-HTM-IB-SPO-00032.versie.2.pdf)\r\n[P500-538-DO-HTM-IB-SPO-00049.pdf](https://github.com/user-attachments/files/17841969/P500-538-DO-HTM-IB-SPO-00049.pdf)\r\n[P500-538-DO-HTM-IB-SPO-00037 versie 2.pdf](https://github.com/user-attachments/files/17843333/P500-538-DO-HTM-IB-SPO-00037.versie.2.pdf)",
+      "Voorbeeldtekeningen van onze discipline WSB (hoofdgroep IS):\r\n\r\n[P062-096-DO-HTM-IB-WSB-00021 versie 1.pdf](https://github.com/user-attachments/files/17842368/P062-096-DO-HTM-IB-WSB-00021.versie.1.pdf)\r\n[P062-096-DO-HTM-IB-WSB-00037 versie 1.pdf](https://github.com/user-attachments/files/17842369/P062-096-DO-HTM-IB-WSB-00037.versie.1.pdf)\r\n[P062-096-DO-HTM-IB-WSB-00042 versie 5.pdf](https://github.com/user-attachments/files/17842370/P062-096-DO-HTM-IB-WSB-00042.versie.5.pdf)",
+      "Voorbeeldtekeningen van onze discipline bovenleiding (hoofdgroep ES):\r\n\r\n[P500-538-DO-HTM-IB-SVZ-00046.pdf](https://github.com/user-attachments/files/17842443/P500-538-DO-HTM-IB-SVZ-00046.pdf)\r\n[P500-538-DO-HTM-IB-SVZ-00047.pdf](https://github.com/user-attachments/files/17842444/P500-538-DO-HTM-IB-SVZ-00047.pdf)\r\n[P500-538-DO-HTM-IB-SVZ-00048.pdf](https://github.com/user-attachments/files/17842445/P500-538-DO-HTM-IB-SVZ-00048.pdf)",
+      "Voorbeeldtekeningen van onze discipline elektrische tractie (o.a. hoofdgroep KL):\r\n\r\n[P500-538-BO-HTM-IB-SVZ-00139.pdf](https://github.com/user-attachments/files/17842484/P500-538-BO-HTM-IB-SVZ-00139.pdf)\r\n[P500-538-BO-HTM-IB-SVZ-00138.pdf](https://github.com/user-attachments/files/17842483/P500-538-BO-HTM-IB-SVZ-00138.pdf)",
+      "Toelichting: De hoofdgroep AL is primair bedoeld voor de algemene aankleding van een tekening in de ‘layout’ omgeving en algemene aankleding van details.\r\n\r\nVraag aan werkgroep:\r\nKan worden toegelicht wat de toepassing is van object: assetbeschrijving, assetgrens, assetkader en assetnummer?\r\n**Op de DO/bestekstekeningen krijgen de assets een nummer en van de assets staan de belangrijkste gegevens op tekening**\r\n```\r\nHelder, een aantal objecten zijn nu uitgeschreven, maar kunnen worden ondervangen door gebruik te maken van de elementen van de NLCS.\r\nVoorstel om op te nemen in hoofdgroep ZZ, hiermee kan hij op alle hoofdgroepen geplaatst worden en dus ook op AL, meer generieke flexibliteit.\r\n-\tASSET\r\no\tKan met element ‘G’ geplaatst worden voor het maken van een ‘kader’.\r\no\tKan met element ‘T’ worden geplaatst voor tekst / beschrijving\r\n-\tASSET_NUMMER\r\no\tKan met element ‘T’ worden geplaatst voor nummer\r\n-\tASSET_GRENS\r\no\tKan met element ‘G’ worden geplaatst voor de grens.\r\nElisabeth:\r\n\tDeze logica zou ik graag voor alle GRENS_ objecten in AL willen toepassen. In de huidige structuur is wel bijvoorbeeld GRENS_FASE aanwezig, maar is er eigenlijk, geen optie om het fasenummer te plaatsen. Eerst filtering op ‘GRENS_ is zodoende onlogisch.\r\n```\r\n\r\nVraag aan werkgroep en productmanager:\r\nObject Tabel is toegevoegd, welke ontbreekt in de NLCS.\r\nAanvullend zijn diverse soorten tabellen als ‘subobjecten’ toegevoegd. Dit zijn zéér specifieke tabellen. Zodoende een tweetal vragen:\r\n-\tIs het noodzakelijke om elke soort tabel op een eigen layer te zetten? \r\n**Het is niet nodig om de tabellen op verschillende lagen te zetten, dit is meegekomen vanuit de historie. Dit mag dus wat mij betreft zonder subobjecten**\r\n`Voorstel is om ‘TABEL’ op te nemen in hoofdgroep ZZ. Hiermee wordt generieke toepasbaarheid mogelijk.`\r\n-\tIs het gewenst dat voor alle soorten tabellen een subobject wordt opgenomen? Als we GWW-breed beschouwen wordt dat een enorme lijst aan mogelijkheden.\r\n`Voorstel is om de subobjecten voor tabellen achterwege te laten.`\r\n\r\nVraag aan werkgroep:\r\nKan worden toegelicht wat wordt bedoeld met objecten ‘tekenblad_werkzaamheden’ en alle varianten hierop? \r\n**Dit is de laag waarop wij op de bestekstekeningen de werkzaamheden beschrijven en nummeren. Mag niet weg**\r\n```\r\nDe wens is om een ‘algemene’ positie te hebben waar in het kader toelichting/opmerkingen geplaatst kan worden. In dit geval gaat het specifiek op werkzaamheden.\r\n\r\nVoorstel om hoofdgroep ZZ aan te vullen met object: OMSCHRIJVING en OMSCHRIJVING_NUMMER\r\nHiermee kan in elke hoofdgroep een ‘algemene’ geometrie en tekstlaag worden aangemaakt, voor aanvullende teksten/notities. Aanvullend op het standaard object ‘VERKLARING’\r\n```\r\n\r\n\r\nTer info:\r\nVERWIJZIGING_DOORSNEDE is reeds onderdeel van de NLCS. Hiervoor is in versie 5.1 al een aangepast lijntype AL-DOORSNEDE-SO\r\n**S is toegevoegd om de doorsnede pijlen als symbool te kunnen plaatsen**\r\n_**Akkoord.**_\r\n\r\n```\r\nConclusie:\r\nDe wensen zijn allemaal generiek en niet ‘Spoorbouw’ afhankelijk. Zodoende is ZZ een prima oplossing om e.e.a. in kwijt te kunnen. Vanuit de NLCS logica wordt iets minder ‘lagen’ toegevoeg en is het gewenst om meer met ‘elementen’ het onderscheid te maken. Dit resulteerd dat geen aanvullingen/wijzigingen in AL noodzakelijkzijn (m.u.v. de wijziging voor 'doorsnede'.\r\n```",
+      "> Vraag aan werkgroep:\r\n> Kan worden toegelicht wat de toepassing is van object: assetbeschrijving, assetgrens, assetkader en assetnummer?\r\n> **Op de DO/bestekstekeningen krijgen de assets een nummer en van de assets staan de belangrijkste gegevens op tekening**\r\n\r\nIn onze testdatabase gebruiken wij nu één laag voor alle asset informatie, nu: *-**-AL-ASSETNUMMER-G/S/T.\r\nMag van mij ook een andere laagnaam worden, bv: ASSETNFORMATIE of ASSETBESCHRIJVING",
+      "@ehensing Goed te horen dat er al samengevoegd wordt.\r\nIk kan mij voorstellen dat je met bijvoorbeeld ASSETINFORMATIE het element G S en T kan gebruiken voor alle losse objecten welke nu in het voorstel zitten. Is het gewenst dat een assetbeschijving en een nummer los van elkaar 'aan en uit' gezet worden?\r\nZoniet, zou je alles op ASSETINFORMATIE-T** kwijt kunnen, anders is een los SUBOBJECT voor het nummer wel praktijk.",
+      "Het volgende zip-bestand bevat symbolen voor van trams: \r\n[20241202 - Aankleding trams symbolen SAL.zip](https://github.com/user-attachments/files/17976112/20241202.-.Aankleding.trams.symbolen.SAL.zip)",
+      "verwerkt in voorstel Stedelijk Spoor #190",
+      "[[release note: no change from issue]] The issue geeft de aanvullingen weer van werkgroep stedelijk spoor op hoofdgroep AL met specifieke tabellen en tekenbladen. Ook toevoeging assetgrens, assetnummer, assetbeschrijving en assetkader. In issue #561 is het besluit gelogd dat deze toevoegingen niet worden doorgevoerd. Daarom heeft deze issue geen wijzigingen in de 5.1 release tot gevolg."
+    ]
+  },
+  {
+    "number": 523,
+    "title": "input stedelijk spoor, hoofdgroep AM",
+    "closed_at": "2025-03-10T11:40:09Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "AM assen en metrering"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "imput werkgroep: https://github.com/nl-digigo/NLCS/blob/main/ontwikkeling/stedelijk%20spoor/2024-10-28/HBA_AM-Assen.en.Metrering.20241004.xls\r\n\r\nVoorgestelde objecten opbouw is inpasbaar binnen de huidige hoofdgroep.\r\n\r\nVraag aan werkgroep en productmanager:\r\nVoor alle aanvullende objecten is linetype ZZ-CENTER voorgesteld. Deze algemene lijntypes komen te vervallen in de NLCS 5.1, omdat lijntypes moeten aansluiten bij het getekende object.\r\nIn de hele hoofdgroep AM wordt alles met lijntype AM-AS-SO gepresenteerd. Zo ook het object AS_SPOOR, voor de uitbreiding van TRAM is de wens om een aangepast lijntype toe te passen.\r\nTer besprekning/overweging:\r\nOptie 1: toevoegen lijntype: AM-AS_SPOOR-SO en V-AM-AS_SPOOR-SO\r\nOptie 2: toevoegen lijntype: AM-AS_SPOOR-TRAM en V-AM-AS_SPOOR-SO\r\nBij optie 1 krijgen alle assen voor SPOOR dezelfde presentatie. Met voorstel 2 krijgt enkel SPOOR_TRAM een aangepaste presentatie. Hierdoor kan een ander lijntype voor Heavyreal e.d. toegepast worden indien nodig.\r\nVoorstel: optie 1 voor alsnog doorvoeren, bij het uitwerken van de andere thema’s kan altijd nog naar optie 2 opgeschaald worden indien noodzakelijk.\r\n*AM-AS_SPOOR-SO\r\nA,5,-1,1,-1\r\n\r\n*V-AM-AS_SPOOR-SO\r\nA,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-1,1,-1\r\n\r\nAlgemeen:\r\nOp basis van de gekozen kleuren trek ik de conclusie dat het niet gebruikelijk is dat er een ‘bestaande situatie’ tekening in ‘zwart’ wordt gemaakt en een seperate tekening met de nieuwe situatie, waaronder bestaand dan grijs wordt gepresenteerd.\r\nDit baseer ik op het feit dat er ‘250-kleuren’ worden toegepast voor de status bestaand.\r\nWat mij betreft geen probleem als dat gebruikelijk is, maar het is wel afwijkend van de overige NLCS standaard, waarbij in de basis ‘alles’ zwart is.\r\n\r\nVraag aan de werkgroep:\r\nEr staat nog vaak de kleur ‘0’ in de tabel. Ik vermoed dat hier een microstation convertie niet goed is gegaan? Moet ik dit lezen als kleur 7?",
+    "comments": [
+      ">*AM-AS_SPOOR-SO A,5,-1,1,-1\r\n>*V-AM-AS_SPOOR-SO A,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-1,1,-1\r\n\r\nWordt de standaard lijntype Continuous dan ook aangepast? \r\nnee, die geldt wel in alle hoofdgroepen\r\n\r\nEr wordt gevraagd hoe men de transformatie van NLCS lijnstijlen naar microstation kan maken, dit is geregeld bij de standaard\r\n\r\nconclusie: alle assen spoor kunnen hetzelfde lijntype krijgen, als ze maar op verschillende lagen staan.\r\nbij 1:500 of 1:1000 wordt continuous gebruikt, bij tram is het vaker op een 1:200 of 1:100 schaal.\r\nJe kan maar 1 basisdefinitie opnemen, gebruikers hebben daarom voor bijzondere tekeningen toch vaak templates om presentaties te kunnen aanpassen \r\nkeuze voor center als basis\r\n\r\n> Algemeen: Op basis van de gekozen kleuren trek ik de conclusie dat het niet gebruikelijk is dat er een ‘bestaande situatie’ tekening in ‘zwart’ wordt gemaakt en een seperate tekening met de nieuwe situatie, waaronder bestaand dan grijs wordt gepresenteerd. Dit baseer ik op het feit dat er ‘250-kleuren’ worden toegepast voor de status bestaand. Wat mij betreft geen probleem als dat gebruikelijk is, maar het is wel afwijkend van de overige NLCS standaard, waarbij in de basis ‘alles’ zwart is.\r\nWaarom zal je eerst alles zwart tekenen om het daarna weer grijs te maken? Dit betekent 2 acties voor de tekenaar, waarvan 1 eigenlijk overbodig is en mogelijk op fouten.\r\n\r\n\r\nIn NLCS ga je uit van een bestaande tekening maken, en die dan in grijs onder de nieuwe situatie kunnen hangen; bij spoor tekent men alles in één moederbestand, vandaar dat ook de scraps niet gebruikt kunnen worden.\r\nKleur met vastliggende lijndikte is men in spoor ook niet aan gewend, omdat er niet vaak meer met zwart-wit gewerkt wordt\r\nde afwijkende werkwijze bij stedelijk spoor heeft geen technische impact voor de rest van NLCS: dan moeten we dit wel goed onderbouwen met voorbeeld tekeningen. Actie Marco om deze aan te leveren\r\nActie Michel om te onderbouwen waar het in de toekomst naar toe gaat, om niet in een oude werkwijze met zwart-wit papieren plots te blijven hangen maar ook te werken met databeheer / objectgericht werken en daarom is deze andere manier van tekenen juist handiger. pleit er daarom voor om bij NLCS in zijn geheel anders te gaan werken. \r\n\r\n> Vraag aan de werkgroep: Er staat nog vaak de kleur ‘0’ in de tabel. Ik vermoed dat hier een microstation convertie niet goed is gegaan? Moet ik dit lezen als kleur 7?\r\n\r\nJa, hier moet je  7 lezen. Volgens is er ook afspraak dat Mircostation 0  mag gebruiken.",
+      "Voorgestelde objecten opbouw is inpasbaar binnen de huidige hoofdgroep.\r\n\r\nVraag aan werkgroep en productmanager:\r\nVoor alle aanvullende objecten is linetype ZZ-CENTER voorgesteld. Deze algemene lijntypes komen te vervallen in de NLCS 5.1, omdat lijntypes moeten aansluiten bij het getekende object.\r\nIn de hele hoofdgroep AM wordt alles met lijntype AM-AS-SO gepresenteerd. Zo ook het object AS_SPOOR, voor de uitbreiding van TRAM is de wens om een aangepast lijntype toe te passen.\r\nTer bespreking/overweging:\r\nOptie 1: toevoegen lijntype: AM-AS_SPOOR-SO en V-AM-AS_SPOOR-SO\r\nOptie 2: toevoegen lijntype: AM-AS_SPOOR-TRAM en V-AM-AS_SPOOR-SO\r\nBij optie 1 krijgen alle assen voor SPOOR dezelfde presentatie. Met voorstel 2 krijgt enkel SPOOR_TRAM een aangepaste presentatie. Hierdoor kan een ander lijntype voor Heavy Rail e.d. toegepast worden indien nodig.\r\nVoorstel: optie 1 voor alsnog doorvoeren, bij het uitwerken van de andere thema’s kan altijd nog naar optie 2 opgeschaald worden indien noodzakelijk.\r\n*AM-AS_SPOOR-SO\r\nA,5,-1,1,-1\r\n\r\n*V-AM-AS_SPOOR-SO\r\nA,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-1,1,-1\r\n**Wordt de standaard lijntype Continuous dan ook aangepast?**\r\n```\r\n Neen, continuous blijft de standaard layer.\r\nIn overleg is gekozen om optie 1 door te voeren.\r\n```\r\n\r\nAlgemeen:\r\nOp basis van de gekozen kleuren trek ik de conclusie dat het niet gebruikelijk is dat er een ‘bestaande situatie’ tekening in ‘zwart’ wordt gemaakt en een separate tekening met de nieuwe situatie, waaronder bestaand dan grijs wordt gepresenteerd.\r\nDit baseer ik op het feit dat er ‘250-kleuren’ worden toegepast voor de status bestaand.\r\nWat mij betreft geen probleem als dat gebruikelijk is, maar het is wel afwijkend van de overige NLCS standaard, waarbij in de basis ‘alles’ zwart is.\r\n**Waarom zal je eerst alles zwart tekenen om het daarna weer grijs te maken? Dit betekent 2 acties voor de tekenaar, waarvan 1 eigenlijk overbodig is en mogelijk op fouten.**\r\n`Zoals besproken met productmanager, NLCS moet ondersteunend zijn aan de standaard processen. Voorgestelde kleuren van werkgroep worden aangehouden. Het is niet ‘in strijd’ met de NLCS, maar wel afwijkend voor dit thema.`\r\n\r\nVraag aan de werkgroep:\r\nEr staat nog vaak de kleur ‘0’ in de tabel. Ik vermoed dat hier een microstation conversie niet goed is gegaan? Moet ik dit lezen als kleur 7?\r\n**Ja, hier moet je  7 lezen. Volgens is er ook afspraak dat Mircostation 0  mag gebruiken.**\r\n`Akkoord, aangepast in het voorstel. Standaard database is volgens AutoCAD, convertie naar Microstation gebeurd achteraf, waardoor het weer kleur 0 wordt. ‘Wisselkleur’.`",
+      "verwerkt in voorstel stedelijk spoor #190"
+    ]
+  },
+  {
+    "number": 524,
+    "title": "input stedelijk spoor, hoofdgroep ES",
+    "closed_at": "2025-03-10T11:40:51Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "ES - energievoorziening spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "https://github.com/nl-digigo/NLCS/blob/main/ontwikkeling/stedelijk%20spoor/2024-10-28/HBA_ES-Energievoorziening.Spoor.20241004.xls\r\n\r\nVraag aan werkgroep:\r\nDe hoofdgroep ES bestaat nog niet in de NLCS.\r\nIk vind het logisch om deze niet onder KL op te nemen.Ter overweging kan ‘energievoorziening’ als OBJECT in de hoofdgroep ‘SB’ of ‘IS’ ondergebracht worden?\r\n\r\nVraag aan werkgroep:\r\nObject ‘Afspanconstructie’ staat eenzaam in de lijst.\r\nKan deze geen onderdeel van ‘AFSPANNING’ worden?\r\nVoorstel: AFSPANNING_AFSPANCONSTRUCTIE\r\n\r\nVraag aan werkgroep:\r\nObject AFSPANNING heeft ook de soorten A tot en met F. Varianten worden in de NLCS aangegeven met _01 etc. Betreft dit daadwerkelijk een ‘model’, of een variant?\r\nIndien het een model betreft, wil ik adviseren om dit als ‘model’ bij elkaar te zetten.\r\nAls het een variant is wil ik voorstellen:\r\nAFSPANNING\r\nAFSPANNING_01\r\nAFSPANNING_02\r\nAFSPANNING_03\r\nAFSPANNING_04\r\nAFSTANNING_05\r\nAFSPANNING_06\r\nMet het huidige voorstel gaat dit heel vreemd tonen in een InfraCAD overzicht.\r\n\r\nVraag aan werkgroep:\r\nKan de toepassing van object: BEREKENEN KRACHTEN GAWIRE worden toegelicht?\r\n\r\nVraag aan werkgroep:\r\nObject GEBOUW is reeds onderdeel van hoofdgroep ‘OG’.\r\nToevoeging aan ES is ongewenst om dubbbelingen te voorkomen.\r\nVoorstel: vervallen.\r\n\r\nVraag aan werkgroep:\r\nLIGGING_PROFIELDRAAD staat eenzaam in de lijst.\r\nOpnemen als SUBOBJECT van het object PROFIELDRAAD?\r\nVoorstel: PROFIELDRAAD_LIGGING\r\n\r\nVraag aan werkgroep:\r\nSPANINRICHTING staat eenzaam in de lijst.\r\nOpnemen als SUBOBJECT van het object OPHANGCONSTRUCTIE of van AFSPANNING?\r\nVoorstel: OPHANGCONSTRUCTIE_SPANINRICHTING of AFSPANNING_SPANINRICHTING\r\n\r\nVraag aan de werkgroep:\r\nEr staat nog vaak de kleur ‘0’ in de tabel. Ik vermoed dat hier een microstation convertie niet goed is gegaan? Moet ik dit lezen als kleur 7?\r\n\r\nVraag aan de werkgroep:\r\nAlle SUBOJECTEN van OBJECT MAST zijn ‘HIDDEN’. Behalve OBJECT MAST zelf.\r\nVoorstel: OBJECT mast ook ‘HIDDEN’ maken?\r\n\r\nEr zijn veel algemene lijntypes toegepast voor een variatie aan OBJECTEN. Hiervoor is het gewenst dat deze eigen lijntypes krijgen, overeenkomstig met het OBJECT.\r\nOverzicht van toe te voegen lijntypes:\r\n\r\n*ES-AFSPANNING-SO\r\nA,3,-2,0,-2,3\r\n\r\n*V-ES-AFSPANNING-SO\r\nA,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-2,0,-2,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5\r\n\r\n*ES-BEVESTIGINGSCONSTRUCTIE_SCHOOR-SO\r\nA,3,-2,0,-2,3\r\n\r\n*V-ES-BEVESTIGINGSCONSTRUCTIE_SCHOOR-SO\r\nA,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-2,0,-2,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5\r\n\r\n*ES-DRAAGKABEL-SO\r\nA,3,-2,0,-2,3\r\n\r\n*V-ES-DRAAGKABEL-SO\r\nA,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-2,0,-2,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5\r\n\r\n*ES-DRAAGKABEL_DUBBEL-SO\r\nA,3,-2,0,-2,3\r\n\r\n*V-ES-DRAAGKABEL_DUBBEL-SO\r\nA,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-2,0,-2,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5\r\n\r\n*ES-DRAAGKABEL_150MM2-SO\r\nA,2.5,-1.25\r\n\r\n*V-ES-DRAAGKABEL_150MM2-SO\r\nA,1.25,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.25,-1.25\r\n\r\n*ES-DRAAGKABEL_70MM2-SO\r\nA,2.5,-1.25\r\n\r\n*V-ES-DRAAGKABEL_70MM2-SO\r\nA,1.25,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.25,-1.25\r\n\r\n*ES-OPHANGCONSTRUCTIE_PARAFIL-SO\r\nA,5,-1,1,-1\r\n\r\n*V-ES-OPHANGCONSTRUCTIE_PARAFIL-SO\r\nA,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-1,1,-1\r\n\r\n*ES-STROOMRAIL-SO\r\nA,5,-1,1,-1\r\n\r\n*V-ES-STROOMRAIL-SO\r\nA,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-1,1,-1\r\n\r\n*ES-BEVESTIGINGSCONSTRUCTIE_PORTAAL-SO\r\nA,2,-2\r\n\r\n*V-ES-BEVESTIGINGSCONSTRUCTIE_PORTAAL-SO\r\nA,1,[VERWIJDEREN2,NLCS.SHX,s=0.5],1,-2\r\n\r\n*ES-BEVESTIGINGSCONSTRUCTIE_TUI-SO\r\nA,2,-2\r\n\r\n*V-ES-BEVESTIGINGSCONSTRUCTIE_TUI-SO\r\nA,1,[VERWIJDEREN2,NLCS.SHX,s=0.5],1,-2\r\n\r\n*ES-MAST-SO\r\nA,2,-2\r\n\r\n*V-ES-MAST-SO\r\nA,1,[VERWIJDEREN2,NLCS.SHX,s=0.5],1,-2\r\n\r\n*ES-OPHANGCONSTRUCTIE_HALVE TREK-SO\r\nA,2,-2\r\n\r\n*V-ES-OPHANGCONSTRUCTIE_HALVE TREK-SO\r\nA,1,[VERWIJDEREN2,NLCS.SHX,s=0.5],1,-2\r\n\r\n*ES-OPHANGCONSTRUCTIE_JUK-SO\r\nA,2,-2\r\n\r\n*V-ES-OPHANGCONSTRUCTIE_JUK-SO\r\nA,1,[VERWIJDEREN2,NLCS.SHX,s=0.5],1,-2\r\n\r\n*ES-OPHANGCONSTRUCTIE_SPANDRAAD-SO\r\nA,2,-2\r\n\r\n*V-ES-OPHANGCONSTRUCTIE_SPANDRAAD-SO\r\nA,1,[VERWIJDEREN2,NLCS.SHX,s=0.5],1,-2\r\n\r\n*ES-SCHAKELAAR-SO\r\nA,2,-2\r\n\r\n*V-ES-SCHAKELAAR-SO\r\nA,1,[VERWIJDEREN2,NLCS.SHX,s=0.5],1,-2",
+    "comments": [
+      "> Vraag aan werkgroep: De hoofdgroep ES bestaat nog niet in de NLCS. Ik vind het logisch om deze niet onder KL op te nemen.Ter overweging kan ‘energievoorziening’ als OBJECT in de hoofdgroep ‘SB’ of ‘IS’ ondergebracht worden?\r\n\r\nZie issue 331 wat de reden voor de splitsing is.\r\n\r\n> \r\n> Vraag aan werkgroep: Object ‘Afspanconstructie’ staat eenzaam in de lijst. Kan deze geen onderdeel van ‘AFSPANNING’ worden? Voorstel: AFSPANNING_AFSPANCONSTRUCTIE\r\n> \r\n> Vraag aan werkgroep: Object AFSPANNING heeft ook de soorten A tot en met F. Varianten worden in de NLCS aangegeven met _01 etc. Betreft dit daadwerkelijk een ‘model’, of een variant? Indien het een model betreft, wil ik adviseren om dit als ‘model’ bij elkaar te zetten. Als het een variant is wil ik voorstellen: AFSPANNING AFSPANNING_01 AFSPANNING_02 AFSPANNING_03 AFSPANNING_04 AFSTANNING_05 AFSPANNING_06 Met het huidige voorstel gaat dit heel vreemd tonen in een InfraCAD overzicht.\r\n\r\nDit modellen en kan dit niet gewijzigd worden.  \r\n\r\n> \r\n> Vraag aan werkgroep: Kan de toepassing van object: BEREKENEN KRACHTEN GAWIRE worden toegelicht?\r\n> \r\n\r\nDit zijn de resultaten uit een pakket welke op een aparte laag moeten komen.\r\n\r\n\r\n> Vraag aan werkgroep:\r\n> Object GEBOUW is reeds onderdeel van hoofdgroep ‘OG’.\r\n> Toevoeging aan ES is ongewenst om dubbbelingen te voorkomen.\r\n> Voorstel: vervallen.\r\n\r\nEGH: volgens Abbi en Stuart kan dit object in ES vervallen.\r\n\r\n\r\n> Vraag aan werkgroep:\r\n> LIGGING_PROFIELDRAAD staat eenzaam in de lijst.\r\n> Opnemen als SUBOBJECT van het object PROFIELDRAAD?\r\n> Voorstel: PROFIELDRAAD_LIGGING\r\n\r\nAkkoord\r\n\r\n> Vraag aan werkgroep:\r\n> SPANINRICHTING staat eenzaam in de lijst.\r\n> Opnemen als SUBOBJECT van het object OPHANGCONSTRUCTIE of van AFSPANNING?\r\n> Voorstel: OPHANGCONSTRUCTIE_SPANINRICHTING of AFSPANNING_SPANINRICHTING\r\n\r\nDit object komt hoogstwaarschijnlijk te  vervallen. GVB en HTM zijn de objecten voor ES voor de laatste keer aan het doornemen om te kijken of alles aanwezig is\r\n\r\n> Vraag aan de werkgroep:\r\n> Er staat nog vaak de kleur ‘0’ in de tabel. Ik vermoed dat hier een microstation conversie niet goed is gegaan? Moet ik dit lezen als kleur 7?\r\n\r\nAkkoord, zie ook de reactie bij de algemene opmerkingen\r\n\r\n> Vraag aan de werkgroep:\r\n> Alle SUBOJECTEN van OBJECT MAST zijn ‘HIDDEN’. Behalve OBJECT MAST zelf.\r\n> Voorstel: OBJECT mast ook ‘HIDDEN’ maken?\r\n> \r\n> Er zijn veel algemene lijntypes toegepast voor een variatie aan OBJECTEN. Hiervoor is het gewenst dat deze eigen lijntypes krijgen, overeenkomstig met het OBJECT.\r\n\r\n\r\nKleuren, lijndiktes en lijnstijlen moeten nog definitief worden bepaald.",
+      "Vraag aan werkgroep:\r\nDe hoofdgroep ES bestaat nog niet in de NLCS.\r\nIk vind het logisch om deze niet onder KL op te nemen. Ter overweging kan ‘energievoorziening’ als OBJECT in de hoofdgroep ‘SB’ of ‘IS’ ondergebracht worden?\r\n**Zie issue 331 wat de reden voor de splitsing is.**\r\n`Dank voor het doorgeven van deze issue.`\r\n\r\nVraag aan werkgroep:\r\nObject ‘Afspanconstructie’ staat eenzaam in de lijst.\r\nKan deze geen onderdeel van ‘AFSPANNING’ worden?\r\nVoorstel: AFSPANNING_AFSPANCONSTRUCTIE\r\n`Geen reactie ontvangen, maar lijkt mij geen probleem.`\r\n\r\nVraag aan werkgroep:\r\nObject AFSPANNING heeft ook de soorten A tot en met F. Varianten worden in de NLCS aangegeven met _01 etc. Betreft dit daadwerkelijk een ‘model’, of een variant?\r\nIndien het een model betreft, wil ik adviseren om dit als ‘model’ bij elkaar te zetten.\r\nAls het een variant is wil ik voorstellen:\r\nAFSPANNING\r\nAFSPANNING_01\r\nAFSPANNING_02\r\nAFSPANNING_03\r\nAFSPANNING_04\r\nAFSTANNING_05\r\nAFSPANNING_06\r\nMet het huidige voorstel gaat dit heel vreemd tonen in een InfraCAD overzicht.\r\n**Dit modellen en kan dit niet gewijzigd worden.**  \r\n`Akkoord, namen aangepast voor vindbaarheid in overzicht naar ‘AFSPANNING_MODEL A’ etc.`\r\n\r\nVraag aan werkgroep:\r\nKan de toepassing van object: BEREKENEN KRACHTEN GAWIRE worden toegelicht?\r\n**Dit zijn de resultaten uit een pakket welke op een aparte laag moeten komen.**\r\n`Kan hiervan een voorbeeld aangeleverd worden?`\r\n\r\nVraag aan werkgroep:\r\nObject GEBOUW is reeds onderdeel van hoofdgroep ‘OG’.\r\nToevoeging aan ES is ongewenst om dubbbelingen te voorkomen.\r\nVoorstel: vervallen.\r\n**EGH: volgens Abbi en Stuart kan dit object in ES vervallen.**\r\n`Akkoord.`\r\n\r\nVraag aan werkgroep:\r\nLIGGING_PROFIELDRAAD staat eenzaam in de lijst.\r\nOpnemen als SUBOBJECT van het object PROFIELDRAAD?\r\nVoorstel: PROFIELDRAAD_LIGGING\r\n**Akkoord**\r\n`Verwerkt.`\r\n\r\nVraag aan werkgroep:\r\nSPANINRICHTING staat eenzaam in de lijst.\r\nOpnemen als SUBOBJECT van het object OPHANGCONSTRUCTIE of van AFSPANNING?\r\nVoorstel: OPHANGCONSTRUCTIE_SPANINRICHTING of AFSPANNING_SPANINRICHTING\r\n**Dit object komt hoogstwaarschijnlijk te  vervallen. GVB en HTM zijn de objecten voor ES voor de laatste keer aan het doornemen om te kijken of alles aanwezig is**\r\n`Akoord, vooruitlopend alvast verwijderd.`\r\n\r\nVraag aan de werkgroep:\r\nEr staat nog vaak de kleur ‘0’ in de tabel. Ik vermoed dat hier een microstation conversie niet goed is gegaan? Moet ik dit lezen als kleur 7?\r\n**Akkoord, zie ook de reactie bij de algemene opmerkingen**\r\n`Akoord, verwerkt.`\r\n\r\nVraag aan de werkgroep:\r\nAlle SUBOJECTEN van OBJECT MAST zijn ‘HIDDEN’. Behalve OBJECT MAST zelf.\r\nVoorstel: OBJECT mast ook ‘HIDDEN’ maken?\r\n`Geen reactie ontvangen. Vraag blijft open.`\r\n\r\nEr zijn veel algemene lijntypes toegepast voor een variatie aan OBJECTEN. Hiervoor is het gewenst dat deze eigen lijntypes krijgen, overeenkomstig met het OBJECT.\r\nOverzicht van toe te voegen lijntypes:\r\n**Kleuren, lijndiktes en lijnstijlen moeten nog definitief worden bepaald.**\r\n```\r\nOp basis van de opgegeven ZZ-HIDDEN en ZZ-CENTER zijn de onderstaande lijntypes gevormd.\r\nIndien presenaties anders moeten, kan dit met deze lijntypes gebeuren.\r\n\r\n*ES-AFSPANNING-SO\r\nA,3,-2,0,-2,3\r\n\r\n*ES-BEVESTIGINGSCONSTRUCTIE_SCHOOR-SO\r\nA,3,-2,0,-2,3\r\n\r\n*ES-DRAAGKABEL-SO\r\nA,3,-2,0,-2,3\r\n\r\n*ES-DRAAGKABEL_DUBBEL-SO\r\nA,3,-2,0,-2,3\r\n\r\n*ES-DRAAGKABEL_150MM2-SO\r\nA,2.5,-1.25\r\n\r\n*ES-DRAAGKABEL_70MM2-SO\r\nA,2.5,-1.25\r\n\r\n*ES-OPHANGCONSTRUCTIE_PARAFIL-SO\r\nA,5,-1,1,-1\r\n\r\n*ES-STROOMRAIL-SO\r\nA,5,-1,1,-1\r\n\r\n*ES-BEVESTIGINGSCONSTRUCTIE_PORTAAL-SO\r\nA,2,-2\r\n\r\n*ES-BEVESTIGINGSCONSTRUCTIE_TUI-SO\r\nA,2,-2\r\n\r\n*ES-MAST-SO\r\nA,2,-2\r\n\r\n*ES-OPHANGCONSTRUCTIE_HALVE TREK-SO\r\nA,2,-2\r\n\r\n*ES-OPHANGCONSTRUCTIE_JUK-SO\r\nA,2,-2\r\n\r\n*ES-OPHANGCONSTRUCTIE_SPANDRAAD-SO\r\nA,2,-2\r\n\r\n*ES-SCHAKELAAR-SO\r\nA,2,-2\r\n```\r\n\r\nLET OP:\r\nNOG 2 VRAGEN WACHTEN OP ANTWOORD",
+      "Hierbij de lijst met de objecten welke afgelopen maand door GVB en HTM is afgestemd:/gecontroleerd op compleetheid:\r\n[ES-Energievoorziening Spoor 20241213.xls](https://github.com/user-attachments/files/18125657/ES-Energievoorziening.Spoor.20241213.xls)",
+      "> Hierbij de lijst met de objecten welke afgelopen maand door GVB en HTM is afgestemd:/gecontroleerd op compleetheid: [ES-Energievoorziening Spoor 20241213.xls](https://github.com/user-attachments/files/18125657/ES-Energievoorziening.Spoor.20241213.xls)\r\n\r\nVerwerkt in mijn totaal, later besproken wijzigingen verwerkt.",
+      "verwerkt in voorstel stedelijk spoor #190"
+    ]
+  },
+  {
+    "number": 525,
+    "title": "input stedelijk spoor, hoofdgroep KG",
+    "closed_at": "2025-03-10T11:46:24Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "KG - Kadastrale informatie en grenzen"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Vraag aan werkgroep en productmanager:\r\nDe voorgestelde aanvulling LANDMETEN met alle subobjecten is in strijd met de NLCS.\r\nMet het kenmerk ‘LANDMETEN’ is waarschijnlijk de wens om te borgen dat informatie is ingewonnen. Hiervoor kan de discipline METEN worden toegepast, dan al niet in combinatie met de status R voor revisie.\r\n\r\nAlle benoemde onderdelen komen hoogstwaarschijnlijk ook terug in de hoofdgroepen ES en/of IS? Dit moet anders ingericht worden.",
+    "comments": [
+      "object landmeten is niet nodig: \r\n\r\nofwel, het gaat om een bewerking (\"te meten dit graag meten\")\r\nofwel, het gaat om een revisie (het is ingemeten), dan gebruik je status R",
+      "> Vraag aan werkgroep en productmanager: De voorgestelde aanvulling LANDMETEN met alle subobjecten is in strijd met de NLCS. Met het kenmerk ‘LANDMETEN’ is waarschijnlijk de wens om te borgen dat informatie is ingewonnen. Hiervoor kan de discipline METEN worden toegepast, dan al niet in combinatie met de status R voor revisie.\r\n\r\nDe objecten zijn nog om snel een selectie uit de metingen te kunnen halen. Met discipline METEN ondervang je dit niet.\r\n\r\n> \r\n> Alle benoemde onderdelen komen hoogstwaarschijnlijk ook terug in de hoofdgroepen ES en/of IS? Dit moet anders ingericht worden.\r\n\r\nDeze opmerking/vraag is mij niet duidelijk",
+      "Vraag aan werkgroep en productmanager:\r\nDe voorgestelde aanvulling LANDMETEN met alle subobjecten is in strijd met de NLCS.\r\nMet het kenmerk ‘LANDMETEN’ is waarschijnlijk de wens om te borgen dat informatie is ingewonnen. Hiervoor kan de discipline METEN worden toegepast, dan al niet in combinatie met de status R voor revisie.\r\n\r\n**De objecten zijn nog om snel een selectie uit de metingen te kunnen halen. Met discipline METEN ondervang je dit niet.**\r\n\r\n`Besproken is dat de aangeboden oplossing met de objecten ‘LANDMETEN’ bedrijfsspecifieke wensen zijn. Vanuit de NLCS kan hier de discipline ME voor worden toegepast. Ook is in de werkgroep aangegeven dat ingewonnen informatie vaak als losse XREF wordt aangeboden. Overeenstemming is uitgesproken om deze objecten te laten vervallen en dit op bedrijfs/proces niveau op te lossen.`\r\n\r\nAlle benoemde onderdelen komen hoogstwaarschijnlijk ook terug in de hoofdgroepen ES en/of IS?\r\nDit moet anders ingericht worden. \r\n\r\n**Deze opmerking/vraag is mij niet duidelijk**\r\n\r\n```\r\nNiet meer relevantie wegens bovenstaande keuzes.\r\n\r\nIn KG worden geen objecten toegevoegd.\r\n```",
+      "verwerkt in voorstel stedelijk spoor #190"
+    ]
+  },
+  {
+    "number": 526,
+    "title": "input stedelijk spoor, hoofdgroep KL",
+    "closed_at": "2025-03-10T11:40:28Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "KL kabels en leidingen"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "input: https://github.com/nl-digigo/NLCS/blob/main/ontwikkeling/stedelijk%20spoor/2024-10-28/HBA_KL-Kabels.en.Leidingen.20241004.xls\r\n\r\nIn de huidige NLCS zijn alle kabels onderdeel van een THEMA.\r\nIn het voorstel is alles onder TRACÉ ondergebracht. Hierdoor is wel het materiaal omschreven maar is nog steeds niet duidelijk wát voor kabel het betreft.\r\nAlle voorgestelde objecten kunnen hoogstwaarschijnlijk worden ondergebracht bij reeds bestaande objecten. Graag nader bespreken in een overleg.",
+    "comments": [
+      "v\r\nvoorbeeld van IW:\r\n\r\nIW\t1409\tVRI_KABEL\r\nIW\t\tVRI_KABEL_DATA\r\nIW\t\tVRI_KABEL_DATA_GLASVEZEL\r\nIW\t\tVRI_KABEL_DATA_KOPER\r\nIW\t\tVRI_KABEL_DATA_KOPPEL\r\nIW\t\tVRI_KABEL_MANTELBUIS\r\nIW\t\tVRI_KABEL_SIGNAAL\r\nIW\t\tVRI_KABEL_SIGNAAL_230V\r\nIW\t\tVRI_KABEL_SIGNAAL_42V\r\nIW\t\tVRI_KABEL_SIGNAAL_DETECTIE\r\nIW\t\tVRI_KABEL_TRACE\r\nIW\t\tVRI_LANTAARN\r\n\r\nzo kunnen de specifieke kabels voor spoorse objecten ook worden ondergebracht in spoorse hoofdgroepen",
+      "> In de huidige NLCS zijn alle kabels onderdeel van een THEMA. In het voorstel is alles onder TRACÉ ondergebracht. Hierdoor is wel het materiaal omschreven maar is nog steeds niet duidelijk wát voor kabel het betreft. Alle voorgestelde objecten kunnen hoogstwaarschijnlijk worden ondergebracht bij reeds bestaande objecten. Graag nader bespreken in een overleg.\r\n\r\n\r\nDit zijn met name lagen van ons S&T team ( Signal en Telecom) Zij geven geen specifieke kabels of leidingen aan op hun tekeningen. Deze worden in tabellen op de tekening gezet. Zij geven alleen de kabel en leiding tracé’s weer.",
+      "Vraag aan werkgroep en productmanager:\r\nIn de huidige NLCS zijn alle kabels onderdeel van een THEMA.\r\nIn het voorstel is alles onder TRACÉ ondergebracht. Hierdoor is wel het materiaal omschreven maar is nog steeds niet duidelijk wát voor kabel het betreft.\r\nAlle voorgestelde objecten kunnen hoogstwaarschijnlijk worden ondergebracht bij reeds bestaande objecten. Graag nader bespreken in een overleg.\r\n\r\n**Dit zijn met name lagen van ons S&T team ( Signal en Telecom) Zij geven geen specifieke kabels of leidingen aan op hun tekeningen. Deze worden in tabellen op de tekening gezet. Zij geven alleen de kabel en leiding tracé’s weer.**\r\n\r\n```\r\nIn de werkgroep besproken dat dit een bedrijfsspecifieke manier van werken en aanleveren is en in de ‘eigen bibliotheek’ opgenomen gaat worden. De standaard NLCS lagen voorzien in alle overige wensen voor het opstellen van de tekeningen. Het betreft dan ook een aanvulling op standaard NLCS object KL-TRACE.\r\n\r\nWel de specifieke wens om ‘kabelput’ toe te voegen. Deze behoefte is algemeen aanwezig en is ook vanuit de ‘standaard NLCS’ gedachte een prima toevoeging.\r\n```",
+      "verwerkt in voorstel stedelijk spoor #190"
+    ]
+  },
+  {
+    "number": 527,
+    "title": "input stedelijk spoor, hoofdgroep OG",
+    "closed_at": "2025-03-10T11:45:46Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "OG-ondergrond"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "input: https://github.com/nl-digigo/NLCS/blob/main/ontwikkeling/stedelijk%20spoor/2024-10-28/HBA_OG-Ondergronden.20241004.xls\r\n\r\nVraag aan werkgroep en productmanager:\r\nDe aanvullingen van ‘COORDINAAT’ liggen in lijn met de bevinding over het OBJECT TABEL in de hoofdgroep AL. Als dit object wordt uitgebreid met subobjecten voor spoor, ga je dan geen enorme lijsten krijgen als je alle soorten coördinaten een eigen layer gaat geven?",
+    "comments": [
+      "er bestaat al een coordinaatpunt in  AL\t\tCOORDINAATPUNT\r\n\r\ngelieve deze te gebruiken",
+      "> Vraag aan werkgroep en productmanager: De aanvullingen van ‘COORDINAAT’ liggen in lijn met de bevinding over het OBJECT TABEL in de hoofdgroep AL. Als dit object wordt uitgebreid met subobjecten voor spoor, ga je dan geen enorme lijsten krijgen als je alle soorten coördinaten een eigen layer gaat geven?\r\n\r\nDit onderscheid zijn voor deze specifieke elementen nodig voor de manier waarop wij bestektekeningen en de informatie die daarvoor nodig is weer te geven. Daar naast gebruiken we tooling die dit onderscheid nodig heeft.",
+      "De aanvullingen van ‘COORDINAAT’ liggen in lijn met de bevinding over het OBJECT TABEL in de hoofdgroep AL. Als dit object wordt uitgebreid met subobjecten voor spoor, ga je dan geen enorme lijsten krijgen als je alle soorten coördinaten een eigen layer gaat geven?\r\n**Dit onderscheid zijn voor deze specifieke elementen nodig voor de manier waarop wij bestektekeningen en de informatie die daarvoor nodig is weer te geven. Daar naast gebruiken we tooling die dit onderscheid nodig heeft.**\r\n```\r\nDubbelingen geconstateerd met AL-COORDINAATPUNT en OG-COORDINAAT in de NLCS.\r\nAdvies is om OG-COORDINAAT te laten vervallen, AL-COORDINAATPUNT te hernoemen naar COORDINAAT en deze als leidend te houden.\r\nBovenstaande argument is m.i. niet relevant. Voor de Nederlandse standaard is ‘COORDINAAT’ aan algemeen voorkomend object. Specifieke aanvullingen voor software dient in eigen bedrijfs/projectenbibliotheken opgelost te worden en niet in een nederlandse standaard.\r\n```",
+      "verwerkt in voorstel stedelijk spoor #190"
+    ]
+  },
+  {
+    "number": 528,
+    "title": "input stedelijk spoor, hoofdgroep VW",
+    "closed_at": "2025-03-10T11:45:27Z",
+    "labels": [
+      "duplicate",
+      "Stedelijk Spoor",
+      "VH - verhardingen",
+      "VW Verkeersmaatregelen Weg"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Vraag aan productmanager:\r\nDe voorgestelde objecten zijn soorten tegels welke worden toegepast bij blindegeleidepaden.\r\nHet object BLINDENGELEIDEROUTE is bedoeld om op ‘beheerniveau’ een route aan te geven.\r\nPersoonlijk zou ik deze specifieke tegels onderbrengen onder VH, waar ook de bloktegels worden ondergebracht.\r\nAnders wordt een halte ingericht met tegels, afkomstig uit 2 hoofdgroepen. Dat is vreemd.",
+    "comments": [
+      "tegels moeten inderdaad in VH, de route zelf kan blijven in VW",
+      "De voorgestelde objecten zijn soorten tegels welke worden toegepast bij blindegeleidepaden.\r\nHet object BLINDENGELEIDEROUTE is bedoeld om op ‘beheerniveau’ een route aan te geven.\r\nPersoonlijk zou ik deze specifieke tegels onderbrengen onder VH, waar ook de bloktegels worden ondergebracht.\r\nAnders wordt een halte ingericht met tegels, afkomstig uit 2 hoofdgroepen. Dat is vreemd.\r\n**Akkoord als maar herkenbaar is dat het hier om een blinde geleide route gaat. Misschien moeten we het omdraaien waarom staat dit in de groep VW – dit hoort wat mij betreft onder de groep verharding**\r\n`Ondergebracht in VH, geen aanpassingen in VW nodig.`",
+      "verwerkt in voorstel stedelijk spoor #190",
+      "[[release note: no change from issue]] Tijdens de ontwikkeling van de toevoeging van stedelijk spoor, tram heeft de werkgroep voorgesteld tegels van blindegeleidelijnen op te nemen onder SVW; dit is afgeraden door de NLCS experts omdat deze tegels onderdeel zijn van verhardingen SVH en is niet in de acceptatie-publicatie terecht gekomen.",
+      "@ElisabethDeVries \nIn mijn aangeleverde voorstel is een nieuwe SVH aangeleverd waarin deze objecten wel zijn opgenomen.\nZe zouden dus wel in de acceptatiepublicatie moeten zitten, maar niet in SVW"
+    ]
+  },
+  {
+    "number": 529,
+    "title": "input stedelijk spoor, hoofdgroep GR",
+    "closed_at": "2025-03-10T11:45:03Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "GR-Groen-inclusief-bomen"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Vraag aan de werkgroep:\r\nKan worden toegelicht wat met GRAS_KRAT wordt bedoeld?",
+    "comments": [
+      "Een graskrat Is een krat waarin grind is opgenomen t.b.v. de afwatering van de gras baan in het tram spoor",
+      "Vraag aan de werkgroep:\r\nKan worden toegelicht wat met GRAS_KRAT wordt bedoeld? \r\n\r\n**Een graskrat Is een krat waarin grind is opgenomen t.b.v. de afwatering van de gras baan in het tram spoor**\r\n\r\n```\r\nBesproken in het laatste werkgroepoverleg:\r\nMet de ‘graskrat’ wordt een infiltratiekrat bedoeld.\r\nHiervoor is nog geen plek beschikbaar in de NLCS. Uiteraard is deze wel gewenst.\r\nVoorstel:\r\nToevoegen:\r\nRI-WATERBERGENDE VOORZIENING\r\nRI-WATERBERGENDE VOORZIENING_INFILTRATIEKRAT\r\nAlle GR aanvullingen komen hiermee te vervallen en worden onder de ‘riolering’ ondergebracht.\r\n```",
+      "verwerkt in voorstel stedelijk spoor #190"
+    ]
+  },
+  {
+    "number": 530,
+    "title": "input stedelijk spoor, hoofdgroep IS",
+    "closed_at": "2025-03-10T11:44:45Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "IS installaties spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Object DETAIL is onderdeel van ZZ en komt zodoende direct beschikbaar in deze hoofdgroep en hoeft dus niet in IS vermeld te worden.\r\nVoorstel: vervallen\r\n\r\nVraag aan de werkgroep:\r\nKan worden toegelicht wat met object LIJST wordt bedoeld? \r\n\r\n\r\nVraag aan de werkgroep:\r\nObject MAST komt ook voor in de nieuwe hoofdgroep ES. Is dit een andere of een dubbeling?\r\n\r\n\r\nVraag aan de werkgroep:\r\nDient de punttong een los object te zijn? Wordt deze los getekend of als onderdeel van een wissel?\r\n\r\n\r\nIndien punttong behouden moet blijven, dient deze een eigen lijntype te krijgen:\r\n*IS-PUNTTONG-SO\r\nA,2,-2\r\n\r\n*V- IS-PUNTTONG-SO\r\nA,1,[VERWIJDEREN2,NLCS.SHX,s=0.5],1,-2",
+    "comments": [
+      "> Object DETAIL is onderdeel van ZZ en komt zodoende direct beschikbaar in deze hoofdgroep en hoeft dus niet in IS vermeld te worden. Voorstel: vervallen\r\n> \r\n> Vraag aan de werkgroep: Kan worden toegelicht wat met object LIJST wordt bedoeld?\r\n\r\nWij hebben geen idee welk object hier beschreven wordt. Dus kunnen ook hier geen reactie op geven\r\n\r\n> \r\n> Vraag aan de werkgroep: Object MAST komt ook voor in de nieuwe hoofdgroep ES. Is dit een andere of een dubbeling?\r\n\r\nDit is ander type mast en moet een aparte object zijn.\r\n\r\n> \r\n> Vraag aan de werkgroep: Dient de punttong een los object te zijn? Wordt deze los getekend of als onderdeel van een wissel?\r\n\r\nDit is hulpobject om de componenten van het wissel om de juist plek te kunnen plaatsen",
+      "Dit is bijgewerkte lijst met objecten waarin de koppelingen naar aanvullende symbolen (zie ok het zip-bestand) is bijgewerkt\r\n[IS-Installaties spoorwegen 20241121.xls](https://github.com/user-attachments/files/17842043/IS-Installaties.spoorwegen.20241121.xls)\r\n[NLCS Symbolen SIS borden en seinen.zip](https://github.com/user-attachments/files/17842066/NLCS.Symbolen.SIS.borden.en.seinen.zip)\r\n\r\nBij het exporten naar AutoCAD is font gewijzigd, deze krijg ik niet op NLCS-ISO.\r\n\r\nVoorbeeld tekeningen van de symbolen: \r\n[ALG-HTM-IB-WSB-00161 Seinen.pdf](https://github.com/user-attachments/files/17842128/ALG-HTM-IB-WSB-00161.Seinen.pdf)\r\n[ALG-HTM-IB-WSB-00161 Wisselaansturing.pdf](https://github.com/user-attachments/files/17842130/ALG-HTM-IB-WSB-00161.Wisselaansturing.pdf)\r\n\r\nBorden zijn op ware grote getekend",
+      "Object DETAIL is onderdeel van ZZ en komt zodoende direct beschikbaar in deze hoofdgroep en hoeft dus niet in IS vermeld te worden.\r\n```\r\nVoorstel: vervallen\r\nWegens geen tegengeluid verwijderd uit voorstel.\r\n```\r\n\r\nVraag aan de werkgroep:\r\nKan worden toegelicht wat met object LIJST wordt bedoeld? \r\n**Wij hebben geen idee welk object hier beschreven wordt. Dus kunnen ook hier geen reactie op geven**\r\n`Object vervallen, kan hoogstwaarschijnlijk met eeen T-element opgelost worden.`\r\n\r\nVraag aan de werkgroep:\r\nObject MAST komt ook voor in de nieuwe hoofdgroep ES. Is dit een andere of een dubbeling?\r\n**Dit is ander type mast en moet een aparte object zijn.**\r\n`Akoord, handhaven.`\r\n\r\nVraag aan de werkgroep:\r\nDient de punttong een los object te zijn? Wordt deze los getekend of als onderdeel van een wissel?\r\n**Dit is hulpobject om de componenten van het wissel om de juist plek te kunnen plaatsen**\r\n`Handhaven.`\r\n\r\n```\r\nPunttong krijgt een eigen lijntype:\r\n*IS-PUNTTONG-SO\r\nA,2,-2\r\n```",
+      "> Dit is bijgewerkte lijst met objecten waarin de koppelingen naar aanvullende symbolen (zie ok het zip-bestand) is bijgewerkt [IS-Installaties spoorwegen 20241121.xls](https://github.com/user-attachments/files/17842043/IS-Installaties.spoorwegen.20241121.xls) [NLCS Symbolen SIS borden en seinen.zip](https://github.com/user-attachments/files/17842066/NLCS.Symbolen.SIS.borden.en.seinen.zip)\r\n> \r\n> Bij het exporten naar AutoCAD is font gewijzigd, deze krijg ik niet op NLCS-ISO.\r\n> \r\n> Voorbeeld tekeningen van de symbolen: [ALG-HTM-IB-WSB-00161 Seinen.pdf](https://github.com/user-attachments/files/17842128/ALG-HTM-IB-WSB-00161.Seinen.pdf) [ALG-HTM-IB-WSB-00161 Wisselaansturing.pdf](https://github.com/user-attachments/files/17842130/ALG-HTM-IB-WSB-00161.Wisselaansturing.pdf)\r\n> \r\n> Borden zijn op ware grote getekend\r\n\r\nEen altijd symbolen ontbraken nog, deze staat in dit zip-bestand:  \r\n[20241202 - Aanvullende symbolen SIS.zip](https://github.com/user-attachments/files/17976056/20241202.-.Aanvullende.symbolen.SIS.zip)\r\n\r\nEen paar symbolen waren niet correct getekend, deze zijn gecorrigeerd en staan in het volgende zip-bestand:  \r\n[20241202 - Gewijzigde symbolen SIS.zip](https://github.com/user-attachments/files/17976079/20241202.-.Gewijzigde.symbolen.SIS.zip)",
+      "@ehensing ik heb de aanvullingen verwerkt in het totaaloverzicht.",
+      "Deze symbolen ontbraken nog: \r\n[20241213 SIS - Aanvullende component symbolen.zip](https://github.com/user-attachments/files/18124786/20241213.SIS.-.Aanvullende.component.symbolen.zip)",
+      "@ehensing verwerkt in het totaal",
+      "verwerkt in voorstel stedelijk spoor #190"
+    ]
+  },
+  {
+    "number": 531,
+    "title": "input stedelijk spoor, hoofdgroep SB",
+    "closed_at": "2025-03-10T11:44:25Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "SB spoorbouw"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Vraag aan de werkgroep:\r\nKan worden toegelicht wat met BESTEL wordt bedoeld? – \r\nWij maken Besteltekeningen voor onze spoorfabriek. Dit zijn tekeningen die uniek zijn (in dit kader) voor GVB.\r\nVraag aan de werkgroep:\r\nKan worden toegelicht wat met CONSTRUCTIEGRENS wordt bedoeld?\r\nGrens tussen 2 verschillende constructies\r\nVraag aan de werkgroep:\r\nKan worden toegelicht wat met HOOGTEMATEN_CONTROLE en HOOGTEMATEN_UITWERKING wordt bedoeld?\r\nHoogtematen_Controle: is benodigd om de het spoorontwerp te controleren. Zijn meer maten dan wat wordt afgegeven aan de aannemer\r\nHoogtematen_Uitwerking: zijn de maten welke aan de aannemer worden afgegeven.\r\n\r\nVraag aan de werkgroep:\r\nKan worden toegelicht wat met ONTWERP en alle subobjecten wordt bedoeld?\r\n\r\nVraag aan de werkgroep:\r\nVOERTUIG bevat waarschijnlijk details van voortuigen voor het maken van doorsnedes?\r\nHiervoor is in AL reeds ‘aankleding’ beschikbaar.\r\nHet voorgestelde OBJECT met subobjecten daar onderbrengen?\r\nAkkoord\r\n\r\nVraag aan de werkgroep:\r\nDiverse kleuren lijken nog Microstation kleuren te zijn. Klopt dit?\r\nAlle kleuren zijn op basis van de NLCS kleuren tabel\r\n\r\nVraag aan de werkgroep: en productmanagers\r\nHet gebruik van de lijntypes wijkt wezenlijk af van de standaard NLCS.\r\nVeel is continuous, waarbij ‘vervallen’ als hidden wordt gepresenteerd.\r\nDit in tegenstelling tot de stadaard ‘scraps’ in de NLCS. (waar ik overigens ook geen voorstander van ben).\r\nDaarnaastis uitgangspunt dat:\r\nCONTINUOUS i.r.m. V-CONTINUOUS staat.\r\nEen eigen lijntype ook de bijbehorende V-variant heeft.\r\nWij gaan geen lijnen met streepjes erdoor gebruiken voor vervallen lijnen Dit maakt een tekening volkomen onleesbaar. In heel BV nederland (waar ik allemaal heb gewerkt over de jaren) wordt opgebroken aangegeven met een onderbroken lijn. Als GVB gaan we dit hier geen veranderingen aanbrengen.\r\n\r\nHoe willen we hiermee omgaan?\r\nAfhankelijk van de keuzes moeten voor deze hoofdgroep de linetypes opgesteld worden.",
+    "comments": [
+      "In deze objectenlijst is op verzoek van HTM gebruikers de naam gewijzigd van object:\r\nOMGRENZINGSPROFIEL_HALTELIJN_SPOOR naar OMGRENZINGSPROFIEL_PERRONLIJN_VOERTUIG.\r\n\r\n[SB-Spoorbouw 202411214.xls](https://github.com/user-attachments/files/17842203/SB-Spoorbouw.202411214.xls)\r\n\r\nAanvullende symbolen:\r\n[NLCS Symbolen SSB aanvulling.zip](https://github.com/user-attachments/files/17842794/NLCS.Symbolen.SSB.aanvulling.zip)",
+      "Vraag aan de werkgroep:\r\nKan worden toegelicht wat met BESTEL wordt bedoeld? – \r\n**Wij maken Besteltekeningen voor onze spoorfabriek. Dit zijn tekeningen die uniek zijn (in dit kader) voor GVB.**\r\n`Bedrijfsspecifieke objecten opnemen in eigen projecten/bedrijfsbibliotheek. Dit behoord niet in een NLCS standaard.`\r\n\r\nVraag aan de werkgroep:\r\nKan worden toegelicht wat met CONSTRUCTIEGRENS wordt bedoeld?\r\n**Grens tussen 2 verschillende constructies**\r\n`Toepassing onduidelijk. Wel heel concreet in voorstel opgenomen. Voor nu akkoord.`\r\n\r\nVraag aan de werkgroep:\r\nKan worden toegelicht wat met HOOGTEMATEN_CONTROLE en HOOGTEMATEN_UITWERKING wordt bedoeld?\r\n**Hoogtematen_Controle: is benodigd om de het spoorontwerp te controleren. Zijn meer maten dan wat wordt afgegeven aan de aannemer\r\nHoogtematen_Uitwerking: zijn de maten welke aan de aannemer worden afgegeven.**\r\n```\r\nOp basis van de toelichting is ‘HOOGTEMATEN_UITWERKING overbodig.\r\nAlle ‘standaard’ hoogtes kunnen op HOOGTEMATEN getekend worden. Alle extra hoogtemaatvoeren op ‘HOOGTEMATEN_CONTROLE’.\r\n```\r\n\r\nVraag aan de werkgroep:\r\n**Kan worden toegelicht wat met ONTWERP en alle subobjecten wordt bedoeld?**\r\n```\r\nDe voorgestelde laagnamen zijn bedoeld voor het opstellen van een Civil-3D tekening. De lagen waarop alignements e.d. geplaatst worden zitten ‘hard’ in een template gebakken. Door deze lagen aan te bieden vanuit de NLCS heeft de gebruiker hier geen voordeel bij om deze toe te passen omdat er altijd een handmatige aanpassing in de template gedaan moet worden. Vanuit de NLCS worden geen templates aangeboden. Voor uniforme borging zou dit voorstel vanuit de BNL-standaard opgepakt moeten worden. Wel kunnen deze objecten als werkafspraak opgenomen worden in de NLCS standaard. Hiervoor zie ik een aantal varianten:\r\n-\tEen aanvullende bijlage in de Formele Beschrijving waarin dit uitgangspunt is toegelicht en uitgewerkt hoe gebruikers dit kunnen doorvoeren in hun templates.\r\n-\tEen template beschikbaar stellen waarin dit op de juiste manier is verwerkt. Middels een import/export kunnen gebruikers dit opnemen in hun omgeving.\r\n-\tBNL vragen om dit in de standaard BNL-template op te nemen.\r\n-\tDit geheel laten vervallen en de gebruikers zit zelf als ‘bedrijfsbibliotheek’ laten inrichten.\r\nMijn voorkeur gaat uit naar optie 1.\r\n```\r\n\r\nVraag aan de werkgroep:\r\nVOERTUIG bevat waarschijnlijk details van voortuigen voor het maken van doorsnedes?\r\nHiervoor is in AL reeds ‘aankleding’ beschikbaar.\r\nHet voorgestelde OBJECT met subobjecten daar onderbrengen?\r\n**Akkoord**\r\n`Verwerkt volgens reactie.`\r\n\r\nVraag aan de werkgroep:\r\nDiverse kleuren lijken nog Microstation kleuren te zijn. Klopt dit?\r\nAlle kleuren zijn op basis van de NLCS kleuren tabel\r\nAkoord, kleuren aangepast waar nodig.\r\nVraag aan de werkgroep: en productmanagers\r\nHet gebruik van de lijntypes wijkt wezenlijk af van de standaard NLCS.\r\nVeel is continuous, waarbij ‘vervallen’ als hidden wordt gepresenteerd.\r\nDit in tegenstelling tot de stadaard ‘scraps’ in de NLCS. (waar ik overigens ook geen voorstander van ben).\r\nDaarnaastis uitgangspunt dat:\r\nCONTINUOUS i.r.m. V-CONTINUOUS staat.\r\nEen eigen lijntype ook de bijbehorende V-variant heeft.\r\n**Wij gaan geen lijnen met streepjes erdoor gebruiken voor vervallen lijnen Dit maakt een tekening volkomen onleesbaar. In heel BV nederland (waar ik allemaal heb gewerkt over de jaren) wordt opgebroken aangegeven met een onderbroken lijn. Als GVB gaan we dit hier geen veranderingen aanbrengen.**\r\n\r\nHoe willen we hiermee omgaan?\r\nAfhankelijk van de keuzes moeten voor deze hoofdgroep de linetypes opgesteld worden.\r\n```\r\nBesproken in overlegsessie. Voorstel past binnen de NLCS.\r\nToe te voegen lijntypes:\r\n*SB-BOVENBOUW_BEGINGRENS-SO\r\nA,2,-2\r\n\r\n*SB-BOVENBOUW_SCHOUWPAD-SO\r\nA,2,-2\r\n\r\n*SB-BOVENBOUW_ONDERSTEUNING-SO\r\nA,2,-2\r\n\r\n*SB-OMGRENZINGSPROFIEL_KINEMATISCH-SO\r\nA,2.5,-1.25\r\n\r\n*SB-OMGRENZINGSPROFIEL_PVR-SO\r\nA,2.5,-1.25\r\n\r\n*V-SB-OMGRENZINGSPROFIEL_DYNAMISCH-SO\r\nA,2.5,-1.25\r\n\r\n*SB-BOVENBOUW_DOORGEZICHTE RECHTSTAND-SO\r\nA,3,-2,0,-2,3\r\n\r\n*SB-BOVENBOUW_HARTSTUK-SO\r\nA,3,-2,0,-2,3\r\n\r\n*SB-BOVENBOUW_HARTSTUK_RIJLIJN-SO\r\nA,3,-2,0,-2,3\r\n\r\n*SB-CONSTRUCTIEGRENS-SO\r\nA,5,-2,2,-2,2,-2\r\n```",
+      "AANVULLENDE VRAAG:\r\nAanvullende vraag:\r\nIn hoofdgroep SB zijn de volgende objecten aanwezig, welke overlap hebben met VH:\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_AC11SURF-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_AC11SURF_1LAAG-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_AC11SURF_1LAAG_ROOD-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_AC11SURF_ROOD-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_EVA-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_EVA_1LAAG-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_EVA_1LAAG_ROOD-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_EVA_ROOD-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_FREESVAK-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_SMA-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_SMA_1LAAG-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_SMA_1LAAG_ROOD-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_SMA_ROOD-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_STREETPRINT-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_STREETPRINT_1LAAG-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_STREETPRINT_1LAAG_ROOD-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_STREETPRINT_ROOD-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_ZAAGSNEDE-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_BALLAST-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_BALLAST_22 40-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_BALLAST_31 50-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_BETON-G\r\nHoe gaan we hiermee om? \r\n\r\nZou m.i. gewoon met VH-lagen getekend kunnen worden?",
+      "In het bijgevoegde Excel blad is de symbologie van de HTM spoorconstructies gewijzigd.:\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_DWARSLIGGER IN BALLAST-G/S\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_DWARSLIGGER IN BETON-G/S\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_DWARSLIGGER IN ZAND-G/S\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_EMBEDDEDRAIL-G/S\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_KUNSTSTOFPLAAT-G/S\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_KUNSTSTOFPLAAT_ABC-G/S\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_REPARATIEPLAAT-G/S\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_STANGENSPOOR-G/S\r\n\r\n[SB-Spoorbouw 20241205.xls](https://github.com/user-attachments/files/18021422/SB-Spoorbouw.20241205.xls)\r\n\r\nVerder zijn er geen wijzigingen",
+      "> AANVULLENDE VRAAG: Aanvullende vraag: In hoofdgroep SB zijn de volgende objecten aanwezig, welke overlap hebben met *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_BALLAST-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_BALLAST_22 40-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_BALLAST_31 50-G Hoe gaan we hiermee om? \r\n> \r\n> Zou m.i. gewoon met VH-lagen getekend kunnen worden?\r\n\r\nIk heb gezocht op ballast, maar deze kan ik niet vinden onder VH\r\n\r\n\r\n\r\nVerder heb ik geen bezwaren om met VH-lagen te tekenen.",
+      "@ehensing Dank voor je reactie en aanvullingen, ga ik verwerken.\r\nIk zie dat BALLAST inderdaad niet in de NLCS zit bij VERHARDINGEN.\r\nIk had BASALT / BASALTON in gedachte.\r\nIs dit technisch hetzelfde of weer iets anders?",
+      "> AANVULLENDE VRAAG: Aanvullende vraag: In hoofdgroep SB zijn de volgende objecten aanwezig, welke overlap hebben met VH: *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_AC11SURF-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_AC11SURF_1LAAG-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_AC11SURF_1LAAG_ROOD-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_AC11SURF_ROOD-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_EVA-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_EVA_1LAAG-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_EVA_1LAAG_ROOD-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_EVA_ROOD-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_FREESVAK-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_SMA-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_SMA_1LAAG-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_SMA_1LAAG_ROOD-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_SMA_ROOD-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_STREETPRINT-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_STREETPRINT_1LAAG-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_STREETPRINT_1LAAG_ROOD-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_STREETPRINT_ROOD-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_ZAAGSNEDE-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_BALLAST-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_BALLAST_22 40-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_BALLAST_31 50-G *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_BETON-G Hoe gaan we hiermee om? \r\n> \r\n> Zou m.i. gewoon met VH-lagen getekend kunnen worden?\r\n\r\n`In het werkgroep overleg is besproken dat hier variabel mee omgegaan wordt. Het komt voor dat spoor in een asfaltverharding wordt aangebracht, terwijl dit geen ‘verhardingen’ stempel verdient, gezien het geen onderdeel van de wegconstructie is. Zodoende blijft e.e.a. in de spoorbouw hoofdgroep aanwezig.`\r\n\r\n@ehensing \r\nDan om e.e.a. concreet te maken.\r\nVoor elke toplaag zijn 4 varianten aanwezig. Bijvoorbeeld:\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_AC11SURF-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_AC11SURF_1LAAG-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_AC11SURF_1LAAG_ROOD-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_AC11SURF_ROOD-G\r\n\r\nwat is de toegevoegde waarde van de '1LAAG' varianten? M.i. zou....\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_AC11SURF-G\r\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ASFALT_AC11SURF_ROOD-G\r\n... voldoende moeten zijn?\r\nOok hangen hier allemaal afwijkende linetype presentaties aan vast... hoe wordt dit getekend?\r\nZowel in doorsnede als boevnaanzicht zou continuous de meest logische keuze zijn?",
+      "Dit zijn lagen welke alleen door GVB worden gebruikt en volgens mij hadden wij in het overleg van 9 december afgesproken dat deze lagen uit de hoofdgroep verhardingen gaan worden toegepast en indien nodig GVB zijn lagen in hun bibliotheek toe zouden voegen.\r\n\r\ndit geldt ook voor *-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_BETON-G kan ook uit de verhardingen worden toegepast: *-**-VH-GESLOTENVERHARDING_BETON-G",
+      "verwerkt in voorstel stedelijk spoor #190"
+    ]
+  },
+  {
+    "number": 532,
+    "title": "input stedelijk spoor, hoofdgroep VW",
+    "closed_at": "2025-03-10T11:43:19Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "VW Verkeersmaatregelen Weg"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Vraag aan productmanager:\r\nDe voorgestelde objecten zijn soorten tegels welke worden toegepast bij blindegeleidepaden.\r\nHet object BLINDENGELEIDEROUTE is bedoeld om op ‘beheerniveau’ een route aan te geven.\r\nPersoonlijk zou ik deze specifieke tegels onderbrengen onder VH, waar ook de bloktegels worden ondergebracht.\r\nAnders wordt een halte ingericht met tegels, afkomstig uit 2 hoofdgroepen. Dat is vreemd.\r\n\r\nUitbreiding met een aantal standaard hulplijnen lijkt mij geen probleem.\r\nNaamgeving wel aanpassen naar:\r\nHULPLIJN_01 e.d.",
+    "comments": [
+      "input erwin: Akkoord als maar herkenbaar is dat het hier om een blinde geleide route gaat. Misschien moeten we het omdraaien waarom staat dit in de groep VW – dit hoort wat mij betreft onder de groep verharding",
+      "In deze lijst is het commentaar van de review verwerkt.\r\n\r\n[ZZ-Voorallehoofdgroepen 20242111.xls](https://github.com/user-attachments/files/17842250/ZZ-Voorallehoofdgroepen.20242111.xls)",
+      "verwerkt in voorstel stedelijk spoor #190",
+      "[[release note: no change from issue]] Tijdens de ontwikkeling van de toevoeging van stedelijk spoor, tram heeft de werkgroep voorgesteld tegels van blindegeleidelijnen op te nemen onder SVW; dit is afgeraden door de NLCS experts omdat deze tegels onderdeel zijn van verhardingen SVH en is niet in de acceptatie-publicatie terecht gekomen."
+    ]
+  },
+  {
+    "number": 533,
+    "title": "Vragen werkgroep stedelijk spoor, symbolen",
+    "closed_at": "2025-03-10T11:44:03Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "Symbolen"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Alle symbolen zijn nagelopen, de volgende wijzigingen zijn doorgevoerd:\r\n-\tAlle SO symbolen zijn 200x vergroot om aan te sluiten bij de Formele Beschrijving.\r\n-\tAlle teksten zijn omgezet naar de juiste textstyle en lettergroote volgens de FB.\r\n-\tAlle propertie overrides zijn verwijderd.\r\n-\tNaamgevingen van alle symbolen aangepast volgens de FB.\r\n-\tSOLID ‘entieiten’ zijn vervangen voor SOLID-Hatces.\r\n\r\nBespreekpunten:\r\nAlle symbolen van SKL, komen ook voor in SIS, is deze dubbeling bewust of een verplaatsfout?\r\nAlle SVW symbolen mogen m.i. naar VH verplaatst worden.\r\nVeel symbolen hebben geen ‘vervallen’ variant. Is dit bewust?",
+    "comments": [
+      "> Alle symbolen zijn nagelopen, de volgende wijzigingen zijn doorgevoerd:\r\n> \r\n> * Alle SO symbolen zijn 200x vergroot om aan te sluiten bij de Formele Beschrijving.\r\n> * Alle teksten zijn omgezet naar de juiste textstyle en lettergroote volgens de FB.\r\n> * Alle propertie overrides zijn verwijderd.\r\n> * Naamgevingen van alle symbolen aangepast volgens de FB.\r\n> * SOLID ‘entieiten’ zijn vervangen voor SOLID-Hatces.\r\n\r\nDeze aanpassing moeten in de praktijk worden gecontroleerd of dit nog werkbaar en leesbaar is\r\n\r\n> \r\n> Bespreekpunten: Alle symbolen van SKL, komen ook voor in SIS, is deze dubbeling bewust of een verplaatsfout? Alle SVW symbolen mogen m.i. naar VH verplaatst worden. Veel symbolen hebben geen ‘vervallen’ variant. Is dit bewust?\r\n\r\nDit is bewust om eerst deze symbolen akkoord te hebben, voordat wij alles 2 keer moeten aanpassen.\r\nSommige symbolen krijgen ook geen verwijder symbool. Vb: een las wordt niet los verwijdert maar is een onderdeel van een spoorstaaf geworden. Door middel van de spoorstaaf te verwijderen wordt dan automatische een las verwijderd.",
+      "verwerkt in vioorstel stedelijk spoor #190"
+    ]
+  },
+  {
+    "number": 538,
+    "title": "Data voor kleurnummers bij veel nieuwe nlcsobjecten in hoofdgroep SB niet juist ingevuld",
+    "closed_at": "2025-03-31T10:59:42Z",
+    "labels": [
+      "publicatie",
+      "SB spoorbouw"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Bij een groot aantal nieuwe nlcs objecten in de object dataset zijn de waarden voor de kleuren ingevuld als een decimaal getal ipv een integer. Hierdoor is er ook geen uri voor deze kleurverwijzingen op te vragen.\r\nVoorbeeld in bijlage",
+    "comments": [
+      "dit issue is voor deze publicatie met de hand verbeterd; \n\n@gerritversteegh check het script van importeren nieuwe objecten om te zorgen dat kleuren alleen gehele getallen zijn",
+      "Het script is aangepast en levert nu hele getallen in de output, zie hieronder testoutput.",
+      "Dit issue is iopgelost."
+    ]
+  },
+  {
+    "number": 558,
+    "title": "Toets werkgroep & expertcommissie op herziene versie stedelijk spoor voor NLCS 5.1",
+    "closed_at": "2025-04-18T15:04:39Z",
+    "labels": [
+      "Stedelijk Spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Bij het ter perse gaan van concept 5.1 waren voor stedelijk spoor alleen de aanvullende laagnamen en symbolen bekend, maar nog niet de kleurstellingen.\nDe werkgroep stedelijk spoor heeft, bijgestaan door Michel van der Hulst, een herziene versie gemaakt. \n\nWerkwijze: \n1. De softwareleveranciers worden gevraagd, om op basis van de geleverde Excel-bestanden en symbolen, te toetsen of zijn deze zonder problemen kunnen inlezen en een testomgeving klaar te zetten. \n2. De expertcommissie wordt uitgenodigd om de voorstellen te reviewen om te toetsen of deze publicatie voldoet aan de spelregels van NLCS, en zo niet, hiervoor een issue aan te maken en een alternatief voor te stellen voor de gekozen oplossing.  Op 14 april worden de experts die tijd hebben gehad om deze review uit te voeren uitgenodigd in de online vergadering van de werkgroep en wordt de herziene versie vrijegegeven om op te nemen in NLCS 5.1, tenzij uit de review een  negatief advies komt van de Expertcommissie. \n3. Na vaststelling zal de product manager de NLCS-database bijwerken en een nieuwe concept-release maken van NLCS 5.1, en toetsen of de input vanuit de werkgroep goed is verwerkt in de database. \n\nLocatie testbestanden:\nhttps://github.com/nl-digigo/NLCS/tree/main/ontwikkeling/stedelijk%20spoor/maart2025\n\ninhoud:\n- mapje vervallen-in-concept-5.1is het terugtrekken van eerdere voorstellen\n- voor het overige staan de symbolen, een .lin bestand en excellen klaar voor een testomgeving.\n\nTe bespreken review:\n\n- [x] #565 \n- [x] #566 \n- [x] #567 \n- [x] #568\n- [x] #569",
+    "comments": [
+      "Gezamenlijke review werkgroep stedelijk spoor & expertcommissie, 2025-04-14: 1.\tStedelijk Spoor, Tram: gezamenlijke reviewsessie met Experts, naast werkgroepleden uit de expertcommissie hebben zich geen extra experts aangemeld. De openstaande issues zijn besproken. Er zijn geen showstoppers vanuit de expertcommissie, alleen wat kleinere issues.  Conclusie: Dit kan na enkele uitzoekacties worden vrijgegeven voor concept-implementatie in de software, voor de controle of het voorstel werkt in de software."
+    ]
+  },
+  {
+    "number": 561,
+    "title": "Terugtrekken aanvulling werkgroep stedelijk spoor in hoofdgroepen AL",
+    "closed_at": "2025-03-14T11:41:02Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "AL - Algemeen"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "conform de laatste levering van de werkgroep stedelijk spoor: https://github.com/nl-digigo/NLCS/blob/main/ontwikkeling/stedelijk%20spoor/maart2025/vervallen-in-concept-5.1/HBA_AL-Algemeen.20241004.xls\n\nTerugtrekken van:\n\nASSETBESCHRIJVING\nASSETGRENS\nASSETKADER\nASSETNUMMER\nTABEL\nTABEL_BESTELTEKENINGEN\nTABEL_PLAATSBEPALING\nTABEL_PLAATSBEPALING_TRAVERSEN\nTABEL_UITSLAG\nTABEL_UITZETTING\nTEKENBLAD_WERKZAAMHEDEN\nTEKENBLAD_WERKZAAMHEDEN_LIJN\nTEKENBLAD_WERKZAAMHEDEN_LIJST\nTEKENBLAD_WERKZAAMHEDEN_NUMMER\nVERWIJZING_DOORSNEDE",
+    "comments": [
+      "verwerkt",
+      "[[release note: no change from issue]] Tijdens de ontwikkeling van de aanvulling vanuit de werkgroep stedelijk spoor voor 5.1 waren eerst specifieke tabellen en tekenbladen voorzien voor stedelijk spoor. Ook assetgrens, assetnummer, assetbeschrijving en assetkader waren toegevoegd. Als de hoofdgroep AL op deze manier gevuld zou worden vanuit alle disciplines zou dit een enorme bibliotheek worden. Vandaar dat later besloten is geen laagnamen voor specifieke tabellen op te nemen. Deze issue heeft  geen wijzigingen in de 5.1 release tot gevolg."
+    ]
+  },
+  {
+    "number": 562,
+    "title": "Terugtrekken aanvulling werkgroep stedelijk spoor in hoofdgroep GR",
+    "closed_at": "2025-03-14T11:42:37Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "GR-Groen-inclusief-bomen"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "vervalt GRAS_KRAT\n\ncf https://github.com/nl-digigo/NLCS/blob/main/ontwikkeling/stedelijk%20spoor/maart2025/vervallen-in-concept-5.1/HBA_GR-Groen.20241004.xls",
+    "comments": [
+      "verwerkt"
+    ]
+  },
+  {
+    "number": 563,
+    "title": "Terugtrekken aanvulling werkgroep stedelijk spoor in hoofdgroep KG",
+    "closed_at": "2025-03-14T11:45:47Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "KG - Kadastrale informatie en grenzen"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "cf https://github.com/nl-digigo/NLCS/blob/main/ontwikkeling/stedelijk%20spoor/maart2025/vervallen-in-concept-5.1/HBA_KG-kadastrale.informatie.en.grenzen.20241004.xls\n\nvervalt\nLANDMETEN\nLANDMETEN_BOVENBOUW\nLANDMETEN_BOVENBOUW_AFWATERINGSBAK\nLANDMETEN_BOVENBOUW_AS SPOOR\nLANDMETEN_BOVENBOUW_RASBAK\nLANDMETEN_BOVENBOUW_SMEERINSTALLATIE\nLANDMETEN_COGOPOINT\nLANDMETEN_MEETGRENS\nLANDMETEN_MEETPUNT\nLANDMETEN_METING\nLANDMETEN_PUNT",
+    "comments": [
+      "verwerkt"
+    ]
+  },
+  {
+    "number": 565,
+    "title": "AS_SPOOR_TRAM_ONTWERP versus NLCS-STATUS ontwerp",
+    "closed_at": "2025-04-18T15:04:18Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "AM assen en metrering"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Ik constateer dat weer een AS_SPOOR_TRAM_ONTWERP wordt voorgesteld, in eerdere issues is dit afgewezen omdat er een NLCS-STATUS is voor het ontwerp. Waarom is deze toegevoegd?",
+    "comments": [
+      "@ElisabethDeVries \nVanuit mijn NLCS-pet op zou ik zeggen dat deze objecten zouden kunnen vervallen:\nAS_SPOOR_TRAM_ONTWERP\nAS_SPOOR_TRAM_NIET GEMETEN\nAS_SPOOR_TRAM_BUITEN GEBRUIK\nAS_SPOOR_TRAM_AFWIJKING\nAS_SPOOR_TRAM_AFWIJKING_ONBEKEND\nAS_SPOOR_TRAM_AFWIJKING_5 TOT 10CM\nAS_SPOOR_TRAM_AFWIJKING_0 TOT 5CM\n\ndeze horen beter in eeen bedrijfsbibliotheek thuis.\n\nIk heb hier vooral naar de representaties gekeken en het object zelf onvoldoende boordeeld.",
+      "dubbel met #578"
+    ]
+  },
+  {
+    "number": 566,
+    "title": "AS_SPOOR_TRAM_AFWIJKING_ONBEKEND",
+    "closed_at": "2025-04-18T12:42:54Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "AM assen en metrering"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "In het onderstaande rijtje is de toevoeging van een \"onbekend\" eigenlijk niet nodig, omdat daar het algemene \"afwijking\" kan worden gebruikt. Waarom wordt dit hier toegepast door de werkgroep stedelijk spoor?\n\nAS_SPOOR_TRAM_AFWIJKING\nAS_SPOOR_TRAM_AFWIJKING_ONBEKEND\nAS_SPOOR_TRAM_AFWIJKING_5 TOT 10CM\nAS_SPOOR_TRAM_AFWIJKING_0 TOT 5CM",
+    "comments": [
+      "@ElisabethDeVries\nVanuit mijn NLCS-pet op zou ik zeggen dat deze objecten zouden kunnen vervallen:\nAS_SPOOR_TRAM_ONTWERP\nAS_SPOOR_TRAM_NIET GEMETEN\nAS_SPOOR_TRAM_BUITEN GEBRUIK\nAS_SPOOR_TRAM_AFWIJKING\nAS_SPOOR_TRAM_AFWIJKING_ONBEKEND\nAS_SPOOR_TRAM_AFWIJKING_5 TOT 10CM\nAS_SPOOR_TRAM_AFWIJKING_0 TOT 5CM\n\ndeze horen beter in eeen bedrijfsbibliotheek thuis.\n\nIk heb hier vooral naar de representaties gekeken en het object zelf onvoldoende boordeeld.",
+      "werkgroep 2025-04-14 we moeten beter toelichten wat de betekenis is van deze lagen ook tov het statusmodel in NLCS, afwijking geeft de analyse van meting versus ontwerp weer, in elk geval HTM gebruikt dit @ehensing checkt of GVb dit ook gebruikt, en wordt dit ook aan aannemers gevraagd? \n\nAS_SPOOR_TRAM_ONTWERP:  is hier gewenst vanuit beheerkaart, maar dubbel met statusmodel, uitleggen waarom je dit gebruikt.",
+      "GVB gebruikt deze lagen niet. Dit worden HTM bedrijf specifieke lagen.",
+      "lagen verwijderd"
+    ]
+  },
+  {
+    "number": 567,
+    "title": "DUBBEL ELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_ DUBBEL EN ENKEL zijn dubbel",
+    "closed_at": "2025-04-08T09:35:38Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "ES - energievoorziening spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "vast klein foutje in de aangeleverde set\n\nELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_DUBBEL\nELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_DUBBEL\nELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_ENKEL\nELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_ENKEL",
+    "comments": [
+      "Hi Elisabeth,\nIn de Excel staan verschillende subobjecten voor deze dubbeling.\nJuist is:\n<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"\nxmlns:x=\"urn:schemas-microsoft-com:office:excel\"\nxmlns=\"http://www.w3.org/TR/REC-html40\">\n\n<head>\n\n<meta name=ProgId content=Excel.Sheet>\n<meta name=Generator content=\"Microsoft Excel 15\">\n<link id=Main-File rel=Main-File\nhref=\"file:///C:/Users/mht/AppData/Local/Temp/msohtmlclip1/01/clip.htm\">\n<link rel=File-List\nhref=\"file:///C:/Users/mht/AppData/Local/Temp/msohtmlclip1/01/clip_filelist.xml\">\n<style>\n\n</style>\n</head>\n\n<body link=\"#0563C1\" vlink=\"#954F72\">\n\nELEKTRISCHEVERBINDING_DOORVERBINDING   SPOORSTAAF | * | - | ** | - | ES | - | ELEKTRISCHEVERBINDING | _ | DOORVERBINDING SPOORSTAAF | _ |   | _ |  \n-- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | --\nELEKTRISCHEVERBINDING_DOORVERBINDING   SPOORSTAAF_DUBBEL | * | - | ** | - | ES | - | ELEKTRISCHEVERBINDING | _ | DOORVERBINDING SPOORSTAAF | _ | DUBBEL | _ | GROEFRAIL\nELEKTRISCHEVERBINDING_DOORVERBINDING   SPOORSTAAF_DUBBEL | * | - | ** | - | ES | - | ELEKTRISCHEVERBINDING | _ | DOORVERBINDING SPOORSTAAF | _ | DUBBEL | _ | VIGNOLERAIL\nELEKTRISCHEVERBINDING_DOORVERBINDING   SPOORSTAAF_ENKEL | * | - | ** | - | ES | - | ELEKTRISCHEVERBINDING | _ | DOORVERBINDING SPOORSTAAF | _ | ENKEL | _ | GROEFRAIL\nELEKTRISCHEVERBINDING_DOORVERBINDING   SPOORSTAAF_ENKEL | * | - | ** | - | ES | - | ELEKTRISCHEVERBINDING | _ | DOORVERBINDING SPOORSTAAF | _ | ENKEL | _ | VIGNOLERAIL\n\n</body>\n\n</html>",
+      "o ik zie het,  er was eern subobject weggevallen in de omschrijving., dank"
+    ]
+  },
+  {
+    "number": 568,
+    "title": "ES Mast N 0.25, alle andere tram masten 0.50?",
+    "closed_at": "2025-04-18T12:49:09Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "ES - energievoorziening spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "misschien doortrekfoutje?\n\neigenlijk ook zelfde vraag voor\nSCHAKELAAR\nSCHAKELAAR_GESLOTEN\nSCHAKELAAR_OPEN",
+    "comments": [
+      "Deze vraag is ook gesteld in de werkgroep en hier zou nog een antwoord op komen.\nPersoonlijk denk ik dat alles op 0.25 voldoende is.",
+      "werkgroep 2025-04-14 \n@ehensing checkt gewenste lijndikte",
+      "De lijndikte moet 0.25 zijn.",
+      "ik ga ervan uit dat bij de shcakelaars ook het specifieke lijntype wordt gebruikt en sluit deze vraag af"
+    ]
+  },
+  {
+    "number": 569,
+    "title": "ES spandraad, onderliggende geen lijntype spandraad?",
+    "closed_at": "2025-04-18T12:44:44Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "ES - energievoorziening spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "OPHANGCONSTRUCTIE_SPANDRAAD heeft eigen lijntype\n\nmoet dat niet ook voor: \nOPHANGCONSTRUCTIE_SPANDRAAD_BZLL\nOPHANGCONSTRUCTIE_SPANDRAAD_BZLL_35MM2\nOPHANGCONSTRUCTIE_SPANDRAAD_BZLL_50MM2\nOPHANGCONSTRUCTIE_SPANDRAAD_RVS\nOPHANGCONSTRUCTIE_SPANDRAAD_RVS_9MM",
+    "comments": [
+      "In de aangeleverde documentatie waarmee in verder ben gegaan stond dit onderscheid specifiek zo aangegeven.\nDe reden kan ik niet beoordelen. Beste even navragen aan de werkgroepleden.",
+      "2025-04-14 @ehensing vraagt dit na",
+      "Alle lagen moeten lijntype OPHANGCONSTRUCTIE_SPANDRAAD  krijgen",
+      "verwerkt"
+    ]
+  },
+  {
+    "number": 570,
+    "title": "SB bewerkingen, streepje of underscore",
+    "closed_at": "2025-04-08T09:18:31Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "SB spoorbouw"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "ik zie laagnamane die lijklen op bewerkingen, moet daar geen streepje in ipv underscore?\n\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_ONDERBED_SCHUIN SLOPEN-G\n*-**-SB-BOVENBOUW_SPOORCONSTRUCTIE_OPENSLOPEN VOOR AANSLUITING-G/S",
+    "comments": [
+      "Formeel gezien is dit een bewerking inderdaad.\nZal voor de gebruikers weinig verschil maken verwacht ik.",
+      "dan zet ik het erin als bewerking met streepje"
+    ]
+  },
+  {
+    "number": 573,
+    "title": "SB lijntype N heet V-SB-OMGRENZINGSPROFIEL_DYNAMISCH-SO?",
+    "closed_at": "2025-04-08T09:17:42Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "SB spoorbouw"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "moet een foutje zijn?",
+    "comments": [
+      "@ElisabethDeVries deze heb ik een kolom verkeerd gezet en hoort inderdaad als vervallen lijntype erin te staan.",
+      "verwerkt"
+    ]
+  },
+  {
+    "number": 574,
+    "title": "input SVW vanuit stedelijk spoor overbodig",
+    "closed_at": "2025-04-18T15:03:07Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "VW Verkeersmaatregelen Weg"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "Conform #528 de tegels van blindegeleideroute bij de verhardingen, in svw dus geen symbolen nodig\n\nDe blindegeleideroute in vw is meer functioneel en wordt verbeeld als een strook of lijn, wordt niet per tegel aangeduid",
+    "comments": [
+      "werkgroep 2025-04-14 akkoord",
+      "verwerkt",
+      "[[release note: no change from issue]] Tijdens de ontwikkeling van de toevoeging van stedelijk spoor, tram heeft de werkgroep voorgesteld tegels van blindegeleidelijnen op te nemen onder SVW; dit is afgeraden door de NLCS experts omdat deze tegels onderdeel zijn van verhardingen SVH en is niet in de acceptatie-publicatie terecht gekomen."
+    ]
+  },
+  {
+    "number": 576,
+    "title": "SAM-AS",
+    "closed_at": "2025-03-25T13:00:15Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "AM assen en metrering"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "@MvanderHulst is echt de bedoeling dat de andere assen niet zijnde spoor ook de extra symbolen krijgen die je gemaakt hebt, omdat ze allemaal onder SAM-AS vallen?\n\nOf moeten die eigenlijk een naam SAM-AS-SPOOR... krijgen?",
+    "comments": [
+      "@ElisabethDeVries \nDe symbolen mogen inderdaad SAM-AS_SPOOR worden. Zo heb ik het wel in de objectentabel verwerkt.\nScherp opgemerkt. ;-)",
+      "verwerkt in database & namen van symbolen aangepast"
+    ]
+  },
+  {
+    "number": 578,
+    "title": "assen spoor metro, trein et cetera ook lijntype as spoor?",
+    "closed_at": "2025-04-08T09:15:40Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "AM assen en metrering"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "assen spoor metro, trein et cetera ook lijntype as spoor? ik ga ervan uit van wel",
+    "comments": [
+      "Alles onder AS_SPOOR en lagere subobjecten krijgt het lijntype AM-AS_SPOOR-SO",
+      "top, dat heb ik doorgevoerd"
+    ]
+  },
+  {
+    "number": 586,
+    "title": "SIS symbolen, vraag over welke laagnaam",
+    "closed_at": "2025-04-18T12:39:26Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "Symbolen",
+      "IS installaties spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "algemeen, in  het overzicht met objecten staat groepsnamen van symbolen die niet overeenkomen met de namen van de geleverde symbolen\n\naan welke laagnaam moeten deze symbolen gekoppeld, IS-COMPONENT? Of iets daaronder?\n\nSIS-COMPONENT_AANSLUITKAST\nSIS-COMPONENT_IMU\nSIS-COMPONENT_ZUB\nSIS-INSTALLATIEKAST_VOEDING-SO\n\nEn waar moeten alle SIS-LICHT  symbolen aan gekoppeld worden?\n\nEn SIS-VERWARMINGSELEMENT?",
+    "comments": [
+      "@ElisabethDeVries goede vraag, in de excel zijn deze symbolen inderdaad niet aan een object gekoppeld.\nDit kunnen we het beste even navragen bij de werkgroep die het originele plan hebben gemaakt en deze symbolen hebben aangeleverd.",
+      "werkgroep 2025-04-14\nSIS-LICHT komt op sein\n\n@ehensing checkt deze\nSIS-COMPONENT_AANSLUITKAST\nSIS-COMPONENT_IMU\nSIS-COMPONENT_ZUB\nSIS-INSTALLATIEKAST_VOEDING-SO\nSIS-VERWARMINGSELEMENT",
+      "SIS-COMPONENT_AANSLUITKAST --> kan op laag *-**-IS-COMPONENT_RASBAK-G/S, symbool hernomen SIS-COMPONENT_RASBAK\n\nSIS-COMPONENT_IMU--> kan op laag *-**-IS-COMPONENT-G/S\nSIS-COMPONENT_ZUB --> kan op laag *-**-IS-COMPONENT-G/S\n\nSIS-INSTALLATIEKAST_VOEDING-SO --.> kan op laag *-**-IS-KAST_VOEDING-G/S\n\nSIS-VERWARMINGSELEMENT --> kan op laag *-**-IS-COMPONENT-G/S -->  symbool hernomen SIS-COMPONENT_VERWARMINGSELEMENT",
+      "verwerkt"
+    ]
+  },
+  {
+    "number": 594,
+    "title": "ES mast, lijntype?",
+    "closed_at": "2025-04-18T12:47:18Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "ES - energievoorziening spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "MAST\nMAST_VOORSCHUINSTAND\n\nhebben gekke lijnytypes in aangeleverde excel\n\nMAST: B-linetype  ES-MAST-SO, overige linetypes CONTINUOUS\nMAST_VOORSCHUINSTAND: B-linetype CONTINUOUS, overige ES-MAST-SO\n\nklopt het dat dit allemaal ES-MAST-SO moet zijn?",
+    "comments": [
+      "trouwens, ES-MAST heeft als enige lijndiktes 0.25 ipv 0.50 voor N,V,T, klopt dit wel of moet dat ook gewoon 0.50 zijn zoals alle onderliggende masten?",
+      "@ElisabethDeVries dit is zo heel specfiek aangeleverd.\nDe achterliggende overweging is mij niet bekend, mogelijk gewoon een foutje bij de basis.\nDit moeten we bij de werkgroep navragen. Hier heb ik destijds ook vragen over gesteld maar geen concreet antwoord op gekregen.\n\nIdem voor de linetype. m.i. zou dit allemaal 0.25 kunnen zijn.",
+      "werkgroep 2025-04-14\n\n@ehensing checkt of voorschuinstand überhaupt nodig is, is dat geen tekst op tekening?\n\nlijntype wordt overal continuous\n\nES-MAST kan net zo dik als de onderliggende",
+      "Lijndikte voor alle masten moet 0.25 zijn.\nMAST_VOORSCHUINSTAND kan vervallen, dit is gewone tekst",
+      "verwerkt"
+    ]
+  },
+  {
+    "number": 596,
+    "title": "SB-BOVENBOUW_SCHOUWPAD lijntype",
+    "closed_at": "2025-04-18T15:00:55Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "SB spoorbouw"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "b linetype continuous, n linetype SB-BOVENBOUW_SCHOUWPAD-SO?",
+    "comments": [
+      "@ElisabethDeVries correct. Vermoed een bewuste keuze. navragen kan geen kwaad.",
+      "werkgroep 2025-04-14: \nEigenlijk is een schouwpad een functie, en zou men hier een object uit de hoofdgroep VH moeten gebruiken\nnaamgeving: schouwpad of inspectiepad?\nof een as schouwpad in assen opnemen? nope, dat is niet nodig. \n\nwerkgroep denkt dat schouwpad niet nodig is, check bij Marco of GVb dit wel nodig heeft, anders eruit.",
+      "voor nu besluit ik dan schouwpad eruit laten, dit kan er altijd nog in een volgende versie bij. Vloeit geen bloed uit."
+    ]
+  },
+  {
+    "number": 597,
+    "title": "BOVENBOUW_SPOORCONSTRUCTIE_OPENSLOPEN VOOR AANSLUITING v COLOR gd 77?",
+    "closed_at": "2025-04-08T09:28:51Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "SB spoorbouw"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "LIJKT FOUTJE, MOET DAT 7 ZIJN?",
+    "comments": [
+      "@ElisabethDeVries Scherp opgemerkt.\nIk geef de schuld aan mijn worstenvingers. :-)",
+      "check, en ik stel gewoon blonde vragen om geen dingen aan te nemen"
+    ]
+  },
+  {
+    "number": 648,
+    "title": "COMPONENT_RASBAK heeft twee zoektermen",
+    "closed_at": "2025-07-25T06:03:29Z",
+    "labels": [
+      "Stedelijk Spoor"
+    ],
+    "milestone": "Release Stedelijk Spoor​ Tram in NLCS 5.1",
+    "body": "COMPONENT_RASBAK heeft twee zoektermen: SIS-COMPONENT_AANSLUITKAST SIS-RAILAANSLUITBAK, er kan er volgens de technische commissie maar één zijn",
+    "comments": [
+      "om de symbolen wel te zien, maar op de verkeerde plek heb ik ze nu aan KAST_MINUS gehangen\n\noverigens bij kast de algemene groep installatiekast aan gehangen zodat die bij onderliggende objecten beschikbaar is\n\nMag uit de inhoudelijke feedback komen of er een nlcs-object: component_aansluitkast nodig is.",
+      "RAS is de afkorting van RAILAANSLUITBAK. Dit zijn bakjes welke aan de spoorstaaf worden gemonteerd. \nHet is wel een apart abject. \n\nMijn voorstel is wel om alles RAS of alles RAILAANSLUITBAK te noemen. Ik heb verder geen voorkeur.",
+      "@ehensing \ner zijn dus symbolen met RAILAANSLUITBAK, de laagnaam heeft RAS erin, prima om het kort te houden in de laagnaam? \n\nmaar er zijn dus ook symbolen SIS-COMPONENT_AANSLUITKAST, de vraag is, hebben we dan een aparte laagnaam SIS-COMPONENT_AANSLUITKAST nodig?",
+      "@ElisabethDeVries Heb je een voorbeeld van de symbolen? Of een locatie waar ik deze kan zien?\n\nIk vermoed dat het dubbel is, maar daarvoor moet ik wel de symbolen kunnen zien.",
+      "@ehensing hier staan ze: https://github.com/nl-digigo/NLCS/tree/main/symbolen/concept/5.1/autocad/SIS",
+      "@ElisabethDeVries :  beide symbolen zijn nodig. Mijn voorstel is om de symbolen te hernoemen naar \nRAILAANSLUITBAK_01 en RAILAANSLUITBAK_02 of\nRAS_01 en RAS_02",
+      "De symbolen met COMPONENT_RASBAK  zijn hernoemd naar V-SIS-RAILAANSLUITBAK_02  en SIS-RAILAANSLUITBAK_02"
+    ]
+  }
+]

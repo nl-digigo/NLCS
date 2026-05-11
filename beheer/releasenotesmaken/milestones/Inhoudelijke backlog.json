@@ -1,0 +1,169 @@
+[
+  {
+    "number": 198,
+    "title": "Indienen versie 5.0 bij het Forum voor Standaardisatie",
+    "closed_at": "2025-11-13T15:41:32Z",
+    "labels": [
+      "BOMOS"
+    ],
+    "milestone": "Inhoudelijke backlog",
+    "body": "- [x] Indienen versie 5.0 bij het Forum voor Standaardisatie\n- [x] Beoordeling ontvankelijkheid door Forum voor Standaardisatie\n- [x] Openbare consultatie",
+    "comments": [
+      "Het is \"Forum Standaardisatie\" (zonder voor). Bron: <https://organisaties.overheid.nl/28200239/Forum_Standaardisatie>, zie ook de grondslag in het [Instellingsbesluit Forum Standaardisatie 2022-2026](https://wetten.overheid.nl/BWBR0047650/2022-12-22).",
+      "Goed om te weten, en gelukkig is deze actie ook succesvol uitgevoerd  https://www.forumstandaardisatie.nl/open-standaarden/nlcs"
+    ]
+  },
+  {
+    "number": 209,
+    "title": "COB analyse kabels, leidingen en bomen: relevantie uitzoeken voor NLCS",
+    "closed_at": "2025-11-04T13:19:55Z",
+    "labels": [
+      "GR-Groen-inclusief-bomen",
+      "Scope",
+      "KL kabels en leidingen"
+    ],
+    "milestone": "Inhoudelijke backlog",
+    "body": "COB analyse kabels, leidingen en bomen: relevantie uitzoeken voor NLCS: https://www.cob.nl/wat-doet-het-cob/vakgebieden/kabels-en-leidingen/kennisarena/bomen-en-kabels-en-leidingen/",
+    "comments": [
+      "Reactie Theo: Ik heb het rapport van COB doorgenomen.  Voorlopige beeld/conclusie: analyse in de vier verschillende situaties van bomen- en/of  leidingprojecten kunnen geholpen zijn met uitwisseling van data volgens een standaard als NLCS (Netbeheer). Het gaat dan wel om een standaard met attribuutverrijking: voor analyses zijn immers ook grootte van de wortelkluit, type boom, type / diepte / diameter / materiaal van de leiding gewenst.\r\n\r\nOnder andere Gasunie heeft een onderzoek naar de mogelijkheden van een regulier proces voor dergelijke analyses al eens met ons (Net4s) besproken, wat de relevantie van gestandaardiseerde info-uitwisseling onderstreept.\r\n\r\nIk zal het meenemen in een volgend werkgroepoverleg, ter toetsing bij de andere deelnemers.",
+      "dit wordt in de projecten rondom bomen (#653) en informatiebehoefte netbeheerder (buiten scope nlcs) opgepakt"
+    ]
+  },
+  {
+    "number": 274,
+    "title": "NLCS pentabellen",
+    "closed_at": "2025-11-14T09:44:27Z",
+    "labels": [
+      "documentation",
+      "kleuren",
+      "Voorgenomen wijziging",
+      "Controversieel"
+    ],
+    "milestone": "Inhoudelijke backlog",
+    "body": "NLCS bevat de volgende 3 pentabellen:\r\nNLCS Non-Color\r\nNLCS Color\r\nNLCS gecombineerd.\r\n\r\nIn de FB wordt hier helemaal niet over gesproken.\r\nVeel NLCS objecten zijn standaard niet geschikt om 'full color' af te drukken.\r\n\r\nBij samenwerking binnen projecten tussen bedrijven kan het gebruik van een andere pentabel voor een andere eindpresentatie zorgen.\r\n\r\nVoorstel:\r\nNLCS Non-Color als standaard pentabel voeren.\r\nHierbij geldt: alle indexkleuren worden zwart, alle 'true colors' worden in kleur geplot. Gedrag wat je m.i. ook wilt hebben,.\r\nNLCS Color en NLC gecombineerd laten vervallen.\r\n\r\nHiermee wordt één werkwijze afgedwongen en kan je ook éénduidig de bibliotheek inrichten én tooling inrichten voor het gebruik van index en true colors.",
+    "comments": [
+      "@MvanderHulst in de standaard worden kleuren met CAD-codes weergegeven bij de objecten, er is geen sprake van pentabellen. Is dit niet een instelling van je software in plaats van de standaard?",
+      "Bij de NLCS worden ook 3.CTB bestanden meegeleverd, dit zijn de pentabellen en worden wel degelijk vanuit de standaard aangeboden aan de softwareleveranciers.\r\n\r\n\r\nZe staan ook als download bij de NLCS 4.2 op de website, bij de 5.0 lijken ze echter te ontbreken. Gewijzigd zijn ze echter niet.",
+      "aha, weer een gebrek in de documentatie. ik heb de CTB's toegevoegd aan GitHub: https://github.com/nl-digigo/NLCS/tree/main/plotinstellingen-CTB/4.2 nu moet alleen de documentatie worden aangevuld, mogelijk hier: https://nl-digigo.github.io/NLCS/requirementssoftware/  en de reden waarom / functionaliteit hier: https://nl-digigo.github.io/NLCS/functionalspecification/",
+      "De pentabel 'NLCS non-color', zorgt ervoor dat:\r\n- alle indexkleuren zwart worden afgedrukt\r\n- alle 'True colors' in daadwerkelijke kleur worden afgedrukt.\r\ndit is m.i. het standaard uitgangspunt voor de NLCS.\r\n\r\nDe pentabel 'NLCS color', zorgt ervoor dat:\r\n- alle indexkleuren in daadwerkelijke kleur worden afgedrukt\r\n- alle 'True colors' in daadwerkelijke kleur worden afgedrukt.\r\n- \r\nDe pentabel 'NLCS non-color en color gecombineerd', zorgt ervoor dat:\r\n- alle indexkleuren van de 10-serie, 12-serie en wisselkleur (kleur 7 in ACAD) zwart worden afgedrukt.\r\n- alle 'True colors' in daadwerkelijke kleur worden afgedrukt.\r\n\r\n\r\nPraktisch nalopend:\r\n- NLCS non-color en color gecombineerd wordt volgens mij zeer weinig toegepast, simpelweg omdat bijna niemand exact weet wat nu wel en niet zwart of in kleur wordt geplot.\r\n- NLCS color, wordt soms wel gebruikt, maar resulteerd in onleesbare tekeningen. Zeer veel NLCS objecten zijn wit, geel, of andere lichte kleuren waardoor de tekening niet leesbaar is.\r\n\r\n- NLCS non-color wordt voornamelijk gebruikt en is ook eenvoudig uit te leggen en toe te passen.\r\nIndexkleur = zwart, truecolor = in kleur.\r\nTevens is de pentabel NLCS non-color ook exact wat wordt beschreven in 3.5.4.a\r\nIn combinatie met de tekst van issue #242 is die CTB-tabel als standaard voeren ook goed uit te leggen en ALTIJD consequent toe te passen.\r\n\r\nVoorstel:\r\nPentabel NLCS color en NLCS non-color en color gecombineerd laten vervallen.\r\n3.5.4.a komt dan weer VOLLEDIG tot zijn recht en beschrijft exact hetgene wat hierboven staat.\r\n3.5.4.b is wat mij betreft een nutteloze toevoeging en kan vervallen.\r\nidem voor de convertietabel, zoals aangegeven op pagina 25.\r\nDit wordt in de applicaties geregeld. Kijk hier iemand naar?",
+      "> * NLCS non-color en color gecombineerd wordt volgens mij zeer weinig toegepast, simpelweg omdat bijna niemand exact weet wat nu wel en niet zwart of in kleur wordt geplot.\r\n\r\nDit is wel wat de FB kristalhelder voorschrijft en hoe we het in Microstation toepassen. Beslist niet omdat we dit handig vinden, maar omdat we er vanuit gingen dat dit standaard is in AutoCAD.",
+      "Standaard AutoCAD = alle 1 t/m 255 zwart\r\n'true colors' (RGB) in kleur.\r\n\r\nDe combinatie pentabel is inderdaad ingericht op de 10- en 12-serie nummers zoals de FB aangeeft.\r\nZelf vindt ik een onnodige restrictie en beperkt je jezelf in het kleurgebruik van de tekening.\r\nVeel gebruikers weten denk ik niet eens exact hoe het werkt en waarom het zo werkt?",
+      "ik zet deze op de backlog omdat dit eerst beter uitgewerkt moet worden, wat is nu de gewoonte / wat bedoelen we met die tabellen in de standaard, en wat is het voorstel voor de toekomst?\r\n\r\nVraagt dit een wijziging bij de soiftwareleveranciers of is dit een ongebruikt onderdeel van de standaard?",
+      "@ElisabethDeVries \nDit vraagt geen wijziging voor de softwareleveranciers.\nDit is zijn pentabellen die meegeleverd worden om kleuren op verschillende manieren te presenteren.\n\nAfhankelijk van de gebruikte keuze, maar je andere keuzes over de standaard inrichting van de NLCS.\nDit is dus inconsequent en foutgevoelig, omdat je 3 uitgangpunten aanbied.\n\nDoor NLCS non-color als enige en als standaard aan te bieden, is de logica voor iedereen duidelijk en hetzelfde.\n\nStandaard AutoCAD = alle 1 t/m 255 zwart\n'true colors' (RGB) in kleur.",
+      "Mij staat bij dat we de pentabellen uit de levering hebben gehaald, omdat ze niet conform FB zijn. De software leveranciers moeten NLCS toepassen conform de FB, dus ook het kleurgebruik. Volgens de FB NLCS 5.0, blz 20: \"_In de NLCS wordt gebruik gemaakt van het kleurenschema dat is weergegeven op de volgende pagina. Voor lijnen wordt gebruik gemaakt van de AutoCad kleuren uit de “10-serie” (10, 20, 30, enzovoort), kleur 7 (wit op een zwarte achtergrond en zwart op een witte achtergrond) of de grijstinten (zwart in combinatie met transparantie) 250 t/m 254. De corresponderende RGB-waarden zijn weergegeven in de conversietabel. Het gebruik van andere kleuren is toegestaan, maar wordt in verband met de gewenste uniformiteit van tekenwerk ontraden._\" Dit gaat dan over schermkleuren, niet over kleuren op de afdruk.\nHelaas staat op blz 21 geen kleurenschema, maar op blz 25 staat wel een schema met kleuren en RGB waarden voor de indexkleuren eindigend op '0' en '2'. Voor de uniformiteit zou het wel handig zijn als de NLCS één kleurentabel levert.\nVolgens de FB worden de '0' en '12' serie zwart afgedrukt (en overige dus in kleur?). \nPersoonlijk vind ik het prima dat de '0' serie zwart afgedrukt wordt, de '12' serie begrijp ik niet en dat de overige indexen in kleur worden afgedrukt vind ik ook duidelijk. De extra pentabellen die de NLCS meelever(de) schepten verwarring.\n\nAls de wens is dat alle indexnummer zwart afgedrukt worden zou ik nog wel graag overwegen om afdrukken van grijstinten van indexnummer 250-254 te behouden.",
+      "@SanderNijhof de huidige beschijving geeft veel beperkingen en verwarring. Eigenlijk aan de standaard gebruiker niet uit te leggen.\nNlcs non color is het meest logisch.\nWel ben ik met je eens dat de 'grijstinten' grijs moeten blijven.\nDus kleur 1 tm 249 zijn zwart\n250 tm 255 de grijstinten.\nRgb kleuren echte kleur.\n\nEenduidig uit te leggen, niet verwarrend en geeft vrijheid in kleurgebruik.",
+      "Wat duidelijkheid betreft ben ik het met je eens, maar is ook wel beperkend. Vind het zelf wel makkelijker om een indexnummer te kiezen voor bijv 1 voor rood of 3 voor groen, dan om RGB-waarden in te stellen. En juist met RGB-waarden krijg je wellicht verschillende tinten rood en groen ipv uniforme kleuren.\nEn op zich wordt (bijna) alles wat je volgens de NLCS-tabellen tekent in zwart afgedrukt. \nIn onze oude standaard hanteerden we pen 1 t/m 7 worden zwart afgedrukt, de rest in kleur. Was ook heel duidelijk.",
+      "deze issue heeft geleid tot een concreet uitgewerkt voorstel in #731 daarom sluit ik deze issue nu af"
+    ]
+  },
+  {
+    "number": 439,
+    "title": "SHX bestand opschonen, niet in database staande shapes verwijderen",
+    "closed_at": "2025-06-10T13:23:00Z",
+    "labels": [
+      "documentation",
+      "publicatie"
+    ],
+    "milestone": "Inhoudelijke backlog",
+    "body": "& dit als actie opnemen in de beheerhandleiding",
+    "comments": [
+      "opgenomen in de beheerhandleiding"
+    ]
+  },
+  {
+    "number": 458,
+    "title": "RI-VACUUMLEIDING onderdeel maken van DWA/GWA en RI-PERSLEIDING onderdeel maken van stelsels?",
+    "closed_at": "2026-02-26T07:37:47Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Inhoudelijke backlog",
+    "body": "Vacuumleiding staat als 'stelsel' in de NLCS OBJECTEN.\r\nZou dit geen SUBOBJECT van DWA en/of GWA moeten zijn?\r\n\r\nZie ook:\r\nhttps://data.gwsw.nl/totaal/Vacuumleiding\r\n\r\nPersleiding idem.\r\nIs dit een eigen OBJECT, of altijd onderdeel van een stelsel?",
+    "comments": [
+      "in de GWSW zie je in de definitie duidelijk dat de persleiding afvalwater afvoert, maar het is een ander type stelsel, wegens de onderdruk. De beheerder wil dit ook kunnen onderscheiden omdat er qua beheer heel anders mee gewerkt wordt. https://data.gwsw.nl/?menu_item=classes&item=../../def/1.6.1/Basis/NLCS_VACUUMLEIDING\n\nWe kunnen het m.i. zo laten staan in de NLCS indeling.",
+      "@ElisabethDeVries Waar het om gaat is dat een persleiding voor zowel HWA als DWA kan worden toegepast.\nDoordat het nu een eigen OBJECT is, kan dit onderscheid niet gemaakt worden.\n\nnet als RIOOLLEIDING een subobject is van het stelsel, zou PERSLEIDING en VACUUM dit ook moeten zijn?\nHet is een onderdeel van een stelselsoort en heeft een functie. Vrijverval of pers?",
+      "Dat wordt wel heel ingewikkeld qua laagnamen, de vraag is, moeten we van elk stelseltype in gwsw een laagnaam hebben dan krijg je dit:\n\nDit leidt echt tot een heleboel vragen bij mij. Laten we dit aan de werkgroep bij Stichting Rioned vragen die bezig is met het vraagstuk rondom revisie, wat er nodig is op tekeningen",
+      "net nog even gebeld voor verduidelijking, dit is te odnerzoeken voor versie 5.2 of verder: vanuit engineering en raw is eerst het type water, dan type pers of vrijverval wel echt gewenst",
+      "onderdeel van issue https://github.com/nl-digigo/NLCS/issues/795"
+    ]
+  },
+  {
+    "number": 501,
+    "title": "Bomen - dynamische blocks bij een gebruiker....",
+    "closed_at": "2025-11-04T13:13:39Z",
+    "labels": [
+      "GR-Groen-inclusief-bomen",
+      "dynamische symbolen"
+    ],
+    "milestone": "Inhoudelijke backlog",
+    "body": "Ontvangen per mail: in een sessie over de Landelijke Bomennorm. Per toeval benoemde hij dat hij in het NLCS-format, met dynablocs (als ik de term goed heb onthouden) diverse bomen (tenminste 9 stuks) met vaste waarden voor de stabiliteitskluit en flexibele ondergrond voor de groeiplaats heeft gemaakt, die ook al wordt toegepast door ontwerpers bij de gemeente Utrecht. Dit is eigenlijk precies waar wij het eerder over hadden en het lijkt in Utrecht goed te werken om de aanleg van ondeugdelijke groeiplaatsen en conflicten met kabels en leidingen te vermijden. \r\n\r\nMisschien goed om te kijken of dit wellicht ook voor landelijk gebruik in de standaard geschikt is?\r\n\r\nIk ben verder niet zo thuis in CAD-standaarden, dus ik koppel jullie hierbij aan elkaar. Hoor graag of het een werkbare landelijke oplossing is!?",
+    "comments": [
+      "dit gevraagd aan utrecht: Zou je de blocks met DigiGO kunnen delen?\r\n\r\nHelaas bestaat er geen goede internationale open uitwisselformaat voor uitwisseling van 2D CAD, waardoor de standaard nog niet kan werken met dynamische blocks (wij moeten geschikt zijn voor zowel autocad als microstation), maar dit geeft wel input voor een gesprek over de vraag, of we dit wel zouden moeten regelen binnen de standaard.",
+      "Toepassing is zeker handig (doen wij zelf ook intern met eigen symbolen).\r\nMaar inderdaad.... openstandaarden liggen een beperking op het gebruiksgemak.",
+      "DWG is de defacto NLCS standaard. Niet zo moeilijk doen en als zodanig beschikbaar stellen. Denk even praktisch, we schieten niks op met: er is geen OpenCad standaard.",
+      "@Hans-Lammerts NLCS wordt grotendeels gebruikt door AutoCAD en Microstation tekenaars.\r\nKwa aantallen lig de balans als tussen de 60/40 en 70/30 verhouding.\r\n\r\nAls vanuit de NLCS keuzes worden gemaakt om minder laagnamen en meer met dynamic blocks te doen, moet dit voor alle softwarepakketten uitwisselbare techniek zijn.\r\n\r\nAls AutoCAD gebruiker ben ik het er helemaal mee eens dat alles zoveel makkelijker zou kunnen als alles op AutoCAD gebouwd wordt.",
+      "Volgens mij kunnen beide paketten met DWG prima overweg. Zoals bijna alle ontwerpsoftware met dwg overweg kan. Ik dacht dat NLCS voor bibliotheek elementen eerder .dwg ook voor Microstation .dgn verstrekte. Doet men dat niet meer? Daarnaast, ik vind het storend en voor de discussie niet bevorderlijk om DWG telkens gelijk te stellen synoniem voor AUTOCAD. Dat is niet terecht. DWG is een defacto standaard die door de hele GWW industrie wordt geleverd door legio ontwikkelaars op basis van samenwerking in ODA verband (Open Design Allicance). Het resultaat van lange en moeizame rechtzaken uit het verleden is dat het monopolie van Autodesk op gebruik DWG nu ver achter ons ligt. Het wordt wel eens tijd om DWG gewoon te omarmen als uitwisselingsformaat. En niet blijven hangen in theoretisch discussies over open/gesloten. Schieten we niks mee op. Mijn cent",
+      "@Hans-Lammerts er spelen een aantal dingen:\r\nVanuit de NLCS worden DWG en DGN's aangeboden voor leveranciers.\r\nEchter zijn deze op zodanig niveau opgesteld, dat álle inhoud in beide pakketten werkt én uitwisselbaar is.\r\n\r\nAls in AutoCAD een dynamic block wordt gemaakt, kan ditzelfde block niet toegepast worden binnen Microstation.\r\nNet als Microstation diverse functionaliteiten heeft waar AutoCAD niet mee overweg kan.\r\n\r\nAutoCAD werkt op DWG maar kan 'een' DGN genereren.\r\nMicrostation werkt op DGN en kan 'een' DWG genereren.\r\n\r\nEen DGN uit AutoCAD is niet werkbaar in Microstation,\r\neen DWG uit Microstation is niet werkbaar in AutoCAD.\r\nOpen en bekijken gaat prima, maar doorwerken is een onmogelijke opgave.\r\n\r\nDe NLCS beschrijft dat de standaard op álle CAD-software moet kunnen werken. Daarbij is het dus niet mogelijk om specifieke techniek van een pakket te beschrijven in een openstandaard.\r\nDynamicblocks zijn er daar helaas één van.\r\n\r\nOf 'DWG' is aangemerkt als 'open uitwisselingsformaat' durf ik niet te zeggen. Als dat wél het geval is.... wordt het dan niet tijd om Bentley/Microstation eens goed aan de tand te voelen? ;-)",
+      "De staat van NLCS is nu dat het een omschrijving betreft is van de opmaak en hoe het CAD bestand (defacto DWG) moet zijn opgebouwd. Een standaard in de zin van data-drager is het niet. Ondubbelzinnig de keuze maken voor de grootste gemene deler als concrete (semi-open) data-drager en inhoudelijk verder ontwikkelen? Zou ik wel voorstander voor zijn Michiel.  Maar dit staat helemaal los van het fenomeen dynamic blocks. Jaren 90 tech.",
+      "Update: we gaan daadwerkelijk odnerzoeken of we voor het eerst in zowel dgn als dwg symbolen kunnen publiceren bij de standaard, en tadaaa... we beginnen met de dynamische groeiplaatssymbolen voor bomen van de gemeente Utrecht. Zie issue #653 om het project te volgen"
+    ]
+  },
+  {
+    "number": 617,
+    "title": "Gebruikersvraag zwart-wit",
+    "closed_at": "2025-12-16T09:00:08Z",
+    "labels": [
+      "kleuren"
+    ],
+    "milestone": "Inhoudelijke backlog",
+    "body": "Goedemorgen,\n\nWe hebben een vraag van een opdrachtgever gekregen met betrekking tot de kleurstellingen in NLCS.\nIs het verplicht om tekeningen in zwart/wit af te leveren conform artikel waar opdrachtgever naar verwijst: \n\nOf mogen we ook ter verduidelijking gebruik maken van kleuren?  \nWe tekenen momenteel in kleuren volgens NLCS bibliotheek van leverancier Infracad.  We wijken soms ook af ter verduidelijking van kleuren in tekening.",
+    "comments": [
+      "heb dit geantwoord: NLCS tekeningen mogen zowel in kleur als zwart-wit geplot worden, er is geen voorkeur vanuit de standaard. De beschrijving hieronder geeft aan waar we rekening mee hebben gehouden bij het kiezen van de kleuren.\n\nMoet de documentatie worden opgehelderd?",
+      "@ElisabethDeVries \nDe documentatie is helder. standaard is alles zwart-wit, maar als met kleur gewerkt wordt moeten RGB-kleuren worden toegepast.\nDit ligt in lijn met de pentabel NLCS non-color.\n\nWat verwarrend is, is dat er meerdere pentabellen bij de NLCS zitten welke afwijken van dit uitgangspunt én niet beschreven zijn in de formele beschrijving. Zie ook issue:\nhttps://github.com/nl-digigo/NLCS/issues/274\n\nMijn voorstel is dan ook nogsteeds van kracht:\nVoorstel:\nPentabel NLCS color en NLCS non-color en color gecombineerd laten vervallen.\n3.5.4.a komt dan weer VOLLEDIG tot zijn recht en beschrijft exact hetgene wat hierboven staat.\n3.5.4.b is wat mij betreft een nutteloze toevoeging en kan vervallen.\nidem voor de convertietabel, zoals aangegeven op pagina 25.",
+      "Deze vraag zal in #731 worden afgehandeld"
+    ]
+  },
+  {
+    "number": 621,
+    "title": "uitleg dynamische en statische url's endpoint",
+    "closed_at": "2025-06-10T11:50:23Z",
+    "labels": [
+      "implementatie",
+      "publicatie"
+    ],
+    "milestone": "Inhoudelijke backlog",
+    "body": "we hebben nu nog staan, check klopt dit met de laatste inrichting van de hub, omdat we ook andere publicaties zoals nlcs-gwsw hebben staan\n\nDe dynamische URL (het adres van de laatst gepubliceerde) definitieve versie is altijd: https://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/sparql\n<br>\nDe dynamische url van concepten van NLCS is https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/sparql",
+    "comments": [
+      "Ja, er is een dynamische url voor alle publicaties, dus GWSW-NLCS krijgt eigen dynamische url",
+      "toelichting hier geplaatst: https://nl-digigo.github.io/NLCS/howtoquery/#sparql-endpoint"
+    ]
+  },
+  {
+    "number": 637,
+    "title": "Gezamenlijke publicatie van symbolen GWSW/NLCS in DWG, DGN en SVG",
+    "closed_at": "2025-07-03T12:09:19Z",
+    "labels": [
+      "duplicate",
+      "RI_riolering-en-GWSW",
+      "Symbolen"
+    ],
+    "milestone": "Inhoudelijke backlog",
+    "body": "Idee om PDOK Thema Stedelijk Water en CAD-tekeningen van rioleringen qua visualisatie zo veel mogelijk overeen te laten komen.",
+    "comments": [
+      "OEPS DUBBEL MET #634"
+    ]
+  },
+  {
+    "number": 719,
+    "title": "Use cases samenhang standaarden NLCS - GWSW",
+    "closed_at": "2026-01-08T14:59:15Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Inhoudelijke backlog",
+    "body": "- [ ] Use case GWSW stylesheets voor GIS gebruiken zoveel mogelijk NLCS symbolen\n- [ ] Use case bij [viewer GWSW ontology](https://data.gwsw.nl/) navigeren naar NLCS objecten\n- [ ] Use case bij update GWSW onderzoeken of NLCS symbolen en navigatie nog overeenkomen",
+    "comments": [
+      "verwerkt in documentatie [ontology alignments](https://nl-digigo.github.io/NLCS/ontologyalignments/5-1/)"
+    ]
+  }
+]

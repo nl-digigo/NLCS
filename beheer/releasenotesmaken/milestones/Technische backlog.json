@@ -1,0 +1,31 @@
+[
+  {
+    "number": 640,
+    "title": "Ter besluit beheercommissie: Prioritering technische ontwikkelingen NLCS",
+    "closed_at": "2025-07-24T10:37:14Z",
+    "labels": [
+      "BOMOS",
+      "GroeipadDSGO/NLCS"
+    ],
+    "milestone": "Technische backlog",
+    "body": "Voorstel vanuit product manager, te bespreken in Beheercommissie 2025-07-24:\n\n1. Eerste prioriteit is het implementeren van acceptatie-versie 5.1, het onderzoeken hiervan door de technische commissie en vast stellen wat nodig is om de definitieve versie te kunnen implementeren en welk tijdspad daarvoor realistisch is. \n2. Het eerstvolgende daarna uit te werken technische aanvulling op NLCS voor opname in een NLCS 6.0 versie is een uitwisselafspraak (DSGO-datadienst) waarmee CAD-objecten met attributen kunnen worden uitgewisseld op basis van een dataleveringsspecificatie. Dit wordt zowel vanuit gemeenten en provincies (in het DOOR-programma) als vanuit de netbeheerders als vanuit de drinkwaterbedrijven gevraagd om revisiegegevens uit NLCS-tekeningen te kunnen verwerken in beheersystemen. Omdat in beleidsmaatregel 3 van het [bestuursakkoord](https://www.digigo.nu/wat-is-het-bestuursakkoord-27/beleidsmaatregelen-bestuursakkoord-27/) wordt uitgegaan van uitwisseling op basis van de NEN 2660-2 wordt gevraagd de datadienst uit te werken op basis van deze standaard. Voor de uitwisseling van de geometrie van de objecten (lijnen, punten, vlakken) kan gekozen worden voor een ander, open, uitwisselformaat.\n3. Vanuit de dagelijkse gebruikers zijn veel vraagstukken over de verbetering van de uitwisseling van tekeningen tussen twee verschillende CAD-pakketten, voorbeelden zijn de discussie over dynamische symbolen, of over de correcte uitwisseling maatvoeringen enzovoorts. Dit blijft moeilijk, omdat de CAD pakketten verschillend werken en er geen open uitwisselformaat is en daar voor 2D CAD ook niet aan gewerkt wordt bij building smart. Daarom is het voorstel aan de beheercommissie om de focus te leggen op te uitwisseling van de objectinformatie en te accepteren dat de tekeningen niet beter uitwisselbaar worden. \n4. Voor dynamische symbolen is door de expertcommissie voorgesteld om te accepteren dat er twee soorten worden gemaakt, één voor Microstation en één voor autocad, zodat de standaard wel gebruikersgemak biedt bij het tekenen. Bij het uitwisselen tussen CAD-pakketten zal dan functionaliteit verloren gaan en het symbool worden \"platgeslagen\". De Beheercommissie wordt gevraagd om hiermee in te stemmen en de technische commissie zal woorden gevraagd om inschatting van de impact van dit uitgangspunt als er een voorbeeld is uitgewerkt in het kader van bomen en/of heavy rail, en of dit leidt tot een 5.x versie of tot een 6.0 versie van NLCS.",
+    "comments": [
+      "24 juli 2025: De beheercommissie is akkoord met punt 1,3 en 4 als input voor de technische commissie.\n\nVoor punt 2 geldt, dat hier alle verzoeken van NLCS++ in moeten staan, dus ook de toevoeging van bewerkingen en de toevoeging van objectidentificatie en statussen die de mutaties van bestaande objecten onderscheiden van de plaatsing van nieuwe objecten. Daarnaast ook samenhangende uitwisseling van CAD-geometrie met asset-objectinformatie. \n\nVoor punt 2 zal een apart onderzoekstraject worden ingericht met een onafhankelijk expert, die een advies kan geven over een lange termijn oplossing die past binnen het digitaal stelsel gebouwde omgeving, waarbij eventueel een korte termijn oplossing kan worden voorgesteld rondom de 2D CAD pakketten, indien dit nodig is om versneld een oplossing te kunnen implementeren. De technische commissie kan op basis van dit advies vervolgens gevraagd worden, hoeveel tijd nodig en redelijk zou zijn voor de implementatie ervan."
+    ]
+  },
+  {
+    "number": 657,
+    "title": "Omgang met wijzigingen",
+    "closed_at": "2026-02-26T09:00:45Z",
+    "labels": [
+      "duplicate",
+      "Informatiemodel",
+      "ID en wijzigingen"
+    ],
+    "milestone": "Technische backlog",
+    "body": "Wanneer heeft een object / symbool / arcering / lijntype enzovoorts een nieuw ID nodig?\n\nTwee gezichtspunten:\n1. Gezichtspunt van asset informatie: als je hetzelfde objecttype bedoelt, maar je geeft het een ander label of kleur, lijntype, lijndikte zou het nog steeds hetzelfde objecttype zijn. Via de NLCS publicaties kun je de wijzigingen achterhalen. Een symbool vervangen wat eerst SO was en nu geen SO? Je bedoelt hetzelfde objecttype. In de 5.1 publicatie is er zo mee omgegaan.\n2. Gezichtspunt vanuit technische werking: laagnamen die anders zijn hebben geen gevolg, maar het symbool heeft technisch een andere werking gekregen als het eerst SO was en nu niet meer.",
+    "comments": [
+      "Dubbel met #736"
+    ]
+  }
+]

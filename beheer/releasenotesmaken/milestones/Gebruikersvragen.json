@@ -1,0 +1,612 @@
+[
+  {
+    "number": 3,
+    "title": "NLCS kent geen FysiekeObjecten, alleen informatieobjecten. Objectclassificatie nodig?",
+    "closed_at": "2024-04-27T19:45:53Z",
+    "labels": [
+      "Informatiemodel",
+      "Bespreken EC"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "De hoofdgroepen lijken een representatie van een [nen2660:PhysicalObject](https://w3id.org/nen2660/def#PhysicalObject) te willen aanduiden, maar worden ook als informatieobject gerepresenteerd - dat klopt ook, de laag in een model is een informatieobject \r\n\r\nTe onderzoeken: moet NLCs om \"objectgericht\" te zijn eigen fysieke objecten definiëren? Of kan het volstaan om een relatie met een ontologie zoals imbor en/of gwsw te hebben om aan te duiden welk objecttype in een laag is getekend?",
+    "comments": [
+      "Persoonlijk zou het mijn voorkeur hebben als (bijna) alle name van de hoofdgroepen ‘object’ georiënteerd zijn en niet ‘functie’ gericht. De standaard is in de basis een ‘engineerings’ stuk gereedschap welke we in de toekomst willen kunnen relateren aan ook de RAW-systematiek voor bestekschrijven.\r\nM.i. heeft een beheerder altijd een aantal fysieke objecten in zijn beheer en kan het dus zijn dat deze onderdeel zijn van verschillende hoofdgroepen binnen de NLCS. Aanvullend zijn er ook een aantal hoofdgroepen die prima onder ‘ZZ’ in te delen zijn, of juist onder te brengen onder de hoofdgroepen.\r\nZo heb ik bijvoorbeeld veel moeite met:\r\n\r\nAM, assen en metrering = FUNCTIE\r\nAlle onderliggende objecten zijn onder te brengen onder reeds bestaande hoofdgroepen.\r\n\r\nBV, bermbeveiligingsvoorzieningen. = FUNCTIE omschrijving, geen object.\r\nWat is dit anders dan een ‘inrichtingselement’?\r\nVangrail, geleiderail, schrikhek allemaal ‘staal’ voor de inrichting.\r\n\r\nFV, faunavoorziening = FUNCTIE\r\nIdem, allemaal objecten welke onderdeel van IE en VH kunnen zijn. Wat is de toegevoegde waarde om deze separaat te zetten?\r\n\r\nVW, verkeersmaatregelen weg = FUNCTIE\r\nAllemaal objecten van een ‘wegbeheerder’, deze groep is overduidelijk bedacht om voor een beheerder alles in 1 groep te kunnen plaatsen. Zo is het toch niet uit te leggen dat alle verhardingen in VH staan, maar de ‘parkeervakmarkering’ in een hele andere hoofdgroep VW? Alleen de kleur van de steen is anders.\r\nIdem voor asfaltverharding met thermoplast.\r\nWat is een ‘afzetpaal’ anders dan een ‘bord’, beide inrichtingselementen.\r\n\r\nVerrkeeersmaatregelen is enkel logisch voor het toepassen van tekenwerk volgens CROW 96A/B.\r\nAls dit seperaat wordt gemaakt van de technische tekening, is het weer een logisch geheel.\r\n\r\nKort antwoord:\r\nIn de basis NLCS objectgericht indelen.\r\nUitzonderingen beperken en zijn duidelijk opnoembaar.",
+      "Dit wordt onderzocht in samenwerking met de BIM Basis Infra, dit issue sluit ik voor nu af."
+    ]
+  },
+  {
+    "number": 8,
+    "title": "#1685\tDe ene keer wordt de aanduiding LOZELEIDING gebruikt en de andere keer LOZE LEIDING ",
+    "closed_at": "2024-06-14T11:35:51Z",
+    "labels": [
+      "RI_riolering-en-GWSW",
+      "Vastgesteld-in-EC",
+      "Opgenomen in voorstel 5.1 (MHT)"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "De ene keer wordt de aanduiding LOZELEIDING gebruikt en de andere keer LOZE LEIDING kan dit overal hetzelfde worden? Dus alles met spatie of alles zonder spatie?",
+    "comments": [
+      "Reactie expertcommissie: opmerking is terecht aanpassen. \r\nLOZELEIDING bij hoofdgroep RI\r\nen LOZE LEIDING bij hoofdgroep KL\r\nZie ook #1554, #1547 en #1502",
+      "Voorstel: alles aanpassen naar LOZE LEIDING",
+      "Alles staat in versie 5.0 reeds op LOZELEIDING, daarmee kan deze ticket afgesloten worden.",
+      "Ik verplaats deze issue naar milestone gebruikersvragen, omdat het niet heeft geleid tot aanpassing van de standaard."
+    ]
+  },
+  {
+    "number": 66,
+    "title": "#457\t\"Wij zijn momenteel bezig om voor een klant verschillende as-built autocadtekeningen om te zetten naar NLCS. ",
+    "closed_at": "2024-05-01T19:41:24Z",
+    "labels": [
+      "CAD-applicaties"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "#457\t\"Wij zijn momenteel bezig om voor een klant verschillende as-built autocadtekeningen om te zetten naar NLCS. Wij hebben zeer weinig ervaring met NLCS. Voorheen gebruikten we een basistekening met vooraf ingestelde lagen die voldeden aan de NLCS en zetten vervolgens achteraf de tekening in deze lagen (match properties). Monnikenwerk, maar te doen.\r\n\r\nSinds kort hebben wij beschikking over de infracad plugin. Erg mooie tool. Helaas blijkt deze tool zeer veel fouten te vinden.\r\n\r\n-          Lagen die fout zijn in blocks in blocks in blocks;\r\n-          Aangeleverde tekeningen van andere partijen voldoen op geen enkel punt;\r\n-          Onze lijnen die qua lineweight binnen de vrijheden van NLCS vallen worden niet goedgekeurd;\r\n-          Al onze symbolen zijn niet goed;\r\n-          Zelfs een tekeningenhoofd uit de NLCS-bibliotheek bevatten foute linestyles;\r\n-          Laag 0 voldoet niet?\r\n\r\nHet gevolg is dat we er veel meer tijd aan kwijt zijn, dan we hadden gehoopt / geraamd. Mede omdat we niet weten tot welk niveau we tekeningen moeten aanpassen.\r\n\r\nMet de vele XREF’s en symbolen van derden, moeten we soms erg diep graven voor de een foutmelding hebben gevonden.\r\n\r\nDe vragen:\r\nHebben jullie tips om tekeningen die niet volgens NLCS zijn opgezet efficiënt om te zetten naar NLCS?\r\nTot welk niveau (blocks in blocks in blocks, XREF’s) moet er gegraven worden? (Het liefst exploderen we nu alles op het eerste blockniveau, maar dat kan niet de bedoelding zijn. Dan gaan we voorbij aan de handigheden die Autocad biedt.)\r\n\r\nAls wij tussentijds een gerichte vraag hebben, wat is dan de beste manier om hier een antwoord op te krijgen?\"",
+    "comments": [
+      "Reactie Expertcommissie\r\n\"antwoord vanuit Richard de Nier:\r\nWe hebben net telefonisch contact gehad en we hebben veel zaken besproken.\r\nVeel van die zaken heb ik kunnen beantwoorden.\r\nMaar wat blijft staan is dat de check tools van de verschillende software huizen nog niet gelijk checken en vaak nog te stringend. Veel zaken in de NLCS kunnen vrij worden geinterpreteerd. Waaronder kleurgebruik, lineweights etc. Infracad keurt deze ook niet direct af, maar geeft aan dat ze afwijken van de standaard.\r\n\r\nDe afstemming tussen de verschillende leveranciers van NLCS tools moet nog goed plaatsvinden.\r\nWe willen ook een certificering gaan invoeren.\r\n\r\nIk laat deze call dan ook nog even openstaan om later terug te kunnen zien dat we dit nog moeten oppakken.\"",
+      "Wij stellen eisen aan NLCS applicaties, en zullen de controles die gedaan moeten worden scherper opschrijven, zie hiervoor andere issues met label \"eisen aan applicaties\". \r\n\r\nDe vraag hoe bestaande tekeningen getransformeerd kunnen worden, kan beter gesteld worden aan de softwareleverancier, die inderdaad ook contact heeft opgenomen.",
+      "De standaard kan hier verder geen antwoord op geven, deze call ligt nu bij de leverancier."
+    ]
+  },
+  {
+    "number": 102,
+    "title": "2D/3D",
+    "closed_at": "2023-11-09T15:47:51Z",
+    "labels": [
+      "duplicate",
+      "Project <> Beheer"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Ingekomen vraag: NLCS is gebaseerd op 2D tekeningen en doet enorm goed zijn werk, er is echter ooit geprobeerd (ben er mee in aanraking gekomen toen ik zelf nog modelleerde in 2019) om hier een doorstap te maken naar 3D objecten. 3D objecten hebben een andere vormgeving en opbouw dan 2D lijnen, deze standaard is mijns inziens dus nooit goed op 3D objecten toe te passen. Weet jij toevallig of deze pogingen nog steeds gaande zijn?",
+    "comments": [
+      "In het jaarplan staat dit issue benoemd, zowel in 2023 al 2024. It's complicated, maar we onderzoeken het zeker. Zeker is dat de softwareleveranciers hier wel services voor (willen) bieden",
+      "Zie ook de [website van digigo](https://www.bimloket.nl/p/422/2D3DGIS)",
+      "We gaan hier een project voor opzetten. Volg dit via issue #205"
+    ]
+  },
+  {
+    "number": 137,
+    "title": "Symbolen NLCS ook publiceren als SVG, voor representatie in GIS",
+    "closed_at": "2024-08-26T14:20:04Z",
+    "labels": [
+      "Symbolen",
+      "CAD<>GIS datatransformaties"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Symbolen NLCS ook publiceren als SVG, voor representatie in GIS",
+    "comments": [
+      "eerst maar eens antwoord geven op #196, dan bepalen of dit nodig / wnselijk is en voor welke use case. Voor nu sluit ik deze vraag af (buiten scope standaard)"
+    ]
+  },
+  {
+    "number": 146,
+    "title": "Documenteren doel use case en probleemstelling 2D/3D",
+    "closed_at": "2024-05-28T13:42:11Z",
+    "labels": [
+      "Project <> Beheer"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "In de GWW-sector worden kunstwerken steeds meer in 3D ontworpen en uitgewerkt.\r\n\r\nDaarbij is afstemming met de NLCS voor de 2D-representatie van doorsnedes etc, naamgeving en bijvoorbeeld metadata gewenst.",
+    "comments": [
+      "Dit wordt opgepakt als onderdeel van het samenwerkingstraject met de BIM Basis Infra"
+    ]
+  },
+  {
+    "number": 148,
+    "title": "Ontwerpfasen Bouwend Nederland",
+    "closed_at": "2024-05-28T13:39:12Z",
+    "labels": [
+      "Bespreken EC",
+      "status&bewerking",
+      "GroeipadDSGO/NLCS"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "https://www.bouwendnederland.nl/actueel/nieuws/23671/vib-ontwikkelt-branche-brede-eenduidige-structuur-voor-ontwerpfasen",
+    "comments": [
+      "Dit onderzocht, maar voor NLCS gelden hooguit 3 fasen van tekeningen: tekening bestaande situatie; ontwerptekening; revisietekening (=bouwfase / oplevering werk)"
+    ]
+  },
+  {
+    "number": 202,
+    "title": "Monitoren project RAW - NLCS",
+    "closed_at": "2024-08-27T11:58:57Z",
+    "labels": [
+      "RAW-NLCS"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "- #203\r\n- Opstellen projectplan\r\n- Beschrijven doel en use case\r\n\r\n- Opstellen testdataset met RAW, NLCS en ontology alignement\r\n- Beproeven testdataset RAW-NLCS in demo applicaties\r\n- Specificatie informatie model \r\n- Specificatie uitwisselformaat  gekoppeld bestek met CAD tekening\r\n\r\nUit Jaarplan NLCS 2024: \r\n\r\nMiddels een proof of concept is in 2022 uitgewerkt hoe de verschillende applicaties met elkaar verbonden worden. Waardoor hoeveelheden vanuit een tekening in een bestek of calculatie terecht komen. In 2023 is uitgewerkt, wat er moet gebeuren om te komen tot de koppeling van bestekstekeningen conform NLCS aan bestekken.  \r\n\r\nVoor 2024 zullen hiervoor proof of concepts worden uitgewerkt, indien hiervoor een opdrachtgever en financier gevonden wordt.",
+    "comments": [
+      "wegens het uitblijven van financiering sluit ik dit issue af"
+    ]
+  },
+  {
+    "number": 203,
+    "title": "Rapporteren resultaat PoC RAW-NLCS uit 2022",
+    "closed_at": "2024-08-27T13:16:29Z",
+    "labels": [
+      "documentation",
+      "RAW-NLCS"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Opnemen in documentatie of nieuwsbericht opzoeken en naar linken? Middels een proof of concept is in 2022 uitgewerkt hoe de verschillende applicaties met elkaar verbonden worden. Waardoor hoeveelheden vanuit een tekening in een bestek of calculatie terecht komen.",
+    "comments": [
+      "bij gebrek aan reactie sluit ik deze issue"
+    ]
+  },
+  {
+    "number": 205,
+    "title": "Monitoren project NLCS 3D",
+    "closed_at": "2024-05-28T13:43:19Z",
+    "labels": [
+      "Project <> Beheer"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Uit het Jaarplan 2024: \r\nNLCS wordt momenteel gebruikt als uitgangspunt voor 2D exports vanuit 3D CAD / BIM modellen. De implementatie is nog niet volledig en deels ook op een verouderde versie van de NLCS gebaseerd. In samenwerking met Building SMART, de gebruikersverenigingen en softwareleveranciers wordt onderzocht hoe NLCS kan worden afgestemd op de standaarden voor 3D, indien hiervoor een opdrachtgever en financier gevonden wordt. \r\n\r\n - [ ] Opstellen projectplan NLCS 3D\r\n - [ ] Financiering regelen NLCS 3D\r\n - [ ] Formeren werkgroep NLCS 3D\r\n - [ ] Advies uitbrengen NLCS 3D",
+    "comments": [
+      "Dit wordt opgepakt als onderdeel van het samenwerkingstraject met de BIM Basis Infra, hiervoor wordt een digideal opgesteld. In 2024 wordt dit project nog niet uitgevoerd"
+    ]
+  },
+  {
+    "number": 206,
+    "title": "Onderzoeken relatie CAD en GIS",
+    "closed_at": "2023-12-13T13:26:37Z",
+    "labels": [
+      "Project <> Beheer",
+      "CAD<>GIS datatransformaties"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Waarom GIS?\r\n1. Voor de beheerders gangbaar: GIS heeft in de Infra sector een prominente rol, vooral in de beheer- en gebruiksfase van objecten wordt GIS volop toegepast om objecten te representeren. \r\n2. Door de afstemming met GIS wordt het mogelijk om (data) analyses op basis van de NLCS-tekeningen te maken.  \r\n\r\nVoor de doorontwikkeling van de NLCS is het wenselijk om inzicht te krijgen in hoe de link tussen CAD en GIS gelegd kan worden.",
+    "comments": [
+      "Nogal een groot issue. Is het nieuws dat Gis en Cad in elkaars verlengde liggen? Ik begrijp ook niet waarom Autidesk en Ersi zo prominent genoemd zouden moeten worden.",
+      "Goed punt, deze tekst zal ik aanpassen zodat het leveranciersonafhankelijk wordt",
+      "Verwerkt in een aanzet tot onderzoeksvragen en scenario's naar een uitwisselformaat voor NLCS in de documentatie van  [uitwisselafsapraken](https://nl-digigo.github.io/NLCS/representations/)"
+    ]
+  },
+  {
+    "number": 207,
+    "title": "Monitoren project NLCS inmeting",
+    "closed_at": "2024-08-26T15:05:18Z",
+    "labels": [
+      "Inmetingen"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Steeds meer opdrachtgevers eisen dat ingewonnen meetdata direct ingezet kunnen worden in het project. Denk hierbij aan meetdata aan het begin van een project (een nulmeting/as-is), of aan het einde van een project (een as-built situatie inwinning). \r\n\r\nVerkenning \r\nSamen met PelserHartman is in oktober 2021 een eerste [verkenning](https://github.com/nl-digigo/NLCS/blob/main/ontwikkeling/inmetingen/Rapport_Data-inwinning_NLCS.pdf) uitgevoerd naar de toepassingsmogelijkheden van objectgeoriënteerde data-inwinning op basis van de NLCS standaard. Met deze eerste verkenning is aangetoond dat er voordelen te behalen zijn om ingewonnen data direct beschikbaar te krijgen in een standaard als de NLCS.\r\n\r\nIn 2022 is een proef gedaan met een ingewonnen puntenwolk waaraan eisen zijn gesteld. De eisen resulteren in diverse NLCS-objecten waaraan een aantal velden vanuit de data inwinning ingevuld zijn.  (Elisabeth checkt bij Aydemir waar dit staat?)\r\n\r\nIn 2023 wordt een advies opgesteld over het verwerken van inmetingen naar CAD\r\nIn 2024 moet het advies worden opgevolgd. \r\n\r\n- [ ] Documenteren project inmeting 2022\r\n- [ ] Publiceren advies inmeting 2023\r\n- [ ] Projectplan 2024 NLCS inmeting opstellen\r\n- [ ] Financiering zoeken",
+    "comments": [
+      "Wegens buiten scope van nlcs standaard wordt dit project afgesloten."
+    ]
+  },
+  {
+    "number": 233,
+    "title": "Verkenning OTL spoor voor stedelijk vervoerders i.c.m. NLCS, NEN 2660-2, ISO 19650",
+    "closed_at": "2023-11-24T09:22:25Z",
+    "labels": [
+      "duplicate"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "•\tOTL spoor voor stedelijk vervoerders i.c.m. NLCS, NEN 2660-2, ISO 19650 Aydemir & Elisabeth\r\n•\tActie Aydemir stuurt Elisabeth verkenning van bim connected op op Github te zetten",
+    "comments": [
+      "Zie  #191"
+    ]
+  },
+  {
+    "number": 235,
+    "title": "Use case Gelderland: IMBOR versus NLCS",
+    "closed_at": "2024-08-26T09:33:45Z",
+    "labels": [
+      "Project <> Beheer",
+      "objectattributen",
+      "uitwisselformaat"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Nodig:: samenwerking met BIM Basis Infra en overheden, op het gebied van informatieleveringen, NLCS/IMBOR, en plan van aanpak op basis van deze use case\r\n\r\nBeheerfase: gebruikt GIS (2d) & IMBOR; 2D omdat er geen business case is om alle assets in 3D te beheren; de 2D geometrie wordt gebruikt om planningen te maken van wanneer gaan we wat onderhouden. De data staat centraal, niet de geometrie\r\n\r\nProjecten: Gebruiken CAD (2 en 3d) & NLCS. Uit tekeningen wordt voor de beheerfase heel veel informatie gehaald uit de laagnaam. De behoefte is om dat uit te breiden en de objecten in NLCS te laten matchen met de asset objecten in IMBOR.\r\n\r\nDe beheerder leidt dus attributen af uit de laagnaam, en wil geometrie in GIS ontvangen in een beheerpakket. De beheerder wil dus extra informatie uit CAD halen, bijvoorbeeld welk materiaal is het. Dat zit deels in de laagnaam, maar dat is niet de volledige informatie. Je wilt dus meer informatie vragen bij het object (voorbeeld is: van elke verhardings- en asfaltlaag van een weg weten waar het uit bestaat)",
+    "comments": [
+      "Over geometrie; we willen vlakken kunnen maken vanuit de lijnen in NLCS, om zaken als hoeveelheidsberekeningen te kunnen maken en kostenberekeningen. Er is hier op twee manieren een transformatie nodig: van 2D naar 3D of vv, en tussen cad en gis",
+      "De as-is situatie van de beheerder gaat naar de ontwerp- en contracvtafdeling die er mee aan de slag gaat; en naar de opdrachtnemer die een as-built moet opleveren. Dit betekent dubbel werk: de eigen projectafdeling maakt as-designed, wat nu niet naar de aannemer gaat. De GIS wordt geleverd aan de ontwerpafdeling in DXF formaat (of ze gebruiken mindere informatie uit de BGT). De ontwerpafdeling krijgt niet de informatie die ze eigenlijk nodig hebben, omdat ze in CAD werken. Dus moeten ze mappingen gaan maken van de \"OTL\" naar hoe dat in CAD moet komen",
+      "Vraag naar welke nlcs ontwikkelingen nodig zijn: GIS of CAD, 2D of 3D: het uitwisselen van geometrieën is niet het probleem. Ook het uitwisselformaat van de informatievraag is nu nog niet van belang. De belangrijkste vraag is: kan je bij die tekening in NLCS, de IMBOR gegevens die ik wil hebben leveren? Stap 1 is weten welke infiormatie geleverd moet worden; later pas de vraag, of dat te automatiseren is. Bijvoorbeeld, kan je de hoeveelheden halen uit een NLCS tekening, of moet die tekenaar een instructie krijgen om anders te tekenen?",
+      "Wil je een tekenaar een tikgeit maken, die extra informatie moet invullen bij een tekening? Sommige zaken komen uit het CAD model; andere zaken wil je de tekenaar niet mee belasten. Je wilt de data samenstellen (uiteindelijk in één cad formaat leveren is geen probleem)",
+      "1 wens van Gelderland: wil een eigen NLCS  bibliotheek kunnen meeleveren met eigen aanvullingen op NLCS",
+      "Dit leidt tot discussie > je moet wel weten welke informatievraag uit een standaard komt, en welke informatie extra is toegevoegd, in bijvoorbeeld de ILS Configurator.",
+      "stap 1 classificatie van het object in de tekening, dus kunnen afleiden uit de tekening welk imbor objecttype het is. Als je dit uit de laagnaam moet kunnen halen, moet er één objecttype op een laag staan, óf extra attributen toevoegen in de tekening om te weten welk objecttype het is? Neeeee, liever uitbreiding van laagnemen in NLCS",
+      "De IMBOR objecten die er zijn, bepalen welke in NLCS moeten worden opgenomen. (dit is al onderdeel van het project IMBOR)",
+      "issue is verwerkt in de issues die toekomstige ontwikkelingen beschrijven, zie de labels bij deze issue"
+    ]
+  },
+  {
+    "number": 238,
+    "title": "gebruikersvraag: Revit template",
+    "closed_at": "2024-08-26T12:52:12Z",
+    "labels": [
+      "3D softwaretemplates"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Vraag per mail vanuit gebruiker: : staat er op jullie roadmap de ontwikkeling van een Revit template oid?",
+    "comments": [
+      "Aydemir heeft gebruiker per  mail geantwoord: deze  staat  al een tijdje op ons NLCS roadmap \r\nEr is hiervoor al een exercitie gedaan door een gebruikersgroep  maar dan gebaseerd op de oude 4.2 versie van de NLCS. Inmiddels is de nieuwe 5.0 versie van de NLCS in linked data beschikbaar waarmee de uitwisseling vanuit 3D modellen (Revit o.a.) naar NLCS kan worden geregeld\r\n\r\n3.5 NLCS Afstemming 3D\r\nNLCS wordt momenteel gebruikt als uitgangspunt voor 2D exports vanuit 3D CAD / BIM modellen. \r\nDe implementatie is nog niet volledig en deels ook op een verouderde versie van de NLCS gebaseerd. \r\nIn samenwerking met de gebruikersverenigingen worden de countrykits verder afgestemd met de vigerende versie van de NLCS.",
+      "Ik vraag me hierbij af, wat wij als standaard kunnen rgelen zodat softwarepakketten die in 3D modelleren NLCS kunnen gebruiken. NLCS opnemen in de BSDD? Een ontology alignment naar IFC 4.3?\r\nOf moet er per softwarepakket een specifieke oplossing worden gemaakt, en is dat dan opnze taak of moeten wij dat alleen functioneel beschrijven?",
+      "Wat mij betreft is het maken van templates zeker GEEN taak voor de NLCS. Templates zijn software gebonden. Aanpassingen aan de NLCS om werken met templates mogelijk te maken, ondersteunen of te verbeteren behoren, wat mij betreft, WEL tot de taken van de NLCS. Templates zijn (nog) geen onderdeel van de standaard en zijn ook niet als zodanig opgenomen in de database. Het verbaasd mij dat dit op de roadmap van de NLCS staat. \r\n\r\n> Inmiddels is de nieuwe 5.0 versie van de NLCS in linked data beschikbaar\r\n\r\nGetest en goedgekeurd?",
+      "dit wordt meegenomen in een poging om tot een digideal te komen, samen met de bim basis infra. Wordt vervolgd, maar niet in deze issue"
+    ]
+  },
+  {
+    "number": 249,
+    "title": "Vaststellen onderzoeksvragen uitwisseling modellen op basis van NLCS",
+    "closed_at": "2024-08-26T12:44:54Z",
+    "labels": [
+      "CAD<>GIS datatransformaties",
+      "3D: IFC+Classificatie",
+      "uitwisselformaat",
+      "3D softwaretemplates"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Hoofdvraag is: De NLCS is een open CAD-standaard. Voor de uitwisseling van tekeningen (geometrische representaties) zijn geen afspraken gemaakt in de NLCS. Welke open standaard zou dit moeten zijn en wat moet er gedaan worden om deze standaard te kunnen gebruiken in combinatie met NLCS\r\n\r\nOnderzocht moet in elk geval worden: IFC, Geopackage en RDF\r\n\r\nDe volgende issues kunnen worden 'opgewerkt' tot onderzoeksvragen:\r\n- #245 \r\n- #206 \r\n- #306\r\n- #237 is verwerkt tot onderzoeksvraag, blijft open staan omdat de gebruikersvraag nog niet is beantwoord\r\n- #212 \r\n- #146 \r\n- #235",
+    "comments": [
+      "Input Niels: . In de praktijk wel ervaren wat de uitdagingen zijn wanneer je vanuit “CAD tekenwerk” naar data moet gaan die aan meer randvoorwaarden moet voldoen (b.v. 2D GIS) mijn beeld is dat tussen CAD en IFC ook beperkingen qua mogelijke interoperabiliteit spelen.\r\nAanzet onderzoeksvragen vanuit mij is dan ook:\r\n-\tAan welke randvoorwaarden moeten CAD applicaties kunnen voldoen om een valide IFC geometrie te exporteren?\r\n-\tMet welke methoden en technieken zijn er om deze randvoorwaarden te borgen in de software? (zodat de eindgebruiker van de CAD applicatie zonder niche expertise valide output kan maken)\r\n-\tHoe volledig zijn de noodzakelijke randvoorwaarden te borgen? Welke wel? Welke niet?\r\n-\tWelke technologische beperkingen zijn er aan CAD gegevens met oog op de interoperabiliteit van geometrie”.\r\n\r\nKort zoeken dan vind ik bijvoorbeeld:\r\n[https://www.researchgate.net/publication/341034598_Constraints_for_Improving_Information_Integrity_in_Information_Conversion_From_CAD_Building_Drawings_to_BIM_Model/download?_tp=eyJjb250ZXh0Ijp7ImZpcnN0UGFnZSI6Il9kaXJlY3QiLCJwYWdlIjoiX2RpcmVjdCJ9fQ](https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.researchgate.net%2Fpublication%2F341034598_Constraints_for_Improving_Information_Integrity_in_Information_Conversion_From_CAD_Building_Drawings_to_BIM_Model%2Fdownload%3F_tp%3DeyJjb250ZXh0Ijp7ImZpcnN0UGFnZSI6Il9kaXJlY3QiLCJwYWdlIjoiX2RpcmVjdCJ9fQ&data=05%7C01%7Celisabeth.devries%40crow.nl%7C35efc35d19a24d53f5db08dbf7c57c86%7C1e0440a2a638433189c766de8119b255%7C0%7C0%7C638376199807397624%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=qWq8pSgX1bO1MDofRFRnDeajrG0BS%2FnP1TopCzhwvq4%3D&reserved=0))",
+      "Niels vraagt: \r\nUitwisselformaat voor uitwisseling van wat? \r\nLaat ik mijn \"wat\" vraag toelichten. Bottom line is er iets van een geometrische weergave van een object. \r\n \r\nMet mijn vraag bedoel ik: zou je aan kunnen geven wat er geometrisch gerepresenteerd moet worden? En met welk doel wordt deze representatie uitgewisseld?\r\n \r\nBijvoorbeeld:\r\n- Lantaarnpaal in ontwerp ten behoeve licht analyse door een specialist (andere partij)\r\n- Lantaarnpaal in as-built zoals ingewonnen op basis meting buiten ten behoeve bepalen conditie score fysieke object?\r\n \r\nBen daarbij erg benieuwd wat je voor je ziet bij \"NLCS modellen\". Solids?\r\n \r\nKortom: wil prima kennis delen, maar laten we een (paar) concrete gegevensuitwisselingen erbij pakken waar mensen uit de praktijk heel veel behoefte hebben aan NLCS tekenwerk. \r\n\r\nAntwoord Elisabeth: Daarvoor heb ik scenario's geformuleerd in de documentatie [uitwisselafspraken](https://nl-digigo.github.io/NLCS/representations/)",
+      "Niels vraagt: Kijk qua formaten ook eens naar de Basis ILS Infra. Daar heb ik naast IFC niets op aan te vullen. Naar IFC kijkt de groep zelf ook al. Al contact met hen gehad?\r\n\r\nJa, met de BIM Basis Infra gaan we een samenwerking opstarten. Overigens... eerste reactie daar was \"probleem in de gww is dat we niet duidelijk maken wat we qua informatie willen uitwisselen. Dat er geen open uitwisselformaat is voor nlcs leidt in de praktijk niet tot grote problemen, leveranciers kunnen wel werken met elkaars formaten...\"",
+      "jeffrey zegt: Ik sluit me wel aan bij Niels voor wat betreft uitwisseling modellen binnen het 3D realisatie domein. Zodra het richting de geo en beheer kant gaat, ligt het in de huidige praktijk nog wat anders. Toekomst laat ik me nog niet over uit. Ik ben zelf ook actief in de BIM Basis Infra, daar wordt inderdaad getest met de uitwisseling van IFC voor infra. Er komen nu een viertal werkgroepen op disciplineniveau verdeeld. Deze gaan met de IFC4 Classificaties aan de slag. Alles gebeurt op vrijwillige basis met aannemers en ingenieurs uit de sector. Zou mooi zijn als we de krachten bundelen met DigiGO. Heb ook gehoord dat verschillende partijen verder gaan met de NEN2767 als basis voor classificatie.",
+      "Niels zegt daarop Idem voor SATO, Aquo, etc. \r\n\r\nLaten we dan \"wat zijn relevante verschillen tussen domein specifieke classificaties en object decompositie?\" in het algemeen maar meenemen als vraag.",
+      "onderzoeksvragen hebben geresulteerd in deze tekst: https://nl-digigo.github.io/NLCS/representations/#onderzoeksvragen-uitwisselformaat-nlcs\r\n\r\nonderzoeker is op pad gestuurd om dit uit te werken"
+    ]
+  },
+  {
+    "number": 308,
+    "title": "NLCS versus 3D BIM: praktijkproblemen",
+    "closed_at": "2024-05-28T14:51:27Z",
+    "labels": [
+      "documentation",
+      "Project <> Beheer"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Vanuit  digiDeal geoBIM interviews: \r\nNiet alleen marktpartijen maar ook Rijkswaterstaat worstelt met de faalkosten op projecten ten gevolge van NLCS tekenwerk gebaseerde voorschriften. Op complexere projecten wordt  BIM toegepast wordt zoals bij tunnels blijft gek genoeg NLCS ook voorschrift. Dan ga je “pseudo BIMmen” en dubbel werk doen omdat je niet de juiste logische werkvolgorde kunt aanhouden. Het vereist bij het opmaken van tekenwerk omzettingen en handwerk. Zoals ik ook in mijn praktijk zie krijg je dan gewoon niet geleverd waar je om vraagt of worden extra kosten doorberekend.\r\n\r\nDit vraagt opheldering van NLCS waar het wel en niet voor bedoeld is > wel, platslaan van informatie over kunstwerken voor in CAD tekeningen van andere disciplines, niet voor het modelleren van kunstwerken en uitwisseling daarvan in BIM / 3D, dat is logischer met IFC / OpenBIM\r\n\r\nDaarnaast staat de vraag open, blijft NLCS 2D, gaat NLCS naar 3D toe of wordt dan overgeschakeld op IFC > zijn naast IFC nationale aanvullingen nodig en wat dan?",
+    "comments": [
+      "NLCS is een 2D tekenstandaard.\r\nUitgangspunt voor 3D is dat het geschikt moet zijn om een 'platgeslagen' 3D tekening te kunnen presenteren.\r\n\r\nGezien de vele uitdagingen die we de komende jaren nog op 2D gebied hebben, zie ik de stap naar 3D niet snel gebeuren en lijkt mij ook niet gewenst en haalbaar. volledig verschillende werelden.",
+      "> NLCS is een 2D tekenstandaard. Uitgangspunt voor 3D is dat het geschikt moet zijn om een 'platgeslagen' 3D tekening te kunnen presenteren.\r\n> \r\n> Gezien de vele uitdagingen die we de komende jaren nog op 2D gebied hebben, zie ik de stap naar 3D niet snel gebeuren en lijkt mij ook niet gewenst en haalbaar. volledig verschillende werelden.\r\n\r\nEens > ik wil alleen dat het duidelijker in de documentatie staat wat wel en niet kan met NLCS en 3D en hoe dat zit",
+      "Per mail ontvangen: N.a.v. een bericht in Linkedin over het samenwerken tussen NLCS en Bim basis infra ben ik benieuwd wat hier ontwikkeld gaat worden. \r\nBinnen RWS zijn we bezig met het verder implementeren van 3D Bim modellen. Een uitdaging is om vanuit een 3D bim model een 2D tekening te genereren die aan de huidige NLCS eisen voldoet. De verschillende Opdrachtnemers van RWS hebben moeite om te voldoen aan de huidige NLCS specificatie die RWS hanteert.\r\n\r\nN.a.v. dit artikel vraag ik mij nu af of het resultaat van deze actie het probleem van de Opdrachtnemer en RWS oplost. Graag zou ik hier meer informatie over krijgen.\r\nHet kan ook zijn dat een RWS collega al is aangesloten bij dit traject. Indien er een RWS collega is aangesloten, dan zou ik graag zijn naam willen weten. Indien er geen collega is aangesloten, dan zou ik graag willen weten wat het uiteindelijke doel van dit traject is.\r\nEigenlijk hoop ik te horen (:-)) dat er vanuit een 3D Bim model een NLCS standaard gecreëerd wordt waarmee de opdrachtgevers en opdrachtnemers goed uit de voeten kunnen.",
+      "per mail ontvangen: Als 1e ik ben geen BIM(odellen) deskundige. Als 2e denk dat er nog vrij veel gewerkt wordt met de oude 2D standaarden. Dit zal ook nog wel blijven. We krijgen dus wel met een overgang situatie te maken.\r\n\r\nMisschien is een 1e stap om de huidige 2D NLCS standaarden los te laten. De 3D Bim ontwikkeling heeft er niet toe geleid dat de 2D NLCS standaard hierin is mee gegroeid zijn. Vanuit dit besluit kan men een nieuwe standaard ontwikkelen. Ik denk daarbij meer aan standaarden tbv 2D views. Geen 2D dwg tekeningen zoals we nu vragen. Maar een 2D standaard voor digitale view en indien nodig een PDF om af te drukken. Daarmee dwing je ook om het model te gaan onderhouden en niet de 2D dwg. Het besluit en eventuele ontwikkeling kun je met kleine stapjes verder brengen. \r\n\r\nEen 2e uitdaging is dat verschillende disciplines een eigen standaard ontwikkelen. Bijv. Revit en Inventor worden voor gebouwen en WTB gebruikt. Deze pakketten leveren een andere maar ook een verschillende output. De vraag is, is dat erg? Moeten we dan vanuit verschillende disciplines gaan denken/ontwikkelen of blijven we output vragen wat we nu vragen? Een 2e onderwerp kan hier zijn, wat kunnen we wel gezamenlijk ontwikkelen. Bij veel van onze projecten zijn multidisciplinair en komen tezamen. Past dat allemaal? Hoe gaan wij daarmee om als opdrachtgever?\r\n\r\nDeze 2 punten zijn voor mij de 1e stapjes.\r\nEen volgende stap kan zijn dat de verschillende overheden ook meer samen bepalen wat ze willen. Zo kun je uniformer aangeven wat en hoe we het willen ontvangen.\r\nIk heb ondertussen wat waterschappers gesproken, ook zij zitten te worstelen met het onderwerp 3D Bim. Daarbij hebben zij al wat waterschap standaarden ontwikkeld. RWS heeft op dit gebeid nog niets. Dus misschien is het voor ons (en anderen) om hierbij aan te sluiten en verder mee te gaan denken.",
+      "Volgens Formele Beschrijving NLCS 5.0, BIJLAGE 1: Uitwisseling van 3D objectinformatie: \r\n\r\n- [ ] \"Opdrachtnemers die werken met 3D constructiemodellen, zijn niet verplicht het as built model te leveren in de vorm van 2D CAD tekeningen conform NLCS. \"\r\n\r\nen: \r\n\r\n- [ ] \"maak bij de start van het project duidelijke afspraken over wat in welk formaat moet worden geleverd. Het is belangrijk dat opdrachtgevers per project nauwkeurig specificeren waarvoor zij de uit te wisselen informatie willen gebruiken en duidelijk aangeven welke niet-geometrische informatie moet worden overgedragen naast de 3D geometrie;\".\r\n\r\nIs een 'mapping' van BIM-3D naar NLCS-2D nodig? Zo ja, is dit dan aan de NLCS om op te pakken?",
+      "we zijn bezig om te kijken of we een digideal met civil infra academy en the microstation community kunnen maken om samen aan de slag te gaan hiermee, de financiering kan in elk geval niet uit het beheerbudget van nlcs komen",
+      "> Volgens Formele Beschrijving NLCS 5.0, BIJLAGE 1: Uitwisseling van 3D objectinformatie:\r\n> \r\n> * [ ]  \"Opdrachtnemers die werken met 3D constructiemodellen, zijn niet verplicht het as built model te leveren in de vorm van 2D CAD tekeningen conform NLCS. \"\r\n> \r\n> en:\r\n> \r\n> * [ ]  \"maak bij de start van het project duidelijke afspraken over wat in welk formaat moet worden geleverd. Het is belangrijk dat opdrachtgevers per project nauwkeurig specificeren waarvoor zij de uit te wisselen informatie willen gebruiken en duidelijk aangeven welke niet-geometrische informatie moet worden overgedragen naast de 3D geometrie;\".\r\n> \r\n> Is een 'mapping' van BIM-3D naar NLCS-2D nodig? Zo ja, is dit dan aan de NLCS om op te pakken?\r\n\r\nDe huidige documentatie is duidelijk; voor opvolging zijn er twee groepipaden, waarvoor we financiering proberen te krijgen in de vorm van een digideal: \r\nKorte termijn: **3D softwaretemplates**\r\nLange termijn: Label: **3D: IFC+Classificatie**\r\n\r\n\r\nDaarmee sluit ik deze gebruikersvraag af, we nemen dit mee in het samenwerkingstraject met de BIM Basis Infra en de digfideal."
+    ]
+  },
+  {
+    "number": 319,
+    "title": "Continue updates NLCS",
+    "closed_at": "2024-02-28T10:27:16Z",
+    "labels": [],
+    "milestone": "Gebruikersvragen",
+    "body": "Is de enige bron waar de actuele informatie van de NLCS te vinden is nu deze github pagina? Hoe kunnen opdrachtgever en opdrachtnemer hier mee up to date blijven als er continue updates doorgevoerd worden in de huidige versie (5.0)?  Als de github de enige actuele bron voor de standaard is, is het dan niet beter de ontwikkelingen in een zijspoor/aparte omgeving te laten lopen en bij release een nieuwe versie uit te brengen?\r\n\r\nIn de huidige situatie is het volgens mij niet haalbaar om aan de richtlijn te kunnen voldoen als versie 5.0 schijnbaar bijna dagelijks updates ontvangt.",
+    "comments": [
+      "@BTobben je hebt gelijk; ik heb nu de 5.0 versie in de Readme toegevoegd, dit is de actuele versie; https://github.com/nl-digigo/NLCS/blob/main/docs/archive/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf",
+      "Wat betekend dat voor de blockbibliotheek? Deze staat denk ik los van de formele werkbeschrijving en lijkt soms ook nog onderhevig te zijn aan wijzigingen tussendoor. Word dan aangeraden om alle relevante bestanden nog van de link genoemd in de formele werkbeschrijving (https://www.bimloket.nl/p/429/Documentatie) op te halen om de laatste definitieve 5.0 versie te hanteren?",
+      "Van de blocks / symbolen is de versie op 5.0 vastgesteld en gepubliceerd op GitHub, deze veranderen niet voordat een nieuwe versie van de standaard wordt gepubliceerd https://github.com/nl-digigo/NLCS/tree/main/symbolen/5.0"
+    ]
+  },
+  {
+    "number": 330,
+    "title": "Advies Form voor standaardisatie opnemen NLCS 5.0 in GEMMA",
+    "closed_at": "2024-04-15T07:52:48Z",
+    "labels": [
+      "BOMOS"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Check of dit gebeurd is, anders aanmelden bij VNG: [GEMMA Softwarecatalogus |](https://www.softwarecatalogus.nl/)",
+    "comments": [
+      "Heb GEMMA geattendeerd op ontbrekende en niet kloppende aanmeldingen. Rest is aan softwareleveranciers om zichzelf goed aan te melden"
+    ]
+  },
+  {
+    "number": 366,
+    "title": "feedback pilot dordrecht",
+    "closed_at": "2024-08-26T09:32:30Z",
+    "labels": [
+      "Project <> Beheer"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "feedback Dordrecht pilot: beheer = gis, dan naar cad, dan terug naar gis\r\n\r\nimpact op ontwerp wordt in vervolgpilot pas echt zichtbaar; discussie lijkt erg op wat expertcommissie nu heeft\r\n\r\nbestaand object dat verplaats is herkennen: nieuwe status nodig, nu wordt status \"tijdelijk\" daar voor gebruikt omdat dordracht dat toch niet gebruikte\r\n\r\ngis vlakken gaat niet samen niet met hatches in arceringen\r\nautocad moet je donuts gebruiken, ander autocad programma",
+    "comments": [
+      "te onderzoeken effect op ontwerp / leeruitkomsten dordrecht pilot, tweede deel",
+      "vraagstuk is verwerkt in issues over toekomstige ontwikkelingen nlcs met label project-beheer"
+    ]
+  },
+  {
+    "number": 372,
+    "title": "Gebruikersvraag NLCS gebruiken voor aanbouw sluisgebouw ",
+    "closed_at": "2024-04-04T10:24:20Z",
+    "labels": [
+      "toepassingsvragen"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "RWS heeft NLCS voorgeschreven, in het project wordt a) 3D gemodelleerd en b) het betreft een gebouw\r\n\r\nAannemer geeft aan NLCS niet goed te kunnen toepassen.\r\n\r\nVraag is welke standaard dan wel kan worden voorgeschreven?",
+    "comments": [
+      "over a) kan men zeggen: dan hoeft een aannemer niet platte tekeningen op basis van NLCS aan te leveren, \r\nover b) kan men zeggen: het type object waar het hier over gaat is buiten scope van de standaard, hooguit zijn de aansluitingen van de omgeving met het gebouw op basis van NLCS te tekenen\r\n\r\nMen kan hier het beste vragen om de geometrie als IFC en in het native formaat van de gebruikte 3D modelleringssoftware,, classificatie van gebouwdelen volgens de NL-sfb en het"
+    ]
+  },
+  {
+    "number": 391,
+    "title": "Gebruikersvraag NLCS en GWSW",
+    "closed_at": "2024-04-18T11:57:03Z",
+    "labels": [
+      "RI_riolering-en-GWSW",
+      "implementatie"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Zaanstad is druk doende tav de NLCS, bij het BIM loket was men ook bezig met het GWSW, hoe is dat nu geregeld\r\nBinnen digiGO, dat kan ik niet vinden, dan kunnen ze dat ook meenemen en eens bekijken.",
+    "comments": [
+      "GWSW word beheerd door Stichting Rioned, NLCS door DigiGO.\r\n\r\nBij NLCS is een mappingstabel gemaakt, met als doel het PDOK thema stedelijk water (een van de datasets op basis van GWSW) te kunnen vertalen van een GIS kaart naar CAD lagen. Het is echter niet een eis aan de NLCS applicaties, dat ze deze transformatie van GIS naar CAD kunnen aanbieden. \r\n\r\nhttps://nl-digigo.github.io/NLCS/representations/#pdok-thema-stedelijk-water (het duurt even voordat je met deze link naar het juiste hoofdstuk in deze publicatie springt, heb geduld als je dit opent)"
+    ]
+  },
+  {
+    "number": 442,
+    "title": "Vragen en antwoorden uit de chat van het Webinar IMBOR - NLCS 23 mei 2024",
+    "closed_at": "2024-05-24T08:47:30Z",
+    "labels": [
+      "IMBOR"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "## Over BIM en delen van bestanden\r\n\r\n- Waar bewaren jullie (gemeente Dordrecht) alle bestanden? (Lokaal of bijvoorbeeld in SharePoint?)\r\n> Nu nog lokaal maar omdat alle systemen en data naar de cloud gemigreerd worden zal dit in de toekomst tot een andere werkwijze zorgen waarbij het samenwerken in Sharepoints veel logischer wordt.\r\n\r\n- Is de gemeente Dordrecht bekend met werken in de BIM methodiek in een Common Data Enviroment, dan tackel je alle zaken in het proces en krijg je geen overdracht meer\r\n> Ik weet niet of er bekendheid  is met deze methodiek. In de pilot wordt deze nog niet gebruikt. Onze pilot is een tussenstap om in de toekomst tot volwaardig BIM te komen. \r\n\r\n> Product manager NLCS: of je nu deelt in een Common Data Environment of anders, het blijft zo dat de software ook wel elkaars geometriën (CAD versus GIS) en attribuutgegevens moeten kunnen gebruiken. Daarvoor zijn afspraken nodig, liefst nationaal anders moet elke gemeente dit voor zichzelf gaan uitwerken.\r\n \r\n## Over gebruik van NLCS of niet\r\n\r\n- waarom wordt er in ontwerp met microstation nog geen NLCS gebruikt? NLCS is software onafhankelijk en zou dus wel moeten kunnen...\r\n- In Nijmegen precies zo. Werkvoorbereiders tekenen in NCLS en stedenbouwers niet 😔\r\n> Goede vraag. Of het eigenwijsheid van de stedenbouwers is die zich niet willen vastpinnen aan opgelegde systemen of dat er nooit over nagedacht is weet ik niet.\r\n\r\n## Over de BGT\r\n- Ik mis de BGT in dit verhaal?\r\n> in de eerste pilot hebben we die bewust buiten beschouwing gelaten om ons op de IMBOR/NLCS combinatie te kunnen richten. In de tweede pilot (die net is gestart) nemen we dat vraagstuk wel mee. \r\n>BGT is overigens al een tijd geleden op NLCS gemapped en moet prima mee kunnen lopen in dit traject.\r\n> In de vervolgpilot wordt de BGT nadrukkelijk betrokken. De revisie van de aannemer is dan zowel voor de BGT als het beheersysteem bedoeld. Uiteraard moet deze data naadloos op elkaar aansluiten waarbij de BGT leidend is voor de geometrie. \r\n- Alle informatie die in ons BOR systeem staat wordt eerst opgenomen in onze BGT. Waar staat deze stap in dit verhaal?\r\n BGT en BOR-informatie moeten naadloos in elkaar passen.\r\n> In Dordrecht is deze koppeling er helaas nog niet maar dat is wel het toekomstige streven. Als de koppeling tot stand gebracht is zal de BGT leidend zijn voor de geometrie van de BOR-objecten.\r\n\r\n\r\n\r\n## Over controles van revisietekeningen\r\n- Wie controleert dan de revisie op NLCS? Dat kun je wel eisen, maar controleren is noodzakelijk.\r\n> Antwoord Dimitry: er zijn meerdere controles nodig\r\n1.\tOpdrachtgever (de ontwerper) controleert of gerealiseerd is wat er was afgesproken (die controle zou reeds moeten bestaan)\r\n2.  De Geo-specialist controleert of het geleverde voldoet aan de BGT-eisen\r\n3.\tBeheerder controleert of de As-built gegevens conform de gemaakte afspraken zijn opgeleverd, zodat deze goed kunnen worden verwerkt in het beheersysteem. \r\n4. daarnaast een technische controle door een applicatie: voldoet de geleverde data aan de technische eisen?\r\n\r\n## Ontwerper heeft meer nodig dan de beheerder\r\n- Mijn ervaring is dat de 3d informatie vaak nodig is t.b.v. het ontwerpen en dat deze niet aanwezig zijn in de BOR. Hoe zijn jullie hiermee omgegaan in de POC.\r\n> Daar hebben we in de eerste pilot nog geen rekening mee gehouden. In de tweede pilot nemen we in ieder geval ook hoogtes mee zodat de ontwerper die kan gebruiken in zijn ontwerp. Die informatie is niet beschikbaar in het beheersysteem, dus die moet apart worden ingewonnen.  \r\n>De vervolgpilot is nog gewoon in 2D en de ontwerphoogtes worden als getal (NAP-hoogtes) in de ontwerptekening gezet. Ik verwacht niet dat deze na afloop meegaat in het beheersysteem want daarin worden geen hoogtes bijgehouden/. @ Dimitry: heb jij hier een aanvulling op?\r\n\r\n- Voor ontwerp en realisatie is de ondergrond ook van groot belang, waar zit fundering, waar zit bomengrond, etc. Hoe zit dat in de IMBOR en is er gekeken naar de uitwisseling naar NLCS?\r\n> dat is in de eerste pilot nog niet meegenomen. IMBOR biedt wel mogelijkheden om hiervan zaken te registreren, maar veel gemeenten zijn nog niet zover dat die mate van detail ook beschikbaar is in beheersystemen. Het is zeker denkbaar dat dit gaat groeien als we deze informatie in de ontwerpfase vastleggen en meenemen naar het beheersysteem. \r\n> In Dordrecht zijn alleen gemeentelijke eigendom geregistreerd in het BOR-systeem. Voor de ondergrond zijn dit met name riolen. Dus deze gegevens kunnen geautomatiseerd overgezet worden naar de ontwerpomgeving. Ontbrekende informatie zoals funderingen, kabels- en leidingen moet net zoals nu apart toegevoegd worden uit andere bronnen. \r\n> kijk ook eens in de viewer van IMBOR wat er kan worden geregistreerd: https://docs.crow.nl/onto-verkenner/imbor/#/view\r\n\r\n## Over de mapping IMBOR - NLCS\r\n- De vertaling tussen IMBOR en NLCS gaat dus via een vertaallijst. Maken jullie die mapping beschikbaar? Net zoals de mapping tussen NLCS en IMGEO beschikbaar is via de NLCS? \r\n- Er is dus een mapping toegepast tussen IMBOR en NLCS?\r\n > Hier wordt aan gewerkt in een werkgroep van NLCS. Volg de voortgang live via #110\r\n\r\n## Uitwisseling van attributen\r\n- Hoe zit het met filtering van kenmerken, je wilt toch niet dan niet-specialisten zaken kunnen aanpassen, waar ze geen kennis van hebben. Of de werklast bij een ontwerper leggen zoals je schetst terwijl deze bij de BOR beheerder ligt. Dus denk aan filtering, autorisatie aanpassen van kenmerken etc.  En bv een BOOM heeft 120 kenmerken. Hoe gaan jullie hiermee om?\r\n> Dat gaan we proefondervindelijk ontdekken. In principe wordt informatie toegevoegd daar waar die ontstaat in de keten. Als het in de ontwerpfase is zal de ontwerper dit invoeren waarbij hij gevoed moet worden door de beheerder. De ontwerper en beheerder moeten als duo gezamenlijk optrekken. Ook zal de beheerder pas een deel van de data invoeren als hij deze in beheer heeft gekregen. We gaan ontdekken wat handig werkt in de praktijk.\r\n> op dit moment is daarvoor technisch nog geen oplossing gerealiseerd. Uiteraard zijn we ons wel bewust van de noodzaak daarvan. Tot een passende oplossing is uitgewerkt, kan het maken van duidelijke afspraken (ILS) zorgen dat de taakverdeling kraakhelder is.\r\n- Zijn de attribbutgegevens uitwisselbaar tussen ACAD en MicroStation?\r\n> Daar bestaan nu nog geen afspraken voor binnen NLCS, daar werken we aan. In de pilot hebben we hier wel aan gedacht.  De attribuutdata wordt in XML opgeslagen en is daarmee CAD-systeem onafhankelijk. In de praktijk is op dit moment nog geen ondersteuning voor deze XML oplossing op Microstation. Als de techniekkeuze wordt gemaakt bij NLCS, is dit wel te maken in combinatie met MicroStation, verwachten we.\r\n- Welke tool wordt er gebruikt om de attributen aan de objecten te linken in de Cad tekening? Of is deze ingebakken in de gis omgeving?\r\n> In de pilot hebben we gebruik gemaakt van InfraCAD van Arkance. Deze software ondersteunt reeds de attribuutdata inclusief gebruik van keuzelijsten in de meest recente versie.  \r\n\r\n\r\n## Verschil CAD en GIS\r\n- In dit voorbeeld zien we een voorbeeld van een lijnelement. Beheer werkt met vlakken, ontwerp werkt met lijnen. Hoe wordt met dat verschil omgegaan? Stel de weg moet 1 meter verbreed worden?\r\n> in de pilot hebben we dat opgelost door vlakobjecten ook werkelijk als vlakobjecten uit te wisselen. Dat vroeg wat gewenning maar bleek wel goed te kunnen werken.\r\n> Op dit moment moet je in een informatieleveringsspecificatie aangeven, hoe de informatie geleverd moet worden. De ontwerper zal mogelijk met lijnen werken tijdens ontwerp en uitvoering, maar dit toch terug moeten vertalen naar bestaande en nieuwe vlakken voor de oplevering aan de beheerder. \r\n - Wijzigingen in vlakobjecten (vooral bij uitwisseling BGT-BOR) zal dan idd eerst in BGT beheersoftware moeten worden verwerkt. Rechtstreeks de revisie terug leveren naar BOR beheersoftware lijkt mij dan niet wenselijk.\r\n > gemeenten hanteren hierin verschillende werkwijzen, die vragen om verschillende aanpak voor de verwerking van revisie. Wat je in ieder geval wilt bereiken is dat beheersysteem en BGT consistent zijn met elkaar. Zie ook [Aanpak BGT-BOR | VNG](https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fvng.nl%2Fartikelen%2Faanpak-bgt-bor%23%3A~%3Atext%3DBOR%2520en%2520GEO%2520in%2520los%2520verband%2C-GEO%2520en%2520BOR%26text%3DGEO%2520doet%2520dat%2520in%2520het%2Cde%2520BGT%2520als%2520een%2520hulpmiddel.&data=05%7C02%7Celisabeth.devries%40crow.nl%7C111ae065026d40314ce908dc7b514cfa%7C1e0440a2a638433189c766de8119b255%7C0%7C0%7C638520836333604961%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%7C%7C&sdata=cYYQ%2BZWnDWewOp%2F%2FTUPbPD%2FVYWxO44EYQhT%2BU4W114A%3D&reserved=0)\r\n\r\n ## Eigen toevoegingen aan NLCS\r\n- NLCS biedt enige vrijheid tot het maken van eigen levels. Hoe tackelt men dit? \r\n> Voor eigen toegevoegde laagnamen zal je zelf in de informatieleveringsspecificatie moeten aangeven hoe deze te verwerken; als er straks een standaard mapping is tussen NLCS en IMBOR, zal je deze moeten aanvullen als organisatie,.\r\n> Bij het verwerken van objecten vanuit de As-built tekening in het beheersysteem is het noodzakelijk dat de data op vooraf overeengekomen layers staat. Indien daarvan wordt afgeweken zullen de objecten op die layers uitvallen. Uiteraard kan de beheerder besluiten om de configuratie van de Preview/Import tool aan te passen en de toegevoegde layers te ondersteunen, waardoor ze alsnog succesvol kunnen worden verwerkt.",
+    "comments": [
+      "Ik sluit deze issue, omdat hier geen wensen voor aanpassingen uit NLCS uit voortkomen die we niet al hebben geregistreerd in andere issues."
+    ]
+  },
+  {
+    "number": 449,
+    "title": "(Tijdelijke) Verkeersborden: gebruikerswens dynamische verkeersborden / parametrische input ",
+    "closed_at": "2024-08-26T14:31:20Z",
+    "labels": [
+      "objectattributen",
+      "dynamische symbolen"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Ik werd gebeld door een NLCS gebruiker, die aangeeft dat het werken met \"platgeslagen\" verkeersborden zeer tijdrovend is, in vergelijking met gebruiken van dynamic blocks en meer data-gebaseerde input. Voorbeeld is het kunnen selecteren van een snelheidsbord en dan de snelheid invoeren, eventueel met onderbord tekst of zone/schild, in plaats van selecteren uit een eindeloze lijst met snelheidsborden\r\n\r\nDaarnaast maakt dit het ook eenvoudiger om data te leveren over het ontwerp, bijvoorbeeld de informatie op het bord in de vorm van attribuutwaarden leveren, in plaats van alleen als visuele representatie op een tekening",
+    "comments": [
+      "het is me duidelijk, dat NLCS op dit moment beperkt bruikbaar is voor partijen die slimmer willen tekenen, bijvoorbeeld met parameters verkeersborden samenstellen in plaats van uit een enorme lijst te kiezen met “platgeslagen borden”. Deze gebruiker is bang dat ze hun op zeer efficiënte wijze geproduceerde tekeningen moeten gaan “platslaan” en daarbij tijd en voorsprong kwijtraken op bedrijven die veel minder slim aan het werk zijn. Dan zou de standaard ervoor zorgen dat hun innovaties niet meer renderen, de omgekeerde wereld. \r\n\r\nKreeg ik al eerder signalen over, oa van de stedelijk spoorbedrijven. Probleem hierbij is dat wij deze slimme symbolen niet goed kunnen converteren tussen AutoCAD en MicroStation dus dat wij dit niet als “open en uitwisselbaar’ kunnen aanbieden. Er zouden ook andere oplossingsrichtingen kunnen ontstaan, bijvoorbeeld door verkeersborden / objecten geparametriseerd te gaan uitwisselen in plaats van als blocks in een tekening > daarbij zou je een oplossing willen zoeken die aansluit op openBIM/Building SMART (IFC + ?), hoewel ik niet weet of en hoe de uitwisseling op basis van parameters geregeld is of kan worden in open bim",
+      "@ElisabethKloren \r\nBovenstaand vindt ik persoonlijk een slecht voorbeeld van het behalen van winst.\r\nIk lees hieruit dat de gebruiker niet weet wat het RVV-nummer is van een bord en daarom veel moet zoeken. Bij goed wegontwerp weet je de codes en heb je ze zeer snel gevonden.\r\n\r\nIk begrijp uit de uitleg dat de gebruiker een 'leeg' snelheidsbord wilt en middels een attribute de snelheid wilt kunnen invullen.\r\nDit zou volgens de standaard al mogen, maar is wat mij betreft een ongewenste situatie.\r\n\r\nJe krijgt dan namelijk een 'algemeen' bord in je model, met een attribute veld.\r\nDit betekend dat het RVV-nummer niet voor komt in het object en het dus een 'onbekend' object is voor de techniek.\r\nBij het bepalen van hoeveelheden zal de gebruiker dit altijd met de hand uit moeten voeren.\r\n\r\nDe platgeslagen borden bevatten hun unieke RVV nummer en dat is wat je wilt borgen in je project.\r\n\r\nVoor dit scenario zou het wel gewenst kunnen zijn om één snelheidblock te maken met een visibilitystate, waarin alle standaard definities zijn opgenomen. Uit een keuzelijst kan dan een RVV-nummer gekozen worden welke vervolgens wordt gepresenteerd.\r\nDAT levert wel tijdsbesparing op en houd een object volgbaar in de gehele keten.\r\n\r\nBelangrijk uitgangspunt moet zijn dan een dynamisch block ALTIJD een identificeerbaar OBJECT blijft.\r\nVerschil tussen een dynamic-block en een block met attribuutwaarden moet hierbij zeer goed in de gaten gehouden worden.",
+      "Ik weet zeker dat deze gebruiker dat heel goed weet want die heeft een grootschalig en goed geautomatiseerd werkproces voor het maken van héél veel tekeningen. Ben bang dat ik degene ben die het slechte voorbeeld bedacht 😀",
+      "> Je krijgt dan namelijk een 'algemeen' bord in je model, met een attribute veld.\r\nDit betekend dat het RVV-nummer niet voor komt in het object en het dus een 'onbekend' object is voor de techniek.\r\nBij het bepalen van hoeveelheden zal de gebruiker dit altijd met de hand uit moeten voeren.\r\n\r\nik snap wat je zegt en ben het er ook in die zin mee eens...wat er nu wel ook gebeurd is dat FME wordt ingezet om toch objecten met bepaalde attribuutwaarden \"te filteren\" \r\n\r\n> Ik weet zeker dat deze gebruiker dat heel goed weet want die heeft een grootschalig en goed geautomatiseerd werkproces voor het maken van héél veel tekeningen. Ben bang dat ik degene ben die het slechte voorbeeld bedacht\r\n\r\nmogelijk een slecht voorbeeld maar is wel ook wat er nu gebeurd (met andere onderdelen). Ik heb wel eens dynamische symbolen van straatmeubilair gezien, maar dan ben je dus ook meerdere objecten in 1 symbool aan het plaatsen die je, zoals Michel aangeeft, vervolgens met de hand moet tellen. Niet echt een \"winst\" voor de tekenaar in 1e instantie misschien wel, maar voor het gehele proces zeker niet. tenzij je dit weer omzijlt met FME/scripten (wat prima mogelijk is), maar dit is niet iets wat we als standaard \"even\" kunnen oplossen.\r\n\r\nop zich wel benieuwd naar \"het goede voorbeeld\" want misschien kunnen we daar dan toch iets mee.\r\n\r\n#447",
+      "Dit issue wordt verder onderzocht als onderdeel van #447",
+      "[[release note: no change from issue]] Gebruikerswens: de verkeersborden opnemen in slimme symbolen waarmee en objectinformatie / attributen en snelle keuze uit de typen gemaakt kan worden. De wens is nog niet opgenomen in de 5.1 release en wordt geagendeerd in een ander issue."
+    ]
+  },
+  {
+    "number": 452,
+    "title": "Gebruikersvraag: Kleuren asfaltarceringen & haaietanden in versie 5.0",
+    "closed_at": "2024-10-17T12:41:32Z",
+    "labels": [
+      "VH - verhardingen"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Binnengekomen gebruikersvraag: \r\n\r\nOnlangs heb ik voor het eerst gekeken naar de 5.0 bibliotheek van de NLCS.\r\nIk vind het echter geen enkele verbetering van de 4.2 versie.\r\n\r\nEerst waren verhardingen makkelijker te zoeken\r\nArcering asfalt in rood werkt zeer verwarrend. Je krijgt geheid opmerkingen van ontwerpleiders of je krijgt hier heel veel reviewcommentaar op\r\nIk mis lijntypes, bijvoorbeeld de haaientanden in meerdere formaten.\r\n\r\nWat is de reden hiervoor om dit totaal anders op te pakken en, naar mijn mening, dit minder praktisch in te richten voor de GWW ontwerper/tekenaar?\r\n\r\nVolgens mij voldeed de 4.2 bibliotheek prima.",
+    "comments": [
+      "Geantwoord: \r\n\r\nIk ben de product manager van NLCS, daarom krijg je antwoord van mij. Het spijt me te horen dat het voor jou veel minder goed werkt dan de vorige versie van NLCS. We hebben zeer veel feedback gekregen op versie 5.0 en zijn daarom ook aan de slag met het publiceren van een nieuwe versie, dit concept kan vanaf september / oktober bij de softwareleveranciers worden getest. \r\n\r\nOver de kleuren van asfaltarceringen: deze vraag zal ik stellen aan mijn experts\r\nAlgemene uitleg over kleuren vindt je [hier](https://nl-digigo.github.io/NLCS/requirementscadmodels/#lijnkleur) in de documentatie (even 20 seconden wachten, dan springt je webbrowser naar de juiste paragraaf, groot document)\r\n\r\nOver haaietanden: na bespreking van #21  gaan we er in de volgende versie van de standaard toe over om deze als symbolen aan te bieden, niet meer als losse lijnen. Onderbouwing: dit zijn objecten die als stuks in de RAW staan en daarvoor telbaar moeten zijn op tekening.",
+      "Gebruiker is netjes beantwoord, ik sluit de issue want - kleuren zijn een kwestie van smaak, helaas ;-)"
+    ]
+  },
+  {
+    "number": 476,
+    "title": "Gebruikersvraag discipines",
+    "closed_at": "2024-08-19T09:15:36Z",
+    "labels": [
+      "disciplines",
+      "discipline-ter-discussie"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Ontvangen per mail:\r\n\r\nIk had een korte vraag over het gebruik van disciplines in de NLCS.\r\nHoe is het gebruik hiervan bedoeld?\r\nEr is hier namelijk intern discussie of wij als adviesbureau verschillende disciplines dienen te gebruiken.\r\nIk interpreteer de formele beschrijving als volgt: De disciplines zijn bedoeld voor de bedrijven voor wie de informatie relevant is.\r\nBijvoorbeeld alles wat voor een hovenier relevant is dient in de groenvoorziening discipline te komen en alles wat relevant is voor de stratenmaker hoort in wegenbouw.\r\nMijn collega daarin tegen interpreteert als volgt: wij zijn een wegenbouw advies bureau dus al onze lagen horen in de wegenbouw discipline.\r\nZou u hier misschien wat licht op kunnen schijnen?",
+    "comments": [
+      "Geantwoord; Bedankt voor je vraag. De disciplines zijn een vaste lijst met disciplines, er is alleen helaas in de praktijk een verschil ontstaan in het gebruik:\r\n\r\n-\tVariant 1: als een wegenafdeling de tekening gemaakt heeft, staat bij alles wegen, ook bij  het groen, en vice versa; \r\n-\tVariant 2: Alles wat bij een weg hoort, wordt in de discipline weg getekend\r\n-\t\r\nDit betekent dat bij de uitwisseling tussen partijen, niet goed geautomatiseerd kan worden op het veld disciplines, omdat er geen consistentie zit in het gebruik.\r\n\r\nConclusie: Je kunt hiervoor de eigen afspraken maken in je organisatie en eisen stellen aan opdrachtnemers die voor je werken, hoe het veld disciplines gebruikt word."
+    ]
+  },
+  {
+    "number": 482,
+    "title": "Gebruikersvraag NLCS - IMBOR  Utrecht FME script",
+    "closed_at": "2024-08-27T13:35:38Z",
+    "labels": [
+      "IMBOR"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Per mail: \r\nVolgende week heb ik een workshop FME-server.\r\nMij is gevraagd om een casus aan te dragen om aan te werken.\r\nMijn plan is nu om te werken aan een FME conversiescript NLCS->IMBOR.\r\nIn de mail hieronder staat deze casus beschreven.\r\n\r\nBij jou wil ik graag even checken of ik niet nu dubbelwerk uit ga voeren.\r\nZijn er al andere initiatieven buiten de Gemeente Utrecht die hetzelfde beogen waar jij weet van hebt?\r\nEn heb jij misschien nog handige links voor mij die we zouden kunnen gaan gebruiken?\r\n\r\nHet maken van een NLCS->IMBOR conversiescript \r\n\r\n\r\nBij BOR vragen we steeds vaker NLCS uit bij revisies.\r\nDit is een mooie ontwikkeling omdat we dan volgens een vaste structuur onze revisie bestanden ontvangen. \r\nEchter gaan we de revisies conform een andere standaard verwerken.\r\nWe gaan onze revisies conform IMBOR verwerken in ons beheersysteem (iASSET).\r\n\r\nOm dit revisieproces te versnellen zou het helpen om een script te gaan gebruiken dat de informatie die aanwezig is in het NLCS-bestand converteert naar IMBOR gegevens.\r\nIn NLCS zit maar een beperkte hoeveelheid informatie (alleen die aanwezig zijn in de laagnaam).\r\nDus de gegevens in het naar IMBOR geconverteerde bestand zou daarna nog moeten worden aangevuld met andere IMBOR gegevens.\r\nDit betekent dat dit conversiescript niet het gehele revisieproces kan vervangen.\r\nMaar dit script kan wel het revisieproces aanzienlijk vergemakkelijken.\r\nZeker wanneer dit script een aantal IMBOR gegevens als default toevoegt (bijvoorbeeld Gemeente Utrecht als default invullen als beheerder).\r\nWanneer dit script benaderbaar is vanaf de FME-server zouden ook collega’s zonder FME kennis gebruik kunnen maken van dit script.\r\n\r\nHieronder is schematisch weergegeven hoe het revisieproces van de BOR groep WRG eruit zou kunnen gaan zien.\r\nRood omrand staat het conversiescript dat onderdeel uitmaakt van dit revisieproces.\r\nVoor andere groepen binnen BOR zou het revisieproces op een vergelijkbare manier kunnen worden ingericht.",
+    "comments": [
+      "Mijn antwoord met quote reply's\r\n\r\nZowel Nijmegen als Dordrecht zijn bezig met het vraagstuk van revisie: van beheersysteem naar cad en weer terug naar het beheersysteem. In het CORe-BORius programma wordt de use case van Nijmegen de komende tijd onderzocht.\r\nBij Dordrecht zijn allerlei dingen onderzocht met een commerciële partij, ik denk niet dat zij al FME scripts hebben gemaakt, laat staan scripts die open gedeeld kunnen worden. \r\n\r\n>Ik was aanwezig bij de NLCS gebruikersdag waarin het raakvlak NLCS-IMBOR werd behandeld. Dus ik ben op de hoogte van de mooie ontwikkelingen bij de Gemeente Dordrecht in samenwerking met NET4S.\r\n\r\nWat volgens mij ook interessant is, is het halffabricaat van het project van DigiGO waarin IMBOR en NLCS met elkaar worden vergeleken. Dit moet leiden tot een mapping, die is er nog niet (in de maak, op termen-niveau). Maar er zijn wel tabellen waarin beide standaarden (de huidige actuele versie van beide standaarden) worden vergeleken: \r\nVia deze issue kom je bij de vergelijkingstabellen die gemaakt zijn en kan je de status ervan volgen: [https://github.com/nl-digigo/NLCS/issues/110](https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fnl-digigo%2FNLCS%2Fissues%2F110&data=05%7C02%7Celisabeth.devries%40crow.nl%7Cebd40f298268492115f208dcc69a661d%7C1e0440a2a638433189c766de8119b255%7C0%7C0%7C638603613906760394%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%7C%7C&sdata=W24VKN7y84cP4lRuId%2BuRKOVOidokKrjiXiuku6%2B6nc%3D&reserved=0)\r\n\r\n>Het halffabricaat van de vergelijkingstabel is gebruikt in het FME-script.\r\n>Na een kleine conversie aan deze tabel kon deze erg goed gebruikt worden in FME met de SchemaMapper transformer.\r\n>Ik ben mij er van bewust dat deze vergelijkingstabel nog work in progress is.\r\n>Een definitieve versie van een mappingtabel tussen NLCS in IMBOR zien wij dus graag tegemoet.\r\n\r\n\r\nPS keep me posted! Gaan er ook zaken ontwikkeld worden die open source beschikbaar komen voor andere gebruikers? \r\n\r\n>Het FME-script dat ik heb gemaakt zou ik graag eerst nog even intern testen.\r\n>Maar als deze zich meermaals heeft bewezen kan deze zeker gedeeld worden.\r\n\r\n\r\nTegen welke zaken loop je aan, wat heb je nodig van de standaarden? Ik hoor het graag! \r\n\r\n>Wat hebben wij nodig:\r\n>willen wij graag een definitieve mapping tabel NLCS-IMBOR\r\n>Bij voorkeur volgens dezelfde structuur zoals deze nu op github staat\r\n\r\n>Waar lopen wij tegenaan:\r\n>Pas sinds een halfjaar hebben wij NLCS uitgevraagd in onze ILS.\r\n>Voordat wij deze dus netjes volgens NLCS aangeleverd krijgen kan het nog wel even duren.\r\n>Wanneer wij beschikken over meerdere NLCS-bestanden (bij voorkeur voor riolering conform NLCS v5) kunnen we het script pas goed testen en finetunen."
+    ]
+  },
+  {
+    "number": 484,
+    "title": "Gebruikersvraag droge blusleiding",
+    "closed_at": "2024-09-09T07:51:07Z",
+    "labels": [
+      "gebouwen"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Per mail ontvangen: Beste heer/mevrouw, In welke laag in NLCS teken ik de droge blusleiding?",
+    "comments": [
+      "Naar mijn beste eer en geweten komt een droge blusleiding niet voor in de openbare ruimte.\r\nEen droge blusleiding zit over het algemeen inpandig in een gebouw verwerkt voor gebruik van de brandweer. De aansluiting voor de invoer zit ook in de gevel verwerkt.\r\n\r\nAls er een situatie van een droge blusleiding in de openbare ruimte wordt bedoeld ben ik erg nieuwsgierig naar een voorbeeld van een dergelijke situatie om een passend advies/aanvulling te maken.\r\n\r\nWel is 'blusleiding' aanwezig in de hoofdgroep riolering, waarvan de brandweer gebruik kan maken. Deze blusleiding staat echter altijd vol water en wordt met een put in het straatwerk aangeboden of middels een speciale brandkraan.",
+      "Dit antwoord gestuurd:\r\n\r\nDit antwoord kreeg ik van een van de inhoudelijke experts: \r\n\r\nNaar mijn beste eer en geweten komt een droge blusleiding niet voor in de openbare ruimte [red: de huidige scope van NLCS is openbare ruimte en infrastructuur, niet gebouwen].\r\nEen droge blusleiding zit over het algemeen inpandig in een gebouw verwerkt voor gebruik van de brandweer. De aansluiting voor de invoer zit ook in de gevel verwerkt.\r\nAls er een situatie van een droge blusleiding in de openbare ruimte wordt bedoeld ben ik erg nieuwsgierig naar een voorbeeld van een dergelijke situatie om een passend advies/aanvulling te maken.\r\nWel is 'blusleiding' aanwezig in de hoofdgroep riolering, waarvan de brandweer gebruik kan maken. Deze blusleiding staat echter altijd vol water en wordt met een put in het straatwerk aangeboden of middels een speciale brandkraan.\r\nDaar zou ik zelf aan willen toevoegen: u kunt wel gebruik maken van de NLCS methode met een eigen aanvulling, een laagnaam in een hoofdgroep die naar uw mening het beste aansluit; OG (ondergrond) bevat al laagnamen voor gebouwen, daar kan het bijvoorbeeld worden toegevoegd."
+    ]
+  },
+  {
+    "number": 490,
+    "title": "Gebruikersvraag instellen schalen",
+    "closed_at": "2024-09-26T10:47:03Z",
+    "labels": [
+      "implementatie"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Kreeg deze gebruikersvraag per mail, hoop dat één van de experts me helpt:\r\n\r\nIk zit toch even te stoeien in welke schalen ik de terrein tekening conform NLCS moet opzetten.\r\nIk heb in het menu vaninfracad de schaal 1:100 staan voor zowel het invoeren van geometrie, arcering, symbool, teksten en maatvoering.\r\nIs dat juist of moet ik dat aanpassen aan de schaal van de layout waarop ik deze wil afdrukken?",
+    "comments": [
+      "Op basis van de gekozen schaal worden symbolen met de juiste grootte geplaatst, wanneer geen gebruik wordt gemaakt van 'annotatief' tekenen.\r\nAls de schaal 'Annotatief' actief is, is de AutoCAD instelling leidend:\r\n\r\n\r\nMijn mening is dat InfraCAD altijd op annotatief kan staan en je dan alles in standaard AutoCAD kan regelen. Meest overzichtelijke manier van werken.",
+      "Dank! Dit mail ik terug"
+    ]
+  },
+  {
+    "number": 495,
+    "title": "Organiseren reviewsessie met wegbeheerders over pilot NLCS - George",
+    "closed_at": "2026-03-19T14:25:24Z",
+    "labels": [
+      "VW Verkeersmaatregelen Weg",
+      "besluit OG"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Taak van OG",
+    "comments": [
+      "actie uit projectplan. Geschaard onder milestone Gebruikersvragen omdat dit geen impact heeft op de releases of doorontwikkeling, van de NLCS"
+    ]
+  },
+  {
+    "number": 503,
+    "title": "Onderzoek NLCS Classificatie verhardingen en kunstwerken",
+    "closed_at": "2024-10-17T08:28:36Z",
+    "labels": [
+      "3D: IFC+Classificatie"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Ontvangen van BIM Connected, de resultaten van de eerste verkenning van een classificatie samen met BIM Basis Infra\r\n\r\nBij deze zoals afgesproken de oplevering van de producten van de afgelopen fase ten behoeve van de verdere ‘verlinking’, objectificatie en mapping van de NLCS. Red: [Deze staan hier](https://github.com/nl-digigo/NLCS/tree/main/ontwikkeling/classificatie)\r\n\r\nBijgevoegd zijn de volgende documenten:\r\n-\tDe odnerzoeksrapportage [Oplevering v1.0 NLCS-OTL v0.1 en PoC NLCS-IMBOR mapping](https://github.com/nl-digigo/NLCS/blob/main/ontwikkeling/classificatie/Oplevering%20v1.0%20NLCS-OTL%20v0.1%20en%20PoC%20NLCS-IMBOR%20mapping.pdf), met daarin:\r\nEen beknopte toelichting bij de opgeleverde producten met een schets van de context, mogelijke toepassingen, uitgangspunten en gekozen modellering.\r\n\r\n\r\nEn [technische bestanden](https://github.com/nl-digigo/NLCS/tree/main/ontwikkeling/classificatie/Oplevering%20v1.0%20NLCS-OTL%20v0.1%20en%20PoC%20NLCS-IMBOR%20mapping) met daarin\r\n-\t‘NLCS-OTL v0.1Kunstwerken.ttl’ & ‘NLCS-OTL v0.1 Verhardingen.ttl’:\r\nDit zijn de 0.1 versies van de NLCS-OTL’s voor de disciplines Kunstwerken en Verhardingen in het linked-data formaat Turtle.\r\n-\t‘Verhardingen ontologie v0.1 werkdocument.xlsx’ & ‘Kunstwerken ontologie v0.1 werkdocument.xlsx’:\r\nDit zijn de afgestemde werkdocumenten gebruikt als eerste input  voor de NLCS-OTL’s.\r\n-\t‘PoC mapping NLCS-IMBOR.ttl’:\r\nDit is de mapping file tussen een selectie laagnamen uit de NLCS v5.0 en de objecten met ingevulde eigenschappen uit de IMBOR 2022.\r\n\r\nHiernaast is er een [otl-viewer](https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fnlcs.beta.otl-viewer.com%2F&data=05%7C02%7Celisabeth.devries%40crow.nl%7C1d41705e46f6459d5c9208dcee019f2a%7C1e0440a2a638433189c766de8119b255%7C0%7C0%7C638646941255580317%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%7C%7C&sdata=J4xkbINSeUrESj2bkYfiyZn0ygrBoxmB8kF2wWExFFg%3D&reserved=0) gepubliceerd \r\n\r\nHierin zijn de NLCS Verhardingen en Kunstwerken v0.1 OTL’s helder en overzichtelijk weergegeven, en interactief te verkennen.",
+    "comments": [
+      "Het vervolgproject is het uitwerken van twee voorbeelden van het gebruik van de classificatie"
+    ]
+  },
+  {
+    "number": 628,
+    "title": "Gebruikersvraag landschapsarchitect",
+    "closed_at": "2025-06-18T07:11:12Z",
+    "labels": [
+      "implementatie"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Ik ben landschapsarchitect en wil een minder uitgebreide versie van de nlcs opstellen voor projecten. Is er een tabel met lagen voor groen en inrichting beschikbaar op jullie site of elders ? Ik zoek een lijst  zoals wat jullie voor planologie hebben in het pdf handboek maar  dan voor landschap en openbare ruimte of inrichting openbare ruimte en indien mogelijk ook met lagen?",
+    "comments": [
+      "Heb dit geantwoord: Alle tabellen staan per hoofdgroep uitgedraaid, voor versie 5.0 (de huidige actuele versie) staan ze hier:  https://github.com/nl-digigo/NLCS/tree/main/tabellen/definitief/5.02/objectentabellen-verkort\n\nVoor groen is nogal wat aangepast, je kunt ook meteen beginnen met de 5.1 versie die nog concept is:  https://github.com/nl-digigo/NLCS/tree/main/tabellen/concept/5.1/objectentabellen. Feedback daarop is ook nog welkom.\n\nQua indeling:\nVoor groen moet je GR hebben\nInrichtingselementen voor de openbare ruimte staan onder IE\nKaartobjecten zoals je in de BGT aantreft staan in hoofdgroep OG\n\nSelecties zoals die voor planologie ooit gemaakt zijn hebben we niet in de database zitten.",
+      "Vervolgvraag van zelfde gebruiker:\n\n> Welke letters moeten er gebruikt worden bij vertalingen naar het Engels? Bijvoorbeeld 'Inrihctingselementen'/'furnitures'?\n >Is IE een hoofdgroep? Het verschijnt wel in uw systeem van symbolen etc., maar wordt online niet als zodanig herkend?\n\nBeantwoord metDe hoofdgroepen met afkortingen staan in deze tabel – https://github.com/nl-digigo/NLCS/blob/main/tabellen/concept/5.1/hoofdgroepen-concept-5-1.xlsx, daar staan inrichtingselementen ook tussen. Bedoel je met online niet kunnen vinden dat dit geen gangbare term is als je er op googelt? Dan is het blijkbaar een ontwerpers- of NLCS-dialect om het zo te noemen. Ik denk dat street furniture de correcte vertaling zou zijn\n\nVoor een vertaling naar het Engels zou je eenzelfde soort logica kunnen gebruiken om vanuit het Engelse woord twee letters als afkorting te gebruiken, als er maar geen twee gelijke letters voorkomen gaat het goed in CAD. SF dus in dit voorbeeld."
+    ]
+  },
+  {
+    "number": 629,
+    "title": "Gebruikersvraag: Coderingen met omschrijving",
+    "closed_at": "2025-06-24T12:12:45Z",
+    "labels": [
+      "thesaurus NLCS"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Ik ben opzoek naar een lijst van NLCS waar de coderingen in staan met een omschrijving.\n\nBijv. code: B-SRI-KOLK_STRAAT_01-SO Wat voor type kolk is dit precies?\n\nHebben jullie daar een lijst van, ik kan het zo nergens snel vinden.",
+    "comments": [
+      "Heb dit geantwoord: Bij NLCS zijn helaas op dit moment nog geen omschrijvingen beschikbaar; dit staat wel op ons vizier, bij het objectgericht maken van NLCS gaan we ook omschrijvingen toevoegen. \n\nVoor de rioleringsobjecten geldt, dat in het het gemeentelijk woordenboek stedelijk water  definities staan; daarbij staan ook verwijzingen naar de NLCS laagnamen. Zoeken op GWSW + laagnaam laat dit zien: https://data.gwsw.nl/1.4.1/Totaal/Kolk/  \n[NEN 3300:1996] ingegraven bak voor de opvang van neerslag afkomstig van erop aangesloten oppervlakken, voor het laten bezinken van in dit water meegevoerde bezinkbare stoffen en voor de afvoer van dit water naar de riolering  \n[IMGeo:1.0/2007] Open hemelwater afvoer, aangesloten op het transportnet van hemelwater.  \nhttp://definities.geostandaarden.nl/concepten/imgeo/doc/begrip/Kolk\nDefinitie intern (=GWSW) Een reservoir bestemd voor de opvang van hemelwater afkomstig van erop aangesloten oppervlakken, het laten bezinken van in dit water meegevoerde bezinkbare stoffen en de afvoer van dit water naar een rioolstelsel of naar de ondergrond"
+    ]
+  },
+  {
+    "number": 630,
+    "title": "Gebruikersvraag: aansluiten beheersysteem/GIS/IMBOR op NLCS",
+    "closed_at": "2025-06-26T08:38:49Z",
+    "labels": [
+      "RI_riolering-en-GWSW",
+      "IMBOR"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Waar wij als gemeente tegenaanlopen is het dat de informatie die nu in ons (gis) beheersysteem staat niet goed kunnen vertalen/exporteren naar cad-nlcs. Ons beheersysteem houden we zoveel mogelijk conform gwsw/imbor. Denk aan de volgende knelpunten:\n\n-\tObjecten welke wel voorkomen in gwsw(en/of imbor) komen niet in de nlcs database voor.\n-\tMaterialen/diameters welke wel voorkomen in gwsw(en/of imbor) komen niet in de nlcs database voor. Hier moeten we wel kritisch naar kijken want niet alle diameters die aanwezig zijn in de grond zijn daar ook voor bedoeld. Aan de andere kant zouden we wel graag een getrouwe weergaven krijgen van de gisdata naar cad-nlcs. Bij een export.\n-\tStelseltypen zijn in nlcs niet altijd conform gwsw. Een voorbeeld is het vwa. Wij hebben in gis alles als vwa staan. Conform gwsw. In nlcs 4.2 was dit ook zo geregeld maar in versie 5.0 is het vwa ineens vervangen door dwa. Dwa is volgens gwsw een synoniem van vwa. Vwa is dus de officiële benaming. Waarom nlcs dan ineens switcht is mij niet geheel duidelijk. In een standaard zou je niet zomaar moeten switchen is mijn bescheiden mening. Zeker niet zonder rekening te houden met andere veel gebruikte standaarden.",
+    "comments": [
+      "heb dit geantwoord: Je inhoudelijke opmerkingen zijn helder en ook bekend. We hebben een grote vergelijkingsactie gedaan tussen NLCS en IMBOR, waar flinke verschillen uitkomen.\n\nIn versie 5.0 is gekozen voor een duidelijk onderscheid tussen rioolleiding (afvoer vuil/gemengd water) en transportleiding in een poging om goed aan te sluiten op GWSW en PDOK-thema stedelijk water. Er is een mappingstabel beschikbaar om vanuit dit PDOK thema te kunnen transformeren naar NLCS 5.0.  https://github.com/nl-digigo/NLCS/tree/main/tabellen/definitief/5.0/NLCS-mappingen-5.0\n\nSindsdien is voor de komende release van IMBOR 2025 gewerkt aan het op één lijn brengen van IMBOR en GWSW, en heeft NLCS in versie 5.1 de rioleringen verder uitgewerkt met als doel alles te kunnen tekenen per stelsel, om het makkelijker te maken voor de ontwerper. \n\nDit najaar werken we een aansluiting tussen IMBOR/GWSW en NLCS uit in het DOOR programma samen met DigiGO, CROW, gemeenten en provincies, waarbij de gemeente Utrecht ook in een experiment gaat onderzoeken of deze aansluiting helpt om vanuit het beheersysteem CAD-tekeningen te maken van rioleringen. Daar zouden discrepanties zoals jij noemt over verschillende doorsnedes et cetera boven water moeten komen, zodat we die kunnen oplossen. \n\nVoor de overige objecten in NLCS willen we ook op deze manier werken, zodat de hele keten van opdrachtnemers, projecten en beheer beter informatie kunnen uitwisselen. Daarvoor zoeken we nog naar funding, als onderdeel van beleidsmaatregel 3 van het bestuursakkoord ’27 van digiGO."
+    ]
+  },
+  {
+    "number": 732,
+    "title": "Gebruikersvraag kleuren van teksten",
+    "closed_at": "2025-12-16T08:58:36Z",
+    "labels": [
+      "kleuren"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Wij werken al jaren met de NLCS, mijn collegas kennen niet ander en zelf ben ik tekenaar van de oude stempel en recent met NLCS bezig.\nWe lopen tegen een heel practische vraag aan die ik nergens goed uitgelegd zie in de NLCS.\n \nPendiktes worden bepaald door de weight van de laag/lijn. \nDus hier kiezen we in een lijn te tekenen in 0,18 – 0,25 – 0,35 – 0,5 etc.\n \nAls ik kijk naar hoe ik dit gewend was, waren de primaire kleuren, rood, wit, geel, groen de kleuren om de pendikte mee aan te geven\nKleur 1, groen, pendikte 0,35\n \nIn NLCS is dit niet meer het geval, maar is dus de weight van de laag en niet de kleur bepalend voor de dikte.\nIk kan dit snappen en volg ook de nieuwe techniek.\n \nEchter zie ik dat voor bijvoorbeeld een voorkant band, of andere lijnen de kleur rood, geel, of groen als in pen 1,2,3 bij het plotten ook in de kleur wordt geplot, dus rood, geel, groen.\nVoor een voorkant band ben ik gewend de kleur geel op het scherm te zien, maar deze dan af te drukken als ZWART met een bepaalde pendikte, namelijk 0,35 (conform de rotring pen)\nWij gebruiken infradesign om de laaginstellingen van NLCS eenvoudig toe te kunnen passen\n \nHoe bedoeld NLCS het kleurgebruik van de kleuren 1 t/m 7 en hoe ziet een plot er vanuit NLCS uit?\nIs pen 2, dan zwart of geel op de plot?\n \nDe grap is dat op GITHUB wel voorbeeld tekeningen in pdf staan (helemaal zwart) maar daar dan net weer geen CAD bestand van is.\nEn de tekening van Amterdam is mooi als CAD meegegeven maar weer niet als PDF, \nZo kan ik nog steeds niet zien wat nu de bedoeling is van de pennen 1 t/m 7 versus NLCS en Infradesign",
+    "comments": [
+      "Geantwoord: Er heeft net iemand een uitgebreid voorstel gedaan over kleuren, waarin ook wordt uitgelegd hoe het werkt binnen de NLCS. Dat staat in de bijgevoegde pdf (deze staat hier: #731). Hopelijk kun je daar het antwoord in vinden."
+    ]
+  },
+  {
+    "number": 777,
+    "title": "Beheercommissie: besluit jaarplan",
+    "closed_at": "2026-01-22T10:11:17Z",
+    "labels": [
+      "Stedelijk Spoor",
+      "BOMOS"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Geleverd ter besluit aan de Beheercommissie van 22 januari 2026\n\n-\tUitbreiding water moet uitbreiding Drinkwater zijn\n-\tVastgesteld als richting\n-\tVoorwaarde voor uitvoering van projecten: dat er per project inderdaad een financier gevonden wordt, en voor beheer kan alleen datgene wor\n\n[Bijlage 4 20260106 Jaarplan NLCS 2026.pdf](https://github.com/user-attachments/files/24791939/Bijlage.4.20260106.Jaarplan.NLCS.2026.pdf)\n\nden uitgevoerd wat gedekt wordt door vrijwillige bijdragen. \n\nOok vastgesteld: Jaarplan Stedelijk Spoor 2026\n\n[Bijlage 5 241219 Jaarplan 2026 NLCS Stedelijk Spoor CONCEPT.pdf](https://github.com/user-attachments/files/24792842/Bijlage.5.241219.Jaarplan.2026.NLCS.Stedelijk.Spoor.CONCEPT.pdf)",
+    "comments": []
+  },
+  {
+    "number": 778,
+    "title": "Gebruikersvraag: versxchillen tussen 4.2 en 5.0 versie van NLCS",
+    "closed_at": "2026-01-27T08:31:34Z",
+    "labels": [
+      "implementatie",
+      "3D softwaretemplates",
+      "ID en wijzigingen"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Kreeg deze gebruikersvraag: ben ik op zoek naar alle verschillen tussen de NLCS 4.2 en de 5.0 bibliotheek.\nIk zie dat er met name rondom de Verhardingen veel is gewijzigd. \n\nWaar zou ik deze informatie kunnen vinden?",
+    "comments": [
+      "De beste manier om beide versies te vergelijken is met behulp van de objecttabellen, die voor beide versies zijn uitgedraaid. Vanaf versie 5.1 gaan we ook verschillentabellen publiceren met de voorgaande versie, dat kunnen we met de oudere versies niet doen omdat die niet beschikbaar zijn in linked data.\n\nDe objectentabellen van de 5.0 staan hier: https://github.com/nl-digigo/NLCS/tree/main/tabellen/definitief/5.0/NLCS-objecten-5.0\nDe objectentabellen van de 4.2 staan hier: https://github.com/nl-digigo/NLCS/tree/main/tabellen/definitief/4.2/NLCS-objecten-4.2\n\nWe zijn op dit moment bezig met een toets op de 5.1 versie, die nu nog status “ter acceptatie” heeft. Daarbij krijgen we veel feedback, dat elke verandering in structuur of laagnaam tot problemen zorgt, omdat veel partijen tekeningen willen omzetten van de ene naar de andere versie. Daarom ben ik benieuwd waarom jullie deze verschillen zoeken, zou je dat kunnen toelichten?",
+      "Kreeg nog dit antwoord: Bedankt voor je snelle reactie en het delen van de links naar de objecttabellen van NLCS 4.2 en 5.0. Dat geeft ons een goed startpunt.\n\nDe reden dat wij de verschillen tussen de versies willen achterhalen, heeft te maken met onze modelleeromgeving voor het wegontwerp. \nWij gebruiken Bentley OpenRoads Designer, en binnen KWS werk ik via de VNMG (oorspronkelijk de MX vakgroep ,www.vnmg.nl) mee aan de ontwikkeling van de Nederlandse country kit die ervoor zorgt dat onze ontwerp- en modelleeruitvoer automatisch voldoet aan de NLCS. \nNa het modelleer werk kan de tekenaar met de export aan de gang om tekeningen te gaan uitwerken.\nDit is tot nu toe gebaseerd op de NLCS 4.2 maar de vragen en roep naar NLCS 5.0 wordt steeds groter. \n\nHet Inzicht in de verschillen hebben we nodig om onze software zo in te richten dat de NLCS automatisch en correct wordt toegepast en willen naar versie 5.0."
+    ]
+  },
+  {
+    "number": 810,
+    "title": "Gebruikersvraag oriëntatie NLCS-tekening",
+    "closed_at": "2026-03-02T15:39:49Z",
+    "labels": [
+      "tekenblad"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Per mail ontvangen:\n\nMoet een cad infra tekening altijd noord georiënteerd zijn?\nDeze vraag i.v.m. uitzetten  et GPS in het veld ?",
+    "comments": [
+      "Gebruikersvraag beantwoord: Een CAD tekening kan georiënteerd worden zoals je wilt; in de documentatie https://github.com/nl-digigo/NLCS/blob/development/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf staat in paragraaf 4.3.3 beschreven dat op een tekenblad een noordpijl aanwezig moet zijn om de oriëntatie aan te geven; het CAD-model heeft altijd in rd-coördinaten."
+    ]
+  },
+  {
+    "number": 811,
+    "title": "link laagtabellen",
+    "closed_at": "2026-03-06T14:25:11Z",
+    "labels": [
+      "publicatie"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "in de README onder Voor ontwerpers en tekenaars staat een link naar [Laagtabellen 5.0](https://github.com/nl-digigo/NLCS/tree/main/tabellen/definitief/5.0),\ndeze link werkt niet en geeft  de error 404 Unable to load page.",
+    "comments": [
+      "mijn excuses, dit komt door het vernieuwe release proces. ik zie dat ook de links naar symbolen ed misgaan, ik corrigeer het meteen",
+      "[[release note]] De ReadME van de 5.0 is aangepast nadat de main branch is opgeschoond tot puur de 5.0 publicatie zonder historie."
+    ]
+  },
+  {
+    "number": 814,
+    "title": "Gebruikersvraag Toepassing NLCS voor vastleggen planstudies",
+    "closed_at": "2026-03-11T11:47:57Z",
+    "labels": [
+      "BGT",
+      "implementatie"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Geonovum belde met de vraag of er een gebruikersvoorbeeld is van planstudies vastleggen in NLCS. Daarna kwam deze mail:\n\nIk ben benieuwd naar de mapping van NLCS naar BGT.\n\nDaarnaast nog even in tekst wat ik zojuist aan de telefoon aangaf: \n-\tHet lijkt erop dat discipline PlanVorming (PV) geschikt is voor masterplannen/stedenbouwkundige plannen.\n-\tBinnen de hoofdgroep OnderGrond (OG) zie ik vervolgens objecten die ook passen bij de behoefte van de gemeente: \no\tBEBOUWING_WONINGBOUW (evt uitgesplitst naar typen)\no\tTERREIN_NIET_UITGEEFBAAR, TERREIN_UITGEEFBAAR, TERREIN_VERHARD, TERREIN_ONVERHARD\no\tWEG_RIJWEG, WEG_RIJWIELPAD, WEG_VOETPAD, WEG_PARKEERPLAATS, WEG_FIETSENSTALLING\n\nQua laagnamen dan kan het dus bijvoorbeeld zoiets worden (zie dikgedrukt), klopt dat? \n                Status:  N (Nieuw) \nDiscipline: PV (Planvorming) \nHoofdgroep: OG (OnderGrond) \nObject: BEBOUWING_WONINGBOUW_[xxxx]\nSubobject: optioneel? \nElement: G (Geometrie zichtbaar = default) \nSchaal: nvt \n\nDan is de laagnaam dus:  N_PV_OG_ BEBOUWING_WONINGBOUW_[xxx]_ optioneel?_G",
+    "comments": [
+      "Beantwoord: De mapping van BGT naar NLCS en van PDOK Thema stedelijk water (gwsw) naar NLCS staan hier: https://github.com/nl-digigo/NLCS/tree/main/tabellen/publicatie/NLCS-mappingen\n\nEr is ooit een lijst gemaakt met objecten voor planvorming, staat in deze pdf, pagina 67: https://github.com/nl-digigo/NLCS/blob/development/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf\n\nDe laagnaam opbouw staat hier beschreven: https://nl-digigo.github.io/NLCS/requirementscadmodels/5-1/#opbouw-laagnaam (documentatie is 5.1, maar voor 5.0 is hetzelfde en die is alleen in een reuzen pdf beschikbaar).\n\nSTATUS is gedefinieerd als status van het object tijdens het project, N (nieuw) kies je voor een gepland object in een ontwerp en R voor een gerealiseerd object (Revisie). Voor  planstudies nieuwe objecten N is dus correct. \n\nDiscipline is een vrije keuze van gebruikers, maar je moet kiezen uit één van de disciplines in de laagnaam. PV, planvorming staat daar tussen dus is goed: https://github.com/nl-digigo/NLCS/blob/main/tabellen/publicatie/5.02_disciplines.csv\n\nPer hoofdgroep is er een tabel beschikbaar (naast de publicatie op het sparql-endpoint), het is niet zo dat je alleen kan kiezen voor objecten uit “ONDERGROND” voor planstudies. https://github.com/nl-digigo/NLCS/tree/main/tabellen/publicatie/objectentabellen-verkort\n\nDe subobjecten worden al meegegeven in de laagnaam, na de underscores staan de subobjecten: BEBOUWING_WONINGBOUW  woningbouw is het subobject\nJe mag eigen aanvullingen maken op de laagnamen in de NLCS, maar dan wil ik graag een verzoek om ze in de volgende versie van de standaard op te nemen, want maatwerk is zonde."
+    ]
+  },
+  {
+    "number": 815,
+    "title": "Gebruikersvraag inlezen standaard in een CAD-applicatie",
+    "closed_at": "2026-03-13T08:41:48Z",
+    "labels": [
+      "implementatie"
+    ],
+    "milestone": "Gebruikersvragen",
+    "body": "Vraag per mail ontvangen: \nVia de website DigiGo/NLCS heb ik gelezen dat ik via dit mailadres vragen over gebruik van NLCS kan stellen.\n\nIk ben terreinbeheerder op een elektriciteitscentrale en probeer mijn werk te vereenvoudigen door gebruik te maken van standaarden. Zo ook in tekenwerk op terreintekeningen, etc.\n\nVia via ben ik bij NLCS terecht gekomen, heb ook GitHub gevonden, maar ik heb nog niet begrepen hoe ik daadwerkelijk gebruik kan maken van deze bibliotheek (mag ik het zo noemen?) in AutoCAD2023. In het kort mijn vraag; Hoe voeg ik deze bibliotheek toe aan AutoCAD2023 en maak ik gebruik van de inhoud?\n\nIk hoop op een koppeling waarbij de lijntypes, symbolen, etc. worden toegevoegd (lijntpes in de linemanager, symbolen in de blocks bibliotheek, etc.)",
+    "comments": [
+      "Dit geantwoord: Bedankt voor je vraag. Voor degenen die de Bedankt standaard veel gebruiken, zijn er applicaties in de markt die dit al voor je geregeld hebben in BricsCAD, AutoCAD of Microstation. de leveranciers staan ergens op deze pagina; https://www.digigo.nu/standaarden/nlcs/aan-de-slag/ \n\nDe standaard is open ter beschikking, dus je mag het ook zelf gebruiken en instellen; We hebben helaas geen open source tool beschikbaar of hulpmiddelen om het in één van de CAD-applicaties te laden."
+    ]
+  },
+  {
+    "number": 818,
+    "title": "404 dead URL op hoofdpagina",
+    "closed_at": "2026-03-19T14:52:18Z",
+    "labels": [],
+    "milestone": "Gebruikersvragen",
+    "body": "Link naar \"Voorbeeld tekeningen\" geeft een 404 - page not found",
+    "comments": [
+      "bedankt voor de melding, ik heb de link gerepareerd."
+    ]
+  }
+]

@@ -1,0 +1,177 @@
+[
+  {
+    "number": 113,
+    "title": "Op elkaar afstemmen IMBOR en NLCS",
+    "closed_at": "2023-11-07T09:07:06Z",
+    "labels": [
+      "IMBOR"
+    ],
+    "milestone": "Alignment NLCS-IMBOR​",
+    "body": "Verduidelijken wat gedaan ios, wat gedaan moet worden en wat dit betekent: In 2022 is er een verdieping van de NLCS onderzocht met de beheerders van de IMBOR en betrokken stakeholders (Gemeenten). Hieruit is de behoefte naar voren gekomen om los vanuit het CORE-initiatief de NLCS IMBOR nader uit te werken.\r\nHet doel voor 2023 is om vigerende versie (5.0) van de Nederlandse CAD Standaard (NLCS) uit te bereiden met IMBOR 2022, bestaande uit veel voorkomende objectinformatie in de openbare ruimte. Door IMBOR 2022 op te nemen in de volgende versie van de NLCS wordt bewerkstelligd dat tijdens de ontwerpfase van een object, de informatie zo rijkelijk mogelijk, gestandaardiseerd en eenduidig beschikbaar komt voor levenscyclus van een object (Ontwerp-Aanleg-Registratie-Beheer-Ontwerp).\r\n\r\n- [#109]\r\n- [#111]\r\n- [#99]\r\n- [#110]\r\n\r\nToekomstmuziek:\r\n- [#138]",
+    "comments": [
+      "Deze issue kan gesloten worden, de doelstellingen van het project worden opgehelderd en getracked via #187"
+    ]
+  },
+  {
+    "number": 138,
+    "title": "Monitoren project \"NLCS mee in ISO 19650: OTL+ILS\"",
+    "closed_at": "2024-08-26T09:36:39Z",
+    "labels": [
+      "IMBOR",
+      "Project <> Beheer"
+    ],
+    "milestone": "Alignment NLCS-IMBOR​",
+    "body": "Voor dit project is geen financiering gevonden\r\n\r\n# Jaarplan 2024\r\nIn 2022 is er een verdieping van de NLCS onderzocht om een dataset te vullen conform de informatie standaarden (IMKL, IMBOR, GWSW en OTL Spoor). Aanvullende kenmerken worden als data aan NLCS-objecten gekoppeld, zodat hier vervolgens een dataset uit gegenereerd kan worden welke voldoet aan het informatiemodel. Daarnaast s gekeken naar de overige overkoepelende standaarden zoals ISO19650. \r\n\r\nVoor 2024 wordt dit verder uitgewerkt en wordt dit verder geïmplementeerd in de NLCS.  \r\n\r\n\r\n- Opstellen projectplan\r\n- Zoeken financiers\r\n\r\nHet ILS vraagstuk valt uiteen in meerdere zaken:\r\n\r\n# Tekening in ILS\r\nHoe kan een opdrachtgever aangeven welke objecten op een tekening moeten komen en welke (variant) kleuren en lijnstijlen gewenst zijn?\r\n- #210 \r\n- #139 \r\n\r\n# Data bij de objecten op een tekening\r\n- #177 \r\n- moet de relatie tussen NLCS en IMBOR / GWSW / ... worden gemodelleerd om de gewenste objectattributen en waardelijsten te kunnen opvragen uit de standaard?\r\n\r\n# Uitwisseling CAD-tekeningen in open formaat\r\n- Hoe kunnen we de CAD modellen op basis van NLCS uitwisselen in open uitwisselformats?\r\n- #206 \r\n- Check op relevantie NEN-ISO 16792:2021 voor uitwisseling NLCS modellen en tekeningen\r\n\r\n\r\nVanuit zowel Stedelijk Spoor als vanuit Netbeheer als vanuit gemeentelijke en provinciale opdrachtgevers met IMBOR komen dilemma's rondom ILS en uitwisseling van NLCS modellen en aanvullende informatie.\r\n\r\nDit vraagstuk is relevant voor de hele sector, omdat er een woud aan suboptimale oplossingen ontstaat, waarbij elke (groep) opdrachtgevers een eigen oplossing bedenkt voor uitwisseling van informatie, die gericht is om de informatie in de eigen systemen te importeren. De opdrachtnemers (aannemers, ingenieursbureaus) kunnen met hun digitalisering niet goed aansluiten op zoveel verschillende oplossingen. \r\n\r\nEr worden daarbij diverse oplossingen genoemd voor de korte termijn werken om data in eigen systemen te importeren in systemen, daarbij ontstaat een grote diversiteit in data-uitvragen tussen verschillende opdrachtgevers\r\n\r\nLange termijn\r\n-  (standpunt CROW, DigiGO): uitwisseling als linked data (praktijktoepassing: Tennet)\r\nKortere termijn \r\n- (project Zuid-Holland/Geonovum): Uitwisseling in open geo-formaten met \"taalbinding\" naar NEN 2660 (praktijktoepassing: Zuid-Holland, Amsterdam, Gelderland)\r\n- Netbeheer: proprietary Autodesk formaat + XML\r\n-  Stedelijk Spoor: nog geen oplossingsrichting gekozen, probleem wordt wel onderkend (data in te voeren in SAP systemen van de spoorbeheerders)",
+    "comments": [
+      "Tijdens EC 2023-10-03 besproken: Netbeheerders hebben de behoefte om extra informatie te ontvangen bij tekeningen, meer dan in laagnaam en beschrijvingen kunnen staan. Men wil (dit is een voorstel, zeker niet in beton gegoten, gezien de bredere context en de meerdere opties) een optie toevoegen aan NLCS om attribuutgegevens toe te voegen bij tekeningen in de vorm van XML. Daar is dan een schemadefinitie bij nodig (XSD) waarin je ook attribuutnamen en waardelijsten kan meegeven. \r\n\r\nDit voorstel werkt anders dan bijvoorbeeld bij de aansluiting naar IMBOR, waarbij je de attributen en  keuzelijsten kan inlezen vanuit een linked data ontologie.",
+      "Reactiesa tijdens EC 2023-10-03: Reacties in chat: Bij gebruik van NLCS++ ben je dus wel verplicht om met een commerciële partij in zee te gaan om de techniek te kunnen toepassen. Arkance, CADAC of Cad&Company? > dat is niet per sé zo, partijen die met FME ed werken kunnen wel ook ermee werken\r\n\r\nAls alles op basis van Handle is gekoppeld met een extern bestand, moeten dus ook álle bewerkingscommando's in AutoCAD ondervangen worden voor juiste verwerking van de data. Uitwisseling tussen verschillende DWG's is hierbij spannend?  > ja, dit is zeker spannend, bijvoorbeeld bij het splitsen van objecten waarbij een deel wordt verwijderd en een deel in gebruik gehouden. Dit zal aandacht vragen van degenen die de software inrichten\r\n\r\nWat gebeurt er bij een 'Fatal-Error', is de kans op corrupte bestanden dan aanwezig? > dat is altijd een risico\r\n\r\nHoe gaat een XML/XSD op met Sharepoint/OneDrive sync? of een Autodesk Construction Cloud? Meerdere bestanden continue bijwerken lijkt voer voor synchronisatieproblemen. >\r\n\r\nNu schrijft NLCS geen bestandsformaat voor, maar in dit voorstel is er voor het optionele deel juist wel een voorgeschreven bestandsformaat voor objectdata, maar weer niet voor de geometrie...het optioneel opslaan van die data moet vanuit die optiek misschien juist wel verplicht meegenomen worden om met die xml/xsd een totaalbestand te kunnen leveren die los kan staan van een dwg of dgn? Behoorlijk fundamenteel probleem omdat je de xsd niet los kan zien van de geometrie.",
+      "Nog meer tijdens EC 2023-10-03 Het is een utopie om softwareonafhankelijk te zijn, want het is zeer moeilijk om elkaars geometrische bestanden over te nemen, in te lezen. Maar nu moet je twee verschillende bestanden maken. Moet je niet beschrijven hoe die uitwisseling in beide CAD pakketten zou werken in eigen formaten / context?, zodat je niet met twee bestanden hoeft te werken? Je zou alleen het uitwisselen aan het eind van een project wel een bestand kunnen exporteren.\r\n\r\nHoe gaan de nutsinstanties er zelf mee om, omdat zij elk hun eigen soorten materiaalkeuzes hebben en dergelijke? > Het informatiemodel is standaard voor alle netbeheerders, alleen de waardelijsten kunnen verschillen. De xsd's kunnen dus gaan verschillen per netbeheerder.",
+      "van data gegijzeld in software naar federatief datadelen.... is IFC als uitwisselformaat geen optie?",
+      "presentatie van Dimitry in EC 2023-10-03: \r\n[NLCS_attribuutdata_uitgangspuntenV4.pdf](https://github.com/bimloket/NLCS/files/12814079/NLCS_attribuutdata_uitgangspuntenV4.pdf)",
+      "Er bestaat een prima werkend (semi) open standaard voor 2d cad data in de vorm van DXF. Drawimg eXchange File. Voordeel is dat het geen 'intelligente' specifieke object definities kent die dwg ontwikkelaars in dwg meegeven. Die zijn dan alleen bruikbaar met hún dwg software plossing. Dat zit veel in Autodesk Civil 3d. DXF is dan opzicht mooi open en in te lezen met een text editor. Dat zou ik zeker even overwegen. De Belgische instantie voor kadaster en klic gebruikt DXF als standaard voor CAD vector data. Enige nadeel is dat DXF 'eigendom' is van Autodesk. Ze willen dit niet niey overdragen.\r\n\r\nhttps://en.m.wikipedia.org/wiki/AutoCAD_DXF",
+      "Besproken 11-3-2024: Actie voor Elisabeth",
+      "voor dit porject is geen financiering gevonden, deelvragen zijn opgenomen in ontwikkelingsissues op de backlog"
+    ]
+  },
+  {
+    "number": 333,
+    "title": "NLCS-IMBOR projectie: AL",
+    "closed_at": "2024-03-18T08:10:45Z",
+    "labels": [
+      "IMBOR",
+      "AL - Algemeen"
+    ],
+    "milestone": "Alignment NLCS-IMBOR​",
+    "body": "In dit issue wordt de voortgang van het opstellen van een projectie van de NLCS-laagnamen naar IMBOR-objecttypes voor de hoofdgroep AL weergegeven. Relevante notulen of discussiepunten van de NLCS-IMBOR commissie kunnen ter raadpleging worden bijgevoegd.\r\n\r\n**Projectiedocument**\r\n[20240304_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_AL.xlsx](https://github.com/nl-digigo/NLCS/files/14615671/20240304_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_AL.xlsx)\r\n\r\n**Status**\r\nVastgesteld: Buiten scope.",
+    "comments": [
+      "Eens, buiten scope en daarmee sluit ik deze issue af"
+    ]
+  },
+  {
+    "number": 335,
+    "title": "NLCS-IMBOR projectie: BC",
+    "closed_at": "2024-03-18T08:14:54Z",
+    "labels": [
+      "BC betonconstructies",
+      "IMBOR"
+    ],
+    "milestone": "Alignment NLCS-IMBOR​",
+    "body": "In dit issue wordt de voortgang van het opstellen van een projectie van de NLCS-laagnamen naar IMBOR-objecttypes voor de hoofdgroep BC weergegeven. Relevante notulen of discussiepunten van de NLCS-IMBOR commissie kunnen ter raadpleging worden bijgevoegd.\r\n\r\n**Projectiedocument**\r\n[20240304_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_BC.xlsx](https://github.com/nl-digigo/NLCS/files/14615744/20240304_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_BC.xlsx)\r\n\r\n**Status**\r\nBuiten scope. Opgesteld.",
+    "comments": [
+      "akkoord, buiten scope, daarmee sluit ik deze issue"
+    ]
+  },
+  {
+    "number": 343,
+    "title": "NLCS-IMBOR projectie: HC",
+    "closed_at": "2024-03-18T08:46:43Z",
+    "labels": [
+      "IMBOR",
+      "HC - houtconstructies"
+    ],
+    "milestone": "Alignment NLCS-IMBOR​",
+    "body": "In dit issue wordt de voortgang van het opstellen van een projectie van de NLCS-laagnamen naar IMBOR-objecttypes voor de hoofdgroep HC weergegeven. Relevante notulen of discussiepunten van de NLCS-IMBOR commissie kunnen ter raadpleging worden bijgevoegd.\r\n\r\n**Projectiedocument**\r\n[20240304_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_HC.xlsx](https://github.com/nl-digigo/NLCS/files/14615900/20240304_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_HC.xlsx)\r\n\r\n**Status**\r\nBuiten scope. Opgesteld.",
+    "comments": [
+      "Vastgesteld op buiten scope van IMBOR, daarmee wordt deze issue afgesloten"
+    ]
+  },
+  {
+    "number": 344,
+    "title": "NLCS-IMBOR projectie: HU",
+    "closed_at": "2024-03-18T15:25:23Z",
+    "labels": [
+      "IMBOR",
+      "HU hulpconstructies"
+    ],
+    "milestone": "Alignment NLCS-IMBOR​",
+    "body": "In dit issue wordt de voortgang van het opstellen van een projectie van de NLCS-laagnamen naar IMBOR-objecttypes voor de hoofdgroep HU weergegeven. Relevante notulen of discussiepunten van de NLCS-IMBOR commissie kunnen ter raadpleging worden bijgevoegd.\r\n\r\n**Projectiedocument**\r\n[20240304_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_HU.xlsx](https://github.com/nl-digigo/NLCS/files/14637538/20240304_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_HU.xlsx)\r\n\r\n**Status**\r\nBuiten scope. Opgesteld.",
+    "comments": [
+      "@wjtmollema ik snap niet helemaal waarom dit buiten scope is, er zijn wel relaties met IMBOR te zien in de tabel?",
+      "@ElisabethKloren Het verkeerde document was geüpload. Dit is gerectificeerd.",
+      "duidelijk, en omdat deze hoofdgroep buiten scope is voor IMBOR sluit ik nu deze issue af"
+    ]
+  },
+  {
+    "number": 348,
+    "title": "NLCS-IMBOR projectie: KC",
+    "closed_at": "2024-03-18T08:59:00Z",
+    "labels": [
+      "IMBOR",
+      "KC Kunststofconstructies"
+    ],
+    "milestone": "Alignment NLCS-IMBOR​",
+    "body": "In dit issue wordt de voortgang van het opstellen van een projectie van de NLCS-laagnamen naar IMBOR-objecttypes voor de hoofdgroep KC weergegeven. Relevante notulen of discussiepunten van de NLCS-IMBOR commissie kunnen ter raadpleging worden bijgevoegd.\r\n\r\n**Projectiedocument**\r\n[20240304_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_KC.xlsx](https://github.com/nl-digigo/NLCS/files/14615945/20240304_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_KC.xlsx)\r\n\r\n**Status**\r\nBuiten scope. Opgesteld.",
+    "comments": [
+      "Buiten scope, daarmee sluit ik deze issue af"
+    ]
+  },
+  {
+    "number": 352,
+    "title": "NLCS-IMBOR projectie: MC",
+    "closed_at": "2024-03-18T09:01:29Z",
+    "labels": [
+      "IMBOR",
+      "MC Mechanische constructies"
+    ],
+    "milestone": "Alignment NLCS-IMBOR​",
+    "body": "In dit issue wordt de voortgang van het opstellen van een projectie van de NLCS-laagnamen naar IMBOR-objecttypes voor de hoofdgroep MC weergegeven. Relevante notulen of discussiepunten van de NLCS-IMBOR commissie kunnen ter raadpleging worden bijgevoegd.\r\n\r\n**Projectiedocument**\r\n[20240304_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_MC.xlsx](https://github.com/nl-digigo/NLCS/files/14615997/20240304_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_MC.xlsx)\r\n\r\n**Status**\r\nBuiten scope. Opgesteld.",
+    "comments": [
+      "Akkoord buiten scope van IMBOR, daarmee sluit ik deze issue"
+    ]
+  },
+  {
+    "number": 354,
+    "title": "NLCS-IMBOR projectie: MW",
+    "closed_at": "2024-03-18T09:03:32Z",
+    "labels": [
+      "IMBOR",
+      "MW metselwerk"
+    ],
+    "milestone": "Alignment NLCS-IMBOR​",
+    "body": "In dit issue wordt de voortgang van het opstellen van een projectie van de NLCS-laagnamen naar IMBOR-objecttypes voor de hoofdgroep MW weergegeven. Relevante notulen of discussiepunten van de NLCS-IMBOR commissie kunnen ter raadpleging worden bijgevoegd.\r\n\r\n**Projectiedocument**\r\n[20240304_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_MW.xlsx](https://github.com/nl-digigo/NLCS/files/14616018/20240304_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_MW.xlsx)\r\n\r\n**Status**\r\nBuiten scope. Opgesteld.",
+    "comments": [
+      "buiten scope IMBOR, daarmee sluit ik deze issue"
+    ]
+  },
+  {
+    "number": 359,
+    "title": "NLCS-IMBOR projectie: SC",
+    "closed_at": "2024-03-18T09:07:03Z",
+    "labels": [
+      "IMBOR",
+      "SC staalconstructies"
+    ],
+    "milestone": "Alignment NLCS-IMBOR​",
+    "body": "In dit issue wordt de voortgang van het opstellen van een projectie van de NLCS-laagnamen naar IMBOR-objecttypes voor de hoofdgroep SC weergegeven. Relevante notulen of discussiepunten van de NLCS-IMBOR commissie kunnen ter raadpleging worden bijgevoegd.\r\n\r\n**Projectiedocument**\r\n[20240304_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_SC.xlsx](https://github.com/nl-digigo/NLCS/files/14616056/20240304_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_SC.xlsx)\r\n\r\n**Status**\r\nBuiten scope. Opgesteld.",
+    "comments": [
+      "Akkoord, wegens buiten scope IMBOR sluit ik deze issue"
+    ]
+  },
+  {
+    "number": 413,
+    "title": "instructie schrijven over interpretatie relaties imbor-nlcs mapping: waar mag je wat voor gebruiken?",
+    "closed_at": "2026-02-06T12:45:44Z",
+    "labels": [
+      "IMBOR"
+    ],
+    "milestone": "Alignment NLCS-IMBOR​",
+    "body": "",
+    "comments": [
+      "gedaan in https://nl-digigo.github.io/NLCS/ontologyalignments/5-1/#use-case-1-hergebruiken-definities"
+    ]
+  },
+  {
+    "number": 434,
+    "title": "Scope imbor-nlcs",
+    "closed_at": "2024-05-13T08:03:28Z",
+    "labels": [
+      "IMBOR"
+    ],
+    "milestone": "Alignment NLCS-IMBOR​",
+    "body": "We hebben de laagnamen van de hoofdgroep VH beoordeeld, maar de NLCS is meer dan alleen laagnamen.\r\nOp de laagnaam OPENVERHARDING_BETONSTRAATSTEEN komen bijvoorbeeld cellen te staan met informatie die niet in de laagnaam terug te vinden is, over het legverband, het formaat van de stenen (bijv. KF,WF,DF) de kleur van de stenen (bijv. GR,WT,ZW) en de functie (bijv. fietspad, voetpad, overweg, rijbaan regionale weg)\r\nDie informatie lijkt mij toch zeker ook relevant voor de beheerder en mapping naar IMBOR.\r\nDoen we daar nu niets mee?",
+    "comments": [
+      "extra actie extraheren van gegevens uit de NLCS-productiedatabase? Blijkbaar bestaan er naast de laagnamen ook nog ‘cellen’ die aan bepaalde laagnamen toegevoegd kunnen worden om aanvullende informatie vast te leggen. De voorbeelden die bovenstaande benoemt, zijn ook binnen scope voor IMBOR (kunnen uitgedrukt worden met IMBOR-attributen) en zijn dus belangrijk om ook in beeld te hebben.",
+      "Het is mogelijk dat vraagsteller verwijst naar de NLCS symbolen (“blocks” die je op tekening kunt plaatsen) waarin meer informatie staat dan in de laagnaam. Want inderdaad, in de laag teken je vervolgens objecten.\r\n \r\nEr zijn tabellen van de symbolen die namen hebben die wel wat weggeven van wat er in staat, maar zeker niet alles: [https://github.com/nl-digigo/NLCS/tree/main/tabellen/actueel/NLCS-symbolen-5.0](https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fnl-digigo%2FNLCS%2Ftree%2Fmain%2Ftabellen%2Factueel%2FNLCS-symbolen-5.0&data=05%7C02%7Celisabeth.devries%40crow.nl%7C54917b64399040edbc0408dc70bc1a45%7C1e0440a2a638433189c766de8119b255%7C0%7C0%7C638509200443889895%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%7C%7C&sdata=xeTFDRWw6WQ1qz8gIeu4J%2F0jPRsS1VF9v%2BYM3WWXd2k%3D&reserved=0), S staat voor symbool en dan herken je de hoofdgroep-afkorting wel weer.\r\n \r\nVoor de informatie die je alleen kunt weten als je het block opent in een CAD pakket: dat is way way buiten scope voor deze opdracht. Dit is één van de redenen dat we eerst een classificatie moeten maken van NLCS, voor we IMBOR en NLCS echt kunnen gaan matchen van fysiek object tot fysiek object. Voor deze opdracht vergelijken we alleen termen"
+    ]
+  }
+]

@@ -1,0 +1,444 @@
+[
+  {
+    "number": 13,
+    "title": "controle input gebruikers op GWSW mapping",
+    "closed_at": "2025-12-19T08:44:56Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "Korte termijn: \r\nDeze mapping moet worden opgenomen in de linkedData publicatie: https://github.com/bimloket/NLCS/tree/main/tabellen/Versie-5.0/NLCS-mappingen-5.0\r\n\r\nEigen beheeromgeving\r\nEigen concept-publicatie\r\nOpstellen query's plus opnemen toelichting in documentatie voor oude sql tabellen\r\n\r\nTabel GWSW_mapping\r\nid\t\t\t\tinteger\r\nStelselType\t\ttext\r\ntype\t\t\ttext\r\nNLCSobject_id\tinteger\r\nNLCSsymbol_id\tinteger\r\nversie\t\t\ttext\r\nstatus\t\t\ttext\r\nopmerkingen\t\ttext\r\n\r\nOpnemen in documentatie:\r\n\r\nDe mapping betreft mapping naar de PDOK levering Stedelijk Water, Stichting Rioned stuurt de rioleringsgegevens uit haar database naar PDOK, dit wordt landelijk gepubliceerd. Liggingsdata van riolering. \r\n\r\nWat vragen wij aan softwareleveranciers om met deze tabel te doen: het gebied uit PDOK Stedelijk Water inlezen in CAD applicaties, en in de juiste lagen zetten (bestaande objecten qua riolering). (idem voor BGT).",
+    "comments": [
+      "Ik heb de GWSW-NLCS mapping vanmiddag bekeken:\r\n\r\n    1. In de meeste gevallen wordt _RIOOLPUT_  gebruikt in de laagnamen, incidenteel wordt _PUT_ gebruikt. In die gevallen _PUT_ wijzigen naar _RIOOLPUT  om de laagnamen consequent te houden.\r\n    2. Hoe komen we bij de vertaling van ‘INFILTRATIEPUT’ uit het GWSW naar ‘RESERVOIR_INFILTRATIERESERVOIR’? Is ‘RIOOLPUT_INFILTRATIE’ niet een meer bij de NLCS passende benaming?\r\n    3. NLCS spelfout: volgens het groene boekje is de juiste spelling ‘hondenhok’ ipv ‘hondehok’ in de NLCS-laagnaam.\r\n    4. Er bestaan lagen voor zowel ‘VERDEKTEPUT’ als ‘BLINDEPUT’. GWSW kent beide termen, met nagenoeg identieke uitleg: \r\n        1. blinde put = \tGeen opening aan de bovenzijde\r\n        2. verdekte put = [NEN 3300:1996] rioolput waarvan de bovenzijde niet zichtbaar is.\r\nNLCS kent alleen een symbool voor ‘blindeput’ maar bij consequent onderscheid in de laagnaam tussen ‘verdekt’ en ‘blind’ gaat het goed.\r\n    5. Moeten GWSW-objecten , hoe onlogisch dat soms ook is, niet (zo veel mogelijk) naar hetzelfde stelseltype in de NLCS worden gemapt? Het GWSW kent bijvoorbeeld het object ‘VUILWATERSTELSEL-LIJNGOOT’ en volgens de NLCS-GWSW-mapping wordt dat op de NLCS-laag ‘RI-HWA_GOOT_LIJNGOOT’ geplaatst. Het gebeurd veelvuldig in de NLCS-GWSW mapping dat objecten op een ander stelsel worden geplaatst. Is dat wel altijd correct? Zo krijg je geen 1:1 mapping. Bij GWSW object ‘HEMELWATERRIOOL-DWAPERCEELAANSLUITING’ kan ik me wel indenken dat die juist op ‘RI-DWA_PERCEELAANSLUITLEIDING’ wordt geplaatst. \r\n    6. Ik heb met name gekeken naar de consequente naamgeving van de NLCS lagen.\r\n\r\nIn de bijlage opmerkingen op de laagnamen in kolom J en evt. voorstel voor wijziging van de laagnaam in kolom K. De schuingedrukte laagvoorstellen staan erin voor de systematiek, maar zou ik in de mapping niet wijzigen.\r\n[NLCS-GWSW-5.0_OPMERKINGEN_LAAGNAMEN.xls](https://github.com/bimloket/NLCS/files/12588874/NLCS-GWSW-5.0_OPMERKINGEN_LAAGNAMEN.xls)\r\nIk heb alleen gekeken naar de laagnamen, niet naar de symbolen.",
+      "De GWSW-server heeft Geoserver draaien, Kadaster gebruikt Mapservice.\r\nhttps://www.spatialpost.com/mapserver-vs-geoserver/",
+      "ik heb de documentatie die beschikbaar was in ReSpec gezet",
+      "We hebben in NLCS 5.1 gekozen voor een indeling waarbij altijd het stelseltype gebruikt wordt, dat neem een deel van deze feedback weg. In het Informatiemodel NLCS zullen we de andere punten dan goed moeten onderzoeken, dit doen we in issue #751"
+    ]
+  },
+  {
+    "number": 185,
+    "title": "Opstellen projectplan ontology alignment GWSW - NLCS",
+    "closed_at": "2025-07-03T10:06:34Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "Langere termijn: ontology alignement maken naar het GWSW SPARQL end point op [https://sparql.gwsw.nl](https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fsparql.gwsw.nl%2F&data=05%7C01%7Celisabeth.devries%40crow.nl%7C6aefad305b3c41cea42f08dbd700e36b%7C1e0440a2a638433189c766de8119b255%7C0%7C0%7C638340171051319506%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=bDlgvRhFfP%2F6P%2BUn8zb0MCUhXamYUGbfp58hslgtKI4%3D&reserved=0).\r\n\r\n- Gezamenlijke publicatie van symbolen in DWG, DGN en SVG\r\n- Onderzoek naar automatisering omzetten van symbolen van CAD (DWG / DGN naar GIS (svg, gecombineerd met de open standaard SLD (hooror! Wordt niet ondersteund door ESRI), PDOK gebruikt mapserver, is ook open source,  – filter van dit object hoort dat svg bij, dat lijnstijl, lijnkleur)\r\n- Mappings, voor zover we die nu zelf gebruik: \r\n- PDOK-mapping bij NLCS én de mapping \r\n- vanuit GWSW is een mapping op termen niveau om naar de NLCS term te kunnen zoeken op de gwsw-pagina\r\n- Weten van welke gwsw objecten wij nlcs symbolen hebben voor beheeroogpunt\r\n- Informatieleveringen, bijvoorbeeld oplevering rioolinspectie\r\n\r\n\r\n\r\n\r\nGWSW heeft stylesets voor GIS, die zoveel mogelijk de symbolen uit NLCS riolering hebben overgenomen.",
+    "comments": [
+      "Eerste versie voor review gestuurd aan Eric en Aydemir\r\n[2023-11-13 Projectplan ontology alignment GWSW-NLCS.pdf](https://github.com/nl-digigo/NLCS/files/13333713/2023-11-13.Projectplan.ontology.alignment.GWSW-NLCS.pdf)",
+      "inmiddels wordt dit vraagstuk geadresseerd in projecten die gefinancieerd worden door het DOOR-programma"
+    ]
+  },
+  {
+    "number": 195,
+    "title": "inventarisatie ideeen project ontology alignment GWSW - NLCS",
+    "closed_at": "2025-07-03T13:21:58Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "- [x] #185 \n- [x] Projectplan ter review sturen aan GWSW en NLCS \n- [x] Financiering zoeken voor project\n\n## Use cases opstellen voor ontology alignment\n- [x] #197\n- [x] Use case GWSW stylesheets voor GIS gebruiken zoveel mogelijk NLCS symbolen\n- [x] Use case bij [viewer GWSW ontology](https://data.gwsw.nl/) navigeren naar NLCS objecten\n- [x] Use case bij update GWSW onderzoeken of NLCS symbolen en navigatie nog overeenkomen\n- [x] Use case informatieleveringen, bijvoorbeeld oplevering van rioolvervanging\n\n## Gezamenlijke publicatie van symbolen \n- [x] #637\n- [x] #196\n\n## Ontology NLCS \n- [x] NLCS publiceren als ontologie, op het niveau dat nodig is voor de ontology alignment\n\n## Ontology alignment maken\n\n- [x] Inrichten beheeromgeving ontology alignment\n- [x] Inrichten viewer ontology alignment\n- [x] Relaties GWSW - NLCS vaststellen met werkgroep vanuit expertcommissie\n- [x] Invoegen termen uit hoofdgroep RI en relatie met NLCS termen aanleggen\n- [x] Invoegen relatie met termen uit GWSW: https://sparql.gwsw.nl.\n- [x] Publiceren concept-versie\n- [x] Testen concept-versie door softwareleveranciers\n- [x] Publiceren documentatie ontology alignment\n- [x] Openbare consultatie & feedback vanuit gebruikerscommissie\n- [x] Vaststelling door Beheercommissie\n- [x] Publicatie definitieve versie\n\n## Beheerafspraken maken ontology alignment\n- [x] #101 \n\n## Implementatie\n- [ ] Ondersteuning inrichten PDOK Stedelijk Water > NLCS tekening\n- [ ] Ondersteuning inrichten GWSW stylesheets met NLCS symbolen\n- [ ] [viewer GWSW ontology](https://data.gwsw.nl/) inrichten om te navigeren naar NLCS objecten\n- [ ] Query's opstellen voor beheer ontology alignment GWSW - NLCS bij versiewijzigingen\n\n## Informatieleveringen\n- [ ] Onderzoeken werking informatieleveringen vanuit CAD, bijvoorbeeld oplevering van rioolvervanging",
+    "comments": [
+      "de relevante issues zijn hieruit gehaald voor DOOR-project rionleringen"
+    ]
+  },
+  {
+    "number": 358,
+    "title": "NLCS-IMBOR projectie: RI",
+    "closed_at": "2026-01-09T16:04:17Z",
+    "labels": [
+      "RI_riolering-en-GWSW",
+      "IMBOR"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "In dit issue wordt de voortgang van het opstellen van een projectie van de NLCS-laagnamen naar IMBOR-objecttypes voor de hoofdgroep RI weergegeven. Relevante notulen of discussiepunten van de NLCS-IMBOR commissie kunnen ter raadpleging worden bijgevoegd.\r\n\r\n**Projectiedocument**\r\n[20240724_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_RI.xlsx](https://github.com/user-attachments/files/16361488/20240724_NLCS-OBJECTEN-SKOS-Mapping.IMBOR.2022_RI.xlsx)\r\n\r\n**Status**\r\nOpgesteld. In wachtstand vanwege integratie GWSW 1.7 als IMBOR Stedelijk Water in IMBOR 2024.",
+    "comments": [
+      "Op basis van de projectie van RI naar IMBOR is een voorzet gedaan voor het opzetten van een NLCS-vocabulaire voor deze hoofdgroep. Het NLCS-vocabulaire bestaat uit alle 'termen' (objecten en subobjecten) die in de laagnamen van de hoofdgroep worden gebruikt. Voor ieder van deze termen zijn de mogelijke relaties - en de skos:MappingProperties van die relaties - met de termen uit het IMBOR vocabulaire bepaald.\r\n\r\nHet resultaat is het bijgevoegde document: \r\n[20240724_RI_NLCS-vocabulaire-o.b.v.IMBOR.xlsx](https://github.com/user-attachments/files/16361503/20240724_RI_NLCS-vocabulaire-o.b.v.IMBOR.xlsx)",
+      "nu gwsw en imbor aligned zijn en nlcs een nieuwe versie krijgt is deze vergelijking verouderd, dit gaan we elders oppakken"
+    ]
+  },
+  {
+    "number": 521,
+    "title": "GWSW mapping 5.0 laatste stappen",
+    "closed_at": "2025-07-03T12:15:42Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "documenteren werking\r\ncheck of er al een query is om de tabel te genereren & graag op github zetten",
+    "comments": []
+  },
+  {
+    "number": 545,
+    "title": "Oplevering test linked data mapping NLCS 5.0 - GWSW",
+    "closed_at": "2025-07-03T12:15:42Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "Bij deze de officiële oplevering van de NLCS-GWSW linkset. De publicatie staat klaar in de testomgeving van de NLCS. De abstract en omschrijving kunnen uiteraard aangepast worden. De stylesheet staat klaar in de beheeromgeving, dus je kan deze zelf publiceren in de live omgeving als alles in orde is.\r\n\r\nHet is alweer een tijd geleden dus ik leg weer even uit hoe de omgeving en publicatie zijn opgebouwd. In de beheeromgeving worden onder de PhysicalObjects eerst de gwsw:StelselTypes gemodelleerd met de gwsw:Types als onderliggend object. Beide PhysicalObjects hebben een informatie attribuut genaamd GWSW_URI die hun oorspronkelijke URI uit de GWSW bevat. De gwsw:Types hebben daarnaast ook nog een informatie attribuut NLCS_Object_URI en eventueel NLCS_Symbool_URI met de originele URIs van deze NLCS concepten.\r\n\r\nDe publicatie is opgebouwd zoals hieronder weergegeven:\r\n\r\n\r\nIk heb een query bijgevoegd die gebruikt kan worden om de mappingen op te halen (queryNLCS_GWSW.rq), hierbij zijn de resultaten alleen de URIs van de concepten. Daarnaast heb ik ook een query toegevoegd die de namen van de NLCS objecten/symbolen ook ophaalt (queryNLCS_GWSW_withNames.rq), hiervoor is het wel noodzakelijk om de NLCS-GWSW mapping en de officiële NLCS (v5.0) tegelijkertijd te bevragen. Twee publicaties tegelijkertijd bevragen kan met bijvoorbeelde de software Postman, ik heb een Postman bestand bijgevoegd die deze laatste query gebruikt om beide publicaties tegelijkertijd te bevragen (QueryNLCS-NLCS_GWSW.json). \r\n\r\nDe queries staan hier: https://github.com/nl-digigo/NLCS/tree/main/code/gwsw-nlcs",
+    "comments": [
+      "dit is verwerkt tot een accpetance-versie"
+    ]
+  },
+  {
+    "number": 631,
+    "title": "NLCS Classificatie Rioleringen: Beheeromgeving inrichten",
+    "closed_at": "2026-01-08T14:45:37Z",
+    "labels": [
+      "RI_riolering-en-GWSW",
+      "Ontologie"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "Beheeromgeving voor een informatiemodel op basis van NEN 2660-2 voor de NLCS Hoofdgroep Rioleringen inrichten met: \n\nLive, Acceptance-publicatie: publiek\nen Test-publicatie: privé\n\nToegang beheeromgeving: product manager NLCS\n\nStylesheet conform MIM voor: begrippen, concepten en domeinwaarden.",
+    "comments": [
+      "De beheeromgeving kan je [hier](https://bimloket.laces-manager.tech/app/#/otl/686e167f3b8d3a3c3377b17b/content?class=PhysicalObject&isExternal=false&isTopConcept=false) vinden.\n\nDe publicaties kunnen in de [bestaande LDP omgeving van de NLCS](https://hub.laces.tech/digitalbuildingdata/nlcs) gepubliceerd worden.",
+      "> Stylesheet conform MIM voor: begrippen, concepten en domeinwaarden.\n\nHoe zie je dit precies voor je? De NLCS Classificatie workspace voor de begrippen, de originele NLCS workspace voor de concepten, en de domeinwaarden nvt?",
+      "Sorry, dit gaat alleen over de workspace met de NLCS classificatie vergelijkbaar met IMBOR en het Informatiemodel Verkeerstekens, niet over de \"traditionele\" NLCS publicatie. Ik neem aan dat we daarin begrippen krijgen en fysieke objecten, met ook attributen/aspecten en domeinwaardenlijsten, zoals IMBOR.",
+      "Voor de handmatige oefening ben ik gaan kijken wat mogelijk goede concepten zijn om volledig uit te werken. Ik heb hiervoor in de NLCS-GWSW mapping omgeving gekeken en voor elk van de volgende situaties 1 GWSW type gekozen:\n- GWSW type verwijst naar 1 NLCS object en 0 NLCS symbool  ->  gwsw:Bergbezinkleiding\n- GWSW type verwijst naar 1 NLCS object en 1 NLCS symbool  -> gwsw:Beerput\n- GWSW type verwijst naar >1 NLCS object en 0 NLCS symbool  ->  gwsw:DIT_riool\n- GWSW type verwijst naar >1 NLCS object en 1 NLCS symbool  ->  gwsw:BlindePut\n- GWSW type verwijst naar >1 NLCS object en >1 NLCS symbool  ->  gwsw:BijzonderePutconstructie\n- GWSW type verwijst naar 1 NLCS object en >1 NLCS symbool  ->  gwsw:Vacuumpompstation\n\nHieruit zijn de volgende NLCS laagnamen/symbolen naar voren gekomen om uit te modelleren in deze handmatige exercitie:\n```\nhttp://data.gwsw.nl/1.6/totaal/Beerput\nLaagnaam: ['DWA_SEPTICTANK']\nSymbool: ['SRI-TANK_SEPTIC-SO']\nGwswStelsel: ['http://data.gwsw.nl/1.6/totaal/GemengdStelsel', 'http://data.gwsw.nl/1.6/totaal/Vuilwaterstelsel', 'http://data.gwsw.nl/1.6/totaal/Persleidingsysteem', 'http://data.gwsw.nl/1.6/totaal/Drainagestelsel', 'http://data.gwsw.nl/1.6/totaal/Infiltratiestelsel', 'http://data.gwsw.nl/1.6/totaal/Duikerstelsel', 'http://data.gwsw.nl/1.6/totaal/Hemelwaterstelsel']\n\nhttp://data.gwsw.nl/1.6/totaal/Bergbezinkleiding\nLaagnaam: ['OVERIG_BERGBEZINKLEIDING']\nSymbool: []\nGwswStelsel: ['http://data.gwsw.nl/1.6/totaal/Vuilwaterstelsel', 'http://data.gwsw.nl/1.6/totaal/Drainagestelsel', 'http://data.gwsw.nl/1.6/totaal/Duikerstelsel', 'http://data.gwsw.nl/1.6/totaal/Persleidingsysteem', 'http://data.gwsw.nl/1.6/totaal/GemengdStelsel', 'http://data.gwsw.nl/1.6/totaal/Hemelwaterstelsel', 'http://data.gwsw.nl/1.6/totaal/Infiltratiestelsel']\n\nhttp://data.gwsw.nl/1.6/totaal/BijzonderePutconstructie\nLaagnaam: ['DRAINAGE_PUT', 'GWA_RIOOLPUT', 'HWA_RIOOLPUT', 'DWA_RIOOLPUT', 'OVERIG_RIOOLPUT', 'PERSLEIDING_RIOOLPUT', 'ITR_RIOOLPUT']\nSymbool: ['SRI-PUT_DRAIN-SO', 'B-SRI-PUT_BETON-SO', 'SRI-PUT_PERS-SO']\nGwswStelsel: ['http://data.gwsw.nl/1.6/totaal/Drainagestelsel', 'http://data.gwsw.nl/1.6/totaal/GemengdStelsel', 'http://data.gwsw.nl/1.6/totaal/Hemelwaterstelsel', 'http://data.gwsw.nl/1.6/totaal/Vuilwaterstelsel', 'http://data.gwsw.nl/1.6/totaal/Duikerstelsel', 'http://data.gwsw.nl/1.6/totaal/Persleidingsysteem', 'http://data.gwsw.nl/1.6/totaal/Infiltratiestelsel']\n\nhttp://data.gwsw.nl/1.6/totaal/BlindePut\nLaagnaam: ['ITR_RIOOLPUT_BLINDEPUT', 'DRAINAGE_PUT_BLINDEPUT', 'OVERIG_RIOOLPUT', 'DWA_RIOOLPUT_BLINDEPUT', 'PERSLEIDING_RIOOLPUT', 'HWA_RIOOLPUT_BLINDEPUT', 'GWA_RIOOLPUT_BLINDEPUT']\nSymbool: ['SRI-PUT_BLINDEPUT-SO']\nGwswStelsel: ['http://data.gwsw.nl/1.6/totaal/Infiltratiestelsel', 'http://data.gwsw.nl/1.6/totaal/Drainagestelsel', 'http://data.gwsw.nl/1.6/totaal/Duikerstelsel', 'http://data.gwsw.nl/1.6/totaal/Vuilwaterstelsel', 'http://data.gwsw.nl/1.6/totaal/Persleidingsysteem', 'http://data.gwsw.nl/1.6/totaal/Hemelwaterstelsel', 'http://data.gwsw.nl/1.6/totaal/GemengdStelsel']\n\nhttp://data.gwsw.nl/1.6/totaal/DIT_riool\nLaagnaam: ['DRAINAGE_TRANSPORTLEIDING', 'ITR_TRANSPORTLEIDING']\nSymbool: []\nGwswStelsel: ['http://data.gwsw.nl/1.6/totaal/Vuilwaterstelsel', 'http://data.gwsw.nl/1.6/totaal/Infiltratiestelsel', 'http://data.gwsw.nl/1.6/totaal/Duikerstelsel', 'http://data.gwsw.nl/1.6/totaal/GemengdStelsel', 'http://data.gwsw.nl/1.6/totaal/Hemelwaterstelsel', 'http://data.gwsw.nl/1.6/totaal/Persleidingsysteem', 'http://data.gwsw.nl/1.6/totaal/Drainagestelsel']\n\nhttp://data.gwsw.nl/1.6/totaal/Vacuumpompstation\nLaagnaam: ['VACUUMLEIDING_GEMAAL']\nSymbool: ['SRI-PUT_VACUUM-SO', 'SRI-GEMAAL-SO']\nGwswStelsel: ['http://data.gwsw.nl/1.6/totaal/Hemelwaterstelsel', 'http://data.gwsw.nl/1.6/totaal/Drainagestelsel', 'http://data.gwsw.nl/1.6/totaal/Persleidingsysteem', 'http://data.gwsw.nl/1.6/totaal/Duikerstelsel', 'http://data.gwsw.nl/1.6/totaal/Infiltratiestelsel', 'http://data.gwsw.nl/1.6/totaal/Vuilwaterstelsel', 'http://data.gwsw.nl/1.6/totaal/GemengdStelsel']\n```",
+      "@gerritversteegh wil je ook één van de nieuwe objecten uit 5.1 opnemen in dit voorbeeld waar ook bewerkingen, materialen en afmetingen in zitten voor een goed beeld van de benodigde ontologie: \n\nHWA_RIOOLPUT_BETON\nHWA_TRANSPORTLEIDING_BETON_EI_900 1350\nDWA_TRANSPORTLEIDING-VOLZANDEN",
+      "Op basis van de bovengenoemde laagnamen/symbolen ben ik tot de volgende ruwe termen gekomen door de namen te splitsen op '-' en '_':\n```\n['900 1350', 'B', 'BERGBEZINKLEIDING', 'BETON', 'BLINDEPUT', 'DRAIN', 'DRAINAGE', 'DWA', 'EI',\n'GEMAAL', 'GWA', 'HWA', 'ITR', 'OVERIG', 'PERS', 'PERSLEIDING', 'PUT', 'RIOOLPUT', 'SEPTIC',\n 'SEPTICTANK', 'SO', 'SRI', 'TANK', 'TRANSPORTLEIDING', 'VACUUM', 'VACUUMLEIDING', 'VOLZANDEN']\n```\n\nHierin komen een aantal termen voor waarvan ik wil nagaan bij @ElisabethDeVries óf en/of hoe dit in de ontologie terug moet komen. Dat gaat over de volgende termen:\n- 900 1350\n- B\n- DWA\n- EI\n- GWA\n- HWA\n- ITR\n- OVERIG\n- SO\n- SRI\n-  SEPTIC & TANK vs SEPTICTANK",
+      "900 1350  dit gaan attribuutwaardes worden\nB - dit staat voor het symbool als het de weergave is van een bestaand object. In de classificatie gaat dit over de status, de statussen gaan we als waardelijst publiceren denk ik. Daar komt dan ook een term uit, maar dat regelen we bij de waardelijsten (we hebben status, discipline en bewerking al staan in de nlcs publicatie, daar kunnen we definities bij zetten en dan de termen publiceren? of we publiceren de nlcs classificatie met deze aspecten en voegen dan \"same as\" toe in de klassieke publicatie van de nlcs\nDWA - Is een hemelwaterstelsel conform het GWSW, alleen gebruiken wij deze afkorting omdat de laagnaam ander te lang wordt. Zou ik gewoon als NLCS-term publiceren. Is hetzelfde als \"Vuilwaterstelsel\" met synoniem \"DWA stelsel\" in de gwsw ontologie\nEI\nGWA - zie DWA, dit is in GWSW Gemengd rioolstelsel  Synoniem\tGWA stelsel\nHWA- zie DWA, dit is in GWSW Hemelwaterstelsel  Synoniem\tHWA stelsel, RWA-rioolstelsel, Regenwaterrioolstelsel \nITR - zie DWA, dit is in GWSW Infiltratiestelsel \nOVERIG - dit is in GWSW een Stelsel  \nSO - dit is een technische aanduiding die alleen nodig is voor de cad-softwareleveranciers en gaat niet over het object maar de technische werking van het symbool, deze kunnen we negeren\nSRI - betekenis is \"symbool rioleringen\" qua hoofdgroep-indeling in NLCS, even met Rik afstemmen, dit gaat misschien over een groepering / vakgebied oid in IMBOR. Ik zou dit niet als aparte term opnemen, maar als synoniem van de hoofdgroep RI in de NLCS. \nSEPTIC & TANK vs SEPTICTANK - dit beschouw ik als één term,",
+      "Huidige opname van de termen in de beheeromgeving:\n\n<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"\nxmlns:w=\"urn:schemas-microsoft-com:office:word\"\nxmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\"\nxmlns=\"http://www.w3.org/TR/REC-html40\">\n\n<head>\n\n<meta name=ProgId content=Word.Document>\n<meta name=Generator content=\"Microsoft Word 15\">\n<meta name=Originator content=\"Microsoft Word 15\">\n<link rel=File-List\nhref=\"file:///C:/Users/GERRIT~1/AppData/Local/Temp/msohtmlclip1/01/clip_filelist.xml\">\n\n<link rel=themeData\nhref=\"file:///C:/Users/GERRIT~1/AppData/Local/Temp/msohtmlclip1/01/clip_themedata.thmx\">\n<link rel=colorSchemeMapping\nhref=\"file:///C:/Users/GERRIT~1/AppData/Local/Temp/msohtmlclip1/01/clip_colorschememapping.xml\">\n\n<style>\n\n</style>\n\n</head>\n\n<body style='tab-interval:.5in;word-wrap:break-word'>\n\nNLCS Term | Opname in Laces Apps | GWSW mapping | IMBOR mapping\n-- | -- | -- | --\nB | Enumeratie van het Aspect  status | x | x\nBERGBEZINKLEIDING | PhysicalObject | Gwsw:Bergbezinkleiding | Gwsw:Bergbezinkleiding\nBETON | Matter | Gwsw:Beton | Gwsw:Beton\nBLINDEPUT | PhysicalObject | Gwsw:BlindePut (beschouwd als Class) | Gwsw:BlindePut (beschouwd als Attribuut)\nDRAIN | PhysicalObject | Gwsw:Drain | Gwsw:Drain\nDRAINAGE | PhysicalObject | Gwsw:Drainagestelsel | Gwsw:Drainagestelsel\nDWA | PhysicalObject | Gwsw:Vuilwaterstelsel | Gwsw:Vuilwaterstelsel\nGEMAAL | PhysicalObject | Gwsw:Gemaal | Gwsw:Gemaal\nGWA | PhysicalObject | Gwsw:GemengdStelsel | Gwsw:GemengdStelsel\nHWA | PhysicalObject | Gwsw:Hemelwaterstelsel | Gwsw:Hemelwaterstelsel\nITR | PhysicalObject | Gwsw:Infiltratiestelsel | Gwsw:Infiltratiestelsel\nOVERIG | PhysicalObject | Gwsw:Stelsel | Gwsw:Stelsel\nPERS | X – skip |   |  \nPERSLEIDING | PhysicalObject | Gwsw:Persleiding | Gwsw:Persleiding\nPUT | PhysicalObject | Gwsw:Put | https://data.crow.nl/imbor/def/b7168388-9eb9-4c95-b35e-1ba2660849e8\nRIOOLPUT | PhysicalObject | Gwsw:Rioolput | Gwsw:Rioolput\nSEPTIC | X – skip |   |  \nSEPTICTANK | PhysicalObject | Gwsw:Septictank | Gwsw:Septictank\nSO | X – skip |   |  \nTANK | X – skip |   |  \nTRANSPORTLEIDING | PhysicalObject | Gwsw:Transportleiding | Gwsw:Transportleiding\nVACUUM | X – skip |   |  \nVACUUMLEIDING | PhysicalObject | Gwsw:Vacuumleiding | Gwsw:Vacuumleiding\nSRI | X – skip |   |  \nVOLZANDEN | Activity | Geen koppeling met een activiteit, de GWSW bevat wel gwsw:Volgezandeleiding als mogelijke skos:related binnen de hoofdgroep Rioleringen |  \n900 1350 | Enumeratie van het Aspect afmeting | x  | x | \nEI | Enumeratie van het Aspect vorm | Gwsw:Eivormig  |  https://data.crow.nl/imbor/id/domeinwaarden/fc951ef4-feb6-48d0-a1e4-6e79cd5de2de  |  \n\n</body>\n\n</html>",
+      "@MvanderHulst weet jij wat \"EI\" betekent in deze laagnaam: HWA_TRANSPORTLEIDING_BETON_EI_900 1350?",
+      "@ElisabethDeVries Betonnen EI buizen 900/1350",
+      "de beheeromgeving is gereed zo te zien"
+    ]
+  },
+  {
+    "number": 633,
+    "title": "PDOK Thema Stedelijk Water <> wat is de minimale dataset volgens GWSW?",
+    "closed_at": "2025-12-19T08:32:15Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "Gevraagd aan Stichting Rioned: hoe we de “minimale dataset” PDOK Thema Stedelijk Water  kunnen vinden in de GWSW, en dan bedoel ik echt hoe mijn informatiemanagers dit deel van de ontologie kunnen selecteren en/of welke eisen gesteld worden aan de datasets in het pdok thema. Idealiter kan ik zelf een export in RDF van deze GWSW-subset maken.\nWellicht staat het al ergens heel duidelijk uitgelegd en hoef je me alleen maar naar die pagina te verwijzen.\n \nWe gaan IMBOR en GWSW aansluiten op NLCS, door een classificatie te maken van NLCS en deze te harmoniseren of alignen met beide andere ontologieën. Als basis gebruik ik graag GWSW.\n\n@gerritversteegh heeft dit mogelijk al eens uitgezocht voor de huidige mapping gwsw-nlcs\n@RiX012 heeft dit mogelijk al uitgezocht voor de aansluiting IMBOR - GWSW",
+    "comments": [
+      "antwoord van gwsw-expert: Jouw exacte “gegevensbehoefte” kan ik niet precies achterhalen. \nOp basis van een deelmodel-filter definiëren we binnen het GWSW de kwaliteitseisen (minimale dataset) per proces. Maar er is geen apart deelmodel “PDOK Thema Stedelijk Water”. Dat thema wordt specifiek voor Geo-presentaties gehanteerd en de gegevensselectie vindt plaats op basis van (SPARQL) queries waarmee we de gemeentelijke datasets bevragen. Ik doe je een paar handreikingen, mogelijk staat er een bruikbare bij:\n\n•\tHet deelmodel GWSW-MdsPlan komt mogelijk in de buurt van jouw minimale dataset, zie [https://data.gwsw.nl/MdsPlan](https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdata.gwsw.nl%2FMdsPlan&data=05%7C02%7Celisabeth.devries%40crow.nl%7C18cceb77aca54acc115208ddb8a37eba%7C1e0440a2a638433189c766de8119b255%7C0%7C0%7C638869734591165989%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=BAzfTS4qXsnswoL7lZEHXeSe88RnDZwDIFPL9HFmSgw%3D&reserved=0) . Dit deelmodel bevat basisgegevens voor het maken van operationele plannen (onderhoud, inspectie). Op de homepage van het deelmodel kun je het datamodel in RDF-vorm downloaden.\n•\tOnlangs hebben we zogenaamde gegevensgebruiksniveaus (GGNs) beschreven als hulp voor de database-definitie aan de beheerder-kant (welke objecttypes en kenmerken horen in de native database). Het overzicht per GGN kun je opvragen op [https://apps.gwsw.nl/item_publish_cfk](https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fapps.gwsw.nl%2Fitem_publish_cfk&data=05%7C02%7Celisabeth.devries%40crow.nl%7C18cceb77aca54acc115208ddb8a37eba%7C1e0440a2a638433189c766de8119b255%7C0%7C0%7C638869734591209022%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=x7TwpK4nZbLNJEDaMAlNf31ergyHlKHazIR7pakbCCI%3D&reserved=0) , het GGN “Ligging” lijkt het meest op het PDOK-thema.\n•\tDe SPARQL queries waarmee de gegevensextractie wordt gedaan voor het PDOK-Geo-thema heten: PDOK_Gebied, Beheer_Put, Beheer_Leiding, Beheer_Lozing, Beheer_Pomp, Beheer_Bouwwerk, PDOK_Aansluiting_Punt, Aansluiting_Leiding. Die queries staan allen onder [https://github.com/StichtingRIONED/gwsw_queries/tree/main/geo](https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2FStichtingRIONED%2Fgwsw_queries%2Ftree%2Fmain%2Fgeo&data=05%7C02%7Celisabeth.devries%40crow.nl%7C18cceb77aca54acc115208ddb8a37eba%7C1e0440a2a638433189c766de8119b255%7C0%7C0%7C638869734591237971%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=6epCsKtk1uJCuDhtK4%2BbP6cW0m1J6uyLipCYPhTn8YQ%3D&reserved=0) \n•\tHet overzicht van de attributen per Geo-laag (de laag-naam is gelijk aan de query-naam) staat in het xml-schema [https://apps.gwsw.nl/doc/GwswGeoserver_describe.xsd](https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fapps.gwsw.nl%2Fdoc%2FGwswGeoserver_describe.xsd&data=05%7C02%7Celisabeth.devries%40crow.nl%7C18cceb77aca54acc115208ddb8a37eba%7C1e0440a2a638433189c766de8119b255%7C0%7C0%7C638869734591263375%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=Woe4JSfNVCbkuKzXFhu0128GJi22Msxsm6Zj%2BjdzMKk%3D&reserved=0) \n•\tOver NLCS: als je [https://data.gwsw.nl](https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdata.gwsw.nl%2F&data=05%7C02%7Celisabeth.devries%40crow.nl%7C18cceb77aca54acc115208ddb8a37eba%7C1e0440a2a638433189c766de8119b255%7C0%7C0%7C638869734591286545%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=zjlB0KAfah2MGSisxF5WyfNKrHhcoPY7lX1NEuTuu70%3D&reserved=0) opent en je zoekt (vakje rechtsboven) op “NLCS”, dan krijg je de lijst met de nu opgenomen NLCS-concepten in het GWSW",
+      "Besluit: we gaan redeneren vanuit NLCS naar GWSW, je kunt dan alleen de mapping gebruiken als er ook een laagnaam beschikbaar is in de NLCS."
+    ]
+  },
+  {
+    "number": 635,
+    "title": "NLCS classificatie rioleringen maken op basis van bestaand alignment NLCS-GWSW",
+    "closed_at": "2026-01-08T14:47:58Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "Kunnen we vanuit de huidige mapping NLCS – GWSW geautomatiseerd een NLCS ontologie afleiden? Dat graag doen & dan importeren in de beheeromgeving van de NLCS Classificatie rioleringen.\n\nDan hoort daarbij: kunnen we ook de alignment naar de NLCS laagnamen & symbolen van 5.1 geautomatiseerd opstellen? Dat graag doen & dan importeren in de beheeromgeving van de alignment NLCS Classificatie - NLCS laagnamen.",
+    "comments": [
+      "Op dit moment is de NLCS Classificatie RI opgebouwd door een kopie te maken van de NLCS laagnamen onder hoofdgroep RI. Hierbij is direct de relatie naar de bijbehorende laagnaam uit NLCS Klassiek gemaakt. Een aantal relaties naar de GWSW en IMBOR zijn ook al gemaakt. De symbolen zijn nog niet opgenomen in de beheeromgeving.",
+      "de symbolen zijn altijd gekoppeld aan een laagnaam in de NLCS tekenstandaard, dus zou je met een script alle namen van symbolen in de taxonomie onder het object kunnen koppelen waar de laagnaam bij hoort? Met al een link naar het symbool in de tekenstandaard",
+      "De laatste vraag heb ik even een eigen issue van gemaakt zodat duidelijk is welke taak nog openstaat #756"
+    ]
+  },
+  {
+    "number": 636,
+    "title": "Documentatie opstellen met use cases alignments NLCS rioleringen",
+    "closed_at": "2025-09-26T12:53:39Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "Use cases documenteren voor ontology alignment\n\n- [x] https://github.com/nl-digigo/NLCS/issues/197\n- [x] use cases verwerking rioleringsrevisiegegevens Dordrecht / Nijmegen / Utrecht",
+    "comments": [
+      "> * [x]  use cases verwerking rioleringsrevisiegegevens Dordrecht / Nijmegen / Utrecht\n\nhttps://docs.crow.nl/use-cases-door/project-beheer/"
+    ]
+  },
+  {
+    "number": 638,
+    "title": "Inrichten beheeromgeving alignment NLCS Classificatie - NLCS Basis Rioleringen",
+    "closed_at": "2025-09-26T12:47:59Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "- [x] Beheeromgeving voor een alignment op basis van NEN 2660-2 voor de NLCS Hoofdgroep Rioleringen inrichten met\n- [ ] Live, Acceptance-publicatie: publiek\n- [x] Test-publicatie: privé\n- [x] Stylesheet: kan mogelijk dezelfde zijn als de stylesheet van NLCS 5.0 - GWSW\n- [x] Query opstellen om vergelijkingstabel te genereren",
+    "comments": [
+      "Ik stel voor om de linksets van de NLCS en NLCS Classificatie zo veel mogelijk vanuit de bestaande workspaces te beheren. Zo kunnen vanuit de NLCS beheeromgeving relaties gemaakt worden met de NLCS Classificatie begrippen, en vanuit de NLCS Classificatie beheeromgeving kunnen relaties naar andere standaarden gemaakt worden. Hiermee voorkom je dat er dubbele concepten ontstaan in verschillende omgevingen, wat bij wijzigingen in de NLCS/NLCS Classificatie extra werk oplevert om diezelfde wijzigingen ook in de workspaces van de linksets doorgevoerd moeten worden. Zie onderstaande afbeelding.",
+      "akkoord",
+      "Ik heb [een beheeromgeving](https://bimloket.laces-manager.tech/app/#/otl/68ac65f91c120d22084ea32e/content?class=PhysicalObject&isExternal=false&isTopConcept=false) gemaakt met de handmatig geselecteerde termen uit issue [631](https://github.com/nl-digigo/NLCS/issues/631). Hiervan heb ik een [test publicatie](https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-ontology/versions/v0_1_0) gemaakt, waarbij een query is opgeslagen om de termen met hun mappingen op te halen.\n\nIk heb er op dit moment voor gekozen om deze publicatie binnen de bestaande NLCS LDP omgeving te publiceren, waar de huidige NLCS 5.0-GWSW mapping ook staat. Dit lijkt mij voldoende, omdat dit onderdeel is van de NLCS. Laat het vooral even weten als je dit toch liever onder een aparte omgeving doet.",
+      "@gerritversteegh dank, we houden het inderdaad bij de NLCS publicaties.",
+      "@gerritversteegh ik heb de naam van de beheeromgeving veranderd naar classificatie RI (rioleringen); ik wil voor elke hoofdgroep een eigen beheeromgeving en eigen publicatie maken, net zoals we dat willen doen (deo volente, na definitieve publicatie 5.1) voor de NLCS Basis"
+    ]
+  },
+  {
+    "number": 639,
+    "title": "Inrichten viewer alignment NLCS Classificatie Rioleringen - NLCS Laagnamen",
+    "closed_at": "2026-01-16T10:59:40Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "ntb welke viewer we gebruiken, van CROW of van DigiGO",
+    "comments": []
+  },
+  {
+    "number": 652,
+    "title": "In beheeromgeving NLCS classificatie rioleringen: links naar IMBOR 2025 en GWSW (laatste versie) mogelijk maken",
+    "closed_at": "2025-12-05T09:15:03Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "In beheeromgeving NLCS classificatie rioleringen: links naar IMBOR 2025 en GWSW (laatste versie) mogelijk maken",
+    "comments": [
+      "Remote sources toegevoegd in [de workspace ](https://bimloket.laces-manager.tech/app/#/otl/692028b9b34a135beed4efd2/content?class=PhysicalObject&isExternal=false&isTopConcept=false)"
+    ]
+  },
+  {
+    "number": 720,
+    "title": "10% versie NLCS ontologie Rioleringen",
+    "closed_at": "2026-01-08T15:14:55Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "van een kleine hoeveelheid laagnamen en symbolen een ontologie opstellen in beheeromgeving\npublicaties maken (termen, classes, waardelijsten zoals imbor)\nquery's maken om te kunnen viewen",
+    "comments": [
+      "Test publicaties zijn [hier](https://hub.laces.tech/digitalbuildingdata/nlcs/test) beschikbaar, de eerste queries zijn opgeslagen bij de publicaties."
+    ]
+  },
+  {
+    "number": 721,
+    "title": "10% versie NLCS ontologie-IMBOR/GWSW",
+    "closed_at": "2026-01-08T15:33:47Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "relaties leggen in beheeromgeving\npublicatie maken van alignment\nquery's maken om te kunnen viewen",
+    "comments": [
+      "De relaties naar de IMBOR en GWSW zijn in [de NLCS Classificatie beheeromgeving](https://bimloket.laces-manager.tech/app/#/otl/692028b9b34a135beed4efd2/content?class=PhysicalObject&activeEntityId=a3ba7a37-7760-3456-b2d4-d1382b0c0c9a&activeEntityType=PhysicalObject&isExternal=false&isTopConcept=false) gelegd en in [de publicaties](https://hub.laces.tech/digitalbuildingdata/nlcs/test/) op te halen, inclusief queries om deze gelinkte resources te vinden."
+    ]
+  },
+  {
+    "number": 722,
+    "title": "10% versie alignment NLCS ontologie - NLCS voor rioleringen",
+    "closed_at": "2026-01-08T15:34:39Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "vanuit nlcs laagnamen/symbolen beheeromgeivng relatie leggen naar de 10% versie van de ontologie nlcs rioleringen\npublicatie maken\nquery's maken om te kunnen viewen",
+    "comments": [
+      "het is uiteindelijk andersom gedaan, de relaties worden nu gelegd bij de ontologie"
+    ]
+  },
+  {
+    "number": 723,
+    "title": "Klassieke mappingstabel gwsw-nlcs genereren uit 10% versie",
+    "closed_at": "2026-02-06T09:23:41Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "query maken voor deze mappingstabel, die gebruikt moet kunnen worden zoals de oude sql voor de leveranciers\n\nchecken hoe het zit met de originale ID's uit deze tabel, in de oude sql\nCREATE TABLE `GWSW_mapping` (\n  `id` int(4) NOT NULL AUTO_INCREMENT,\n  `StelselType` varchar(50) NOT NULL,\n  `type` varchar(50) NOT NULL,\n  `NLCSobject_id` int(4) NOT NULL,\n  `NLCSsymbol_id` int(4) NOT NULL,\n  `versie` varchar(5) NOT NULL,\n  `status` varchar(10) NOT NULL,\n  `opmerkingen` text NOT NULL,\n  PRIMARY KEY (`id`)\n) ENGINE=MyISAM AUTO_INCREMENT=659 DEFAULT CHARSET=latin1;\n\nINSERT INTO `GWSW_mapping` VALUES('1','DRAINAGESTELSEL','BEERPUT','2284','1021','5.0','NIEUW','Initieel');\nINSERT INTO `GWSW_mapping` VALUES('2','DRAINAGESTELSEL','BIJZONDEREPUTCONSTRUCTIE','1656','971','5.0','NIEUW','Initieel');\nINSERT INTO `GWSW_mapping` VALUES('3','DRAINAGESTELSEL','BLINDEPUT','3497','1002','5.0','NIEUW','Initieel');\nINSERT INTO `GWSW_mapping` VALUES('4','DRAINAGESTELSEL','BRANDPUT','1656','971','5.0','NIEUW','Initieel');\nINSERT INTO `GWSW_mapping` VALUES('5','DRAINAGESTELSEL','DOORSPOELPUT','1657','3836','5.0','NIEUW','Initieel');\nINSERT INTO `GWSW_mapping` VALUES('6','DRAINAGESTELSEL','DRAINAGEPUT','3593','971','5.0','NIEUW','Initieel');\nINSERT INTO `GWSW_mapping` VALUES('7','DRAINAGESTELSEL','ERFAFSCHEIDINGSPUT','1656','971','5.0','NIEUW','Initieel');",
+    "comments": [
+      "Er zijn momenteel [queries](https://github.com/nl-digigo/NLCS/tree/development/code/gwsw-nlcs) die de de naam ipv de IDs van de NLCS symbolen/objecten weergeeft, met de bijbehorende GWSW gegevens. Zowel de naam als de IDs staan niet in de mappings-publicatie zelf, dus zullen deze queries middels een named graph tegelijkertijd ook de NLCS moeten bevragen naast de GWSW-NLCS publicatie. \n\nIk zal Gulay vragen om de nieuwe query te maken",
+      "Met de nieuwe [publicatie](https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-classificatie-kern/versions/v0_0_3) zou het mogelijk moeten zijn om de oorspronkelijke GWSW mapping te herleiden uit de NLCS Classificatie. Ik heb hiervoor een eerste test gedaan met de volgende query:\n\n```\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX owl: <http://www.w3.org/2002/07/owl#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX skos: <http://www.w3.org/2004/02/skos/core#>\nPREFIX dcterms: <http://purl.org/dc/terms/>\nPREFIX sh: <http://www.w3.org/ns/shacl#>\n\nSELECT DISTINCT *\nWHERE {\n  BIND (<http://data.gwsw.nl/1.6/totaal/Drainagestelsel> AS ?GwswStelselType) .\n  BIND (<http://data.gwsw.nl/1.6/totaal/Bergbezinkleiding> AS ?GwswType) .\n  \n  ?uriStelselType skos:exactMatch ?GwswStelselType .\n  ?uriType rdfs:subClassOf+ ?uriStelselType .\n  ?uriType skos:exactMatch ?GwswType .\n  \n  ?uriStelselType skos:prefLabel ?nameStelselType .\n  # ?uriStelselType rdfs:seeAlso ?NLCSLaagnaamStelsel .\n  # FILTER (CONTAINS(STR(?NLCSLaagnaamStelsel), \"http://digitalbuildingdata.tech/nlcs/def/\")) .\n  \n  ?uriType skos:prefLabel ?nameType .\n  ?uriType rdfs:seeAlso ?NLCSLaagnaamType .\n  FILTER (CONTAINS(STR(?NLCSLaagnaamType), \"http://digitalbuildingdata.tech/nlcs/def/\")) .\n}\n```\n\nHier komt helaas nog geen correcte mapping uit. De oorspronkelijke mapping van Drainagestelsel-Bergbezinkleiding resulteert in NLCS Laagnaam 'http://digitalbuildingdata.tech/nlcs/def/d3e79539-6a5a-46a0-b84a-8894d70a9a38' (prefLabel OVERIG_BERGBEZINKLEIDING) in plaats van DRAINAGE_BERGBEZINKLEIDING. Is dit een fout in de originele mapping of in deze nieuwe versie?",
+      "Ondanks bovenstaande comment, heb ik de query alvast opgesteld waarmee de hele tabel opgehaald kan worden. Dit vereist wel dat alle mappingen naar GWSW in de beheeromgeving zijn toegevoegd. Ook de mappingen naar de NLCS symbolen moeten nog toegevoegd worden. De query is opgeslagen bij de publicatie, maar zet ik ook hieronder:\n```\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX owl: <http://www.w3.org/2002/07/owl#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX skos: <http://www.w3.org/2004/02/skos/core#>\nPREFIX dcterms: <http://purl.org/dc/terms/>\nPREFIX sh: <http://www.w3.org/ns/shacl#>\n\nSELECT DISTINCT ?GwswStelselType ?GwswType ?NLCSLaagnaam ?NLCSSymbool\nWHERE {  \n  ?uriRi a owl:Class .\n  ?uriRi skos:prefLabel \"RI\" .\n  ?uriStelselType rdfs:subClassOf ?uriRi .\n  ?uriStelselType skos:exactMatch ?GwswStelselType .\n  FILTER (CONTAINS(STR(?GwswStelselType), \"http://data.gwsw.nl/\")) .\n\n  ?uriType rdfs:subClassOf+ ?uriStelselType .\n  ?uriType skos:exactMatch ?GwswType .\n  FILTER (CONTAINS(STR(?GwswType), \"http://data.gwsw.nl/\")) .\n  \n  ?uriStelselType skos:prefLabel ?nameStelselType .\n  \n  ?uriType skos:prefLabel ?nameType .\n  ?uriType rdfs:seeAlso ?NLCSLaagnaam .\n  FILTER (CONTAINS(STR(?NLCSLaagnaam), \"http://digitalbuildingdata.tech/nlcs/def/\")) .\n  \n  ## Symbolen zijn nog niet beschikbaar in de publicaties, zodra deze zijn toegevoegd zal deze query via een API call moeten worden uitgevoerd met NLCS Klassiek in de default graph. De volgende regels zullen dan niet meer gecomment moeten zijn.\n  # ?NLCSLaagnaam rdfs:subClassOf+/skos:prefLabel \"NLCS-object\" .\n  # OPTIONAL {  \n    # ?uriType rdfs:seeAlso ?NLCSSymbool .\n    # FILTER (CONTAINS(STR(?NLCSSymbool), \"http://digitalbuildingdata.tech/nlcs/def/\")) .\n    # ?NLCSSymbool rdfs:subClassOf+/skos:prefLabel \"Symbool\" .\n  # } \n}\n```",
+      "> Hier komt helaas nog geen correcte mapping uit. De oorspronkelijke mapping van Drainagestelsel-Bergbezinkleiding resulteert in NLCS Laagnaam 'http://digitalbuildingdata.tech/nlcs/def/d3e79539-6a5a-46a0-b84a-8894d70a9a38' (prefLabel OVERIG_BERGBEZINKLEIDING) in plaats van DRAINAGE_BERGBEZINKLEIDING. Is dit een fout in de originele mapping of in deze nieuwe versie?\n\nDit komt omdat in de 5.0 alleen een OVERIG_BERGBEZINKLEIDING bestond, dus werd Drainagestelsel-Bergbezinkleiding daar heen gemapt; dat kan nu beter, nu we weten bij welk stelseltype de bergbezinkleiding moet horen.",
+      "Bij deze is hier de voorlopige nieuwe mapping [GWSW_1_6-NLCS_5_1_zonder_symbolen.csv](https://github.com/user-attachments/files/24253657/GWSW_1_6-NLCS_5_1_zonder_symbolen.csv)",
+      "De query voor de GWSW-NLCS mapping inclusief NLCS Symbolen: \n\n```\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX owl: <http://www.w3.org/2002/07/owl#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX skos: <http://www.w3.org/2004/02/skos/core#>\nPREFIX dcterms: <http://purl.org/dc/terms/>\nPREFIX sh: <http://www.w3.org/ns/shacl#>\n\nSELECT DISTINCT ?GwswStelselType ?GwswType ?NLCSLaagnaam ?NLCSSymbool\nWHERE {  \n  ?uriRi a owl:Class .\n  ?uriRi skos:prefLabel \"RI\" .\n  ?uriStelselType rdfs:subClassOf ?uriRi .\n  ?uriStelselType skos:exactMatch ?GwswStelselType .\n  FILTER (CONTAINS(STR(?GwswStelselType), \"http://data.gwsw.nl/\")) .\n\n  ?uriType rdfs:subClassOf+ ?uriStelselType .\n  ?uriType skos:exactMatch ?GwswType .\n  FILTER (CONTAINS(STR(?GwswType), \"http://data.gwsw.nl/\")) .\n  \n  ?uriStelselType skos:prefLabel ?nameStelselType .\n  \n  ?uriType skos:prefLabel ?nameType .\n  ?uriType rdfs:seeAlso ?NLCSLaagnaam .\n  FILTER (CONTAINS(STR(?NLCSLaagnaam), \"http://digitalbuildingdata.tech/nlcs/def/\")) .\n  ?NLCSLaagnaam rdfs:subClassOf+/skos:prefLabel \"NLCS-object\" .\n  OPTIONAL {  \n    ?uriType rdfs:seeAlso ?NLCSSymbool .\n    FILTER (CONTAINS(STR(?NLCSSymbool), \"http://digitalbuildingdata.tech/nlcs/def/\")) .\n    ?NLCSSymbool rdfs:subClassOf+/skos:prefLabel \"Symbool\" .\n  } \n}\n```",
+      "Bij deze is hier de voorlopige nieuwe mapping [GWSW_1_6-NLCS_5_1_met_symbolen.csv](https://github.com/user-attachments/files/24384135/GWSW_1_6-NLCS_5_1_met_symbolen.csv)",
+      "kunnen we een query of script maken waarmee we ook de namen van de objecten, lagen en symbolen kunnen zien in de tabel? Om hem mens leesbaarder te maken?",
+      "Sure, does this work: \n\n[GWSW_1_6-NLCS_5_1_met_symbolen.csv](https://github.com/user-attachments/files/24492500/GWSW_1_6-NLCS_5_1_met_symbolen.csv)",
+      "that works, @gulaycanbaloglu could you add the name of the GWSWType and GWSWStelseltype? From the GWSW ontology?",
+      "I unfortunately cannot query that ontology, but they already have human readable URIs: http://data.gwsw.nl/1.6/totaal/Drainagestelsel\nWould it help to have a column with the human readable part from the uri, **Drainagestelsel**?",
+      "yes, that would help, let's do that",
+      "[GWSW_1_6-NLCS_5_1_met_symbolen.csv](https://github.com/user-attachments/files/24495262/GWSW_1_6-NLCS_5_1_met_symbolen.csv)",
+      "Yes, thats it. Can you place the query in this location: https://github.com/nl-digigo/NLCS/tree/development/code/gwsw-nlcs\n\nCan you add a readme to explain wat these queries do?",
+      "I ignored 2 wip queries in the folder, from two years ago:\nqueryNLCS_GWSW.rq\nqueryNLCS_GWSW_withNames.rq\n\nI think they were for NLCS-GWSW mapping, but we have another working query now ([GWSW-NLCS mapping tabel.rq](https://github.com/nl-digigo/NLCS/blob/development/code/gwsw-nlcs/GWSW-NLCS%20mapping%20tabel.rq)) so maybe we can delete them.",
+      "thanks. I deleted them. All is clear now",
+      "Reopening this, please make and document a new query\nWe changed the structure:\n1. stelsels now have a part of relation\n2. objects do not have a direct relation to the object in gwsw, but are specialisations of the object\n\nYou need to make a new publication first, I did'nt publish this yet, onlyu changed some things in the workspace",
+      "Here is the updated table [GWSW_1_6-NLCS_5_1_met_symbolen_v2.csv](https://github.com/user-attachments/files/24856285/GWSW_1_6-NLCS_5_1_met_symbolen_v2.csv)",
+      "Did you limit the amount of answers? I made a lot more connections to GWSW, there should be a lot more lines in the output",
+      "It might be because we're looking for the stelsels only? So these 8 stelsels and their parts:",
+      "now I understand. We need a more compicated query\n\nWe need first of all to search all fysicalobjects that have a parent linked to a GWSW object, see in the example \"NLCS slibafscheider\" is the same as \"GWSW Slibafscheider\", the object GWA_AFSCHEIDER_SLIB is a sybtype of a GWSW slibafscheider and part of stelsel GWA",
+      "Here is the updated one with parent links:\n[GWSW_1_6-NLCS_5_1_met_symbolen_v3.csv](https://github.com/user-attachments/files/24912611/GWSW_1_6-NLCS_5_1_met_symbolen_v3.csv)\n\nNote that there are edge cases, which I excluded from output table now, such as \n- objects not being in the partonomy tree (e.g., OVERIG_AANSLUITPUT)\n- Persleiding under Persleiding both in taxonomy and partonomy, and linked to gwsw in partonomy:"
+    ]
+  },
+  {
+    "number": 725,
+    "title": "Documentatie maken objectgericht informatiemodel NLCS",
+    "closed_at": "2026-02-06T12:49:21Z",
+    "labels": [
+      "Informatiemodel"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "Opstellen technische documentatie over het objectgerichte informatiemodel\n\nTer overweging; één aparte documentatie voor de nlcs met laagnamen en visualisaties, en één voor het objectgerichte informatiemodel, of samenvoegen?\n\nModellen beschrijven: vocabulaire, ontologie, fysiek datamodel volgens MIM\n\nTer overweging: ook de alignments in dezelfde documentatie beschrijven? NLCS-IMBOR/GWSW is de eerste die we maken. Er staan nu ook zaken in: https://nl-digigo.github.io/NLCS/ontologyalignments/5-1/",
+    "comments": [
+      "checken; gaan we de \"objectgerichte ontologie\" inderdaad als losstaand model publiceren naast de \"CAD-gerichte ontologie\"? Ja, toch @gerritversteegh",
+      "1.\tHet Informatiemodel NLCS Objectgericht op het onderdeel rioleringen, als ttl-file, met onderdelen kern, vocabulaire en domeinwaarden in [Documentatie Informatiemodel NLCS Objectgericht 5.1](https://nl-digigo.github.io/NLCS/code_documentation_im/5-1/)\n\n2.\tHet Alignment naar GWSW en IMBOR is onderdeel van het informatiemodel NLCS Objectgericht. [Relaties NLCS 5.1 met andere standaarden](https://nl-digigo.github.io/NLCS/ontologyalignments/5-1/) geeft beschrijving van de alignments vanuit de NLCS naar andere standaarden."
+    ]
+  },
+  {
+    "number": 752,
+    "title": "testlinks naar ontologie vanuit beheeromgeving nlcs weghalen",
+    "closed_at": "2026-01-09T09:00:22Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "",
+    "comments": [
+      "De links zijn eruit gehaald"
+    ]
+  },
+  {
+    "number": 754,
+    "title": "Relaties NLCS - GWSW, modelleertechnische vragen",
+    "closed_at": "2026-01-21T08:25:35Z",
+    "labels": [
+      "Informatiemodel",
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "- [x] We hebben bij rioleringen nu eerst het stelseltype in de laagnaam staan, daarna pas de putten., leidingen enzovoorts die daaronder vallen. ik zit te denken, als je dit zou matchen met gwsw en imbor, dan moeten die onderliggende objecten parts-of relaties hebben tot de stelsels, in plaats van zoals nu in een taxonomie.@gerritversteegh denk jij dat ook?\n- [x] Daarnaast deze vraag: er is in GWSW sprake van een type put, of septic tank, enzovoorts. \nIn de NLCS laagnamen wordt dit dan een same as-relatie, of een specialisation-of?\n- [x] Verder opgemerkt: Niet alles wat onder HULPSTUK valt in NLCS, is ook een hulpstuk in GWSW, een rioolafsluiter is bijvoorbeeld een constructieonderdeel, maar geen hulpstuk. Om correct te mappen moet hulpstuk IN nlcs dus worden gemapt naar constructieonderdeel in GWSW. Hier moeten we een goede check op uitvoeren als de handmatige mapping af is (controle-query\n- [x] een lozingspunt is in GWSW een \"topologisch element\" ik kan hier niet naar mapping in de beheeromgeving?\n- [x] Een mantelbuis is er in GWSW één voor alle soorten riolering, in NLCS wederom gesplitst naar stelseltype. In IMBOR staat ook een mantelbuis, masar dat is veel generieke qua definitie. Relatie naar beiden als specialisation of?\n- [x] DRAINAGE_RIOOLLEIDING_MATERIAAL is neem ik aan de laag om de materiaalnaam in op te nemen, interessant is dat in gwsw ook een knmerk bestaat met een opsomming van materialen: https://data.gwsw.nl/1.6.1/Basis/index.html?menu_item=classes&item=../../def/1.6.1/Basis/MateriaalLeiding kunnen we zorgen dat we een aspect hebben met relaties naar die  materialen? > gek eigenlijk, in de laagnaam zit ook al het materiaal maar niet al deze typen.\n- [x] BOB, Binnenonderkantbuis meetpunt, Hoogte t.o.v. NAP, is dit een aspect of een geometrie? Hoe kunnen we die linken naar de laagnaam DRAINAGE_RIOOLLEIDING_BOB",
+    "comments": [
+      "> * [ ]  We hebben bij rioleringen nu eerst het stelseltype in de laagnaam staan, daarna pas de putten., leidingen enzovoorts die daaronder vallen. ik zit te denken, als je dit zou matchen met gwsw en imbor, dan moeten die onderliggende objecten parts-of relaties hebben tot de stelsels, in plaats van zoals nu in een taxonomie.\n\nHet gaat alleen om samenstellingen bij stelseltypes, beheerlast zal mee vallen. Besluit: dit gaan we doen",
+      ">   In de NLCS laagnamen wordt dit dan een same as-relatie, of een specialisation-of?\n\nHet is skos, dus het is niet heel hard qua mapping\n\nMaar nu we de stelsels gaan gebruiken in een samenstelling, wordt het logischer om de indeling van de taxonomie van fysieke objecten te matchaen aan GWSW en dan de stelsel-specifieke objecten eronder hangen\n\nAls het wel hetzelfde object is, maar binnen een ander tselsel, kan dan ook op het bovenliggende object de calculatie of bestelinformatie gkoppeld worden.",
+      "> [ ]  Verder opgemerkt: Niet alles wat onder HULPSTUK valt in NLCS, is ook een hulpstuk in GWSW, een rioolafsluiter is bijvoorbeeld een constructieonderdeel, maar geen hulpstuk. Om correct te mappen moet hulpstuk IN nlcs dus worden gemapt naar constructieonderdeel in GWSW. Hier moeten we een goede check op uitvoeren als de handmatige mapping af is (controle-query\n\nEen controle query hierop is te complex, wordt handmatige check",
+      "> - [ ] een lozingspunt is in GWSW een \"topologisch element\" ik kan hier niet naar mapping in de beheeromgeving?\n\nIk heb de remote source geupdated en nu kan er wel een link gemaakt worden naar GWSW Topologische elementen",
+      "> - [DRAINAGE_RIOOLLEIDING_MATERIAAL is neem ik aan de laag om de materiaalnaam in op te nemen, interessant is dat in gwsw ook een knmerk bestaat met een opsomming van materialen: https://data.gwsw.nl/1.6.1/Basis/index.html?menu_item=classes&item=../../def/1.6.1/Basis/MateriaalLeiding kunnen we zorgen dat we een aspect hebben met relaties naar die  materialen? > gek eigenlijk, in de laagnaam zit ook al het materiaal maar niet al deze typen.\n\nWe kunnen bij de materialen al verwijzen naar de enumeratie uit gwsw",
+      "> BOB, Binnenonderkantbuis meetpunt, Hoogte t.o.v. NAP, is dit een aspect of een geometrie? Hoe kunnen we die linken naar de laagnaam DRAINAGE_RIOOLLEIDING_BOB\n\nAspect hoort bij riooleiding"
+    ]
+  },
+  {
+    "number": 755,
+    "title": "Vragen GWSW versus NLCS, afsluiter, afsluitstuk, eindkap",
+    "closed_at": "2026-01-05T12:57:24Z",
+    "labels": [],
+    "milestone": "Alignment GWSW",
+    "body": "In het kader van NLCS Objectgericht, onderdeel rioleringen:\n\n- [ ] Is een DRAINAGE_HULPSTUK_AFSLUITER een:\n1. Rioolafsluiter\nDefinitie\tEen statische constructie waarmee de doorstroomopening van een rioolleiding geheel of gedeeltelijk wordt afgesloten. Bij gedeeltelijke afsluiting (bijvoorbeeld als vloeistof via een uitsparing kan doorstromen) als deel een Opening In Wand toevoegen.\n2. Afsluitstuk\nDefinitie\tEen hulpstuk bestemd voor het afsluiten van een leiding.  \n\n- [ ] is een DRAINAGE_HULPSTUK_EINDKAP:\nAfsluitstuk  \nSynoniem\tEindkap  \nDefinitie\tEen hulpstuk bestemd voor het afsluiten van een leiding.",
+    "comments": [
+      "ok, ik denk dat ik gok op afsluiter = rioolafsluiter en eindkap = afsluitstuk"
+    ]
+  },
+  {
+    "number": 758,
+    "title": "Rioleringsclassifcatie: Samenstellingen maken onder stelseltypes",
+    "closed_at": "2026-01-22T13:10:23Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "Zie parent-issue\n\nAls dit klaar is, moet de query voor de klassieke mappingstabel gwsw-nlcs worden aangepast, issue daarvoor aanmaken",
+    "comments": []
+  },
+  {
+    "number": 759,
+    "title": "beheerogeving rioleringsontologie, matter?",
+    "closed_at": "2026-01-16T10:52:52Z",
+    "labels": [
+      "RI_riolering-en-GWSW",
+      "publicatie"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "Waar kan ik een soort materiaal toevoegen? Ik zie het niet\n\nik wil namelijk METSELWERK toevoegen als materiaal",
+    "comments": [
+      "Als je op het plusje drukt bij PhysicalObject aan de linkerkant van het scherm verschijnt Matter. Daar kan je het concept toevoegen. Het is misschien wel de vraag of metselwerk thuis hoort onder Materiaal."
+    ]
+  },
+  {
+    "number": 760,
+    "title": "beheeromgeving classificatie rioleringen, links naar NLCS tonen alleen uri",
+    "closed_at": "2026-02-06T09:32:11Z",
+    "labels": [
+      "RI_riolering-en-GWSW",
+      "publicatie"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "bij de links naar gwsw en imbor zoie je de naam van het object, bij de automatisch geimporteerde links naar nlcs alleen een deel van de uri, kan dit wijzigen naar de naam?",
+    "comments": [
+      "Opgelost met [de nieuwe beheeromgeving](https://bimloket.laces-manager.tech/app/#/otl/6973474303e1a335a2a70597/content?class=PhysicalObject)"
+    ]
+  },
+  {
+    "number": 765,
+    "title": "Controlequeries nlcs-gwsw mapping",
+    "closed_at": "2026-01-16T09:51:07Z",
+    "labels": [
+      "duplicate",
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "1. Geef een lijst met objecten met een relatie naar GWSW, waarbij dit GWSW onderdeel niet in IMBOR zit.  Toon ook het type relatie in de output\n2. Geef een lijst met objecten met een relatie naar GWSW én IMBOR, toon ook het type relatie\n3. Geef een lijst met objecten zonder relatie naar GWSW of IMBOR\n4. Geef een lijst met objecten met alleen een relatie naar IMBOR, toon ook het type relatie",
+    "comments": [
+      "dubbel met #757"
+    ]
+  },
+  {
+    "number": 767,
+    "title": "Relatie van classificatie naar tekenstandaard: described by maken",
+    "closed_at": "2026-02-09T05:13:18Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "Relatie van classificatie naar tekenstandaard: described by maken\n\nschema aanpassen van de classificatie\n\nschema van de tekenstandaard nlcs maken",
+    "comments": [
+      "> Relatie van classificatie naar tekenstandaard: described by maken\n\nDone\n\n> schema aanpassen van de classificatie\n\nDone\n\n> schema van de tekenstandaard nlcs maken\n\nDone"
+    ]
+  },
+  {
+    "number": 771,
+    "title": "Relaties GWSW - NLCS, URI overnemen?",
+    "closed_at": "2026-01-22T13:17:20Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "omdat NLCS altijd het stelseltype combineert, is het NLCS-object nu altijd een specialisatie van GWSW (tenzij het object niet bestaat in GWSW, dan is het een fysiek object)\n\nKunnen we het zo maken, dat de stylesheet ervoor zorgt dat we een object dat alleen een relatie heeft naar GWSW de URI uit GWSW krijgt? Net als IMBOR dat gedaan heeft\n\nVoorbeeld met pompput: \n\nAanvullende vraag: moeten we in de beheeromgeving dan altijd de hele boom overnemen uit GWSW, dus als er nog een tussenstap in de taxonomie is in GWSW die NLCS overslaat, dit wel in onze beheeromgeving overnemen?  Of hoeft dat niet?",
+    "comments": [
+      "dit wordt nog afgeraden door data-architect het is hetzelfde domein, maar de objecten zitten misschien wel in een andere levensfase bij de NLCS dan bij GWSW. Voor nu is een zwakkere relatie met minder consequenties bij dooredeneren over de objecten beter."
+    ]
+  },
+  {
+    "number": 772,
+    "title": "Binnenonderkant buis",
+    "closed_at": "2026-03-27T09:15:42Z",
+    "labels": [
+      "Informatiemodel",
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "BOB is in NLCS mogelijk bij de objecten \"rioolleiding\" en \"Transportleiding\"\n\nIn Het GWSW is dit een kenmerk, maar lijkt nergens aan gekoppeld, behalve aan de NLCS-laagnamen. \n\nMoet ik dit als kenmerk aan het NLCS-object hangen, of aan de riool/transportleiding (maar die heeft \"same as\" relatie naar GWSW)",
+    "comments": [
+      "omdat we een skos-alignment maken is het geen probleem dat we niet dezelfde regels gebruiken in de ontologie."
+    ]
+  },
+  {
+    "number": 774,
+    "title": "VACUUMLEIDING_RIOOLLEIDING_MATERIAAL is dit een tekstlaag? moeten we zeggen dat er altijd een materiaal moet worden opgegeven? ",
+    "closed_at": "2026-02-09T08:35:54Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "Inhoudelijk heb ik dit gevraagd:: bedoelen we hier een tekstlaag waar je het materiaal in kan zetten? bij andere stelsels zijn specifieke lagen beschikbaar maar ook materiaal:\n\nVoor vacuumleiding willen we in de minimale dataset wel zeggen dat er een materiaal moet zijn gekozen, we weten alleen niet welke. \n\ndan moeten we hier wellicht zeggen dat het eigenschap materiaal heeft zonder een specifieke te noemen, hoe doen we dat in de beheeromgeving / stylesheet?\n\nIk heb nu even een materiaal aangemaakt met de geniale naam \"materiaal\": \n\nwat is je advies?",
+    "comments": [
+      "als er een onderliggende lijst is, geen \"materiaal\" koppelen; als er geen onderliggende lijst is, koppelen met \"MATERIAAL\", in de stylesheet wordt dit vertaald naar \"consists of\" naar één van de materialen in de publicatie (dus niet vrijlaten)",
+      "In de stylesheet zijn de nodige aanpassingen gemaakt, in de beheeromgeving zijn er echter nog steeds relaties gelegd naar MATERIAAL bij concepten waarvan de childs verwijzen naar specifieke materialen zoals BETON",
+      "> In de stylesheet zijn de nodige aanpassingen gemaakt, in de beheeromgeving zijn er echter nog steeds relaties gelegd naar MATERIAAL bij concepten waarvan de childs verwijzen naar specifieke materialen zoals BETON\n\ndaarom deze issue nu op mijn naam gezet",
+      "Klopt het dat de volgende concepten een relatie hebben met MATERIAAL, ondanks dat ze onderliggende concepten hebben met een relatie met specifieke materiaalsoorten?\n\nDWA_RIOOLLEIDING\nHWA_RIOOLLEIDING\nITR_RIOOLLEIDING\nDWA_TRANSPORTLEIDING\nGWA_TRANSPORTLEIDING\nHWA_TRANSPORTLEIDING",
+      "nee, dat was een foutje had alleen de relatie naar de nlcs tekenstandaard verwijderd, was de relaties in de ontologie zelf vergeten weg te halen. Bedankt"
+    ]
+  },
+  {
+    "number": 820,
+    "title": "Vuilwaterriolering",
+    "closed_at": "2026-04-15T08:47:15Z",
+    "labels": [
+      "RI_riolering-en-GWSW"
+    ],
+    "milestone": "Alignment GWSW",
+    "body": "Vroeger hadden we in de NLCS voor het vuilwaterriool VWA.\nIn de GWSW was dit aangepast naar DWA volgend op de GWSW.\n\nNu lijkt het erop dat de GWSW 'Vuilwaterstelsel' weer als standaard hanteerd, met DWA als synoniem.\n\nWat gaan nu voor NLCS nu aanhouden?",
+    "comments": [
+      "GWSW zegt dit:\nNaam\tVuilwaterstelsel  \nSynoniem\tDWA stelsel  \nDwa-rioolstelsel  \nVuilwaterrioolstelsel  \n\nDus DWA is toch logischer dan VWA"
+    ]
+  }
+]
