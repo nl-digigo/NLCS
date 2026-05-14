@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Vergelijking SGR — NLCS 5.0 vs 5.2</title>
+<style>
+  :root { font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
+  body { max-width: 1200px; margin: 2em auto; padding: 0 1em; color: #222; }
+  h1 { border-bottom: 2px solid #333; padding-bottom: .3em; }
+  h2 { margin-top: 2em; padding: .4em .6em; border-radius: 4px; color: #fff; }
+  h2.nieuw { background: #2e7d32; }
+  h2.vervallen { background: #c62828; }
+  h2.gewijzigd { background: #ef6c00; }
+  h2.gelijk { background: #1565c0; }
+  .summary { background: #f5f5f5; padding: 1em; border-radius: 6px; margin: 1em 0; }
+  .summary table { border: 0; }
+  .summary td { border: 0; padding: .2em 1em .2em 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #fafafa; font-weight: 600; }
+  tr:nth-child(even) { background: #fcfcfc; }
+  .hash { font-family: Consolas, monospace; font-size: 11px; color: #555; }
+  .size { text-align: right; white-space: nowrap; }
+  .note { background: #fff8e1; border-left: 4px solid #ffa000; padding: .8em 1em; margin: 1em 0; font-size: 13px; }
+  .empty { color: #999; font-style: italic; padding: 1em; }
+  details summary { cursor: pointer; padding: .5em; background: #f0f0f0; border-radius: 4px; user-select: none; }
+  details[open] summary { margin-bottom: .5em; }
+</style>
+</head>
+<body>
+<h1>Vergelijking SGR — NLCS 5.0 vs 5.2</h1>
+<div class='summary'>
+<strong>Bronmappen</strong>
+<table>
+<tr><td>v5.0:</td><td><code>C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSmain/NLCS/symbolen/autocad/SGR</code></td><td>367 DWG-bestanden</td></tr>
+<tr><td>v5.2:</td><td><code>C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCS/symbolen/autocad/SGR</code></td><td>331 DWG-bestanden</td></tr>
+</table>
+<br><strong>Resultaten</strong>
+<table>
+<tr><td>Nieuw (alleen in 5.2):</td><td><strong>2</strong></td></tr>
+<tr><td>Vervallen (alleen in 5.0):</td><td><strong>38</strong></td></tr>
+<tr><td>Gewijzigd (zelfde naam, andere inhoud):</td><td><strong>100</strong></td></tr>
+<tr><td>Gelijk gebleven (zelfde naam, identieke inhoud):</td><td><strong>229</strong></td></tr>
+</table>
+<p style='margin-top:1em; font-size:12px; color:#666;'>Gegenereerd: 2026-05-14 14:18</p>
+</div>
+<div class="note">
+<strong>Let op:</strong> de vergelijking is gebaseerd op een SHA256-hash van de volledige DWG-bytes.
+DWG-bestanden bevatten een ingebedde "last saved"-tijdstempel en metadata; als iemand een bestand
+alleen opent en opnieuw opslaat (zonder de tekening te wijzigen) verandert de hash en verschijnt
+het hier als "gewijzigd". Een gewone Windows-kopie verandert de hash niet. Voor zekerheid over
+geometrische wijzigingen moet elk "gewijzigd" bestand visueel in AutoCAD worden gecontroleerd, of
+eerst geconverteerd naar DXF (tekstueel) zodat metadata-regels uitgefilterd kunnen worden.
+</div>
+<h2 class='nieuw'>Nieuw (2)</h2>
+<table>
+<tr><th>Bestandsnaam</th><th class='size'>Grootte</th><th>SHA256</th></tr>
+<tr><td>SGR-BOOM-SO.dwg</td><td class='size'>90.1 KB</td><td class='hash'>adfe07d7695953ee19060e5996a92b2f5c500091d1c5140aa6f2fc3044a5e2b7</td></tr>
+<tr><td>V-SGR-BOOM-SO.dwg</td><td class='size'>92.5 KB</td><td class='hash'>866b9062787172348ff68a345c86405405422f0a5d2673754a53079c05e9c872</td></tr>
+</table>
+<h2 class='vervallen'>Vervallen (38)</h2>
+<table>
+<tr><th>Bestandsnaam</th><th class='size'>Grootte</th><th>SHA256</th></tr>
+<tr><td>SGR-BLOEMBAK-SO.dwg</td><td class='size'>16.4 KB</td><td class='hash'>ef3d2002e3105087a9b345dea46cc8d407a5262987f4884928206083fc6eadc4</td></tr>
+<tr><td>SGR-BOMENGROND-SO.dwg</td><td class='size'>17.4 KB</td><td class='hash'>09b2eef8702afb595927db0e76480fab0ea676c5ce2b8685c536b12ca8ccaec3</td></tr>
+<tr><td>SGR-BOMENGROND_KL-SO.dwg</td><td class='size'>17.1 KB</td><td class='hash'>c7d0ed361d356f9a842eaff3b9eb2fe6e1d56259606424e155546c2c121b2f4e</td></tr>
+<tr><td>SGR-BOMENZAND-SO.dwg</td><td class='size'>16.7 KB</td><td class='hash'>34b146f17cca0ed7ac0a64170032f102d36d58c404f1a229d8a9e23488ae2961</td></tr>
+<tr><td>SGR-BOMENZAND_KL-SO.dwg</td><td class='size'>16.5 KB</td><td class='hash'>4af59a0d2687a4762c634c94d2abf205f43a165d5fcb15815dc9b2d7339dde6e</td></tr>
+<tr><td>SGR-CONIFEER.dwg</td><td class='size'>17.8 KB</td><td class='hash'>bf5a07a1151e7af80d2ab95ba302bd1455ef4d7cad11ebd7b7e27b26d4999466</td></tr>
+<tr><td>SGR-GRAS_02-SO.dwg</td><td class='size'>17.2 KB</td><td class='hash'>84f688c52189c8fd36f627be290ae31ed3a66beca9ab67ae3b76812da865472d</td></tr>
+<tr><td>SGR-GRAS_02_KL-SO.dwg</td><td class='size'>16.9 KB</td><td class='hash'>ff2047851c1abe45c35d37704f2fcda874d37ae1a4c111b4b6f7d80f2a4c7b79</td></tr>
+<tr><td>SGR-GROND-SO.dwg</td><td class='size'>16.8 KB</td><td class='hash'>6ea2bc514b3c1ddca74bbfc2694f4082bd1ec9c1dca91d30f031479a60bd0381</td></tr>
+<tr><td>SGR-GROND_KL-SO.dwg</td><td class='size'>16.7 KB</td><td class='hash'>c5aad18c7d5671dc497295e6d493577fbf44650e0676ecbcca2d90cf3edde297</td></tr>
+<tr><td>SGR-HONDENTOILET-SO.dwg</td><td class='size'>20.7 KB</td><td class='hash'>81875b9d9c4e5644e355822cb07e5a77f439fe11fbaa0eacb383727f324f3c05</td></tr>
+<tr><td>SGR-MAAIVELD-SO.dwg</td><td class='size'>17.6 KB</td><td class='hash'>44bcc849cee6c57eb9dcfcf5757a73929a5e7991819d5acfb2874926503027fa</td></tr>
+<tr><td>SGR-MAAIVELD_KL-SO.dwg</td><td class='size'>17.2 KB</td><td class='hash'>fa3cdafc5aa8c2d1136a0225c1e64189c0818bdadc9010b5bb895707671b0062</td></tr>
+<tr><td>SGR-SIERPLANTSOEN-SO.dwg</td><td class='size'>16.8 KB</td><td class='hash'>d4c2f1e78a71c507b4897c43054f492489c1d81ce6ad7a67ef2968a7057c756a</td></tr>
+<tr><td>SGR-SIERPLANTSOEN_KL-SO.dwg</td><td class='size'>16.6 KB</td><td class='hash'>2659e111b6d3fd88f249d93b8baae3b654f37072c2ff4757f1ff4ac169d4698b</td></tr>
+<tr><td>SGR-TEELGROND_01-SO.dwg</td><td class='size'>18.7 KB</td><td class='hash'>b09cdfe8950bb3d7d205de4a292450f88d31a5d92ac854a0e3d7c84c7715f4f4</td></tr>
+<tr><td>SGR-TEELGROND_01_KL-SO.dwg</td><td class='size'>18.3 KB</td><td class='hash'>1404e83b09568cfe7d985cd1f552dc5cd548085cf8d0a92b962390858b898ebb</td></tr>
+<tr><td>SGR-TEELGROND_02-SO.dwg</td><td class='size'>16.9 KB</td><td class='hash'>2647d4ed21ecaef4ed36b26c1a080326cb5dbd81faf6a613cf7106cbb5d90a7c</td></tr>
+<tr><td>SGR-TEELGROND_02_KL-SO.dwg</td><td class='size'>16.7 KB</td><td class='hash'>a31b43184adbb41d51422f3439ad3335393fa2f546009431cf3c0f5d27bc5733</td></tr>
+<tr><td>SGR-TYPEAANDUIDING-SO.dwg</td><td class='size'>16.1 KB</td><td class='hash'>569466547a84528a3de83e29e35e1839feed7a8763d1b5db285df569a990f7bd</td></tr>
+<tr><td>V-SGR-BOMENGROND-SO.dwg</td><td class='size'>17.7 KB</td><td class='hash'>bf2a2746aac256cc84ee6e8b233c918e5ae7e447f96e8506857c98d79308a0ab</td></tr>
+<tr><td>V-SGR-BOMENGROND_KL-SO.dwg</td><td class='size'>17.3 KB</td><td class='hash'>c5710db0adcd47727ca7c11e42bbfef2c5a656980c874fbcb225635999b92435</td></tr>
+<tr><td>V-SGR-BOMENZAND-SO.dwg</td><td class='size'>17.0 KB</td><td class='hash'>5518df1d6cdae1697d64f8006573e3f0ff69a8a6ea341e23ca230c7d0e6566c6</td></tr>
+<tr><td>V-SGR-BOMENZAND_KL-SO.dwg</td><td class='size'>16.9 KB</td><td class='hash'>be73014f35bb699b5fd284a6598f4085c0365e5647c3fbcde53ba51fe52b6a66</td></tr>
+<tr><td>V-SGR-CONIFEER.dwg</td><td class='size'>18.1 KB</td><td class='hash'>a2a29ac168b52fa23045527227ed6065b6cb86db3fe5e779d95930c243f66586</td></tr>
+<tr><td>V-SGR-GRAS_02-SO.dwg</td><td class='size'>17.5 KB</td><td class='hash'>7223b09b1eaea883576d833cc45f7bbfce49b166f962ae56972213f604f8a202</td></tr>
+<tr><td>V-SGR-GRAS_02_KL-SO.dwg</td><td class='size'>17.2 KB</td><td class='hash'>b6ff87e200f48ee0b90abc37000c41951dc9c9afb2ce679dd627427b18572798</td></tr>
+<tr><td>V-SGR-GROND-SO.dwg</td><td class='size'>17.0 KB</td><td class='hash'>ff3a16d8039871dd15b8bfbf8728382f0ce37eb16dfc57faa41e1f455779f9a1</td></tr>
+<tr><td>V-SGR-GROND_KL-SO.dwg</td><td class='size'>17.0 KB</td><td class='hash'>f23d0e9511b6a094fe5bf282a2595ca41155b14c6a5b0be6ddd12e0f84bcc802</td></tr>
+<tr><td>V-SGR-HONDENTOILET-SO.dwg</td><td class='size'>21.6 KB</td><td class='hash'>3fd061403b534f0b26edda34e5fb14dd1f7d4f71f39d00f3078cd004b07c75b6</td></tr>
+<tr><td>V-SGR-MAAIVELD-SO.dwg</td><td class='size'>17.9 KB</td><td class='hash'>feb8e80ae6cbfdbe77f145bd1c577030b2c4a4155289c0e18f257456dd371da1</td></tr>
+<tr><td>V-SGR-MAAIVELD_KL-SO.dwg</td><td class='size'>17.4 KB</td><td class='hash'>f6e8f00a7e3ef084974afbced2eee7fcd840458762a56b4a753b937a4f33f27e</td></tr>
+<tr><td>V-SGR-SIERPLANTSOEN-SO.dwg</td><td class='size'>17.1 KB</td><td class='hash'>0347ccda5866896b0d9abb6c5c70f8e26025d23d1fd1411240e1c59f6324b747</td></tr>
+<tr><td>V-SGR-SIERPLANTSOEN_KL-SO.dwg</td><td class='size'>16.9 KB</td><td class='hash'>04a964dc23ce4e67c172cf4e1db7ce66ea0e3e9695c38026d752e2baa8423c1c</td></tr>
+<tr><td>V-SGR-TEELGROND_01-SO.dwg</td><td class='size'>18.8 KB</td><td class='hash'>df69fcf34eb4ba23a64c54ed16e0c4b34e4c68135636b9aec8247cf3d7c16024</td></tr>
+<tr><td>V-SGR-TEELGROND_01_KL-SO.dwg</td><td class='size'>18.4 KB</td><td class='hash'>79e151806f8b97e8c3235db95cb1fd5195303b6fed4e4c87d72dfb3514243ce2</td></tr>
+<tr><td>V-SGR-TEELGROND_02-SO.dwg</td><td class='size'>17.1 KB</td><td class='hash'>1feb969469b3f0a010131fcd7e7f59e5842e8563b6c48e6163c41d7555a56045</td></tr>
+<tr><td>V-SGR-TEELGROND_02_KL-SO.dwg</td><td class='size'>17.0 KB</td><td class='hash'>4e2874c2571ad302c074bb25c2b1e9b113d4b150aa5aecf4bb6fb09c477d1a66</td></tr>
+</table>
+<h2 class='gewijzigd'>Gewijzigd (100)</h2>
+<table>
+<tr><th>Bestandsnaam</th><th class='size'>Grootte 5.0</th><th class='size'>Grootte 5.2</th><th>Hash 5.0</th><th>Hash 5.2</th></tr>
+<tr><td>SGR-BEPLANTING_SOORT_01-SO.dwg</td><td class='size'>16.8 KB</td><td class='size'>91.8 KB</td><td class='hash' title='7bf25f15133e1dffd697f92c830ae45d3f97d02befb5441cb522b73fda6453c8'>7bf25f15133e1dff…</td><td class='hash' title='0f4ad4d17b1e3be35710fb087e2d223bc928005a12e658a29d602ff4e344f225'>0f4ad4d17b1e3be3…</td></tr>
+<tr><td>SGR-BEPLANTING_SOORT_01_KL-SO.dwg</td><td class='size'>16.6 KB</td><td class='size'>91.8 KB</td><td class='hash' title='ac41822d34085e456fe702b3db680f878ee9547e5d8411679472cfc53bc7ee07'>ac41822d34085e45…</td><td class='hash' title='7032ad0645a0b30abb1b4024f2d4b3b743d8293aabcf616e5b97180f54f12eee'>7032ad0645a0b30a…</td></tr>
+<tr><td>SGR-BEPLANTING_SOORT_02-SO.dwg</td><td class='size'>17.2 KB</td><td class='size'>89.3 KB</td><td class='hash' title='cebfe4ad465c56319187ccfe2e77ac622fe3e0b2a9a99ef2155e601090da43af'>cebfe4ad465c5631…</td><td class='hash' title='81b299441e39c54f9d35ca52d371a822d3838cc244d45efcc5b9308ac59b8e17'>81b299441e39c54f…</td></tr>
+<tr><td>SGR-BEPLANTING_SOORT_02_KL-SO.dwg</td><td class='size'>16.7 KB</td><td class='size'>89.3 KB</td><td class='hash' title='e205661da3b443baf870cc1657273f0e222d7c6a5c3fd9133e546cdba051af72'>e205661da3b443ba…</td><td class='hash' title='77bcf69e00ea07cc9f53897f4fe737eec9c6c6741028725a9af7657c39fff82f'>77bcf69e00ea07cc…</td></tr>
+<tr><td>SGR-BOLLEN-SO.dwg</td><td class='size'>16.6 KB</td><td class='size'>91.9 KB</td><td class='hash' title='4e4847d10c5006ed56a959bb35e7121affe8122a1a6852e33603118d62f3b401'>4e4847d10c5006ed…</td><td class='hash' title='7195f8d8bbc456d9dd6b06b52dc5cc1f0b03ac7e7a818a160a61e990fbeeb0d0'>7195f8d8bbc456d9…</td></tr>
+<tr><td>SGR-BOLLEN_KL-SO.dwg</td><td class='size'>16.4 KB</td><td class='size'>91.8 KB</td><td class='hash' title='75c36af2822a17a6ab11fdfc0a00669cceddaf33bbe4daaf3daa1d203cd9fff1'>75c36af2822a17a6…</td><td class='hash' title='b7ab289457bad1a9bcd3818fad0d681a73d367bdfc537307631fd33f90c56e63'>b7ab289457bad1a9…</td></tr>
+<tr><td>SGR-BOS-SO.dwg</td><td class='size'>16.6 KB</td><td class='size'>86.0 KB</td><td class='hash' title='4faef3cfee0f275b55866246e76c8cc3c201508f7a741fa0d7ebc42d4c0a737c'>4faef3cfee0f275b…</td><td class='hash' title='fd35ea4fbb8cf1631d1031293a043e5ab61f34203a4869204610c5d7c42d2187'>fd35ea4fbb8cf163…</td></tr>
+<tr><td>SGR-BOSPLANTSOEN-SO.dwg</td><td class='size'>16.8 KB</td><td class='size'>94.2 KB</td><td class='hash' title='a5f534e09bb8a45dbf88b5d39101bf171503e7873971e306961d9f3760d02d59'>a5f534e09bb8a45d…</td><td class='hash' title='94e2c2e0123991613afaccf0479971a6dcc5e96e3f76365428d59276549b2b89'>94e2c2e012399161…</td></tr>
+<tr><td>SGR-BOSPLANTSOEN_KL-SO.dwg</td><td class='size'>16.5 KB</td><td class='size'>87.5 KB</td><td class='hash' title='545fb9cfd365dc949fa76e8a1899cb6610c64baee017f1836f57325d92f6bd30'>545fb9cfd365dc94…</td><td class='hash' title='ec97f70159fa7141c0db10806d9a8c5a37b23f3a1fb69eeefaa315c214d23fcd'>ec97f70159fa7141…</td></tr>
+<tr><td>SGR-BOS_GEMENGD-SO.dwg</td><td class='size'>24.8 KB</td><td class='size'>94.8 KB</td><td class='hash' title='3221d9eabcd97d5044be0e45f4634f2b26da0a54803e056ac7627dedc2bfe643'>3221d9eabcd97d50…</td><td class='hash' title='d22d208ad8e9c5babdde2f98c823b49efbbc9758d603a045e3ff77737736d7b6'>d22d208ad8e9c5ba…</td></tr>
+<tr><td>SGR-BOS_GEMENGD_KL-SO.dwg</td><td class='size'>16.8 KB</td><td class='size'>94.8 KB</td><td class='hash' title='ca852703151cab128724a6d4e71d7c0d61026058f36754eff6e9725a8304d665'>ca852703151cab12…</td><td class='hash' title='f13d3c5a37336f87ac255f8c44b21e14c33f6a575b8099cc5f2f5a89de0e4845'>f13d3c5a37336f87…</td></tr>
+<tr><td>SGR-BOS_KL-SO.dwg</td><td class='size'>16.5 KB</td><td class='size'>86.0 KB</td><td class='hash' title='2db8582b0a4ca5ba461ba1dedb94f9f8f70a974c869ccfde46308c218c1726d8'>2db8582b0a4ca5ba…</td><td class='hash' title='cab74b69e5ca892a8e6af8cc2666c96526bb5e0543196be9ada24045357a915d'>cab74b69e5ca892a…</td></tr>
+<tr><td>SGR-BOS_LOOF-SO.dwg</td><td class='size'>16.9 KB</td><td class='size'>94.8 KB</td><td class='hash' title='1e288be079f34256aa511600f260c8f417c5b1cdf9f2accff68923034642d793'>1e288be079f34256…</td><td class='hash' title='b119381a24ca4a7813584fe4df3a638e1527e8e46c3677b2ab52ee7a3f61e480'>b119381a24ca4a78…</td></tr>
+<tr><td>SGR-BOS_LOOF_KL-SO.dwg</td><td class='size'>16.9 KB</td><td class='size'>94.8 KB</td><td class='hash' title='dac207eed948442f242bf0067beda81e6f402838a97d9505163d0054ddb27666'>dac207eed948442f…</td><td class='hash' title='ab5067bec45aec0c52f2a8d59b39cf94116a8235bc658086b9cbec1ba6e96aba'>ab5067bec45aec0c…</td></tr>
+<tr><td>SGR-BOS_NAALD-SO.dwg</td><td class='size'>54.7 KB</td><td class='size'>93.0 KB</td><td class='hash' title='9deb57dfa3aaa2f726d4cbff52a9f67d841526269bc69427779c844521439b50'>9deb57dfa3aaa2f7…</td><td class='hash' title='c66d94783dcd56052bdbbf609fba6ba5aa6ddaf3775a63c0f8e6250281fe8c87'>c66d94783dcd5605…</td></tr>
+<tr><td>SGR-BOS_NAALD_KL-SO.dwg</td><td class='size'>16.9 KB</td><td class='size'>93.0 KB</td><td class='hash' title='232a895fb5f271977874f8e4b4c372a3d06e367d1eeb6456218ace6ec94d5082'>232a895fb5f27197…</td><td class='hash' title='2c09ba6470dbd74cd134b12409006fb5d52e89b6c207e96948b1c28c4bf57d4e'>2c09ba6470dbd74c…</td></tr>
+<tr><td>SGR-GRAS_01-SO.dwg</td><td class='size'>17.0 KB</td><td class='size'>95.7 KB</td><td class='hash' title='d64693e6ccf5a7d8d448134a2af88377462e01ba283255cdd8890f7c430880f1'>d64693e6ccf5a7d8…</td><td class='hash' title='fc7215672fa61fa582bb620c116fb49785e07e6ee273de772245419bea6287e2'>fc7215672fa61fa5…</td></tr>
+<tr><td>SGR-GRAS_01_KL-SO.dwg</td><td class='size'>16.8 KB</td><td class='size'>95.6 KB</td><td class='hash' title='512d55d8c1c8498cdaa199c888e117bb0d2ddaa25e8782b7ec388b37ff5af245'>512d55d8c1c8498c…</td><td class='hash' title='37cf06a9394954a1ab1ab61c0a86f8125ec30a3b61ea2da9d933a4cc8fa1d218'>37cf06a9394954a1…</td></tr>
+<tr><td>SGR-GRAS_GAZON-SO.dwg</td><td class='size'>17.9 KB</td><td class='size'>85.3 KB</td><td class='hash' title='078804dbfcef4c737673d95ae4ce3c541774e8bc9d1562bec19949a2f2ff0c7f'>078804dbfcef4c73…</td><td class='hash' title='8786e3cc171f591fc1cd1b889397b3bac498f987ba843369309eb31f2b4f2d8a'>8786e3cc171f591f…</td></tr>
+<tr><td>SGR-GRAS_GAZON_KL-SO.dwg</td><td class='size'>17.3 KB</td><td class='size'>85.3 KB</td><td class='hash' title='004b9eacd18b4292cfab27618696c2a0676751163dbec077a6126c4fe17950ca'>004b9eacd18b4292…</td><td class='hash' title='a5a1478ce07435d5cd42ccf7d9be3eb8174aab496ac33ac3ca8f604550f5c56e'>a5a1478ce07435d5…</td></tr>
+<tr><td>SGR-GRAS_GESTABILISEERD-SO.dwg</td><td class='size'>17.7 KB</td><td class='size'>93.9 KB</td><td class='hash' title='03ed5acaff38e3b8eccf5b1e8ef61a0396134e14d3ae9c4428f978845c47991e'>03ed5acaff38e3b8…</td><td class='hash' title='e07b26d46471db91ebae585b40b88a1ab4f863ba16f9ca1e16ccddb09986c859'>e07b26d46471db91…</td></tr>
+<tr><td>SGR-GRAS_GESTABILISEERD_KL-SO.dwg</td><td class='size'>17.1 KB</td><td class='size'>94.2 KB</td><td class='hash' title='1bba1c86c16ed4b70281486fe96f3536645521999e1a06ba8306cd8a721c5424'>1bba1c86c16ed4b7…</td><td class='hash' title='ffa1473b817790e6c2af2cf8858b7d85552cf1c87d86f7d9129c8b79c91bd20b'>ffa1473b817790e6…</td></tr>
+<tr><td>SGR-GRAS_KUNSTGRAS-SO.dwg</td><td class='size'>16.2 KB</td><td class='size'>91.7 KB</td><td class='hash' title='d44febcad289527a622e1b23891a20eae986660d6b29b9f3f172cdb844a4a9e2'>d44febcad289527a…</td><td class='hash' title='e83d0179b41ff01a97d126457fda4217685a2243c7649a83ee84551c765923ff'>e83d0179b41ff01a…</td></tr>
+<tr><td>SGR-GRAS_KUNSTGRAS_KL-SO.dwg</td><td class='size'>16.1 KB</td><td class='size'>91.7 KB</td><td class='hash' title='233ddf9b874f8b057f93ab562f04d31e94b91dd876db615e502ed0abb96c0430'>233ddf9b874f8b05…</td><td class='hash' title='4cbc2fb335bca53143acef4ee127af2f04e65401debe1e133bcabe4cd1d1551f'>4cbc2fb335bca531…</td></tr>
+<tr><td>SGR-GRAS_RUIGGRAS-SO.dwg</td><td class='size'>17.8 KB</td><td class='size'>88.3 KB</td><td class='hash' title='1aada1cb7a37b389d7fa0b0af2a72939150436816b612385a37c64e48c5e631d'>1aada1cb7a37b389…</td><td class='hash' title='cf7d7d03e931516c2a23500724f8cbaf4fac84cd73707676271ef2457ddbe377'>cf7d7d03e931516c…</td></tr>
+<tr><td>SGR-GRAS_RUIGGRAS_KL-SO.dwg</td><td class='size'>17.2 KB</td><td class='size'>88.4 KB</td><td class='hash' title='eae78ce8f2f9cc312ab1f84eb45836d6c7b16a9c80d4ef71651701e4839665da'>eae78ce8f2f9cc31…</td><td class='hash' title='3fd0a8ba15ce095cae8eb21bc739bdc77cd3aa3d62ad20181d4515273f3d7c2d'>3fd0a8ba15ce095c…</td></tr>
+<tr><td>SGR-HEESTERS-SO.dwg</td><td class='size'>16.9 KB</td><td class='size'>89.4 KB</td><td class='hash' title='80f07b840ab974d2fd1516d22d21a326388d9bf19c820fc31b16b0cda6ab219d'>80f07b840ab974d2…</td><td class='hash' title='a93f0e47534e64b7d5c9c675557c9e91b3ad4d899097ef97c0c9cb8744630e85'>a93f0e47534e64b7…</td></tr>
+<tr><td>SGR-HEESTERS_KL-SO.dwg</td><td class='size'>16.7 KB</td><td class='size'>89.4 KB</td><td class='hash' title='b329533e26dfbd8f8e138f9a96159914926e88e14e0459fccb17ff2cf2bd9aef'>b329533e26dfbd8f…</td><td class='hash' title='ade64e682aa230c692338a1844b54d384554c473c007a01450cc0d7b0969a6e9'>ade64e682aa230c6…</td></tr>
+<tr><td>SGR-KRUIDEN-SO.dwg</td><td class='size'>16.5 KB</td><td class='size'>92.4 KB</td><td class='hash' title='ef903dcc44351d6a83104a1c9b97239eecd02a46cd11ad54f42bcae2b6afb531'>ef903dcc44351d6a…</td><td class='hash' title='e85f12252f354eec6c9e160a176f5b70fc9d82d0971a4d33da9cc4eba70992a3'>e85f12252f354eec…</td></tr>
+<tr><td>SGR-KRUIDEN_KL-SO.dwg</td><td class='size'>16.4 KB</td><td class='size'>92.6 KB</td><td class='hash' title='05edf39334ba2547a55d1b024059434e9a0469c65f08a26a62a7cd8a73b2dbae'>05edf39334ba2547…</td><td class='hash' title='785090a1d2295898a9f1a8ee2b4bf3b39e9a4ab9e6b2c7051c1f9c653cd26d6f'>785090a1d2295898…</td></tr>
+<tr><td>SGR-MOERAS-SO.dwg</td><td class='size'>16.5 KB</td><td class='size'>87.8 KB</td><td class='hash' title='c502c59f8181c38901d7cbdcd62e28d26c8edcbae27b7d06f5c20a95aab8e0d8'>c502c59f8181c389…</td><td class='hash' title='52f38cfa1748d20dafb5da7d608accfb74e6d9d0f1775a79acf485ee5d08d8ff'>52f38cfa1748d20d…</td></tr>
+<tr><td>SGR-MOERAS_KL-SO.dwg</td><td class='size'>16.4 KB</td><td class='size'>87.8 KB</td><td class='hash' title='9c0b2ba79ae1d64f259f781c56dac21acee82f9459c9ecacf79a6ef7420760aa'>9c0b2ba79ae1d64f…</td><td class='hash' title='9e9bb4ee9af35fa6131a670bb97cd1d7764159d61b1b04a3f312fa91f4ce3960'>9e9bb4ee9af35fa6…</td></tr>
+<tr><td>SGR-PLANTGATVERBETERING_01-SO.dwg</td><td class='size'>17.6 KB</td><td class='size'>89.3 KB</td><td class='hash' title='404735ae06ee983609b83e5cd4c6db9cc259c79181ee5ff393088f33ac31879e'>404735ae06ee9836…</td><td class='hash' title='7f4349fd9077d95ba046d95158bb8081484b8f704144d592b3d9289faca2d119'>7f4349fd9077d95b…</td></tr>
+<tr><td>SGR-PLANTGATVERBETERING_01_KL-SO.dwg</td><td class='size'>17.1 KB</td><td class='size'>89.3 KB</td><td class='hash' title='9b83bbd5dddd039d642dc858dd04fb9d236768e6e4c7090242fa0f1f8b544bb4'>9b83bbd5dddd039d…</td><td class='hash' title='5bab6c6768e5e861832ffbfa5066996ae5fa3a668b56d8472b1be029df2bcf2c'>5bab6c6768e5e861…</td></tr>
+<tr><td>SGR-PLANTGATVERBETERING_02-SO.dwg</td><td class='size'>17.4 KB</td><td class='size'>87.1 KB</td><td class='hash' title='5cfd4027973b2f25c4b357c94a728a672abbee6ef93b7d1dbffa6ae71b0d631a'>5cfd4027973b2f25…</td><td class='hash' title='52633bfd34a7c05e64fbee63ff243130a2c48e2cdc1be8b620741f7f63e5ed13'>52633bfd34a7c05e…</td></tr>
+<tr><td>SGR-PLANTGATVERBETERING_02_KL-SO.dwg</td><td class='size'>17.1 KB</td><td class='size'>87.0 KB</td><td class='hash' title='c9466f20bf11be7151e94f4dace64011a99ec08799f4bb8c8b65a9162880a0a0'>c9466f20bf11be71…</td><td class='hash' title='ef880ae1d6cfb5f022abd7d8eb78db1d775dcb53d925aa40314885dac0f85792'>ef880ae1d6cfb5f0…</td></tr>
+<tr><td>SGR-RIETLAND-SO.dwg</td><td class='size'>16.8 KB</td><td class='size'>96.7 KB</td><td class='hash' title='579ce8f4b84306880ca47f0ee6a83ac570f4df29f340971e8d1ab914176c0307'>579ce8f4b8430688…</td><td class='hash' title='a9cf36bdb9f3cc10fd8c71ab01bcc637c04fe8043d4144a5fecfcb5078f0c9a6'>a9cf36bdb9f3cc10…</td></tr>
+<tr><td>SGR-RIETLAND_KL-SO.dwg</td><td class='size'>16.5 KB</td><td class='size'>95.0 KB</td><td class='hash' title='9740e14c0d6343df74aa6f7da2af5af5840fca6bc5e31f1d383c0d17c0ae6f22'>9740e14c0d6343df…</td><td class='hash' title='7dec3cc1071c94d077f062cbec7c82c6b48ecd9a59a0cb1a8d62ce30c5e27766'>7dec3cc1071c94d0…</td></tr>
+<tr><td>SGR-SPORTVELD_GRAS-SO.dwg</td><td class='size'>16.3 KB</td><td class='size'>94.5 KB</td><td class='hash' title='6b4aa35ae64c2d18f02068cf0b13c977bb410ebd34cc0e6d65ce4d0c7aec271a'>6b4aa35ae64c2d18…</td><td class='hash' title='3736280461db6f9ba53e9b4e1d6743b56e943490117cda2e88b3adfe562dbdd2'>3736280461db6f9b…</td></tr>
+<tr><td>SGR-SPORTVELD_GRAS_KL-SO.dwg</td><td class='size'>16.2 KB</td><td class='size'>94.5 KB</td><td class='hash' title='a38db98b8d7eb98fcbc8745ded9b4d7d6f201428470a2b24a587f6c2f0f6ec0b'>a38db98b8d7eb98f…</td><td class='hash' title='02cd0add7fcd15e6790e2abe0ddd4cc21b8d6c77c512ea5e55f70524d8051abe'>02cd0add7fcd15e6…</td></tr>
+<tr><td>SGR-SPORTVELD_GRAS_KUNSTGRAS-SO.dwg</td><td class='size'>16.4 KB</td><td class='size'>93.5 KB</td><td class='hash' title='0ba867fd0c82d82300992a2defb4a5b54c209fd546c3f460a2c11fa8b889cd68'>0ba867fd0c82d823…</td><td class='hash' title='8e6a42b86d8afa3ad25c97b0aa2bd63e8c87ea6d73ea7a1a7dd82230d23c028c'>8e6a42b86d8afa3a…</td></tr>
+<tr><td>SGR-SPORTVELD_GRAS_KUNSTGRAS_KL-SO.dwg</td><td class='size'>16.4 KB</td><td class='size'>93.5 KB</td><td class='hash' title='c5c29a714d86f80c4d6aa1dce1092d487e578394b31b4cb039f728f87f8f756b'>c5c29a714d86f80c…</td><td class='hash' title='1bd90d3e25fd8fb07e2c3a313eb49d880fda95b10dbae4ec73092d1651e64427'>1bd90d3e25fd8fb0…</td></tr>
+<tr><td>SGR-STRUWEEL-SO.dwg</td><td class='size'>16.8 KB</td><td class='size'>90.8 KB</td><td class='hash' title='2be69f076829904d4536efc5e3091ba4f98fb02820c3bfc92f27b3144b9d0b1a'>2be69f076829904d…</td><td class='hash' title='d117a034e6474be25e0f05684b54062177dce7b4e6be7fefb93513787a824244'>d117a034e6474be2…</td></tr>
+<tr><td>SGR-STRUWEEL_KL-SO.dwg</td><td class='size'>16.6 KB</td><td class='size'>91.7 KB</td><td class='hash' title='a9da93b24d4cf6ca5b574797f6fd9880a862b53dd7daf7415061da257a4b96b0'>a9da93b24d4cf6ca…</td><td class='hash' title='541b96b5653e0314ef52efe049ac90837f3716442269313ce57133079a258696'>541b96b5653e0314…</td></tr>
+<tr><td>SGR-VASTEPLANTEN-SO.dwg</td><td class='size'>17.7 KB</td><td class='size'>93.7 KB</td><td class='hash' title='c981d8a1bfbec2811ed47ddf5e14cffef5ff079a7f3197903226ab51dfc5920c'>c981d8a1bfbec281…</td><td class='hash' title='88b771feccb9387a74ad6e74f7b1168977d0802c48cbb37a132a802780e723ae'>88b771feccb9387a…</td></tr>
+<tr><td>SGR-VASTEPLANTEN_KL-SO.dwg</td><td class='size'>17.2 KB</td><td class='size'>93.7 KB</td><td class='hash' title='90af5f9b6afa78da76709d03fd66f88fc77a9920aedc3671d2ebb166ee7e9475'>90af5f9b6afa78da…</td><td class='hash' title='ef03ecf350c651c752dc37daf3f29a522fe17532259bc1230d40fb4fd8e56985'>ef03ecf350c651c7…</td></tr>
+<tr><td>SGR-WATERPLANTEN-SO.dwg</td><td class='size'>16.2 KB</td><td class='size'>87.9 KB</td><td class='hash' title='5ee4a1c1eeeabdab27a6544f91e0ea5a3e65199e3c73b8feb8e968bcbc94486a'>5ee4a1c1eeeabdab…</td><td class='hash' title='85e536832defe8639776335dffac7f1ff0bdc20ebfee1d1f9c29f040514bcd1d'>85e536832defe863…</td></tr>
+<tr><td>SGR-WATERPLANTEN_KL-SO.dwg</td><td class='size'>16.3 KB</td><td class='size'>87.9 KB</td><td class='hash' title='018ff6542cb87f397e76db3c871585e522a3599553130a9114987461c6ef79e2'>018ff6542cb87f39…</td><td class='hash' title='2d679110049bbd79ff62e22f8fb6a076835e74571c5eab436f26f705bc5ee711'>2d679110049bbd79…</td></tr>
+<tr><td>SGR-WISSELBEPLANTING-SO.dwg</td><td class='size'>16.6 KB</td><td class='size'>93.8 KB</td><td class='hash' title='13ecac8b35e6d5d1f4d769d4c1f7b740e7bfddbaf02dcd51cbfdb94a566b1a0a'>13ecac8b35e6d5d1…</td><td class='hash' title='fb37b3e5503e5bffd5661211188539a2b4fd1e8da8cc1b80d726583bbda297ba'>fb37b3e5503e5bff…</td></tr>
+<tr><td>SGR-WISSELBEPLANTING_KL-SO.dwg</td><td class='size'>16.5 KB</td><td class='size'>93.7 KB</td><td class='hash' title='794d9b564575922095840219bfaa63fc74803bbb44610b837a055cfade648818'>794d9b5645759220…</td><td class='hash' title='d50338f9102009e5ee02c2a06afbb5bb2386c2164648e010f771fc675886f0d0'>d50338f9102009e5…</td></tr>
+<tr><td>V-SGR-BEPLANTING_SOORT_01-SO.dwg</td><td class='size'>17.2 KB</td><td class='size'>89.3 KB</td><td class='hash' title='9fbf1dc5bcd5942b536f6664f37b99eb9d6138bf8b75e21abeeba36b99c26ed4'>9fbf1dc5bcd5942b…</td><td class='hash' title='1c2b5ddaefb05c74a0e39c8a9fcbee5959baeaaa4209ddf77ed7763bc967ba81'>1c2b5ddaefb05c74…</td></tr>
+<tr><td>V-SGR-BEPLANTING_SOORT_01_KL-SO.dwg</td><td class='size'>16.9 KB</td><td class='size'>89.3 KB</td><td class='hash' title='a0fd7587be9e8428478516c0bc60fc796b00f540de7b886f406339dc8b8907d2'>a0fd7587be9e8428…</td><td class='hash' title='d61ed62a8848ad0ea76d5081a462d10d7b160595297b867a716745a40d35eb19'>d61ed62a8848ad0e…</td></tr>
+<tr><td>V-SGR-BEPLANTING_SOORT_02-SO.dwg</td><td class='size'>17.4 KB</td><td class='size'>93.9 KB</td><td class='hash' title='f5e4c09d099eb60b1a19948345ed2f29158e43961de8bf41963c2eceb141e25e'>f5e4c09d099eb60b…</td><td class='hash' title='2b871ea6252b322891446542844e0c8f6cdea7e68a18ae78cf0dcd3c5b177d3d'>2b871ea6252b3228…</td></tr>
+<tr><td>V-SGR-BEPLANTING_SOORT_02_KL-SO.dwg</td><td class='size'>17.0 KB</td><td class='size'>93.9 KB</td><td class='hash' title='0e287faffacf665c83572182824dc3f00c5e7e0e250e780aaf1d4261ce771459'>0e287faffacf665c…</td><td class='hash' title='2bcb7855e12e595ed44021300c7c1fd36263c001f023388340185b5bf082f9d6'>2bcb7855e12e595e…</td></tr>
+<tr><td>V-SGR-BOLLEN-SO.dwg</td><td class='size'>16.9 KB</td><td class='size'>91.2 KB</td><td class='hash' title='05457bcc25f667d9f88aac0e01ce0d280b5de56a9897ce7cc72271422e0c17b5'>05457bcc25f667d9…</td><td class='hash' title='2729072a21e0daf46876c405f980907c622c94c148827bcf108845213eb9b2ec'>2729072a21e0daf4…</td></tr>
+<tr><td>V-SGR-BOLLEN_KL-SO.dwg</td><td class='size'>16.8 KB</td><td class='size'>91.2 KB</td><td class='hash' title='ff9daf0050166ce69b36aee870900674535b17a6ce40eceff51c841650c308e6'>ff9daf0050166ce6…</td><td class='hash' title='6336fe771ffbf2074aa069a82ffffcaefb8393c680924628a856cf559a8dfe14'>6336fe771ffbf207…</td></tr>
+<tr><td>V-SGR-BOS-SO.dwg</td><td class='size'>16.9 KB</td><td class='size'>88.4 KB</td><td class='hash' title='733a142db121daccdfb52fa92cdc564e7a809fe0dd169c7361b882c4e81e2e8b'>733a142db121dacc…</td><td class='hash' title='31bd6e21aa3ed0a7108498f3d0aadc55a9b3c38fbc76876081e6136ad95eb822'>31bd6e21aa3ed0a7…</td></tr>
+<tr><td>V-SGR-BOSPLANTSOEN-SO.dwg</td><td class='size'>17.1 KB</td><td class='size'>94.0 KB</td><td class='hash' title='6b064e15df77497fb32647ad463e5b64129cb072d8a235545cad97c421a00446'>6b064e15df77497f…</td><td class='hash' title='437cdf71ff4f9f287eb8b7f3197c297904137e72977da8eef701f7c043172fee'>437cdf71ff4f9f28…</td></tr>
+<tr><td>V-SGR-BOSPLANTSOEN_KL-SO.dwg</td><td class='size'>16.9 KB</td><td class='size'>93.9 KB</td><td class='hash' title='e2cd75cf4ee018648e5ee61652d87e5a361c4eb810afe5234d8bb996a1bcefd7'>e2cd75cf4ee01864…</td><td class='hash' title='09d43bc2ce79dfb967caa4cbc47a11a5cde4b2337fde846f75c2b17106db23ce'>09d43bc2ce79dfb9…</td></tr>
+<tr><td>V-SGR-BOS_GEMENGD-SO.dwg</td><td class='size'>25.0 KB</td><td class='size'>93.9 KB</td><td class='hash' title='4cee49d68258d3f5219fe9560840e5366a9d46254e83a9bd6a4e7296e67c7854'>4cee49d68258d3f5…</td><td class='hash' title='32fd11876077fafdd62df7a2e976c42722aad4b08b4742d91e21242d1a4eec5f'>32fd11876077fafd…</td></tr>
+<tr><td>V-SGR-BOS_GEMENGD_KL-SO.dwg</td><td class='size'>17.1 KB</td><td class='size'>93.9 KB</td><td class='hash' title='5fdfa7b931387d1018963de15f8a7d53dcb949ade5bb5bfaae8b4071336fed3d'>5fdfa7b931387d10…</td><td class='hash' title='11058a02f4d908ea677cd9ac4c7393dd9994ffaeb7f1c6a0a38da979c9638cb3'>11058a02f4d908ea…</td></tr>
+<tr><td>V-SGR-BOS_KL-SO.dwg</td><td class='size'>16.9 KB</td><td class='size'>88.4 KB</td><td class='hash' title='04ca66585f21e0e8d7c7c05af0f37528ea7bbdb4faef66813b740b07e5bb0b99'>04ca66585f21e0e8…</td><td class='hash' title='d2a36e1bbd1c2904781c2c0899dfa1eb762ac51321a631c6f905cb264fda5dfa'>d2a36e1bbd1c2904…</td></tr>
+<tr><td>V-SGR-BOS_LOOF-SO.dwg</td><td class='size'>17.2 KB</td><td class='size'>93.9 KB</td><td class='hash' title='45027c00d0baa42278c73a423e3eba50bb897748ea0898c26e620a2d0b79f473'>45027c00d0baa422…</td><td class='hash' title='668d47d00420f2a8d5945682e13daa6e03e3c0bfbef214fa2486f5f603c20b2e'>668d47d00420f2a8…</td></tr>
+<tr><td>V-SGR-BOS_LOOF_KL-SO.dwg</td><td class='size'>17.1 KB</td><td class='size'>93.9 KB</td><td class='hash' title='66317838de051b7a066c844525b0f72129ed42a80d0bc43c9098a332a859a315'>66317838de051b7a…</td><td class='hash' title='6d256372d099dc7c0e779ec92dda1b4a1b5f3ff7ce846cee9626131032402018'>6d256372d099dc7c…</td></tr>
+<tr><td>V-SGR-BOS_NAALD-SO.dwg</td><td class='size'>55.3 KB</td><td class='size'>94.1 KB</td><td class='hash' title='0173af2ef7a4efbe76645d9b15331a6bd8b67121ca1dc2510f3e96a1e063b477'>0173af2ef7a4efbe…</td><td class='hash' title='9bcde943939600263da59a803e8f339ae4f101a6e3265a00dd6f8c40e58b607a'>9bcde94393960026…</td></tr>
+<tr><td>V-SGR-BOS_NAALD_KL-SO.dwg</td><td class='size'>17.1 KB</td><td class='size'>94.1 KB</td><td class='hash' title='36d992c0fcd668b9605a67cea656b70802ba2fdb8237f0767d68ec9810f76474'>36d992c0fcd668b9…</td><td class='hash' title='a81d481361e83a63ad41193fb3ebb1e01590b509349012da91c29397e7a73b0e'>a81d481361e83a63…</td></tr>
+<tr><td>V-SGR-GRAS_01-SO.dwg</td><td class='size'>17.3 KB</td><td class='size'>90.8 KB</td><td class='hash' title='e8e48d95a11786fd701381af5886a940714d4020d88d2ed498fc246a1629f0d9'>e8e48d95a11786fd…</td><td class='hash' title='253f6a3278d8d78cd7a1f1257be66a26c0989906bf4280b5fdf10059540ca6a3'>253f6a3278d8d78c…</td></tr>
+<tr><td>V-SGR-GRAS_01_KL-SO.dwg</td><td class='size'>17.1 KB</td><td class='size'>90.8 KB</td><td class='hash' title='67e173b3c84b2184e816cb97939adee96a8e8970d286997d86daa7575f569ce8'>67e173b3c84b2184…</td><td class='hash' title='8186ed5339775e9b521b7a8ed82c48475d462344874a80e0f77f0e6d4f03d94a'>8186ed5339775e9b…</td></tr>
+<tr><td>V-SGR-GRAS_GAZON-SO.dwg</td><td class='size'>18.1 KB</td><td class='size'>94.2 KB</td><td class='hash' title='7e51d215432c540f1ed378f90c5b6582a0b52aed5a23395a160b3022c3094ab4'>7e51d215432c540f…</td><td class='hash' title='bd0e9e8c73f1d9bd211685df932b937e353ae984e9faf0e9be0bdb298eb7698b'>bd0e9e8c73f1d9bd…</td></tr>
+<tr><td>V-SGR-GRAS_GAZON_KL-SO.dwg</td><td class='size'>17.5 KB</td><td class='size'>94.2 KB</td><td class='hash' title='a0f93cea7bce084688a1a49c0bcde8978333f979d0dbf0d510be9dc84a7a8f10'>a0f93cea7bce0846…</td><td class='hash' title='9aa1e9cf7669d4d03772960001b7a444512dc65346f083571340ae63f1c21f71'>9aa1e9cf7669d4d0…</td></tr>
+<tr><td>V-SGR-GRAS_GESTABILISEERD-SO.dwg</td><td class='size'>18.1 KB</td><td class='size'>95.2 KB</td><td class='hash' title='c257fd7b7e0d336e0042d7823863fc2eb42bad4fe1cf0c989966dc6f165295b5'>c257fd7b7e0d336e…</td><td class='hash' title='266405efd4f11eb8ccfd4e8538116791da5f846c3f9eb55371256a40dfe74895'>266405efd4f11eb8…</td></tr>
+<tr><td>V-SGR-GRAS_GESTABILISEERD_KL-SO.dwg</td><td class='size'>17.5 KB</td><td class='size'>94.2 KB</td><td class='hash' title='795d18f0256ba2739a24d935bf1326d289062ae277be44d46f0c4dea02125c02'>795d18f0256ba273…</td><td class='hash' title='0e3b97e4f1b3f14ae6cd173ec2daafb68b804e374ec31033c957902008350a4c'>0e3b97e4f1b3f14a…</td></tr>
+<tr><td>V-SGR-GRAS_KUNSTGRAS-SO.dwg</td><td class='size'>16.8 KB</td><td class='size'>94.3 KB</td><td class='hash' title='d0037e0821702fdd46b77f89869a481a064601e8a6cd0f02514f089c1de4cb30'>d0037e0821702fdd…</td><td class='hash' title='ae73c65c376f7cbf0588cac239a3fd18ec4b9abe2873e39e6399ad25bd116d66'>ae73c65c376f7cbf…</td></tr>
+<tr><td>V-SGR-GRAS_KUNSTGRAS_KL-SO.dwg</td><td class='size'>16.8 KB</td><td class='size'>94.3 KB</td><td class='hash' title='fbac11c53f50055f9a45bd3f08980dd201558bb681650253a6bd63af7f830066'>fbac11c53f50055f…</td><td class='hash' title='b1485130c46bc9d9ec3c63b9107aa5457609a40e44cb17029d482bdfd1249006'>b1485130c46bc9d9…</td></tr>
+<tr><td>V-SGR-GRAS_RUIGGRAS-SO.dwg</td><td class='size'>17.9 KB</td><td class='size'>89.0 KB</td><td class='hash' title='0020dd3ebf990deabc67d8896aae8138575f95fcd774dbdc682df902d4ce8ba2'>0020dd3ebf990dea…</td><td class='hash' title='aacefbc0ab731125c9bbc3a0f19c926cbf5f7c7538d8cdb3e437d4bc71531f29'>aacefbc0ab731125…</td></tr>
+<tr><td>V-SGR-GRAS_RUIGGRAS_KL-SO.dwg</td><td class='size'>17.4 KB</td><td class='size'>89.0 KB</td><td class='hash' title='224bd173f80df51bffa0424875fbf4fe1394e09a6c2f132bf51949f2c7a05439'>224bd173f80df51b…</td><td class='hash' title='f24c1cea3a478c4e5517a8f10d0097fbda5b404e8a51bdce337f1fddbf2acb7b'>f24c1cea3a478c4e…</td></tr>
+<tr><td>V-SGR-HEESTERS-SO.dwg</td><td class='size'>17.2 KB</td><td class='size'>92.9 KB</td><td class='hash' title='a9e57abcc387a9093cb87f5fddad893a85074eccb5b849530464465b33bd86a5'>a9e57abcc387a909…</td><td class='hash' title='ece33363874a9fc0e901f49b094de29283c49e3719e5fa5bf6293f64ede0edce'>ece33363874a9fc0…</td></tr>
+<tr><td>V-SGR-HEESTERS_KL-SO.dwg</td><td class='size'>17.0 KB</td><td class='size'>92.9 KB</td><td class='hash' title='7eeba308dbb8002909e29ad5242d7b52728bc22e57972bc22627ccf3fb4ca9ce'>7eeba308dbb80029…</td><td class='hash' title='81b39661ce32aec4d0af905e8d1df849166da4fedb807b66cd4e108b5d828c9b'>81b39661ce32aec4…</td></tr>
+<tr><td>V-SGR-KRUIDEN-SO.dwg</td><td class='size'>16.9 KB</td><td class='size'>87.6 KB</td><td class='hash' title='81fb97a54307d2f448832f8bd4233645829180089294cadb46be0f081f0db781'>81fb97a54307d2f4…</td><td class='hash' title='78186e4e46bf73276b2bbbc14b05624890eb02a9d67c0a99e14df466b395bdfb'>78186e4e46bf7327…</td></tr>
+<tr><td>V-SGR-KRUIDEN_KL-SO.dwg</td><td class='size'>16.8 KB</td><td class='size'>90.2 KB</td><td class='hash' title='aa0d1b63828a7c10adbb8c794b7543bfc45f055ab7d724c6b3e8f2ae6bf74a8c'>aa0d1b63828a7c10…</td><td class='hash' title='9417639c7e74c8b7dfaa0ccb09046286815dbd7b69d33d17a65253c087fcd88e'>9417639c7e74c8b7…</td></tr>
+<tr><td>V-SGR-MOERAS-SO.dwg</td><td class='size'>16.8 KB</td><td class='size'>90.4 KB</td><td class='hash' title='27335c52b2ec3fb8781a08582c08cd62af1212ec7ed1f3bb3971e2c8e710530a'>27335c52b2ec3fb8…</td><td class='hash' title='09332cca03886dd4eb90daf51e45de1331487345f7d816e90ed74d194fa4f5ac'>09332cca03886dd4…</td></tr>
+<tr><td>V-SGR-MOERAS_KL-SO.dwg</td><td class='size'>16.8 KB</td><td class='size'>90.9 KB</td><td class='hash' title='c535569fccf0ac579a8a21d4d063b0f645b96f49ded8862e2e7877c2b47a6f2f'>c535569fccf0ac57…</td><td class='hash' title='2ce94e6c160e4347e8cb73dd63ed3f2473a811898c1a9963e4a8f912d675210f'>2ce94e6c160e4347…</td></tr>
+<tr><td>V-SGR-PLANTGATVERBETERING_01-SO.dwg</td><td class='size'>17.7 KB</td><td class='size'>91.6 KB</td><td class='hash' title='8c3b0f25a82246ab6caea1d30306bc6cbf6d5a37bf9553a837d22f63aa69d4fd'>8c3b0f25a82246ab…</td><td class='hash' title='61b705511d400f53f9355599cd0ed144c4b5bce1985fd2114acc58bf37a647c7'>61b705511d400f53…</td></tr>
+<tr><td>V-SGR-PLANTGATVERBETERING_01_KL-SO.dwg</td><td class='size'>17.2 KB</td><td class='size'>91.6 KB</td><td class='hash' title='fd24250ee028b1c7df8cd9ab4aa56d8d593b74ea6bbb4741507d4f06cf5e72b4'>fd24250ee028b1c7…</td><td class='hash' title='3392ddd0250f1d0577c4a1309650685577d8cfbbb8746139d227570d0003f597'>3392ddd0250f1d05…</td></tr>
+<tr><td>V-SGR-PLANTGATVERBETERING_02-SO.dwg</td><td class='size'>17.6 KB</td><td class='size'>93.9 KB</td><td class='hash' title='4b4c0fdfd76e93e580bff800e231f2c9d343ec60aae7e8bd3e73cfc848b407c2'>4b4c0fdfd76e93e5…</td><td class='hash' title='7ab19c3a96499f24b11578c20cda64cfe66e405a5f0880fe754964940cdc8135'>7ab19c3a96499f24…</td></tr>
+<tr><td>V-SGR-PLANTGATVERBETERING_02_KL-SO.dwg</td><td class='size'>17.3 KB</td><td class='size'>93.9 KB</td><td class='hash' title='ba72c8cd0ef5e1d22d6de57e87b43e114ed9f24d4b00f797bd77627f1699ef59'>ba72c8cd0ef5e1d2…</td><td class='hash' title='a459e0ec2a300016b28af1575879ef4c3c0664db6e5d2d203c5b7fd6e9931381'>a459e0ec2a300016…</td></tr>
+<tr><td>V-SGR-RIETLAND-SO.dwg</td><td class='size'>17.1 KB</td><td class='size'>90.4 KB</td><td class='hash' title='694bfd2edec3c0e4e08902b615baed2aa71f88ebe208df122c7caa7e5add34c6'>694bfd2edec3c0e4…</td><td class='hash' title='0ff9ffd7d2b6a6689bf30669c07693e3a98632ad86fbaa2338087c0683feb1c6'>0ff9ffd7d2b6a668…</td></tr>
+<tr><td>V-SGR-RIETLAND_KL-SO.dwg</td><td class='size'>16.8 KB</td><td class='size'>94.5 KB</td><td class='hash' title='85ab15c71c9a215c248935654cacc7d16fe53f30521b2036ab6830cda57820c0'>85ab15c71c9a215c…</td><td class='hash' title='f961cfdfbf8fc02617e9b2756133bfb3f50fb32573637fd6351705f820fbd87f'>f961cfdfbf8fc026…</td></tr>
+<tr><td>V-SGR-SPORTVELD_GRAS-SO.dwg</td><td class='size'>16.6 KB</td><td class='size'>89.4 KB</td><td class='hash' title='a9fe1e3542267fb7d21dced01db97ff385a34aa671f80ed90ff41ae8c165f0f4'>a9fe1e3542267fb7…</td><td class='hash' title='97488fee670f120e02779c7e05d68159f2f670a9c030a540b12f913a0ec1f30e'>97488fee670f120e…</td></tr>
+<tr><td>V-SGR-SPORTVELD_GRAS_KL-SO.dwg</td><td class='size'>16.6 KB</td><td class='size'>89.4 KB</td><td class='hash' title='86541c2d5bc83eed5b108d7ccee7dd159a1f2b5b1c36723e87a59ab5d3364aff'>86541c2d5bc83eed…</td><td class='hash' title='3b019d6c61c3eefbc1bf14f08a297579bc0ffc6466f13b236a1a054edeaa7417'>3b019d6c61c3eefb…</td></tr>
+<tr><td>V-SGR-SPORTVELD_GRAS_KUNSTGRAS-SO.dwg</td><td class='size'>16.7 KB</td><td class='size'>90.2 KB</td><td class='hash' title='515a6368b593275b482bf4515f8054deb9ab4c59ad2d56851959b231833beb83'>515a6368b593275b…</td><td class='hash' title='2738a69f66155b7337c4271c41edcee911f4f0fef18f53002c22096b4e71e17f'>2738a69f66155b73…</td></tr>
+<tr><td>V-SGR-SPORTVELD_GRAS_KUNSTGRAS_KL-SO.dwg</td><td class='size'>16.7 KB</td><td class='size'>90.1 KB</td><td class='hash' title='0a563e62d2d8ef14c663a28782ded3ef6a7076e2b2225e819b90888a97e68e25'>0a563e62d2d8ef14…</td><td class='hash' title='553cf7dbfa5498a481da046e2b761598799d86fd7083c72adaccd844860493d8'>553cf7dbfa5498a4…</td></tr>
+<tr><td>V-SGR-STRUWEEL-SO.dwg</td><td class='size'>17.1 KB</td><td class='size'>89.3 KB</td><td class='hash' title='172f220088513925646575f48bf228ac992bec81505d3babf86a8c5434c33479'>172f220088513925…</td><td class='hash' title='7334abd3f6904e7db5f4a8b36551e81a5f49da50718c9cdab47c73c8533ab89a'>7334abd3f6904e7d…</td></tr>
+<tr><td>V-SGR-STRUWEEL_KL-SO.dwg</td><td class='size'>16.9 KB</td><td class='size'>90.5 KB</td><td class='hash' title='a4f46a048f05b86aef016fff7ca6dbbec1a05371ac023a613ff75b4c99df3c72'>a4f46a048f05b86a…</td><td class='hash' title='f1eaf7378f98ca4a500b320e06ff5cf8cbc92d783bad18777489f8427292662a'>f1eaf7378f98ca4a…</td></tr>
+<tr><td>V-SGR-VASTEPLANTEN-SO.dwg</td><td class='size'>17.8 KB</td><td class='size'>94.3 KB</td><td class='hash' title='de513c53749478e8601068081beaeec312cd28822732743425b3ada5d9fd0c98'>de513c53749478e8…</td><td class='hash' title='52c4f9256eef61c0447aecab5ec80cba0f9818a234e29a6b7dccb282791e2698'>52c4f9256eef61c0…</td></tr>
+<tr><td>V-SGR-VASTEPLANTEN_KL-SO.dwg</td><td class='size'>17.4 KB</td><td class='size'>94.3 KB</td><td class='hash' title='e4544ded1c3f6f5fdbdc63b68c068ffbc0adecc7a61c2d178bfcb6871c081826'>e4544ded1c3f6f5f…</td><td class='hash' title='0be5c50182adaecd25a22a99ec636edd6ea46122fdbc4e1d2f4b1d812db4755b'>0be5c50182adaecd…</td></tr>
+<tr><td>V-SGR-WATERPLANTEN-SO.dwg</td><td class='size'>16.5 KB</td><td class='size'>90.7 KB</td><td class='hash' title='5ad29b25502b779a5e12599a0eaa8d4bd4ade29a8c7f9a169963e2a4fbdcc8ac'>5ad29b25502b779a…</td><td class='hash' title='cd0e0a43ea7d26c132c2a36f8c9d1469924a123c3fe49ee2a6b5f31292820ed9'>cd0e0a43ea7d26c1…</td></tr>
+<tr><td>V-SGR-WATERPLANTEN_KL-SO.dwg</td><td class='size'>16.5 KB</td><td class='size'>90.7 KB</td><td class='hash' title='06c28d12d87c7b193c099f0b2b0790c4c826dcb3cb49fda014ef6da3b93b5f71'>06c28d12d87c7b19…</td><td class='hash' title='55e4f3744d91c1cb61bbc9b2a1cdbff5763f9bd2099e48d7bcdd3db19e2f5679'>55e4f3744d91c1cb…</td></tr>
+<tr><td>V-SGR-WISSELBEPLANTING-SO.dwg</td><td class='size'>17.0 KB</td><td class='size'>90.5 KB</td><td class='hash' title='7d171fa81c76947b6af7db676b015f2164d49c37903b4226fff4c49960355546'>7d171fa81c76947b…</td><td class='hash' title='1849710c43267c1517c9393eb41e0ed5f0380e5f93df0c614b8cd4212090a69e'>1849710c43267c15…</td></tr>
+<tr><td>V-SGR-WISSELBEPLANTING_KL-SO.dwg</td><td class='size'>16.8 KB</td><td class='size'>90.4 KB</td><td class='hash' title='14d02887aa1562cf9fffc7ec9d61302c5ece11f433b18e6c4cf0665a472127a6'>14d02887aa1562cf…</td><td class='hash' title='8bf26fd562953b5b9448cf05c1ab16f76bc579e7cd00deb7ae6bb9fee514b2be'>8bf26fd562953b5b…</td></tr>
+</table>
+<h2 class='gelijk'>Gelijk gebleven (229)</h2>
+<details><summary>Klik om de 229 ongewijzigde bestanden te tonen</summary>
+<table>
+<tr><th>Bestandsnaam</th><th class='size'>Grootte</th><th>SHA256</th></tr>
+<tr><td>B-SGR-BOOM_1E GROOTTE.dwg</td><td class='size'>16.0 KB</td><td class='hash'>87ba8b9cb13b056b58892f017c08d4355fded0790cc1cf44fc1e29c10e907dc1</td></tr>
+<tr><td>B-SGR-BOOM_2E GROOTTE.dwg</td><td class='size'>16.0 KB</td><td class='hash'>f0d23d94b2f983b25075f498ebcfedba99c83c1c7cbb62d76147aad1be5fb75b</td></tr>
+<tr><td>B-SGR-BOOM_3E GROOTTE.dwg</td><td class='size'>16.0 KB</td><td class='hash'>64f47b53f3d0114889b21f9c269d828092cc8d23e3e55f7c5d82fd04332e12c3</td></tr>
+<tr><td>SGR-BEPLANTING_MATERIAALGRENS.dwg</td><td class='size'>16.0 KB</td><td class='hash'>b2843918d0de4218ee1487d0cd216bf69f79ab7623fdf5461dee2ddc2cdfa152</td></tr>
+<tr><td>SGR-BODEMBEDEKKER-SO.dwg</td><td class='size'>16.8 KB</td><td class='hash'>efbf73683005047ed1ac90e5fee5d3fc97d9a00bc088d10efb9abc6483ace9dd</td></tr>
+<tr><td>SGR-BOMENRIJ.dwg</td><td class='size'>16.9 KB</td><td class='hash'>93777d72a1fc6dd4149c65864ef45693b3cb375f54f8cd938f8cbb222464c839</td></tr>
+<tr><td>SGR-BOOMGAARD_HOOGSTAM-SO.dwg</td><td class='size'>16.8 KB</td><td class='hash'>ba898e938c3e6adb8bbb5893123936bbe337ce151b8d270d2e18be0d6f345b71</td></tr>
+<tr><td>SGR-BOOMGAARD_KLEINFRUIT-SO.dwg</td><td class='size'>16.8 KB</td><td class='hash'>92182501b2447cca7e654c7b8451e8bb3255ae1e56e9507aa64351eebd033d89</td></tr>
+<tr><td>SGR-BOOMGAARD_LAAGSTAM-SO.dwg</td><td class='size'>16.8 KB</td><td class='hash'>8f0d9661fe663c00898357e095f7ef2fd64af9c3e307b778f42d77ff7d81c442</td></tr>
+<tr><td>SGR-BOOMGAARD_WIJN-SO.dwg</td><td class='size'>16.8 KB</td><td class='hash'>feb6875b7f42c6f781ebf08a855f215fa7743dc7284fb24ea271b3973b149a3a</td></tr>
+<tr><td>SGR-BOOMTEELT-SO.dwg</td><td class='size'>16.5 KB</td><td class='hash'>118b239b001942de810866f2093e7651e712545491dd7ab9b6d21fa9ccfc6752</td></tr>
+<tr><td>SGR-BOOM_01.dwg</td><td class='size'>16.1 KB</td><td class='hash'>f59b45e5b32aec0be67a582ff8484cc3543f0acdec52aed5c9ebb063bc8bacac</td></tr>
+<tr><td>SGR-BOOM_02.dwg</td><td class='size'>15.9 KB</td><td class='hash'>7ba5a8f8c7f8f6c8bba8ffc22465834db916f78d56e6de922b7ead66e1adab56</td></tr>
+<tr><td>SGR-BOOM_03.dwg</td><td class='size'>17.6 KB</td><td class='hash'>f852761a54cc0e20350763e8b3380559d33d8ad72079fb63369abff8b21651e2</td></tr>
+<tr><td>SGR-BOOM_04.dwg</td><td class='size'>17.6 KB</td><td class='hash'>f0d1c8b362edee4af09bea1f7b7586bfca2993ce55003d9c7b7cf51341a3ec26</td></tr>
+<tr><td>SGR-BOOM_05.dwg</td><td class='size'>24.6 KB</td><td class='hash'>e1e1040a930e1f5ff114ca3b0f250f7d6e03efc15cb455d01193e9faf447bc48</td></tr>
+<tr><td>SGR-BOOM_06.dwg</td><td class='size'>18.3 KB</td><td class='hash'>873db44ce2318f24985d63c92106d4f68fd7e070b90a41d40d8363a8ba585e9d</td></tr>
+<tr><td>SGR-BOOM_07.dwg</td><td class='size'>16.4 KB</td><td class='hash'>2302202530f67bfe8e6c7e94cc0714d6106117f2e8dcef001fc5a27c88254481</td></tr>
+<tr><td>SGR-BOOM_08.dwg</td><td class='size'>16.7 KB</td><td class='hash'>151dce7572d0808bd537ab7816eb217945fee625876f0a2126db1c9f44c1fd8b</td></tr>
+<tr><td>SGR-BOOM_09.dwg</td><td class='size'>18.7 KB</td><td class='hash'>c7b7c60be30d028b55f4cf596b1815b440bec5a989f8addbb03fee8e4fb11957</td></tr>
+<tr><td>SGR-BOOM_10.dwg</td><td class='size'>17.9 KB</td><td class='hash'>19759358981feb54d7c55841b16913eb0f37c8a35d46cdcb099179f11ab05643</td></tr>
+<tr><td>SGR-BOOM_11.dwg</td><td class='size'>42.4 KB</td><td class='hash'>6881728db7bdbbbf85833c812275111c248fc84965fc2f066064dc1cd35e6ab6</td></tr>
+<tr><td>SGR-BOOM_12.dwg</td><td class='size'>74.6 KB</td><td class='hash'>67841a803f090fe27045ae6c5ad19797e26381ca59c41e62ae4f4d586441768a</td></tr>
+<tr><td>SGR-BOOM_13.dwg</td><td class='size'>16.9 KB</td><td class='hash'>1ef5a4861bbc8bb348ce35d5ee217723978a9d9ebdcbdf6e0d473373b8d21f8e</td></tr>
+<tr><td>SGR-BOOM_14.dwg</td><td class='size'>18.8 KB</td><td class='hash'>254b5f2689f119853e17826fd10df0e60a9cb4640e83ce806559e034565b0a5a</td></tr>
+<tr><td>SGR-BOOM_15.dwg</td><td class='size'>22.2 KB</td><td class='hash'>1060fad34de3bb40f1019a73e4e7a7a9e2dab5e2952dfac04b43a15a9b948480</td></tr>
+<tr><td>SGR-BOOM_16.dwg</td><td class='size'>41.9 KB</td><td class='hash'>ac7b27d30e58709724a430eea4271a212db73202f019f13ca28d61df30943fb5</td></tr>
+<tr><td>SGR-BOOM_17.dwg</td><td class='size'>16.4 KB</td><td class='hash'>13058bae68754e520174e2ef7f8eaa82b41255dfb7b2a39ccd149243c0fd7b52</td></tr>
+<tr><td>SGR-BOOM_18.dwg</td><td class='size'>16.6 KB</td><td class='hash'>91905681ef0a4f8b0eed1b2f06b8722628c90e6c8f9f119409ca7e679fe7c26f</td></tr>
+<tr><td>SGR-BOOM_19.dwg</td><td class='size'>16.6 KB</td><td class='hash'>70000db29d383bd08dd65821aab913c3aeaa1dc2fa3035075aa24f6d4937d503</td></tr>
+<tr><td>SGR-BOOM_1E GROOTTE.dwg</td><td class='size'>18.3 KB</td><td class='hash'>b097fa7b1fd3090d8cd5faa64a21509e89f1bf752c32ff14368f25cf62c5f840</td></tr>
+<tr><td>SGR-BOOM_20.dwg</td><td class='size'>17.0 KB</td><td class='hash'>57ed5bfc65920564d1f0f241b922f26eb06b136f9173ffd74a013140383c6a29</td></tr>
+<tr><td>SGR-BOOM_21.dwg</td><td class='size'>19.6 KB</td><td class='hash'>ddd63e77954bc106a530b1600f8a2a2c4f5b8c95cc7820846b5a887daeae978e</td></tr>
+<tr><td>SGR-BOOM_22.dwg</td><td class='size'>63.7 KB</td><td class='hash'>abede393cd44d8e09957e1ca171b73f525b037f817c26e2866c56973b1d82a2e</td></tr>
+<tr><td>SGR-BOOM_23.dwg</td><td class='size'>54.5 KB</td><td class='hash'>fe27b096573752b9b4f6c2b43b21d300ee03dfe168f6aab57d39238cd4bd287a</td></tr>
+<tr><td>SGR-BOOM_24.dwg</td><td class='size'>35.8 KB</td><td class='hash'>a987413ab1378a4c405e7dee8708803f272fb7cbebb431d7e9ab7d2adc21dd06</td></tr>
+<tr><td>SGR-BOOM_25.dwg</td><td class='size'>75.8 KB</td><td class='hash'>a4ff6593108969039af35d946eafb09eec505c536fff1ebb1bdda8c73e5e1fc2</td></tr>
+<tr><td>SGR-BOOM_26.dwg</td><td class='size'>54.5 KB</td><td class='hash'>d41b9cdda365fccc4eab2942e92fd53ee73ba8610ba7313cc7d8062e81de259e</td></tr>
+<tr><td>SGR-BOOM_27.dwg</td><td class='size'>34.6 KB</td><td class='hash'>efc587843dd2e5508870d34301cd4d71cb6bdfcda5dfb1e30a1a8feeda9afa29</td></tr>
+<tr><td>SGR-BOOM_28.dwg</td><td class='size'>27.5 KB</td><td class='hash'>43c4f04f24d57cbbe9d7cf3932c46e34945e9822b4923771ac9a32236993ceef</td></tr>
+<tr><td>SGR-BOOM_29.dwg</td><td class='size'>25.0 KB</td><td class='hash'>73657bb6b7d12d24768641eac3807d909534c7d6fdbf2fac426bbfeaae7c5c1b</td></tr>
+<tr><td>SGR-BOOM_2E GROOTTE.dwg</td><td class='size'>18.4 KB</td><td class='hash'>bbeba3f626c67e30b5bf9bc359fa06ddb483a39f48e9de44957a4b7fabea564c</td></tr>
+<tr><td>SGR-BOOM_30.dwg</td><td class='size'>23.4 KB</td><td class='hash'>5befe0abe799685db9f2a47a98d0b25716d24e5aede36be97b11c19d58a33645</td></tr>
+<tr><td>SGR-BOOM_31.dwg</td><td class='size'>18.3 KB</td><td class='hash'>555cea44be9977d6a382b73a542401601cb8c253b111b8e6a5d472919e97c2fb</td></tr>
+<tr><td>SGR-BOOM_32.dwg</td><td class='size'>17.9 KB</td><td class='hash'>4a6edc6da15369d4a7fbd18cf21d787976252e1907dffa3e7b275d778a8895af</td></tr>
+<tr><td>SGR-BOOM_33.dwg</td><td class='size'>33.0 KB</td><td class='hash'>f2dfcf533c762b60626742b61c399d66b889c223b7613ad694a3b49e1c7e386d</td></tr>
+<tr><td>SGR-BOOM_34.dwg</td><td class='size'>20.3 KB</td><td class='hash'>192ec1e5c1a7ec8ba5139dae2563171cc14bd57dd5e93762a15acc48b62f03e3</td></tr>
+<tr><td>SGR-BOOM_35.dwg</td><td class='size'>23.2 KB</td><td class='hash'>fe00c45bf3c56dab3d2e06ec8608374a9f2b955fbd1cfccaab4cbea3bb81feb0</td></tr>
+<tr><td>SGR-BOOM_36.dwg</td><td class='size'>36.9 KB</td><td class='hash'>35372f0db8b99ad69fe310152b7414c5d55a406477f06699b3c2e6e3a3a9c16b</td></tr>
+<tr><td>SGR-BOOM_37.dwg</td><td class='size'>28.2 KB</td><td class='hash'>973ca20b215bab323a41313f18955f297c3290177ac2db5e6932f58dccefe1c4</td></tr>
+<tr><td>SGR-BOOM_38.dwg</td><td class='size'>20.6 KB</td><td class='hash'>88f00f910be06d7ef8707a54c92c73d0d1e2d8fbdc5c18eb8775874a6af570b0</td></tr>
+<tr><td>SGR-BOOM_39.dwg</td><td class='size'>21.0 KB</td><td class='hash'>96a06d0ec2ac221660a26f1a8a0380df91a06d136601fceba3a27a341e7231a6</td></tr>
+<tr><td>SGR-BOOM_3E GROOTTE.dwg</td><td class='size'>18.5 KB</td><td class='hash'>79e0a4cb590cacbb111b68e752d8053e18c5bf5cec1236ce25877b4d75df156f</td></tr>
+<tr><td>SGR-BOOM_40.dwg</td><td class='size'>21.2 KB</td><td class='hash'>0d778817db0fcf5d61f728355bf27f737f6d3996958adfdc628b96203d0f386e</td></tr>
+<tr><td>SGR-BOOM_41.dwg</td><td class='size'>98.0 KB</td><td class='hash'>b2839992622b6f1ba639e3b69510c3846809e5ff48657c26e857350b76e0450f</td></tr>
+<tr><td>SGR-BOOM_GBKN-SO.dwg</td><td class='size'>16.5 KB</td><td class='hash'>b719f87ac843d4e93a78b67392d42d4517dde47e75793f02b1756125431d0196</td></tr>
+<tr><td>SGR-BOOM_KROON-SO.dwg</td><td class='size'>16.4 KB</td><td class='hash'>1f2cdeda7e8cdcc7d4ac8edcd0807cb92b981eea916194ce89c694bd282db67f</td></tr>
+<tr><td>SGR-BOOM_S01_A_ZIJ-D.dwg</td><td class='size'>19.9 KB</td><td class='hash'>bf6b6df81e1c9755b706bac0fcea91a5393529a8102a5fa683d4db40d164373a</td></tr>
+<tr><td>SGR-BOOM_S01_B_ZIJ-D.dwg</td><td class='size'>16.4 KB</td><td class='hash'>442f55d2a7a7300e52e8b19614a6cd4b0ff45bb4e210de28b409d8f2f0f931a7</td></tr>
+<tr><td>SGR-BOOM_S01_C_ZIJ-D.dwg</td><td class='size'>18.3 KB</td><td class='hash'>95a40fc754a5b22b42f1444ad49e7fb9bf14ef410c48e03cc87ade6af5e1f2df</td></tr>
+<tr><td>SGR-BOOM_S01_D_ZIJ-D.dwg</td><td class='size'>42.1 KB</td><td class='hash'>061bc12568d85134ea5cce87a56ec022ce9c3e9e9d1b7f90eb568917263fc2b5</td></tr>
+<tr><td>SGR-BOOM_S01_E_ZIJ-D.dwg</td><td class='size'>16.4 KB</td><td class='hash'>dd980ef9fc56f919ddc4429c0ffd3164e880fb3606bd5719efba81bc38cbd298</td></tr>
+<tr><td>SGR-BOOM_S01_F_ZIJ-D.dwg</td><td class='size'>24.9 KB</td><td class='hash'>376c333d28d9a88deaba94b6954041cd7101922ececf94a146d8b682d0102aa6</td></tr>
+<tr><td>SGR-BOOM_S01_G_ZIJ-D.dwg</td><td class='size'>23.2 KB</td><td class='hash'>c567e230fac64b803c74a20107dd8cc1db4b158419ebd2b346628cf879bbc622</td></tr>
+<tr><td>SGR-BOOM_S01_H_ZIJ-D.dwg</td><td class='size'>23.2 KB</td><td class='hash'>7f1273e83dac6014bbc431b0e69ad12142fea1c429d45d817c6747e23b3a101e</td></tr>
+<tr><td>SGR-BOOM_S01_I_ZIJ-D.dwg</td><td class='size'>71.2 KB</td><td class='hash'>a31a04566cfd2cbb45e11fec5984645770f63b069180cb1eb1e263fc9ed319b2</td></tr>
+<tr><td>SGR-BOOM_S01_J_ZIJ-D.dwg</td><td class='size'>44.9 KB</td><td class='hash'>eff55ab6c213b96ab787a727bb9d99f47a37b4cbf3154b2f328be8ddeda44262</td></tr>
+<tr><td>SGR-BOOM_S01_K_ZIJ-D.dwg</td><td class='size'>94.2 KB</td><td class='hash'>39aad43ddd189cc04dc09a1895494152a4bd0929a47718c231ca32365a27bc6e</td></tr>
+<tr><td>SGR-BOOM_S01_L_ZIJ-D.dwg</td><td class='size'>18.9 KB</td><td class='hash'>2b093e21c5c5d8b1c4dd691164759d80f9c727d4905b897a4142b2f6842433ed</td></tr>
+<tr><td>SGR-BOOM_S01_M_ZIJ-D.dwg</td><td class='size'>19.9 KB</td><td class='hash'>18fa3f9dd3e726befd78f11df10e6fa8ad8f8d6a3e4e81e5ea8772aae9f65b41</td></tr>
+<tr><td>SGR-BOOM_S01_N_ZIJ-D.dwg</td><td class='size'>17.1 KB</td><td class='hash'>ead36b9392121c0a5bafeb2d56e64c99ba02da1b4e3051c6a7385017cdc5c31e</td></tr>
+<tr><td>SGR-BOOM_S01_O_ZIJ-D.dwg</td><td class='size'>17.1 KB</td><td class='hash'>15411da2c02c9834d09c25182212f24ddc5dd4a5158f7deb724fa144782ce31b</td></tr>
+<tr><td>SGR-BOOM_S01_P_ZIJ-D.dwg</td><td class='size'>22.9 KB</td><td class='hash'>6189cb67196afd83b8c5d62717062fbf4046885166df4b0f898a6dacfd487c3d</td></tr>
+<tr><td>SGR-BOOM_S01_Q_ZIJ-D.dwg</td><td class='size'>19.7 KB</td><td class='hash'>019f67f5bebcde339f45a1cffbf772e2de727a7889375b6dd3866a90fbd2b64c</td></tr>
+<tr><td>SGR-BOOM_S01_R_ZIJ-D.dwg</td><td class='size'>71.0 KB</td><td class='hash'>830b9f8b741726a0bc0bf903b0961ecd1e66e4278e26460d7340b10dda38c425</td></tr>
+<tr><td>SGR-BOOM_S01_S_ZIJ-D.dwg</td><td class='size'>25.1 KB</td><td class='hash'>00746550853713ae145629ccbe88d0ceffa67b8923d1062ade6c447f5acc35e5</td></tr>
+<tr><td>SGR-BOOM_S01_T_ZIJ-D.dwg</td><td class='size'>19.4 KB</td><td class='hash'>3830273d05fade33f66d5184c8763058941fd872b4f82931421389a9af21f8a0</td></tr>
+<tr><td>SGR-BOOM_S01_U_ZIJ-D.dwg</td><td class='size'>21.3 KB</td><td class='hash'>d3a05c96165bcc0f3be5efe0914c7d5da3b6b0b2ed7631bfacbd5a7b4a97439d</td></tr>
+<tr><td>SGR-BOOM_S01_V_ZIJ-D.dwg</td><td class='size'>23.7 KB</td><td class='hash'>f7c0362da957bd63c5586018279d969f33cdc10dd9f05e38fd7d6751b03dd1fd</td></tr>
+<tr><td>SGR-BOOM_S01_W_ZIJ-D.dwg</td><td class='size'>22.0 KB</td><td class='hash'>c3e35921bc735156fff6409f3acb4f37ba9ce402383473d99c822dee9ef2f5ca</td></tr>
+<tr><td>SGR-BOOM_S01_X_ZIJ-D.dwg</td><td class='size'>20.6 KB</td><td class='hash'>e0e225332107d7e3790d38efd074486a7cad9c0a45d3d181512dbccf32de66c8</td></tr>
+<tr><td>SGR-BOOM_S01_Y_ZIJ-D.dwg</td><td class='size'>17.9 KB</td><td class='hash'>e66d165acf74b65b17a23d7e2987440fffcbc9e453b7b29ac4202ce6ace936f7</td></tr>
+<tr><td>SGR-BOOM_S02_A_ZIJ-D.dwg</td><td class='size'>78.2 KB</td><td class='hash'>a3e352e6f3ae4b60e689d5457a685d8dd41b731b4c1a3c392f8cac3242abe768</td></tr>
+<tr><td>SGR-BOOM_S02_B_ZIJ-D.dwg</td><td class='size'>83.0 KB</td><td class='hash'>2bd895f1eec407c3cfca972b5db22226585a9f4684f777178c958a3d397c467e</td></tr>
+<tr><td>SGR-BOOM_S02_C_ZIJ-D.dwg</td><td class='size'>265.9 KB</td><td class='hash'>3d15828ef677bdb4fb8fda4e75e683b67ff52f288804e8cc31815f8286cc9901</td></tr>
+<tr><td>SGR-BOOM_S02_D_ZIJ-D.dwg</td><td class='size'>70.4 KB</td><td class='hash'>6250d77d11d3cc7e3e488107d0968d39afe6fac8e9ce5cb8a1bd83b0d15a79d9</td></tr>
+<tr><td>SGR-BOOM_S02_E_ZIJ-D.dwg</td><td class='size'>230.6 KB</td><td class='hash'>43d682c79e62cdb4ce5def731ded19cb39cb311812673b002ac49459ed68a6e1</td></tr>
+<tr><td>SGR-BOOM_S02_F_ZIJ-D.dwg</td><td class='size'>182.7 KB</td><td class='hash'>048de3fe4099a8f189f8afdb4f4d73486008261dc97a8c1b7a6f80fab5b0a7be</td></tr>
+<tr><td>SGR-BOOM_S02_G_ZIJ-D.dwg</td><td class='size'>103.8 KB</td><td class='hash'>decfcd258c67326cf6cf83a0084da5dfc3267a7ffa4da58e408c0650f42a9326</td></tr>
+<tr><td>SGR-BOOM_S03_A_ZIJ-D.dwg</td><td class='size'>60.4 KB</td><td class='hash'>a8637f03c70f8282f37e1be808184ad997fe65e3cb2de2822bfaed49b37229a5</td></tr>
+<tr><td>SGR-BOOM_S03_B_ZIJ-D.dwg</td><td class='size'>67.9 KB</td><td class='hash'>953777c3c5c52bd7f7f19e0a72980597a8e57fc561181eb50b1368acb13b6eed</td></tr>
+<tr><td>SGR-BOOM_S03_C_ZIJ-D.dwg</td><td class='size'>66.3 KB</td><td class='hash'>39514a5a1a292fe077ceb68274f961938da570ce328dd3c8a318a2af72a8bba4</td></tr>
+<tr><td>SGR-BOOM_S03_D_ZIJ-D.dwg</td><td class='size'>103.1 KB</td><td class='hash'>f29252d338fac54d874902b53eb505e29be0b6fcbc337a7873c104ae460a12f6</td></tr>
+<tr><td>SGR-BOOM_S04_A_ZIJ-D.dwg</td><td class='size'>82.2 KB</td><td class='hash'>37806628af5665ae9bbaaa62c63318419b82533ba11aca0700711071d0df5b81</td></tr>
+<tr><td>SGR-BOOM_S04_B_ZIJ-D.dwg</td><td class='size'>90.9 KB</td><td class='hash'>7b4ed73a67a291becec6964986e2aa4ab2d1c386d28d756af873b4d338d3d97d</td></tr>
+<tr><td>SGR-BOOM_S04_C_ZIJ-D.dwg</td><td class='size'>54.8 KB</td><td class='hash'>4af6facb6bb83066421c44d09a4c3c8fc0122110aecf3b185c90f71cc66706bd</td></tr>
+<tr><td>SGR-BOOM_S05_A_ZIJ-D.dwg</td><td class='size'>185.6 KB</td><td class='hash'>5231357bb1bca4f6747c00169dae9a3f6b55441ad3ab990c8eebf722b0068991</td></tr>
+<tr><td>SGR-BOOM_S05_B_ZIJ-D.dwg</td><td class='size'>86.1 KB</td><td class='hash'>13ee9a7ce8802404df6751e2dacc865228a52470cf76bde1e1b6b862e30818b0</td></tr>
+<tr><td>SGR-BOOM_S05_C_ZIJ-D.dwg</td><td class='size'>347.3 KB</td><td class='hash'>cc7b662ce04e3f04d8110be12cf3fe045380da9f85550e83d6c042ce6409b2f1</td></tr>
+<tr><td>SGR-BOOM_S05_D_ZIJ-D.dwg</td><td class='size'>307.3 KB</td><td class='hash'>8c827692bacb41750061ae74c384ff724ab1d4b78a7348874ee4c3db00e45cab</td></tr>
+<tr><td>SGR-BOOM_S05_E_ZIJ-D.dwg</td><td class='size'>185.5 KB</td><td class='hash'>7af7f34bb637b715df62cb88842b959fec773065b88944885fb48f1d15a116be</td></tr>
+<tr><td>SGR-BOOM_S05_F_ZIJ-D.dwg</td><td class='size'>38.4 KB</td><td class='hash'>2870c8c62ed0f4340613ba478e9797de6626dce3a4862ba3c0e84f116f99a871</td></tr>
+<tr><td>SGR-BOOM_S05_G_ZIJ-D.dwg</td><td class='size'>20.9 KB</td><td class='hash'>399f73037ee2111a50ffdf20b47ae6db08ffb290236755f1f7960fde981aa20c</td></tr>
+<tr><td>SGR-BOOM_S05_H_ZIJ-D.dwg</td><td class='size'>19.1 KB</td><td class='hash'>42557a107ad0cff4a73778e2a2b536bda26679dbd124f4fdb882bce26f3d5316</td></tr>
+<tr><td>SGR-BOOM_S07_B_ZIJ-D.dwg</td><td class='size'>23.4 KB</td><td class='hash'>ca52a9fd2b3c5505cc4b93d5427c5dee5335fcdd843cfda134e9c713736d0bd5</td></tr>
+<tr><td>SGR-BOOM_S07_C_ZIJ-D.dwg</td><td class='size'>16.9 KB</td><td class='hash'>e756303e997bdb70f1a671c183903794dec8b7564d806d9a99ddb79ae73c2407</td></tr>
+<tr><td>SGR-BOOM_S07_E_ZIJ-D.dwg</td><td class='size'>17.7 KB</td><td class='hash'>47dcb72baca00f17525553feb5d10be2a12c098a488f47de15894cc78315a896</td></tr>
+<tr><td>SGR-BOOM_S08_A_ZIJ-D.dwg</td><td class='size'>143.2 KB</td><td class='hash'>3223493374dd93ee311bb925a093d81e4dcfbbc2c2f19c0ed45dd91e5481f49e</td></tr>
+<tr><td>SGR-BOOM_S08_B_ZIJ-D.dwg</td><td class='size'>93.9 KB</td><td class='hash'>547d931a490db0f145da897934a2d55e57de17497fcde0cc005205dcee95cad9</td></tr>
+<tr><td>SGR-BOOM_S08_C_ZIJ-D.dwg</td><td class='size'>142.3 KB</td><td class='hash'>8085768846078c995e9fbc893a826480e589069ba8c8a2ba6e2412a21cebd295</td></tr>
+<tr><td>SGR-BOOM_S08_D_ZIJ-D.dwg</td><td class='size'>61.2 KB</td><td class='hash'>edee0bba1b4137e2e3ebf1c5306d169e4e219732a1939519a0634b41de82c13f</td></tr>
+<tr><td>SGR-BOOM_S09_A_ZIJ-D.dwg</td><td class='size'>42.5 KB</td><td class='hash'>4fd496faf2b2c4e3af7a12862844fd72bd15b6724f8043b671e650d62f862ffd</td></tr>
+<tr><td>SGR-BOOM_S09_B_ZIJ-D.dwg</td><td class='size'>107.2 KB</td><td class='hash'>72233f732ca78406bf16d9496a1b0150499cb38d2f9967d95c73a198d028059c</td></tr>
+<tr><td>SGR-BOOM_S09_C_ZIJ-D.dwg</td><td class='size'>186.2 KB</td><td class='hash'>06279ca4cae721783fb42ec1fef65e0113cf0f8bbf7d019dd1e5b4c1ad5f1280</td></tr>
+<tr><td>SGR-BOOM_S09_D_ZIJ-D.dwg</td><td class='size'>298.6 KB</td><td class='hash'>82e54e2b80a3c6d2bba050c8c21b35ec4d382d8d6377d6137d471cd132c9fa3d</td></tr>
+<tr><td>SGR-BOOM_S09_E_ZIJ-D.dwg</td><td class='size'>76.2 KB</td><td class='hash'>d04307d137b6b7fe7a7324a2385f2f47cd38d3b0841b1ce5fd61f263b0d82d15</td></tr>
+<tr><td>SGR-BOOM_S09_F_ZIJ-D.dwg</td><td class='size'>91.3 KB</td><td class='hash'>2dc7e6f6f617a034e9a49bd6101f5dd8bb6cef6a6444904b0cace927c8099a77</td></tr>
+<tr><td>SGR-BOOM_S10_A_ZIJ-D.dwg</td><td class='size'>47.5 KB</td><td class='hash'>9605a40c20fff04e7d7b9da8b0f3cf5d94544334a3bc81b0074bf230d4a5939d</td></tr>
+<tr><td>SGR-BOOM_S10_B_ZIJ-D.dwg</td><td class='size'>42.5 KB</td><td class='hash'>c5166638fe359ff32a86f99f66d3e4fe9db5df6d6a304c78241254c831a99967</td></tr>
+<tr><td>SGR-BOOM_S11_A_ZIJ-D.dwg</td><td class='size'>50.4 KB</td><td class='hash'>52a7a5f69ff5cfa89c4390d3bc9f71a23b26dfec34b8898abe5b52cadc5053a7</td></tr>
+<tr><td>SGR-BOOM_S11_B_ZIJ-D.dwg</td><td class='size'>20.0 KB</td><td class='hash'>4008552ccf004ca0fbad2895b07d7ad9ba2e56ef4c9fda9967c451cc917c8765</td></tr>
+<tr><td>SGR-BOOM_S12_A_ZIJ-D.dwg</td><td class='size'>91.1 KB</td><td class='hash'>faf8a2df753066d423aeef3440a4bbc7eefbffab95e26083c5f300fa79575730</td></tr>
+<tr><td>SGR-BOOM_S12_B_ZIJ-D.dwg</td><td class='size'>113.9 KB</td><td class='hash'>09dafd6d0228b4a69a0acdcd60906ff0b6e06f9047146c1a4b397e75c4f002b7</td></tr>
+<tr><td>SGR-BOOM_SNOEIEN-SO.dwg</td><td class='size'>16.0 KB</td><td class='hash'>68347a7d668fc671f22d5909608c795ab3d8b09beec0f11d50f60ac288db0302</td></tr>
+<tr><td>SGR-BOOM_STAM-SO.dwg</td><td class='size'>16.0 KB</td><td class='hash'>da9276d1760a1c5dcbbbde36a6d36facbcbe910cc3b8c98db5cd05945f9a7b63</td></tr>
+<tr><td>SGR-BOOM_VERPLANTEN-SO.dwg</td><td class='size'>16.3 KB</td><td class='hash'>172ac136771bfa4b3a66a1dcab8e3187caf31c4016dfb528d94f678a19092f59</td></tr>
+<tr><td>SGR-BOOM_VERPLANTEN_KROON-SO.dwg</td><td class='size'>16.7 KB</td><td class='hash'>a21bca702b6b94fdba9885ccc45dde117f2ec366fb2df89de99d69f1bb30c0ac</td></tr>
+<tr><td>SGR-BOOM_VERPLANTEN_STAM-SO.dwg</td><td class='size'>16.6 KB</td><td class='hash'>af7acc251f94e09ebeb25eda459d21745fb4f68c9340438bceedefd3471c267e</td></tr>
+<tr><td>SGR-BOUWLAND-SO.dwg</td><td class='size'>16.3 KB</td><td class='hash'>2b14f4eb25e116124f0cd9efa2c1d3e8510ea1bb8ae80012f38bdfaf9e82b465</td></tr>
+<tr><td>SGR-BOUWLAND_AKKERBOUW-SO.dwg</td><td class='size'>16.3 KB</td><td class='hash'>716a38cb0cc723a8cf9e5fa9936616cdd62367e6453f86ee4bceacf4ad3c463d</td></tr>
+<tr><td>SGR-BOUWLAND_BOLLENTEELT-SO.dwg</td><td class='size'>16.3 KB</td><td class='hash'>6f4c5214d7391f07a0c53fd2e9ce8123343487e9a3c1387b9e8c0a7d241eb1b1</td></tr>
+<tr><td>SGR-BOUWLAND_BRAAKLIGGEND-SO.dwg</td><td class='size'>16.3 KB</td><td class='hash'>5e0730f2b8ae0d7cd6e57a0f124942d2c3635fa23cadcd8c10fb2c979d313f7f</td></tr>
+<tr><td>SGR-BOUWLAND_VOLLEGRONDSTEELT-SO.dwg</td><td class='size'>16.3 KB</td><td class='hash'>db3892aaee0f1b70326cf7b578a07a3b311dda0abec27adc0faa0eab37f3e4c4</td></tr>
+<tr><td>SGR-DOORWORTELBARE RUIMTE.dwg</td><td class='size'>16.5 KB</td><td class='hash'>bc449f4a6b71b548b50d62d6d5451ea5018fc4652e72a43016675b186e28a648</td></tr>
+<tr><td>SGR-DUIN-SO.dwg</td><td class='size'>16.3 KB</td><td class='hash'>772812dc73d45b91d6d872922fbbc674635c73066f59b83d4e9ecd8eadcd2505</td></tr>
+<tr><td>SGR-FRUITTEELT-SO.dwg</td><td class='size'>16.4 KB</td><td class='hash'>a69ab688073b8cb0260379ed22b175c23cd0c6d28c4f17f66d0fb1594fd8effb</td></tr>
+<tr><td>SGR-HAAG-D.dwg</td><td class='size'>57.2 KB</td><td class='hash'>88adbb07e30b86a04ec402c8760cb2a6b75c45a7f3233aac0e6e594d87a19bc1</td></tr>
+<tr><td>SGR-HEESTER_01.dwg</td><td class='size'>15.9 KB</td><td class='hash'>756b3d78376462e463692692f9d864d9fbab445b5810dc6ccf46e4172cc231fa</td></tr>
+<tr><td>SGR-HEESTER_02.dwg</td><td class='size'>16.2 KB</td><td class='hash'>b83c45f4d2f45f49074179e75ad56e2c8980fed1f7e8e723ae3832ae222fa9e3</td></tr>
+<tr><td>SGR-HEESTER_03.dwg</td><td class='size'>16.3 KB</td><td class='hash'>ecb1ee058cf544f1258d4c274f1bf7d150e1c958ab5ec8540c22a3bc60648011</td></tr>
+<tr><td>SGR-HEESTER_04.dwg</td><td class='size'>16.7 KB</td><td class='hash'>43a3b84f6f8c56502093081dadd8825593bdeb8ce6cd92a7afb52974f9ea2bb5</td></tr>
+<tr><td>SGR-HEESTER_05.dwg</td><td class='size'>17.5 KB</td><td class='hash'>d28654fbcc605c8d830137ceade00a6b82e766bad31474a3fbd66c3b9e5ff618</td></tr>
+<tr><td>SGR-HEESTER_06.dwg</td><td class='size'>17.8 KB</td><td class='hash'>c4d274ea2eb0225bdc4e76328857b7d73adb3893c34917377b7ab285178228cc</td></tr>
+<tr><td>SGR-HEESTER_S01_A_ZIJ-D.dwg</td><td class='size'>41.5 KB</td><td class='hash'>fb1be1893c9ea9125a2f5e52e78317702a5f8e128917c603a246f7b25c528e14</td></tr>
+<tr><td>SGR-HEESTER_S01_B_ZIJ-D.dwg</td><td class='size'>39.2 KB</td><td class='hash'>bb718c066fbe67ac511b059909460a0fd0db584fb53380faa6d068da3a154182</td></tr>
+<tr><td>SGR-HEESTER_S01_C_ZIJ-D.dwg</td><td class='size'>26.5 KB</td><td class='hash'>bc954b341a94465517ba67687181cfab4b9f64e151670d0011313f57229d262e</td></tr>
+<tr><td>SGR-HEESTER_S01_E_ZIJ-D.dwg</td><td class='size'>22.6 KB</td><td class='hash'>480089e68425a141af2e3fe657863485dd78ead002527c5b956f714a0b1c6b54</td></tr>
+<tr><td>SGR-HEESTER_S01_F_ZIJ-D.dwg</td><td class='size'>27.5 KB</td><td class='hash'>97a9f9e4c8bd464c7aa2188c659a927fd02cc4cf04672b8c025b8e15d467c1a8</td></tr>
+<tr><td>SGR-HEESTER_S01_G_ZIJ-D.dwg</td><td class='size'>44.5 KB</td><td class='hash'>19748e14050515ee457c276518a7da680432bac8bbb1620c9aca197e5cd917d2</td></tr>
+<tr><td>SGR-HEIDE-SO.dwg</td><td class='size'>21.0 KB</td><td class='hash'>c08d55fd8692a9a7b1b1a3c888867dabef664fad1434f6b5e3a23e39c86dd0fb</td></tr>
+<tr><td>SGR-HOUTOPSTAND-SO.dwg</td><td class='size'>17.0 KB</td><td class='hash'>ea70959f58f5a2c2b1ada94bfb2fff1672396a678209537a0462d0908a869c5e</td></tr>
+<tr><td>SGR-HOUTOPSTAND_GEMENGD-SO.dwg</td><td class='size'>17.4 KB</td><td class='hash'>d0fb8d962a4d6e8fe33595913f85c41218670c9e38568044981a089b5bc72ece</td></tr>
+<tr><td>SGR-HOUTOPSTAND_GEMENGD_KL-SO.dwg</td><td class='size'>17.2 KB</td><td class='hash'>93d0403b4d16e77e8774d096856455546aa02de59df785f6f5660fd2d95a99d7</td></tr>
+<tr><td>SGR-HOUTOPSTAND_KL-SO.dwg</td><td class='size'>16.8 KB</td><td class='hash'>44026aa51590541efb1271ead42cc45d3e68771e50d9bbb57c8604f372ede347</td></tr>
+<tr><td>SGR-HOUTOPSTAND_LOOF-SO.dwg</td><td class='size'>17.4 KB</td><td class='hash'>216f5ed0938b044334b0ed9786b7679979b56a930f5ff261a3c6e11e6d0ca4cb</td></tr>
+<tr><td>SGR-HOUTOPSTAND_LOOF_KL-SO.dwg</td><td class='size'>17.2 KB</td><td class='hash'>fe039945d30fa98640b8e4d4b03730c933f6b055c95225a215fd6394da87f056</td></tr>
+<tr><td>SGR-HOUTOPSTAND_NAALD-SO.dwg</td><td class='size'>17.4 KB</td><td class='hash'>a98034971414d30751015d093763bba4b496e9995d6e77c3b3e3dbb21d4de55e</td></tr>
+<tr><td>SGR-HOUTOPSTAND_NAALD_KL-SO.dwg</td><td class='size'>17.2 KB</td><td class='hash'>b509d830bf5b76d9fd2d4478c33110e60b58cf0883c9b7f3f057edcdb8852826</td></tr>
+<tr><td>SGR-HOUTWAL-SO.dwg</td><td class='size'>16.0 KB</td><td class='hash'>5fbb4ceb0d1f414a27e0f59712f6a7b517198d9965b8c1d1f64d453f1531a1c3</td></tr>
+<tr><td>SGR-KWELDER-SO.dwg</td><td class='size'>15.9 KB</td><td class='hash'>6386b3deb4a16a3e9520b68493b8727a0f7060aa76b188e881b97c043697591d</td></tr>
+<tr><td>SGR-PLANTENBAK-SO.dwg</td><td class='size'>18.6 KB</td><td class='hash'>6f560104e2e7f88fe695955db9333058ad1ffc00d1ebac0c5e07ed883a4b3408</td></tr>
+<tr><td>SGR-ROOS-SO.dwg</td><td class='size'>19.9 KB</td><td class='hash'>fecba69db14fbb9c852b23f8de388fe7d2b493bca75337b06116f2a29c545104</td></tr>
+<tr><td>SGR-SOORTAANDUIDING-SO.dwg</td><td class='size'>16.2 KB</td><td class='hash'>1851e9148737a73e933ae7d0af6225ba727a0f1fe4322f920d28c79fcdce1f95</td></tr>
+<tr><td>SGR-VEGETATIE_GESLOTEN-SO.dwg</td><td class='size'>17.7 KB</td><td class='hash'>e3a992a70fc0ed7e56fd5262554395fadecddb0a16248b63daeef767ad2eef76</td></tr>
+<tr><td>SGR-VEGETATIE_OPEN-SO.dwg</td><td class='size'>16.9 KB</td><td class='hash'>e9229948f36b43753ff34e8fd20229433e489342138d6c4d3b159bc8babc0301</td></tr>
+<tr><td>V-SGR-BOOM_01.dwg</td><td class='size'>16.4 KB</td><td class='hash'>b1bca3d8137d0a2c6759a4c3f2bd47ecab0f1a950fa03ac0120a4dcb0a518da2</td></tr>
+<tr><td>V-SGR-BOOM_02.dwg</td><td class='size'>16.2 KB</td><td class='hash'>89b521e04a55fbe29429cfccba68103a8a03c36a920c7ea0b329e40e83620a86</td></tr>
+<tr><td>V-SGR-BOOM_03.dwg</td><td class='size'>17.6 KB</td><td class='hash'>c484d3882fddac13de9c54b47b5811ef81124c42ff1b249e034f7dd44afba377</td></tr>
+<tr><td>V-SGR-BOOM_04.dwg</td><td class='size'>18.3 KB</td><td class='hash'>c6b684e725f4c933c70bfcd83c800526732b341dbc851b77afb4576166d15884</td></tr>
+<tr><td>V-SGR-BOOM_05.dwg</td><td class='size'>24.9 KB</td><td class='hash'>85de104daa95e415453053859971a6b6402c26ba3aa78801fb032f3b564f2281</td></tr>
+<tr><td>V-SGR-BOOM_06.dwg</td><td class='size'>18.5 KB</td><td class='hash'>8c59a3d3bfe84c59a73dedca51e8f879eb0a07675211a1caf6b8d6a505a2c6de</td></tr>
+<tr><td>V-SGR-BOOM_07.dwg</td><td class='size'>16.6 KB</td><td class='hash'>13e9c75bc6d99dff20a049aad9d3029fd138aeb0e137612070fd0522e90aa775</td></tr>
+<tr><td>V-SGR-BOOM_08.dwg</td><td class='size'>17.0 KB</td><td class='hash'>df00728c07f0348be180bd8d302124b8d7bf15d93edfbe3d52be61075434f54d</td></tr>
+<tr><td>V-SGR-BOOM_09.dwg</td><td class='size'>19.0 KB</td><td class='hash'>33e1890684989e1ef16369929f5aedd3851b2db28c35cb005a4517409bb11a76</td></tr>
+<tr><td>V-SGR-BOOM_10.dwg</td><td class='size'>18.3 KB</td><td class='hash'>cebd22b0d87e95061fb0a2cfe3c21dc8ec80f34eb292e214554d158b114f85a6</td></tr>
+<tr><td>V-SGR-BOOM_11.dwg</td><td class='size'>43.2 KB</td><td class='hash'>78b0e75d996d4d4eabcf7216fa09aa4f6b25ab7dc96b6cca221853bdd288bd3d</td></tr>
+<tr><td>V-SGR-BOOM_12.dwg</td><td class='size'>75.0 KB</td><td class='hash'>f1310e89f7e05d3fe8647ca72bfee091d2150554be183fab47e36af0d7b43ef1</td></tr>
+<tr><td>V-SGR-BOOM_13.dwg</td><td class='size'>17.2 KB</td><td class='hash'>224ba105b612650c94b6d53a47352eac71dadf187e189a6dda7da702db073d39</td></tr>
+<tr><td>V-SGR-BOOM_14.dwg</td><td class='size'>18.9 KB</td><td class='hash'>6ac414a8badeb5a2e56e3dca26dbc797a7537a29c16b0e1f396b595f71243b1a</td></tr>
+<tr><td>V-SGR-BOOM_15.dwg</td><td class='size'>22.3 KB</td><td class='hash'>43408cb2b62e4bfe535cd59a2e5ef966b05975d5937a0f04e3b1daabcbd605be</td></tr>
+<tr><td>V-SGR-BOOM_16.dwg</td><td class='size'>42.7 KB</td><td class='hash'>2950bf445832748f6e5d73edce2fd9cae424e90fb29509f75e8f0db4be4004b7</td></tr>
+<tr><td>V-SGR-BOOM_17.dwg</td><td class='size'>16.8 KB</td><td class='hash'>bf1e48d7b2591ef8a9f74f67f1da01e55c7fee4ca49202da1026f2ac652533ac</td></tr>
+<tr><td>V-SGR-BOOM_18.dwg</td><td class='size'>16.9 KB</td><td class='hash'>af5601b8889218f87d1419a8700e628a1a62e56eb14c6519a02de188ef95d4cf</td></tr>
+<tr><td>V-SGR-BOOM_19.dwg</td><td class='size'>16.8 KB</td><td class='hash'>32c4e8d2b980b3032af493421a6cb7eb5868d735cdd890a4961807c43ec0438d</td></tr>
+<tr><td>V-SGR-BOOM_1E GROOTTE.dwg</td><td class='size'>18.7 KB</td><td class='hash'>775b1109623ef878231fc5ae99bb5f28d2c5baf05979f1b7ba42383b3e2890b2</td></tr>
+<tr><td>V-SGR-BOOM_20.dwg</td><td class='size'>17.3 KB</td><td class='hash'>314ad2c08ab998ddc3f9d0766844c1ab5342b77da806d64eafeebfd2778c7625</td></tr>
+<tr><td>V-SGR-BOOM_21.dwg</td><td class='size'>19.5 KB</td><td class='hash'>625e9e93de79e46a9f9b559cce0012a6e9d464390a3a30ebbcebc192c35a1a96</td></tr>
+<tr><td>V-SGR-BOOM_22.dwg</td><td class='size'>68.2 KB</td><td class='hash'>2ad7dd14cc6acf7fbebcb4d64cf2030b04ac90354de2239e786c25a6c0451b94</td></tr>
+<tr><td>V-SGR-BOOM_23.dwg</td><td class='size'>49.7 KB</td><td class='hash'>ed01a4083dddf2e0a292c6e13905c000dc9daceb1c0877505f607089da57e424</td></tr>
+<tr><td>V-SGR-BOOM_24.dwg</td><td class='size'>35.7 KB</td><td class='hash'>a09dcfa8ead66f5684444fe1025e46b85ac12648a22c0d28cdb529ae23d6ec88</td></tr>
+<tr><td>V-SGR-BOOM_25.dwg</td><td class='size'>77.7 KB</td><td class='hash'>cfcd42d803240743b62ca9fa00be9c5d87984b074f1ae6efc1213fd2b011ba5b</td></tr>
+<tr><td>V-SGR-BOOM_26.dwg</td><td class='size'>50.8 KB</td><td class='hash'>4d7eba121aec08c92c3e1d879d48d067cf584d02f3a2a9b2e2e6a7d2d4d39f8b</td></tr>
+<tr><td>V-SGR-BOOM_27.dwg</td><td class='size'>35.4 KB</td><td class='hash'>e437d2592d5e485465f58965d0dbcfeced83bbc0cfd50304577f8bf4de98a651</td></tr>
+<tr><td>V-SGR-BOOM_28.dwg</td><td class='size'>27.0 KB</td><td class='hash'>0e585318d87119e027818fb42496fe3b4cf46b391f988111daf496653e4d645c</td></tr>
+<tr><td>V-SGR-BOOM_29.dwg</td><td class='size'>24.8 KB</td><td class='hash'>dfd19119dad3ccb74da710007f20dee243b05da60d2d85f1422a2b0783ddd043</td></tr>
+<tr><td>V-SGR-BOOM_2E GROOTTE.dwg</td><td class='size'>18.8 KB</td><td class='hash'>6495a9f0fcb70f2d8e8ca5c39af0b8f7654ce3a803411c2c6c37b8b16139ab95</td></tr>
+<tr><td>V-SGR-BOOM_30.dwg</td><td class='size'>27.1 KB</td><td class='hash'>adb1b1ec5aac039b66beb41ed1a448458671c66b8e42b2717d2591f619307a5e</td></tr>
+<tr><td>V-SGR-BOOM_31.dwg</td><td class='size'>18.5 KB</td><td class='hash'>1729a8c6ec47842a204a4cad239bf8db4ef70cfa41c524fc32ddc07874684592</td></tr>
+<tr><td>V-SGR-BOOM_32.dwg</td><td class='size'>18.1 KB</td><td class='hash'>a9490eaeba8ecd2d67b71be935e74e03f70c9737c3884a56d643e566618cd4fc</td></tr>
+<tr><td>V-SGR-BOOM_33.dwg</td><td class='size'>30.6 KB</td><td class='hash'>66bd770cb23df8df5c1b210d42c06e27fbc04778e27e44fce0cb28793467b516</td></tr>
+<tr><td>V-SGR-BOOM_34.dwg</td><td class='size'>20.6 KB</td><td class='hash'>65840cd5a5831b2c70cf564f2fb98437afd723afdd06e09053b0e2e7d387aacd</td></tr>
+<tr><td>V-SGR-BOOM_35.dwg</td><td class='size'>22.8 KB</td><td class='hash'>2b1a990f8fe4f08d31f67b073104a24803abd9bf7e5d5de2cc97e1973d8da872</td></tr>
+<tr><td>V-SGR-BOOM_36.dwg</td><td class='size'>37.6 KB</td><td class='hash'>e29f40334a75480ad0ba847b8c837fb9d3afef950336e65886ba8db420471f3f</td></tr>
+<tr><td>V-SGR-BOOM_37.dwg</td><td class='size'>28.6 KB</td><td class='hash'>01c16c68fa46baa3fc6c60a7103318fe6cf53711bbd8e5adeeb2fc2a86aff211</td></tr>
+<tr><td>V-SGR-BOOM_38.dwg</td><td class='size'>20.9 KB</td><td class='hash'>11d4c1b21029569a1253cbae95794afea6a49e73f1bf0466951fa3ec049c368c</td></tr>
+<tr><td>V-SGR-BOOM_39.dwg</td><td class='size'>21.0 KB</td><td class='hash'>4e9be657f6525056502cc85c78b6b49dc534b90717baf7195121d461006a9714</td></tr>
+<tr><td>V-SGR-BOOM_3E GROOTTE.dwg</td><td class='size'>18.8 KB</td><td class='hash'>49a2fdd071781b1bff877d306a585e6b61ebfe3996bb72eecaae6c1deb7a6110</td></tr>
+<tr><td>V-SGR-BOOM_40.dwg</td><td class='size'>21.5 KB</td><td class='hash'>fc03a0730473ef0029a2e585e22260554e41a2b3a18901f767eaf14e4160a2a1</td></tr>
+<tr><td>V-SGR-BOOM_41.dwg</td><td class='size'>97.3 KB</td><td class='hash'>aeaef9b614c3d434864f356279b38bb99ea036e6260a1065d46cd14ad82624eb</td></tr>
+<tr><td>V-SGR-BOOM_GBKN-SO.dwg</td><td class='size'>16.5 KB</td><td class='hash'>2c899e792921f092c211ac49202d59978cac5b3a4dcfb3330a3ad1ff2bd26073</td></tr>
+<tr><td>V-SGR-BOOM_KROON-SO.dwg</td><td class='size'>16.4 KB</td><td class='hash'>23e5cfcacd87b29403ad2b17b77bdb54f6ae3a54dfdebbc332509aa56eb08395</td></tr>
+<tr><td>V-SGR-BOOM_STAM-SO.dwg</td><td class='size'>16.4 KB</td><td class='hash'>923dcf63c8290e68fce85f09ee34524397018944a7c3287ec2caf758d88e4a6a</td></tr>
+<tr><td>V-SGR-BOOM_VERPLANTEN_KROON-SO.dwg</td><td class='size'>16.7 KB</td><td class='hash'>342ea1111e310a8448bab838ff172a5159c7aa81bf8b1378086030bb5ad3f8db</td></tr>
+<tr><td>V-SGR-BOOM_VERPLANTEN_STAM-SO.dwg</td><td class='size'>16.8 KB</td><td class='hash'>cd62dc30545c1194f7c06e71d5377524ac8a56db39b95a66528467d7f55b148c</td></tr>
+<tr><td>V-SGR-HEESTER_01.dwg</td><td class='size'>16.3 KB</td><td class='hash'>f97ebc53d065b724f069f3c05829208e7a3dd77048efd47a1b092edcb4239ebe</td></tr>
+<tr><td>V-SGR-HEESTER_02.dwg</td><td class='size'>16.6 KB</td><td class='hash'>eab4f85af49616389a2b298f44f8c1d6fc618af7746147ef1da815e255fe9908</td></tr>
+<tr><td>V-SGR-HEESTER_03.dwg</td><td class='size'>16.6 KB</td><td class='hash'>e8097ad9f7f1579539e809c5e6fc612be3fb632ada32fbf4c3e875e4fafa79e8</td></tr>
+<tr><td>V-SGR-HEESTER_04.dwg</td><td class='size'>16.9 KB</td><td class='hash'>6be2af0082afe47ac0034bae6c0e64d470a625c98393956aaf0a1ac7dac55e75</td></tr>
+<tr><td>V-SGR-HEESTER_05.dwg</td><td class='size'>17.5 KB</td><td class='hash'>5e89177e21077ca607a1a704a8bac2ce0dc73f37e5139e4e5a77073096d2f746</td></tr>
+<tr><td>V-SGR-HEESTER_06.dwg</td><td class='size'>18.0 KB</td><td class='hash'>400c3e3f0dbe30c49b35261d58d5f24267a1c1d85c2801827f9214a72d4e8d65</td></tr>
+<tr><td>V-SGR-HOUTOPSTAND-SO.dwg</td><td class='size'>17.2 KB</td><td class='hash'>2c1578bc0c8a130d82ab52f3300728a1cdf891a04826bb1e39462330674aeb9d</td></tr>
+<tr><td>V-SGR-HOUTOPSTAND_GEMENGD-SO.dwg</td><td class='size'>17.6 KB</td><td class='hash'>1c817c13026d3d71bc216b96c4deed68f17117ba6856972474766ee708903bf5</td></tr>
+<tr><td>V-SGR-HOUTOPSTAND_GEMENGD_KL-SO.dwg</td><td class='size'>17.4 KB</td><td class='hash'>4188d4d3871e3aae94c121c096511015b757e4b04c16ee3ec3ec2aaa8789a630</td></tr>
+<tr><td>V-SGR-HOUTOPSTAND_KL-SO.dwg</td><td class='size'>17.1 KB</td><td class='hash'>a0f18b9101d0f9eb797c1d44228e7dbd6c2c1478070e7a6d9a6e4e0529ebb58d</td></tr>
+<tr><td>V-SGR-HOUTOPSTAND_LOOF-SO.dwg</td><td class='size'>17.6 KB</td><td class='hash'>1d55a99f54eed0e81854f21cd3899368b26b2c59e5f47e89ac844e368023d8b3</td></tr>
+<tr><td>V-SGR-HOUTOPSTAND_LOOF_KL-SO.dwg</td><td class='size'>17.4 KB</td><td class='hash'>aa351f5a9a2c1b40d56331c7d8ef1ea6b9b6071c510a3d34c012042617dda452</td></tr>
+<tr><td>V-SGR-HOUTOPSTAND_NAALD-SO.dwg</td><td class='size'>17.6 KB</td><td class='hash'>8c6728517e4de22ae83792e79dee330b3ae6c5ffff8063f2094513f54bcb52e5</td></tr>
+<tr><td>V-SGR-HOUTOPSTAND_NAALD_KL-SO.dwg</td><td class='size'>17.4 KB</td><td class='hash'>79eafad8710f6ec8773bf3be25f583ad150b2044f8ea9f310cee6d82482d84c9</td></tr>
+<tr><td>V-SGR-PLANTENBAK-SO.dwg</td><td class='size'>18.5 KB</td><td class='hash'>e614bc1cee95e1191dd391fbebe30ecd9975084e2006e38692c49d6623a7d725</td></tr>
+</table>
+</details>
+</body></html>

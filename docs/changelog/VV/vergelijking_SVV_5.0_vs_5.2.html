@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Vergelijking SVV — NLCS 5.0 vs 5.2</title>
+<style>
+  :root { font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
+  body { max-width: 1200px; margin: 2em auto; padding: 0 1em; color: #222; }
+  h1 { border-bottom: 2px solid #333; padding-bottom: .3em; }
+  h2 { margin-top: 2em; padding: .4em .6em; border-radius: 4px; color: #fff; }
+  h2.nieuw { background: #2e7d32; }
+  h2.vervallen { background: #c62828; }
+  h2.gewijzigd { background: #ef6c00; }
+  h2.gelijk { background: #1565c0; }
+  .summary { background: #f5f5f5; padding: 1em; border-radius: 6px; margin: 1em 0; }
+  .summary table { border: 0; }
+  .summary td { border: 0; padding: .2em 1em .2em 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #fafafa; font-weight: 600; }
+  tr:nth-child(even) { background: #fcfcfc; }
+  .hash { font-family: Consolas, monospace; font-size: 11px; color: #555; }
+  .size { text-align: right; white-space: nowrap; }
+  .note { background: #fff8e1; border-left: 4px solid #ffa000; padding: .8em 1em; margin: 1em 0; font-size: 13px; }
+  .empty { color: #999; font-style: italic; padding: 1em; }
+  details summary { cursor: pointer; padding: .5em; background: #f0f0f0; border-radius: 4px; user-select: none; }
+  details[open] summary { margin-bottom: .5em; }
+</style>
+</head>
+<body>
+<h1>Vergelijking SVV — NLCS 5.0 vs 5.2</h1>
+<div class='summary'>
+<strong>Bronmappen</strong>
+<table>
+<tr><td>v5.0:</td><td><code>C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSmain/NLCS/symbolen/autocad/SVV</code></td><td>1 DWG-bestanden</td></tr>
+<tr><td>v5.2:</td><td><code>C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCS/symbolen/autocad/SVV</code></td><td>129 DWG-bestanden</td></tr>
+</table>
+<br><strong>Resultaten</strong>
+<table>
+<tr><td>Nieuw (alleen in 5.2):</td><td><strong>128</strong></td></tr>
+<tr><td>Vervallen (alleen in 5.0):</td><td><strong>0</strong></td></tr>
+<tr><td>Gewijzigd (zelfde naam, andere inhoud):</td><td><strong>0</strong></td></tr>
+<tr><td>Gelijk gebleven (zelfde naam, identieke inhoud):</td><td><strong>1</strong></td></tr>
+</table>
+<p style='margin-top:1em; font-size:12px; color:#666;'>Gegenereerd: 2026-05-14 14:30</p>
+</div>
+<div class="note">
+<strong>Let op:</strong> de vergelijking is gebaseerd op een SHA256-hash van de volledige DWG-bytes.
+DWG-bestanden bevatten een ingebedde "last saved"-tijdstempel en metadata; als iemand een bestand
+alleen opent en opnieuw opslaat (zonder de tekening te wijzigen) verandert de hash en verschijnt
+het hier als "gewijzigd". Een gewone Windows-kopie verandert de hash niet. Voor zekerheid over
+geometrische wijzigingen moet elk "gewijzigd" bestand visueel in AutoCAD worden gecontroleerd, of
+eerst geconverteerd naar DXF (tekstueel) zodat metadata-regels uitgefilterd kunnen worden.
+</div>
+<h2 class='nieuw'>Nieuw (128)</h2>
+<table>
+<tr><th>Bestandsnaam</th><th class='size'>Grootte</th><th>SHA256</th></tr>
+<tr><td>SVV-MARKERING_BETONNING_BYZONDER_LINKS-SO.dwg</td><td class='size'>86.2 KB</td><td class='hash'>4beea70c9587f7ff6a24e02da36189040ecca5b7c43db4f4f881795349e93933</td></tr>
+<tr><td>SVV-MARKERING_BETONNING_BYZONDER_RECHTS-SO.dwg</td><td class='size'>89.0 KB</td><td class='hash'>6edc9a1b0efc57765fed4c3a74e5b738c173789fa6cfe1fcbd96fd035d2e94af</td></tr>
+<tr><td>SVV-MARKERING_BETONNING_HOOFD_LINKS-SO.dwg</td><td class='size'>86.2 KB</td><td class='hash'>dbc39076204f1ee513e16a6cdcddeccc6343577c90ef44abf343c0ffd4825c70</td></tr>
+<tr><td>SVV-MARKERING_BETONNING_HOOFD_RECHTS-SO.dwg</td><td class='size'>89.0 KB</td><td class='hash'>9a7fd6e0e96b95e64ff29a14dc6f0b9a7d52cc32b4f786a67f16a6756a82dbf1</td></tr>
+<tr><td>SVV-MARKERING_BETONNING_RECREATIE_LINKS-SO.dwg</td><td class='size'>88.8 KB</td><td class='hash'>96e8d01b71f3432faf47f89b5fb752c53f8f2cf8c1cd695d1d01aea82f01610d</td></tr>
+<tr><td>SVV-MARKERING_BETONNING_RECREATIE_RECHTS-SO.dwg</td><td class='size'>89.5 KB</td><td class='hash'>daf6abda537a39e5e17bdaf723ba2f3fb035865cb0f3bfc6bffd8b90dc2c8b7b</td></tr>
+<tr><td>SVV-MARKERING_BETONNING_SCHEIDING_GELIJK-SO.dwg</td><td class='size'>91.7 KB</td><td class='hash'>ee23009c054f8c3565e8933f2916a786f36485d6c63eaec6ac1484116474d97d</td></tr>
+<tr><td>SVV-MARKERING_BETONNING_SCHEIDING_HOOFDVAARWATER_LINKS-SO.dwg</td><td class='size'>91.8 KB</td><td class='hash'>1311cade15cbe64ace27da4304add81b3a9e356af6cd8d9dd0326803b6ae4777</td></tr>
+<tr><td>SVV-MARKERING_BETONNING_SCHEIDING_HOOFDVAARWATER_RECHTS-SO.dwg</td><td class='size'>83.6 KB</td><td class='hash'>f7b89fa9c13178d444f818967176adbbeee2c860e9c03c20da013cdfef73dc03</td></tr>
+<tr><td>SVV-MARKERING_BETONNING_VEILIG VAARWATER-SO.dwg</td><td class='size'>90.8 KB</td><td class='hash'>853452cbe962285df1930908b628210624712a05ed0e14a23991dfa2f3d532ea</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A1-SO.dwg</td><td class='size'>87.2 KB</td><td class='hash'>ab87e77975e95eb7d25227b96a16572efb0a24f107d795e184275c8941b5f169</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A10L-SO.dwg</td><td class='size'>82.4 KB</td><td class='hash'>b239610d185a2f2fb44f0c0f141a9997751fd6df5379ae57327547e25db6d5b1</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A10R-SO.dwg</td><td class='size'>91.1 KB</td><td class='hash'>cc6a32768f16fa2c4c3d0f24c499acd70d223097f123d7db9e3c52894149e591</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A11-SO.dwg</td><td class='size'>90.5 KB</td><td class='hash'>fa4884872dcd65ab630612306d1da5029ded9f63370e72ea1dcaf79d33095200</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A12-SO.dwg</td><td class='size'>91.8 KB</td><td class='hash'>4094606e58684dba9d127906b645b59409d0888b7b0397d33cee35b2d10cb362</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A13-SO.dwg</td><td class='size'>91.1 KB</td><td class='hash'>e82fd941778bce92ac9d4d079ca26492c85138cda0d3eb7cf6ee3b113d050498</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A14-SO.dwg</td><td class='size'>86.6 KB</td><td class='hash'>db52f3b7f32537c3767f732337651ba98d2a26a630f09a7dc29c3e3f56d1a028</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A15-SO.dwg</td><td class='size'>91.4 KB</td><td class='hash'>baab97500a6f587ba708486d42a304b03e925755ad6d547196bfc6d7c73be3f9</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A16-SO.dwg</td><td class='size'>90.1 KB</td><td class='hash'>bd4e1e40f9268b31bf7213b46786fb2898fe80e25a50820a36e6aaf7b06917a6</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A17-SO.dwg</td><td class='size'>92.9 KB</td><td class='hash'>4eeafb081daa25321ce65233cf3b0bc3acd10af6d5a7212ea62d832d76a83997</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A18-SO.dwg</td><td class='size'>93.8 KB</td><td class='hash'>5c3e62eaa343376d144117574d5eb0f64045331abd6ca8b527a7fef2bf914cc0</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A19-SO.dwg</td><td class='size'>92.6 KB</td><td class='hash'>3a269d0246fca753575ed0b3bfcbce605fae9286053e248d4d6e59a177acf88c</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A1_A-SO.dwg</td><td class='size'>83.2 KB</td><td class='hash'>dee325591c8346bfd9fb7459d9757824e1ccd99f67135eb5827c1c89636bcb2a</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A2-SO.dwg</td><td class='size'>90.9 KB</td><td class='hash'>cd8dbc36baf7535b9bf624843d1c8fec7848933d39d28a99dd7ea08a4b4407a2</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A20-SO.dwg</td><td class='size'>93.8 KB</td><td class='hash'>c7c3a2b99d3541418858cbb7ff1b4926c732567690d2dd034536bef3ca46b939</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A3-SO.dwg</td><td class='size'>85.6 KB</td><td class='hash'>3a6eb7a38c1759afc59be968f4172bd5c99f12a8aaa95d1ba724f44a50f705e0</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A4-SO.dwg</td><td class='size'>91.4 KB</td><td class='hash'>c65ab84ce2ec652c29706b71942eac2b9491f5621d83dece2afb49af9d7513a4</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A4_1-SO.dwg</td><td class='size'>90.1 KB</td><td class='hash'>a0231202f0a8151b4c98eafb69730ba7435f07587cce0f7409400c28b9ca66c9</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A5-SO.dwg</td><td class='size'>91.2 KB</td><td class='hash'>1691ee0af94e85f8a9456b31bfb22e4abe08423c208d427123478c393a7d81b6</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A5_1-SO.dwg</td><td class='size'>85.1 KB</td><td class='hash'>725dab2c9e6231bd8b22079f24a3970569bfb185b9ed1de1431c8872ff7bd004</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A6-SO.dwg</td><td class='size'>91.0 KB</td><td class='hash'>3f78ee9e3a93101eeac36954fa427c4d6542de1a8c0083a882e57fbd388fe99f</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A7-SO.dwg</td><td class='size'>91.8 KB</td><td class='hash'>2ca3f3fadcb59f270379cb95b259a288c2d2c7356859a5b89c9d4973495d523e</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A8-SO.dwg</td><td class='size'>92.0 KB</td><td class='hash'>41a827db4c9fa08c69c108cd1c1b9c5b20fb37a9430d4dd28e38afe05508c05c</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_A9-SO.dwg</td><td class='size'>86.8 KB</td><td class='hash'>a2578f617b53e0afcaa836e48c45f8af918c5170d0fffd802df84900dcbe4555</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_B1-SO.dwg</td><td class='size'>90.9 KB</td><td class='hash'>0a39c167be9565228c89b62a616e3d6e357834fd528ba59345255333743fab4e</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_B11A-SO.dwg</td><td class='size'>83.9 KB</td><td class='hash'>05c60a7b6dc613b3790f33e3da952966f3189db0f28550a2d79a1518e411aa88</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_B11B-SO.dwg</td><td class='size'>84.0 KB</td><td class='hash'>9aaf85cd8f7ca4c390e75a8b64ca3606223644670e3386d4f26e3fec0a9b415c</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_B2A-SO.dwg</td><td class='size'>87.8 KB</td><td class='hash'>b57d77f7360e30a67e6de2a1d0a0066af51e443828d59013cfdb819e6e25981e</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_B2B-SO.dwg</td><td class='size'>87.8 KB</td><td class='hash'>706c1557436247b9d251c374b97b73f5b063b1b9effb468b6bfcfb3a80245ce2</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_B3A-SO.dwg</td><td class='size'>86.1 KB</td><td class='hash'>16b8c8c4e40d63b3f9504c6ce6213336e52da554ec855e501add6e3d6211e203</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_B4A-SO.dwg</td><td class='size'>85.9 KB</td><td class='hash'>270bb14db172447d2919e8853767cb0b75dd865f9c5fe85ac604c4e59d780fee</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_B4B-SO.dwg</td><td class='size'>86.0 KB</td><td class='hash'>3b3c5cdc24a78864b1f88785d5a307108c4f8f8bbf85130b08fa5b9f3a1fec82</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_B5-SO.dwg</td><td class='size'>91.1 KB</td><td class='hash'>c22ee62f13c0387d50ab68b3e7b26ae381ab3906b7943866bcc34d8b8e77cdd4</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_B6-SO.dwg</td><td class='size'>82.4 KB</td><td class='hash'>baa78c19fd231709133818724c48fc2cf732b31b896dbe43c5152b6a3a70d1e7</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_B7-SO.dwg</td><td class='size'>87.8 KB</td><td class='hash'>84a5d289be3e1e59b57c052bb2236e48fff127a7896c38beb82336b98642265c</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_B8-SO.dwg</td><td class='size'>91.1 KB</td><td class='hash'>a51ecf15e72426ac6d218ae21e9aacfa9ca0c7ce077bde0e1410c835cbe690bd</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_B9A-SO.dwg</td><td class='size'>90.3 KB</td><td class='hash'>d1d9c45be2d5edd8aca8de77ba5fb62e2e5650247e42ef9b434d16f61fa7aa6e</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_B9B-SO.dwg</td><td class='size'>91.2 KB</td><td class='hash'>5d22cf81a7849b85c7b43e5d1edf5304d4678853d8076286fbb4ed646c99ab9e</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_C1-SO.dwg</td><td class='size'>85.7 KB</td><td class='hash'>018d4d0fd6425da60bba96e1b7062054119a33db93dbe3da445fffa1bb822518</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_C2-SO.dwg</td><td class='size'>91.2 KB</td><td class='hash'>014b4b314b8a2c3802779152417a50666411980fbfd7cb05d3f3655fc639e710</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_C3-SO.dwg</td><td class='size'>91.1 KB</td><td class='hash'>40ed22cdcb379f1cd123578ee01baa5b7f14ba74e20f21b030aa71588f515d97</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_C4-SO.dwg</td><td class='size'>83.6 KB</td><td class='hash'>6005bc467e9c387dd123dd454630c7fc5120dd81ffd719b443f3e18555d6529c</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_C5-SO.dwg</td><td class='size'>90.8 KB</td><td class='hash'>54b5303c0717ede37c63ffc6d99aa9cf76335c9c82d0b1941d33f3473a333395</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_D1A-SO.dwg</td><td class='size'>85.6 KB</td><td class='hash'>f115c7ef4f3f25090dbaccd6207c512abfa90951819bf9706982c6db0b160bf9</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_D1B-SO.dwg</td><td class='size'>87.2 KB</td><td class='hash'>1dcca59ee15e68ee7e1eb1caeaf7c64102985bb5b48a451a59ed7f22572fb0f8</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_D2L-SO.dwg</td><td class='size'>90.3 KB</td><td class='hash'>0028c17494c54a6a0631d1689f8d0c3d36d983369801608c921cb3f77e131f28</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_D2R-SO.dwg</td><td class='size'>90.3 KB</td><td class='hash'>4bccb86eae8c9b6e002ac25ab9d6963a2ca9f5064d2e7cedf1a288f768d0c1d1</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_D3A-SO.dwg</td><td class='size'>85.2 KB</td><td class='hash'>fb4dbadc67888b8d44cf7875ad80d534a4bacb329617df129c0f65fa3270571f</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E1-SO.dwg</td><td class='size'>85.4 KB</td><td class='hash'>f7bf0dc9cb01f19e6bd83ad28eb8b59f2121fe2a7d7a42dbf9ac3dd3d5365dac</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E10A-SO.dwg</td><td class='size'>85.9 KB</td><td class='hash'>56b71cd94be1472d97fa23b347d5ee4d62bb938b672387bb1c6f0246910505b3</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E10B-SO.dwg</td><td class='size'>85.6 KB</td><td class='hash'>19d3d70422b488be6ca3f364e5bacadb7505ae38c9be7a7a2df64a8530a812f2</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E10C-SO.dwg</td><td class='size'>89.2 KB</td><td class='hash'>bcb1b091a4ce61b0b3108c47be8f5e2e4ae3a0159f3f8b082c1daefd0854c00b</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E10D-SO.dwg</td><td class='size'>89.2 KB</td><td class='hash'>a3579d5c105611fd2d4f0a916f2963df083d4e527d0e284fb7479edad6ddc320</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E10E-SO.dwg</td><td class='size'>90.2 KB</td><td class='hash'>d8377519d8b27ee23da61b5c83672e6bad072d2084fb0c742be8ae3ce6449775</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E10F-SO.dwg</td><td class='size'>91.0 KB</td><td class='hash'>0b4603ce810d638fa04b19c08e5c7504acf45eeecf0678e42f8e1fa3b209cc82</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E11_RH-SO.dwg</td><td class='size'>88.1 KB</td><td class='hash'>a793f577406ee8bacdb3dcf022514cb4c03eb03c7373076b3bd75beff31eb6dc</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E11_VK-SO.dwg</td><td class='size'>88.1 KB</td><td class='hash'>816bff7f27f7a0f0fa56ef9224678e1b928198f2097f6b7dc7155fa1d0394009</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E13-SO.dwg</td><td class='size'>87.6 KB</td><td class='hash'>0db7d28ca614a3750329a30f038d92d6ea179bed34aae6facd76d26171b94cf6</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E14-SO.dwg</td><td class='size'>93.3 KB</td><td class='hash'>3003b029b6471f2974e90f08694f44cf8d200a7dc21018234718fe36505ee28d</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E15-SO.dwg</td><td class='size'>91.6 KB</td><td class='hash'>b300971d834d03c498c8de7a6112e6f4ee3ea4bbb7d15406b82218f8e151306a</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E16-SO.dwg</td><td class='size'>92.1 KB</td><td class='hash'>64cf9af990c737fb0a188b347804b1142182bd7e132a17951033a38137e6f36c</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E17-SO.dwg</td><td class='size'>84.5 KB</td><td class='hash'>476e89d7adbd77f2abc40fc3d8ab7fb39e68152b3d77c3a4851762ca8a6e1a2b</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E18-SO.dwg</td><td class='size'>86.6 KB</td><td class='hash'>c64a3e17a171f5c631475ca60b80e6a4d6da74f44ee0bc504b166e6a948b7067</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E19-SO.dwg</td><td class='size'>92.4 KB</td><td class='hash'>35b5cc0db63ee6e73984d86c16b84f2574129eeaca62ad5f2d04c4ac66b4c5d1</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E2-SO.dwg</td><td class='size'>83.5 KB</td><td class='hash'>7e2d7142b85f87c831ff78b083e312b8ed8faee0aadb962639479d54f7aee431</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E20-SO.dwg</td><td class='size'>92.9 KB</td><td class='hash'>aa988ccf8748263373ab445f310ec58d16b49d1fdba835c692a3b6641378a493</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E21-SO.dwg</td><td class='size'>92.6 KB</td><td class='hash'>21f7b5370bd63df91a8bdce831321f1b83300e9755fc23fe2b904f3d5009b8c1</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E22-SO.dwg</td><td class='size'>92.0 KB</td><td class='hash'>b715c4c2572d3cedd39a74848caafe26641513fd61ca0c926bc8302e1f5fed07</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E23-SO.dwg</td><td class='size'>91.5 KB</td><td class='hash'>977d02e524cf2131f8cfa3c6bafd94731f05e644822496fb7d7278a20abb9bd5</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E24-SO.dwg</td><td class='size'>89.4 KB</td><td class='hash'>876863615adda426e591cf92afa63eadeba73987b99df513e64f1204be7bcb21</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E25-SO.dwg</td><td class='size'>89.4 KB</td><td class='hash'>7419dde7c0fa0300b0808d1ddaa90dae9507ce9d85f2ceab97faa7b879afab83</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E3-SO.dwg</td><td class='size'>91.1 KB</td><td class='hash'>02a7e38e2f906e68d42c162388731cbe668a3506b8ef2afd88cb1618ecfecbb7</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E4A-SO.dwg</td><td class='size'>90.4 KB</td><td class='hash'>644d05e5d3fcb606f83758907d36c8decb56d8f2bf18e47b007cff98b261a5f3</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E4B-SO.dwg</td><td class='size'>89.1 KB</td><td class='hash'>90e1954b03bf2251ad8c44d017993939bbe1fc825f95dbd0e38f6512a857948b</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E5-SO.dwg</td><td class='size'>92.8 KB</td><td class='hash'>e8e2c836cdcd4092b4190103e3ed728505a7fa6e25dbcb14792245fbc4829458</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E5_1-SO.dwg</td><td class='size'>85.5 KB</td><td class='hash'>c2a1b565ed0a0c88fadced7c4113f961556a243fc6cc0774c405813a1884f2bc</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E5_10-SO.dwg</td><td class='size'>85.7 KB</td><td class='hash'>1808306872561fa8b1eeeb8c24da921c3cf9938af5bd79d603cec83e8fb5ebb0</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E5_11-SO.dwg</td><td class='size'>86.1 KB</td><td class='hash'>0fa9dee413e18ac0ae4fe343c4b7c59d115e69fedcff43562b2ac3afe53da2ad</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E5_12-SO.dwg</td><td class='size'>84.4 KB</td><td class='hash'>22ae0ac157d8bf26ff4c6927f13de1f5b494d1d52880b786ca6825891b937e18</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E5_13-SO.dwg</td><td class='size'>83.2 KB</td><td class='hash'>6164341dcba96474f43d8f16baffdee3dc3ec37d0efe87ce7bbf965d9cd756e2</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E5_14-SO.dwg</td><td class='size'>87.6 KB</td><td class='hash'>770a390c2445fd6e5474e9c7a49861e5dc8e2f85f51c916a8157c494ea734342</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E5_15-SO.dwg</td><td class='size'>88.1 KB</td><td class='hash'>6c6e68c6ed978ec4df2399b796c871faab43689c3b8d5ddce55ffc1936a6a334</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E5_2-SO.dwg</td><td class='size'>90.8 KB</td><td class='hash'>3737a2255051fb19de773088207d73d3a25672a8c1d31700413fb53626db6a80</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E5_3-SO.dwg</td><td class='size'>83.7 KB</td><td class='hash'>293072d66397d50f3e70a4eb39abcecd6ded81f70e9ac0c53bbc349e7c496748</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E5_4-SO.dwg</td><td class='size'>90.9 KB</td><td class='hash'>251caa0ad477f5203e90e28aba30b89d14981808219b486050bbdbf9c322b10f</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E5_5-SO.dwg</td><td class='size'>88.9 KB</td><td class='hash'>1470e613d9d460e132a14b6d0143ef5408db510ae1a4aab03194d256c5b39edc</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E5_6-SO.dwg</td><td class='size'>85.6 KB</td><td class='hash'>f118ddf72058a3a5c163cf8eeec4b4be64664849f21d63b920c66eed13cfc614</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E5_7-SO.dwg</td><td class='size'>90.5 KB</td><td class='hash'>c2fe144f22569425b6cc3eeb9349a5e6c16d4f427ee282ffada2ee13a5535983</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E5_8-SO.dwg</td><td class='size'>88.8 KB</td><td class='hash'>2caf9dd9be8df46fa12c372ebc01c3bf34119b72be6f71bd1a5ec183b9d4f993</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E5_9-SO.dwg</td><td class='size'>88.9 KB</td><td class='hash'>5fad565c1091cb656d66c77552c668766d90afd0d2024b734806694642dd87f6</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E6-SO.dwg</td><td class='size'>91.8 KB</td><td class='hash'>eae9cb0b183e035f4231679e40de0626b9cabad4c19258321f746ac22521326e</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E7-SO.dwg</td><td class='size'>93.0 KB</td><td class='hash'>a0a6205ea09b4b7da0a822d7d054f07c81c0d1f39bfca9b7812b206c8da94fb8</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E7_1-SO.dwg</td><td class='size'>90.1 KB</td><td class='hash'>fc8d43f82ba19663338f2c9cd6b1d051e00f8da8a3fb6218a45f08be0b4df6d9</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E8-SO.dwg</td><td class='size'>88.8 KB</td><td class='hash'>11764383a8cf0b9dd2916b98e7a2581c1b2e0f7340b6a8c75ad645b4e90211ef</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E9A-SO.dwg</td><td class='size'>88.3 KB</td><td class='hash'>46a6d5c117335afec07b14d82a87642903feefce67a7c4176744b3d930841da4</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E9B-SO.dwg</td><td class='size'>85.0 KB</td><td class='hash'>50a8f0acad5f3b85e0f6cc7612c265df7974a92c4f8e50df1bf0082cc5122869</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E9C-SO.dwg</td><td class='size'>90.6 KB</td><td class='hash'>18819329b9c1c1ba0a9e273609927cdf00e2c4288fd650c55585923fc46fb096</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E9D-SO.dwg</td><td class='size'>91.1 KB</td><td class='hash'>e7f4900510d4b47a0c6b86220d37ee84abbaf948b45bcdb1af1474a66417f9c8</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E9E-SO.dwg</td><td class='size'>89.2 KB</td><td class='hash'>6e21a053020b59f68c0cf19e026179e27737eab70a56450430cfab0b435bd3f1</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E9F-SO.dwg</td><td class='size'>85.6 KB</td><td class='hash'>1dd14ed9bfcfaaa06a165ec9d3d52d51fea734331d124551cd4987a865f88b0d</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E9G-SO.dwg</td><td class='size'>85.6 KB</td><td class='hash'>5b69243e87fa3fddd563d9976fdf2c8ed3e1a4aafb50b25e8af404d7d4892470</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E9H-SO.dwg</td><td class='size'>87.2 KB</td><td class='hash'>471580026b305cfa51eb09305d1e097079adc3f7e3ef12190b11d9a1367e4799</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_E9I-SO.dwg</td><td class='size'>91.7 KB</td><td class='hash'>f3437355413d3ac0bfc6cc2fd821b0f1db8bb9aa5b8acb04f022991f7c9e8c61</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_F1-SO.dwg</td><td class='size'>83.9 KB</td><td class='hash'>4bea49a46a80dd7743646008b57e6d5bcb918fa6a3dec4b2fd2c81df0c31e651</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_F2A-SO.dwg</td><td class='size'>91.4 KB</td><td class='hash'>40bdd290cee79f2cc9b09e46c7e23ca2c8e587fdd8fe5778901ed2d01aa21e05</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_F2A_1-SO.dwg</td><td class='size'>91.4 KB</td><td class='hash'>7e4f01ec5440868bd4ac456ce3745a79a70290476bba0406e97a15cb98d60e1c</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_F2A_2-SO.dwg</td><td class='size'>91.5 KB</td><td class='hash'>0973fe9df60af6a7f93c41ec0a6c66acd172b08eb984802f8da9595ed93744ce</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_F2A_3-SO.dwg</td><td class='size'>88.1 KB</td><td class='hash'>551b60435e512f6f64a0f0f9d1a1b574b79eed702d1f280823d5b449ff97ce7b</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_F2A_4-SO.dwg</td><td class='size'>90.7 KB</td><td class='hash'>988ea3649fad1aa93c13b8af39e535ab1981384d1e7fd9f2dadb5bcc3c7f321d</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_F2A_5-SO.dwg</td><td class='size'>90.7 KB</td><td class='hash'>2dc0beb1f6338ecc22fd0bbd6a03ef51112e8337ecfb90f8915c45b3afdf5288</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_F2A_6-SO.dwg</td><td class='size'>84.8 KB</td><td class='hash'>600c8fb52b31319590526ef3766d3944e58eddb80fef2c6ee2271e894394c187</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_F3_1-SO.dwg</td><td class='size'>84.9 KB</td><td class='hash'>42af4b056692f45ffafb8ba0916ae840d77226d449a07029b16f76bbd2cb2e8b</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_F3_2-SO.dwg</td><td class='size'>86.3 KB</td><td class='hash'>5071b38b4d9d070c7658d874eb8561c8b956326e8ad1afb79e0e570d646d66c8</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_F4-SO.dwg</td><td class='size'>95.2 KB</td><td class='hash'>0a67ed251dbf88232ca8bcc4dc918426332b8c7d38d24ec95767a3dd0d6936fa</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_F4A-SO.dwg</td><td class='size'>86.2 KB</td><td class='hash'>d5d1336b4c8c198c4c217390fbf228af4efe5633e3f534348748cfb5fda002d0</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_H2_4-SO.dwg</td><td class='size'>91.5 KB</td><td class='hash'>2910f57aa76ee5de31f6a0440a0b90f1917ce144270064f0116292b341e6ff34</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_INLAATSEIN-SO.dwg</td><td class='size'>86.0 KB</td><td class='hash'>a550f435b054983695e765ed76cb148d7335e32c2de789e1c0cd2c08464f0d41</td></tr>
+<tr><td>SVV-VERKEERSTEKEN_SPUISEIN-SO.dwg</td><td class='size'>87.7 KB</td><td class='hash'>687a52a7d76c15345cf26879983b598f68c5ddc55c45fb4918bc0d518f8d77d7</td></tr>
+</table>
+<h2 class='vervallen'>Vervallen (0)</h2>
+<p class='empty'>Geen bestanden in deze categorie.</p>
+<h2 class='gewijzigd'>Gewijzigd (0)</h2>
+<p class='empty'>Geen bestanden in deze categorie.</p>
+<h2 class='gelijk'>Gelijk gebleven (1)</h2>
+<details><summary>Klik om de 1 ongewijzigde bestanden te tonen</summary>
+<table>
+<tr><th>Bestandsnaam</th><th class='size'>Grootte</th><th>SHA256</th></tr>
+<tr><td>SVV-BETONNING-SO.dwg</td><td class='size'>101.9 KB</td><td class='hash'>ec3b281e095a43ceb7f13438ea3af1dc7d94bb39ad14f55367df2ae0808d67c3</td></tr>
+</table>
+</details>
+</body></html>

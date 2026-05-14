@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Vergelijking SGW — NLCS 5.0 vs 5.2</title>
+<style>
+  :root { font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
+  body { max-width: 1200px; margin: 2em auto; padding: 0 1em; color: #222; }
+  h1 { border-bottom: 2px solid #333; padding-bottom: .3em; }
+  h2 { margin-top: 2em; padding: .4em .6em; border-radius: 4px; color: #fff; }
+  h2.nieuw { background: #2e7d32; }
+  h2.vervallen { background: #c62828; }
+  h2.gewijzigd { background: #ef6c00; }
+  h2.gelijk { background: #1565c0; }
+  .summary { background: #f5f5f5; padding: 1em; border-radius: 6px; margin: 1em 0; }
+  .summary table { border: 0; }
+  .summary td { border: 0; padding: .2em 1em .2em 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #fafafa; font-weight: 600; }
+  tr:nth-child(even) { background: #fcfcfc; }
+  .hash { font-family: Consolas, monospace; font-size: 11px; color: #555; }
+  .size { text-align: right; white-space: nowrap; }
+  .note { background: #fff8e1; border-left: 4px solid #ffa000; padding: .8em 1em; margin: 1em 0; font-size: 13px; }
+  .empty { color: #999; font-style: italic; padding: 1em; }
+  details summary { cursor: pointer; padding: .5em; background: #f0f0f0; border-radius: 4px; user-select: none; }
+  details[open] summary { margin-bottom: .5em; }
+</style>
+</head>
+<body>
+<h1>Vergelijking SGW — NLCS 5.0 vs 5.2</h1>
+<div class='summary'>
+<strong>Bronmappen</strong>
+<table>
+<tr><td>v5.0:</td><td><code>C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSmain/NLCS/symbolen/autocad/SGW</code></td><td>2 DWG-bestanden</td></tr>
+<tr><td>v5.2:</td><td><code>C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCS/symbolen/autocad/SGW</code></td><td>18 DWG-bestanden</td></tr>
+</table>
+<br><strong>Resultaten</strong>
+<table>
+<tr><td>Nieuw (alleen in 5.2):</td><td><strong>16</strong></td></tr>
+<tr><td>Vervallen (alleen in 5.0):</td><td><strong>0</strong></td></tr>
+<tr><td>Gewijzigd (zelfde naam, andere inhoud):</td><td><strong>0</strong></td></tr>
+<tr><td>Gelijk gebleven (zelfde naam, identieke inhoud):</td><td><strong>2</strong></td></tr>
+</table>
+<p style='margin-top:1em; font-size:12px; color:#666;'>Gegenereerd: 2026-05-14 14:18</p>
+</div>
+<div class="note">
+<strong>Let op:</strong> de vergelijking is gebaseerd op een SHA256-hash van de volledige DWG-bytes.
+DWG-bestanden bevatten een ingebedde "last saved"-tijdstempel en metadata; als iemand een bestand
+alleen opent en opnieuw opslaat (zonder de tekening te wijzigen) verandert de hash en verschijnt
+het hier als "gewijzigd". Een gewone Windows-kopie verandert de hash niet. Voor zekerheid over
+geometrische wijzigingen moet elk "gewijzigd" bestand visueel in AutoCAD worden gecontroleerd, of
+eerst geconverteerd naar DXF (tekstueel) zodat metadata-regels uitgefilterd kunnen worden.
+</div>
+<h2 class='nieuw'>Nieuw (16)</h2>
+<table>
+<tr><th>Bestandsnaam</th><th class='size'>Grootte</th><th>SHA256</th></tr>
+<tr><td>SGW-GRONDSOORTEN_BOMENGROND-SO.dwg</td><td class='size'>93.8 KB</td><td class='hash'>38d588f8b442dd0312ee6e09ebd6edc792ff46f1083fe983ea94605c2aca7115</td></tr>
+<tr><td>SGW-GRONDSOORTEN_BOMENGROND_KL-SO.dwg</td><td class='size'>93.8 KB</td><td class='hash'>32fae0ebcf67fb56da1c0e1cbff8c8c1051324444480a2705c45dd42085e86f9</td></tr>
+<tr><td>SGW-GRONDSOORTEN_BOMENZAND-SO.dwg</td><td class='size'>91.7 KB</td><td class='hash'>b7fef97918fcf093e95562a20180b04240e34d7bb72435f3f2d1391f6af7cadb</td></tr>
+<tr><td>SGW-GRONDSOORTEN_BOMENZAND_KL-SO.dwg</td><td class='size'>91.8 KB</td><td class='hash'>e0096f0515339b7a2629484b76c4390890b08f1ab4a32a151b121bf825a3e6b0</td></tr>
+<tr><td>SGW-GRONDSOORTEN_GROND-SO.dwg</td><td class='size'>89.4 KB</td><td class='hash'>785c4ae43c616272eeb365e9a4055555684f7edb66e42812e30c532b72ace5e9</td></tr>
+<tr><td>SGW-GRONDSOORTEN_GROND_KL-SO.dwg</td><td class='size'>90.9 KB</td><td class='hash'>feb230cfdb2654f090e89f947c4598c8d2c7415a55a4a2b29492f8b7547de266</td></tr>
+<tr><td>SGW-GRONDSOORTEN_TEELGROND_02-SO.dwg</td><td class='size'>91.2 KB</td><td class='hash'>8fffa66dfefac391896691b1040ccd3a8621d9ef7b0c699b0fef698ded730aed</td></tr>
+<tr><td>SGW-GRONDSOORTEN_TEELGROND_02_KL-SO.dwg</td><td class='size'>91.2 KB</td><td class='hash'>a91ab0471cf523d148114d0876ed894639801e434fe225b0e1019c10b6dba684</td></tr>
+<tr><td>V-SGW-GRONDSOORTEN_BOMENGROND-SO.dwg</td><td class='size'>89.9 KB</td><td class='hash'>bb72dc0cd26417dc16ee02d87e1b1d58e7e75cf689ee47ece29b0cb0727c7bf0</td></tr>
+<tr><td>V-SGW-GRONDSOORTEN_BOMENGROND_KL-SO.dwg</td><td class='size'>89.9 KB</td><td class='hash'>c50975217105c2197adc80b48f066dff2ac5e85395eb5eb9ca5c2f32d338d1c7</td></tr>
+<tr><td>V-SGW-GRONDSOORTEN_BOMENZAND-SO.dwg</td><td class='size'>89.2 KB</td><td class='hash'>60ee185037c05071ebb08e43b9df8c019eac7c951808d6715db47873155889ef</td></tr>
+<tr><td>V-SGW-GRONDSOORTEN_BOMENZAND_KL-SO.dwg</td><td class='size'>89.2 KB</td><td class='hash'>5f72b037bebaa7100d2e9c057a0620a25d878667fef2faca56ff5ab9000e280b</td></tr>
+<tr><td>V-SGW-GRONDSOORTEN_GROND-SO.dwg</td><td class='size'>93.9 KB</td><td class='hash'>9df2a3016bd2119c173456ccfe08d5b056951e799979bb19b35679a43d256fcf</td></tr>
+<tr><td>V-SGW-GRONDSOORTEN_GROND_KL-SO.dwg</td><td class='size'>88.0 KB</td><td class='hash'>6f347df1a4875a15d7eb98bd5fbb05844953721ed5c18437dfa25fe9200b2e1b</td></tr>
+<tr><td>V-SGW-GRONDSOORTEN_TEELGROND_02-SO.dwg</td><td class='size'>89.1 KB</td><td class='hash'>4506fafdffe73990697f117907e0bfbd762db6a5c0649f9029fb001088bf8ab5</td></tr>
+<tr><td>V-SGW-GRONDSOORTEN_TEELGROND_02_KL-SO.dwg</td><td class='size'>89.1 KB</td><td class='hash'>f36046cd5d71f4db26adf5c1234a0f32a5dd1ee488b4a0f7ddcbded7a5d81669</td></tr>
+</table>
+<h2 class='vervallen'>Vervallen (0)</h2>
+<p class='empty'>Geen bestanden in deze categorie.</p>
+<h2 class='gewijzigd'>Gewijzigd (0)</h2>
+<p class='empty'>Geen bestanden in deze categorie.</p>
+<h2 class='gelijk'>Gelijk gebleven (2)</h2>
+<details><summary>Klik om de 2 ongewijzigde bestanden te tonen</summary>
+<table>
+<tr><th>Bestandsnaam</th><th class='size'>Grootte</th><th>SHA256</th></tr>
+<tr><td>SGW-MAAIVELD-D.dwg</td><td class='size'>57.5 KB</td><td class='hash'>e2fa5a35feacdfafc5f9ef98f498caaca892e02bd592a1d123f70412b3221404</td></tr>
+<tr><td>SGW-TALUD_STIJL-SO.dwg</td><td class='size'>68.1 KB</td><td class='hash'>c04fd5e6f659f071a492800da8d9fc2df115631a086cd1622ad031431dd69ed2</td></tr>
+</table>
+</details>
+</body></html>

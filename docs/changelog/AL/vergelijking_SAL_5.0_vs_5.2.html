@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<title>Vergelijking SAL — v5.0 vs v5.2</title>
+<title>Vergelijking SAL — NLCS 5.0 vs 5.2</title>
 <style>
   :root { font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
   body { max-width: 1200px; margin: 2em auto; padding: 0 1em; color: #222; }
@@ -16,7 +16,7 @@
   .summary table { border: 0; }
   .summary td { border: 0; padding: .2em 1em .2em 0; }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
-  th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; }
+  th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; vertical-align: top; }
   th { background: #fafafa; font-weight: 600; }
   tr:nth-child(even) { background: #fcfcfc; }
   .hash { font-family: Consolas, monospace; font-size: 11px; color: #555; }
@@ -28,7 +28,7 @@
 </style>
 </head>
 <body>
-<h1>Vergelijking SAL-symbolen — NLCS 5.0 vs 5.2</h1>
+<h1>Vergelijking SAL — NLCS 5.0 vs 5.2</h1>
 <div class='summary'>
 <strong>Bronmappen</strong>
 <table>
@@ -42,14 +42,15 @@
 <tr><td>Gewijzigd (zelfde naam, andere inhoud):</td><td><strong>35</strong></td></tr>
 <tr><td>Gelijk gebleven (zelfde naam, identieke inhoud):</td><td><strong>73</strong></td></tr>
 </table>
-<p style='margin-top:1em; font-size:12px; color:#666;'>Gegenereerd: 2026-05-14 10:49</p>
+<p style='margin-top:1em; font-size:12px; color:#666;'>Gegenereerd: 2026-05-14 14:15</p>
 </div>
 <div class="note">
 <strong>Let op:</strong> de vergelijking is gebaseerd op een SHA256-hash van de volledige DWG-bytes.
 DWG-bestanden bevatten een ingebedde "last saved"-tijdstempel en metadata; als iemand een bestand
 alleen opent en opnieuw opslaat (zonder de tekening te wijzigen) verandert de hash en verschijnt
-het hier als "gewijzigd". Voor zekerheid over de geometrie zou je elk gewijzigd bestand visueel in
-AutoCAD moeten openen.
+het hier als "gewijzigd". Een gewone Windows-kopie verandert de hash niet. Voor zekerheid over
+geometrische wijzigingen moet elk "gewijzigd" bestand visueel in AutoCAD worden gecontroleerd, of
+eerst geconverteerd naar DXF (tekstueel) zodat metadata-regels uitgefilterd kunnen worden.
 </div>
 <h2 class='nieuw'>Nieuw (47)</h2>
 <table>
