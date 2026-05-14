@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Vergelijking lijntypes KG — NLCS 5.0.2 vs 5.2</title>
+<style>
+  :root { font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
+  body { max-width: 1400px; margin: 2em auto; padding: 0 1em; color: #222; font-size: 13px; }
+  h1 { border-bottom: 2px solid #333; padding-bottom: .3em; }
+  h2 { margin-top: 2em; padding: .4em .6em; border-radius: 4px; color: #fff; }
+  h2.nieuw { background: #2e7d32; }
+  h2.vervallen { background: #c62828; }
+  h2.gewijzigd { background: #ef6c00; }
+  h2.bestaande { background: #1565c0; }
+  .summary { background: #f5f5f5; padding: 1em; border-radius: 6px; margin: 1em 0; }
+  .summary table { border: 0; width: auto; }
+  .summary td { border: 0; padding: .2em 1em .2em 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th { background-color: #003865; color: white; text-align: left; padding: 6px 8px; white-space: nowrap; }
+  td { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; }
+  tbody tr:nth-child(even) td { background-color: #f2f2f2; }
+  tbody tr:hover td { background-color: #dde8f0; }
+  .new-row td    { background-color: #d4edda !important; }
+  .new-row:hover td { background-color: #b8dfc4 !important; }
+  .changed       { background-color: #cce5ff !important; }
+  .old-val { color: #555; font-size: 0.85em; }
+  .new-val { font-weight: normal; }
+  .deleted td    { background-color: #d0d0d0 !important; }
+  .deleted:hover td { background-color: #b8b8b8 !important; }
+  .empty { color: #999; font-style: italic; padding: 1em; }
+  details summary { cursor: pointer; padding: .5em; background: #f0f0f0; border-radius: 4px; user-select: none; }
+  details[open] summary { margin-bottom: .5em; }
+  .legend { margin: .5em 0 1em; font-size: 12px; display:flex; gap:12px; flex-wrap:wrap; }
+  .legend span { padding: 2px 8px; border-radius: 3px; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+<h1>Vergelijking lijntypes — hoofdgroep KG</h1>
+<div class="summary">
+<strong>Bron</strong>
+<table>
+<tr><td>Bestand:</td><td><code>NLCS_Query_Lijntypes-concept-5.2.html</code></td></tr>
+<tr><td>Versies:</td><td>NLCS 5.0.2 → 5.2</td></tr>
+</table>
+<br><strong>Resultaten voor hoofdgroep KG</strong>
+<table>
+<tr><td>Nieuw (alleen in 5.2):</td><td><strong>0</strong></td></tr>
+<tr><td>Vervallen (alleen in 5.0.2):</td><td><strong>4</strong></td></tr>
+<tr><td>Gewijzigd (zelfde URI of id, andere waarden):</td><td><strong>2</strong></td></tr>
+<tr><td>Bestaande (ongewijzigd):</td><td><strong>67</strong></td></tr>
+</table>
+<p style='margin-top:1em; font-size:12px; color:#666;'>Gegenereerd: 2026-05-14 15:02</p>
+</div>
+<div class="legend">
+  <span style="background:#d4edda;">Nieuwe rij</span>
+  <span style="background:#cce5ff;">Gewijzigde cel (oude → nieuwe waarde)</span>
+  <span style="background:#d0d0d0;">Vervallen rij</span>
+</div>
+<h2 class='nieuw'>Nieuw (0)</h2>
+<p class='empty'>Geen lijntypes in deze categorie.</p>
+<h2 class='vervallen'>Vervallen (4)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/d2129906-05a1-4c14-ada5-d90c3953e0d2</td><td>115</td><td>KG</td><td>KG-KADASTRAAL-SO</td><td></td><td></td><td>SO</td><td>A,5.5,-2,[\&quot;K\&quot;,standard,U=0.0,y=-.9,s=1.8],-2,5.5,-2,[KRUISJE,NLCS.SHX,s=0.75],-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/7c895de6-9f13-480a-b854-10ac081431f9</td><td>616</td><td>KG</td><td>KG-RAMING-SO</td><td></td><td></td><td>SO</td><td>A,2,0,[RMGZ,nlcs.shx,s=1],-6</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/e6abd6a9-f196-4cb6-8a31-21176939ff74</td><td>116</td><td>KG</td><td>V-KG-KADASTRAAL-SO</td><td></td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\&quot;K\&quot;,standard,U=0.0,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[KRUISJE,NLCS.SHX,s=0.75],-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/0e4023fc-ed25-41f0-92bb-bef009802055</td><td>686</td><td>KG</td><td>V-KG-RAMING-SO</td><td></td><td>V</td><td>SO</td><td>A,1,[VERWIJDEREN2,NLCS.SHX,s=0.6],1,0,[RMGZ,NLCS.SHX,s=1],-6</td></tr>
+  </tbody>
+</table>
+<h2 class='gewijzigd'>Gewijzigd (2)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/86b6a7f9-a161-40d9-90a4-de161f8768b3</td><td>117</td><td>KG</td><td class="changed"><div class="old-val">5.0.2: KG-PERCEEL-SO</div><div class="new-val">5.2&#58; KG-KADASTRALEPERCEELGRENS-SO</div></td><td>KADASTRALEPERCEELGRENS</td><td></td><td>SO</td><td>A,5.5,-2,[\&quot;P\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[KRUISJE,NLCS.SHX,s=0.75],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/84aadd0a-9d27-4db2-a5b0-3d32b901d226</td><td>118</td><td>KG</td><td class="changed"><div class="old-val">5.0.2: V-KG-PERCEEL-SO</div><div class="new-val">5.2&#58; V-KG-KADASTRALEPERCEELGRENS-SO</div></td><td>KADASTRALEPERCEELGRENS</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\&quot;P\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[KRUISJE,NLCS.SHX,s=0.75],-2</td></tr>
+  </tbody>
+</table>
+<h2 class='bestaande'>Bestaande (67)</h2>
+<details><summary>Klik om de 67 rijen te tonen</summary>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0371e941-7f06-4eb7-89ee-c9c8b65ef157</td><td>153</td><td>KG</td><td>KG-BENOG-SO</td><td>BENOG</td><td></td><td>SO</td><td>A,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/34e2ad61-58a0-4383-9d25-8efa48b1e2ff</td><td>157</td><td>KG</td><td>KG-BENOGGEMEENTE-SO</td><td>BENOGGEMEENTE</td><td></td><td>SO</td><td>A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-1.5,[\&quot;G\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b4ae8ae7-a693-4355-b976-a3698c492b48</td><td>159</td><td>KG</td><td>KG-BENOGPRORAIL-SO</td><td>BENOGPRORAIL</td><td></td><td>SO</td><td>A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-2,[\&quot;PR\&quot;,standard,U=0.0,x=-1.5,y=-.9,s=1.8],-3</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/a3dec8e3-069c-4f78-9679-778621aaaa99</td><td>155</td><td>KG</td><td>KG-BENOGPROVINCIE-SO</td><td>BENOGPROVINCIE</td><td></td><td>SO</td><td>A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-1.5,[\&quot;P\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/116aa4b2-2321-4016-86d7-bed2d8dd8f75</td><td>163</td><td>KG</td><td>KG-BENOGRIJK-SO</td><td>BENOGRIJK</td><td></td><td>SO</td><td>A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-1.5,[\&quot;R\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1895a1e0-cfd3-475f-9ddf-8c78a5c48382</td><td>165</td><td>KG</td><td>KG-BENOGRIJKRWS-SO</td><td>BENOGRIJKRWS</td><td></td><td>SO</td><td>A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-3,[\&quot;RWS\&quot;,standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/38ba3f24-f3a0-4cdd-a09a-d9cc8e064501</td><td>161</td><td>KG</td><td>KG-BENOGWATERSCHAP-SO</td><td>BENOGWATERSCHAP</td><td></td><td>SO</td><td>A,5.5,-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,-1.5,[\&quot;W\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/7c29007e-ee3b-455b-a442-5a6ab9bcad99</td><td>110</td><td>KG</td><td>KG-BESTEMMINGSPLAN-SO</td><td>BESTEMMINGSPLAN</td><td></td><td>SO</td><td>A,3.4,-1,[BBG,nlcs.shx,s=1],-1</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/21d847ab-1365-45fd-80fb-9e91a23c2e52</td><td>125</td><td>KG</td><td>KG-BG-SO</td><td>BG</td><td></td><td>SO</td><td>A,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/04764c73-84fb-4b7d-9f4e-a587083692b0</td><td>129</td><td>KG</td><td>KG-BGGEMEENTE-SO</td><td>BGGEMEENTE</td><td></td><td>SO</td><td>A,5.5,-2,[\&quot;G\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b58e0b39-f325-488e-a0f1-a9ec99912625</td><td>131</td><td>KG</td><td>KG-BGPRORAIL-SO</td><td>BGPRORAIL</td><td></td><td>SO</td><td>A,5.5,-2,[\&quot;PR\&quot;,standard,U=0.0,x=-1,y=-.9,s=1.8],-3,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5a7282a6-7647-4b0b-b02b-d0d000dbda3b</td><td>127</td><td>KG</td><td>KG-BGPROVINCIE-SO</td><td>BGPROVINCIE</td><td></td><td>SO</td><td>A,5.5,-2,[\&quot;P\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e104bdbc-1ef8-4ba5-a19f-f479a95ff5cf</td><td>135</td><td>KG</td><td>KG-BGRIJK-SO</td><td>BGRIJK</td><td></td><td>SO</td><td>A,5.5,-2,[\&quot;R\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/663bd9c1-403d-4873-a978-780642513e44</td><td>137</td><td>KG</td><td>KG-BGRIJKRWS-SO</td><td>BGRIJKRWS</td><td></td><td>SO</td><td>A,5.5,-3,[\&quot;RWS\&quot;,standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3,5.5,-2.5,[DRIEHOEK,NLCS.SHX,s=1],-2.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/015af5dd-f933-4f59-88a6-4dbc19b265a0</td><td>133</td><td>KG</td><td>KG-BGWATERSCHAP-SO</td><td>BGWATERSCHAP</td><td></td><td>SO</td><td>A,5.5,-2,[\&quot;W\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ed05e10c-0001-4fc2-89dd-5c3eba2f97d7</td><td>108</td><td>KG</td><td>KG-GEMEENTE-SO</td><td>GEMEENTE</td><td></td><td>SO</td><td>A,1,-2.25,[KRUISJE,NLCS.SHX,s=1],-2.25</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/8c1b9046-f8ef-40c2-940e-7eb4a4a8ba9d</td><td>167</td><td>KG</td><td>KG-GV-SO</td><td>GV</td><td></td><td>SO</td><td>A,12,-6,0,-6,12,-6</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/50415348-6abd-4bbc-90fe-3fc187aa6815</td><td>169</td><td>KG</td><td>KG-GVAANKOOP-SO</td><td>GVAANKOOP</td><td></td><td>SO</td><td>A,6,-3,0,-3,6,-3</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/81db6813-31fb-4cbb-811d-fbebb6a36e8a</td><td>171</td><td>KG</td><td>KG-GVVERKOOP-SO</td><td>GVVERKOOP</td><td></td><td>SO</td><td>A,15,-3,3,-3,3,-3</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/740e2b8a-4142-4309-80b1-672740317b8b</td><td>111</td><td>KG</td><td>KG-GWBG-SO</td><td>GWBG</td><td></td><td>SO</td><td>A,5.5,-2,[WATERSCHAPSGOLF,NLCS.SHX,s=1],-2,5.5,-2,[KRUISJE,NLCS.SHX,s=0.75],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b2f3636c-ad99-4fae-8406-7d5251e5f156</td><td>106</td><td>KG</td><td>KG-LAND-SO</td><td>LAND</td><td></td><td>SO</td><td>A,0,[KRUISJE,NLCS.SHX,s=1],-3.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/7e934f25-8dbb-4b96-8040-c13fae99d4eb</td><td>139</td><td>KG</td><td>KG-OG-SO</td><td>OG</td><td></td><td>SO</td><td>A,5.5,-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ffbdc9dd-0d99-458d-b35f-b57d4f594470</td><td>143</td><td>KG</td><td>KG-OGGEMEENTE-SO</td><td>OGGEMEENTE</td><td></td><td>SO</td><td>A,5.5,-2,[\&quot;G\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[CIRKEL,NLCS.SHX,s=0.5],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/bd7bc5ef-6612-4a9f-9a24-817b9148e93b</td><td>145</td><td>KG</td><td>KG-OGPRORAIL-SO</td><td>OGPRORAIL</td><td></td><td>SO</td><td>A,5.5,-2,[\&quot;PR\&quot;,standard,U=0.0,x=-1.5,y=-.9,s=1.8],-2,5.5,-2,[CIRKEL,NLCS.SHX,s=0.5],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5c594070-172e-4d55-8e2b-9d748bcfd11d</td><td>141</td><td>KG</td><td>KG-OGPROVINCIE-SO</td><td>OGPROVINCIE</td><td></td><td>SO</td><td>A,5.5,-2,[\&quot;P\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[CIRKEL,NLCS.SHX,s=0.5],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/9d146f25-eb10-4192-87fd-ad344a40091d</td><td>149</td><td>KG</td><td>KG-OGRIJK-SO</td><td>OGRIJK</td><td></td><td>SO</td><td>A,5.5,-2,[\&quot;R\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[CIRKEL,NLCS.SHX,s=0.5],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/52096472-cef2-4040-a3fa-7136eaf95a5c</td><td>151</td><td>KG</td><td>KG-OGRIJKRWS-SO</td><td>OGRIJKRWS</td><td></td><td>SO</td><td>A,5.5,-3,[\&quot;RWS\&quot;,standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3,5.5,-2.5,[CIRKEL,NLCS.SHX,s=0.5],-2.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/15be4b47-2693-4cfa-8ba6-c89654a63512</td><td>147</td><td>KG</td><td>KG-OGWATERSCHAP-SO</td><td>OGWATERSCHAP</td><td></td><td>SO</td><td>A,5.5,-2,[\&quot;W\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[CIRKEL,NLCS.SHX,s=0.5],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e836fdca-2f60-4361-96a8-252e54d882f2</td><td>123</td><td>KG</td><td>KG-OPNAME-SO</td><td>OPNAME</td><td></td><td>SO</td><td>A,5.5,-2,[\&quot;O\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[KRUISJE,NLCS.SHX,s=0.75],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/78faf5ac-8e02-4f02-82d6-d549261a2353</td><td>113</td><td>KG</td><td>KG-PACHT-SO</td><td>PACHT</td><td></td><td>SO</td><td>A,5.5,-2,[CIRKEL_HALF,NLCS.SHX,s=1],-2,5.5,-2,[KRUISJE,NLCS.SHX,s=0.75],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ddbb4e7c-904f-4a3e-af48-c365ed4e0d1f</td><td>107</td><td>KG</td><td>KG-PROVINCIE-SO</td><td>PROVINCIE</td><td></td><td>SO</td><td>A,2.5,-2.75,[KRUISJE,NLCS.SHX,s=1],-2.75</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c688848f-7ae9-4e40-bd5e-8a467f74446e</td><td>121</td><td>KG</td><td>KG-RIJKSEIGENDOM-SO</td><td>RIJKSEIGENDOM</td><td></td><td>SO</td><td>A,5.5,-2,[STERRETJE,NLCS.SHX,s=0.75],-2,5.5,-2,[KRUISJE,NLCS.SHX,s=0.75],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/8875d3cf-2c22-4a3a-b0bd-f2ee9e5adfa8</td><td>119</td><td>KG</td><td>KG-SECTIE-SO</td><td>SECTIE</td><td></td><td>SO</td><td>A,5.5,-2,[\&quot;S\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[KRUISJE,NLCS.SHX,s=0.75],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ac7c4aea-8004-447a-bbea-57992d061267</td><td>617</td><td>KG</td><td>KG-UITGEEFBAARGEBIED-SO</td><td>UITGEEFBAARGEBIED</td><td></td><td>SO</td><td>A,4,-2,[UGG,nlcs.shx,x=-1.4,s=1],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5be73ca3-1c8b-415b-9d01-eee624687b26</td><td>618</td><td>KG</td><td>KG-VERKOOP-SO</td><td>VERKOOP</td><td></td><td>SO</td><td>A,2.5,[VKGZ,nlcs.shx,s=1],2.5,-2.75</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/863bbb9d-61e0-4925-a364-38d4e478eece</td><td>109</td><td>KG</td><td>KG-WATERSCHAP-SO</td><td>WATERSCHAP</td><td></td><td>SO</td><td>A,5.5,-2,[KRUISJE,NLCS.SHX,s=0.75],-3,[KRUISJE,NLCS.SHX,s=0.75],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c20ca5ff-627e-4d9c-9dae-e5a26cdcd813</td><td>154</td><td>KG</td><td>V-KG-BENOG-SO</td><td>BENOG</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/4cc93d73-ecde-4bd6-8332-affd7e0eba45</td><td>158</td><td>KG</td><td>V-KG-BENOGGEMEENTE-SO</td><td>BENOGGEMEENTE</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[\&quot;G\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/673c3797-ee44-4e62-8727-de7008cf3703</td><td>160</td><td>KG</td><td>V-KG-BENOGPRORAIL-SO</td><td>BENOGPRORAIL</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\&quot;PR\&quot;,standard,U=0.0,x=-1.5,y=-.9,s=1.8],-3</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ceebd168-864f-48c5-ab06-1d7f4010b36d</td><td>156</td><td>KG</td><td>V-KG-BENOGPROVINCIE-SO</td><td>BENOGPROVINCIE</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[\&quot;P\&quot;,standard,U=0.0,y=-0.5,s=1.8],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/be6f8783-54a7-4c4a-9a99-d9f6449d5dd6</td><td>164</td><td>KG</td><td>V-KG-BENOGRIJK-SO</td><td>BENOGRIJK</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[\&quot;R\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/6fb9204d-a4ae-45c1-b520-225db80a3367</td><td>166</td><td>KG</td><td>V-KG-BENOGRIJKRWS-SO</td><td>BENOGRIJKRWS</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-3,[\&quot;RWS\&quot;,standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/08da9bba-4925-4283-89c2-90a0e862f26d</td><td>162</td><td>KG</td><td>V-KG-BENOGWATERSCHAP-SO</td><td>BENOGWATERSCHAP</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[DRIEHOEK,NLCS.SHX,s=1],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[\&quot;W\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0cbbb369-f26b-4724-b6e0-de255106987d</td><td>126</td><td>KG</td><td>V-KG-BG-SO</td><td>BG</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/3ab3bf23-b11d-40fc-950b-bc0eb91fa71e</td><td>130</td><td>KG</td><td>V-KG-BGGEMEENTE-SO</td><td>BGGEMEENTE</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\&quot;G\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/171a5719-348d-46bb-8666-e45db21b4c6c</td><td>132</td><td>KG</td><td>V-KG-BGPRORAIL-SO</td><td>BGPRORAIL</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\&quot;PR\&quot;,standard,U=0.0,x=-1,y=-.9,s=1.8],-3,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/a3d3443a-09bf-4843-8041-120d571d2fcc</td><td>128</td><td>KG</td><td>V-KG-BGPROVINCIE-SO</td><td>BGPROVINCIE</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\&quot;P\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b326cd5c-0c6a-4432-841a-42c9199c1777</td><td>136</td><td>KG</td><td>V-KG-BGRIJK-SO</td><td>BGRIJK</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\&quot;R\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1f049ab6-704a-4f5d-8714-5ecf078dd7ac</td><td>138</td><td>KG</td><td>V-KG-BGRIJKRWS-SO</td><td>BGRIJKRWS</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-3,[\&quot;RWS\&quot;,standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2.5,[DRIEHOEK,NLCS.SHX,s=1],-2.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/882aabe7-418a-45af-8719-ed382432f479</td><td>134</td><td>KG</td><td>V-KG-BGWATERSCHAP-SO</td><td>BGWATERSCHAP</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\&quot;W\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[DRIEHOEK,NLCS.SHX,s=1],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1d9f8265-5cdc-48fe-b2e1-f94798960093</td><td>168</td><td>KG</td><td>V-KG-GV-SO</td><td>GSO</td><td>V</td><td>SO</td><td>A,12,[VERWIJDEREN2,NLCS.SHX,x=-6,s=0.6],-6,0,-6,12,[VERWIJDEREN2,NLCS.SHX,x=-6,s=0.6],-6</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/409181a8-1dbe-4012-96b8-700651024f12</td><td>170</td><td>KG</td><td>V-KG-GVAANKOOP-SO</td><td>GVAANKOOP</td><td>V</td><td>SO</td><td>A,6,[VERWIJDEREN2,NLCS.SHX,x=-3,s=0.6],-3,0,-3,6,-3</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d6cf93a9-eb90-4d3e-94c9-a700a1d0ba98</td><td>172</td><td>KG</td><td>V-KG-GVVERKOOP-SO</td><td>GVVERKOOP</td><td>V</td><td>SO</td><td>A,15,[VERWIJDEREN2,NLCS.SHX,x=-7.5,s=0.6],-3,3,-3,3,-3</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/28e7a4bb-e941-44c3-8dad-f5a92a19fccc</td><td>112</td><td>KG</td><td>V-KG-GWBG-SO</td><td>GWBG</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[WATERSCHAPSGOLF,NLCS.SHX,s=1],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[KRUISJE,NLCS.SHX,s=0.75],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/10eda10b-9c94-4fa9-82de-6af797b2b373</td><td>140</td><td>KG</td><td>V-KG-OG-SO</td><td>OG</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-1.5,[CIRKEL,NLCS.SHX,s=0.5],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/43c7cbdf-2926-4fa5-b9c7-8bf5b9750924</td><td>144</td><td>KG</td><td>V-KG-OGGEMEENTE-SO</td><td>OGGEMEENTE</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\&quot;G\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL,NLCS.SHX,s=0.5],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/692122d0-a320-4aea-87a4-fbd28bd959e6</td><td>146</td><td>KG</td><td>V-KG-OGPRORAIL-SO</td><td>OGPRORAIL</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\&quot;PR\&quot;,standard,U=0.0,x=-1.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL,NLCS.SHX,s=0.5],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5b4b618b-e8ba-4b11-a626-ffe51bb7cde1</td><td>142</td><td>KG</td><td>V-KG-OGPROVINCIE-SO</td><td>OGPROVINCIE</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\&quot;P\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL,NLCS.SHX,s=0.5],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/98fb3b39-25dd-4fa5-8fb0-2c89530bfb1e</td><td>150</td><td>KG</td><td>V-KG-OGRIJK-SO</td><td>OGRIJK</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\&quot;R\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL,NLCS.SHX,s=0.5],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/9ea4c08e-8533-4b7e-ae91-c12d4db14eb1</td><td>152</td><td>KG</td><td>V-KG-OGRIJKRWS-SO</td><td>OGRIJKRWS</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-3,[\&quot;RWS\&quot;,standard,U=0.0,x=-2.4,y=-.9,s=1.8],-3,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2.5,[CIRKEL,NLCS.SHX,s=0.5],-2.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/229410ef-7041-42e6-b56c-eff3c09b8393</td><td>148</td><td>KG</td><td>V-KG-OGWATERSCHAP-SO</td><td>OGWATERSCHAP</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\&quot;W\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL,NLCS.SHX,s=0.5],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/bdef8dc5-7edc-45ac-948d-d03ec7317813</td><td>124</td><td>KG</td><td>V-KG-OPNAME-SO</td><td>OPNAME</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\&quot;O\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[KRUISJE,NLCS.SHX,s=0.75],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/cd4c77e7-3885-4cdc-883b-46e062b81ee8</td><td>114</td><td>KG</td><td>V-KG-PACHT-SO</td><td>PACHT</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[CIRKEL_HALF,NLCS.SHX,s=1],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[KRUISJE,NLCS.SHX,s=0.75],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/507d9b66-011b-4823-ae27-232b2726fa97</td><td>122</td><td>KG</td><td>V-KG-RIJKSEIGENDOM-SO</td><td>RIJKSEIGENDOM</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[STERRETJE,NLCS.SHX,s=0.75],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[KRUISJE,NLCS.SHX,s=0.75],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1147ae18-27b9-4779-b33b-ace98668917b</td><td>120</td><td>KG</td><td>V-KG-SECTIE-SO</td><td>SECTIE</td><td>V</td><td>SO</td><td>A,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[\&quot;S\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,[VERWIJDEREN2,NLCS.SHX,x=-2.75,s=0.6],-2,[KRUISJE,NLCS.SHX,s=0.75],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5b50e3b5-d7fa-4801-a6c7-4e41176391c0</td><td>687</td><td>KG</td><td>V-KG-UITGEEFBAARGEBIED-SO</td><td>UITGEEFBAARGEBIED</td><td>V</td><td>SO</td><td>A,2,[VERWIJDEREN2,NLCS.SHX,s=0.6],2,-2,[UGG,nlcs.shx,x=-1.4,s=1],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/8db1dba3-9839-4651-9c8e-779e69dfff3d</td><td>688</td><td>KG</td><td>V-KG-VERKOOP-SO</td><td>VERKOOP</td><td>V</td><td>SO</td><td>A,1.25,[VERWIJDEREN2,NLCS.SHX,s=0.6],1.25,[VKGZ,nlcs.shx,s=1],2.5,-2.75</td></tr>
+  </tbody>
+</table>
+</details>
+</body></html>

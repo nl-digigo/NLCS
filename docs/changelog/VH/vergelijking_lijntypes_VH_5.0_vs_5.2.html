@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Vergelijking lijntypes VH — NLCS 5.0.2 vs 5.2</title>
+<style>
+  :root { font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
+  body { max-width: 1400px; margin: 2em auto; padding: 0 1em; color: #222; font-size: 13px; }
+  h1 { border-bottom: 2px solid #333; padding-bottom: .3em; }
+  h2 { margin-top: 2em; padding: .4em .6em; border-radius: 4px; color: #fff; }
+  h2.nieuw { background: #2e7d32; }
+  h2.vervallen { background: #c62828; }
+  h2.gewijzigd { background: #ef6c00; }
+  h2.bestaande { background: #1565c0; }
+  .summary { background: #f5f5f5; padding: 1em; border-radius: 6px; margin: 1em 0; }
+  .summary table { border: 0; width: auto; }
+  .summary td { border: 0; padding: .2em 1em .2em 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th { background-color: #003865; color: white; text-align: left; padding: 6px 8px; white-space: nowrap; }
+  td { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; }
+  tbody tr:nth-child(even) td { background-color: #f2f2f2; }
+  tbody tr:hover td { background-color: #dde8f0; }
+  .new-row td    { background-color: #d4edda !important; }
+  .new-row:hover td { background-color: #b8dfc4 !important; }
+  .changed       { background-color: #cce5ff !important; }
+  .old-val { color: #555; font-size: 0.85em; }
+  .new-val { font-weight: normal; }
+  .deleted td    { background-color: #d0d0d0 !important; }
+  .deleted:hover td { background-color: #b8b8b8 !important; }
+  .empty { color: #999; font-style: italic; padding: 1em; }
+  details summary { cursor: pointer; padding: .5em; background: #f0f0f0; border-radius: 4px; user-select: none; }
+  details[open] summary { margin-bottom: .5em; }
+  .legend { margin: .5em 0 1em; font-size: 12px; display:flex; gap:12px; flex-wrap:wrap; }
+  .legend span { padding: 2px 8px; border-radius: 3px; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+<h1>Vergelijking lijntypes — hoofdgroep VH</h1>
+<div class="summary">
+<strong>Bron</strong>
+<table>
+<tr><td>Bestand:</td><td><code>NLCS_Query_Lijntypes-concept-5.2.html</code></td></tr>
+<tr><td>Versies:</td><td>NLCS 5.0.2 → 5.2</td></tr>
+</table>
+<br><strong>Resultaten voor hoofdgroep VH</strong>
+<table>
+<tr><td>Nieuw (alleen in 5.2):</td><td><strong>4</strong></td></tr>
+<tr><td>Vervallen (alleen in 5.0.2):</td><td><strong>26</strong></td></tr>
+<tr><td>Gewijzigd (zelfde URI of id, andere waarden):</td><td><strong>13</strong></td></tr>
+<tr><td>Bestaande (ongewijzigd):</td><td><strong>23</strong></td></tr>
+</table>
+<p style='margin-top:1em; font-size:12px; color:#666;'>Gegenereerd: 2026-05-14 15:02</p>
+</div>
+<div class="legend">
+  <span style="background:#d4edda;">Nieuwe rij</span>
+  <span style="background:#cce5ff;">Gewijzigde cel (oude → nieuwe waarde)</span>
+  <span style="background:#d0d0d0;">Vervallen rij</span>
+</div>
+<h2 class='nieuw'>Nieuw (4)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/7e58336e-68a3-427b-ba07-3a4ac2f99c29</td><td>872</td><td>VH</td><td>VH-MATERIAALGRENS-SO</td><td>MATERIAALGRENS</td><td></td><td>SO</td><td>A,1,-1</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/4133b10a-128a-429e-a9e1-c6b6cca65cdd</td><td>873</td><td>VH</td><td>VH-MOLGOOT-SO</td><td>MOLGOOT</td><td></td><td>SO</td><td>A,1,-1</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/0da7bdb8-ba08-44b5-b2be-adb435976fd7</td><td>874</td><td>VH</td><td>VH-SCHIJNGOOT-SO</td><td>SCHIJNGOOT</td><td></td><td>SO</td><td>A,1,-1</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/899cfb42-9e73-4a59-b03e-491a0ccb8066</td><td>871</td><td>VH</td><td>VH-VERBANDGRENS-SO</td><td>VERBANDGRENS</td><td></td><td>SO</td><td>A,1,-1</td></tr>
+  </tbody>
+</table>
+<h2 class='vervallen'>Vervallen (26)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/b536cffb-47bb-49ab-81e0-972cbf72f4a6</td><td>752</td><td>VH</td><td>V-VH-ASFALTBAND-SO</td><td></td><td>V</td><td>SO</td><td>A,8,[VERWIJDEREN2,NLCS.SHX,s=1],8,-4,0,-2,0,-2,0,-4</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/3e95b3e9-f435-43f3-a636-581203be25bb</td><td>715</td><td>VH</td><td>V-VH-GAZONBAND_VARIANT01-SO</td><td></td><td>V</td><td>SO</td><td>A,3.75,[VERWIJDEREN2,NLCS.SHX,s=1],3.75,-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/052c542e-46af-4d9b-8c09-e21987c9ddd0</td><td>717</td><td>VH</td><td>V-VH-GAZONBAND_VARIANT02-SO</td><td></td><td>V</td><td>SO</td><td>A,2.5,[VERWIJDEREN2,NLCS.SHX,s=1],2.5,-5</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/5ef41e6b-caee-43b3-89e8-c7bc73ef2310</td><td>719</td><td>VH</td><td>V-VH-GELEIDEBAND_VARIANT01-SO</td><td></td><td>V</td><td>SO</td><td>A,4,-2,0,-2,2,[VERWIJDEREN2,NLCS.SHX,s=1],2,-2,0,-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/d9b93671-9093-4fc7-883b-ff583e94250d</td><td>721</td><td>VH</td><td>V-VH-OPSLUITBAND_VARIANT01-SO</td><td></td><td>V</td><td>SO</td><td>A,4,[VERWIJDEREN2,NLCS.SHX,s=1],4,-2,2,-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/e04f2a14-91d4-4c70-a73b-33af06424cee</td><td>486</td><td>VH</td><td>V-VH-PLATEAUBAND-SO</td><td></td><td>V</td><td>SO</td><td>A,2,-2,0,-2,1,[VERWIJDEREN2,NLCS.SHX,s=1],1,-2,0,-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/4a734342-2bfb-4d70-a163-7f321d08a4a5</td><td>497</td><td>VH</td><td>V-VH-RIJWIELPADBAND-SO</td><td></td><td>V</td><td>SO</td><td>A,4,[VERWIJDEREN2,NLCS.SHX,s=1],4,-2,2,-2,0,-2,2,-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/dfc58bde-0249-4085-ab79-e4a8467ac429</td><td>723</td><td>VH</td><td>V-VH-SCHEIDINGSBAND_VARIANT01-SO</td><td></td><td>V</td><td>SO</td><td>A,4,[VERWIJDEREN2,NLCS.SHX,s=1],4,-2,0,-2,0,-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/b3a6d3a9-9135-49f6-990f-ebeb553adfd9</td><td>525</td><td>VH</td><td>V-VH-SIGNALERINGSBAND-SO</td><td></td><td>V</td><td>SO</td><td>A,2,[VERWIJDEREN2,NLCS.SHX,s=1],2,-0.5,[LED,NLCS.SHX,s=0.025,x=-0.1],-0.5</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/32c65f64-d1e3-4e7b-b2b2-f5a823689e37</td><td>533</td><td>VH</td><td>V-VH-TALUDBAND-SO</td><td></td><td>V</td><td>SO</td><td>A,8,[VERWIJDEREN2,NLCS.SHX,s=1],8,-4,0,-2,0,-2,0,-2,0,-4</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/8c6d68d8-05cb-4d11-a1d5-7ad020e1eac0</td><td>725</td><td>VH</td><td>V-VH-TROTTOIRBAND_VARIANT01-SO</td><td></td><td>V</td><td>SO</td><td>A,5,[VERWIJDEREN2,NLCS.SHX,s=1],5,-2,2,-2,2,-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/cb7f6506-35d7-4687-acdc-b492709fd1ee</td><td>751</td><td>VH</td><td>VH-ASFALTBAND-SO</td><td></td><td></td><td>SO</td><td>A,16,-4,0,-2,0,-2,0,-4</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/d4da8859-173e-47fb-b037-705559f6c158</td><td>753</td><td>VH</td><td>VH-ASFALTBAND_STELLEN-SO</td><td></td><td></td><td>SO</td><td>A,8,[\&quot;S\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],8,-4,0,-2,0,-2,0,-4</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/2ab220e8-dfdc-4667-87bb-92a1f21ecc64</td><td>714</td><td>VH</td><td>VH-GAZONBAND_VARIANT01-SO</td><td></td><td></td><td>SO</td><td>A,7.5,-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/0126bfe8-455d-427f-ab37-a268991bba77</td><td>716</td><td>VH</td><td>VH-GAZONBAND_VARIANT02-SO</td><td></td><td></td><td>SO</td><td>A,5,-5</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/4b39437e-5a43-4b57-b9c5-5ef4ba045456</td><td>718</td><td>VH</td><td>VH-GELEIDEBAND_VARIANT01-SO</td><td></td><td></td><td>SO</td><td>A,4,-2,0,-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/bfed44f0-fad2-4f4d-9f11-074a937b2b99</td><td>720</td><td>VH</td><td>VH-OPSLUITBAND_VARIANT01-SO</td><td></td><td></td><td>SO</td><td>A,8,-2,2,-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/1ee4455d-a942-46f1-82fe-e1bb8ab51b87</td><td>485</td><td>VH</td><td>VH-PLATEAUBAND-SO</td><td></td><td></td><td>SO</td><td>A,2,-2,0,-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/87e01529-a3a6-48db-b23a-e570058aeb77</td><td>489</td><td>VH</td><td>VH-PLATEAUBAND_STELLEN-SO</td><td></td><td></td><td>SO</td><td>A,2,-2,0,-2,1,[\&quot;S\&quot;,standard,x=-0.5,y=-.9,s=1.8],1,-2,0,-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/eb63ebf2-2a88-481b-9d2d-a25edf4282ef</td><td>496</td><td>VH</td><td>VH-RIJWIELPADBAND-SO</td><td></td><td></td><td>SO</td><td>A,8,-2,2,-2,0,-2,2,-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/ac698d81-9ff0-49ff-b662-edf84d933332</td><td>502</td><td>VH</td><td>VH-RIJWIELPADBAND_STELLEN-SO</td><td></td><td></td><td>SO</td><td>A,4,[\&quot;S\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],4,-2,2,-2,0,-2,2,-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/e0893159-fb18-451f-932d-50329f8f854a</td><td>722</td><td>VH</td><td>VH-SCHEIDINGSBAND_VARIANT01-SO</td><td></td><td></td><td>SO</td><td>A,8,-2,0,-2,0,-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/d36dbc2f-51eb-40cb-92b7-98c85a020627</td><td>524</td><td>VH</td><td>VH-SIGNALERINGSBAND-SO</td><td></td><td></td><td>SO</td><td>A,8,-0.4,[LED,NLCS.SHX,s=0.025,x=-0.1],-0.4</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/d5fef51d-8136-4403-9ec8-377d07ccf116</td><td>532</td><td>VH</td><td>VH-TALUDBAND-SO</td><td></td><td></td><td>SO</td><td>A,16,-4,0,-2,0,-2,0,-2,0,-4</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/b0e6c63e-cc06-417b-adb6-5a1c82ccbabf</td><td>724</td><td>VH</td><td>VH-TROTTOIRBAND_VARIANT01-SO</td><td></td><td></td><td>SO</td><td>A,10,-2,2,-2,2,-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/63d14259-c376-41e7-8a34-86b20357e65e</td><td>726</td><td>VH</td><td>VH-TROTTOIRBAND_VARIANT01_STELLEN-SO</td><td></td><td></td><td>SO</td><td>A,5,[\&quot;S\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],5,-2,2,-2,2,-2</td></tr>
+  </tbody>
+</table>
+<h2 class='gewijzigd'>Gewijzigd (13)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/85b25d87-d65c-4bc6-b788-e708a8b6e422</td><td>425</td><td>VH</td><td>V-VH-AMSTELBAND-SO</td><td>AMSTELBAND</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,8,[VERWIJDEREN2,NLCS.SHX,s=1],8,-4,0,-2,2,-2,0,-4</div><div class="new-val">5.2&#58; A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-4,0,-2,2,-2,0,-4</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/6bd12dd7-b872-4430-9362-252e9fee968f</td><td>700</td><td>VH</td><td>V-VH-BOOMKRANSBAND-SO</td><td>BOOMKRANSBAND</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,1.25,[VERWIJDEREN2,NLCS.SHX,s=1],1.25,-1,1,-1,1,-1</div><div class="new-val">5.2&#58; A,1.25,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.25,-1,1,-1,1,-1</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ee26a81d-8f82-473d-8e13-1a88b2192ea6</td><td>428</td><td>VH</td><td>V-VH-BUSHALTEBAND-SO</td><td>BUSHALTEBAND</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,2,-2,1,[VERWIJDEREN2,NLCS.SHX,s=1],1,-2</div><div class="new-val">5.2&#58; A,2,-2,1,[VERWIJDEREN2,NLCS.SHX,s=0.5],1,-2</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/4ce6f801-bf25-41ee-81f9-6f9b2e71891b</td><td>444</td><td>VH</td><td>V-VH-GELEIDEBAND-SO</td><td>GELEIDEBAND</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,2,-2,0,-2,1,[VERWIJDEREN2,NLCS.SHX,s=1],1,-2,0,-2</div><div class="new-val">5.2&#58; A,2,-2,0,-2,1,[VERWIJDEREN2,NLCS.SHX,s=0.5],1,-2,0,-2</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/fdc90902-6fed-46f0-93b7-6edcb463114d</td><td>459</td><td>VH</td><td>V-VH-HAVENBAND-SO</td><td>HAVENBAND</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,6,[VERWIJDEREN2,NLCS.SHX,s=1],6,-3,1.5,-3,0,-3,1.5,-3</div><div class="new-val">5.2&#58; A,6,[VERWIJDEREN2,NLCS.SHX,s=0.5],6,-3,1.5,-3,0,-3,1.5,-3</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/62eb09e8-fbfb-4fe1-bd04-762ea1bdea5b</td><td>461</td><td>VH</td><td>V-VH-LEICON-SO</td><td>LEICON</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,7.5,[VERWIJDEREN2,NLCS.SHX,s=1],7.5,-2,1,-2,2,-2,1,-2</div><div class="new-val">5.2&#58; A,7.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],7.5,-2,1,-2,2,-2,1,-2</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/10d3fb7b-2718-4c75-ba79-c22e46e55058</td><td>463</td><td>VH</td><td>V-VH-OPSLUITBAND-SO</td><td>OPSLUITBAND</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,4,-2,2,-2,2,[VERWIJDEREN2,NLCS.SHX,s=1],2,-2,2,-2</div><div class="new-val">5.2&#58; A,4,-2,2,-2,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-2,2,-2</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/3b27f7e6-679c-455e-a156-3f038e8c02a4</td><td>548</td><td>VH</td><td>V-VH-RWSBAND-SO</td><td>RWSBAND</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,5,[VERWIJDEREN2,NLCS.SHX,s=1],5,-2,2,-2,2,-2,2,-2</div><div class="new-val">5.2&#58; A,5,[VERWIJDEREN2,NLCS.SHX,s=0.5],5,-2,2,-2,2,-2,2,-2</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/4282b565-80d2-4d75-bc24-c8d5d40a1af3</td><td>504</td><td>VH</td><td>V-VH-SCHEIDINGSBAND-SO</td><td>SCHEIDINGSBAND</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,2,[VERWIJDEREN2,NLCS.SHX,s=1],2,-2,0,-2,0,-2</div><div class="new-val">5.2&#58; A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-2,0,-2,0,-2</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/63c29a54-b2f8-45be-96b6-7b0844dc7b6e</td><td>535</td><td>VH</td><td>V-VH-TROTTOIRBAND-SO</td><td>TROTTOIRBAND</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,2.5,[VERWIJDEREN2,NLCS.SHX,s=1],2.5,-2,2,-2,2,-2</div><div class="new-val">5.2&#58; A,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-2,2,-2,2,-2</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/84bfa1db-9a73-4a64-aa08-2df2aebf955d</td><td>538</td><td>VH</td><td>V-VH-TROTTOIRBAND_OPKOP-SO</td><td>TROTTOIRBAND_OPKOP</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,2.5,[VERWIJDEREN2,NLCS.SHX,s=1],2.5,-2,2,-0.75,[REFLECT1,NLCS.SHX,s=.25],-0.75,2,-2</div><div class="new-val">5.2&#58; A,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-2,2,-0.75,[REFLECT1,NLCS.SHX,s=.25],-0.75,2,-2</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/bc422427-024c-4437-964b-69cf1cbadd5e</td><td>534</td><td>VH</td><td>VH-TROTTOIRBAND-SO</td><td>TROTTOIRBAND</td><td></td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,5,-2,2,-2,2,-2</div><div class="new-val">5.2&#58; A,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-2,2,-2,2,-2</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/8863d825-5452-4e7f-868e-f269aba94b74</td><td>539</td><td>VH</td><td>VH-TROTTOIRBAND_OPKOP-SO</td><td>TROTTOIRBAND_OPKOP</td><td></td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,5,-2,2,-0.75,[REFLECT1,NLCS.SHX,s=.25],-0.75,2,-2</div><div class="new-val">5.2&#58; A,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-2,2,-0.75,[REFLECT1,NLCS.SHX,s=.25],-0.75,2,-2</div></td></tr>
+  </tbody>
+</table>
+<h2 class='bestaande'>Bestaande (23)</h2>
+<details><summary>Klik om de 23 rijen te tonen</summary>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/67ebb8ef-e84a-45cf-92c6-69e87948384a</td><td>431</td><td>VH</td><td>V-VH-GAZONBAND-SO</td><td>GAZONBAND</td><td>V</td><td>SO</td><td>A,2.5,[VERWIJDEREN2,NLCS.SHX,s=1],2.5,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ad7e1dfe-9dc6-46bb-80c0-325448475294</td><td>491</td><td>VH</td><td>V-VH-PWSBAND-SO</td><td>PWSBAND</td><td>V</td><td>SO</td><td>A,2.5,[VERWIJDEREN2,NLCS.SHX,s=1],2.5,-5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/7355ed03-65f6-4e12-9569-41b9c86f4ed9</td><td>424</td><td>VH</td><td>VH-AMSTELBAND-SO</td><td>AMSTELBAND</td><td></td><td>SO</td><td>A,16,-4,0,-2,2,-2,0,-4</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/4885a0ff-41ef-4488-bd9b-0b8a92ac6f4e</td><td>699</td><td>VH</td><td>VH-BOOMKRANSBAND-SO</td><td>BOOMKRANSBAND</td><td></td><td>SO</td><td>A,2.5,-1,1,-1,1,-1</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c38d0fea-acda-4897-8659-56996accc01a</td><td>427</td><td>VH</td><td>VH-BUSHALTEBAND-SO</td><td>BUSHALTEBAND</td><td></td><td>SO</td><td>A,2,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/baa5603a-5b96-4c3b-ab45-4f873bc1596b</td><td>429</td><td>VH</td><td>VH-BUSHALTEBAND_STELLEN-SO</td><td>BUSHALTEBAND_STELLEN</td><td></td><td>SO</td><td>A,2,-2,1,[\&quot;S\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],1,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/911a6958-6d30-479e-905c-66e5871b53ea</td><td>430</td><td>VH</td><td>VH-GAZONBAND-SO</td><td>GAZONBAND</td><td></td><td>SO</td><td>A,5,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/7ab574da-532e-4b48-85bf-350c62f0315e</td><td>442</td><td>VH</td><td>VH-GAZONBAND_STELLEN-SO</td><td>GAZONBAND_STELLEN</td><td></td><td>SO</td><td>A,2.5,[\&quot;S\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],2.5,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/59c9ed9f-c29e-4712-b143-b69a3d0c1ab8</td><td>443</td><td>VH</td><td>VH-GELEIDEBAND-SO</td><td>GELEIDEBAND</td><td></td><td>SO</td><td>A,2,-2,0,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/44236d03-40ca-4cf8-b5d0-b4bc7125ea16</td><td>457</td><td>VH</td><td>VH-GELEIDEBAND_STELLEN-SO</td><td>GELEIDEBAND_STELLEN</td><td></td><td>SO</td><td>A,2,-2,0,-2,1,[\&quot;S\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],1,-2,0,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/fe695796-1bfc-48c1-b959-a7c0475fcb99</td><td>458</td><td>VH</td><td>VH-HAVENBAND-SO</td><td>HAVENBAND</td><td></td><td>SO</td><td>A,12,-3,1.5,-3,0,-3,1.5,-3</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/61995674-1a6d-47bb-aa64-c96888fb41e7</td><td>460</td><td>VH</td><td>VH-LEICON-SO</td><td>LEICON</td><td></td><td>SO</td><td>A,15,-2,1,-2,2,-2,1,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/919334f4-47c0-485c-bb22-0ad9a0fd8f83</td><td>462</td><td>VH</td><td>VH-OPSLUITBAND-SO</td><td>OPSLUITBAND</td><td></td><td>SO</td><td>A,4,-2,2,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/fce61ae3-c5cc-45dc-9772-5611d2732f92</td><td>484</td><td>VH</td><td>VH-OPSLUITBAND_STELLEN-SO</td><td>OPSLUITBAND_STELLEN</td><td></td><td>SO</td><td>A,4,-2,2,-2,2,[\&quot;S\&quot;,standard,x=-0.5,y=-.9,s=1.8],2,-2,2,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/ea240bec-ee6c-40c7-80ca-6e486d7fd843</td><td>490</td><td>VH</td><td>VH-PWSBAND-SO</td><td>PWSBAND</td><td></td><td>SO</td><td>A,5,-5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f20fbd93-ffa4-435d-850b-6c98e28e2560</td><td>495</td><td>VH</td><td>VH-PWSBAND_STELLEN-SO</td><td>PWSBAND_STELLEN</td><td></td><td>SO</td><td>A,2.5,[\&quot;S\&quot;,standard,x=-0.5,y=-.9,s=1.8],2.5,-5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/6d06a035-a878-4610-ac96-5d6ed12c046c</td><td>547</td><td>VH</td><td>VH-RWSBAND-SO</td><td>RWSBAND</td><td></td><td>SO</td><td>A,10,-2,2,-2,2,-2,2,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e0579db3-f85a-4501-9461-d916a9adaa9f</td><td>554</td><td>VH</td><td>VH-RWSBAND_STELLEN-SO</td><td>RWSBAND_STELLEN</td><td></td><td>SO</td><td>A,5,[\&quot;S\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],5,-2,2,-2,2,-2,2,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c773e104-e710-42d9-9f78-dd07675eead6</td><td>503</td><td>VH</td><td>VH-SCHEIDINGSBAND-SO</td><td>SCHEIDINGSBAND</td><td></td><td>SO</td><td>A,4,-2,0,-2,0,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/09f4ed88-5587-4110-be3d-88e171f603b9</td><td>523</td><td>VH</td><td>VH-SCHEIDINGSBAND_STELLEN-SO</td><td>SCHEIDINGSBAND_STELLEN</td><td></td><td>SO</td><td>A,2,[\&quot;S\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],2,-2,0,-2,0,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/6d50af60-e3d0-4c25-a6f2-4518c9efd58c</td><td>614</td><td>VH</td><td>VH-TRAPSGEWIJSFREZEN-SO</td><td>TRAPSGEWIJSFREZEN</td><td></td><td>SO</td><td>A,15,-5,[TGF1,NLCS.SHX,s=20],-5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5e319e9e-4f0f-4c52-b263-03ee96d6f009</td><td>727</td><td>VH</td><td>VH-TROTTOIRBAND_STELLEN-SO</td><td>TROTTOIRBAND_STELLEN</td><td></td><td>SO</td><td>A,2.5,[\&quot;S\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],2.5,-2,2,-2,2,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/9c8611bb-fe7b-421d-8f24-aab0213e8a19</td><td>555</td><td>VH</td><td>VH-ZAAGSNEDE-SO</td><td>ZAAGSNEDE</td><td></td><td>SO</td><td>A,.00001,-2.54,[ZAAGSNEDE1,NLCS.SHX,x=-2.54,s=2.54],-5.08,[ZAAGSNEDE1,NLCS.SHX,r=180,x=2.54,s=2.54],-2.54</td></tr>
+  </tbody>
+</table>
+</details>
+</body></html>

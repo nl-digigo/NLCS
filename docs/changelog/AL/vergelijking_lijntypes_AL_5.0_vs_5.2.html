@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Vergelijking lijntypes AL — NLCS 5.0.2 vs 5.2</title>
+<style>
+  :root { font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
+  body { max-width: 1400px; margin: 2em auto; padding: 0 1em; color: #222; font-size: 13px; }
+  h1 { border-bottom: 2px solid #333; padding-bottom: .3em; }
+  h2 { margin-top: 2em; padding: .4em .6em; border-radius: 4px; color: #fff; }
+  h2.nieuw { background: #2e7d32; }
+  h2.vervallen { background: #c62828; }
+  h2.gewijzigd { background: #ef6c00; }
+  h2.bestaande { background: #1565c0; }
+  .summary { background: #f5f5f5; padding: 1em; border-radius: 6px; margin: 1em 0; }
+  .summary table { border: 0; width: auto; }
+  .summary td { border: 0; padding: .2em 1em .2em 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th { background-color: #003865; color: white; text-align: left; padding: 6px 8px; white-space: nowrap; }
+  td { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; }
+  tbody tr:nth-child(even) td { background-color: #f2f2f2; }
+  tbody tr:hover td { background-color: #dde8f0; }
+  .new-row td    { background-color: #d4edda !important; }
+  .new-row:hover td { background-color: #b8dfc4 !important; }
+  .changed       { background-color: #cce5ff !important; }
+  .old-val { color: #555; font-size: 0.85em; }
+  .new-val { font-weight: normal; }
+  .deleted td    { background-color: #d0d0d0 !important; }
+  .deleted:hover td { background-color: #b8b8b8 !important; }
+  .empty { color: #999; font-style: italic; padding: 1em; }
+  details summary { cursor: pointer; padding: .5em; background: #f0f0f0; border-radius: 4px; user-select: none; }
+  details[open] summary { margin-bottom: .5em; }
+  .legend { margin: .5em 0 1em; font-size: 12px; display:flex; gap:12px; flex-wrap:wrap; }
+  .legend span { padding: 2px 8px; border-radius: 3px; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+<h1>Vergelijking lijntypes — hoofdgroep AL</h1>
+<div class="summary">
+<strong>Bron</strong>
+<table>
+<tr><td>Bestand:</td><td><code>NLCS_Query_Lijntypes-concept-5.2.html</code></td></tr>
+<tr><td>Versies:</td><td>NLCS 5.0.2 → 5.2</td></tr>
+</table>
+<br><strong>Resultaten voor hoofdgroep AL</strong>
+<table>
+<tr><td>Nieuw (alleen in 5.2):</td><td><strong>2</strong></td></tr>
+<tr><td>Vervallen (alleen in 5.0.2):</td><td><strong>4</strong></td></tr>
+<tr><td>Gewijzigd (zelfde URI of id, andere waarden):</td><td><strong>0</strong></td></tr>
+<tr><td>Bestaande (ongewijzigd):</td><td><strong>1</strong></td></tr>
+</table>
+<p style='margin-top:1em; font-size:12px; color:#666;'>Gegenereerd: 2026-05-14 15:02</p>
+</div>
+<div class="legend">
+  <span style="background:#d4edda;">Nieuwe rij</span>
+  <span style="background:#cce5ff;">Gewijzigde cel (oude → nieuwe waarde)</span>
+  <span style="background:#d0d0d0;">Vervallen rij</span>
+</div>
+<h2 class='nieuw'>Nieuw (2)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/8736b97a-29b3-4456-85a1-4c28e42df099</td><td>754</td><td>AL</td><td>AL-AANZICHT-SO</td><td>AANZICHT</td><td></td><td>SO</td><td>A,4,-.8,.8,-.8</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/1db1d6dd-7179-4557-a166-83ac03b4a156</td><td>755</td><td>AL</td><td>AL-WIJZIGING-SO</td><td>WIJZIGING</td><td></td><td>SO</td><td>A,5,-1,1,-1</td></tr>
+  </tbody>
+</table>
+<h2 class='vervallen'>Vervallen (4)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/1383ab09-d2d8-40b7-8bbb-1a7041cad464</td><td>3</td><td>AL</td><td>AL-DETAILS-SO</td><td></td><td></td><td>SO</td><td>A,2,-1.2,2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/4374b4d5-193c-4148-84cf-63df9741f31f</td><td>2</td><td>AL</td><td>AL-PROFIEL-SO</td><td></td><td></td><td>SO</td><td>A,4,-.8,.8,-.8</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/9c5134db-98e6-42e6-8e9b-40bde14c99f7</td><td>87</td><td>AL</td><td>AL-WATERLIJN-SO</td><td></td><td></td><td>SO</td><td>A,20,[WATERLIJN,NLCS.SHX,s=1.5],20</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/3dc2fbb4-9bac-420b-9f32-deb7f81dd35f</td><td>599</td><td>AL</td><td>V-AL-WATERLIJN-SO</td><td></td><td>V</td><td>SO</td><td>A,10,[VERWIJDEREN1,NLCS.SHX,s=0.5],10,[WATERLIJN,NLCS.SHX,s=1.5],20</td></tr>
+  </tbody>
+</table>
+<h2 class='gewijzigd'>Gewijzigd (0)</h2>
+<p class='empty'>Geen lijntypes in deze categorie.</p>
+<h2 class='bestaande'>Bestaande (1)</h2>
+<details><summary>Klik om de 1 rijen te tonen</summary>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/472b6144-39d6-4c45-afa9-84f3b501e0d9</td><td>8</td><td>AL</td><td>AL-TEKENBLADGRENS-SO</td><td>TEKENBLADGRENS</td><td></td><td>SO</td><td>A,2.5,-1.5,1,-1.5,1,-1.5,2.5</td></tr>
+  </tbody>
+</table>
+</details>
+</body></html>

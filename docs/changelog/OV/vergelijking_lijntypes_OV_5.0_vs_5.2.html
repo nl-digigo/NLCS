@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Vergelijking lijntypes OV — NLCS 5.0.2 vs 5.2</title>
+<style>
+  :root { font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
+  body { max-width: 1400px; margin: 2em auto; padding: 0 1em; color: #222; font-size: 13px; }
+  h1 { border-bottom: 2px solid #333; padding-bottom: .3em; }
+  h2 { margin-top: 2em; padding: .4em .6em; border-radius: 4px; color: #fff; }
+  h2.nieuw { background: #2e7d32; }
+  h2.vervallen { background: #c62828; }
+  h2.gewijzigd { background: #ef6c00; }
+  h2.bestaande { background: #1565c0; }
+  .summary { background: #f5f5f5; padding: 1em; border-radius: 6px; margin: 1em 0; }
+  .summary table { border: 0; width: auto; }
+  .summary td { border: 0; padding: .2em 1em .2em 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th { background-color: #003865; color: white; text-align: left; padding: 6px 8px; white-space: nowrap; }
+  td { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; }
+  tbody tr:nth-child(even) td { background-color: #f2f2f2; }
+  tbody tr:hover td { background-color: #dde8f0; }
+  .new-row td    { background-color: #d4edda !important; }
+  .new-row:hover td { background-color: #b8dfc4 !important; }
+  .changed       { background-color: #cce5ff !important; }
+  .old-val { color: #555; font-size: 0.85em; }
+  .new-val { font-weight: normal; }
+  .deleted td    { background-color: #d0d0d0 !important; }
+  .deleted:hover td { background-color: #b8b8b8 !important; }
+  .empty { color: #999; font-style: italic; padding: 1em; }
+  details summary { cursor: pointer; padding: .5em; background: #f0f0f0; border-radius: 4px; user-select: none; }
+  details[open] summary { margin-bottom: .5em; }
+  .legend { margin: .5em 0 1em; font-size: 12px; display:flex; gap:12px; flex-wrap:wrap; }
+  .legend span { padding: 2px 8px; border-radius: 3px; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+<h1>Vergelijking lijntypes — hoofdgroep OV</h1>
+<div class="summary">
+<strong>Bron</strong>
+<table>
+<tr><td>Bestand:</td><td><code>NLCS_Query_Lijntypes-concept-5.2.html</code></td></tr>
+<tr><td>Versies:</td><td>NLCS 5.0.2 → 5.2</td></tr>
+</table>
+<br><strong>Resultaten voor hoofdgroep OV</strong>
+<table>
+<tr><td>Nieuw (alleen in 5.2):</td><td><strong>4</strong></td></tr>
+<tr><td>Vervallen (alleen in 5.0.2):</td><td><strong>0</strong></td></tr>
+<tr><td>Gewijzigd (zelfde URI of id, andere waarden):</td><td><strong>2</strong></td></tr>
+<tr><td>Bestaande (ongewijzigd):</td><td><strong>18</strong></td></tr>
+</table>
+<p style='margin-top:1em; font-size:12px; color:#666;'>Gegenereerd: 2026-05-14 15:02</p>
+</div>
+<div class="legend">
+  <span style="background:#d4edda;">Nieuwe rij</span>
+  <span style="background:#cce5ff;">Gewijzigde cel (oude → nieuwe waarde)</span>
+  <span style="background:#d0d0d0;">Vervallen rij</span>
+</div>
+<h2 class='nieuw'>Nieuw (4)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/355e74ad-ff76-4cfd-9c52-8f41c9f37808</td><td>855</td><td>OV</td><td>OV-STROOK-SO</td><td>STROOK</td><td></td><td>SO</td><td>A,2,-2</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/c2a18b59-3077-4c41-b35b-ea627f6dcfc5</td><td>856</td><td>OV</td><td>OV-TRACE-SO</td><td>TRACE</td><td></td><td>SO</td><td>A,2,-2</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/106f3910-1e00-46a0-82c0-1edce3893318</td><td>857</td><td>OV</td><td>V-OV-STROOK-SO</td><td>OSTROOK</td><td>V</td><td>SO</td><td>A,1,[VERWIJDEREN2,NLCS.SHX,s=0.5],1,-2</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/c215a7c0-4b2a-4278-b987-ac868cc822ea</td><td>858</td><td>OV</td><td>V-OV-TRACE-SO</td><td>OTRACE</td><td>V</td><td>SO</td><td>A,1,[VERWIJDEREN2,NLCS.SHX,s=0.5],1,-2</td></tr>
+  </tbody>
+</table>
+<h2 class='vervallen'>Vervallen (0)</h2>
+<p class='empty'>Geen lijntypes in deze categorie.</p>
+<h2 class='gewijzigd'>Gewijzigd (2)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e7058a26-8611-4b0e-a6f0-82d3ea706bac</td><td>729</td><td>OV</td><td>V-OV-KABELKOKER-SO</td><td>OKABELKOKER</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,0,-3,[DUB3,NLCS.SHX,s=1],-6,[DUB3,NLCS.SHX],-6,[DUB3,NLCS.SHX],-6,[VERWIJDEREN2,NLCS.SHX,s=1],-3</div><div class="new-val">5.2&#58; A,0,-3,[DUB3,NLCS.SHX,s=1],-6,[DUB3,NLCS.SHX],-6,[DUB3,NLCS.SHX],-6,[VERWIJDEREN2,NLCS.SHX,s=0.5],-3</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/9dfea129-d386-4450-824f-51b8b0b7b85d</td><td>737</td><td>OV</td><td>V-OV-LIJNV-SO</td><td>OLIJNSO</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,0,-5,[drieh,NLCS.SHX,s=1,r=0,x=-.625],2.5,-0.5,[CIRC,NLCS.SHX,s=.5],-0.5,2.5,[drieh,NLCS.SHX,s=1,r=180,x=.625],-5,[VERWIJDEREN2,NLCS.SHX,x=1,s=1],-2</div><div class="new-val">5.2&#58; A,0,-5,[drieh,NLCS.SHX,s=1,r=0,x=-.625],2.5,-0.5,[CIRC,NLCS.SHX,s=.5],-0.5,2.5,[drieh,NLCS.SHX,s=1,r=180,x=.625],-5,[VERWIJDEREN2,NLCS.SHX,x=1,s=0.5],-2</div></td></tr>
+  </tbody>
+</table>
+<h2 class='bestaande'>Bestaande (18)</h2>
+<details><summary>Klik om de 18 rijen te tonen</summary>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0435af4a-22a3-4973-a228-c3f204ff15e6</td><td>730</td><td>OV</td><td>OV-AARDING-SO</td><td>AARDING</td><td></td><td>SO</td><td>A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1,[\&quot;A\&quot;,standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c9166257-6d28-4424-9fcb-0d930cf196c0</td><td>732</td><td>OV</td><td>OV-COMBIKABEL-SO</td><td>COMBIKABEL</td><td></td><td>SO</td><td>A,5,-1,0,-1,5,-1</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/beb1a4db-ac86-4022-8319-29768db8560d</td><td>214</td><td>OV</td><td>OV-KABEL-SO</td><td>KABEL</td><td></td><td>SO</td><td>A,4,-1,[flash,NLCS.SHX,s=.75],-1,4,-1.5,[\&quot;0V\&quot;,standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-3</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/2b17a618-ed1b-4af5-a1ed-32fc07a3a0f5</td><td>690</td><td>OV</td><td>OV-KABEL_AARDING-SO</td><td>KABEL_AARDING</td><td></td><td>SO</td><td>A,14,-1,[\&quot;OV\&quot;,standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,14,-.5,[\&quot;A\&quot;,standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e8639301-27ec-4776-926d-2c96864cb535</td><td>698</td><td>OV</td><td>OV-KABEL_BUNDEL-SO</td><td>KABEL_BUNDEL</td><td></td><td>SO</td><td>A,14,-1,[\&quot;OV\&quot;,standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,14,-.5,[\&quot;B\&quot;,standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/55ee6217-a826-4829-83a2-ed76b8915063</td><td>692</td><td>OV</td><td>OV-KABEL_SIGNAAL-SO</td><td>KABEL_SIGNAAL</td><td></td><td>SO</td><td>A,14,-1,[\&quot;OV\&quot;,standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,14,-.5,[\&quot;S\&quot;,standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/dd66be46-a00e-4d5e-8e50-3c6172745bc2</td><td>693</td><td>OV</td><td>OV-KABEL_VOEDING-SO</td><td>KABEL_VOEDING</td><td></td><td>SO</td><td>A,14,-1,[\&quot;OV\&quot;,standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,14,-.5,[\&quot;V\&quot;,standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/011adb8c-4d94-464d-8dbe-8e9c0a9af192</td><td>728</td><td>OV</td><td>OV-KABELKOKER-SO</td><td>KABELKOKER</td><td></td><td>SO</td><td>A,0,-3,[DUB5,NLCS.SHX,s=1],-3</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d7cfe8a0-acfc-45cf-b3a7-5219a577ff33</td><td>736</td><td>OV</td><td>OV-LIJNV-SO</td><td>LIJNV</td><td></td><td>SO</td><td>A,0,-5,[drieh,NLCS.SHX,s=1,r=0,x=-.625],2.5,-0.5,[CIRC,NLCS.SHX,s=.5],-0.5,2.5,[drieh,NLCS.SHX,s=1,r=180,x=.625],-5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/47639a90-f672-4e76-8c27-e71a659623d7</td><td>734</td><td>OV</td><td>OV-WEESLEIDING-SO</td><td>WEESLEIDING</td><td></td><td>SO</td><td>A,0.25,-8</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/7ff36e3e-e6d9-4161-8330-32f52ea0431d</td><td>731</td><td>OV</td><td>V-OV-AARDING-SO</td><td>OAARDING</td><td>V</td><td>SO</td><td>A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[\&quot;A\&quot;,standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/2d9be8c1-0fd8-48ac-bcdb-bd2fc26899e4</td><td>733</td><td>OV</td><td>V-OV-COMBIKABEL-SO</td><td>OCOMBIKABEL</td><td>V</td><td>SO</td><td>A,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-1,0,-1,5,-1</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c0a2fc1f-1aa9-42b0-924d-70f9c0dad560</td><td>215</td><td>OV</td><td>V-OV-KABEL-SO</td><td>OKABEL</td><td>V</td><td>SO</td><td>A,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1,[flash,NLCS.SHX,s=.75],-1,2,[VERWIJDEREN2,NLCS.SHX,s=0.5],2,-1.5,[\&quot;0V\&quot;,standard,U=0.0,s=1,r=0.0,x=0,y=-.5],-3</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/868f8e2c-f060-431e-b81c-fd1c2bc5568a</td><td>694</td><td>OV</td><td>V-OV-KABEL_AARDING-SO</td><td>OKABEL_AARDING</td><td>V</td><td>SO</td><td>A,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-1,[\&quot;OV\&quot;,standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-.5,[\&quot;A\&quot;,standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/dd55292e-c4b6-46dd-bd50-156b917c40ba</td><td>695</td><td>OV</td><td>V-OV-KABEL_BUNDEL-SO</td><td>OKABEL_BUNDEL</td><td>V</td><td>SO</td><td>A,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-1,[\&quot;OV\&quot;,standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-.5,[\&quot;B\&quot;,standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/47a8b97d-116c-41a5-8844-7e55cb3e32e2</td><td>696</td><td>OV</td><td>V-OV-KABEL_SIGNAAL-SO</td><td>OKABEL_SIGNAAL</td><td>V</td><td>SO</td><td>A,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-1,[\&quot;OV\&quot;,standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-.5,[\&quot;S\&quot;,standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/66552735-d08a-42a6-95a8-011d5d8ad0eb</td><td>697</td><td>OV</td><td>V-OV-KABEL_VOEDING-SO</td><td>OKABEL_VOEDING</td><td>V</td><td>SO</td><td>A,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-1,[\&quot;OV\&quot;,standard,U=0.0,x=0.5,y=-.9,s=1.8],-5,7,[VERWIJDEREN2,NLCS.SHX,s=0.5],7,-.5,[\&quot;V\&quot;,standard,U=0.0,x=-0.15,y=-.9,s=1.8],-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/508857a0-6374-433f-9bea-6dc5f153459d</td><td>735</td><td>OV</td><td>V-OV-WEESLEIDING-SO</td><td>OWEESLEIDING</td><td>V</td><td>SO</td><td>A,0.25,-4,[VERWIJDEREN2,NLCS.SHX,s=0.5],-4</td></tr>
+  </tbody>
+</table>
+</details>
+</body></html>

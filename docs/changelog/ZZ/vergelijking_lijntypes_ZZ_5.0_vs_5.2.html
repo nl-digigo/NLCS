@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Vergelijking lijntypes ZZ — NLCS 5.0.2 vs 5.2</title>
+<style>
+  :root { font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
+  body { max-width: 1400px; margin: 2em auto; padding: 0 1em; color: #222; font-size: 13px; }
+  h1 { border-bottom: 2px solid #333; padding-bottom: .3em; }
+  h2 { margin-top: 2em; padding: .4em .6em; border-radius: 4px; color: #fff; }
+  h2.nieuw { background: #2e7d32; }
+  h2.vervallen { background: #c62828; }
+  h2.gewijzigd { background: #ef6c00; }
+  h2.bestaande { background: #1565c0; }
+  .summary { background: #f5f5f5; padding: 1em; border-radius: 6px; margin: 1em 0; }
+  .summary table { border: 0; width: auto; }
+  .summary td { border: 0; padding: .2em 1em .2em 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th { background-color: #003865; color: white; text-align: left; padding: 6px 8px; white-space: nowrap; }
+  td { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; }
+  tbody tr:nth-child(even) td { background-color: #f2f2f2; }
+  tbody tr:hover td { background-color: #dde8f0; }
+  .new-row td    { background-color: #d4edda !important; }
+  .new-row:hover td { background-color: #b8dfc4 !important; }
+  .changed       { background-color: #cce5ff !important; }
+  .old-val { color: #555; font-size: 0.85em; }
+  .new-val { font-weight: normal; }
+  .deleted td    { background-color: #d0d0d0 !important; }
+  .deleted:hover td { background-color: #b8b8b8 !important; }
+  .empty { color: #999; font-style: italic; padding: 1em; }
+  details summary { cursor: pointer; padding: .5em; background: #f0f0f0; border-radius: 4px; user-select: none; }
+  details[open] summary { margin-bottom: .5em; }
+  .legend { margin: .5em 0 1em; font-size: 12px; display:flex; gap:12px; flex-wrap:wrap; }
+  .legend span { padding: 2px 8px; border-radius: 3px; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+<h1>Vergelijking lijntypes — hoofdgroep ZZ</h1>
+<div class="summary">
+<strong>Bron</strong>
+<table>
+<tr><td>Bestand:</td><td><code>NLCS_Query_Lijntypes-concept-5.2.html</code></td></tr>
+<tr><td>Versies:</td><td>NLCS 5.0.2 → 5.2</td></tr>
+</table>
+<br><strong>Resultaten voor hoofdgroep ZZ</strong>
+<table>
+<tr><td>Nieuw (alleen in 5.2):</td><td><strong>0</strong></td></tr>
+<tr><td>Vervallen (alleen in 5.0.2):</td><td><strong>5</strong></td></tr>
+<tr><td>Gewijzigd (zelfde URI of id, andere waarden):</td><td><strong>2</strong></td></tr>
+<tr><td>Bestaande (ongewijzigd):</td><td><strong>8</strong></td></tr>
+</table>
+<p style='margin-top:1em; font-size:12px; color:#666;'>Gegenereerd: 2026-05-14 15:02</p>
+</div>
+<div class="legend">
+  <span style="background:#d4edda;">Nieuwe rij</span>
+  <span style="background:#cce5ff;">Gewijzigde cel (oude → nieuwe waarde)</span>
+  <span style="background:#d0d0d0;">Vervallen rij</span>
+</div>
+<h2 class='nieuw'>Nieuw (0)</h2>
+<p class='empty'>Geen lijntypes in deze categorie.</p>
+<h2 class='vervallen'>Vervallen (5)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/cd0ac034-1dd4-4e65-ad97-496ed15012b2</td><td>175</td><td>ZZ</td><td>V-ZZ-PROJECTGRENS-SO</td><td></td><td>V</td><td>SO</td><td>A,12,[VERWIJDEREN2,NLCS.SHX,x=-3,s=1],-3,0,-3</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/b2a4b903-7e4a-4a8b-badb-bfcd199a2160</td><td>177</td><td>ZZ</td><td>V-ZZ-SYSTEEMGRENS-SO</td><td></td><td>V</td><td>SO</td><td>A,4,[VERWIJDEREN2,NLCS.SHX,x=-2,s=0.6],-1</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/d950404f-a158-4f0e-a2fd-7efb45f503f6</td><td>179</td><td>ZZ</td><td>V-ZZ-WERKGRENS-SO</td><td></td><td>V</td><td>SO</td><td>A,1.5,-3,[ster1A,NLCS.shx,x=-.55,y=-.675,s=0.05],-3,1,[VERWIJDEREN2,NLCS.SHX,x=1,s=1],1.5</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/6a90af2e-ec80-4d48-8c5b-d73e4d297f95</td><td>4</td><td>ZZ</td><td>ZZ-CENTER-SO</td><td></td><td></td><td>SO</td><td>A,5,-1,1,-1</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/d551cac6-6d9c-40b5-8ceb-fb84c349c563</td><td>615</td><td>ZZ</td><td>ZZ-DASHDOT-SO</td><td></td><td></td><td>SO</td><td>A,3,-2,0,-2,3</td></tr>
+  </tbody>
+</table>
+<h2 class='gewijzigd'>Gewijzigd (2)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0c0c9110-397e-4973-bc32-56b59c870f4f</td><td>606</td><td>ZZ</td><td class="changed"><div class="old-val">5.0.2: ZZ-AFBREEK-SO</div><div class="new-val">5.2&#58; ZZ-AFBREEKLIJN-SO</div></td><td>AFBREEKLIJN</td><td></td><td>SO</td><td>A,4,-1,1,-1</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5702e3af-eea9-4a52-9f36-a2254182084e</td><td>594</td><td class="changed"><div class="old-val">5.0.2: AL</div><div class="new-val">5.2&#58; ZZ</div></td><td class="changed"><div class="old-val">5.0.2: AL-NAP_LIJN-SO</div><div class="new-val">5.2&#58; ZZ-NAP_LIJN-SO</div></td><td>NAP_LIJN</td><td></td><td>SO</td><td>A,12,-1.5,.25,-1.5</td></tr>
+  </tbody>
+</table>
+<h2 class='bestaande'>Bestaande (8)</h2>
+<details><summary>Klik om de 8 rijen te tonen</summary>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/8a62cb2c-c0b0-4d74-b0e8-143b77de88df</td><td>173</td><td>ZZ</td><td>ZZ-FASEGRENS-SO</td><td>FASEGRENS</td><td></td><td>SO</td><td>A,2,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b58bb709-a234-43de-b7b0-8cf50b9d1228</td><td>607</td><td>ZZ</td><td>ZZ-HART-SO</td><td>HART</td><td></td><td>SO</td><td>A,4,-2,1,-2,4</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c4cbc686-37ed-426a-8ba9-12defd1b4763</td><td>426</td><td>ZZ</td><td>ZZ-HIDDEN-SO</td><td>HIDDEN</td><td></td><td>SO</td><td>A,2,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/53706ea4-5023-4439-84b9-d6a07ea6bdee</td><td>750</td><td>ZZ</td><td>ZZ-ONDERZOEKSGRENS-SO</td><td>ONDERZOEKSGRENS</td><td></td><td>SO</td><td>A,3,-2,0,-2,3</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1337b1cc-fd19-4a55-a8ca-94ca3f2dd3cc</td><td>174</td><td>ZZ</td><td>ZZ-PROJECTGRENS-SO</td><td>PROJECTGRENS</td><td></td><td>SO</td><td>A,12,-3,0,-3</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c3212b1b-9e73-47b7-87f9-8be2f10f6d68</td><td>608</td><td>ZZ</td><td>ZZ-STRAMIEN-SO</td><td>STRAMIEN</td><td></td><td>SO</td><td>A,10,-2,2,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c900bc88-f17e-461c-bb25-d5e7dc3173c6</td><td>176</td><td>ZZ</td><td>ZZ-SYSTEEMGRENS-SO</td><td>SYSTEEMGRENS</td><td></td><td>SO</td><td>A,4,-1</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/98ed05cd-a2a0-4eaf-a47f-d06598314824</td><td>178</td><td>ZZ</td><td>ZZ-WERKGRENS-SO</td><td>WERKGRENS</td><td></td><td>SO</td><td>A,2,-3,[ster1A,NLCS.shx,x=-.55,y=-.675,s=0.05],-3,2</td></tr>
+  </tbody>
+</table>
+</details>
+</body></html>

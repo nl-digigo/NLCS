@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Vergelijking lijntypes GK — NLCS 5.0.2 vs 5.2</title>
+<style>
+  :root { font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
+  body { max-width: 1400px; margin: 2em auto; padding: 0 1em; color: #222; font-size: 13px; }
+  h1 { border-bottom: 2px solid #333; padding-bottom: .3em; }
+  h2 { margin-top: 2em; padding: .4em .6em; border-radius: 4px; color: #fff; }
+  h2.nieuw { background: #2e7d32; }
+  h2.vervallen { background: #c62828; }
+  h2.gewijzigd { background: #ef6c00; }
+  h2.bestaande { background: #1565c0; }
+  .summary { background: #f5f5f5; padding: 1em; border-radius: 6px; margin: 1em 0; }
+  .summary table { border: 0; width: auto; }
+  .summary td { border: 0; padding: .2em 1em .2em 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th { background-color: #003865; color: white; text-align: left; padding: 6px 8px; white-space: nowrap; }
+  td { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; }
+  tbody tr:nth-child(even) td { background-color: #f2f2f2; }
+  tbody tr:hover td { background-color: #dde8f0; }
+  .new-row td    { background-color: #d4edda !important; }
+  .new-row:hover td { background-color: #b8dfc4 !important; }
+  .changed       { background-color: #cce5ff !important; }
+  .old-val { color: #555; font-size: 0.85em; }
+  .new-val { font-weight: normal; }
+  .deleted td    { background-color: #d0d0d0 !important; }
+  .deleted:hover td { background-color: #b8b8b8 !important; }
+  .empty { color: #999; font-style: italic; padding: 1em; }
+  details summary { cursor: pointer; padding: .5em; background: #f0f0f0; border-radius: 4px; user-select: none; }
+  details[open] summary { margin-bottom: .5em; }
+  .legend { margin: .5em 0 1em; font-size: 12px; display:flex; gap:12px; flex-wrap:wrap; }
+  .legend span { padding: 2px 8px; border-radius: 3px; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+<h1>Vergelijking lijntypes — hoofdgroep GK</h1>
+<div class="summary">
+<strong>Bron</strong>
+<table>
+<tr><td>Bestand:</td><td><code>NLCS_Query_Lijntypes-concept-5.2.html</code></td></tr>
+<tr><td>Versies:</td><td>NLCS 5.0.2 → 5.2</td></tr>
+</table>
+<br><strong>Resultaten voor hoofdgroep GK</strong>
+<table>
+<tr><td>Nieuw (alleen in 5.2):</td><td><strong>12</strong></td></tr>
+<tr><td>Vervallen (alleen in 5.0.2):</td><td><strong>2</strong></td></tr>
+<tr><td>Gewijzigd (zelfde URI of id, andere waarden):</td><td><strong>2</strong></td></tr>
+<tr><td>Bestaande (ongewijzigd):</td><td><strong>0</strong></td></tr>
+</table>
+<p style='margin-top:1em; font-size:12px; color:#666;'>Gegenereerd: 2026-05-14 15:02</p>
+</div>
+<div class="legend">
+  <span style="background:#d4edda;">Nieuwe rij</span>
+  <span style="background:#cce5ff;">Gewijzigde cel (oude → nieuwe waarde)</span>
+  <span style="background:#d0d0d0;">Vervallen rij</span>
+</div>
+<h2 class='nieuw'>Nieuw (12)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/c1a0eda7-3aba-4f41-960c-74aaa6c2fc28</td><td>774</td><td>GK</td><td>GK-BESCHOEIING1-SO</td><td>BESCHOEIING1</td><td></td><td>SO</td><td>A,2.00,[BOX,NLCS,s=0.50],-1.00,2.00</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/a2e9280c-9506-47b1-b217-452f8dd5940f</td><td>775</td><td>GK</td><td>GK-BESCHOEIING2-SO</td><td>BESCHOEIING2</td><td></td><td>SO</td><td>A,2.00,[BOX,NLCS,s=0.50,r=90,x=0.50],-1.00,2.00</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/9786d0ac-6605-4cb3-9d66-fc29862fbbac</td><td>776</td><td>GK</td><td>GK-BESCHOEIING3-SO</td><td>BESCHOEIING3</td><td></td><td>SO</td><td>A,18,-3,[BESCHOEIING,NLCS.SHX,s=0.6],-3</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/7a48492f-65e9-404f-9c9d-4e81d57a400f</td><td>783</td><td>GK</td><td>GK-DAMWAND-SO</td><td>DAMWAND</td><td></td><td>SO</td><td>A,2.00,[RH1,NLCS,s=0.25,y=0.25],-2.00,2.00</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/f3003ae1-d93b-4d97-8501-a07c6909e04d</td><td>784</td><td>GK</td><td>GK-DAMWAND1-SO</td><td>DAMWAND1</td><td></td><td>SO</td><td>A,1.50,[STEPBARRIER,NLCS,s=2.00],-2.00,1.50</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/5347d761-752e-497c-a309-04e5a76e933f</td><td>785</td><td>GK</td><td>GK-PALENRIJ-SO</td><td>PALENRIJ</td><td></td><td>SO</td><td>A,0,-0.50,[CIRKEL,NLCS.SHX,s=0.50],-0.50</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/af4d5f54-7491-4f2a-98f9-e84a2bd752fe</td><td>777</td><td>GK</td><td>V-GK-BESCHOEIING1-SO</td><td>BESCHOEIING1</td><td>V</td><td>SO</td><td>A,1.00,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.00,[BOX,NLCS,s=0.50],-1.00,1.00,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.00</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/b3679c73-41f2-402f-a239-6356e3a96530</td><td>778</td><td>GK</td><td>V-GK-BESCHOEIING2-SO</td><td>BESCHOEIING2</td><td>V</td><td>SO</td><td>A,1.00,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.00,[BOX,NLCS,s=0.50,r=90,x=0.50],-1.00,1.00,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.00</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/ab877fd5-fb77-42bc-b780-81f4b7635485</td><td>779</td><td>GK</td><td>V-GK-BESCHOEIING3-SO</td><td>BESCHOEIING3</td><td>V</td><td>SO</td><td>A,9,[VERWIJDEREN2,NLCS.SHX,s=0.5],9,-3,[BESCHOEIING,NLCS.SHX,s=0.6],-3</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/af280642-815a-43f9-9dce-5a9390d2b23f</td><td>780</td><td>GK</td><td>V-GK-DAMWAND-SO</td><td>DAMWAND</td><td>V</td><td>SO</td><td>A,1.00,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.00,[RH1,NLCS,s=0.25,y=0.25],-2.00,1.00,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.00</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/62980325-2882-46ba-8d16-5e53b82b9270</td><td>781</td><td>GK</td><td>V-GK-DAMWAND1-SO</td><td>DAMWAND1</td><td>V</td><td>SO</td><td>A,0.75,[VERWIJDEREN2,NLCS.SHX,s=0.5],0.75,[STEPBARRIER,NLCS,s=2.00],-2.00,0.75,[VERWIJDEREN2,NLCS.SHX,s=0.5],0.75</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/71f9521f-51cc-44a8-a69f-6ff14909e49a</td><td>782</td><td>GK</td><td>V-GK-PALENRIJ-SO</td><td>PALENRIJ</td><td>V</td><td>SO</td><td>A,0,-0.50,[CIRKEL,NLCS.SHX,s=0.50],0,[VERWIJDEREN2,NLCS.SHX,s=0.5],-0.50</td></tr>
+  </tbody>
+</table>
+<h2 class='vervallen'>Vervallen (2)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/c8ededba-89d7-45f5-84b0-de713e7587bd</td><td>77</td><td>GK</td><td>GK-PERKOEN-SO</td><td></td><td></td><td>SO</td><td>A,18,-2.4,[CIRKEL,NLCS.SHX,s=0.6],-2.4,[CIRKEL,NLCS.SHX,s=0.6],-2.4,[CIRKEL,NLCS.SHX,s=0.6],-2.4,[CIRKEL,NLCS.SHX,s=0.6],-2.4</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/346d6361-8400-469e-9469-b8ba6afa8974</td><td>78</td><td>GK</td><td>V-GK-PERKOEN-SO</td><td></td><td>V</td><td>SO</td><td>A,9,[VERWIJDEREN1,NLCS.SHX,s=1],9,-2.4,[CIRKEL,NLCS.SHX,s=0.6],-2.4,[CIRKEL,NLCS.SHX,s=0.6],-2.4,[CIRKEL,NLCS.SHX,s=0.6],-2.4,[CIRKEL,NLCS.SHX,s=0.6],-2.4</td></tr>
+  </tbody>
+</table>
+<h2 class='gewijzigd'>Gewijzigd (2)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/5fbce959-d565-439b-ba2f-1657dab02ddf</td><td>75</td><td>GK</td><td>GK-BESCHOEIING-SO</td><td>BESCHOEIING</td><td></td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,18,-3,[BESCHOEIING,NLCS.SHX,s=0.6],-3</div><div class="new-val">5.2&#58; A,2.50,[CIRC1,NLCS,s=0.50,r=270],2.50</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/637bc5aa-f99f-480a-b805-058304718fb1</td><td>76</td><td>GK</td><td>V-GK-BESCHOEIING-SO</td><td>BESCHOEIING</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,9,[VERWIJDEREN1,NLCS.SHX,s=1],9,-3,[BESCHOEIING,NLCS.SHX,s=0.6],-3</div><div class="new-val">5.2&#58; A,1.25,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.25,[CIRC1,NLCS,s=0.50,r=270],1.25,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.25</div></td></tr>
+  </tbody>
+</table>
+<h2 class='bestaande'>Bestaande (0)</h2>
+<p class='empty'>Geen lijntypes in deze categorie.</p>
+</body></html>

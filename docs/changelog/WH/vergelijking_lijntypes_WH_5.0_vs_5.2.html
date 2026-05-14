@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Vergelijking lijntypes WH — NLCS 5.0.2 vs 5.2</title>
+<style>
+  :root { font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
+  body { max-width: 1400px; margin: 2em auto; padding: 0 1em; color: #222; font-size: 13px; }
+  h1 { border-bottom: 2px solid #333; padding-bottom: .3em; }
+  h2 { margin-top: 2em; padding: .4em .6em; border-radius: 4px; color: #fff; }
+  h2.nieuw { background: #2e7d32; }
+  h2.vervallen { background: #c62828; }
+  h2.gewijzigd { background: #ef6c00; }
+  h2.bestaande { background: #1565c0; }
+  .summary { background: #f5f5f5; padding: 1em; border-radius: 6px; margin: 1em 0; }
+  .summary table { border: 0; width: auto; }
+  .summary td { border: 0; padding: .2em 1em .2em 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th { background-color: #003865; color: white; text-align: left; padding: 6px 8px; white-space: nowrap; }
+  td { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; }
+  tbody tr:nth-child(even) td { background-color: #f2f2f2; }
+  tbody tr:hover td { background-color: #dde8f0; }
+  .new-row td    { background-color: #d4edda !important; }
+  .new-row:hover td { background-color: #b8dfc4 !important; }
+  .changed       { background-color: #cce5ff !important; }
+  .old-val { color: #555; font-size: 0.85em; }
+  .new-val { font-weight: normal; }
+  .deleted td    { background-color: #d0d0d0 !important; }
+  .deleted:hover td { background-color: #b8b8b8 !important; }
+  .empty { color: #999; font-style: italic; padding: 1em; }
+  details summary { cursor: pointer; padding: .5em; background: #f0f0f0; border-radius: 4px; user-select: none; }
+  details[open] summary { margin-bottom: .5em; }
+  .legend { margin: .5em 0 1em; font-size: 12px; display:flex; gap:12px; flex-wrap:wrap; }
+  .legend span { padding: 2px 8px; border-radius: 3px; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+<h1>Vergelijking lijntypes — hoofdgroep WH</h1>
+<div class="summary">
+<strong>Bron</strong>
+<table>
+<tr><td>Bestand:</td><td><code>NLCS_Query_Lijntypes-concept-5.2.html</code></td></tr>
+<tr><td>Versies:</td><td>NLCS 5.0.2 → 5.2</td></tr>
+</table>
+<br><strong>Resultaten voor hoofdgroep WH</strong>
+<table>
+<tr><td>Nieuw (alleen in 5.2):</td><td><strong>0</strong></td></tr>
+<tr><td>Vervallen (alleen in 5.0.2):</td><td><strong>0</strong></td></tr>
+<tr><td>Gewijzigd (zelfde URI of id, andere waarden):</td><td><strong>9</strong></td></tr>
+<tr><td>Bestaande (ongewijzigd):</td><td><strong>5</strong></td></tr>
+</table>
+<p style='margin-top:1em; font-size:12px; color:#666;'>Gegenereerd: 2026-05-14 15:02</p>
+</div>
+<div class="legend">
+  <span style="background:#d4edda;">Nieuwe rij</span>
+  <span style="background:#cce5ff;">Gewijzigde cel (oude → nieuwe waarde)</span>
+  <span style="background:#d0d0d0;">Vervallen rij</span>
+</div>
+<h2 class='nieuw'>Nieuw (0)</h2>
+<p class='empty'>Geen lijntypes in deze categorie.</p>
+<h2 class='vervallen'>Vervallen (0)</h2>
+<p class='empty'>Geen lijntypes in deze categorie.</p>
+<h2 class='gewijzigd'>Gewijzigd (9)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/2a0edafa-5805-4627-bb15-a4924d651a3e</td><td>593</td><td class="changed"><div class="old-val">5.0.2: AL</div><div class="new-val">5.2&#58; WH</div></td><td class="changed"><div class="old-val">5.0.2: V-AL-GRONDWATERLIJN-SO</div><div class="new-val">5.2&#58; V-WH-GRONDWATERLIJN-SO</div></td><td>GRONDWATERLIJN</td><td>V</td><td>SO</td><td>A,3,[VERWIJDEREN1,NLCS.SHX,s=0.5],3,[WATERLIJN,NLCS.SHX,s=1],6</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/a40240c3-b62e-4f8c-a817-953b155f42cf</td><td>596</td><td>WH</td><td>V-WH-OVERLOOPGEBIED-SO</td><td>OVERLOOPGEBIED</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,6,[VERWIJDEREN2,NLCS.SHX,s=1],6,-1.5,3,-1.5</div><div class="new-val">5.2&#58; A,6,[VERWIJDEREN2,NLCS.SHX,s=0.5],6,-1.5,3,-1.5</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c7ef16ef-e165-4a8b-870d-4727f43871bb</td><td>621</td><td>WH</td><td>V-WH-OVERSTORT-SO</td><td>OVERSTORT</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,5,[VERWIJDEREN2,NLCS.SHX,s=1],5,-1.5,2.5,-1.5</div><div class="new-val">5.2&#58; A,5,[VERWIJDEREN2,NLCS.SHX,s=0.5],5,-1.5,2.5,-1.5</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/39ede391-463c-40bb-8bc8-e31040ed338c</td><td>598</td><td class="changed"><div class="old-val">5.0.2: AL</div><div class="new-val">5.2&#58; WH</div></td><td class="changed"><div class="old-val">5.0.2: V-AL-MAAIVELD-SO</div><div class="new-val">5.2&#58; V-WH-WATERBODEM-SO</div></td><td>WATERBODEM</td><td>V</td><td>SO</td><td>A,4,[VERWIJDEREN1,NLCS.SHX,s=0.5],12,[MAAIVELD,NLCS.SHX,y=-0.50,s=1],12</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/1d3b88de-b089-42de-85cc-c80fa9f434a6</td><td>601</td><td>WH</td><td>V-WH-WINTERBED-SO</td><td>WINTERBED</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,3,-1.75,[\&quot;WB\&quot;,standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,1.5,[VERWIJDEREN2,NLCS.SHX,s=1],1.5,-1.75,3,-1.75</div><div class="new-val">5.2&#58; A,3,-1.75,[&quot;WB&quot;,standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-1.75,3,-1.75</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e7f728da-dc04-42e2-898a-425ec5226daa</td><td>603</td><td>WH</td><td>V-WH-WINTERBERGING-SO</td><td>WINTERBERGING</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,1.5,[VERWIJDEREN2,NLCS.SHX,s=1],1.5,-6.5</div><div class="new-val">5.2&#58; A,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-6.5</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/54c76313-80ce-4d68-b93d-bd7485194058</td><td>605</td><td>WH</td><td>V-WH-ZOMERBED-SO</td><td>ZOMERBED</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,3,-1.75,[\&quot;ZB\&quot;,standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,1.5,[VERWIJDEREN2,NLCS.SHX,s=1],1.5,-1.75,3,-1.75</div><div class="new-val">5.2&#58; A,3,-1.75,[&quot;ZB&quot;,standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-1.75,3,-1.75</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f6952592-d9c0-430a-8c0c-94433be6c171</td><td>592</td><td class="changed"><div class="old-val">5.0.2: AL</div><div class="new-val">5.2&#58; WH</div></td><td class="changed"><div class="old-val">5.0.2: AL-GRONDWATERLIJN-SO</div><div class="new-val">5.2&#58; WH-GRONDWATERLIJN-SO</div></td><td>GRONDWATERLIJN</td><td></td><td>SO</td><td>A,6,[WATERLIJN,NLCS.SHX,s=1],6</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c07af75b-f50b-445b-ac33-aee779f4fff2</td><td>597</td><td class="changed"><div class="old-val">5.0.2: AL</div><div class="new-val">5.2&#58; WH</div></td><td class="changed"><div class="old-val">5.0.2: AL-MAAIVELD-SO</div><div class="new-val">5.2&#58; WH-WATERBODEM-SO</div></td><td>WATERBODEM</td><td></td><td>SO</td><td>A,12,[MAAIVELD,NLCS.SHX,y=-0.50,s=1],12</td></tr>
+  </tbody>
+</table>
+<h2 class='bestaande'>Bestaande (5)</h2>
+<details><summary>Klik om de 5 rijen te tonen</summary>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/211aec51-517e-4bd0-b64c-632a2024d774</td><td>595</td><td>WH</td><td>WH-OVERLOOPGEBIED-SO</td><td>OVERLOOPGEBIED</td><td></td><td>SO</td><td>A,12,-1.5,3,-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/d3832dff-2002-4f65-b7fe-4cb9abab4096</td><td>620</td><td>WH</td><td>WH-OVERSTORT-SO</td><td>OVERSTORT</td><td></td><td>SO</td><td>A,10,-1.5,2.5,-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/e06cbd8b-690a-4309-a2d6-e7fa17b1b3bc</td><td>600</td><td>WH</td><td>WH-WINTERBED-SO</td><td>WINTERBED</td><td></td><td>SO</td><td>A,3,-1.75,[\&quot;WB\&quot;,standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,3,-1.75,3,-1.75</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/cd0f6a7b-ccdf-44b1-8ff9-c0499c2c96e0</td><td>602</td><td>WH</td><td>WH-WINTERBERGING-SO</td><td>WINTERBERGING</td><td></td><td>SO</td><td>A,3,-6.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/68c9f556-7710-4eec-b461-ddded12d9fc2</td><td>604</td><td>WH</td><td>WH-ZOMERBED-SO</td><td>ZOMERBED</td><td></td><td>SO</td><td>A,3,-1.75,[\&quot;ZB\&quot;,standard,U=0.0,x=1.5,y=.9,s=1.8],-1.75,3,-1.75,3,-1.75,3,-1.75,3,-1.75</td></tr>
+  </tbody>
+</table>
+</details>
+</body></html>

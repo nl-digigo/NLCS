@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Vergelijking lijntypes GR — NLCS 5.0.2 vs 5.2</title>
+<style>
+  :root { font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
+  body { max-width: 1400px; margin: 2em auto; padding: 0 1em; color: #222; font-size: 13px; }
+  h1 { border-bottom: 2px solid #333; padding-bottom: .3em; }
+  h2 { margin-top: 2em; padding: .4em .6em; border-radius: 4px; color: #fff; }
+  h2.nieuw { background: #2e7d32; }
+  h2.vervallen { background: #c62828; }
+  h2.gewijzigd { background: #ef6c00; }
+  h2.bestaande { background: #1565c0; }
+  .summary { background: #f5f5f5; padding: 1em; border-radius: 6px; margin: 1em 0; }
+  .summary table { border: 0; width: auto; }
+  .summary td { border: 0; padding: .2em 1em .2em 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th { background-color: #003865; color: white; text-align: left; padding: 6px 8px; white-space: nowrap; }
+  td { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; }
+  tbody tr:nth-child(even) td { background-color: #f2f2f2; }
+  tbody tr:hover td { background-color: #dde8f0; }
+  .new-row td    { background-color: #d4edda !important; }
+  .new-row:hover td { background-color: #b8dfc4 !important; }
+  .changed       { background-color: #cce5ff !important; }
+  .old-val { color: #555; font-size: 0.85em; }
+  .new-val { font-weight: normal; }
+  .deleted td    { background-color: #d0d0d0 !important; }
+  .deleted:hover td { background-color: #b8b8b8 !important; }
+  .empty { color: #999; font-style: italic; padding: 1em; }
+  details summary { cursor: pointer; padding: .5em; background: #f0f0f0; border-radius: 4px; user-select: none; }
+  details[open] summary { margin-bottom: .5em; }
+  .legend { margin: .5em 0 1em; font-size: 12px; display:flex; gap:12px; flex-wrap:wrap; }
+  .legend span { padding: 2px 8px; border-radius: 3px; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+<h1>Vergelijking lijntypes — hoofdgroep GR</h1>
+<div class="summary">
+<strong>Bron</strong>
+<table>
+<tr><td>Bestand:</td><td><code>NLCS_Query_Lijntypes-concept-5.2.html</code></td></tr>
+<tr><td>Versies:</td><td>NLCS 5.0.2 → 5.2</td></tr>
+</table>
+<br><strong>Resultaten voor hoofdgroep GR</strong>
+<table>
+<tr><td>Nieuw (alleen in 5.2):</td><td><strong>5</strong></td></tr>
+<tr><td>Vervallen (alleen in 5.0.2):</td><td><strong>3</strong></td></tr>
+<tr><td>Gewijzigd (zelfde URI of id, andere waarden):</td><td><strong>3</strong></td></tr>
+<tr><td>Bestaande (ongewijzigd):</td><td><strong>4</strong></td></tr>
+</table>
+<p style='margin-top:1em; font-size:12px; color:#666;'>Gegenereerd: 2026-05-14 15:02</p>
+</div>
+<div class="legend">
+  <span style="background:#d4edda;">Nieuwe rij</span>
+  <span style="background:#cce5ff;">Gewijzigde cel (oude → nieuwe waarde)</span>
+  <span style="background:#d0d0d0;">Vervallen rij</span>
+</div>
+<h2 class='nieuw'>Nieuw (5)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/8b82f04a-e90b-4ea9-b767-7ffffb3073fc</td><td>789</td><td>GR</td><td>GR-HAAG_RASTER-SO</td><td>HAAG_RASTER</td><td></td><td>SO</td><td>A,4,[MARK,NLCS.SHX,r=45,s=0.75],4,-1.5</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/0a06c234-76f2-4570-adaa-99fbc79da5f4</td><td>875</td><td>GR</td><td>V-GR-HAAG1-SO</td><td>HAAG1</td><td>V</td><td>SO</td><td>A,3,[VERWIJDEREN2,NLCS.shx,s=0.5],3,[HAAG1,NLCS.shx,s=0.125],-2</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/6269e30e-f250-4fad-b10d-de2f0df90703</td><td>786</td><td>GR</td><td>V-GR-HAAG2-SO</td><td>HAAG2</td><td>V</td><td>SO</td><td>A,3,[VERWIJDEREN2,NLCS.shx,s=0.5],3,[HAAG2,NLCS.shx,s=0.5],-2</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/01c083fe-c22c-4b36-81ca-e1c9c4786eee</td><td>787</td><td>GR</td><td>V-GR-HAAG3-SO</td><td>HAAG3</td><td>V</td><td>SO</td><td>A,3,[VERWIJDEREN2,NLCS.shx,s=0.5],3,[HAAG3,NLCS.shx,s=0.1815],-2</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/044e04ca-6f3a-49ac-9067-8d32ad1d5e64</td><td>788</td><td>GR</td><td>V-GR-HAAG_RASTER-SO</td><td>HAAG_RASTER</td><td>V</td><td>SO</td><td>A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=0.6],2,[MARK,NLCS.SHX,r=45,s=0.75],2,[VERWIJDEREN2,NLCS.SHX,x=1,s=0.6],2,-2</td></tr>
+  </tbody>
+</table>
+<h2 class='vervallen'>Vervallen (3)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/30b6e14f-0890-4166-baa3-3d288cdff977</td><td>744</td><td>GR</td><td>V-GR-HAAG-SO</td><td></td><td>V</td><td>SO</td><td>A,3,[VERWIJDEREN2,NLCS.shx,s=1],3,[HAAG1,NLCS.shx,s=0.125],-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/68fcb71b-97c4-4744-a48b-9c66ce658266</td><td>745</td><td>GR</td><td>V-GR-HAAG_VARIANT01-SO</td><td></td><td>V</td><td>SO</td><td>A,3,[VERWIJDEREN2,NLCS.shx,s=1],3,[HAAG2,NLCS.shx,s=0.5],-2</td></tr>
+      <tr class="deleted"><td>http://digitalbuildingdata.tech/nlcs/def/caaa19a1-f3c7-49b7-bd4e-a5c085aa07b3</td><td>746</td><td>GR</td><td>V-GR-HAAG_VARIANT02-SO</td><td></td><td>V</td><td>SO</td><td>A,3,[VERWIJDEREN2,NLCS.shx,s=1],3,[HAAG3,NLCS.shx,s=0.1815],-2</td></tr>
+  </tbody>
+</table>
+<h2 class='gewijzigd'>Gewijzigd (3)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/b62e2a62-090b-46ec-8e9c-baab7250cc47</td><td>96</td><td class="changed"><div class="old-val">5.0.2: IE</div><div class="new-val">5.2&#58; GR</div></td><td class="changed"><div class="old-val">5.0.2: IE-TERREINAFSCHEIDING_NATUURLIJK-SO</div><div class="new-val">5.2&#58; GR-HAAG_DRAAD-SO</div></td><td>HAAG_DRAAD</td><td></td><td>SO</td><td>A,4,[MARK,NLCS.SHX,r=45,s=0.75],4,-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/55df7bd9-5189-472e-a640-06f5c2817cf1</td><td>97</td><td class="changed"><div class="old-val">5.0.2: IE</div><div class="new-val">5.2&#58; GR</div></td><td class="changed"><div class="old-val">5.0.2: V-IE-TERREINAFSCHEIDING_NATUURLIJK-SO</div><div class="new-val">5.2&#58; V-GR-HAAG_DRAAD-SO</div></td><td>HAAG_DRAAD</td><td>V</td><td>SO</td><td>A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=0.6],2,[MARK,NLCS.SHX,r=45,s=0.75],2,[VERWIJDEREN2,NLCS.SHX,x=1,s=0.6],2,-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/95fdfc02-f5eb-4694-9f6d-4ccd4b6c5671</td><td>613</td><td>GR</td><td>V-GR-PLANTSOEN-SO</td><td>PLANTSOEN</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,0,-0.0001,[VERWIJDEREN1,NLCS.SHX,s=1,y=1],-0.0001,[PLANTSOEN,NLCS.shx,s=1.5],-4</div><div class="new-val">5.2&#58; A,0,-0.0001,[VERWIJDEREN2,NLCS.SHX,s=0.5,y=1],-0.0001,[PLANTSOEN,NLCS.shx,s=1.5],-4</div></td></tr>
+  </tbody>
+</table>
+<h2 class='bestaande'>Bestaande (4)</h2>
+<details><summary>Klik om de 4 rijen te tonen</summary>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/a65aa8de-22d4-46eb-b958-984654b957ec</td><td>80</td><td>GR</td><td>GR-HAAG1-SO</td><td>HAAG1</td><td></td><td>SO</td><td>A,6,[HAAG1,NLCS.shx,s=0.125],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/44b20ad2-48c4-4be0-9701-2ca6ccd8adfd</td><td>81</td><td>GR</td><td>GR-HAAG2-SO</td><td>HAAG2</td><td></td><td>SO</td><td>A,6,[HAAG2,NLCS.shx,s=0.5],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/80fe2ea7-eab7-447c-b56e-27d2df12eb77</td><td>82</td><td>GR</td><td>GR-HAAG3-SO</td><td>HAAG3</td><td></td><td>SO</td><td>A,6,[HAAG3,NLCS.shx,s=0.1815],-2</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c3c4fb1e-34f2-4dd8-be76-f8070bb624aa</td><td>79</td><td>GR</td><td>GR-PLANTSOEN-SO</td><td>PLANTSOEN</td><td></td><td>SO</td><td>A,0,[PLANTSOEN,NLCS.shx,s=1.5],-4</td></tr>
+  </tbody>
+</table>
+</details>
+</body></html>

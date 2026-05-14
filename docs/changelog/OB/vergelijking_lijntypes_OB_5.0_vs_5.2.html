@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Vergelijking lijntypes OB — NLCS 5.0.2 vs 5.2</title>
+<style>
+  :root { font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
+  body { max-width: 1400px; margin: 2em auto; padding: 0 1em; color: #222; font-size: 13px; }
+  h1 { border-bottom: 2px solid #333; padding-bottom: .3em; }
+  h2 { margin-top: 2em; padding: .4em .6em; border-radius: 4px; color: #fff; }
+  h2.nieuw { background: #2e7d32; }
+  h2.vervallen { background: #c62828; }
+  h2.gewijzigd { background: #ef6c00; }
+  h2.bestaande { background: #1565c0; }
+  .summary { background: #f5f5f5; padding: 1em; border-radius: 6px; margin: 1em 0; }
+  .summary table { border: 0; width: auto; }
+  .summary td { border: 0; padding: .2em 1em .2em 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th { background-color: #003865; color: white; text-align: left; padding: 6px 8px; white-space: nowrap; }
+  td { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; }
+  tbody tr:nth-child(even) td { background-color: #f2f2f2; }
+  tbody tr:hover td { background-color: #dde8f0; }
+  .new-row td    { background-color: #d4edda !important; }
+  .new-row:hover td { background-color: #b8dfc4 !important; }
+  .changed       { background-color: #cce5ff !important; }
+  .old-val { color: #555; font-size: 0.85em; }
+  .new-val { font-weight: normal; }
+  .deleted td    { background-color: #d0d0d0 !important; }
+  .deleted:hover td { background-color: #b8b8b8 !important; }
+  .empty { color: #999; font-style: italic; padding: 1em; }
+  details summary { cursor: pointer; padding: .5em; background: #f0f0f0; border-radius: 4px; user-select: none; }
+  details[open] summary { margin-bottom: .5em; }
+  .legend { margin: .5em 0 1em; font-size: 12px; display:flex; gap:12px; flex-wrap:wrap; }
+  .legend span { padding: 2px 8px; border-radius: 3px; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+<h1>Vergelijking lijntypes — hoofdgroep OB</h1>
+<div class="summary">
+<strong>Bron</strong>
+<table>
+<tr><td>Bestand:</td><td><code>NLCS_Query_Lijntypes-concept-5.2.html</code></td></tr>
+<tr><td>Versies:</td><td>NLCS 5.0.2 → 5.2</td></tr>
+</table>
+<br><strong>Resultaten voor hoofdgroep OB</strong>
+<table>
+<tr><td>Nieuw (alleen in 5.2):</td><td><strong>0</strong></td></tr>
+<tr><td>Vervallen (alleen in 5.0.2):</td><td><strong>0</strong></td></tr>
+<tr><td>Gewijzigd (zelfde URI of id, andere waarden):</td><td><strong>3</strong></td></tr>
+<tr><td>Bestaande (ongewijzigd):</td><td><strong>6</strong></td></tr>
+</table>
+<p style='margin-top:1em; font-size:12px; color:#666;'>Gegenereerd: 2026-05-14 15:02</p>
+</div>
+<div class="legend">
+  <span style="background:#d4edda;">Nieuwe rij</span>
+  <span style="background:#cce5ff;">Gewijzigde cel (oude → nieuwe waarde)</span>
+  <span style="background:#d0d0d0;">Vervallen rij</span>
+</div>
+<h2 class='nieuw'>Nieuw (0)</h2>
+<p class='empty'>Geen lijntypes in deze categorie.</p>
+<h2 class='vervallen'>Vervallen (0)</h2>
+<p class='empty'>Geen lijntypes in deze categorie.</p>
+<h2 class='gewijzigd'>Gewijzigd (3)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/684ca7f2-59bc-462f-a3e2-1903efb6fb2d</td><td>318</td><td>OB</td><td>V-OB-BESCHOEIING-SO</td><td>BESCHOEIING</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,10,[VERWIJDEREN2,NLCS.SHX,s=1],10,-3.5,[BESCHOEIING,NLCS.SHX,s=0.5],-3.5</div><div class="new-val">5.2&#58; A,10,[VERWIJDEREN2,NLCS.SHX,s=0.5],10,-3.5,[BESCHOEIING,NLCS.SHX,s=0.5],-3.5</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/c8213b7c-5f02-4bb4-bd8b-3dc869a789af</td><td>320</td><td>OB</td><td>V-OB-PERKOEN-SO</td><td>PERKOEN</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,0,-1,[CIRKEL,NLCS.SHX,s=1],-2,[CIRKEL,NLCS.SHX,s=1],-2,[CIRKEL,NLCS.SHX,s=1],-6,[VERWIJDEREN2,NLCS.SHX,s=1],-6</div><div class="new-val">5.2&#58; A,0,-1,[CIRKEL,NLCS.SHX,s=1],-2,[CIRKEL,NLCS.SHX,s=1],-2,[CIRKEL,NLCS.SHX,s=1],-6,[VERWIJDEREN2,NLCS.SHX,s=0.5],-6</div></td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/f1a47a6f-9f05-44db-ad04-3af852ecfb67</td><td>322</td><td>OB</td><td>V-OB-SCHANSKORF-SO</td><td>SCHANSKORF</td><td>V</td><td>SO</td><td class="changed"><div class="old-val">5.0.2: A,2.5,[VERWIJDEREN2,NLCS.SHX,s=1],2.5,-1,[BLOK5-V,NLCS.SHX,s=2,x=-0.5],-1</div><div class="new-val">5.2&#58; A,2.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.5,-1,[BLOK5-V,NLCS.SHX,s=2,x=-0.5],-1</div></td></tr>
+  </tbody>
+</table>
+<h2 class='bestaande'>Bestaande (6)</h2>
+<details><summary>Klik om de 6 rijen te tonen</summary>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/52bc210a-99a3-4bcf-b7c7-6aba990d4bf4</td><td>317</td><td>OB</td><td>OB-BESCHOEIING-SO</td><td>BESCHOEIING</td><td></td><td>SO</td><td>A,20,-3.5,[BESCHOEIING,NLCS.SHX,s=0.5],-3.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/bd9fedbf-ce99-4ebf-8399-baa5b982a967</td><td>314</td><td>OB</td><td>OB-PEILVLAK-SO</td><td>PEILVLAK</td><td></td><td>SO</td><td>A,6,-1.5</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/02734549-58ce-4154-969e-d6c15fdff0a1</td><td>319</td><td>OB</td><td>OB-PERKOEN-SO</td><td>PERKOEN</td><td></td><td>SO</td><td>A,0,-1,[CIRKEL,NLCS.SHX,s=1],-1</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/389870d6-b419-4033-8dfe-240642556098</td><td>321</td><td>OB</td><td>OB-SCHANSKORF-SO</td><td>SCHANSKORF</td><td></td><td>SO</td><td>A,5,-1,[BLOK5-V,NLCS.SHX,s=2,x=-0.5],-1</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/0a07466a-3905-4407-8410-eff70585d089</td><td>316</td><td>OB</td><td>OB-WATERLIJN-SO</td><td>WATERLIJN</td><td></td><td>SO</td><td>A,10,[WATERLIJN,NLCS.SHX,s=2],-12</td></tr>
+      <tr><td>http://digitalbuildingdata.tech/nlcs/def/a29bff8d-79ae-4636-9acc-2cc6ad690c86</td><td>315</td><td>OB</td><td>V-OB-PEILVLAK-SO</td><td>PEILVLAK</td><td>V</td><td>SO</td><td>A,3,[VERWIJDEREN2,NLCS.SHX,s=0.5],3,-1.5</td></tr>
+  </tbody>
+</table>
+</details>
+</body></html>

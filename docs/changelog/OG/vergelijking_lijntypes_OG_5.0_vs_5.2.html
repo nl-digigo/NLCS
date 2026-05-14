@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Vergelijking lijntypes OG — NLCS 5.0.2 vs 5.2</title>
+<style>
+  :root { font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
+  body { max-width: 1400px; margin: 2em auto; padding: 0 1em; color: #222; font-size: 13px; }
+  h1 { border-bottom: 2px solid #333; padding-bottom: .3em; }
+  h2 { margin-top: 2em; padding: .4em .6em; border-radius: 4px; color: #fff; }
+  h2.nieuw { background: #2e7d32; }
+  h2.vervallen { background: #c62828; }
+  h2.gewijzigd { background: #ef6c00; }
+  h2.bestaande { background: #1565c0; }
+  .summary { background: #f5f5f5; padding: 1em; border-radius: 6px; margin: 1em 0; }
+  .summary table { border: 0; width: auto; }
+  .summary td { border: 0; padding: .2em 1em .2em 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th { background-color: #003865; color: white; text-align: left; padding: 6px 8px; white-space: nowrap; }
+  td { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; }
+  tbody tr:nth-child(even) td { background-color: #f2f2f2; }
+  tbody tr:hover td { background-color: #dde8f0; }
+  .new-row td    { background-color: #d4edda !important; }
+  .new-row:hover td { background-color: #b8dfc4 !important; }
+  .changed       { background-color: #cce5ff !important; }
+  .old-val { color: #555; font-size: 0.85em; }
+  .new-val { font-weight: normal; }
+  .deleted td    { background-color: #d0d0d0 !important; }
+  .deleted:hover td { background-color: #b8b8b8 !important; }
+  .empty { color: #999; font-style: italic; padding: 1em; }
+  details summary { cursor: pointer; padding: .5em; background: #f0f0f0; border-radius: 4px; user-select: none; }
+  details[open] summary { margin-bottom: .5em; }
+  .legend { margin: .5em 0 1em; font-size: 12px; display:flex; gap:12px; flex-wrap:wrap; }
+  .legend span { padding: 2px 8px; border-radius: 3px; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+<h1>Vergelijking lijntypes — hoofdgroep OG</h1>
+<div class="summary">
+<strong>Bron</strong>
+<table>
+<tr><td>Bestand:</td><td><code>NLCS_Query_Lijntypes-concept-5.2.html</code></td></tr>
+<tr><td>Versies:</td><td>NLCS 5.0.2 → 5.2</td></tr>
+</table>
+<br><strong>Resultaten voor hoofdgroep OG</strong>
+<table>
+<tr><td>Nieuw (alleen in 5.2):</td><td><strong>3</strong></td></tr>
+<tr><td>Vervallen (alleen in 5.0.2):</td><td><strong>0</strong></td></tr>
+<tr><td>Gewijzigd (zelfde URI of id, andere waarden):</td><td><strong>1</strong></td></tr>
+<tr><td>Bestaande (ongewijzigd):</td><td><strong>0</strong></td></tr>
+</table>
+<p style='margin-top:1em; font-size:12px; color:#666;'>Gegenereerd: 2026-05-14 15:02</p>
+</div>
+<div class="legend">
+  <span style="background:#d4edda;">Nieuwe rij</span>
+  <span style="background:#cce5ff;">Gewijzigde cel (oude → nieuwe waarde)</span>
+  <span style="background:#d0d0d0;">Vervallen rij</span>
+</div>
+<h2 class='nieuw'>Nieuw (3)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/aa7025fd-48a6-4148-8c6e-0f6ec1882212</td><td>851</td><td>OG</td><td>OG-BEBOUWING_FUNDERING-SO</td><td>BEBOUWING_FUNDERING</td><td></td><td>SO</td><td>A,3,-2,0,-2</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/ab192a17-cbf0-421f-93c1-546c9a3ddddb</td><td>852</td><td>OG</td><td>V-OG-BEBOUWING_FUNDERING-SO</td><td>BEBOUWING_FUNDERING</td><td>V</td><td>SO</td><td>A,1.5,[VERWIJDEREN2,NLCS.SHX,s=0.5],1.5,-2,0,-2</td></tr>
+      <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/63c19000-35b3-4041-9418-a7ba4e305903</td><td>854</td><td>OG</td><td>V-OG-BESCHERMDSTADSGEZICHT-SO</td><td>BESCHERMDSTADSGEZICHT</td><td>V</td><td>SO</td><td>A,2.375,[VERWIJDEREN2,NLCS.SHX,s=0.5],2.375,-2,[SGZ,NLCS.SHX,s=1],-2</td></tr>
+  </tbody>
+</table>
+<h2 class='vervallen'>Vervallen (0)</h2>
+<p class='empty'>Geen lijntypes in deze categorie.</p>
+<h2 class='gewijzigd'>Gewijzigd (1)</h2>
+<table>
+  <thead><tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>finalCleanName</th><th>fase</th><th>optie</th><th>autocaddef</th></tr></thead>
+  <tbody>
+      <tr><td class="changed"><div class="old-val">5.0.2: http://digitalbuildingdata.tech/nlcs/def/1b8680a0-3caf-4a59-bd98-8c4059258bef</div><div class="new-val">5.2&#58; http://digitalbuildingdata.tech/nlcs/def/573348ce-921c-489b-86dd-91a09ce6cda1</div></td><td>619</td><td class="changed"><div class="old-val">5.0.2: KG</div><div class="new-val">5.2&#58; OG</div></td><td class="changed"><div class="old-val">5.0.2: RO-BESCHERMDSTADSGEZICHT-SO</div><div class="new-val">5.2&#58; OG-BESCHERMDSTADSGEZICHT-SO</div></td><td>BESCHERMDSTADSGEZICHT</td><td></td><td>SO</td><td>A,4.75,-2,[SGZ,NLCS.SHX,s=1],-2</td></tr>
+  </tbody>
+</table>
+<h2 class='bestaande'>Bestaande (0)</h2>
+<p class='empty'>Geen lijntypes in deze categorie.</p>
+</body></html>
