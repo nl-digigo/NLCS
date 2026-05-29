@@ -1,0 +1,162 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+PREFIX nen2660: <https://w3id.org/nen2660/def#>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX otl:     <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/>
+PREFIX shapes:  <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# construct_arceringen_per_hoofdgroep.rq
+#
+# Constructs Laces OTL schema triples for Arcering classes referenced via
+# nen2660:isDescribedBy from objects in one hoofdgroep.
+# $hoofdgroup_name is replaced by the Python script before execution.
+#
+# Scope: directly linked arceringen + all ancestor classes + all descendant classes
+# within the Arcering hierarchy, so the full sub-tree is present for import.
+#
+# Block A  — arcering class hierarchy           → otl:Document
+# Block B  — annotation properties              → otl:InformationField
+# Block C  — original NLCS URI                 → otl:InformationField
+# ─────────────────────────────────────────────────────────────────────────────
+
+CONSTRUCT {
+
+  # ── Block A ───────────────────────────────────────────────────────────────
+  ?arcURI a otl:Document .
+  ?arcURI shapes:sequence ?seqNode .
+  ?seqNode rdf:type otl:Seq_attr-Conceptual-name .
+  ?seqNode rdf:_1 ?label .
+  ?seqNode owl:annotatedProperty otl:attr-Conceptual-name .
+  ?arcURI otl:attr-Conceptual-name ?label .
+  ?arcURI otl:rel-Conceptual-isSpecializationOf ?parent .
+  ?arcURI otl:attr-Conceptual-description ?def .
+
+  # ── Block B ───────────────────────────────────────────────────────────────
+  ?arcURI2 otl:rel-Conceptual-isDescribedIn ?infoField .
+  ?infoField a otl:InformationField .
+  ?infoField otl:attr-InformationField-value ?annValueStr .
+  ?infoField otl:rel-InformationField-isClassifiedAs ?annTypeNode .
+  ?annTypeNode a otl:InformationType .
+  ?annTypeNode otl:attr-Conceptual-name ?annLabel .
+
+  # ── Block C ───────────────────────────────────────────────────────────────
+  ?arcURI3 otl:rel-Conceptual-isDescribedIn ?uriField .
+  ?uriField a otl:InformationField .
+  ?uriField otl:attr-InformationField-value ?uriStr .
+  ?uriField otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+  <urn:nlcs:info-type:OriginalURI> a otl:InformationType .
+  <urn:nlcs:info-type:OriginalURI> otl:attr-Conceptual-name "Original URI" .
+
+}
+
+WHERE {
+
+  VALUES (?hoofdgroep) { ("$hoofdgroup_name") }
+
+  # ── Block A0: Arcering root Document ──────────────────────────────────────
+  {
+    ?arcURI a owl:Class ; skos:prefLabel "Arcering" .
+    BIND ("Arcering" AS ?label)
+    BIND (IRI(CONCAT(STR(?arcURI), "#seq-name")) AS ?seqNode)
+  }
+
+  UNION
+
+  # ── Block A: arcering classes in scope → otl:Document triples ────────────
+  {
+    ?NLCSObjectTopA a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgA rdfs:subClassOf ?NLCSObjectTopA ; skos:prefLabel ?hoofdgroep .
+    ?objA rdfs:subClassOf+ ?hgA ; a owl:Class .
+    ?objA rdfs:subClassOf ?bnodeArcA .
+    ?bnodeArcA owl:onProperty nen2660:isDescribedBy .
+    ?bnodeArcA owl:onClass ?linkedArc .
+    ?ArceringTopA a owl:Class ; skos:prefLabel "Arcering" .
+    ?linkedArc rdfs:subClassOf+ ?ArceringTopA .
+    # Linked arcering + all ancestors + all descendants within Arcering hierarchy
+    { ?linkedArc rdfs:subClassOf* ?arcURI . }
+    UNION
+    { ?arcURI rdfs:subClassOf+ ?linkedArc . }
+    ?arcURI rdfs:subClassOf+ ?ArceringTopA .
+    ?arcURI a owl:Class .
+    ?arcURI skos:prefLabel ?label .
+    OPTIONAL {
+      ?arcURI rdfs:subClassOf ?parent .
+      FILTER (!isBlank(?parent))
+      ?parent a owl:Class .
+    }
+    OPTIONAL { ?arcURI skos:definition ?def }
+    BIND (IRI(CONCAT(STR(?arcURI), "#seq-name")) AS ?seqNode)
+  }
+
+  UNION
+
+  # ── Block B: annotation properties × arceringen cross-join ────────────────
+  {
+    {
+      SELECT DISTINCT ?annProp ?annLabel WHERE {
+        ?NLCSObjectTopB a owl:Class ; skos:prefLabel "NLCS-object" .
+        ?hgB rdfs:subClassOf ?NLCSObjectTopB ; skos:prefLabel "$hoofdgroup_name" .
+        ?objB rdfs:subClassOf+ ?hgB ; a owl:Class .
+        ?objB rdfs:subClassOf ?bnodeArcB .
+        ?bnodeArcB owl:onProperty nen2660:isDescribedBy .
+        ?bnodeArcB owl:onClass ?linkedArcB .
+        ?ArceringTopB a owl:Class ; skos:prefLabel "Arcering" .
+        ?linkedArcB rdfs:subClassOf+ ?ArceringTopB .
+        { ?linkedArcB rdfs:subClassOf* ?anyArc . }
+        UNION
+        { ?anyArc rdfs:subClassOf+ ?linkedArcB . }
+        ?anyArc rdfs:subClassOf+ ?ArceringTopB .
+        ?anyArc ?annProp ?v .
+        ?annProp a owl:AnnotationProperty ; skos:prefLabel ?annLabel .
+      }
+    }
+    ?NLCSObjectTopBO a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgBO rdfs:subClassOf ?NLCSObjectTopBO ; skos:prefLabel ?hoofdgroep .
+    ?objBO rdfs:subClassOf+ ?hgBO ; a owl:Class .
+    ?objBO rdfs:subClassOf ?bnodeArcBO .
+    ?bnodeArcBO owl:onProperty nen2660:isDescribedBy .
+    ?bnodeArcBO owl:onClass ?linkedArcBO .
+    ?ArceringTopBO a owl:Class ; skos:prefLabel "Arcering" .
+    ?linkedArcBO rdfs:subClassOf+ ?ArceringTopBO .
+    { ?linkedArcBO rdfs:subClassOf* ?arcURI2 . }
+    UNION
+    { ?arcURI2 rdfs:subClassOf+ ?linkedArcBO . }
+    ?arcURI2 rdfs:subClassOf+ ?ArceringTopBO .
+    ?arcURI2 a owl:Class .
+    OPTIONAL { ?arcURI2 ?annProp ?litVal . FILTER (isLiteral(?litVal)) }
+    OPTIONAL {
+      ?arcURI2 ?annProp ?uriVal .
+      FILTER (!isLiteral(?uriVal) && !isBlank(?uriVal))
+      OPTIONAL { ?uriVal skos:prefLabel ?uriLabelOpt . }
+      BIND (COALESCE(STR(?uriLabelOpt), STR(?uriVal)) AS ?uriLabel)
+    }
+    BIND (COALESCE(STR(?litVal), ?uriLabel, "") AS ?annValueStr)
+    BIND (IRI(CONCAT(STR(?arcURI2), "#field-", SHA1(STR(?annProp)))) AS ?infoField)
+    BIND (IRI(CONCAT(STR(?annProp), "#info-type")) AS ?annTypeNode)
+  }
+
+  UNION
+
+  # ── Block C: original NLCS URI stored as InformationField ─────────────────
+  {
+    ?NLCSObjectTopC a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgC rdfs:subClassOf ?NLCSObjectTopC ; skos:prefLabel ?hoofdgroep .
+    ?objC rdfs:subClassOf+ ?hgC ; a owl:Class .
+    ?objC rdfs:subClassOf ?bnodeArcC .
+    ?bnodeArcC owl:onProperty nen2660:isDescribedBy .
+    ?bnodeArcC owl:onClass ?linkedArcC .
+    ?ArceringTopC a owl:Class ; skos:prefLabel "Arcering" .
+    ?linkedArcC rdfs:subClassOf+ ?ArceringTopC .
+    { ?linkedArcC rdfs:subClassOf* ?arcURI3 . }
+    UNION
+    { ?arcURI3 rdfs:subClassOf+ ?linkedArcC . }
+    ?arcURI3 rdfs:subClassOf+ ?ArceringTopC .
+    ?arcURI3 a owl:Class .
+    BIND (STR(?arcURI3) AS ?uriStr)
+    BIND (IRI(CONCAT(STR(?arcURI3), "#field-uri")) AS ?uriField)
+  }
+
+}

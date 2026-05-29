@@ -1,0 +1,162 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+PREFIX nen2660: <https://w3id.org/nen2660/def#>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX otl:     <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/>
+PREFIX shapes:  <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# construct_symbolen_per_hoofdgroep.rq
+#
+# Constructs Laces OTL schema triples for Symbool classes referenced via
+# nen2660:isDescribedBy from objects in one hoofdgroep.
+# $hoofdgroup_name is replaced by the Python script before execution.
+#
+# Scope: directly linked symbolen + all ancestor classes + all descendant classes
+# within the Symbool hierarchy, so the full sub-tree is present for import.
+#
+# Block A  — symbool class hierarchy            → otl:Document
+# Block B  — annotation properties              → otl:InformationField
+# Block C  — original NLCS URI                 → otl:InformationField
+# ─────────────────────────────────────────────────────────────────────────────
+
+CONSTRUCT {
+
+  # ── Block A ───────────────────────────────────────────────────────────────
+  ?symURI a otl:Document .
+  ?symURI shapes:sequence ?seqNode .
+  ?seqNode rdf:type otl:Seq_attr-Conceptual-name .
+  ?seqNode rdf:_1 ?label .
+  ?seqNode owl:annotatedProperty otl:attr-Conceptual-name .
+  ?symURI otl:attr-Conceptual-name ?label .
+  ?symURI otl:rel-Conceptual-isSpecializationOf ?parent .
+  ?symURI otl:attr-Conceptual-description ?def .
+
+  # ── Block B ───────────────────────────────────────────────────────────────
+  ?symURI2 otl:rel-Conceptual-isDescribedIn ?infoField .
+  ?infoField a otl:InformationField .
+  ?infoField otl:attr-InformationField-value ?annValueStr .
+  ?infoField otl:rel-InformationField-isClassifiedAs ?annTypeNode .
+  ?annTypeNode a otl:InformationType .
+  ?annTypeNode otl:attr-Conceptual-name ?annLabel .
+
+  # ── Block C ───────────────────────────────────────────────────────────────
+  ?symURI3 otl:rel-Conceptual-isDescribedIn ?uriField .
+  ?uriField a otl:InformationField .
+  ?uriField otl:attr-InformationField-value ?uriStr .
+  ?uriField otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+  <urn:nlcs:info-type:OriginalURI> a otl:InformationType .
+  <urn:nlcs:info-type:OriginalURI> otl:attr-Conceptual-name "Original URI" .
+
+}
+
+WHERE {
+
+  VALUES (?hoofdgroep) { ("$hoofdgroup_name") }
+
+  # ── Block A0: Symbool root Document ───────────────────────────────────────
+  {
+    ?symURI a owl:Class ; skos:prefLabel "Symbool" .
+    BIND ("Symbool" AS ?label)
+    BIND (IRI(CONCAT(STR(?symURI), "#seq-name")) AS ?seqNode)
+  }
+
+  UNION
+
+  # ── Block A: symbool classes in scope → otl:Document triples ─────────────
+  {
+    ?NLCSObjectTopA a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgA rdfs:subClassOf ?NLCSObjectTopA ; skos:prefLabel ?hoofdgroep .
+    ?objA rdfs:subClassOf+ ?hgA ; a owl:Class .
+    ?objA rdfs:subClassOf ?bnodeSymA .
+    ?bnodeSymA owl:onProperty nen2660:isDescribedBy .
+    ?bnodeSymA owl:onClass ?linkedSym .
+    ?SymboolTopA a owl:Class ; skos:prefLabel "Symbool" .
+    ?linkedSym rdfs:subClassOf+ ?SymboolTopA .
+    # Linked symbool + all ancestors + all descendants within Symbool hierarchy
+    { ?linkedSym rdfs:subClassOf* ?symURI . }
+    UNION
+    { ?symURI rdfs:subClassOf+ ?linkedSym . }
+    ?symURI rdfs:subClassOf+ ?SymboolTopA .
+    ?symURI a owl:Class .
+    ?symURI skos:prefLabel ?label .
+    OPTIONAL {
+      ?symURI rdfs:subClassOf ?parent .
+      FILTER (!isBlank(?parent))
+      ?parent a owl:Class .
+    }
+    OPTIONAL { ?symURI skos:definition ?def }
+    BIND (IRI(CONCAT(STR(?symURI), "#seq-name")) AS ?seqNode)
+  }
+
+  UNION
+
+  # ── Block B: annotation properties × symbolen cross-join ──────────────────
+  {
+    {
+      SELECT DISTINCT ?annProp ?annLabel WHERE {
+        ?NLCSObjectTopB a owl:Class ; skos:prefLabel "NLCS-object" .
+        ?hgB rdfs:subClassOf ?NLCSObjectTopB ; skos:prefLabel "$hoofdgroup_name" .
+        ?objB rdfs:subClassOf+ ?hgB ; a owl:Class .
+        ?objB rdfs:subClassOf ?bnodeSymB .
+        ?bnodeSymB owl:onProperty nen2660:isDescribedBy .
+        ?bnodeSymB owl:onClass ?linkedSymB .
+        ?SymboolTopB a owl:Class ; skos:prefLabel "Symbool" .
+        ?linkedSymB rdfs:subClassOf+ ?SymboolTopB .
+        { ?linkedSymB rdfs:subClassOf* ?anySym . }
+        UNION
+        { ?anySym rdfs:subClassOf+ ?linkedSymB . }
+        ?anySym rdfs:subClassOf+ ?SymboolTopB .
+        ?anySym ?annProp ?v .
+        ?annProp a owl:AnnotationProperty ; skos:prefLabel ?annLabel .
+      }
+    }
+    ?NLCSObjectTopBO a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgBO rdfs:subClassOf ?NLCSObjectTopBO ; skos:prefLabel ?hoofdgroep .
+    ?objBO rdfs:subClassOf+ ?hgBO ; a owl:Class .
+    ?objBO rdfs:subClassOf ?bnodeSymBO .
+    ?bnodeSymBO owl:onProperty nen2660:isDescribedBy .
+    ?bnodeSymBO owl:onClass ?linkedSymBO .
+    ?SymboolTopBO a owl:Class ; skos:prefLabel "Symbool" .
+    ?linkedSymBO rdfs:subClassOf+ ?SymboolTopBO .
+    { ?linkedSymBO rdfs:subClassOf* ?symURI2 . }
+    UNION
+    { ?symURI2 rdfs:subClassOf+ ?linkedSymBO . }
+    ?symURI2 rdfs:subClassOf+ ?SymboolTopBO .
+    ?symURI2 a owl:Class .
+    OPTIONAL { ?symURI2 ?annProp ?litVal . FILTER (isLiteral(?litVal)) }
+    OPTIONAL {
+      ?symURI2 ?annProp ?uriVal .
+      FILTER (!isLiteral(?uriVal) && !isBlank(?uriVal))
+      OPTIONAL { ?uriVal skos:prefLabel ?uriLabelOpt . }
+      BIND (COALESCE(STR(?uriLabelOpt), STR(?uriVal)) AS ?uriLabel)
+    }
+    BIND (COALESCE(STR(?litVal), ?uriLabel, "") AS ?annValueStr)
+    BIND (IRI(CONCAT(STR(?symURI2), "#field-", SHA1(STR(?annProp)))) AS ?infoField)
+    BIND (IRI(CONCAT(STR(?annProp), "#info-type")) AS ?annTypeNode)
+  }
+
+  UNION
+
+  # ── Block C: original NLCS URI stored as InformationField ─────────────────
+  {
+    ?NLCSObjectTopC a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgC rdfs:subClassOf ?NLCSObjectTopC ; skos:prefLabel ?hoofdgroep .
+    ?objC rdfs:subClassOf+ ?hgC ; a owl:Class .
+    ?objC rdfs:subClassOf ?bnodeSymC .
+    ?bnodeSymC owl:onProperty nen2660:isDescribedBy .
+    ?bnodeSymC owl:onClass ?linkedSymC .
+    ?SymboolTopC a owl:Class ; skos:prefLabel "Symbool" .
+    ?linkedSymC rdfs:subClassOf+ ?SymboolTopC .
+    { ?linkedSymC rdfs:subClassOf* ?symURI3 . }
+    UNION
+    { ?symURI3 rdfs:subClassOf+ ?linkedSymC . }
+    ?symURI3 rdfs:subClassOf+ ?SymboolTopC .
+    ?symURI3 a owl:Class .
+    BIND (STR(?symURI3) AS ?uriStr)
+    BIND (IRI(CONCAT(STR(?symURI3), "#field-uri")) AS ?uriField)
+  }
+
+}

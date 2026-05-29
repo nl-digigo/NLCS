@@ -1,0 +1,274 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+PREFIX nen2660: <https://w3id.org/nen2660/def#>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX otl:     <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/>
+PREFIX shapes:  <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# construct_shared_as_laces_otl.rq
+#
+# Reads the NLCS v5.0 OWL/SKOS TTL export and produces Laces OTL schema triples
+# for the shared concepts that are reused across all hoofdgroep workspaces:
+#
+#   - Lijnkleur      (full hierarchy, owl:Class → otl:Document)
+#   - Lijnweight     (full hierarchy, owl:Class → otl:Document)
+#   - Lijntype       (top concept + CONTINUOUS / V-CONTINUOUS-SO only)
+#   - Status         (owl:ObjectProperty → otl:Aspect;
+#                     Statussen enum class → otl:GroupForQualifications)
+#   - Discipline     (owl:ObjectProperty → otl:Aspect;
+#                     Disciplines enum class → otl:GroupForQualifications)
+#
+# Usage (Apache Jena ARQ):
+#   arq --data NLCS_5_0_2_2026-05-22_0944.ttl \
+#       --query construct_shared_as_laces_otl.rq \
+#       --out shared_concepts_otl.ttl
+#
+# The output TTL can be imported directly into a new Laces OTL Manager workspace.
+# ─────────────────────────────────────────────────────────────────────────────
+
+CONSTRUCT {
+
+  # ── Lijnkleur / Lijnweight / Lijntype concepts: type + label + parent ─────
+  ?cls a otl:Document .
+  ?cls shapes:sequence ?seqNode .
+  ?seqNode rdf:type otl:Seq_attr-Conceptual-name .
+  ?seqNode  rdf:_1 ?label .
+  ?seqNode  owl:annotatedProperty  otl:attr-Conceptual-name .
+  ?cls otl:attr-Conceptual-name ?label .
+  ?cls otl:rel-Conceptual-isSpecializationOf ?parent .
+  ?cls otl:attr-Conceptual-description ?def .
+
+  # ── Annotation property values as InformationField entries ────────────────
+  ?cls2 otl:rel-Conceptual-isDescribedIn ?infoField .
+  ?infoField a otl:InformationField .
+  ?infoField otl:attr-InformationField-value ?annValueStr .
+  ?infoField otl:rel-InformationField-isClassifiedAs ?annTypeNode .
+  ?annTypeNode a otl:InformationType .
+  ?annTypeNode otl:attr-Conceptual-name ?annLabel .
+
+  # ── Original NLCS 5.0 URI stored as InformationField ─────────────────────
+  ?cls3 otl:rel-Conceptual-isDescribedIn ?uriInfoField .
+  ?uriInfoField a otl:InformationField .
+  ?uriInfoField otl:attr-InformationField-value ?uriStr .
+  ?uriInfoField otl:rel-InformationField-isClassifiedAs ?uriTypeNode .
+  ?uriTypeNode a otl:InformationType .
+  ?uriTypeNode otl:attr-Conceptual-name ?uriLabel .
+
+  # ── Status / Discipline: owl:ObjectProperty → otl:Aspect ─────────────────
+  ?aspectProp a otl:Aspect .
+  ?aspectProp shapes:sequence ?aspectSeqNode .
+  ?aspectSeqNode rdf:type otl:Seq_attr-Conceptual-name .
+  ?aspectSeqNode rdf:_1 ?aspectLabel .
+  ?aspectSeqNode owl:annotatedProperty otl:attr-Conceptual-name .
+  ?aspectProp otl:attr-Conceptual-name ?aspectLabel .
+  ?aspectProp otl:attr-Conceptual-description ?aspectDefinition .
+  ?aspectProp otl:attr-Aspect-datatype "http://www.w3.org/2001/XMLSchema#string"^^xsd:anyURI .
+  ?aspectProp otl:attr-Aspect-registrational "false"^^xsd:boolean .
+
+  # ── Link Aspect → GroupForQualifications (fires from Block C where both are bound)
+  ?aspectProp otl:rel-Aspect-isRelatedTo ?enumGroup .
+
+  # ── GroupForQualifications triples (fire from Block D where ?groupSeqNode is bound)
+  ?enumGroup a otl:GroupForQualifications .
+  ?enumGroup otl:attr-Group-name ?groupName .
+  ?enumGroup shapes:sequence ?groupSeqNode .
+  ?groupSeqNode rdf:type otl:Seq_attr-Group-name .
+  ?groupSeqNode rdf:_1 ?groupName .
+  ?groupSeqNode owl:annotatedProperty otl:attr-Group-name .
+
+  # ── Member triples (fire from Block E where ?member and ?memberSeqNode are bound)
+  ?enumGroup otl:rel-Group-isCollectionFor ?member .
+  ?member a otl:Qualification .
+  ?member otl:attr-Conceptual-name ?memberLabel .
+  ?member otl:attr-Conceptual-description ?qualificationDescription .
+  ?member shapes:sequence ?memberSeqNode .
+  ?memberSeqNode rdf:type otl:Seq_attr-Conceptual-name .
+  ?memberSeqNode rdf:_1 ?memberLabel .
+  ?memberSeqNode owl:annotatedProperty otl:attr-Conceptual-name .
+
+}
+
+WHERE {
+
+  # ── Block A: one row per owl:Class → base otl:Document triples ───────────
+  # Uses ?cls and ?seqNode. Other blocks use different variables so their
+  # CONSTRUCT triples don't fire for Block A solutions (unbound = no triple).
+  {
+    {
+      # Lijnkleur: top concept + all subclasses
+      ?lijnkleurTop a owl:Class ; skos:prefLabel "Lijnkleur" .
+      { BIND(?lijnkleurTop AS ?cls) }
+      UNION
+      { ?cls rdfs:subClassOf+ ?lijnkleurTop ; a owl:Class . }
+    }
+    UNION
+    {
+      # Lijnweight: top concept + all subclasses
+      ?lijnweightTop a owl:Class ; skos:prefLabel "Lijnweight" .
+      { BIND(?lijnweightTop AS ?cls) }
+      UNION
+      { ?cls rdfs:subClassOf+ ?lijnweightTop ; a owl:Class . }
+    }
+    UNION
+    {
+      # Lijntype top concept (needed as parent of CONTINUOUS / V-CONTINUOUS-SO)
+      ?cls a owl:Class ; skos:prefLabel "Lijntype" .
+    }
+    UNION
+    {
+      # Shared Lijntype values only
+      ?cls a owl:Class ; skos:prefLabel ?lbl .
+      FILTER (?lbl IN ("CONTINUOUS", "V-CONTINUOUS-SO"))
+    }
+
+    ?cls skos:prefLabel ?label .
+    OPTIONAL {
+      ?cls rdfs:subClassOf ?parent .
+      FILTER (!isBlank(?parent))
+      ?parent a owl:Class .
+    }
+    OPTIONAL { ?cls skos:definition ?def }
+    BIND (BNODE() AS ?seqNode)
+  }
+
+  UNION
+
+  # ── Block B: one row per (concept × annotation property) → InformationField
+  # Collects ALL annotation properties used anywhere in each hierarchy, then
+  # cross-joins with every concept so every concept gets every field (empty
+  # string when no value exists for that concept).
+  # Uses ?cls2, ?infoField, ?annTypeNode (separate from Block A's ?cls).
+  {
+    {
+      # ── Lijnkleur + Lijnweight: gather all annotation properties from the full
+      #    hierarchy, then apply to every concept in that same hierarchy ─────────
+      {
+        SELECT DISTINCT ?topConcept ?annProp ?annLabel WHERE {
+          ?topConcept a owl:Class ; skos:prefLabel ?topLabel .
+          FILTER (?topLabel IN ("Lijnkleur", "Lijnweight"))
+          ?anyChild rdfs:subClassOf* ?topConcept ; a owl:Class .
+          ?anyChild ?annProp ?v .
+          ?annProp a owl:AnnotationProperty ; skos:prefLabel ?annLabel .
+          FILTER (isLiteral(?v))
+        }
+      }
+      ?cls2 rdfs:subClassOf* ?topConcept ; a owl:Class .
+      OPTIONAL { ?cls2 ?annProp ?annValue . FILTER (isLiteral(?annValue)) }
+    }
+    UNION
+    {
+      # ── Lijntype top + CONTINUOUS + V-CONTINUOUS-SO ───────────────────────────
+      {
+        SELECT DISTINCT ?annProp ?annLabel WHERE {
+          ?anyChild a owl:Class ; skos:prefLabel ?anyLbl .
+          FILTER (?anyLbl IN ("Lijntype", "CONTINUOUS", "V-CONTINUOUS-SO"))
+          ?anyChild ?annProp ?v .
+          ?annProp a owl:AnnotationProperty ; skos:prefLabel ?annLabel .
+          FILTER (isLiteral(?v))
+        }
+      }
+      ?cls2 a owl:Class ; skos:prefLabel ?cls2Lbl .
+      FILTER (?cls2Lbl IN ("Lijntype", "CONTINUOUS", "V-CONTINUOUS-SO"))
+      OPTIONAL { ?cls2 ?annProp ?annValue . FILTER (isLiteral(?annValue)) }
+    }
+
+    BIND (COALESCE(STR(?annValue), "") AS ?annValueStr)
+    BIND (BNODE() AS ?infoField)
+    BIND (BNODE() AS ?annTypeNode)
+  }
+
+  UNION
+
+  # ── Block C: owl:ObjectProperty → otl:Aspect + link to its enumeration group
+  # Maps aspect name to its group by convention (Status→Statussen, Discipline→Disciplines)
+  # instead of relying on rdfs:range, which may be absent in the NLCS OWL export.
+  {
+    ?aspectProp a owl:ObjectProperty ;
+                skos:prefLabel ?aspectLabel .
+    FILTER (?aspectLabel IN ("Status", "Discipline"))
+    OPTIONAL { ?aspectProp skos:definition ?aspectDefinition . }
+    BIND (IF(?aspectLabel = "Status", "Statussen", "Disciplines") AS ?expectedGroupName)
+    ?enumGroup a owl:Class ;
+               rdfs:subClassOf nen2660:EnumerationType ;
+               skos:prefLabel ?expectedGroupName .
+    BIND (BNODE() AS ?aspectSeqNode)
+  }
+
+  UNION
+
+  # ── Block D: one row per enumeration group → GroupForQualifications triples
+  # Generates ?groupSeqNode exactly once per group (no member join).
+  {
+    ?enumGroup a owl:Class ;
+               rdfs:subClassOf nen2660:EnumerationType ;
+               skos:prefLabel ?groupName .
+    FILTER (?groupName IN ("Statussen", "Disciplines"))
+    BIND (BNODE() AS ?groupSeqNode)
+  }
+
+  UNION
+
+  # ── Block E: one row per qualification member → Qualification triples
+  # Generates ?memberSeqNode exactly once per member.
+  # Description format: "ID; altLabel; definition" matching example TTL.
+  {
+    ?enumGroup a owl:Class ;
+               rdfs:subClassOf nen2660:EnumerationType ;
+               skos:prefLabel ?groupName .
+    FILTER (?groupName IN ("Statussen", "Disciplines"))
+    ?member a ?enumGroup .
+    ?member skos:prefLabel ?memberLabel .
+    OPTIONAL { ?member skos:altLabel ?memberAltLabel . }
+    OPTIONAL { ?member skos:definition ?memberDef . }
+    OPTIONAL {
+      ?member ?idProp ?idValue .
+      ?idProp a owl:AnnotationProperty ; skos:prefLabel "ID" .
+      FILTER (isLiteral(?idValue))
+    }
+    BIND (CONCAT(
+      COALESCE(STR(?idValue), ""), "; ",
+      COALESCE(STR(?memberAltLabel), ""), "; ",
+      COALESCE(STR(?memberDef), "")
+    ) AS ?qualificationDescription)
+    BIND (BNODE() AS ?memberSeqNode)
+  }
+
+  UNION
+
+  # ── Block E: one row per concept → URI InformationField ──────────────────
+  # Uses ?cls3, ?uriStr, ?uriInfoField, ?uriTypeNode, ?uriLabel (all distinct
+  # from other blocks).  Runs over the same concept scope as Block A.
+  {
+    {
+      ?lijnkleurTop3 a owl:Class ; skos:prefLabel "Lijnkleur" .
+      { BIND(?lijnkleurTop3 AS ?cls3) }
+      UNION
+      { ?cls3 rdfs:subClassOf+ ?lijnkleurTop3 ; a owl:Class . }
+    }
+    UNION
+    {
+      ?lijnweightTop3 a owl:Class ; skos:prefLabel "Lijnweight" .
+      { BIND(?lijnweightTop3 AS ?cls3) }
+      UNION
+      { ?cls3 rdfs:subClassOf+ ?lijnweightTop3 ; a owl:Class . }
+    }
+    UNION
+    {
+      ?cls3 a owl:Class ; skos:prefLabel ?cls3Lbl .
+      FILTER (?cls3Lbl IN ("Lijntype", "CONTINUOUS", "V-CONTINUOUS-SO"))
+    }
+    UNION
+    {
+      ?cls3 a owl:ObjectProperty ;
+                skos:prefLabel ?aspectLabel .
+      FILTER (?aspectLabel IN ("Status", "Discipline"))
+    }
+    BIND (STR(?cls3) AS ?uriStr)
+    BIND ("Original URI" AS ?uriLabel)
+    BIND (BNODE() AS ?uriInfoField)
+    BIND (BNODE() AS ?uriTypeNode)
+  }
+}
