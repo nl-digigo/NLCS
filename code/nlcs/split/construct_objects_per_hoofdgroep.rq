@@ -1,0 +1,320 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+PREFIX nen2660: <https://w3id.org/nen2660/def#>
+PREFIX nlcs:    <http://digitalbuildingdata.tech/nlcs/def/>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX otl:     <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/>
+PREFIX bp:      <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/blueprint-manager/>
+PREFIX shapes:  <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# construct_objects_per_hoofdgroep.rq
+#
+# Constructs Laces OTL schema triples for all NLCS objects under one hoofdgroep.
+# $hoofdgroup_name is replaced by the Python script before execution.
+#
+# Block A0  — hoofdgroep as root PhysicalObject   → otl:PhysicalObject
+# Block A   — object class hierarchy              → otl:PhysicalObject
+# Block B   — 3 literal annotation properties     → otl:InformationField
+#             (ID, Element, VRKL_KORT)
+# Block B2  — 28 drawing attributes (URI-valued)  → otl:InformationField
+#             (B/N/T/V × lineweight, color×5, linetype)
+# Block F   — linked Symbool (isDescribedBy)      → otl:InformationField + otl:Group
+# Block G   — linked Arcering (isDescribedBy)     → otl:InformationField + otl:Group
+# Block I   — linked Lijntype (isDescribedBy)     → otl:Group (Document from lijntypes query)
+# Block H   — original NLCS URI                   → otl:InformationField
+#
+# Node URIs: RDF4J collapses BNODE() in CONSTRUCT; all nodes use IRI(CONCAT(...))
+# so each object (or object×property) gets a unique, stable URI.
+# ─────────────────────────────────────────────────────────────────────────────
+
+CONSTRUCT {
+
+  # ── Block A ───────────────────────────────────────────────────────────────
+  ?objURI a otl:PhysicalObject .
+  ?objURI shapes:sequence ?seqNode .
+  ?seqNode rdf:type otl:Seq_attr-Conceptual-name .
+  ?seqNode rdf:_1 ?label .
+  ?seqNode owl:annotatedProperty otl:attr-Conceptual-name .
+  ?objURI otl:attr-Conceptual-name ?label .
+  ?objURI otl:rel-Conceptual-isSpecializationOf ?parent .
+  ?objURI otl:attr-Conceptual-description ?def .
+
+  # ── Block B: literal annotation properties ────────────────────────────────
+  ?objURI2 otl:rel-Conceptual-isDescribedIn ?infoField .
+  ?infoField a otl:InformationField .
+  ?infoField otl:attr-InformationField-value ?annValueStr .
+  ?infoField otl:rel-InformationField-isClassifiedAs ?annTypeNode .
+  ?annTypeNode a otl:InformationType .
+  ?annTypeNode otl:attr-Conceptual-name ?annLabel .
+
+  # ── Block B2: drawing attributes (URI-valued) ─────────────────────────────
+  ?objURIdraw otl:rel-Conceptual-isDescribedIn ?drawField .
+  ?drawField a otl:InformationField .
+  ?drawField otl:attr-InformationField-value ?drawValue .
+  ?drawField otl:rel-InformationField-isClassifiedAs ?drawTypeNode .
+  ?drawTypeNode a otl:InformationType .
+  ?drawTypeNode otl:attr-Conceptual-name ?drawLabel .
+
+    # # ── Block C: Status aspect link (external link to shared workspace) ─────────
+  # ?statusAspectNode rdf:type otl:PhysicalObject-hasAspect-Aspect .
+  # ?statusAspectNode otl:attr-ExternalLink-name "Status" .
+  # ?statusAspectNode otl:rel-Relation-from ?objURI3 .
+  # ?statusAspectNode otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884 .
+  # ?statusAspectNode otl:rel-Relation-toRole ?statusRoleNode .
+  # ?statusRoleNode rdf:type otl:RoleOfAspect-PossessedAspect .
+  # ?statusRoleNode otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute ?statusShapeAttr .
+  # ?statusRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification ?statusValueURI .
+  # ?statusRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf ?statusGroupURI .
+  # ?statusShapeAttr rdf:type bp:Attribute .
+  # ?statusShapeAttr bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger .
+  # ?statusShapeAttr bp:attr-ShapeElement-name "Status" .
+  # ?statusShapeAttr shapes:sequence ?statusShapeSeqNode .
+  # ?statusShapeSeqNode rdf:type bp:Seq_attr-ShapeElement-name .
+  # ?statusShapeSeqNode rdf:_1 "Status" .
+  # ?statusShapeSeqNode owl:annotatedProperty bp:attr-ShapeElement-name .
+
+  # # ── Block D: Discipline aspect link (external link to shared workspace) ──────
+  # ?disciplineAspectNode rdf:type otl:PhysicalObject-hasAspect-Aspect .
+  # ?disciplineAspectNode otl:attr-ExternalLink-name "Discipline" .
+  # ?disciplineAspectNode otl:rel-Relation-from ?objURI4 .
+  # ?disciplineAspectNode otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709 .
+  # ?disciplineAspectNode otl:rel-Relation-toRole ?disciplineRoleNode .
+  # ?disciplineRoleNode rdf:type otl:RoleOfAspect-PossessedAspect .
+  # ?disciplineRoleNode otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute ?disciplineShapeAttr .
+  # ?disciplineRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification ?disciplineValueURI .
+  # ?disciplineRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf ?disciplineGroupURI .
+  # ?disciplineShapeAttr rdf:type bp:Attribute .
+  # ?disciplineShapeAttr bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger .
+  # ?disciplineShapeAttr bp:attr-ShapeElement-name "Discipline" .
+  # ?disciplineShapeAttr shapes:sequence ?disciplineShapeSeqNode .
+  # ?disciplineShapeSeqNode rdf:type bp:Seq_attr-ShapeElement-name .
+  # ?disciplineShapeSeqNode rdf:_1 "Discipline" .
+  # ?disciplineShapeSeqNode owl:annotatedProperty bp:attr-ShapeElement-name .
+
+  # ── Block E: InformationField + Group for linked Symbool ─────────────────────
+  ?objURI6 otl:rel-Conceptual-isDescribedIn ?symInfoField .
+  ?symInfoField a otl:InformationField .
+  ?symInfoField otl:attr-InformationField-value ?symAnnValue .
+  ?symInfoField otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:Symbool> .
+  <urn:nlcs:info-type:Symbool> a otl:InformationType .
+  <urn:nlcs:info-type:Symbool> otl:attr-Conceptual-name "Symbool" .
+
+  # ── Block F: InformationField + Group for linked Arcering ────────────────────
+  ?objURI7 otl:rel-Conceptual-isDescribedIn ?arcInfoField .
+  ?arcInfoField a otl:InformationField .
+  ?arcInfoField otl:attr-InformationField-value ?arcAnnValue .
+  ?arcInfoField otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:Arcering> .
+  <urn:nlcs:info-type:Arcering> a otl:InformationType .
+  <urn:nlcs:info-type:Arcering> otl:attr-Conceptual-name "Arcering" .
+
+  # ── Block H ───────────────────────────────────────────────────────────────
+  ?objURI8 otl:rel-Conceptual-isDescribedIn ?uriField .
+  ?uriField a otl:InformationField .
+  ?uriField otl:attr-InformationField-value ?uriStr .
+  ?uriField otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+  <urn:nlcs:info-type:OriginalURI> a otl:InformationType .
+  <urn:nlcs:info-type:OriginalURI> otl:attr-Conceptual-name "Original URI" .
+
+}
+
+WHERE {
+
+  # Inject the hoofdgroep name as a SPARQL variable.
+  # Python replaces "$hoofdgroup_name" before submitting the query.
+  VALUES (?hoofdgroep) { ("$hoofdgroup_name") }
+
+  # ── Block A0: hoofdgroep as root PhysicalObject ───────────────────────────
+  {
+    ?NLCSObjectTopA0 a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?objURI rdfs:subClassOf ?NLCSObjectTopA0 ; skos:prefLabel ?hoofdgroep .
+    BIND (STR(?hoofdgroep) AS ?label)
+    BIND (IRI(CONCAT(STR(?objURI), "#seq-name")) AS ?seqNode)
+  }
+
+  UNION
+
+  # ── Block A: one row per object class → otl:PhysicalObject triples ────────
+  {
+    ?NLCSObjectTopA a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgA rdfs:subClassOf ?NLCSObjectTopA ; skos:prefLabel ?hoofdgroep .
+    ?objURI rdfs:subClassOf+ ?hgA ; a owl:Class .
+    ?objURI skos:prefLabel ?label .
+    OPTIONAL {
+      ?objURI rdfs:subClassOf ?parent .
+      FILTER (!isBlank(?parent))
+      ?parent a owl:Class .
+    }
+    OPTIONAL { ?objURI skos:definition ?def }
+    BIND (IRI(CONCAT(STR(?objURI), "#seq-name")) AS ?seqNode)
+  }
+
+  UNION
+
+  # ── Block B: 3 literal annotation properties ──────────────────────────────
+  # Uses a single VALUES with paired (property URI, label) rows to avoid
+  # a cross-product. Only objects that actually have the property are kept.
+  #
+  # UUIDs (from 5.0)
+  #   ID       = nlcs:b718adec73e04ce3ec720dd11a06a308
+  #   Element  = nlcs:231afe47f3f37d3808096b36c28b4ded
+  #   VRKL_KORT= nlcs:9c241815bb021ad8b7146ffb88dcf856
+  {
+    VALUES (?annProp ?annLabel) {
+      (nlcs:b718adec73e04ce3ec720dd11a06a308 "ID")
+      (nlcs:231afe47f3f37d3808096b36c28b4ded "Element")
+      (nlcs:9c241815bb021ad8b7146ffb88dcf856 "VRKL_KORT")
+    }
+    ?NLCSObjectTopBO a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgBO rdfs:subClassOf ?NLCSObjectTopBO ; skos:prefLabel ?hoofdgroep .
+    ?objURI2 rdfs:subClassOf+ ?hgBO ; a owl:Class .
+    OPTIONAL { ?objURI2 ?annProp ?annValue . FILTER (isLiteral(?annValue)) }
+    BIND (COALESCE(STR(?annValue), "") AS ?annValueStr)
+    BIND (IRI(CONCAT(STR(?objURI2), "#field-", SHA1(STR(?annProp)))) AS ?infoField)
+    BIND (IRI(CONCAT(STR(?annProp), "#info-type")) AS ?annTypeNode)
+  }
+
+  UNION
+
+  # ── Block B2: 28 CAD drawing attributes (URI-valued) ──────────────────────────
+  # All 28 properties point to Lijnkleur / Lijnweight / Lijntype instances;
+  # the value stored is the skos:prefLabel of the referenced resource,
+  # or "" when the object does not have that attribute.
+  {
+    VALUES (?drawProp ?drawLabel) {
+      # B variant 
+      (nlcs:f0ae4b93e35441578842bc4fd8709956 "B lineweight")
+      (nlcs:2e7b1dc3283e79482dc1153895dbf149 "B color")
+      (nlcs:3f9a348f67332197fd0bbbeda98e4358 "B color A")
+      (nlcs:070e6b1e670a6f704021f47dfb916561 "B color GD")
+      (nlcs:1837b3cbc76cf5be8bf2919440cffc1a "B color GN")
+      (nlcs:e6a1db6908635962b1da9e1230718656 "B color V")
+      (nlcs:99271b8e4692f59ed33a550afaf542ac "B linetype")
+      # N variant
+      (nlcs:0f2b46296496d5476b4e94d885d2d6ad "N lineweight")
+      (nlcs:99c67830d90d074c22802a459c856f4c "N color")
+      (nlcs:3f9c82ae0acc677b43f9c55db4c67d91 "N color A")
+      (nlcs:964528fb003559383e99b63fca2b72e5 "N color GD")
+      (nlcs:a756b1013ec00304b3694f72789f5489 "N color GN")
+      (nlcs:7b9b57ab5cd1409412c9c21aa8a75be0 "N color V")
+      (nlcs:fffb63ae8b6d147830578bf41ba4bfa3 "N linetype")
+      # T variant
+      (nlcs:44d44b47e72154e00a246fe6d5ae90df "T lineweight")
+      (nlcs:3d9494010633141738dac4db0d4371bd "T color")
+      (nlcs:f15cb56f17b45c122093acb2f6ef2666 "T color A")
+      (nlcs:11a56ac7445d51fa54dbbb4977a950b1 "T color GD")
+      (nlcs:6fabaa692ad70ad1e62b2ed2d3e0b240 "T color GN")
+      (nlcs:9d31195f1dd92f368d648425fd92ddbc "T color V")
+      (nlcs:5f36dd80a4a3f96ed76158ec5d420be7 "T linetype")
+      # V variant
+      (nlcs:35efcfbbb79075b1eec92ae2a5ec744d "V lineweight")
+      (nlcs:641531752f6d7d9c46654b91db0f8ecd "V color")
+      (nlcs:dde96840a10d858e2d5a63d22b0c95a3 "V color A")
+      (nlcs:207645b8f83b536f8f2984bd98972a2e "V color GD")
+      (nlcs:9df34a271d37ea19cda9171dd1b95438 "V color GN")
+      (nlcs:095f7786fa03ee5d1fb5a5f76a93eb5e "V color V")
+      (nlcs:965ac85b41943c884f3487cb131e05bd "V linetype")
+    }
+    ?NLCSObjectTopB2 a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgB2 rdfs:subClassOf ?NLCSObjectTopB2 ; skos:prefLabel ?hoofdgroep .
+    ?objURIdraw rdfs:subClassOf+ ?hgB2 ; a owl:Class .
+    OPTIONAL {
+      ?objURIdraw ?drawProp ?drawURI .
+      FILTER (!isLiteral(?drawURI) && !isBlank(?drawURI))
+      OPTIONAL { ?drawURI skos:prefLabel ?drawLabelOpt . }
+    }
+    BIND (COALESCE(STR(?drawLabelOpt), STR(?drawURI), "") AS ?drawValue)
+    BIND (IRI(CONCAT(STR(?objURIdraw), "#field-", SHA1(STR(?drawProp)))) AS ?drawField)
+    BIND (IRI(CONCAT(STR(?drawProp), "#info-type")) AS ?drawTypeNode)
+  }
+
+  UNION
+
+  # ── Block C: Status aspect link (OWL restriction via blank node) ──────────
+  # nlcs:580a54a5-3f8e-4d92-afac-24eb23707884 = Status property UUID
+  {
+    ?NLCSObjectTopC a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgC rdfs:subClassOf ?NLCSObjectTopC ; skos:prefLabel ?hoofdgroep .
+    ?objURI3 rdfs:subClassOf+ ?hgC ; a owl:Class .
+    ?objURI3 rdfs:subClassOf ?bnodeStatus .
+    ?bnodeStatus owl:onProperty nlcs:580a54a5-3f8e-4d92-afac-24eb23707884 .
+    ?bnodeStatus owl:hasValue ?statusValueURI .
+    ?statusGroupURI a owl:Class ; rdfs:subClassOf nen2660:EnumerationType ; skos:prefLabel "Statussen" .
+    BIND (IRI(CONCAT(STR(?objURI3), "#aspect-status")) AS ?statusAspectNode)
+    BIND (IRI(CONCAT(STR(?objURI3), "#role-status")) AS ?statusRoleNode)
+    BIND (IRI(CONCAT(STR(?objURI3), "#shape-attr-status")) AS ?statusShapeAttr)
+    BIND (IRI(CONCAT(STR(?objURI3), "#shape-seq-status")) AS ?statusShapeSeqNode)
+  }
+
+  UNION
+
+  # ── Block D: Discipline aspect link (OWL restriction via blank node) ───────
+  # nlcs:d01031dc-9abe-47d3-9656-17185c986709 = Discipline property UUID
+  {
+    ?NLCSObjectTopD a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgD rdfs:subClassOf ?NLCSObjectTopD ; skos:prefLabel ?hoofdgroep .
+    ?objURI4 rdfs:subClassOf+ ?hgD ; a owl:Class .
+    ?objURI4 rdfs:subClassOf ?bnodeDiscipline .
+    ?bnodeDiscipline owl:onProperty nlcs:d01031dc-9abe-47d3-9656-17185c986709 .
+    ?bnodeDiscipline owl:hasValue ?disciplineValueURI .
+    ?disciplineGroupURI a owl:Class ; rdfs:subClassOf nen2660:EnumerationType ; skos:prefLabel "Disciplines" .
+    BIND (IRI(CONCAT(STR(?objURI4), "#aspect-discipline")) AS ?disciplineAspectNode)
+    BIND (IRI(CONCAT(STR(?objURI4), "#role-discipline")) AS ?disciplineRoleNode)
+    BIND (IRI(CONCAT(STR(?objURI4), "#shape-attr-discipline")) AS ?disciplineShapeAttr)
+    BIND (IRI(CONCAT(STR(?objURI4), "#shape-seq-discipline")) AS ?disciplineShapeSeqNode)
+  }
+
+  UNION
+
+  # ── Block E: InformationField + Group for linked Symbool
+  {
+    ?NLCSObjectTopF a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgF rdfs:subClassOf ?NLCSObjectTopF ; skos:prefLabel ?hoofdgroep .
+    ?objURI6 rdfs:subClassOf+ ?hgF ; a owl:Class .
+    ?objURI6 rdfs:subClassOf ?bnodeSymbool .
+    ?bnodeSymbool owl:onProperty nen2660:isDescribedBy .
+    ?bnodeSymbool owl:onClass ?symURI .
+    ?SymboolTop a owl:Class ; skos:prefLabel "Symbool" .
+    ?symURI rdfs:subClassOf+ ?SymboolTop .
+    ?symURI a owl:Class ; skos:prefLabel ?symboolLabel .
+    BIND (COALESCE(STR(?symboolLabel), "") AS ?symAnnValue)
+    BIND (IRI(CONCAT(STR(?objURI6), "#field-sym-", SHA1(STR(?symURI)))) AS ?symInfoField)
+    BIND (IRI(CONCAT(STR(?objURI6), "#group-sym-", SHA1(STR(?symURI)))) AS ?symGroupNode)
+    BIND (IRI(CONCAT(STR(?objURI6), "#group-sym-seq-", SHA1(STR(?symURI)))) AS ?symGroupSeqNode)
+  }
+
+  UNION
+
+  # ── Block F: Group linking object to its Arcering document
+  {
+    ?NLCSObjectTopG a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgG rdfs:subClassOf ?NLCSObjectTopG ; skos:prefLabel ?hoofdgroep .
+    ?objURI7 rdfs:subClassOf+ ?hgG ; a owl:Class .
+    ?objURI7 rdfs:subClassOf ?bnodeArcering .
+    ?bnodeArcering owl:onProperty nen2660:isDescribedBy .
+    ?bnodeArcering owl:onClass ?arcURI .
+    ?ArceringTop a owl:Class ; skos:prefLabel "Arcering" .
+    ?arcURI rdfs:subClassOf+ ?ArceringTop .
+    ?arcURI a owl:Class ; skos:prefLabel ?arceringLabel .
+    BIND (COALESCE(STR(?arceringLabel), "") AS ?arcAnnValue)
+    BIND (IRI(CONCAT(STR(?objURI7), "#field-arc-", SHA1(STR(?arcURI)))) AS ?arcInfoField)
+    BIND (IRI(CONCAT(STR(?objURI7), "#group-arc-", SHA1(STR(?arcURI)))) AS ?arcGroupNode)
+    BIND (IRI(CONCAT(STR(?objURI7), "#group-arc-seq-", SHA1(STR(?arcURI)))) AS ?arcGroupSeqNode)
+  }
+
+  UNION
+
+  # ── Block H: original NLCS URI stored as InformationField ─────────────────
+  {
+    ?NLCSObjectTopH a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgH rdfs:subClassOf ?NLCSObjectTopH ;
+          skos:prefLabel ?hoofdgroep .
+    ?objURI8 rdfs:subClassOf+ ?hgH ;
+          a owl:Class .
+    BIND (STR(?objURI8) AS ?uriStr)
+    BIND (IRI(CONCAT(STR(?objURI8), "#field-uri")) AS ?uriField)
+  }
+
+}

@@ -1,0 +1,236 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+PREFIX nlcs:    <http://digitalbuildingdata.tech/nlcs/def/>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX otl:     <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/>
+PREFIX shapes:  <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# construct_lijntypes_per_hoofdgroep.rq
+#
+# Constructs Laces OTL schema triples for Lijntype classes referenced as
+# direct annotation property values on objects in one hoofdgroep.
+# $hoofdgroup_name is replaced by the Python script before execution.
+#
+# Linking pattern: unlike Symbool/Arcering (nen2660:isDescribedBy owl:onClass),
+# lijntypes are stored as owl:AnnotationProperty values with these 4 UUIDs:
+#   nlcs:99271b8e4692f59ed33a550afaf542ac  B linetype
+#   nlcs:fffb63ae8b6d147830578bf41ba4bfa3  N linetype
+#   nlcs:5f36dd80a4a3f96ed76158ec5d420be7  T linetype
+#   nlcs:965ac85b41943c884f3487cb131e05bd  V linetype
+#
+# Scope: directly referenced lijntype classes + all ancestor classes +
+# all descendant classes within the Lijntype hierarchy.
+#
+# Block A  — lijntype class hierarchy           → otl:Document
+# Block B  — annotation properties              → otl:InformationField
+# Block C  — original NLCS URI                 → otl:InformationField
+# ─────────────────────────────────────────────────────────────────────────────
+
+CONSTRUCT {
+
+  # ── Block A ───────────────────────────────────────────────────────────────
+  ?ltURI a otl:Document .
+  ?ltURI shapes:sequence ?seqNode .
+  ?seqNode rdf:type otl:Seq_attr-Conceptual-name .
+  ?seqNode rdf:_1 ?label .
+  ?seqNode owl:annotatedProperty otl:attr-Conceptual-name .
+  ?ltURI otl:attr-Conceptual-name ?label .
+  ?ltURI otl:rel-Conceptual-isSpecializationOf ?parent .
+  ?ltURI otl:attr-Conceptual-description ?def .
+
+  # ── Block A1: shared lijntype stubs (no attributes — linked to shared workspace)
+  ?ltURI1 a otl:Document .
+  ?ltURI1 shapes:sequence ?seqNode1 .
+  ?seqNode1 rdf:type otl:Seq_attr-Conceptual-name .
+  ?seqNode1 rdf:_1 ?label1 .
+  ?seqNode1 owl:annotatedProperty otl:attr-Conceptual-name .
+  ?ltURI1 otl:attr-Conceptual-name ?label1 .
+  ?ltURI1 otl:rel-Conceptual-isSpecializationOf ?ltTopURI1 .
+
+  ?ltURI1 otl:rel-Conceptual-hasExternalLink ?extLink .
+  ?extLink a otl:ExternalLink .
+  ?extLink otl:attr-ExternalLink-name ?label1 .
+  ?extLink otl:attr-ExternalLink-relation "isSameAs" .
+  ?extLink otl:attr-ExternalLink-sourcename "TEST with stylesheet NLCS Common" .
+  ?extLink otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/test-with-stylesheet-nlcs-common"^^xsd:anyURI .
+  ?extLink otl:attr-ExternalLink-uri ?ltURI1ExtUri .
+
+  # ── Block B ───────────────────────────────────────────────────────────────
+  ?ltURI2 otl:rel-Conceptual-isDescribedIn ?infoField .
+  ?infoField a otl:InformationField .
+  ?infoField otl:attr-InformationField-value ?annValueStr .
+  ?infoField otl:rel-InformationField-isClassifiedAs ?annTypeNode .
+  ?annTypeNode a otl:InformationType .
+  ?annTypeNode otl:attr-Conceptual-name ?annLabel .
+
+  # ── Block C ───────────────────────────────────────────────────────────────
+  ?ltURI3 otl:rel-Conceptual-isDescribedIn ?uriField .
+  ?uriField a otl:InformationField .
+  ?uriField otl:attr-InformationField-value ?uriStr .
+  ?uriField otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+  <urn:nlcs:info-type:OriginalURI> a otl:InformationType .
+  <urn:nlcs:info-type:OriginalURI> otl:attr-Conceptual-name "Original URI" .
+
+}
+
+WHERE {
+
+  VALUES (?hoofdgroep) { ("$hoofdgroup_name") }
+
+  # ── Block A0: Lijntype root Document ──────────────────────────────────────
+  {
+    ?ltURI a owl:Class ; skos:prefLabel "Lijntype" .
+    BIND ("Lijntype" AS ?label)
+    BIND (IRI(CONCAT(STR(?ltURI), "#seq-name")) AS ?seqNode)
+  }
+
+  UNION
+
+  # ── Block A: unique lijntype classes in scope → otl:Document triples ────────────
+  {
+    VALUES (?ltProp) {
+      (nlcs:99271b8e4692f59ed33a550afaf542ac)
+      (nlcs:fffb63ae8b6d147830578bf41ba4bfa3)
+      (nlcs:5f36dd80a4a3f96ed76158ec5d420be7)
+      (nlcs:965ac85b41943c884f3487cb131e05bd)
+    }
+    ?NLCSObjectTopA a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgA rdfs:subClassOf ?NLCSObjectTopA ; skos:prefLabel ?hoofdgroep .
+    ?objA rdfs:subClassOf+ ?hgA ; a owl:Class .
+    ?objA ?ltProp ?linkedLt .
+    ?LijntypeTopA a owl:Class ; skos:prefLabel "Lijntype" .
+    ?linkedLt rdfs:subClassOf+ ?LijntypeTopA .
+    # Linked lijntype + all ancestors + all descendants within Lijntype hierarchy
+    { ?linkedLt rdfs:subClassOf* ?ltURI . }
+    UNION
+    { ?ltURI rdfs:subClassOf+ ?linkedLt . }
+    ?ltURI rdfs:subClassOf+ ?LijntypeTopA .
+    ?ltURI a owl:Class .
+    ?ltURI skos:prefLabel ?label .
+    FILTER (?label != "CONTINUOUS" && ?label != "V-CONTINUOUS-SO")
+    OPTIONAL {
+      ?ltURI rdfs:subClassOf ?parent .
+      FILTER (!isBlank(?parent))
+      ?parent a owl:Class .
+    }
+    OPTIONAL { ?ltURI skos:definition ?def }
+    BIND (IRI(CONCAT(STR(?ltURI), "#seq-name")) AS ?seqNode)
+  }
+
+  UNION
+  # ── Block A1: shared lijntype classes ("CONTINUOUS" and "V-CONTINUOUS-SO") → otl:Document triples ────────────
+  {
+    VALUES (?ltProp) {
+      (nlcs:99271b8e4692f59ed33a550afaf542ac)
+      (nlcs:fffb63ae8b6d147830578bf41ba4bfa3)
+      (nlcs:5f36dd80a4a3f96ed76158ec5d420be7)
+      (nlcs:965ac85b41943c884f3487cb131e05bd)
+    }
+    ?NLCSObjectTopA1 a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgA1 rdfs:subClassOf ?NLCSObjectTopA1 ; skos:prefLabel ?hoofdgroep .
+    ?objA1 rdfs:subClassOf+ ?hgA1 ; a owl:Class .
+    ?objA1 ?ltProp ?linkedLt1 .
+    ?LijntypeTopA1 a owl:Class ; skos:prefLabel "Lijntype" .
+    ?linkedLt1 rdfs:subClassOf+ ?LijntypeTopA1 .
+    # Linked lijntype + all ancestors + all descendants within Lijntype hierarchy
+    { ?linkedLt1 rdfs:subClassOf* ?ltURI1 . }
+    UNION
+    { ?ltURI1 rdfs:subClassOf+ ?linkedLt1 . }
+    ?ltURI1 rdfs:subClassOf+ ?LijntypeTopA1 .
+    ?ltURI1 a owl:Class .
+    ?ltURI1 skos:prefLabel ?label1 .
+    VALUES (?label1) { ("CONTINUOUS") ("V-CONTINUOUS-SO") }
+    BIND (IRI(CONCAT(STR(?ltURI1), "#seq-name")) AS ?seqNode1)
+    BIND (?LijntypeTopA1 AS ?ltTopURI1)
+    BIND (IRI(CONCAT(STR(?ltURI1), "#ext-link-shared")) AS ?extLink)
+    BIND (STRDT(STR(?ltURI1), xsd:anyURI) AS ?ltURI1ExtUri)
+  }
+
+  UNION
+
+  # ── Block B: annotation properties × lijntypes cross-join ─────────────────
+  {
+    {
+      SELECT DISTINCT ?annProp ?annLabel WHERE {
+        VALUES (?ltProp) {
+          (nlcs:99271b8e4692f59ed33a550afaf542ac)
+          (nlcs:fffb63ae8b6d147830578bf41ba4bfa3)
+          (nlcs:5f36dd80a4a3f96ed76158ec5d420be7)
+          (nlcs:965ac85b41943c884f3487cb131e05bd)
+        }
+        ?NLCSObjectTopB a owl:Class ; skos:prefLabel "NLCS-object" .
+        ?hgB rdfs:subClassOf ?NLCSObjectTopB ; skos:prefLabel "$hoofdgroup_name" .
+        ?objB rdfs:subClassOf+ ?hgB ; a owl:Class .
+        ?objB ?ltProp ?linkedLtB .
+        ?LijntypeTopB a owl:Class ; skos:prefLabel "Lijntype" .
+        ?linkedLtB rdfs:subClassOf+ ?LijntypeTopB .
+        { ?linkedLtB rdfs:subClassOf* ?anyLt . }
+        UNION
+        { ?anyLt rdfs:subClassOf+ ?linkedLtB . }
+        ?anyLt rdfs:subClassOf+ ?LijntypeTopB .
+        ?anyLt ?annProp ?v .
+        ?annProp a owl:AnnotationProperty ; skos:prefLabel ?annLabel .
+      }
+    }
+    VALUES (?ltPropBO) {
+      (nlcs:99271b8e4692f59ed33a550afaf542ac)
+      (nlcs:fffb63ae8b6d147830578bf41ba4bfa3)
+      (nlcs:5f36dd80a4a3f96ed76158ec5d420be7)
+      (nlcs:965ac85b41943c884f3487cb131e05bd)
+    }
+    ?NLCSObjectTopBO a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgBO rdfs:subClassOf ?NLCSObjectTopBO ; skos:prefLabel ?hoofdgroep .
+    ?objBO rdfs:subClassOf+ ?hgBO ; a owl:Class .
+    ?objBO ?ltPropBO ?linkedLtBO .
+    ?LijntypeTopBO a owl:Class ; skos:prefLabel "Lijntype" .
+    ?linkedLtBO rdfs:subClassOf+ ?LijntypeTopBO .
+    { ?linkedLtBO rdfs:subClassOf* ?ltURI2 . }
+    UNION
+    { ?ltURI2 rdfs:subClassOf+ ?linkedLtBO . }
+    ?ltURI2 rdfs:subClassOf+ ?LijntypeTopBO .
+    ?ltURI2 a owl:Class .
+    ?ltURI2 skos:prefLabel ?ltLabel2 .
+    FILTER (?ltLabel2 != "CONTINUOUS" && ?ltLabel2 != "V-CONTINUOUS-SO")
+    OPTIONAL { ?ltURI2 ?annProp ?litVal . FILTER (isLiteral(?litVal)) }
+    OPTIONAL {
+      ?ltURI2 ?annProp ?uriVal .
+      FILTER (!isLiteral(?uriVal) && !isBlank(?uriVal))
+      OPTIONAL { ?uriVal skos:prefLabel ?uriLabelOpt . }
+      BIND (COALESCE(STR(?uriLabelOpt), STR(?uriVal)) AS ?uriLabel)
+    }
+    BIND (COALESCE(STR(?litVal), ?uriLabel, "") AS ?annValueStr)
+    BIND (IRI(CONCAT(STR(?ltURI2), "#field-", SHA1(STR(?annProp)))) AS ?infoField)
+    BIND (IRI(CONCAT(STR(?annProp), "#info-type")) AS ?annTypeNode)
+  }
+
+  UNION
+
+  # ── Block C: original NLCS URI stored as InformationField ─────────────────
+  {
+    VALUES (?ltPropC) {
+      (nlcs:99271b8e4692f59ed33a550afaf542ac)
+      (nlcs:fffb63ae8b6d147830578bf41ba4bfa3)
+      (nlcs:5f36dd80a4a3f96ed76158ec5d420be7)
+      (nlcs:965ac85b41943c884f3487cb131e05bd)
+    }
+    ?NLCSObjectTopC a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgC rdfs:subClassOf ?NLCSObjectTopC ; skos:prefLabel ?hoofdgroep .
+    ?objC rdfs:subClassOf+ ?hgC ; a owl:Class .
+    ?objC ?ltPropC ?linkedLtC .
+    ?LijntypeTopC a owl:Class ; skos:prefLabel "Lijntype" .
+    ?linkedLtC rdfs:subClassOf+ ?LijntypeTopC .
+    { ?linkedLtC rdfs:subClassOf* ?ltURI3 . }
+    UNION
+    { ?ltURI3 rdfs:subClassOf+ ?linkedLtC . }
+    ?ltURI3 rdfs:subClassOf+ ?LijntypeTopC .
+    ?ltURI3 a owl:Class .
+    ?ltURI3 skos:prefLabel ?ltLabel3 .
+    FILTER (?ltLabel3 != "CONTINUOUS" && ?ltLabel3 != "V-CONTINUOUS-SO")
+    BIND (STR(?ltURI3) AS ?uriStr)
+    BIND (IRI(CONCAT(STR(?ltURI3), "#field-uri")) AS ?uriField)
+  }
+
+}

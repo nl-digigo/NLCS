@@ -1,0 +1,147 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+PREFIX nlcs:    <http://digitalbuildingdata.tech/nlcs/def/>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX otl:     <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/>
+PREFIX shapes:  <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# construct_lijnkleuren_lijnweights_per_hoofdgroep.rq
+#
+# Creates minimal otl:Document stubs for each unique Lijnkleur and Lijnweight
+# value referenced by objects in one hoofdgroep, with an ExternalLink pointing
+# to the full definition in the shared workspace.
+# $hoofdgroup_name is replaced by the Python script before execution.
+#
+# Linking pattern: lijnkleuren and lijnweights are stored as annotation
+# property values on objects (same as lijntypes, not via isDescribedBy).
+#   Color props (20): B/N/T/V × color, color A, color GD, color GN, color V
+#   Weight props (4): B/N/T/V lineweight
+#
+# Block A  — Lijnkleur root Document
+# Block B  — Lijnkleur stubs + ExternalLink per referenced value
+# Block C  — Lijnweight root Document
+# Block D  — Lijnweight stubs + ExternalLink per referenced value
+# ─────────────────────────────────────────────────────────────────────────────
+
+CONSTRUCT {
+
+  # ── Block A: Lijnkleur root ────────────────────────────────────────────────
+  ?lkURI a otl:Document .
+  ?lkURI shapes:sequence ?lkSeqNode .
+  ?lkSeqNode rdf:type otl:Seq_attr-Conceptual-name .
+  ?lkSeqNode rdf:_1 ?lkLabel .
+  ?lkSeqNode owl:annotatedProperty otl:attr-Conceptual-name .
+  ?lkURI otl:attr-Conceptual-name ?lkLabel .
+  ?lkURI otl:rel-Conceptual-isSpecializationOf ?lkTopURI .
+  ?lkURI otl:rel-Conceptual-hasExternalLink ?lkExtLink .
+  ?lkExtLink a otl:ExternalLink .
+  ?lkExtLink otl:attr-ExternalLink-name ?lkLabel .
+  ?lkExtLink otl:attr-ExternalLink-relation "isSameAs" .
+  ?lkExtLink otl:attr-ExternalLink-sourcename "TEST with stylesheet NLCS Common" .
+  ?lkExtLink otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/test-with-stylesheet-nlcs-common"^^xsd:anyURI .
+  ?lkExtLink otl:attr-ExternalLink-uri ?lkExtUri .
+
+  # ── Block C: Lijnweight root ───────────────────────────────────────────────
+  ?lwURI a otl:Document .
+  ?lwURI shapes:sequence ?lwSeqNode .
+  ?lwSeqNode rdf:type otl:Seq_attr-Conceptual-name .
+  ?lwSeqNode rdf:_1 ?lwLabel .
+  ?lwSeqNode owl:annotatedProperty otl:attr-Conceptual-name .
+  ?lwURI otl:attr-Conceptual-name ?lwLabel .
+  ?lwURI otl:rel-Conceptual-isSpecializationOf ?lwTopURI .
+  ?lwURI otl:rel-Conceptual-hasExternalLink ?lwExtLink .
+  ?lwExtLink a otl:ExternalLink .
+  ?lwExtLink otl:attr-ExternalLink-name ?lwLabel .
+  ?lwExtLink otl:attr-ExternalLink-relation "isSameAs" .
+  ?lwExtLink otl:attr-ExternalLink-sourcename "TEST with stylesheet NLCS Common" .
+  ?lwExtLink otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/test-with-stylesheet-nlcs-common"^^xsd:anyURI .
+  ?lwExtLink otl:attr-ExternalLink-uri ?lwExtUri .
+
+}
+
+WHERE {
+
+  VALUES (?hoofdgroep) { ("$hoofdgroup_name") }
+
+  # ── Block A: Lijnkleur root Document ──────────────────────────────────────
+  {
+    ?lkURI a owl:Class ; skos:prefLabel "Lijnkleur" .
+    BIND ("Lijnkleur" AS ?lkLabel)
+    BIND (IRI(CONCAT(STR(?lkURI), "#seq-name")) AS ?lkSeqNode)
+  }
+
+  UNION
+
+  # ── Block B: unique Lijnkleur stubs referenced by this hoofdgroep ──────────
+  {
+    VALUES (?lkProp) {
+      (nlcs:2e7b1dc3283e79482dc1153895dbf149)
+      (nlcs:3f9a348f67332197fd0bbbeda98e4358)
+      (nlcs:070e6b1e670a6f704021f47dfb916561)
+      (nlcs:1837b3cbc76cf5be8bf2919440cffc1a)
+      (nlcs:e6a1db6908635962b1da9e1230718656)
+      (nlcs:99c67830d90d074c22802a459c856f4c)
+      (nlcs:3f9c82ae0acc677b43f9c55db4c67d91)
+      (nlcs:964528fb003559383e99b63fca2b72e5)
+      (nlcs:a756b1013ec00304b3694f72789f5489)
+      (nlcs:7b9b57ab5cd1409412c9c21aa8a75be0)
+      (nlcs:3d9494010633141738dac4db0d4371bd)
+      (nlcs:f15cb56f17b45c122093acb2f6ef2666)
+      (nlcs:11a56ac7445d51fa54dbbb4977a950b1)
+      (nlcs:6fabaa692ad70ad1e62b2ed2d3e0b240)
+      (nlcs:9d31195f1dd92f368d648425fd92ddbc)
+      (nlcs:641531752f6d7d9c46654b91db0f8ecd)
+      (nlcs:dde96840a10d858e2d5a63d22b0c95a3)
+      (nlcs:207645b8f83b536f8f2984bd98972a2e)
+      (nlcs:9df34a271d37ea19cda9171dd1b95438)
+      (nlcs:095f7786fa03ee5d1fb5a5f76a93eb5e)
+    }
+    ?NLCSObjectTopB a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgB rdfs:subClassOf ?NLCSObjectTopB ; skos:prefLabel ?hoofdgroep .
+    ?objB rdfs:subClassOf+ ?hgB ; a owl:Class .
+    ?objB ?lkProp ?lkURI .
+    ?LijnkleurTopB a owl:Class ; skos:prefLabel "Lijnkleur" .
+    ?lkURI rdfs:subClassOf+ ?LijnkleurTopB .
+    ?lkURI a owl:Class ; skos:prefLabel ?lkLabel .
+    BIND (IRI(CONCAT(STR(?lkURI), "#seq-name")) AS ?lkSeqNode)
+    BIND (?LijnkleurTopB AS ?lkTopURI)
+    BIND (IRI(CONCAT(STR(?lkURI), "#ext-link-shared")) AS ?lkExtLink)
+    BIND (STRDT(STR(?lkURI), xsd:anyURI) AS ?lkExtUri)
+  }
+
+  UNION
+
+  # ── Block C: Lijnweight root Document ─────────────────────────────────────
+  {
+    ?lwURI a owl:Class ; skos:prefLabel "Lijnweight" .
+    BIND ("Lijnweight" AS ?lwLabel)
+    BIND (IRI(CONCAT(STR(?lwURI), "#seq-name")) AS ?lwSeqNode)
+  }
+
+  UNION
+
+  # ── Block D: unique Lijnweight stubs referenced by this hoofdgroep ─────────
+  {
+    VALUES (?lwProp) {
+      (nlcs:f0ae4b93e35441578842bc4fd8709956)
+      (nlcs:0f2b46296496d5476b4e94d885d2d6ad)
+      (nlcs:44d44b47e72154e00a246fe6d5ae90df)
+      (nlcs:35efcfbbb79075b1eec92ae2a5ec744d)
+    }
+    ?NLCSObjectTopD a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgD rdfs:subClassOf ?NLCSObjectTopD ; skos:prefLabel ?hoofdgroep .
+    ?objD rdfs:subClassOf+ ?hgD ; a owl:Class .
+    ?objD ?lwProp ?lwURI .
+    ?LijnweightTopD a owl:Class ; skos:prefLabel "Lijnweight" .
+    ?lwURI rdfs:subClassOf+ ?LijnweightTopD .
+    ?lwURI a owl:Class ; skos:prefLabel ?lwLabel .
+    BIND (IRI(CONCAT(STR(?lwURI), "#seq-name")) AS ?lwSeqNode)
+    BIND (?LijnweightTopD AS ?lwTopURI)
+    BIND (IRI(CONCAT(STR(?lwURI), "#ext-link-shared")) AS ?lwExtLink)
+    BIND (STRDT(STR(?lwURI), xsd:anyURI) AS ?lwExtUri)
+  }
+
+}
