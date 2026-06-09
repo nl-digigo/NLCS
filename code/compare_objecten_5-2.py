@@ -1,18 +1,23 @@
 """
-Vergelijk NLCS 5.02 vs 5.2 objecttabel voor EEN hoofdgroep (stuk voor stuk).
+Vergelijk NLCS 5.0 vs 5.2 objecttabel voor EEN hoofdgroep (stuk voor stuk).
 Zet de gewenste hoofdgroep in CODE hieronder (bv. "BV") en draai het script.
 
 Output: ontwikkeling/heroverweging-5-2/{CODE}/objecten-vergelijking-{CODE}.html
 
 De HTML toont de volledige 5.2-tabel, alfabetisch gesorteerd op de eerste kolom
 (omschrijving), waarbij:
-  - nieuwe rijen (id_nummer niet in 5.02)            -> groene rij
-  - in bestaande rijen een veranderde cel            -> blauwe cel met "5.02: x / 5.2: y"
-  - onderaan een aparte tabel met verdwenen rijen    -> id_nummer wel in 5.02, niet in 5.2
+  - nieuwe rijen (id_nummer niet in 5.0)             -> groene rij
+  - in bestaande rijen een veranderde cel            -> blauwe cel met "5.0: x / 5.2: y"
+  - onderaan een aparte tabel met verdwenen rijen    -> id_nummer wel in 5.0, niet in 5.2
 
 Nieuw/verdwenen wordt bepaald op basis van id_nummer.
-Cellen worden alleen vergeleken voor kolommen die in BEIDE bestanden voorkomen
-(zelfde kolomnaam).
+
+Referentie (5.0): bij voorkeur de volledige export NLCS-OBJECTEN-{CODE}-5.0.csv
+(puntkomma-gescheiden, met SYMBOOL/ARCERING e.d.); valt anders terug op de
+verkorte 5.02-tabel. De 5.0-kolomnamen worden via HEADER_MAP omgezet naar de
+5.2-namen, zodat ook kolommen als sobject (SYMBOOL) en aobject (ARCERING)
+vergeleken worden. Cellen worden vergeleken voor alle kolommen die na die
+omzetting in BEIDE bestanden voorkomen.
 """
 import csv
 import io
@@ -24,11 +29,36 @@ import html as html_module
 CODE = "BV"
 
 BASE_52 = r"tabellen\publicatie\objectentabellen"
+# Volledige 5.0-export per hoofdgroep (voorkeursreferentie). {CODE} wordt ingevuld.
+OLD_FILE = os.path.join(os.path.expanduser("~"), "Downloads", "NLCS-OBJECTEN-{CODE}-5.0.csv")
+# Terugval: verkorte 5.02-tabellen als de export hierboven niet bestaat.
 BASE_50 = r"C:\Users\100289\OneDrive - CROW\Documents\GitHub\NLCSmain\NLCS\tabellen\publicatie\objectentabellen-verkort"
 OUTPUT_DIR = r"ontwikkeling\heroverweging-5-2"
+OLD_LABEL = "5.0"
 
 # id_nummer hoort nooit als "gewijzigde cel" gemarkeerd te worden (het is de sleutel).
 SKIP_COMPARE = {"id_nummer"}
+
+# Kolomnamen in de 5.0-export -> kolomnamen in 5.2. Niet-gemapte koppen blijven
+# ongewijzigd (en matchen dan simpelweg niet met een 5.2-kolom). Koppen die al
+# 5.2-stijl zijn (verkorte 5.02-tabel) staan niet in de map en blijven dus heel.
+HEADER_MAP = {
+    "OMSCHRIJVING": "omschrijving", "STATUS": "status", "DISCIPLINE": "discipline",
+    "HOOFDGROEP": "hoofdgroep", "OBJECT": "object",
+    "SUBOBJECT01": "subobject01", "SUBOBJECT02": "subobject02", "SUBOBJECT03": "subobject03",
+    "SUBOBJECT04": "subobject04", "SUBOBJECT05": "subobject05",
+    "BEWERKING": "bewerking", "ELEMENT": "element", "SCHAAL": "schaal",
+    "ARCERING": "aobject", "SYMBOOL": "sobject", "LAAGNAAM": "laagnaam",
+    "B lineweight": "lw_b", "B color": "kl_b", "B color A": "kl_b_a", "B color GD": "kl_b_gd",
+    "B color GN": "kl_b_gn", "B color V": "kl_b_v", "B linetype": "lt_b",
+    "N lineweight": "lw_n", "N color": "kl_n", "N color A": "kl_n_a", "N color GD": "kl_n_gd",
+    "N color GN": "kl_n_gn", "N color V": "kl_n_v", "N linetype": "lt_n",
+    "V lineweight": "lw_v", "V color": "kl_v", "V color A": "kl_v_a", "V color GD": "kl_v_gd",
+    "V color GN": "kl_v_gn", "V color V": "kl_v_v", "V linetype": "lt_v",
+    "T lineweight": "lw_t", "T color": "kl_t", "T color A": "kl_t_a", "T color GD": "kl_t_gd",
+    "T color GN": "kl_t_gn", "T color V": "kl_t_v", "T linetype": "lt_t",
+    "VRKL_kort": "vrkl_kort", "VRKL_lang": "vrkl_lang", "ID": "id_nummer", "KIND_VAN": "kind_van",
+}
 
 
 def parse_50_csv(filepath):
@@ -80,9 +110,37 @@ def cell(val):
     return html_module.escape(val) if val else "<em>(leeg)</em>"
 
 
+def check_field_count(label, headers, rows):
+    """Waarschuw bij rijen die niet evenveel velden hebben als de kop.
+    Zo'n rij heeft meestal een komma te veel/te weinig, waardoor kolommen
+    (zoals id_nummer) verschuiven en een rij ten onrechte als nieuw of
+    verdwenen wordt gezien. Geeft het aantal probleemrijen terug."""
+    expected = len(headers)
+    bad = []
+    for i, r in enumerate(rows):
+        if len(r) != expected:
+            naam = r[0].strip() if r else ""
+            bad.append((i + 2, len(r), naam))  # +2: kop is regel 1, data start regel 2
+    if bad:
+        print(f"  LET OP: {len(bad)} rij(en) in {label} hebben niet {expected} velden:")
+        for lineno, n, naam in bad:
+            print(f"    regel {lineno}: {n} velden (verwacht {expected})  {naam}")
+    return len(bad)
+
+
+def first_index(headers):
+    """Kolomnaam -> eerste kolomindex. Bij dubbele koppen (de 5.0-export heeft
+    bv. twee keer STATUS) wint zo de EERSTE kolom; de tweede STATUS is de
+    wijzigingsstatus en hoort niet met 5.2 'status' vergeleken te worden."""
+    idx = {}
+    for i, h in enumerate(headers):
+        idx.setdefault(h, i)
+    return idx
+
+
 def generate_html(title, headers_52, rows_52, lookup_50, headers_50, common_cols, id_column):
-    idx_52 = {h: i for i, h in enumerate(headers_52)}
-    idx_50 = {h: i for i, h in enumerate(headers_50)}
+    idx_52 = first_index(headers_52)
+    idx_50 = first_index(headers_50)
     id_i_52 = idx_52.get(id_column)
     id_i_50 = idx_50.get(id_column)
 
@@ -119,7 +177,7 @@ def generate_html(title, headers_52, rows_52, lookup_50, headers_50, common_cols
 <h1>{html_module.escape(title)}</h1>
 <div class="legend">
     <span class="new-row">Nieuw in 5.2</span>
-    <span class="changed">Gewijzigde cel (5.02 &rarr; 5.2)</span>
+    <span class="changed">Gewijzigde cel ({OLD_LABEL} &rarr; 5.2)</span>
     <span class="removed">Verdwenen in 5.2</span>
 </div>
 <!--STATS-->
@@ -147,8 +205,8 @@ def generate_html(title, headers_52, rows_52, lookup_50, headers_50, common_cols
                 if ov != v:
                     change_count += 1
                     cells.append(
-                        f'<td class="changed" title="5.02: {html_module.escape(ov)}">'
-                        f'<span class="old">5.02: {cell(ov)}</span><br>5.2: {cell(v)}</td>'
+                        f'<td class="changed" title="{OLD_LABEL}: {html_module.escape(ov)}">'
+                        f'<span class="old">{OLD_LABEL}: {cell(ov)}</span><br>5.2: {cell(v)}</td>'
                     )
                     continue
             cells.append(f"<td>{html_module.escape(v)}</td>")
@@ -191,11 +249,23 @@ def main():
     if not os.path.exists(f52):
         raise SystemExit(f"5.2-bestand niet gevonden: {f52}")
     headers_52, rows_52 = parse_52_csv(f52)
+    check_field_count(f"5.2-{CODE}", headers_52, rows_52)
 
-    matches_50 = glob.glob(os.path.join(BASE_50, f"5.02-Objectentabel-{CODE}-*.csv"))
-    if not matches_50:
-        raise SystemExit(f"5.02-bestand niet gevonden voor {CODE} in {BASE_50}")
-    headers_50, rows_50 = parse_50_csv(matches_50[0])
+    # Referentie kiezen: eerst de volledige 5.0-export, anders de verkorte 5.02-tabel.
+    old_path = OLD_FILE.format(CODE=CODE)
+    if not os.path.exists(old_path):
+        matches_50 = glob.glob(os.path.join(BASE_50, f"5.02-Objectentabel-{CODE}-*.csv"))
+        if not matches_50:
+            raise SystemExit(
+                f"Geen 5.0-referentie gevonden: noch {old_path}, noch "
+                f"5.02-Objectentabel-{CODE}-*.csv in {BASE_50}"
+            )
+        old_path = matches_50[0]
+    print(f"Referentie 5.0: {old_path}")
+    headers_50, rows_50 = parse_50_csv(old_path)
+    # 5.0-kolomnamen omzetten naar 5.2-namen (verkorte 5.02-koppen blijven heel).
+    headers_50 = [HEADER_MAP.get(h, h) for h in headers_50]
+    check_field_count(f"5.0-{CODE}", headers_50, rows_50)
 
     common_cols = set(headers_52) & set(headers_50)
     id_i_50 = headers_50.index("id_nummer") if "id_nummer" in headers_50 else None
@@ -206,7 +276,7 @@ def main():
             if rid:
                 lookup_50[rid] = r
 
-    title = f"Objecten vergelijking 5.02 vs 5.2 - {CODE}"
+    title = f"Objecten vergelijking {OLD_LABEL} vs 5.2 - {CODE}"
     html_content, changes, new, removed = generate_html(
         title, headers_52, rows_52, lookup_50, headers_50, common_cols, "id_nummer"
     )
