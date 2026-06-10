@@ -1,0 +1,492 @@
+@prefix bm: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/blueprint-manager/> .
+@prefix bs: <https://w3id.org/def/basicsemantics-owl#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ex: <http://example.org/example#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix kos: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/kos/> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix otl: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix shapes: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix specifications: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/specifications/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:ConvertGroupForQualifications a sh:NodeShape ;
+    sh:rule [ a sh:SPARQLRule ;
+            sh:construct """	
+			CONSTRUCT {
+				?tgtList a rdf:List .
+				?tgtList rdf:first ?tgtElementUri .
+				?tgtElementUri a ?tgtThis .
+				?tgtElementUri skos:prefLabel ?tgtElementName .
+				# ?tgtElementUri skos:prefLabel ?tgtNLname .
+				# ?tgtElementUri skos:prefLabel ?tgtENname .
+				?tgtElementUri skos:definition ?tgtElementDescription .
+				# ?tgtElementUri skos:definition ?nlDescription .
+				# ?tgtElementUri skos:definition ?enDescription .
+				# ?tgtElementUri rdfs:seeAlso ?link .
+				?tgtElementUri rdfs:seeAlso ?tgtTerm .
+				# ?link skos:prefLabel ?linkName .
+				?tgtList rdf:rest ?tgtRestList .
+				# ?tgtThis a owl:Class .
+				# ?tgtThis rdfs:subClassOf nen2660:EnumerationType .
+				# ?tgtThis skos:prefLabel ?tgtEnumerationNLname .
+				# ?tgtThis skos:prefLabel ?tgtEnumerationENname .
+				# ?tgtThis skos:definition ?enumnlDescription .
+				# ?tgtThis skos:definition ?enumenDescription .
+				?tgtThis a sh:NodeShape .
+				?tgtThis sh:in ?tgtListFirst .
+				?tgtThis owl:oneOf ?tgtListFirst .
+			}
+			WHERE {
+				# ?possessedAspect otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf ?this .
+				# ?possessedAspect otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification ?emptyQualification .
+				# ?emptyQualification otl:attr-Conceptual-name "" .
+				{
+					SELECT ?this ?qualification ?tgtElementName ((COUNT(?predecessor)) AS ?elementIndex)
+					WHERE {
+						?this a otl:GroupForQualifications .
+						?this otl:rel-Group-isCollectionFor ?qualification .
+						OPTIONAL {
+							?this otl:rel-Group-isCollectionFor ?predecessor .
+							FILTER (str(?predecessor) < str(?qualification)) .
+						} .
+						?qualification otl:attr-Conceptual-name ?tgtElementName .
+					}
+					GROUP BY ?this ?qualification ?tgtElementName
+				} .
+				{
+					SELECT ?this ?qualification ?tgtElementName ?tgtElementDescription ((COUNT(?successor)) AS ?isLastElement)
+					WHERE {
+						?this a otl:GroupForQualifications .
+						?this otl:rel-Group-isCollectionFor ?qualification .
+						OPTIONAL {
+							?this otl:rel-Group-isCollectionFor ?successor .
+							FILTER (str(?successor) > str(?qualification)) .
+						} .
+						?qualification otl:attr-Conceptual-name ?tgtElementName .
+						OPTIONAL {
+							?qualification otl:attr-Conceptual-description ?tgtElementDescription .
+						} .
+					}
+					GROUP BY ?this ?qualification ?tgtElementName ?tgtElementDescription
+				} .
+
+				# BIND(IF(CONTAINS(str(?tgtElementName), ","), STRLANG(STRBEFORE(?tgtElementName, ","), "nl"), STRLANG(?tgtElementName, "nl")) AS ?tgtNLname) .
+  				# BIND(IF(CONTAINS(str(?tgtElementName), ","), STRLANG(STRAFTER(?tgtElementName, ","), "en"), ?undefined) AS ?tgtENname) .
+				# # BIND(IF(REGEX(?tgtElementName, '^"([^"]*)",'), STRLANG(REPLACE(?tgtElementName, '^"([^"]*)",".*$', '$1'), "nl"), STRLANG(?tgtElementName, "nl")) AS ?tgtNLnameQuoted) .
+				# # BIND(IF(REGEX(?tgtElementName, '^"([^"]*)",'), STRLANG(REPLACE(?tgtElementName, '^".*","([^"]*)"$', '$1'), "en"), ?undefined) AS ?tgtENnameQuoted) .
+				# # BIND(COALESCE(?tgtNLnameQuoted, ?nlName) AS ?tgtNLname) .
+				# # BIND(COALESCE(?tgtENnameQuoted, ?enName) AS ?tgtENname) .
+
+				# BIND(IF(CONTAINS(str(?tgtElementDescription), "$"), STRBEFORE(?tgtElementDescription, "$"), ?tgtElementDescription) AS ?descriptions) .
+  				# BIND(IF(CONTAINS(str(?tgtElementDescription), "$"), STRAFTER(?tgtElementDescription, "$"), ?undefined) AS ?rest) .
+				# BIND(COALESCE(?descriptions, ?tgtElementDescription) AS ?tgtdescriptions)
+  				# BIND(IF(REGEX(?tgtdescriptions, '^"([^"]*)",'), STRLANG(REPLACE(?tgtdescriptions, '^"([^"]*)",".*$', '$1'), "nl"), STRLANG(?tgtdescriptions, "nl")) AS ?nlDescription) .
+				# BIND(IF(REGEX(?tgtdescriptions, '^"([^"]*)",'), STRLANG(REPLACE(?tgtdescriptions, '^".*","([^"]*)"$', '$1'), "en"), ?undefined) AS ?enDescription) .
+
+				# BIND(IF(CONTAINS(str(?rest), "]"), STRAFTER(STRBEFORE(?rest, "]"), "["), ?undefined) AS ?linkName) .
+				# BIND(IF(CONTAINS(str(?rest), "]"), STRAFTER(	STRBEFORE(STRAFTER(?rest, "]"), ")")	,"(") , ?undefined) AS ?strlink) .
+				# BIND(URI(?strlink) AS ?link) .
+
+				# GroupForQualification
+				?this otl:attr-Group-name ?EnumerationName .
+				# BIND(IF(CONTAINS(str(?EnumerationName), "$"), STRBEFORE(?EnumerationName, "$"), ?EnumerationName) AS ?tgtEnumNames) .
+  				# BIND(IF(CONTAINS(str(?EnumerationName), "$"), STRAFTER(?EnumerationName, "$"), ?undefined) AS ?tgtEnumDescriptions) .
+				# # BIND(COALESCE(?EnumNames, ?EnumerationName) AS ?tgtEnumNames)
+
+				# BIND(IF(CONTAINS(str(?tgtEnumNames), ","), STRLANG(STRBEFORE(?tgtEnumNames, ","), "nl"), STRLANG(?tgtEnumNames,"nl")) AS ?tgtEnumerationNLname) .
+  				# BIND(IF(CONTAINS(str(?tgtEnumNames), ","), STRLANG(STRAFTER(?tgtEnumNames, ","), "en"), ?undefined) AS ?tgtEnumerationENname) .
+				# BIND(IF(REGEX(?tgtEnumDescriptions, '^"([^"]*)",'), STRLANG(REPLACE(?tgtEnumDescriptions, '^"([^"]*)",".*$', '$1'), "nl"), STRLANG(?tgtEnumDescriptions, "nl")) AS ?enumnlDescription) .
+				# BIND(IF(REGEX(?tgtEnumDescriptions, '^"([^"]*)",'), STRLANG(REPLACE(?tgtEnumDescriptions, '^".*","([^"]*)"$', '$1'), "en"), ?undefined) AS ?enumenDescription) .
+
+				# BIND (URI(STR(?this)) AS ?tgtThis) .
+
+				BIND (ex:createHumanReadableUri(?EnumerationName) AS ?encodedThis) .
+				BIND (URI(REPLACE(STR(?encodedThis), "/id/domeinwaarden/", "/def/")) AS ?tgtThis ) .
+
+				BIND (ex:createHumanReadableUri(?tgtElementName) AS ?tgtElementUri) . 
+
+
+				# BIND (URI(REPLACE(STR(?this), "/id/domeinwaarden/", "/def/")) AS ?tgtThis ) .
+				# BIND (URI(STR(?qualification)) AS ?tgtElementUri) .
+				BIND (CONCAT(str(?tgtThis), "-list-") AS ?listBase) .
+				BIND (IRI(CONCAT(?listBase, "0")) AS ?tgtListFirst) .
+				BIND (IRI(CONCAT(?listBase, str(?elementIndex))) AS ?tgtList) .
+				BIND (IF((?isLastElement = 0), rdf:nil, URI(CONCAT(?listBase, str((?elementIndex + 1))))) AS ?tgtRestList) .
+				BIND (URI(REPLACE(STR(?tgtElementUri), "/id/domeinwaarden/", "/term/")) AS ?tgtTerm ) .
+				
+			}
+			""" ;
+            sh:deactivated false ;
+            sh:prefixes ex:,
+                bm:,
+                otl:,
+                shapes:,
+                rdf:,
+                rdfs:,
+                xsd:,
+                owl:,
+                skos:,
+                sh:,
+                schema:,
+                nen2660: ] ;
+    sh:targetClass otl:GroupForQualifications .
+
+ex:CreateOntology a sh:NodeShape ;
+    sh:rule [ a sh:SPARQLRule ;
+            sh:construct """	
+			CONSTRUCT {
+			    ?tgtInferredOntology a owl:Ontology .
+			    ?tgtInferredOntology owl:imports <https://w3id.org/nen2660/def#> .
+			    ?tgtInferredOntology dct:date ?tgtVersionDate .
+			    ?tgtInferredOntology skos:prefLabel ?tgtOntologyName .
+			    ?tgtInferredOntology rdfs:comment ?tgtOntologyDescription .
+			    # ?tgtPhysicalObject a owl:Class .
+			    # ?tgtPhysicalObject skos:prefLabel "physical object"@en .
+			    # ?tgtPhysicalObject skos:prefLabel "fysiek object"@nl .
+			    # ?tgtActivity a owl:Class .
+			    # ?tgtActivity skos:prefLabel "activity"@en .
+			    # ?tgtActivity skos:prefLabel "activiteit"@nl .
+			    # ?tgtFunction a owl:Class .
+			    # ?tgtFunction skos:prefLabel "function"@en .
+			    # ?tgtFunction skos:prefLabel "functie"@nl .
+			    # ?tgtFunction rdfs:subClassOf ?tgtActivity .
+			    # ?tgtObjective a owl:Class .
+			    # ?tgtObjective skos:prefLabel "objective"@en .
+			    # ?tgtObjective skos:prefLabel "doel"@nl .
+			    # ?tgtObjective rdfs:subClassOf nen2660:State .
+			    # ?tgtRisk a owl:Class .
+			    # ?tgtRisk skos:prefLabel "risk"@en .
+			    # ?tgtRisk skos:prefLabel "risico"@nl .
+			    # ?tgtRisk rdfs:subClassOf ?tgtActivity .
+			    # ?tgtAgent a owl:Class .
+			    # ?tgtAgent skos:prefLabel "agent"@en .
+			    # ?tgtAgent skos:prefLabel "actor"@nl .
+			    # ?tgtAgent rdfs:subClassOf ?tgtPhysicalObject .
+			    # ?tgtSpatialRegion a owl:Class .
+			    # ?tgtSpatialRegion skos:prefLabel "Geometric entity"@en .
+			    # ?tgtSpatialRegion skos:prefLabel "geometrische entiteit"@nl .
+			    # ?tgtEvent a owl:Class .
+			    # ?tgtEvent skos:prefLabel "event"@en .
+			    # ?tgtEvent skos:prefLabel "gebeurtenis"@nl .
+			    # ?tgtInformationObject a owl:Class .
+			    # ?tgtInformationObject skos:prefLabel "information object"@en .
+			    # ?tgtInformationObject skos:prefLabel "informatieobject"@nl .
+			    # ?tgtDocument a owl:Class .
+			    # ?tgtDocument skos:prefLabel "document"@en .
+			    # ?tgtDocument skos:prefLabel "document"@nl .
+			    # ?tgtDocument rdfs:subClassOf ?tgtInformationObject .
+			    # ?tgtFile a owl:Class .
+			    # ?tgtFile skos:prefLabel "file"@en .
+			    # ?tgtFile skos:prefLabel "file"@nl .
+			    # ?tgtFile rdfs:subClassOf ?tgtInformationObject .
+			    # ?tgtEnumerationType a owl:Class .
+			    # ?tgtEnumerationType skos:prefLabel "enumeration type"@en .
+			    # ?tgtEnumerationType skos:prefLabel "enumeratietype"@nl .
+			    # ?tgtState a owl:Class .
+			    # ?tgtState skos:prefLabel "state"@en .
+			    # ?tgtState skos:prefLabel "toestand"@nl .
+			    # nen2660:hasPart a owl:ObjectProperty .
+			    # nen2660:hasPart skos:prefLabel "has part"@en .
+			    # nen2660:hasPart skos:prefLabel "heeft onderdeel"@nl .
+				# ?tgtMatter a owl:Class .
+			    # ?tgtMatter skos:prefLabel "matter"@en .
+			    # ?tgtMatter skos:prefLabel "materie"@nl .
+				# ?tgtFunctionalSpace a owl:Class . 
+				# ?tgtFunctionalSpace skos:prefLabel "Spatial region"@en . 
+				# ?tgtFunctionalSpace skos:prefLabel "Ruimtelijk gebied"@nl . 
+			}
+			WHERE {
+			    ?this a owl:Ontology .
+				FILTER (!STRSTARTS(str(?this), "http://hub.laces.tech/semmtech/schemas")) .
+                FILTER (!STRSTARTS(str(?this), "http://www.laces.tech/publication/ns/semmtech")) .
+                #Filtering out contract manager and blueprint manager.
+                FILTER (!STRSTARTS(str(?this), "http://models.laces.tech/")) .
+				FILTER (!STRSTARTS(str(?this), "http://data.semmtech.com/sem/")) .
+				FILTER (!STRSTARTS(str(?this), "http://www.w3.org/")) .
+
+			    
+				?this rdfs:label ?tgtOntologyName .
+			    OPTIONAL { 
+				?this dct:description ?tgtOntologyDescription .
+			    ?this dct:date ?versionDate .
+				BIND (REPLACE(?versionDate, "T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{6}", "") AS ?tgtVersionDate) .
+				}
+			    BIND (ex:createURI("") AS ?tgtInferredOntology) .
+			    # BIND (ex:createURI("Function") AS ?tgtFunction) .
+			    # BIND (ex:createURI("Objective") AS ?tgtObjective) .
+			    # BIND (ex:createURI("Risk") AS ?tgtRisk) .
+			    # BIND (ex:createURI("Agent") AS ?tgtAgent) .
+			    # BIND (ex:createURI("Document") AS ?tgtDocument) .
+			    # BIND (ex:createURI("File") AS ?tgtFile) .
+			    # BIND (nen2660:GeometricEntity AS ?tgtSpatialRegion) .
+			    # BIND (nen2660:RealObject AS ?tgtPhysicalObject) .
+			    # BIND (nen2660:Activity AS ?tgtActivity) .
+			    # BIND (nen2660:Event AS ?tgtEvent) .
+			    # BIND (nen2660:InformationObject AS ?tgtInformationObject) .
+			    # BIND (nen2660:EnumerationType AS ?tgtEnumerationType) .
+			    # BIND (nen2660:State AS ?tgtState) .
+				# BIND (nen2660:Matter AS ?tgtMatter) .
+				# BIND (nen2660:SpatialRegion AS ?tgtFunctionalSpace ) . 
+			}
+			""" ;
+            sh:deactivated false ;
+            sh:prefixes ex:,
+                dct:,
+                bm:,
+                otl:,
+                shapes:,
+                rdf:,
+                rdfs:,
+                xsd:,
+                owl:,
+                skos:,
+                sh:,
+                schema:,
+                nen2660: ] ;
+    sh:targetClass owl:Ontology .
+
+ex:createHumanReadableUri a sh:SPARQLFunction ;
+    sh:parameter [ sh:datatype xsd:string ;
+            sh:description "The label that will be used for the Uri" ;
+            sh:path ex:op1 ] ;
+    sh:prefixes ex:,
+        dct:,
+        rdfs:,
+        owl: ;
+    sh:returnType rdfs:Resource ;
+    sh:select """
+		SELECT ?uri
+		WHERE {	
+			?namespace a owl:Ontology .
+			FILTER (!STRSTARTS(str(?namespace), "http://hub.laces.tech/semmtech/schemas")) .
+			FILTER (!STRSTARTS(str(?namespace), "http://www.laces.tech/publication/ns/semmtech")) .
+			#Filtering out contract manager and blueprint manager.
+			FILTER (!STRSTARTS(str(?namespace), "http://models.laces.tech/")) .
+			FILTER (!STRSTARTS(str(?namespace), "http://data.semmtech.com/sem/")) .
+			FILTER (!STRSTARTS(str(?namespace), "http://www.w3.org/")) .
+ 
+			?namespace rdfs:label ?ontologyName . # This one also does nothing, but can be left in. 
+
+			BIND (ex:humanReadableNameForUri($op1, $op1) AS ?nameCamelCase) .
+			BIND (STR(ENCODE_FOR_URI(?nameCamelCase))  AS ?nameEncoded) . 
+			BIND (URI(CONCAT(STR(?namespace),  str(?nameEncoded))) AS ?uri) .
+		}
+		LIMIT 1
+		""" .
+
+ex:createURI a sh:SPARQLFunction ;
+    sh:parameter [ sh:datatype xsd:string ;
+            sh:description "The first operand" ;
+            sh:path ex:op1 ] ;
+    sh:prefixes ex:,
+        dct:,
+        rdfs:,
+        owl: ;
+    sh:returnType rdfs:Resource ;
+    sh:select """
+		SELECT ?uri
+		WHERE {	
+			?namespace a owl:Ontology .
+			FILTER (!STRSTARTS(str(?namespace), "http://hub.laces.tech/semmtech/schemas")) .
+			FILTER (!STRSTARTS(str(?namespace), "http://www.laces.tech/publication/ns/semmtech")) .
+			#Filtering out contract manager and blueprint manager.
+			FILTER (!STRSTARTS(str(?namespace), "http://models.laces.tech/")) .
+			FILTER (!STRSTARTS(str(?namespace), "http://data.semmtech.com/sem/")) .
+			FILTER (!STRSTARTS(str(?namespace), "http://www.w3.org/")) .
+ 
+			?namespace rdfs:label ?ontologyName . # This one also does nothing, but can be left in.  
+
+			BIND (URI(CONCAT(STR(?namespace),  str($op1))) AS ?uri) .
+		}
+		LIMIT 1
+		""" .
+
+ex:humanReadableNameForUri a sh:SPARQLFunction ;
+    sh:parameter [ sh:datatype xsd:string ;
+            sh:description "The original label in its entirety" ;
+            sh:path ex:op1 ],
+        [ sh:datatype xsd:string ;
+            sh:description "The part of the label that needs to be processed" ;
+            sh:path ex:op2 ] ;
+    sh:prefixes ex:,
+        dct:,
+        rdfs:,
+        owl: ;
+    sh:returnType rdfs:Resource ;
+    sh:select """
+		SELECT ?tgtLabel
+		WHERE {	
+			### How it works
+			## 1st iteration
+			# op1: this is a test
+			# op2: this is a test
+			# processedPartCamelCase: this
+			# toBeProcessed: is a test
+
+			## 2nd iteration
+			# op1: this is a test
+			# op2: is a test
+			# processedPartCamelCase: Is
+			# toBeProcessed: a test
+
+			# after final iteration it loops back to concatenate the values for ?processedPartCamelCase
+
+			BIND (IF(CONTAINS($op1, " "), STRBEFORE($op1, " "), $op1) AS ?lowercasePart) .
+			BIND (IF(CONTAINS($op2, " "), STRBEFORE($op2, " "), $op2) AS ?processedPart) .
+			BIND (IF(?processedPart = ?lowercasePart, ?processedPart, CONCAT(UCASE(SUBSTR(?processedPart, 1, 1)), LCASE(SUBSTR(?processedPart, 2)))) AS ?processedPartCamelCase) .
+			BIND (IF(CONTAINS($op2, " "), STRAFTER($op2, " "), 1/0) AS ?toBeProcessed) .
+
+			BIND (IF(BOUND(?toBeProcessed), CONCAT(?processedPartCamelCase, ex:humanReadableNameForUri($op1, ?toBeProcessed)),  ?processedPartCamelCase) AS ?tgtLabel) .
+		}
+		LIMIT 1
+		""" .
+
+ex:localname a sh:SPARQLFunction ;
+    sh:parameter [ sh:datatype xsd:string ;
+            sh:description "The first operand" ;
+            sh:path ex:op1 ] ;
+    sh:prefixes ex: ;
+    sh:returnType rdfs:Resource ;
+    sh:select """
+		SELECT ?localname
+		WHERE {
+			BIND (IF(CONTAINS(str($op1), "#"), STRAFTER(str($op1), "#"), REPLACE(str($op1), "(.*)[//]", "")) AS ?localname) .
+		}
+		""" .
+
+kos: sh:declare [ sh:namespace "http://www.laces.tech/publication/ns/semmtech/live/laces/schema/kos/"^^xsd:anyURI ;
+            sh:prefix "kos" ] .
+
+kos:IndividualActivity rdfs:seeAlso nen2660:Activity .
+
+kos:IndividualAgent skos:altLabel "Agent" .
+
+kos:IndividualDocument skos:altLabel "Document" .
+
+kos:IndividualFunction skos:altLabel "Function" .
+
+kos:IndividualObject rdfs:seeAlso nen2660:RealObject .
+
+kos:IndividualObjective skos:altLabel "Objective" .
+
+kos:IndividualSpace skos:altLabel "Space" .
+
+otl:Activity rdfs:seeAlso nen2660:Activity .
+
+otl:Activity-isLocatedAt-GeometricalSpace rdfs:seeAlso nen2660:hasInterior .
+
+otl:Document rdfs:seeAlso nen2660:InformationObject .
+
+otl:Event rdfs:seeAlso nen2660:Event .
+
+otl:FunctionalSpace rdfs:seeAlso nen2660:SpatialRegion .
+
+otl:FunctionalSpace-isLocatedAt-GeometricalSpace rdfs:seeAlso nen2660:hasInterior .
+
+otl:GeometricalSpace rdfs:seeAlso nen2660:GeometricEntity .
+
+otl:Matter rdfs:seeAlso nen2660:Matter .
+
+otl:PhysicalObject rdfs:seeAlso nen2660:RealObject .
+
+otl:PhysicalObject-isLocatedAt-GeometricalSpace rdfs:seeAlso nen2660:hasInterior .
+
+otl:State rdfs:seeAlso nen2660:State .
+
+otl:TimePeriod rdfs:seeAlso nen2660:TemporalEntity .
+
+otl:consistsOf rdfs:seeAlso nen2660:consistsOf .
+
+otl:describes owl:inverseOf nen2660:isDescribedBy .
+
+otl:hasAsSubject skos:altLabel "hasAsSubject" .
+
+otl:hasState rdfs:seeAlso nen2660:hasState .
+
+otl:isAccountableFor skos:altLabel "isAccountableFor" .
+
+otl:isApproverOf skos:altLabel "isApproverOf" .
+
+otl:isAuthorOf skos:altLabel "isAuthorOf" .
+
+otl:isConnectedTo rdfs:seeAlso nen2660:isConnectedTo .
+
+otl:isConsultedFor skos:altLabel "isConsultedFor" .
+
+otl:isFulfillerOf skos:altLabel "isFulfillerOf" .
+
+otl:isInformedFor skos:altLabel "isInformedFor" .
+
+otl:isInputOf skos:altLabel "isInputOf" .
+
+otl:isLocatedAt owl:inverseOf nen2660:contains .
+
+otl:isOutputOf skos:altLabel "isOutputOf" .
+
+otl:isPerformerOf rdfs:seeAlso nen2660:executes ;
+    skos:altLabel "isPerformerOf" .
+
+otl:isReleaserOf skos:altLabel "isReleaserOf" .
+
+otl:isResponsibleFor skos:altLabel "isResponsibleFor" .
+
+otl:isSupportiveFor skos:altLabel "isSupportiveFor" .
+
+otl:transforms rdfs:seeAlso nen2660:transforms ;
+    skos:altLabel "transforms" .
+
+specifications: sh:declare [ sh:namespace "http://www.laces.tech/publication/ns/semmtech/live/laces/schema/specifications/"^^xsd:anyURI ;
+            sh:prefix "specifications" ] .
+
+geo: sh:declare [ sh:namespace "http://www.opengis.net/ont/geosparql#"^^xsd:anyURI ;
+            sh:prefix "geo" ] .
+
+bs: sh:declare [ sh:namespace "https://w3id.org/def/basicsemantics-owl#"^^xsd:anyURI ;
+            sh:prefix "bs" ] .
+
+bm: sh:declare [ sh:namespace "http://www.laces.tech/publication/ns/semmtech/live/laces/schema/blueprint-manager/"^^xsd:anyURI ;
+            sh:prefix "bm" ] .
+
+otl: sh:declare [ sh:namespace "http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/"^^xsd:anyURI ;
+            sh:prefix "otl" ] .
+
+shapes: sh:declare [ sh:namespace "http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/"^^xsd:anyURI ;
+            sh:prefix "shapes" ] .
+
+rdf: sh:declare [ sh:namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#"^^xsd:anyURI ;
+            sh:prefix "rdf" ] .
+
+xsd: sh:declare [ sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ;
+            sh:prefix "xsd" ] .
+
+skos: sh:declare [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
+            sh:prefix "skos" ] .
+
+sh: sh:declare [ sh:namespace "http://www.w3.org/ns/shacl#"^^xsd:anyURI ;
+            sh:prefix "sh" ] .
+
+schema: sh:declare [ sh:namespace "https://schema.org/"^^xsd:anyURI ;
+            sh:prefix "schema" ] .
+
+nen2660: sh:declare [ sh:namespace "https://w3id.org/nen2660/def#"^^xsd:anyURI ;
+            sh:prefix "nen2660" ] .
+
+dct: sh:declare [ sh:namespace "http://purl.org/dc/terms/"^^xsd:anyURI ;
+            sh:prefix "dct" ] .
+
+rdfs: sh:declare [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
+            sh:prefix "rdfs" ] .
+
+owl: sh:declare [ sh:namespace "http://www.w3.org/2002/07/owl#"^^xsd:anyURI ;
+            sh:prefix "owl" ] .
+
+ex: sh:declare [ sh:namespace "http://example.org/example#"^^xsd:anyURI ;
+            sh:prefix "ex" ] .
+
