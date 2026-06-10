@@ -30,18 +30,18 @@ CONSTRUCT {
 
   # ── Block A: Lijnkleur root ────────────────────────────────────────────────
   ?lkURI a otl:Document .
+  ?lkURI otl:attr-Conceptual-name ?lkLabel .
+  ?lkURI otl:rel-Conceptual-isSpecializationOf ?lkTopURI .
   ?lkURI shapes:sequence ?lkSeqNode .
   ?lkSeqNode rdf:type otl:Seq_attr-Conceptual-name .
   ?lkSeqNode rdf:_1 ?lkLabel .
   ?lkSeqNode owl:annotatedProperty otl:attr-Conceptual-name .
-  ?lkURI otl:attr-Conceptual-name ?lkLabel .
-  ?lkURI otl:rel-Conceptual-isSpecializationOf ?lkTopURI .
   ?lkURI otl:rel-Conceptual-hasExternalLink ?lkExtLink .
   ?lkExtLink a otl:ExternalLink .
   ?lkExtLink otl:attr-ExternalLink-name ?lkLabel .
   ?lkExtLink otl:attr-ExternalLink-relation "isSameAs" .
-  ?lkExtLink otl:attr-ExternalLink-sourcename "TEST with stylesheet NLCS Common" .
-  ?lkExtLink otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/test-with-stylesheet-nlcs-common"^^xsd:anyURI .
+  ?lkExtLink otl:attr-ExternalLink-sourcename "$external_sourcename" .
+  ?lkExtLink otl:attr-ExternalLink-sourceurl "$external_sourceurl"^^xsd:anyURI .
   ?lkExtLink otl:attr-ExternalLink-uri ?lkExtUri .
 
   # ── Block C: Lijnweight root ───────────────────────────────────────────────
@@ -56,8 +56,8 @@ CONSTRUCT {
   ?lwExtLink a otl:ExternalLink .
   ?lwExtLink otl:attr-ExternalLink-name ?lwLabel .
   ?lwExtLink otl:attr-ExternalLink-relation "isSameAs" .
-  ?lwExtLink otl:attr-ExternalLink-sourcename "TEST with stylesheet NLCS Common" .
-  ?lwExtLink otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/test-with-stylesheet-nlcs-common"^^xsd:anyURI .
+  ?lwExtLink otl:attr-ExternalLink-sourcename "$external_sourcename" .
+  ?lwExtLink otl:attr-ExternalLink-sourceurl "$external_sourceurl"^^xsd:anyURI .
   ?lwExtLink otl:attr-ExternalLink-uri ?lwExtUri .
 
 }
@@ -70,7 +70,9 @@ WHERE {
   {
     ?lkURI a owl:Class ; skos:prefLabel "Lijnkleur" .
     BIND ("Lijnkleur" AS ?lkLabel)
-    BIND (IRI(CONCAT(STR(?lkURI), "#seq-name")) AS ?lkSeqNode)
+    BIND (IRI(CONCAT(STR(?lkURI), "-seq-name")) AS ?lkSeqNode)
+    BIND (IRI(CONCAT(STR(?lkURI), "-ext-link-shared")) AS ?lkExtLink)
+    BIND (STRDT(STR(?lkURI), xsd:anyURI) AS ?lkExtUri)
   }
 
   UNION
@@ -106,9 +108,9 @@ WHERE {
     ?LijnkleurTopB a owl:Class ; skos:prefLabel "Lijnkleur" .
     ?lkURI rdfs:subClassOf+ ?LijnkleurTopB .
     ?lkURI a owl:Class ; skos:prefLabel ?lkLabel .
-    BIND (IRI(CONCAT(STR(?lkURI), "#seq-name")) AS ?lkSeqNode)
+    BIND (IRI(CONCAT(STR(?lkURI), "-seq-name")) AS ?lkSeqNode)
     BIND (?LijnkleurTopB AS ?lkTopURI)
-    BIND (IRI(CONCAT(STR(?lkURI), "#ext-link-shared")) AS ?lkExtLink)
+    BIND (IRI(CONCAT(STR(?lkURI), "-ext-link-shared")) AS ?lkExtLink)
     BIND (STRDT(STR(?lkURI), xsd:anyURI) AS ?lkExtUri)
   }
 
@@ -118,7 +120,9 @@ WHERE {
   {
     ?lwURI a owl:Class ; skos:prefLabel "Lijnweight" .
     BIND ("Lijnweight" AS ?lwLabel)
-    BIND (IRI(CONCAT(STR(?lwURI), "#seq-name")) AS ?lwSeqNode)
+    BIND (IRI(CONCAT(STR(?lwURI), "-seq-name")) AS ?lwSeqNode)
+    BIND (IRI(CONCAT(STR(?lwURI), "-ext-link-shared")) AS ?lwExtLink)
+    BIND (STRDT(STR(?lwURI), xsd:anyURI) AS ?lwExtUri)
   }
 
   UNION
@@ -138,9 +142,9 @@ WHERE {
     ?LijnweightTopD a owl:Class ; skos:prefLabel "Lijnweight" .
     ?lwURI rdfs:subClassOf+ ?LijnweightTopD .
     ?lwURI a owl:Class ; skos:prefLabel ?lwLabel .
-    BIND (IRI(CONCAT(STR(?lwURI), "#seq-name")) AS ?lwSeqNode)
+    BIND (IRI(CONCAT(STR(?lwURI), "-seq-name")) AS ?lwSeqNode)
     BIND (?LijnweightTopD AS ?lwTopURI)
-    BIND (IRI(CONCAT(STR(?lwURI), "#ext-link-shared")) AS ?lwExtLink)
+    BIND (IRI(CONCAT(STR(?lwURI), "-ext-link-shared")) AS ?lwExtLink)
     BIND (STRDT(STR(?lwURI), xsd:anyURI) AS ?lwExtUri)
   }
 

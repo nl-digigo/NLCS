@@ -59,40 +59,40 @@ CONSTRUCT {
   ?drawTypeNode otl:attr-Conceptual-name ?drawLabel .
 
     # # ── Block C: Status aspect link (external link to shared workspace) ─────────
-  # ?statusAspectNode rdf:type otl:PhysicalObject-hasAspect-Aspect .
+  ?statusAspectNode rdf:type otl:PhysicalObject-hasAspect-Aspect .
   # ?statusAspectNode otl:attr-ExternalLink-name "Status" .
-  # ?statusAspectNode otl:rel-Relation-from ?objURI3 .
-  # ?statusAspectNode otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884 .
-  # ?statusAspectNode otl:rel-Relation-toRole ?statusRoleNode .
-  # ?statusRoleNode rdf:type otl:RoleOfAspect-PossessedAspect .
-  # ?statusRoleNode otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute ?statusShapeAttr .
-  # ?statusRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification ?statusValueURI .
-  # ?statusRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf ?statusGroupURI .
-  # ?statusShapeAttr rdf:type bp:Attribute .
-  # ?statusShapeAttr bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger .
-  # ?statusShapeAttr bp:attr-ShapeElement-name "Status" .
-  # ?statusShapeAttr shapes:sequence ?statusShapeSeqNode .
-  # ?statusShapeSeqNode rdf:type bp:Seq_attr-ShapeElement-name .
-  # ?statusShapeSeqNode rdf:_1 "Status" .
-  # ?statusShapeSeqNode owl:annotatedProperty bp:attr-ShapeElement-name .
+  ?statusAspectNode otl:rel-Relation-from ?objURI3 .
+  ?statusAspectNode otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884 .
+  ?statusAspectNode otl:rel-Relation-toRole ?statusRoleNode .
+  ?statusRoleNode rdf:type otl:RoleOfAspect-PossessedAspect .
+  ?statusRoleNode otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute ?statusShapeAttr .
+  ?statusRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification ?statusValueURI .
+  ?statusRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf ?statusGroupURI .
+  ?statusShapeAttr rdf:type bp:Attribute .
+  ?statusShapeAttr bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger .
+  ?statusShapeAttr bp:attr-ShapeElement-name "Status" .
+  ?statusShapeAttr shapes:sequence ?statusShapeSeqNode .
+  ?statusShapeSeqNode rdf:type bp:Seq_attr-ShapeElement-name .
+  ?statusShapeSeqNode rdf:_1 "Status" .
+  ?statusShapeSeqNode owl:annotatedProperty bp:attr-ShapeElement-name .
 
   # # ── Block D: Discipline aspect link (external link to shared workspace) ──────
-  # ?disciplineAspectNode rdf:type otl:PhysicalObject-hasAspect-Aspect .
+  ?disciplineAspectNode rdf:type otl:PhysicalObject-hasAspect-Aspect .
   # ?disciplineAspectNode otl:attr-ExternalLink-name "Discipline" .
-  # ?disciplineAspectNode otl:rel-Relation-from ?objURI4 .
-  # ?disciplineAspectNode otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709 .
-  # ?disciplineAspectNode otl:rel-Relation-toRole ?disciplineRoleNode .
-  # ?disciplineRoleNode rdf:type otl:RoleOfAspect-PossessedAspect .
-  # ?disciplineRoleNode otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute ?disciplineShapeAttr .
-  # ?disciplineRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification ?disciplineValueURI .
-  # ?disciplineRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf ?disciplineGroupURI .
-  # ?disciplineShapeAttr rdf:type bp:Attribute .
-  # ?disciplineShapeAttr bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger .
-  # ?disciplineShapeAttr bp:attr-ShapeElement-name "Discipline" .
-  # ?disciplineShapeAttr shapes:sequence ?disciplineShapeSeqNode .
-  # ?disciplineShapeSeqNode rdf:type bp:Seq_attr-ShapeElement-name .
-  # ?disciplineShapeSeqNode rdf:_1 "Discipline" .
-  # ?disciplineShapeSeqNode owl:annotatedProperty bp:attr-ShapeElement-name .
+  ?disciplineAspectNode otl:rel-Relation-from ?objURI4 .
+  ?disciplineAspectNode otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709 .
+  ?disciplineAspectNode otl:rel-Relation-toRole ?disciplineRoleNode .
+  ?disciplineRoleNode rdf:type otl:RoleOfAspect-PossessedAspect .
+  ?disciplineRoleNode otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute ?disciplineShapeAttr .
+  ?disciplineRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification ?disciplineValueURI .
+  ?disciplineRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf ?disciplineGroupURI .
+  ?disciplineShapeAttr rdf:type bp:Attribute .
+  ?disciplineShapeAttr bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger .
+  ?disciplineShapeAttr bp:attr-ShapeElement-name "Discipline" .
+  ?disciplineShapeAttr shapes:sequence ?disciplineShapeSeqNode .
+  ?disciplineShapeSeqNode rdf:type bp:Seq_attr-ShapeElement-name .
+  ?disciplineShapeSeqNode rdf:_1 "Discipline" .
+  ?disciplineShapeSeqNode owl:annotatedProperty bp:attr-ShapeElement-name .
 
   # ── Block E: InformationField + Group for linked Symbool ─────────────────────
   ?objURI6 otl:rel-Conceptual-isDescribedIn ?symInfoField .
@@ -131,7 +131,7 @@ WHERE {
     ?NLCSObjectTopA0 a owl:Class ; skos:prefLabel "NLCS-object" .
     ?objURI rdfs:subClassOf ?NLCSObjectTopA0 ; skos:prefLabel ?hoofdgroep .
     BIND (STR(?hoofdgroep) AS ?label)
-    BIND (IRI(CONCAT(STR(?objURI), "#seq-name")) AS ?seqNode)
+    BIND (IRI(CONCAT(STR(?objURI), "-seq-name")) AS ?seqNode)
   }
 
   UNION
@@ -148,14 +148,14 @@ WHERE {
       ?parent a owl:Class .
     }
     OPTIONAL { ?objURI skos:definition ?def }
-    BIND (IRI(CONCAT(STR(?objURI), "#seq-name")) AS ?seqNode)
+    BIND (IRI(CONCAT(STR(?objURI), "-seq-name")) AS ?seqNode)
   }
 
   UNION
 
   # ── Block B: 3 literal annotation properties ──────────────────────────────
-  # Uses a single VALUES with paired (property URI, label) rows to avoid
-  # a cross-product. Only objects that actually have the property are kept.
+  # One row per (object × property): every object always gets an InformationField
+  # for each property, even when the object has no value for it (value = "").
   #
   # UUIDs (from 5.0)
   #   ID       = nlcs:b718adec73e04ce3ec720dd11a06a308
@@ -171,9 +171,9 @@ WHERE {
     ?hgBO rdfs:subClassOf ?NLCSObjectTopBO ; skos:prefLabel ?hoofdgroep .
     ?objURI2 rdfs:subClassOf+ ?hgBO ; a owl:Class .
     OPTIONAL { ?objURI2 ?annProp ?annValue . FILTER (isLiteral(?annValue)) }
-    BIND (COALESCE(STR(?annValue), "") AS ?annValueStr)
-    BIND (IRI(CONCAT(STR(?objURI2), "#field-", SHA1(STR(?annProp)))) AS ?infoField)
-    BIND (IRI(CONCAT(STR(?annProp), "#info-type")) AS ?annTypeNode)
+    BIND (IF(BOUND(?annValue), STR(?annValue), "") AS ?annValueStr)
+    BIND (IRI(CONCAT(STR(?objURI2), "-field-", SHA1(STR(?annProp)))) AS ?infoField)
+    BIND (IRI(CONCAT(STR(?annProp), "-info-type")) AS ?annTypeNode)
   }
 
   UNION
@@ -225,9 +225,9 @@ WHERE {
       FILTER (!isLiteral(?drawURI) && !isBlank(?drawURI))
       OPTIONAL { ?drawURI skos:prefLabel ?drawLabelOpt . }
     }
-    BIND (COALESCE(STR(?drawLabelOpt), STR(?drawURI), "") AS ?drawValue)
-    BIND (IRI(CONCAT(STR(?objURIdraw), "#field-", SHA1(STR(?drawProp)))) AS ?drawField)
-    BIND (IRI(CONCAT(STR(?drawProp), "#info-type")) AS ?drawTypeNode)
+    BIND (IF(BOUND(?drawURI), COALESCE(STR(?drawLabelOpt), STR(?drawURI)), "") AS ?drawValue)
+    BIND (IRI(CONCAT(STR(?objURIdraw), "-field-", SHA1(STR(?drawProp)))) AS ?drawField)
+    BIND (IRI(CONCAT(STR(?drawProp), "-info-type")) AS ?drawTypeNode)
   }
 
   UNION
@@ -242,10 +242,10 @@ WHERE {
     ?bnodeStatus owl:onProperty nlcs:580a54a5-3f8e-4d92-afac-24eb23707884 .
     ?bnodeStatus owl:hasValue ?statusValueURI .
     ?statusGroupURI a owl:Class ; rdfs:subClassOf nen2660:EnumerationType ; skos:prefLabel "Statussen" .
-    BIND (IRI(CONCAT(STR(?objURI3), "#aspect-status")) AS ?statusAspectNode)
-    BIND (IRI(CONCAT(STR(?objURI3), "#role-status")) AS ?statusRoleNode)
-    BIND (IRI(CONCAT(STR(?objURI3), "#shape-attr-status")) AS ?statusShapeAttr)
-    BIND (IRI(CONCAT(STR(?objURI3), "#shape-seq-status")) AS ?statusShapeSeqNode)
+    BIND (IRI(CONCAT(STR(?objURI3), "-aspect-status")) AS ?statusAspectNode)
+    BIND (IRI(CONCAT(STR(?objURI3), "-role-status")) AS ?statusRoleNode)
+    BIND (IRI(CONCAT(STR(?objURI3), "-shape-attr-status")) AS ?statusShapeAttr)
+    BIND (IRI(CONCAT(STR(?objURI3), "-shape-seq-status")) AS ?statusShapeSeqNode)
   }
 
   UNION
@@ -260,53 +260,59 @@ WHERE {
     ?bnodeDiscipline owl:onProperty nlcs:d01031dc-9abe-47d3-9656-17185c986709 .
     ?bnodeDiscipline owl:hasValue ?disciplineValueURI .
     ?disciplineGroupURI a owl:Class ; rdfs:subClassOf nen2660:EnumerationType ; skos:prefLabel "Disciplines" .
-    BIND (IRI(CONCAT(STR(?objURI4), "#aspect-discipline")) AS ?disciplineAspectNode)
-    BIND (IRI(CONCAT(STR(?objURI4), "#role-discipline")) AS ?disciplineRoleNode)
-    BIND (IRI(CONCAT(STR(?objURI4), "#shape-attr-discipline")) AS ?disciplineShapeAttr)
-    BIND (IRI(CONCAT(STR(?objURI4), "#shape-seq-discipline")) AS ?disciplineShapeSeqNode)
+    BIND (IRI(CONCAT(STR(?objURI4), "-aspect-discipline")) AS ?disciplineAspectNode)
+    BIND (IRI(CONCAT(STR(?objURI4), "-role-discipline")) AS ?disciplineRoleNode)
+    BIND (IRI(CONCAT(STR(?objURI4), "-shape-attr-discipline")) AS ?disciplineShapeAttr)
+    BIND (IRI(CONCAT(STR(?objURI4), "-shape-seq-discipline")) AS ?disciplineShapeSeqNode)
   }
 
   UNION
 
-  # ── Block E: InformationField + Group for linked Symbool
+  # ── Block E: InformationField for linked Symbool
+  # Every object gets a Symbool field; value is empty when no symbool is linked.
   {
     ?NLCSObjectTopF a owl:Class ; skos:prefLabel "NLCS-object" .
     ?hgF rdfs:subClassOf ?NLCSObjectTopF ; skos:prefLabel ?hoofdgroep .
     ?objURI6 rdfs:subClassOf+ ?hgF ; a owl:Class .
-    ?objURI6 rdfs:subClassOf ?bnodeSymbool .
-    ?bnodeSymbool owl:onProperty nen2660:isDescribedBy .
-    ?bnodeSymbool owl:onClass ?symURI .
-    ?SymboolTop a owl:Class ; skos:prefLabel "Symbool" .
-    ?symURI rdfs:subClassOf+ ?SymboolTop .
-    ?symURI a owl:Class ; skos:prefLabel ?symboolLabel .
-    BIND (COALESCE(STR(?symboolLabel), "") AS ?symAnnValue)
-    BIND (IRI(CONCAT(STR(?objURI6), "#field-sym-", SHA1(STR(?symURI)))) AS ?symInfoField)
-    BIND (IRI(CONCAT(STR(?objURI6), "#group-sym-", SHA1(STR(?symURI)))) AS ?symGroupNode)
-    BIND (IRI(CONCAT(STR(?objURI6), "#group-sym-seq-", SHA1(STR(?symURI)))) AS ?symGroupSeqNode)
+    OPTIONAL {
+      ?objURI6 rdfs:subClassOf ?bnodeSymbool .
+      ?bnodeSymbool owl:onProperty nen2660:isDescribedBy .
+      ?bnodeSymbool owl:onClass ?symURI .
+      ?SymboolTop a owl:Class ; skos:prefLabel "Symbool" .
+      ?symURI rdfs:subClassOf+ ?SymboolTop .
+      ?symURI a owl:Class ; skos:prefLabel ?symboolLabel .
+    }
+    BIND (IF(BOUND(?symboolLabel), STR(?symboolLabel), "") AS ?symAnnValue)
+    BIND (IF(BOUND(?symURI),
+             IRI(CONCAT(STR(?objURI6), "-field-sym-", SHA1(STR(?symURI)))),
+             IRI(CONCAT(STR(?objURI6), "-field-sym"))) AS ?symInfoField)
   }
 
   UNION
 
-  # ── Block F: Group linking object to its Arcering document
+  # ── Block F: InformationField for linked Arcering
+  # Every object gets an Arcering field; value is empty when no arcering is linked.
   {
     ?NLCSObjectTopG a owl:Class ; skos:prefLabel "NLCS-object" .
     ?hgG rdfs:subClassOf ?NLCSObjectTopG ; skos:prefLabel ?hoofdgroep .
     ?objURI7 rdfs:subClassOf+ ?hgG ; a owl:Class .
-    ?objURI7 rdfs:subClassOf ?bnodeArcering .
-    ?bnodeArcering owl:onProperty nen2660:isDescribedBy .
-    ?bnodeArcering owl:onClass ?arcURI .
-    ?ArceringTop a owl:Class ; skos:prefLabel "Arcering" .
-    ?arcURI rdfs:subClassOf+ ?ArceringTop .
-    ?arcURI a owl:Class ; skos:prefLabel ?arceringLabel .
-    BIND (COALESCE(STR(?arceringLabel), "") AS ?arcAnnValue)
-    BIND (IRI(CONCAT(STR(?objURI7), "#field-arc-", SHA1(STR(?arcURI)))) AS ?arcInfoField)
-    BIND (IRI(CONCAT(STR(?objURI7), "#group-arc-", SHA1(STR(?arcURI)))) AS ?arcGroupNode)
-    BIND (IRI(CONCAT(STR(?objURI7), "#group-arc-seq-", SHA1(STR(?arcURI)))) AS ?arcGroupSeqNode)
+    OPTIONAL {
+      ?objURI7 rdfs:subClassOf ?bnodeArcering .
+      ?bnodeArcering owl:onProperty nen2660:isDescribedBy .
+      ?bnodeArcering owl:onClass ?arcURI .
+      ?ArceringTop a owl:Class ; skos:prefLabel "Arcering" .
+      ?arcURI rdfs:subClassOf+ ?ArceringTop .
+      ?arcURI a owl:Class ; skos:prefLabel ?arceringLabel .
+    }
+    BIND (IF(BOUND(?arceringLabel), STR(?arceringLabel), "") AS ?arcAnnValue)
+    BIND (IF(BOUND(?arcURI),
+             IRI(CONCAT(STR(?objURI7), "-field-arc-", SHA1(STR(?arcURI)))),
+             IRI(CONCAT(STR(?objURI7), "-field-arc"))) AS ?arcInfoField)
   }
 
   UNION
 
-  # ── Block H: original NLCS URI stored as InformationField ─────────────────
+  # ── Block G: original NLCS URI stored as InformationField ─────────────────
   {
     ?NLCSObjectTopH a owl:Class ; skos:prefLabel "NLCS-object" .
     ?hgH rdfs:subClassOf ?NLCSObjectTopH ;
@@ -314,7 +320,7 @@ WHERE {
     ?objURI8 rdfs:subClassOf+ ?hgH ;
           a owl:Class .
     BIND (STR(?objURI8) AS ?uriStr)
-    BIND (IRI(CONCAT(STR(?objURI8), "#field-uri")) AS ?uriField)
+    BIND (IRI(CONCAT(STR(?objURI8), "-field-uri")) AS ?uriField)
   }
 
 }

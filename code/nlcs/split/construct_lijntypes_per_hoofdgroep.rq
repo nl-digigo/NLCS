@@ -54,8 +54,8 @@ CONSTRUCT {
   ?extLink a otl:ExternalLink .
   ?extLink otl:attr-ExternalLink-name ?label1 .
   ?extLink otl:attr-ExternalLink-relation "isSameAs" .
-  ?extLink otl:attr-ExternalLink-sourcename "TEST with stylesheet NLCS Common" .
-  ?extLink otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/test-with-stylesheet-nlcs-common"^^xsd:anyURI .
+  ?extLink otl:attr-ExternalLink-sourcename "$external_sourcename" .
+  ?extLink otl:attr-ExternalLink-sourceurl "$external_sourceurl"^^xsd:anyURI .
   ?extLink otl:attr-ExternalLink-uri ?ltURI1ExtUri .
 
   # ── Block B ───────────────────────────────────────────────────────────────
@@ -84,7 +84,12 @@ WHERE {
   {
     ?ltURI a owl:Class ; skos:prefLabel "Lijntype" .
     BIND ("Lijntype" AS ?label)
-    BIND (IRI(CONCAT(STR(?ltURI), "#seq-name")) AS ?seqNode)
+    BIND (IRI(CONCAT(STR(?ltURI), "-seq-name")) AS ?seqNode)
+    BIND (?ltURI AS ?ltURI1)
+    BIND ("Lijntype" AS ?label1)
+    BIND (IRI(CONCAT(STR(?ltURI), "-seq-name")) AS ?seqNode1)
+    BIND (IRI(CONCAT(STR(?ltURI), "-ext-link-shared")) AS ?extLink)
+    BIND (STRDT(STR(?ltURI), xsd:anyURI) AS ?ltURI1ExtUri)
   }
 
   UNION
@@ -117,7 +122,7 @@ WHERE {
       ?parent a owl:Class .
     }
     OPTIONAL { ?ltURI skos:definition ?def }
-    BIND (IRI(CONCAT(STR(?ltURI), "#seq-name")) AS ?seqNode)
+    BIND (IRI(CONCAT(STR(?ltURI), "-seq-name")) AS ?seqNode)
   }
 
   UNION
@@ -143,9 +148,9 @@ WHERE {
     ?ltURI1 a owl:Class .
     ?ltURI1 skos:prefLabel ?label1 .
     VALUES (?label1) { ("CONTINUOUS") ("V-CONTINUOUS-SO") }
-    BIND (IRI(CONCAT(STR(?ltURI1), "#seq-name")) AS ?seqNode1)
+    BIND (IRI(CONCAT(STR(?ltURI1), "-seq-name")) AS ?seqNode1)
     BIND (?LijntypeTopA1 AS ?ltTopURI1)
-    BIND (IRI(CONCAT(STR(?ltURI1), "#ext-link-shared")) AS ?extLink)
+    BIND (IRI(CONCAT(STR(?ltURI1), "-ext-link-shared")) AS ?extLink)
     BIND (STRDT(STR(?ltURI1), xsd:anyURI) AS ?ltURI1ExtUri)
   }
 
@@ -202,8 +207,8 @@ WHERE {
       BIND (COALESCE(STR(?uriLabelOpt), STR(?uriVal)) AS ?uriLabel)
     }
     BIND (COALESCE(STR(?litVal), ?uriLabel, "") AS ?annValueStr)
-    BIND (IRI(CONCAT(STR(?ltURI2), "#field-", SHA1(STR(?annProp)))) AS ?infoField)
-    BIND (IRI(CONCAT(STR(?annProp), "#info-type")) AS ?annTypeNode)
+    BIND (IRI(CONCAT(STR(?ltURI2), "-field-", SHA1(STR(?annProp)))) AS ?infoField)
+    BIND (IRI(CONCAT(STR(?annProp), "-info-type")) AS ?annTypeNode)
   }
 
   UNION
@@ -230,7 +235,7 @@ WHERE {
     ?ltURI3 skos:prefLabel ?ltLabel3 .
     FILTER (?ltLabel3 != "CONTINUOUS" && ?ltLabel3 != "V-CONTINUOUS-SO")
     BIND (STR(?ltURI3) AS ?uriStr)
-    BIND (IRI(CONCAT(STR(?ltURI3), "#field-uri")) AS ?uriField)
+    BIND (IRI(CONCAT(STR(?ltURI3), "-field-uri")) AS ?uriField)
   }
 
 }

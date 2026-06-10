@@ -52,17 +52,25 @@ SHARED_OUTPUT_FOLDER = os.path.join(OUTPUT_ROOT, "shared")
 
 # Queries that are run once per hoofdgroep (parameterised with $hoofdgroup_name)
 PARAMETERIZED_QUERIES = [
+    "construct_aspects_for_workspace_import.rq",
     "construct_objects_per_hoofdgroep.rq",
-    # "construct_arceringen_per_hoofdgroep.rq",
+    "construct_arceringen_per_hoofdgroep.rq",
     "construct_symbolen_per_hoofdgroep.rq",
     "construct_lijntypes_per_hoofdgroep.rq",
     "construct_lijnkleuren_lijnweights_per_hoofdgroep.rq",
 ]
 
 HOOFDGROUP_PLACEHOLDER = "$hoofdgroup_name"
+SOURCENAME_PLACEHOLDER = "$external_sourcename"
+SOURCEURL_PLACEHOLDER  = "$external_sourceurl"
 
 # Query that converts OWL/SKOS endpoint data to Laces OTL format (shared concepts).
 OTL_CONSTRUCT_QUERY = "construct_shared_as_laces_otl.rq"
+
+# After per-hoofdgroep queries run, the aspects result is appended to the objects
+# file and the standalone aspects file is removed.
+ASPECTS_QUERY = "construct_aspects_for_workspace_import.rq"
+OBJECTS_QUERY = "construct_objects_per_hoofdgroep.rq"
 
 # ---------------------------------------------------------------------------
 # Run configuration — edit these before running
@@ -71,10 +79,13 @@ OTL_CONSTRUCT_QUERY = "construct_shared_as_laces_otl.rq"
 # Which hoofdgroepen to export.  Set to None to retrieve all from the endpoint.
 # Example single:  RUN_HOOFDGROEPEN = ["AL"]
 # Example subset:  RUN_HOOFDGROEPEN = ["AL", "AS", "BC"]
-RUN_HOOFDGROEPEN = ["AL"]
+RUN_HOOFDGROEPEN = None
 
 # Set to True to also export shared concepts (lijnkleuren, statussen, etc.)
 RUN_SHARED = False
+
+SOURCE_NAME_SHARED = "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes"
+SOURCE_URL_SHARED = "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes/versions/1"
 
 # ---------------------------------------------------------------------------
 # Logging
@@ -138,8 +149,41 @@ def parameterize(query: str, placeholder: str, value: str) -> str:
     return query.replace(placeholder, value)
 
 
+def apply_params(query: str, params: dict) -> str:
+    """Replace all placeholder→value pairs in a query string."""
+    for placeholder, value in params.items():
+        query = query.replace(placeholder, value)
+    return query
+
+
 def ensure_dir(path: str) -> None:
     os.makedirs(path, exist_ok=True)
+
+
+def strip_ttl_prefixes(ttl_text: str) -> str:
+    """Return a Turtle string with all @prefix / PREFIX declarations removed."""
+    lines = ttl_text.splitlines(keepends=True)
+    body = "".join(
+        line for line in lines
+        if not line.lstrip().lower().startswith("@prefix")
+        and not line.lstrip().upper().startswith("PREFIX ")
+    )
+    return body.lstrip("\n")
+
+
+def _append_aspects_to_objects(aspects_path: str, objects_path: str) -> None:
+    """Strip prefixes from the aspects TTL and append its body to the objects TTL."""
+    with open(aspects_path, "r", encoding="utf-8") as f:
+        aspects_body = strip_ttl_prefixes(f.read())
+    if aspects_body.strip():
+        with open(objects_path, "a", encoding="utf-8") as f:
+            f.write("\n\n")
+            f.write(aspects_body)
+        log.info("  Appended aspects to %s", os.path.basename(objects_path))
+    else:
+        log.info("  (aspects body empty — skipping append)")
+    os.remove(aspects_path)
+    log.info("  Removed standalone %s", os.path.basename(aspects_path))
 
 
 def save_ttl(ttl_text: str, output_path: str) -> bool:
@@ -192,18 +236,26 @@ def run_shared_otl_export(client: LacesClient) -> None:
     log.info("\n--- Generating shared concepts in Laces OTL format ---")
     log.info("Running %s ...", OTL_CONSTRUCT_QUERY)
     try:
-        ttl = retrieve_common_concepts(client, query_path)
+        query = apply_params(load_query(query_path), {
+            SOURCENAME_PLACEHOLDER: SOURCE_NAME_SHARED,
+            SOURCEURL_PLACEHOLDER:  SOURCE_URL_SHARED,
+        })
+        ttl = client.construct(query)
         save_ttl(ttl, output_path)
     except Exception as exc:
         log.error("Error running %s: %s", OTL_CONSTRUCT_QUERY, exc)
 
 def run_per_hoofdgroep_queries(client: LacesClient, hoofdgroepen: list[str]) -> None:
     """For each hoofdgroep, run all parameterised CONSTRUCT queries."""
+    aspects_stem = os.path.splitext(ASPECTS_QUERY)[0]
+    objects_stem = os.path.splitext(OBJECTS_QUERY)[0]
+
     log.info("\n--- Running per-hoofdgroep queries ---")
     for hg in hoofdgroepen:
         log.info("\nHoofdgroep: %s", hg)
         hg_folder = os.path.join(OUTPUT_ROOT, hg)
         ensure_dir(hg_folder)
+        saved: dict[str, str] = {}
         for query_file in PARAMETERIZED_QUERIES:
             query_path = os.path.join(QUERY_FOLDER, query_file)
             stem = os.path.splitext(query_file)[0]
@@ -211,11 +263,22 @@ def run_per_hoofdgroep_queries(client: LacesClient, hoofdgroepen: list[str]) -> 
             log.info("  %s ...", query_file)
             try:
                 template = load_query(query_path)
-                query = parameterize(template, HOOFDGROUP_PLACEHOLDER, hg)
+                query = apply_params(template, {
+                    HOOFDGROUP_PLACEHOLDER: hg,
+                    SOURCENAME_PLACEHOLDER: SOURCE_NAME_SHARED,
+                    SOURCEURL_PLACEHOLDER:  SOURCE_URL_SHARED,
+                })
                 ttl = client.construct(query)
-                save_ttl(ttl, output_path)
+                if save_ttl(ttl, output_path):
+                    saved[stem] = output_path
             except Exception as exc:
                 log.error("  Error running %s for '%s': %s", query_file, hg, exc)
+
+        if aspects_stem in saved and objects_stem in saved:
+            try:
+                _append_aspects_to_objects(saved[aspects_stem], saved[objects_stem])
+            except Exception as exc:
+                log.error("  Error appending aspects to objects for '%s': %s", hg, exc)
 
 
 # ---------------------------------------------------------------------------
