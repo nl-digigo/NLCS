@@ -50,6 +50,10 @@ sub trim { my $s = shift; $s //= ""; $s =~ s/^\s+|\s+$//g; return $s; }
 # kind_van: "0" in 5.0 == leeg in 5.2 (top-level object)
 sub norm { my ($h, $v) = @_; $v = "" if $h eq "kind_van" && $v eq "0"; return $v; }
 
+# Kolommen die nooit als "gewijzigd" gemarkeerd worden:
+# id_nummer (de sleutel) en laagnaam (wordt genegeerd in de vergelijking).
+my %SKIP = (id_nummer => 1, laagnaam => 1);
+
 # --- 5.2 inlezen (komma; auto-detect puntkomma voor de zekerheid) ---
 open(my $n, "<:encoding(UTF-8)", $NEW) or die $!;
 my $hl = <$n>; $hl =~ s/^\x{FEFF}//; $hl =~ s/\r?\n$//;
@@ -106,7 +110,7 @@ for my $r (@NR) {
   my @cells;
   for my $h (@H) {
     my $v = trim($r->[$HI{$h}]);
-    if (!$isnew && $common{$h} && $h ne "id_nummer") {
+    if (!$isnew && $common{$h} && !$SKIP{$h}) {
       my $ov = trim($old->[$OI{$h}]);
       if (norm($h, $ov) ne norm($h, $v)) {
         $chg++;
