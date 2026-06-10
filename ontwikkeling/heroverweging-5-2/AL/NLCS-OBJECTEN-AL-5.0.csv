@@ -1,0 +1,39 @@
+﻿OMSCHRIJVING;STATUS;-;DISCIPLINE;-;HOOFDGROEP;-;OBJECT;_;SUBOBJECT01;_;SUBOBJECT02;_;SUBOBJECT03;_;SUBOBJECT04;_;SUBOBJECT05;-;BEWERKING;-;ELEMENT;-;SCHAAL;ARCERING;SYMBOOL;LAAGNAAM;B lineweight;B color;B color A;B color GD;B color GN;B color V;B linetype;N lineweight;N color;N color A;N color GD;N color GN;N color V;N linetype;V lineweight;V color;V color A;V color GD;V color GN;V color V;V linetype;T lineweight;T color;T color A;T color GD;T color GN;T color V;T linetype;VRKL_kort;VRKL_lang;VERSIE;WIJZIGING;STATUS;ID;KIND_VAN
+AANKLEDING;*;-;**;-;AL;-;AANKLEDING;;;;;;;;;;;;;-;G/S;;;;SAL-AANKLEDING;*-**-AL-AANKLEDING-G/S;0.35;2;2;2;2;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;4.2;kleur  B aangepast test;GEWIJZIGD;1;0
+BLADVERWIJZING;*;-;**;-;AL;-;BLADVERWIJZING;;;;;;;;;;;;;-;G;;;;;*-**-AL-BLADVERWIJZING-G;0.18;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;2;0
+BLADVERWIJZING_AS;*;-;**;-;AL;-;BLADVERWIJZING;_;AS;;;;;;;;;;;-;G;;;;;*-**-AL-BLADVERWIJZING_AS-G;0.25;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;3;2
+BLADVERWIJZING_BLAD;*;-;**;-;AL;-;BLADVERWIJZING;_;BLAD;;;;;;;;;;;-;G;;;;;*-**-AL-BLADVERWIJZING_BLAD-G;0.35;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;4;2
+BLADVERWIJZING_CONTOUR;*;-;**;-;AL;-;BLADVERWIJZING;_;CONTOUR;;;;;;;;;;;-;G;;;;;*-**-AL-BLADVERWIJZING_CONTOUR-G;0.35;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;5;2
+BLADVERWIJZING_DTM;*;-;**;-;AL;-;BLADVERWIJZING;_;DTM;;;;;;;;;;;-;G;;;;;*-**-AL-BLADVERWIJZING_DTM-G;0.18;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;6;2
+BLADVERWIJZING_KAART;*;-;**;-;AL;-;BLADVERWIJZING;_;KAART;;;;;;;;;;;-;G;;;;;*-**-AL-BLADVERWIJZING_KAART-G;0.18;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;7;2
+COORDINAATPUNT;*;-;**;-;AL;-;COORDINAATPUNT;;;;;;;;;;;;;-;G/S;;;;SAL-COORDINAAT;*-**-AL-COORDINAATPUNT-G/S;0.25;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;4.1;;NIEUW;3364;0
+FASEGRENS;*;-;**;-;AL;-;FASEGRENS;;;;;;;;;;;;;-;G;;;;;*-**-AL-FASEGRENS-G;0.35;7;7;7;7;253;AL-FASEGRENS-SO;;;;;;;;;;;;;;;;;;;;;;;;3.1;Verplaatst naar KG;VERVALLEN;35;0
+LEGENDA;*;-;**;-;AL;-;LEGENDA;;;;;;;;;;;;;-;G;;;;;*-**-AL-LEGENDA-G;0.18;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;32;0
+ORIENTATIE;*;-;**;-;AL;-;ORIENTATIE;;;;;;;;;;;;;-;S;;;;SAL-ORIENTATIE;*-**-AL-ORIENTATIE-S;0.18;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;10;0
+PROFIEL;*;-;**;-;AL;-;PROFIEL;;;;;;;;;;;;;-;G;;;;;*-**-AL-PROFIEL-G;0.25;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;3.1;;VERVALLEN;33;0
+PROFIELBALK;*;-;**;-;AL;-;PROFIELBALK;;;;;;;;;;;;;-;G;;;;;*-**-AL-PROFIELBALK-G;0.25;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;3.0;PROFIEL en BALK samengevoegd;GEWIJZIGD;34;0
+PROJECTGRENS;*;-;**;-;AL;-;PROJECTGRENS;;;;;;;;;;;;;-;G;;;;;*-**-AL-PROJECTGRENS-G;0.35;7;7;7;7;253;AL-PROJECTGRENS-SO;;;;;;;;;;;;;;;;;;;;;;;;3.1;Verplaatst naar KG;VERVALLEN;36;0
+REFERENTIE;*;-;**;-;AL;-;REFERENTIE;;;;;;;;;;;;;-;G;;;;;*-**-AL-REFERENTIE-G;0.18;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;11;0
+SYSTEEMGRENS;*;-;**;-;AL;-;SYSTEEMGRENS;;;;;;;;;;;;;-;G;;;;;*-**-AL-SYSTEEMGRENS-G;0.35;7;7;7;7;253;AL-SYSTEEMGRENS-SO;;;;;;;;;;;;;;;;;;;;;;;;3.1;Verplaatst naar KG;VERVALLEN;37;0
+TEKENBLAD;*;-;**;-;AL;-;TEKENBLAD;;;;;;;;;;;;;-;S;;;;SAL-TEKENBLAD;*-**-AL-TEKENBLAD-S;0.25;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;12;0
+TEKENBLAD_DEELKADER;*;-;**;-;AL;-;TEKENBLAD;_;DEELKADER;;;;;;;;;;;-;G;;;;;*-**-AL-TEKENBLAD_DEELKADER-G;0.18;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;13;12
+TEKENBLAD_HULPLIJN;*;-;**;-;AL;-;TEKENBLAD;_;HULPLIJN;;;;;;;;;;;-;G;;;;;*-**-AL-TEKENBLAD_HULPLIJN-G;0.18;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;14;12
+TEKENBLAD_KADER;*;-;**;-;AL;-;TEKENBLAD;_;KADER;;;;;;;;;;;-;G;;;;;*-**-AL-TEKENBLAD_KADER-G;0.70;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;15;12
+TEKENBLAD_KADER_AFSNIJMARKERING;*;-;**;-;AL;-;TEKENBLAD;_;KADER;_;AFSNIJMARKERING;;;;;;;;;-;G;;;;;*-**-AL-TEKENBLAD_KADER_AFSNIJMARKERING-G;0.25;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;16;15
+TEKENBLAD_KADER_CENTERMARKERING;*;-;**;-;AL;-;TEKENBLAD;_;KADER;_;CENTERMARKERING;;;;;;;;;-;G;;;;;*-**-AL-TEKENBLAD_KADER_CENTERMARKERING-G;0.25;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;17;15
+TEKENBLAD_KADER_ROOSTERVERDELING;*;-;**;-;AL;-;TEKENBLAD;_;KADER;_;ROOSTERVERDELING;;;;;;;;;-;G;;;;;*-**-AL-TEKENBLAD_KADER_ROOSTERVERDELING-G;0.25;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;18;15
+TEKENBLAD_KADER_VOUWMERK;*;-;**;-;AL;-;TEKENBLAD;_;KADER;_;VOUWMERK;;;;;;;;;-;G;;;;;*-**-AL-TEKENBLAD_KADER_VOUWMERK-G;0.18;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;19;15
+TEKENBLAD_SCHAALBALK;*;-;**;-;AL;-;TEKENBLAD;_;SCHAALBALK;;;;;;;;;;;-;G/S;;;;SAL-SCHAALBALK;*-**-AL-TEKENBLAD_SCHAALBALK-G/S;0.18;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;20;12
+TEKENBLAD_SITUATIE;*;-;**;-;AL;-;TEKENBLAD;_;SITUATIE;;;;;;;;;;;-;G;;;;;*-**-AL-TEKENBLAD_SITUATIE-G;0.18;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;21;12
+TEKENBLAD_TITELBLOK;*;-;**;-;AL;-;TEKENBLAD;_;TITELBLOK;;;;;;;;;;;-;G;;;;;*-**-AL-TEKENBLAD_TITELBLOK-G;0.25;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;22;12
+TEKENBLAD_TITELBLOK_BEDRIJFSLOGO;*;-;**;-;AL;-;TEKENBLAD;_;TITELBLOK;_;BEDRIJFSLOGO;;;;;;;;;-;G;;;;;*-**-AL-TEKENBLAD_TITELBLOK_BEDRIJFSLOGO-G;0.25;7;7;7;7;251;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;3.1;kleur B color V aangepast;GEWIJZIGD;23;22
+TEKENBLAD_VERKLARING;*;-;**;-;AL;-;TEKENBLAD;_;VERKLARING;;;;;;;;;;;-;G;;;;;*-**-AL-TEKENBLAD_VERKLARING-G;0.18;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;24;12
+TEKENBLAD_VIEWPORT;*;-;**;-;AL;-;TEKENBLAD;_;VIEWPORT;;;;;;;;;;;-;G;;;;;*-**-AL-TEKENBLAD_VIEWPORT-G;0.18;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;25;12
+TEKENBLAD_WIJZIGINGSBLOK;*;-;**;-;AL;-;TEKENBLAD;_;WIJZIGINGSBLOK;;;;;;;;;;;-;G;;;;;*-**-AL-TEKENBLAD_WIJZIGINGSBLOK-G;0.25;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;26;12
+TEKENBLADGRENS;*;-;**;-;AL;-;TEKENBLADGRENS;;;;;;;;;;;;;-;G;;;;;*-**-AL-TEKENBLADGRENS-G;0.35;7;7;7;7;253;AL-TEKENBLADGRENS-SO;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;38;0
+VERWIJZING;*;-;**;-;AL;-;VERWIJZING;;;;;;;;;;;;;-;G/S;;;;SAL-VERWIJZING;*-**-AL-VERWIJZING-G/S;0.18;7;7;7;7;253;CONTINUOUS;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;27;0
+VERWIJZING_AANZICHT;*;-;**;-;AL;-;VERWIJZING;_;AANZICHT;;;;;;;;;;;-;G;;;;;*-**-AL-VERWIJZING_AANZICHT-G;0.18;7;7;7;7;253;AL-PROFIEL-SO;;;;;;;;;;;;;;;;;;;;;;;;3.1;;GEWIJZIGD;28;27
+VERWIJZING_DETAIL;*;-;**;-;AL;-;VERWIJZING;_;DETAIL;;;;;;;;;;;-;G;;;;;*-**-AL-VERWIJZING_DETAIL-G;0.35;7;7;7;7;253;AL-DETAILS-SO;;;;;;;;;;;;;;;;;;;;;;;;3.1;;GEWIJZIGD;29;27
+VERWIJZING_DOORSNEDE;*;-;**;-;AL;-;VERWIJZING;_;DOORSNEDE;;;;;;;;;;;-;G;;;;;*-**-AL-VERWIJZING_DOORSNEDE-G;0.18;7;7;7;7;253;ZZ-CENTER-SO;;;;;;;;;;;;;;;;;;;;;;;;3.1;;GEWIJZIGD;30;27
+VERWIJZING_WIJZIGING;*;-;**;-;AL;-;VERWIJZING;_;WIJZIGING;;;;;;;;;;;-;G;;;;;*-**-AL-VERWIJZING_WIJZIGING-G;0.18;7;7;7;7;253;ZZ-CENTER-SO;;;;;;;;;;;;;;;;;;;;;;;;2.5.1;;;31;27
+WERKGRENS;*;-;**;-;AL;-;WERKGRENS;;;;;;;;;;;;;-;G;;;;;*-**-AL-WERKGRENS-G;0.35;7;7;7;7;253;AL-WERKGRENS-SO;;;;;;;;;;;;;;;;;;;;;;;;3.1;Verplaatst naar KG;VERVALLEN;39;0
