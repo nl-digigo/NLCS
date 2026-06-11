@@ -20,9 +20,27 @@ if [[ $# -lt 1 ]]; then
 fi
 
 SVG_DIR="$1"
-TITLE="${2:-$(basename "$SVG_DIR") — SVG-overzicht}"
 
 [[ -d "$SVG_DIR" ]] || { echo "Map niet gevonden: $SVG_DIR" >&2; exit 1; }
+
+# Bepaal titel: gebruik 2e argument indien gegeven, anders zoek de hoofdgroep-
+# omschrijving op in de NLCS hoofdgroepen-CSV (canonieke bron, zie memory).
+HG_CSV="C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCS/tabellen/publicatie/NLCS_Query_Hoofdgroepen-concept-5.2.csv"
+folder_name="$(basename "$SVG_DIR")"
+if [[ $# -ge 2 ]]; then
+    TITLE="$2"
+elif [[ "$folder_name" =~ ^S([A-Z]{2})$ ]] && [[ -f "$HG_CSV" ]]; then
+    afk="${BASH_REMATCH[1]}"
+    # CSV-formaat: hoofdgroepURI,id,hoofdgroep,afkorting
+    hg_name=$(awk -F, -v code="$afk" '$4 == code { print $3; exit }' "$HG_CSV")
+    if [[ -n "$hg_name" ]]; then
+        TITLE="${folder_name} — ${hg_name} (NLCS 5.2)"
+    else
+        TITLE="${folder_name} — SVG-overzicht NLCS 5.2"
+    fi
+else
+    TITLE="${folder_name} — SVG-overzicht"
+fi
 
 OUT="$SVG_DIR/overzicht.html"
 count=$(find "$SVG_DIR" -maxdepth 1 -name "*.svg" -type f ! -name "overzicht.html" | wc -l)
