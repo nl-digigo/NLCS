@@ -166,8 +166,9 @@ WHERE {
           (nlcs:5f36dd80a4a3f96ed76158ec5d420be7)
           (nlcs:965ac85b41943c884f3487cb131e05bd)
         }
+        VALUES (?hgNameB) { ("$hoofdgroup_name") }
         ?NLCSObjectTopB a owl:Class ; skos:prefLabel "NLCS-object" .
-        ?hgB rdfs:subClassOf ?NLCSObjectTopB ; skos:prefLabel "$hoofdgroup_name" .
+        ?hgB rdfs:subClassOf ?NLCSObjectTopB ; skos:prefLabel ?hgNameB .
         ?objB rdfs:subClassOf+ ?hgB ; a owl:Class .
         ?objB ?ltProp ?linkedLtB .
         ?LijntypeTopB a owl:Class ; skos:prefLabel "Lijntype" .
