@@ -1,0 +1,635 @@
+@prefix bm: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/blueprint-manager/> .
+@prefix bs: <https://w3id.org/def/basicsemantics-owl#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ex: <http://example.org/example#> .
+@prefix kos: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/kos/> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix otl: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix shapes: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix specifications: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/specifications/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:ConvertAspects a sh:NodeShape ;
+    sh:rule [ a sh:SPARQLRule ;
+            sh:construct """	
+			CONSTRUCT {
+				?tgtAspect a skos:Concept .
+				?tgtAspect skos:broader ?tgtParent .
+				?tgtAspect skos:prefLabel ?tgtAspectPrefName .
+				?tgtAspect skos:prefLabel ?tgtAspectAltName .
+				?tgtAspect skos:definition ?tgtAspectDescription .
+			}
+			WHERE {
+				?this otl:attr-Conceptual-name ?tgtAspectPrefName .
+				OPTIONAL {
+					?this otl:attr-Conceptual-name ?tgtAspectAltName .
+					?this shapes:sequence/rdf:_1 ?tgtAspectPrefName .
+					FILTER (?tgtAspectAltName != ?tgtAspectPrefName) .
+				} .
+				# Check if the aspect has a parent and whether it is an internal or external link
+				OPTIONAL {
+					?this otl:rel-Conceptual-isSpecializationOf ?parentAspect .
+					OPTIONAL {
+						?parentAspect shapes:sequence/rdf:_1 ?parentName .
+
+						BIND (ex:createHumanReadableUri(?parentName) AS ?newParentAspectURI) .
+					} .
+					BIND (COALESCE(?newParentAspectURI, ?parentAspect) AS ?tgtParent) .
+				} .
+				OPTIONAL {
+					?this otl:attr-Conceptual-description ?tgtAspectDescription .
+				} .
+
+				BIND (ex:createHumanReadableUri(?tgtAspectPrefName) AS ?tgtAspect) .
+			}
+			""" ;
+            sh:deactivated false ;
+            sh:prefixes ex:,
+                otl:,
+                shapes:,
+                rdf:,
+                rdfs:,
+                skos:,
+                sh: ] ;
+    sh:targetClass otl:Aspect .
+
+ex:ConvertConceptuals a sh:NodeShape ;
+    sh:rule [ a sh:SPARQLRule ;
+            sh:construct """	
+			CONSTRUCT {
+			    ?tgtThis a skos:Concept .
+			    ?tgtThis skos:broader ?tgtParentConcept .
+			    ?tgtThis skos:prefLabel ?tgtConceptualPrefName .
+			    ?tgtThis skos:prefLabel ?tgtConceptualAltName .
+			    ?tgtThis skos:definition ?tgtConceptualDescription .
+			    # ?tgtThis skos:note ?tgtConceptualNote .
+			    # ?tgtThis skos:notation ?tgtConceptualCode .
+			    # ?tgtThis skos:altLabel ?tgtConceptualAbbreviation .  # if including NEN: original relation was nen2660:abbreviation
+			}
+			WHERE {
+			# Only certain subclasses of otl:Conceptual should be converted into classes (Qualifications for example should not be converted into instances of skos:Concept)
+				?this a ?conceptual .
+    			FILTER (?conceptual IN (otl:PhysicalObject, otl:GeometricalSpace, otl:Activity, otl:Function, otl:Document, otl:FunctionalSpace, otl:Objective, otl:Agent, otl:Event, otl:State, otl:Risk, otl:TimePeriod, otl:Matter)) .
+			# If the concept is a specialization of another concept in the OTL, it should be modeled by a rdfs:subClassOf relation between the two concepts
+				OPTIONAL {
+			        ?this otl:rel-Conceptual-isSpecializationOf ?parentConceptual .
+			        OPTIONAL {
+			            ?parentConceptual shapes:sequence/rdf:_1 ?parentName .
+
+						BIND (ex:createHumanReadableUri(?parentName) AS ?newParentConceptualURI) .
+			        } .
+			    } .
+    			BIND (COALESCE(?newParentConceptualURI, ?parentConceptual) AS ?newParentConceptual) .
+			# All concepts should be placed under a root concept. These root concepts are only created if it will contain at least one member
+			# The top concepts of the OTL are placed under a root concept, all other concepts are placed under their parent
+				OPTIONAL {
+					?conceptual rdfs:seeAlso ?ntaTopConceptual .
+					BIND (URI(REPLACE(STR(?ntaTopConceptual), "/def#", "/term#")) AS ?ntaTopConceptualTerm ) .
+				} .	
+				OPTIONAL {
+					?conceptual skos:altLabel ?tgtTopConceptualLabel .
+					BIND (ex:createURI(?tgtTopConceptualLabel) AS ?lacesTopConceptual) .
+				} .
+				BIND (COALESCE(?ntaTopConceptualTerm, ?lacesTopConceptual) AS ?tgtTopConceptual) .
+				BIND (COALESCE(?newParentConceptual, ?tgtTopConceptual) AS ?tgtParentConcept) .
+			
+			# This section finds any names, the preferred name, descriptions, notes, codes and abbreviations of the concept (if applicable).
+				?this shapes:sequence/rdf:_1 ?tgtConceptualPrefName .
+				OPTIONAL {
+					?this otl:attr-Conceptual-name ?tgtConceptualAltName .
+					?this shapes:sequence/rdf:_1 ?tgtConceptualPrefName .
+					FILTER (?tgtConceptualAltName != ?tgtConceptualPrefName) .
+				} .
+				OPTIONAL {
+					?this otl:attr-Conceptual-description ?tgtConceptualDescription .
+				} .
+				# OPTIONAL {
+				# 	?this otl:attr-Conceptual-note ?tgtConceptualNote .
+				# } .
+				# OPTIONAL {
+				# 	?this otl:attr-Conceptual-code ?tgtConceptualCode .
+				# } .
+				# OPTIONAL {
+				# 	?this otl:attr-Conceptual-abbreviation ?tgtConceptualAbbreviation .
+				# } .
+
+				BIND (ex:createHumanReadableUri(?tgtConceptualPrefName) AS ?tgtThis) .
+			}
+			""" ;
+            sh:deactivated false ;
+            sh:prefixes ex:,
+                otl:,
+                shapes:,
+                rdf:,
+                rdfs:,
+                skos:,
+                sh:,
+                nen2660: ] ;
+    sh:targetClass otl:Conceptual .
+
+ex:ConvertExternalSource a sh:NodeShape ;
+    sh:rule [ a sh:SPARQLRule ;
+            sh:construct """	
+			CONSTRUCT {
+				?childConceptual skos:broader ?tgtThis .
+				?tgtThis skos:exactMatch ?tgtSameAsExternalURI .
+				?tgtThis skos:related ?tgtRelatedToExternalURI .
+				?tgtThis ?shallBeCompliantWith ?tgtIsCompliantWithExternalURI .
+			}
+			WHERE {
+				?this a ?conceptual .
+				FILTER(?conceptual != otl:Aspect) .
+				OPTIONAL {
+					?childConceptual otl:rel-Conceptual-isSpecializationOf ?this .
+					FILTER NOT EXISTS {
+						?childConceptual otl:attr-Conceptual-name ?childName .
+					} .
+				} .
+				OPTIONAL {
+					?this otl:rel-Conceptual-hasExternalLink ?1externalRelation .
+					?1externalRelation a otl:ExternalLink .
+					?1externalRelation otl:attr-ExternalLink-relation "isSameAs" .
+					?1externalRelation otl:attr-ExternalLink-uri ?sameAsExternalURI .
+					FILTER (!regex(str(?sameAsExternalURI), "http://qudt.org/vocab/unit/", "i")) .
+					BIND (URI(str(?sameAsExternalURI)) AS ?tgtSameAsExternalURI) .
+				} .
+				OPTIONAL {
+					?this otl:rel-Conceptual-hasExternalLink ?2externalRelation .
+					?2externalRelation a otl:ExternalLink .
+					?2externalRelation otl:attr-ExternalLink-relation "isRelatedTo" .
+					?2externalRelation otl:attr-ExternalLink-uri ?relatedToExternalURI .
+					BIND (URI(str(?relatedToExternalURI)) AS ?tgtRelatedToExternalURI) .
+				} .
+				OPTIONAL {
+					?this otl:rel-Conceptual-hasExternalLink ?3externalRelation .
+					?3externalRelation a otl:ExternalLink .
+					?3externalRelation otl:attr-ExternalLink-relation "isCompliantWith" .
+					?3externalRelation otl:attr-ExternalLink-uri ?isCompliantWithExternalURI .
+					BIND (URI(str(?isCompliantWithExternalURI)) AS ?tgtIsCompliantWithExternalURI) .
+					BIND (ex:createURI("shallBeCompliantWith") AS ?shallBeCompliantWith) .
+				} .
+				
+				?this shapes:sequence/rdf:_1 ?tgtConceptualPrefName .
+				BIND (ex:createHumanReadableUri(?tgtConceptualPrefName) AS ?tgtThis) . 
+			}
+			""" ;
+            sh:deactivated false ;
+            sh:prefixes ex:,
+                otl:,
+                shapes:,
+                rdf:,
+                rdfs:,
+                skos:,
+                sh: ] ;
+    sh:targetClass otl:Conceptual .
+
+ex:ConvertExternalSourceAspect a sh:NodeShape ;
+    sh:rule [ a sh:SPARQLRule ;
+            sh:construct """	
+			CONSTRUCT {
+				?tgtAspect skos:exactMatch ?tgtSameAsExternalURI .
+				?tgtAspect skos:related ?tgtRelatedToExternalURI .
+			}
+			WHERE {
+				?aspect otl:rel-Conceptual-hasExternalLink ?this .
+				?aspect a otl:Aspect .
+				OPTIONAL {
+					?aspect otl:rel-Conceptual-hasExternalLink ?1externalRelation .
+					?1externalRelation a otl:ExternalLink .
+					?1externalRelation otl:attr-ExternalLink-relation "isSameAs" .
+					?1externalRelation otl:attr-ExternalLink-uri ?sameAsExternalURI .
+					BIND (URI(str(?sameAsExternalURI)) AS ?tgtSameAsExternalURI) .
+				} .
+				OPTIONAL {
+					?aspect otl:rel-Conceptual-hasExternalLink ?2externalRelation .
+					?2externalRelation a otl:ExternalLink .
+					?2externalRelation otl:attr-ExternalLink-relation "isRelatedTo" .
+					?2externalRelation otl:attr-ExternalLink-uri ?relatedToExternalURI .
+					BIND (URI(str(?relatedToExternalURI)) AS ?tgtRelatedToExternalURI) .
+				} .
+				
+				?aspect shapes:sequence/rdf:_1 ?tgtConceptualPrefName .
+				BIND (ex:createHumanReadableUri(?tgtConceptualPrefName) AS ?tgtAspect) . 
+			}
+			""" ;
+            sh:deactivated false ;
+            sh:prefixes ex:,
+                otl:,
+                shapes:,
+                rdf:,
+                rdfs:,
+                skos:,
+                sh: ] ;
+    sh:targetClass otl:ExternalLink .
+
+ex:ConvertGroupForQualifications a sh:NodeShape ;
+    sh:rule [ a sh:SPARQLRule ;
+            sh:construct """	
+			CONSTRUCT {
+				?tgtThis a skos:Collection .
+				?tgtThis skos:prefLabel ?EnumerationName .
+				?tgtThis skos:member ?tgtElementUri .
+				?tgtThis skos:broader nen2660:EnumerationType .
+				?tgtElementUri a skos:Concept .  
+				?tgtElementUri skos:prefLabel ?tgtElementName .
+			}
+			WHERE {
+				# ?possessedAspect otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf ?this .
+				# ?aspectRelation otl:rel-Relation-toRole ?possessedAspect .
+				# ?aspectRelation otl:rel-Relation-to ?tgtAspect . 
+				?this a otl:GroupForQualifications .
+				?this otl:rel-Group-isCollectionFor ?qualification .
+				?qualification otl:attr-Conceptual-name ?tgtElementName .
+				# ?qualification otl:attr-Conceptual-description ?tgtElementDescription .
+
+				# BIND(IF(CONTAINS(str(?tgtElementDescription), "$"), STRBEFORE(?tgtElementDescription, "$"), ?tgtElementDescription) AS ?descriptions) .
+  				# BIND(IF(CONTAINS(str(?tgtElementDescription), "$"), STRAFTER(?tgtElementDescription, "$"), ?undefined) AS ?rest) .
+				# BIND(COALESCE(?descriptions, ?tgtElementDescription) AS ?tgtdescriptions)
+  				# BIND(IF(REGEX(?tgtdescriptions, '^"([^"]*)",'), STRLANG(REPLACE(?tgtdescriptions, '^"([^"]*)",".*$', '$1'), "nl"), STRLANG(?tgtdescriptions, "nl")) AS ?nlDescription) .
+				# BIND(IF(REGEX(?tgtdescriptions, '^"([^"]*)",'), STRLANG(REPLACE(?tgtdescriptions, '^".*","([^"]*)"$', '$1'), "en"), ?undefined) AS ?enDescription) .
+
+				# BIND(IF(CONTAINS(str(?rest), "]"), STRAFTER(STRBEFORE(?rest, "]"), "["), ?undefined) AS ?linkName) .
+				# BIND(IF(CONTAINS(str(?rest), "]"), STRAFTER(	STRBEFORE(STRAFTER(?rest, "]"), ")")	,"(") , ?undefined) AS ?strlink) .
+				# BIND(URI(?strlink) AS ?link) .
+
+				# GroupForQualification
+				?this otl:attr-Group-name ?EnumerationName .
+				# BIND(IF(CONTAINS(str(?EnumerationName), "$"), STRBEFORE(?EnumerationName, "$"), ?EnumerationName) AS ?tgtEnumNames) .
+  				# BIND(IF(CONTAINS(str(?EnumerationName), "$"), STRAFTER(?EnumerationName, "$"), ?undefined) AS ?tgtEnumDescriptions) .
+				# BIND(COALESCE(?EnumNames, ?EnumerationName) AS ?tgtEnumNames)
+
+				# BIND(IF(CONTAINS(str(?tgtEnumNames), ","), STRLANG(STRBEFORE(?tgtEnumNames, ","), "nl"), STRLANG(?tgtEnumNames,"nl")) AS ?tgtEnumerationNLname) .
+  				# BIND(IF(CONTAINS(str(?tgtEnumNames), ","), STRLANG(STRAFTER(?tgtEnumNames, ","), "en"), ?undefined) AS ?tgtEnumerationENname) .
+				# BIND(IF(REGEX(?tgtEnumDescriptions, '^"([^"]*)",'), STRLANG(REPLACE(?tgtEnumDescriptions, '^"([^"]*)",".*$', '$1'), "nl"), STRLANG(?tgtEnumDescriptions, "nl")) AS ?tgtEnumerationNLdescription) .
+				# BIND(IF(REGEX(?tgtEnumDescriptions, '^"([^"]*)",'), STRLANG(REPLACE(?tgtEnumDescriptions, '^".*","([^"]*)"$', '$1'), "en"), ?undefined) AS ?tgtEnumerationENdescription) .
+
+				BIND (ex:createHumanReadableUri(?tgtElementName) AS ?tgtElementUri) .
+
+				BIND (ex:createHumanReadableUri(?EnumerationName) AS ?tgtThis) . 
+			}
+			""" ;
+            sh:deactivated false ;
+            sh:prefixes ex:,
+                otl:,
+                rdf:,
+                rdfs:,
+                skos:,
+                sh:,
+                nen2660: ] ;
+    sh:targetClass otl:GroupForQualifications .
+
+ex:ConvertGroups a sh:NodeShape ;
+    sh:rule [ a sh:SPARQLRule ;
+            sh:construct """	
+			CONSTRUCT {
+				?tgtThis a skos:Collection .
+				?tgtThis skos:prefLabel ?tgtGroupName .
+				?tgtThis skos:member ?tgtConceptual .
+				?tgtThis skos:member ?tgtPartGroup .
+			}
+			WHERE {
+			# otl:GroupForQualifications is a subclass of otl:Group. Its instances should not be used in this conversion
+				FILTER NOT EXISTS {
+					?this a otl:GroupForQualifications .
+				} .
+			# Find the conceptuals that are part of the group
+				?this otl:rel-Group-isCollectionFor ?conceptual .
+				?conceptual otl:attr-Conceptual-name ?name .
+				FILTER(LANG(?name) = "nl") .
+
+				BIND (ex:createHumanReadableUri(?name) AS ?tgtConceptual) . 
+			# Find the group names if applicable
+				OPTIONAL {
+					?this otl:attr-Group-name ?tgtGroupName .
+					FILTER(LANG(?tgtGroupName) = "nl") .
+				} .
+			# Find groups that are part of this group, these will be added as group members, just like conceptuals
+				OPTIONAL {
+					?this otl:rel-Group-isWholeFor ?partGroup .
+					?partGroup otl:attr-Group-name ?tgtPartGroupName .
+					FILTER(LANG(?tgtPartGroupName) = "nl") .
+
+					BIND (ex:createHumanReadableUri(?tgtPartGroupName) AS ?tgtPartGroup) .  
+				} .
+
+				BIND (ex:createHumanReadableUri(?tgtGroupName) AS ?tgtThis) .  
+			}
+			""" ;
+            sh:deactivated false ;
+            sh:prefixes ex:,
+                otl:,
+                rdf:,
+                rdfs:,
+                skos:,
+                sh: ] ;
+    sh:targetClass otl:Group .
+
+ex:ConvertUnitOfMeasure a sh:NodeShape ;
+    sh:rule [ a sh:SPARQLRule ;
+            sh:construct """	
+			CONSTRUCT {
+				?tgtUnitOfMeasure a skos:Concept .
+			}
+			WHERE {
+				?this a otl:UnitOfMeasure .
+				?this otl:rel-Conceptual-hasExternalLink ?externalLink .
+				?externalLink otl:attr-ExternalLink-relation "isSameAs" .
+				?externalLink otl:attr-ExternalLink-uri ?externalUnitUri .
+				FILTER (CONTAINS(STR(?externalUnitUri), "http://qudt.org/vocab/unit/")) . 
+				BIND (URI(REPLACE(STR(?externalUnitUri), "http://qudt.org/schema/qudt/", "http://qudt.org/vocab/unit/")) AS ?tgtUnitOfMeasure) .
+			}
+			""" ;
+            sh:deactivated false ;
+            sh:prefixes ex:,
+                otl:,
+                rdf:,
+                rdfs:,
+                skos:,
+                sh: ] ;
+    sh:targetClass otl:UnitOfMeasure .
+
+ex:CreateOntology a sh:NodeShape ;
+    sh:rule [ a sh:SPARQLRule ;
+            sh:construct """	
+			CONSTRUCT {
+			    ?tgtInferredOntology a skos:ConceptScheme .
+			    ?tgtInferredOntology owl:imports <https://w3id.org/nen2660/term#> .
+			    ?tgtInferredOntology dct:date ?tgtVersionDate .
+			    ?tgtInferredOntology skos:prefLabel ?tgtOntologyName .
+			    ?tgtInferredOntology rdfs:comment ?tgtOntologyDescription .
+			}
+			WHERE {
+			    ?this a owl:Ontology .
+				FILTER (!STRSTARTS(str(?this), "http://hub.laces.tech/semmtech/schemas")) .
+                FILTER (!STRSTARTS(str(?this), "http://www.laces.tech/publication/ns/semmtech")) .
+                FILTER (!STRSTARTS(str(?this), "http://models.laces.tech/")) .
+				FILTER (!STRSTARTS(str(?this), "http://data.semmtech.com/sem/")) .
+				FILTER (!STRSTARTS(str(?this), "http://www.w3.org/")) .
+
+				?this rdfs:label ?tgtOntologyName .
+			    OPTIONAL { 
+					?this dct:description ?tgtOntologyDescription .
+					?this dct:date ?versionDate .
+					BIND (REPLACE(?versionDate, "T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{6}", "") AS ?tgtVersionDate) .
+				}
+
+			    BIND (ex:createURI("") AS ?tgtInferredOntology) .
+			}
+			""" ;
+            sh:deactivated false ;
+            sh:prefixes ex:,
+                dct:,
+                bm:,
+                otl:,
+                shapes:,
+                rdf:,
+                rdfs:,
+                xsd:,
+                owl:,
+                skos:,
+                sh:,
+                schema:,
+                nen2660: ] ;
+    sh:targetClass owl:Ontology .
+
+ex:createHumanReadableUri a sh:SPARQLFunction ;
+    sh:parameter [ sh:datatype xsd:string ;
+            sh:description "The label that will be used for the Uri" ;
+            sh:path ex:op1 ] ;
+    sh:prefixes ex:,
+        dct:,
+        rdfs:,
+        owl: ;
+    sh:returnType rdfs:Resource ;
+    sh:select """
+		SELECT ?uri
+		WHERE {	
+			?namespace a owl:Ontology .
+			FILTER (!STRSTARTS(str(?namespace), "http://hub.laces.tech/semmtech/schemas")) .
+			FILTER (!STRSTARTS(str(?namespace), "http://www.laces.tech/publication/ns/semmtech")) .
+			#Filtering out contract manager and blueprint manager.
+			FILTER (!STRSTARTS(str(?namespace), "http://models.laces.tech/")) .
+			FILTER (!STRSTARTS(str(?namespace), "http://data.semmtech.com/sem/")) .
+			FILTER (!STRSTARTS(str(?namespace), "http://www.w3.org/")) .
+ 
+			?namespace rdfs:label ?ontologyName . # This one also does nothing, but can be left in. 
+
+			BIND (ex:humanReadableNameForUri($op1, $op1) AS ?nameCamelCase) .
+			BIND (STR(ENCODE_FOR_URI(?nameCamelCase))  AS ?nameEncoded) . 
+			BIND (URI(CONCAT(STR(?namespace),  str(?nameEncoded))) AS ?uri) .
+		}
+		LIMIT 1
+		""" .
+
+ex:createURI a sh:SPARQLFunction ;
+    sh:parameter [ sh:datatype xsd:string ;
+            sh:description "The first operand" ;
+            sh:path ex:op1 ] ;
+    sh:prefixes ex:,
+        dct:,
+        rdfs:,
+        owl: ;
+    sh:returnType rdfs:Resource ;
+    sh:select """
+		SELECT ?uri
+		WHERE {	
+			?namespace a owl:Ontology .
+			FILTER (!STRSTARTS(str(?namespace), "http://hub.laces.tech/semmtech/schemas")) .
+			FILTER (!STRSTARTS(str(?namespace), "http://www.laces.tech/publication/ns/semmtech")) .
+			#Filtering out contract manager and blueprint manager.
+			FILTER (!STRSTARTS(str(?namespace), "http://models.laces.tech/")) .
+			FILTER (!STRSTARTS(str(?namespace), "http://data.semmtech.com/sem/")) .
+			FILTER (!STRSTARTS(str(?namespace), "http://www.w3.org/")) .
+ 
+			?namespace rdfs:label ?ontologyName . # This one also does nothing, but can be left in.  
+
+			BIND (URI(CONCAT(STR(?namespace),  str($op1))) AS ?uri) .
+		}
+		LIMIT 1
+		""" .
+
+ex:humanReadableNameForUri a sh:SPARQLFunction ;
+    sh:parameter [ sh:datatype xsd:string ;
+            sh:description "The original label in its entirety" ;
+            sh:path ex:op1 ],
+        [ sh:datatype xsd:string ;
+            sh:description "The part of the label that needs to be processed" ;
+            sh:path ex:op2 ] ;
+    sh:prefixes ex:,
+        dct:,
+        rdfs:,
+        owl: ;
+    sh:returnType rdfs:Resource ;
+    sh:select """
+		SELECT ?tgtLabel
+		WHERE {	
+			### How it works
+			## 1st iteration
+			# op1: this is a test
+			# op2: this is a test
+			# processedPartCamelCase: this
+			# toBeProcessed: is a test
+
+			## 2nd iteration
+			# op1: this is a test
+			# op2: is a test
+			# processedPartCamelCase: Is
+			# toBeProcessed: a test
+
+			# after final iteration it loops back to concatenate the values for ?processedPartCamelCase
+
+			BIND (IF(CONTAINS($op1, " "), STRBEFORE($op1, " "), $op1) AS ?lowercasePart) .
+			BIND (IF(CONTAINS($op2, " "), STRBEFORE($op2, " "), $op2) AS ?processedPart) .
+			BIND (IF(?processedPart = ?lowercasePart, ?processedPart, CONCAT(UCASE(SUBSTR(?processedPart, 1, 1)), LCASE(SUBSTR(?processedPart, 2)))) AS ?processedPartCamelCase) .
+			BIND (IF(CONTAINS($op2, " "), STRAFTER($op2, " "), 1/0) AS ?toBeProcessed) .
+
+			BIND (IF(BOUND(?toBeProcessed), CONCAT(?processedPartCamelCase, ex:humanReadableNameForUri($op1, ?toBeProcessed)),  ?processedPartCamelCase) AS ?tgtLabel) .
+		}
+		LIMIT 1
+		""" .
+
+ex:localname a sh:SPARQLFunction ;
+    sh:parameter [ sh:datatype xsd:string ;
+            sh:description "The first operand" ;
+            sh:path ex:op1 ] ;
+    sh:prefixes ex: ;
+    sh:returnType rdfs:Resource ;
+    sh:select """
+		SELECT ?localname
+		WHERE {
+			BIND (IF(CONTAINS(str($op1), "#"), STRAFTER(str($op1), "#"), REPLACE(str($op1), "(.*)[//]", "")) AS ?localname) .
+		}
+		""" .
+
+kos: sh:declare [ sh:namespace "http://www.laces.tech/publication/ns/semmtech/live/laces/schema/kos/"^^xsd:anyURI ;
+            sh:prefix "kos" ] .
+
+kos:IndividualActivity rdfs:seeAlso nen2660:Activity .
+
+kos:IndividualAgent skos:altLabel "Agent" .
+
+kos:IndividualDocument skos:altLabel "Document" .
+
+kos:IndividualFunction skos:altLabel "Function" .
+
+kos:IndividualObject rdfs:seeAlso nen2660:RealObject .
+
+kos:IndividualObjective skos:altLabel "Objective" .
+
+kos:IndividualSpace skos:altLabel "Space" .
+
+otl:Activity rdfs:seeAlso nen2660:Activity .
+
+otl:Activity-isLocatedAt-GeometricalSpace rdfs:seeAlso nen2660:hasInterior .
+
+otl:Document rdfs:seeAlso nen2660:InformationObject .
+
+otl:Event rdfs:seeAlso nen2660:Event .
+
+otl:FunctionalSpace rdfs:seeAlso nen2660:SpatialRegion .
+
+otl:FunctionalSpace-isLocatedAt-GeometricalSpace rdfs:seeAlso nen2660:hasInterior .
+
+otl:GeometricalSpace rdfs:seeAlso nen2660:GeometricEntity .
+
+otl:Matter rdfs:seeAlso nen2660:Matter .
+
+otl:PhysicalObject rdfs:seeAlso nen2660:RealObject .
+
+otl:PhysicalObject-isLocatedAt-GeometricalSpace rdfs:seeAlso nen2660:hasInterior .
+
+otl:State rdfs:seeAlso nen2660:State .
+
+otl:TimePeriod rdfs:seeAlso nen2660:TemporalEntity .
+
+otl:consistsOf rdfs:seeAlso nen2660:consistsOf .
+
+otl:describes owl:inverseOf nen2660:isDescribedBy .
+
+otl:hasAsSubject skos:altLabel "hasAsSubject" .
+
+otl:hasState rdfs:seeAlso nen2660:hasState .
+
+otl:isAccountableFor skos:altLabel "isAccountableFor" .
+
+otl:isApproverOf skos:altLabel "isApproverOf" .
+
+otl:isAuthorOf skos:altLabel "isAuthorOf" .
+
+otl:isConnectedTo rdfs:seeAlso nen2660:isConnectedTo .
+
+otl:isConsultedFor skos:altLabel "isConsultedFor" .
+
+otl:isFulfillerOf skos:altLabel "isFulfillerOf" .
+
+otl:isInformedFor skos:altLabel "isInformedFor" .
+
+otl:isInputOf skos:altLabel "isInputOf" .
+
+otl:isLocatedAt owl:inverseOf nen2660:contains .
+
+otl:isOutputOf skos:altLabel "isOutputOf" .
+
+otl:isPerformerOf rdfs:seeAlso nen2660:executes ;
+    skos:altLabel "isPerformerOf" .
+
+otl:isReleaserOf skos:altLabel "isReleaserOf" .
+
+otl:isResponsibleFor skos:altLabel "isResponsibleFor" .
+
+otl:isSupportiveFor skos:altLabel "isSupportiveFor" .
+
+otl:transforms rdfs:seeAlso nen2660:transforms ;
+    skos:altLabel "transforms" .
+
+specifications: sh:declare [ sh:namespace "http://www.laces.tech/publication/ns/semmtech/live/laces/schema/specifications/"^^xsd:anyURI ;
+            sh:prefix "specifications" ] .
+
+bs: sh:declare [ sh:namespace "https://w3id.org/def/basicsemantics-owl#"^^xsd:anyURI ;
+            sh:prefix "bs" ] .
+
+bm: sh:declare [ sh:namespace "http://www.laces.tech/publication/ns/semmtech/live/laces/schema/blueprint-manager/"^^xsd:anyURI ;
+            sh:prefix "bm" ] .
+
+xsd: sh:declare [ sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ;
+            sh:prefix "xsd" ] .
+
+schema: sh:declare [ sh:namespace "https://schema.org/"^^xsd:anyURI ;
+            sh:prefix "schema" ] .
+
+nen2660: sh:declare [ sh:namespace "https://w3id.org/nen2660/def#"^^xsd:anyURI ;
+            sh:prefix "nen2660" ] .
+
+dct: sh:declare [ sh:namespace "http://purl.org/dc/terms/"^^xsd:anyURI ;
+            sh:prefix "dct" ] .
+
+owl: sh:declare [ sh:namespace "http://www.w3.org/2002/07/owl#"^^xsd:anyURI ;
+            sh:prefix "owl" ] .
+
+shapes: sh:declare [ sh:namespace "http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/"^^xsd:anyURI ;
+            sh:prefix "shapes" ] .
+
+otl: sh:declare [ sh:namespace "http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/"^^xsd:anyURI ;
+            sh:prefix "otl" ] .
+
+rdf: sh:declare [ sh:namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#"^^xsd:anyURI ;
+            sh:prefix "rdf" ] .
+
+skos: sh:declare [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
+            sh:prefix "skos" ] .
+
+sh: sh:declare [ sh:namespace "http://www.w3.org/ns/shacl#"^^xsd:anyURI ;
+            sh:prefix "sh" ] .
+
+rdfs: sh:declare [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
+            sh:prefix "rdfs" ] .
+
+ex: sh:declare [ sh:namespace "http://example.org/example#"^^xsd:anyURI ;
+            sh:prefix "ex" ] .
+

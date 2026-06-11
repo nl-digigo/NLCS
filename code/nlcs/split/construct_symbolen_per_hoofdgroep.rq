@@ -60,7 +60,7 @@ WHERE {
   {
     ?symURI a owl:Class ; skos:prefLabel "Symbool" .
     BIND ("Symbool" AS ?label)
-    BIND (IRI(CONCAT(STR(?symURI), "#seq-name")) AS ?seqNode)
+    BIND (IRI(CONCAT(STR(?symURI), "-seq-name")) AS ?seqNode)
   }
 
   UNION
@@ -88,7 +88,7 @@ WHERE {
       ?parent a owl:Class .
     }
     OPTIONAL { ?symURI skos:definition ?def }
-    BIND (IRI(CONCAT(STR(?symURI), "#seq-name")) AS ?seqNode)
+    BIND (IRI(CONCAT(STR(?symURI), "-seq-name")) AS ?seqNode)
   }
 
   UNION
@@ -134,8 +134,8 @@ WHERE {
       BIND (COALESCE(STR(?uriLabelOpt), STR(?uriVal)) AS ?uriLabel)
     }
     BIND (COALESCE(STR(?litVal), ?uriLabel, "") AS ?annValueStr)
-    BIND (IRI(CONCAT(STR(?symURI2), "#field-", SHA1(STR(?annProp)))) AS ?infoField)
-    BIND (IRI(CONCAT(STR(?annProp), "#info-type")) AS ?annTypeNode)
+    BIND (IRI(CONCAT(STR(?symURI2), "-field-", SHA1(STR(?annProp)))) AS ?infoField)
+    BIND (IRI(CONCAT(STR(?annProp), "-info-type")) AS ?annTypeNode)
   }
 
   UNION
@@ -156,7 +156,7 @@ WHERE {
     ?symURI3 rdfs:subClassOf+ ?SymboolTopC .
     ?symURI3 a owl:Class .
     BIND (STR(?symURI3) AS ?uriStr)
-    BIND (IRI(CONCAT(STR(?symURI3), "#field-uri")) AS ?uriField)
+    BIND (IRI(CONCAT(STR(?symURI3), "-field-uri")) AS ?uriField)
   }
 
 }

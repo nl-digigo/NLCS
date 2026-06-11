@@ -60,7 +60,7 @@ WHERE {
   {
     ?arcURI a owl:Class ; skos:prefLabel "Arcering" .
     BIND ("Arcering" AS ?label)
-    BIND (IRI(CONCAT(STR(?arcURI), "#seq-name")) AS ?seqNode)
+    BIND (IRI(CONCAT(STR(?arcURI), "-seq-name")) AS ?seqNode)
   }
 
   UNION
@@ -88,7 +88,7 @@ WHERE {
       ?parent a owl:Class .
     }
     OPTIONAL { ?arcURI skos:definition ?def }
-    BIND (IRI(CONCAT(STR(?arcURI), "#seq-name")) AS ?seqNode)
+    BIND (IRI(CONCAT(STR(?arcURI), "-seq-name")) AS ?seqNode)
   }
 
   UNION
@@ -134,8 +134,8 @@ WHERE {
       BIND (COALESCE(STR(?uriLabelOpt), STR(?uriVal)) AS ?uriLabel)
     }
     BIND (COALESCE(STR(?litVal), ?uriLabel, "") AS ?annValueStr)
-    BIND (IRI(CONCAT(STR(?arcURI2), "#field-", SHA1(STR(?annProp)))) AS ?infoField)
-    BIND (IRI(CONCAT(STR(?annProp), "#info-type")) AS ?annTypeNode)
+    BIND (IRI(CONCAT(STR(?arcURI2), "-field-", SHA1(STR(?annProp)))) AS ?infoField)
+    BIND (IRI(CONCAT(STR(?annProp), "-info-type")) AS ?annTypeNode)
   }
 
   UNION
@@ -156,7 +156,7 @@ WHERE {
     ?arcURI3 rdfs:subClassOf+ ?ArceringTopC .
     ?arcURI3 a owl:Class .
     BIND (STR(?arcURI3) AS ?uriStr)
-    BIND (IRI(CONCAT(STR(?arcURI3), "#field-uri")) AS ?uriField)
+    BIND (IRI(CONCAT(STR(?arcURI3), "-field-uri")) AS ?uriField)
   }
 
 }
