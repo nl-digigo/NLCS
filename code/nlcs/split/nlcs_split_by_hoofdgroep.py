@@ -50,6 +50,10 @@ HOOFDGROEPEN_QUERY_PATH = "./code/nlcs/nlcs_exporter/NLCS_Retrieve_Hoofdgroepen.
 OUTPUT_ROOT = "output/split"
 SHARED_OUTPUT_FOLDER = os.path.join(OUTPUT_ROOT, "shared")
 
+# Hoofdgroepen whose codes end with this letter are merged into one folder.
+CONSTRUCTIE_SUFFIX = "C"
+CONSTRUCTIE_FOLDER = "Constructie"
+
 # Queries that are run once per hoofdgroep (parameterised with $hoofdgroup_name)
 PARAMETERIZED_QUERIES = [
     "construct_aspects_for_workspace_import.rq",
@@ -79,7 +83,7 @@ OBJECTS_QUERY = "construct_objects_per_hoofdgroep.rq"
 # Which hoofdgroepen to export.  Set to None to retrieve all from the endpoint.
 # Example single:  RUN_HOOFDGROEPEN = ["AL"]
 # Example subset:  RUN_HOOFDGROEPEN = ["AL", "AS", "BC"]
-RUN_HOOFDGROEPEN = None
+RUN_HOOFDGROEPEN = ["BC", "FC", "GC", "HC", "KC", "MC", "SC"] # None
 
 # Set to True to also export shared concepts (lijnkleuren, statussen, etc.)
 RUN_SHARED = False
@@ -245,6 +249,55 @@ def run_shared_otl_export(client: LacesClient) -> None:
     except Exception as exc:
         log.error("Error running %s: %s", OTL_CONSTRUCT_QUERY, exc)
 
+def run_merged_group_queries(
+    client: LacesClient,
+    hoofdgroepen: list[str],
+    group_folder: str,
+    group_label: str,
+) -> None:
+    """Run one SPARQL query per type with all group codes injected into VALUES at once.
+
+    The placeholder '$hoofdgroup_name' sits between quotes in the query template:
+        VALUES (?hoofdgroep) { ("$hoofdgroup_name") }
+    Replacing it with 'BC") ("FC") ("GC' expands to all groups in one shot, so
+    SPARQL deduplicates triples natively — no post-processing needed.
+    """
+    aspects_stem = os.path.splitext(ASPECTS_QUERY)[0]
+    objects_stem = os.path.splitext(OBJECTS_QUERY)[0]
+
+    # Build the injection string: BC") ("FC") ("GC  →  ("BC") ("FC") ("GC")
+    hg_values = '") ("'.join(sorted(hoofdgroepen))
+
+    log.info("\n--- Running merged group queries for '%s' (%s) ---", group_label, sorted(hoofdgroepen))
+    out_dir = os.path.join(OUTPUT_ROOT, group_folder)
+    ensure_dir(out_dir)
+
+    saved: dict[str, str] = {}
+    for query_file in PARAMETERIZED_QUERIES:
+        query_path = os.path.join(QUERY_FOLDER, query_file)
+        stem = os.path.splitext(query_file)[0]
+        output_path = os.path.join(out_dir, f"{stem}-{VERSION}-{group_label}.ttl")
+        log.info("  %s ...", query_file)
+        try:
+            template = load_query(query_path)
+            query = apply_params(template, {
+                HOOFDGROUP_PLACEHOLDER: hg_values,
+                SOURCENAME_PLACEHOLDER: SOURCE_NAME_SHARED,
+                SOURCEURL_PLACEHOLDER:  SOURCE_URL_SHARED,
+            })
+            ttl = client.construct(query)
+            if save_ttl(ttl, output_path):
+                saved[stem] = output_path
+        except Exception as exc:
+            log.error("  Error running %s for '%s': %s", query_file, group_label, exc)
+
+    if aspects_stem in saved and objects_stem in saved:
+        try:
+            _append_aspects_to_objects(saved[aspects_stem], saved[objects_stem])
+        except Exception as exc:
+            log.error("  Error appending aspects to objects for '%s': %s", group_label, exc)
+
+
 def run_per_hoofdgroep_queries(client: LacesClient, hoofdgroepen: list[str]) -> None:
     """For each hoofdgroep, run all parameterised CONSTRUCT queries."""
     aspects_stem = os.path.splitext(ASPECTS_QUERY)[0]
@@ -299,6 +352,13 @@ if __name__ == "__main__":
     else:
         hoofdgroepen = RUN_HOOFDGROEPEN
 
-    run_per_hoofdgroep_queries(client, hoofdgroepen)
+    constructie_hg = [hg for hg in hoofdgroepen if hg.endswith(CONSTRUCTIE_SUFFIX)]
+    individual_hg  = [hg for hg in hoofdgroepen if not hg.endswith(CONSTRUCTIE_SUFFIX)]
+
+    if constructie_hg:
+        run_merged_group_queries(client, constructie_hg, CONSTRUCTIE_FOLDER, CONSTRUCTIE_FOLDER)
+
+    if individual_hg:
+        run_per_hoofdgroep_queries(client, individual_hg)
 
     log.info("\nDone.  Output written to: %s", OUTPUT_ROOT)

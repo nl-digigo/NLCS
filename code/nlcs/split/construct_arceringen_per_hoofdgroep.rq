@@ -97,8 +97,9 @@ WHERE {
   {
     {
       SELECT DISTINCT ?annProp ?annLabel WHERE {
+        VALUES (?hgNameB) { ("$hoofdgroup_name") }
         ?NLCSObjectTopB a owl:Class ; skos:prefLabel "NLCS-object" .
-        ?hgB rdfs:subClassOf ?NLCSObjectTopB ; skos:prefLabel "$hoofdgroup_name" .
+        ?hgB rdfs:subClassOf ?NLCSObjectTopB ; skos:prefLabel ?hgNameB .
         ?objB rdfs:subClassOf+ ?hgB ; a owl:Class .
         ?objB rdfs:subClassOf ?bnodeArcB .
         ?bnodeArcB owl:onProperty nen2660:isDescribedBy .
