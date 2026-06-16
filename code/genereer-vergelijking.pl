@@ -47,8 +47,17 @@ my %MAP = (
 sub esc { my $s = shift; $s //= ""; $s =~ s/&/&amp;/g; $s =~ s/</&lt;/g; $s =~ s/>/&gt;/g; $s =~ s/"/&quot;/g; $s =~ s/'/&#x27;/g; return $s; }
 sub cellv { my $s = shift; (defined $s && length $s) ? esc($s) : "<em>(leeg)</em>"; }
 sub trim { my $s = shift; $s //= ""; $s =~ s/^\s+|\s+$//g; return $s; }
-# kind_van: "0" in 5.0 == leeg in 5.2 (top-level object)
-sub norm { my ($h, $v) = @_; $v = "" if $h eq "kind_van" && $v eq "0"; return $v; }
+# Normalisatie vóór vergelijken:
+# - kind_van: "0" in 5.0 == leeg in 5.2 (top-level object)
+# - aobject/sobject: 5.0 heeft een prefix als "AGR:"/"SGR:"/"ACO:"/"SBV:"
+#   (bv. "AGR:AGR-BEPLANTING"), 5.2 niet ("AGR-BEPLANTING"). Alleen dat
+#   prefix-verschil telt niet als wijziging -> strip leidend "LETTERS:".
+sub norm {
+  my ($h, $v) = @_;
+  $v = "" if $h eq "kind_van" && $v eq "0";
+  $v =~ s/^[A-Za-z]+:// if $h eq "aobject" || $h eq "sobject";
+  return $v;
+}
 
 # Kolommen die nooit als "gewijzigd" gemarkeerd worden:
 # id_nummer (de sleutel) en laagnaam (wordt genegeerd in de vergelijking).
@@ -66,8 +75,16 @@ while (<$n>) { s/\r?\n$//; next unless length; push @NR, [ $sep eq "," ? parse_l
 close $n;
 
 # --- 5.0 inlezen (puntkomma + BOM), kolommen hernoemen via %MAP ---
+# Sommige 5.0-bestanden hebben een titelregel bovenaan (bv. "GR-GRoen");
+# we zoeken de eerste regel met OMSCHRIJVING als echte kop.
 open(my $o, "<:encoding(UTF-8)", $OLD) or die $!;
-my $oh = <$o>; $oh =~ s/^\x{FEFF}//; $oh =~ s/\r?\n$//;
+my $oh;
+while (my $line = <$o>) {
+  $line =~ s/^\x{FEFF}//; $line =~ s/\r?\n$//;
+  next unless length $line;
+  if ($line =~ /OMSCHRIJVING/i) { $oh = $line; last; }
+}
+die "geen kop (OMSCHRIJVING) gevonden in 5.0-bestand: $OLD\n" unless defined $oh;
 my @OH = map { $MAP{$_} // $_ } split(/;/, $oh, -1);
 my %OI; for (0 .. $#OH) { $OI{$OH[$_]} = $_ unless exists $OI{$OH[$_]}; }
 my @OR;
