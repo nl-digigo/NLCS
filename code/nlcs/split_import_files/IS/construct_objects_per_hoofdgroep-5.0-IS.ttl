@@ -1,0 +1,265 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix otl: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix bp: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/blueprint-manager/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix shapes: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix nlcs: <http://digitalbuildingdata.tech/nlcs/def/> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+
+nlcs:39fe1834-0ba3-4bc5-9ef0-ced9a784c9b0 a otl:PhysicalObject;
+  shapes:sequence nlcs:39fe1834-0ba3-4bc5-9ef0-ced9a784c9b0-seq-name;
+  otl:attr-Conceptual-name "IS" .
+
+nlcs:39fe1834-0ba3-4bc5-9ef0-ced9a784c9b0-seq-name a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "IS";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<urn:nlcs:info-type:Symbool> a otl:InformationType;
+  otl:attr-Conceptual-name "Symbool" .
+
+<urn:nlcs:info-type:Arcering> a otl:InformationType;
+  otl:attr-Conceptual-name "Arcering" .
+
+<urn:nlcs:info-type:OriginalURI> a otl:InformationType;
+  otl:attr-Conceptual-name "Original URI" .
+
+
+<http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884> a
+    otl:Aspect;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884-seq-name>;
+  otl:attr-Conceptual-name "Status";
+  otl:attr-Aspect-datatype "http://www.w3.org/2001/XMLSchema#string"^^xsd:anyURI;
+  otl:attr-Aspect-registrational false;
+  otl:rel-Aspect-isRelatedTo <http://digitalbuildingdata.tech/nlcs/def/4644d710-5447-4ba0-b05f-0ed335bf5c9c>;
+  otl:rel-Conceptual-hasExternalLink <http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884-ext-link> .
+
+<http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "Status";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/4644d710-5447-4ba0-b05f-0ed335bf5c9c> a
+    otl:GroupForQualifications;
+  otl:attr-Group-name "Statussen";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/4644d710-5447-4ba0-b05f-0ed335bf5c9c-seq-name>;
+  otl:rel-Group-isCollectionFor <http://digitalbuildingdata.tech/nlcs/def/a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66>,
+    <http://digitalbuildingdata.tech/nlcs/def/1530e0da-0d59-4846-87fe-6e0462d7e914>, <http://digitalbuildingdata.tech/nlcs/def/3264cca5-3ae5-4a4b-85b3-40dd2c0d1957>,
+    <http://digitalbuildingdata.tech/nlcs/def/82773ef1-a4b2-42a9-803d-7078ac1db883>, <http://digitalbuildingdata.tech/nlcs/def/86c1a3da-c5fd-4af8-9d5f-7864605779d7>,
+    <http://digitalbuildingdata.tech/nlcs/def/a70f9a1f-4bf0-425b-80bf-0e058f695e76> .
+
+<http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884-ext-link>
+  a otl:ExternalLink;
+  otl:attr-ExternalLink-name "Status";
+  otl:attr-ExternalLink-relation "isSameAs";
+  otl:attr-ExternalLink-sourcename "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes";
+  otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes/versions/1"^^xsd:anyURI;
+  otl:attr-ExternalLink-uri "http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884"^^xsd:anyURI .
+
+<http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709> a
+    otl:Aspect;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709-seq-name>;
+  otl:attr-Conceptual-name "Discipline";
+  otl:attr-Aspect-datatype "http://www.w3.org/2001/XMLSchema#string"^^xsd:anyURI;
+  otl:attr-Aspect-registrational false;
+  otl:rel-Aspect-isRelatedTo <http://digitalbuildingdata.tech/nlcs/def/5f471bbf-473a-4975-9008-cbdcca2ffe9e>;
+  otl:rel-Conceptual-hasExternalLink <http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709-ext-link> .
+
+<http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "Discipline";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/5f471bbf-473a-4975-9008-cbdcca2ffe9e> a
+    otl:GroupForQualifications;
+  otl:attr-Group-name "Disciplines";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/5f471bbf-473a-4975-9008-cbdcca2ffe9e-seq-name>;
+  otl:rel-Group-isCollectionFor <http://digitalbuildingdata.tech/nlcs/def/ee93e1e8-186f-416d-a8f3-7f5856d3c22e>,
+    <http://digitalbuildingdata.tech/nlcs/def/a4074b0f-7910-4496-951e-1879d6059d4b>, <http://digitalbuildingdata.tech/nlcs/def/625e0234-17f9-4c0a-b891-e10798558f2b>,
+    <http://digitalbuildingdata.tech/nlcs/def/9b80deae-d0be-4bb6-8fb6-96abe3b497da>, <http://digitalbuildingdata.tech/nlcs/def/c45f8b5f-4b22-41cf-8a91-8934887d941e>,
+    <http://digitalbuildingdata.tech/nlcs/def/31a32580-67cc-4d4d-a5ee-fcb0f1b5104a>, <http://digitalbuildingdata.tech/nlcs/def/c9174191-b49e-4a71-9a3f-27659b59c294>,
+    <http://digitalbuildingdata.tech/nlcs/def/01781517-7aed-4a1e-8a43-3fb8ebb9d300>, <http://digitalbuildingdata.tech/nlcs/def/f6c771e5-493c-4112-a54f-04da3bd6d1b5>,
+    <http://digitalbuildingdata.tech/nlcs/def/00717a15-113d-462a-91b0-46fda569cd7e> .
+
+<http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709-ext-link>
+  a otl:ExternalLink;
+  otl:attr-ExternalLink-name "Discipline";
+  otl:attr-ExternalLink-relation "isSameAs";
+  otl:attr-ExternalLink-sourcename "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes";
+  otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes/versions/1"^^xsd:anyURI;
+  otl:attr-ExternalLink-uri "http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709"^^xsd:anyURI .
+
+<http://digitalbuildingdata.tech/nlcs/def/4644d710-5447-4ba0-b05f-0ed335bf5c9c-seq-name>
+  a otl:Seq_attr-Group-name;
+  rdf:_1 "Statussen";
+  owl:annotatedProperty otl:attr-Group-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/5f471bbf-473a-4975-9008-cbdcca2ffe9e-seq-name>
+  a otl:Seq_attr-Group-name;
+  rdf:_1 "Disciplines";
+  owl:annotatedProperty otl:attr-Group-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "X";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "X";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/1530e0da-0d59-4846-87fe-6e0462d7e914> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "N";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/1530e0da-0d59-4846-87fe-6e0462d7e914-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/1530e0da-0d59-4846-87fe-6e0462d7e914-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "N";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/3264cca5-3ae5-4a4b-85b3-40dd2c0d1957> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "R";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/3264cca5-3ae5-4a4b-85b3-40dd2c0d1957-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/3264cca5-3ae5-4a4b-85b3-40dd2c0d1957-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "R";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/82773ef1-a4b2-42a9-803d-7078ac1db883> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "B";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/82773ef1-a4b2-42a9-803d-7078ac1db883-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/82773ef1-a4b2-42a9-803d-7078ac1db883-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "B";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/86c1a3da-c5fd-4af8-9d5f-7864605779d7> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "V";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/86c1a3da-c5fd-4af8-9d5f-7864605779d7-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/86c1a3da-c5fd-4af8-9d5f-7864605779d7-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "V";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/a70f9a1f-4bf0-425b-80bf-0e058f695e76> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "T";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/a70f9a1f-4bf0-425b-80bf-0e058f695e76-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/a70f9a1f-4bf0-425b-80bf-0e058f695e76-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "T";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/ee93e1e8-186f-416d-a8f3-7f5856d3c22e> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "WE";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/ee93e1e8-186f-416d-a8f3-7f5856d3c22e-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/ee93e1e8-186f-416d-a8f3-7f5856d3c22e-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "WE";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/a4074b0f-7910-4496-951e-1879d6059d4b> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "XX";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/a4074b0f-7910-4496-951e-1879d6059d4b-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/a4074b0f-7910-4496-951e-1879d6059d4b-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "XX";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/625e0234-17f9-4c0a-b891-e10798558f2b> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "MI";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/625e0234-17f9-4c0a-b891-e10798558f2b-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/625e0234-17f9-4c0a-b891-e10798558f2b-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "MI";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/9b80deae-d0be-4bb6-8fb6-96abe3b497da> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "ME";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/9b80deae-d0be-4bb6-8fb6-96abe3b497da-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/9b80deae-d0be-4bb6-8fb6-96abe3b497da-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "ME";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/c45f8b5f-4b22-41cf-8a91-8934887d941e> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "WA";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/c45f8b5f-4b22-41cf-8a91-8934887d941e-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/c45f8b5f-4b22-41cf-8a91-8934887d941e-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "WA";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/31a32580-67cc-4d4d-a5ee-fcb0f1b5104a> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "CO";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/31a32580-67cc-4d4d-a5ee-fcb0f1b5104a-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/31a32580-67cc-4d4d-a5ee-fcb0f1b5104a-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "CO";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/c9174191-b49e-4a71-9a3f-27659b59c294> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "OI";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/c9174191-b49e-4a71-9a3f-27659b59c294-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/c9174191-b49e-4a71-9a3f-27659b59c294-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "OI";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/01781517-7aed-4a1e-8a43-3fb8ebb9d300> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "SB";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/01781517-7aed-4a1e-8a43-3fb8ebb9d300-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/01781517-7aed-4a1e-8a43-3fb8ebb9d300-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SB";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/f6c771e5-493c-4112-a54f-04da3bd6d1b5> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "GV";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/f6c771e5-493c-4112-a54f-04da3bd6d1b5-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/f6c771e5-493c-4112-a54f-04da3bd6d1b5-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "GV";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/00717a15-113d-462a-91b0-46fda569cd7e> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "PV";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/00717a15-113d-462a-91b0-46fda569cd7e-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/00717a15-113d-462a-91b0-46fda569cd7e-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "PV";
+  owl:annotatedProperty otl:attr-Conceptual-name .

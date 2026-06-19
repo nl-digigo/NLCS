@@ -1,0 +1,568 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix otl: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix bp: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/blueprint-manager/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix shapes: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix nlcs: <http://digitalbuildingdata.tech/nlcs/def/> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+
+nlcs:6b9fa994-c423-4e2b-83f1-0f4b215126ff a otl:PhysicalObject;
+  shapes:sequence nlcs:6b9fa994-c423-4e2b-83f1-0f4b215126ff-seq-name;
+  otl:attr-Conceptual-name "HU" .
+
+nlcs:6b9fa994-c423-4e2b-83f1-0f4b215126ff-seq-name a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "HU";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<urn:nlcs:info-type:Symbool> a otl:InformationType;
+  otl:attr-Conceptual-name "Symbool" .
+
+<urn:nlcs:info-type:Arcering> a otl:InformationType;
+  otl:attr-Conceptual-name "Arcering" .
+
+<urn:nlcs:info-type:OriginalURI> a otl:InformationType;
+  otl:attr-Conceptual-name "Original URI" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992 a otl:PhysicalObject;
+  shapes:sequence nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-seq-name;
+  otl:attr-Conceptual-name "HULPCONSTRUCTIES";
+  otl:rel-Conceptual-isSpecializationOf nlcs:6b9fa994-c423-4e2b-83f1-0f4b215126ff;
+  otl:rel-Conceptual-isDescribedIn nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-a8f375a35d916bbe22d6e66526b72a637aa4f6c7,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-6b92e348d3caf6bf47daafab06c1f75589776f98,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-6d844c0722c5722fefb93c3535d27e824684317e,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-e6e955f70f5260572761129ad94bde21e53edf3f,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-3b1ea65fd7e5f5a3afe37b0ae2cfb0f292c8f242,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-b8f7a2698a7a4e1f74f6e747005465af056dedfe,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-c19e7298acd6ad38ae43163383750f2031b7662a,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-2b61bc99331ac9bbe5610c8d89194844d4d252f5,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-207cc67d1ba14134ec416a5f7a84816060acde3f,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-fb74f65531bc02b981715bfe1775c3948de4b399,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-4e7c131fd0a4ce1f2cedc756077367114fa76991,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-ac751d584976801eea0241f3b52921d8e95d18fd,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-17436417090016c773e838480e1d922ef77d481d,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-11083fdac29291d62be4170d9bfc6e9aa49a3198,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-7632e4bf20bb575a7faa42c28b708f73e8e449e9,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-38b598afcf6758e07cbab2d379b2d2de1abcd34a,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-ca2d63ffd82f00b7fff210c42da81deeb41a0106,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-e98898c23f79ee1732f66054ba2612dfa4222e7a,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-9524e1d2b8c28b200d667d52d45512d9f2861b16,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-cc7f0fc477ced07421bd546fbbec906bedab7ed8,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-6a523b1a9f2fc53e5e68e11d5f7514183694acdd,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-8354d774d3ba3916a9c78cbbcd1e5908eed79c11,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-254968c74972e8e1d95071ca49eaa1c7a4159e15,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-f754af2246f55d6e19c329f7738819147c974376,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-7d46d8fe9f542fb8a9707ce4fdfdf74a71eea8c9,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-bd991eace12cc58df5ad878d0da5613016ea439f,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-4f9cd174e2851abb29b4549000423bfec2eb6c40,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-2e83f806e0e717203076ee0c1891b28150f8ae6b,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-e8657f53ebda688f2754b9549bf9150fc8245828,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-c2f421fe569e440c58d0f6de941faae9676b9245,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-sym, nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-arc-86b5c714e906b21b54c17622ae1d5d3c404db6b6,
+    nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-uri .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-seq-name a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "HULPCONSTRUCTIES";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c
+  a otl:InformationField;
+  otl:attr-InformationField-value "2810";
+  otl:rel-InformationField-isClassifiedAs nlcs:b718adec73e04ce3ec720dd11a06a308-info-type .
+
+nlcs:b718adec73e04ce3ec720dd11a06a308-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "ID" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-a8f375a35d916bbe22d6e66526b72a637aa4f6c7
+  a otl:InformationField;
+  otl:attr-InformationField-value "G/A";
+  otl:rel-InformationField-isClassifiedAs nlcs:231afe47f3f37d3808096b36c28b4ded-info-type .
+
+nlcs:231afe47f3f37d3808096b36c28b4ded-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "Element" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-6b92e348d3caf6bf47daafab06c1f75589776f98
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs nlcs:9c241815bb021ad8b7146ffb88dcf856-info-type .
+
+nlcs:9c241815bb021ad8b7146ffb88dcf856-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "VRKL_KORT" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-6d844c0722c5722fefb93c3535d27e824684317e
+  a otl:InformationField;
+  otl:attr-InformationField-value "0.18";
+  otl:rel-InformationField-isClassifiedAs nlcs:f0ae4b93e35441578842bc4fd8709956-info-type .
+
+nlcs:f0ae4b93e35441578842bc4fd8709956-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "B lineweight" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-e6e955f70f5260572761129ad94bde21e53edf3f
+  a otl:InformationField;
+  otl:attr-InformationField-value "7";
+  otl:rel-InformationField-isClassifiedAs nlcs:2e7b1dc3283e79482dc1153895dbf149-info-type .
+
+nlcs:2e7b1dc3283e79482dc1153895dbf149-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "B color" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-3b1ea65fd7e5f5a3afe37b0ae2cfb0f292c8f242
+  a otl:InformationField;
+  otl:attr-InformationField-value "252";
+  otl:rel-InformationField-isClassifiedAs nlcs:3f9a348f67332197fd0bbbeda98e4358-info-type .
+
+nlcs:3f9a348f67332197fd0bbbeda98e4358-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "B color A" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-b8f7a2698a7a4e1f74f6e747005465af056dedfe
+  a otl:InformationField;
+  otl:attr-InformationField-value "130";
+  otl:rel-InformationField-isClassifiedAs nlcs:070e6b1e670a6f704021f47dfb916561-info-type .
+
+nlcs:070e6b1e670a6f704021f47dfb916561-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "B color GD" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-c19e7298acd6ad38ae43163383750f2031b7662a
+  a otl:InformationField;
+  otl:attr-InformationField-value "10";
+  otl:rel-InformationField-isClassifiedAs nlcs:1837b3cbc76cf5be8bf2919440cffc1a-info-type .
+
+nlcs:1837b3cbc76cf5be8bf2919440cffc1a-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "B color GN" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-2b61bc99331ac9bbe5610c8d89194844d4d252f5
+  a otl:InformationField;
+  otl:attr-InformationField-value "253";
+  otl:rel-InformationField-isClassifiedAs nlcs:e6a1db6908635962b1da9e1230718656-info-type .
+
+nlcs:e6a1db6908635962b1da9e1230718656-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "B color V" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-207cc67d1ba14134ec416a5f7a84816060acde3f
+  a otl:InformationField;
+  otl:attr-InformationField-value "CONTINUOUS";
+  otl:rel-InformationField-isClassifiedAs nlcs:99271b8e4692f59ed33a550afaf542ac-info-type .
+
+nlcs:99271b8e4692f59ed33a550afaf542ac-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "B linetype" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-fb74f65531bc02b981715bfe1775c3948de4b399
+  a otl:InformationField;
+  otl:attr-InformationField-value "0.35";
+  otl:rel-InformationField-isClassifiedAs nlcs:0f2b46296496d5476b4e94d885d2d6ad-info-type .
+
+nlcs:0f2b46296496d5476b4e94d885d2d6ad-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "N lineweight" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-4e7c131fd0a4ce1f2cedc756077367114fa76991
+  a otl:InformationField;
+  otl:attr-InformationField-value "7";
+  otl:rel-InformationField-isClassifiedAs nlcs:99c67830d90d074c22802a459c856f4c-info-type .
+
+nlcs:99c67830d90d074c22802a459c856f4c-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "N color" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-ac751d584976801eea0241f3b52921d8e95d18fd
+  a otl:InformationField;
+  otl:attr-InformationField-value "252";
+  otl:rel-InformationField-isClassifiedAs nlcs:3f9c82ae0acc677b43f9c55db4c67d91-info-type .
+
+nlcs:3f9c82ae0acc677b43f9c55db4c67d91-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "N color A" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-17436417090016c773e838480e1d922ef77d481d
+  a otl:InformationField;
+  otl:attr-InformationField-value "130";
+  otl:rel-InformationField-isClassifiedAs nlcs:964528fb003559383e99b63fca2b72e5-info-type .
+
+nlcs:964528fb003559383e99b63fca2b72e5-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "N color GD" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-11083fdac29291d62be4170d9bfc6e9aa49a3198
+  a otl:InformationField;
+  otl:attr-InformationField-value "10";
+  otl:rel-InformationField-isClassifiedAs nlcs:a756b1013ec00304b3694f72789f5489-info-type .
+
+nlcs:a756b1013ec00304b3694f72789f5489-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "N color GN" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-7632e4bf20bb575a7faa42c28b708f73e8e449e9
+  a otl:InformationField;
+  otl:attr-InformationField-value "253";
+  otl:rel-InformationField-isClassifiedAs nlcs:7b9b57ab5cd1409412c9c21aa8a75be0-info-type .
+
+nlcs:7b9b57ab5cd1409412c9c21aa8a75be0-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "N color V" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-38b598afcf6758e07cbab2d379b2d2de1abcd34a
+  a otl:InformationField;
+  otl:attr-InformationField-value "CONTINUOUS";
+  otl:rel-InformationField-isClassifiedAs nlcs:fffb63ae8b6d147830578bf41ba4bfa3-info-type .
+
+nlcs:fffb63ae8b6d147830578bf41ba4bfa3-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "N linetype" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-ca2d63ffd82f00b7fff210c42da81deeb41a0106
+  a otl:InformationField;
+  otl:attr-InformationField-value "0.35";
+  otl:rel-InformationField-isClassifiedAs nlcs:44d44b47e72154e00a246fe6d5ae90df-info-type .
+
+nlcs:44d44b47e72154e00a246fe6d5ae90df-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "T lineweight" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-e98898c23f79ee1732f66054ba2612dfa4222e7a
+  a otl:InformationField;
+  otl:attr-InformationField-value "7";
+  otl:rel-InformationField-isClassifiedAs nlcs:3d9494010633141738dac4db0d4371bd-info-type .
+
+nlcs:3d9494010633141738dac4db0d4371bd-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "T color" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-9524e1d2b8c28b200d667d52d45512d9f2861b16
+  a otl:InformationField;
+  otl:attr-InformationField-value "252";
+  otl:rel-InformationField-isClassifiedAs nlcs:f15cb56f17b45c122093acb2f6ef2666-info-type .
+
+nlcs:f15cb56f17b45c122093acb2f6ef2666-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "T color A" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-cc7f0fc477ced07421bd546fbbec906bedab7ed8
+  a otl:InformationField;
+  otl:attr-InformationField-value "130";
+  otl:rel-InformationField-isClassifiedAs nlcs:11a56ac7445d51fa54dbbb4977a950b1-info-type .
+
+nlcs:11a56ac7445d51fa54dbbb4977a950b1-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "T color GD" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-6a523b1a9f2fc53e5e68e11d5f7514183694acdd
+  a otl:InformationField;
+  otl:attr-InformationField-value "10";
+  otl:rel-InformationField-isClassifiedAs nlcs:6fabaa692ad70ad1e62b2ed2d3e0b240-info-type .
+
+nlcs:6fabaa692ad70ad1e62b2ed2d3e0b240-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "T color GN" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-8354d774d3ba3916a9c78cbbcd1e5908eed79c11
+  a otl:InformationField;
+  otl:attr-InformationField-value "253";
+  otl:rel-InformationField-isClassifiedAs nlcs:9d31195f1dd92f368d648425fd92ddbc-info-type .
+
+nlcs:9d31195f1dd92f368d648425fd92ddbc-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "T color V" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-254968c74972e8e1d95071ca49eaa1c7a4159e15
+  a otl:InformationField;
+  otl:attr-InformationField-value "CONTINUOUS";
+  otl:rel-InformationField-isClassifiedAs nlcs:5f36dd80a4a3f96ed76158ec5d420be7-info-type .
+
+nlcs:5f36dd80a4a3f96ed76158ec5d420be7-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "T linetype" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-f754af2246f55d6e19c329f7738819147c974376
+  a otl:InformationField;
+  otl:attr-InformationField-value "0.35";
+  otl:rel-InformationField-isClassifiedAs nlcs:35efcfbbb79075b1eec92ae2a5ec744d-info-type .
+
+nlcs:35efcfbbb79075b1eec92ae2a5ec744d-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "V lineweight" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-7d46d8fe9f542fb8a9707ce4fdfdf74a71eea8c9
+  a otl:InformationField;
+  otl:attr-InformationField-value "7";
+  otl:rel-InformationField-isClassifiedAs nlcs:641531752f6d7d9c46654b91db0f8ecd-info-type .
+
+nlcs:641531752f6d7d9c46654b91db0f8ecd-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "V color" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-bd991eace12cc58df5ad878d0da5613016ea439f
+  a otl:InformationField;
+  otl:attr-InformationField-value "252";
+  otl:rel-InformationField-isClassifiedAs nlcs:dde96840a10d858e2d5a63d22b0c95a3-info-type .
+
+nlcs:dde96840a10d858e2d5a63d22b0c95a3-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "V color A" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-4f9cd174e2851abb29b4549000423bfec2eb6c40
+  a otl:InformationField;
+  otl:attr-InformationField-value "130";
+  otl:rel-InformationField-isClassifiedAs nlcs:207645b8f83b536f8f2984bd98972a2e-info-type .
+
+nlcs:207645b8f83b536f8f2984bd98972a2e-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "V color GD" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-2e83f806e0e717203076ee0c1891b28150f8ae6b
+  a otl:InformationField;
+  otl:attr-InformationField-value "10";
+  otl:rel-InformationField-isClassifiedAs nlcs:9df34a271d37ea19cda9171dd1b95438-info-type .
+
+nlcs:9df34a271d37ea19cda9171dd1b95438-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "V color GN" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-e8657f53ebda688f2754b9549bf9150fc8245828
+  a otl:InformationField;
+  otl:attr-InformationField-value "253";
+  otl:rel-InformationField-isClassifiedAs nlcs:095f7786fa03ee5d1fb5a5f76a93eb5e-info-type .
+
+nlcs:095f7786fa03ee5d1fb5a5f76a93eb5e-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "V color V" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-c2f421fe569e440c58d0f6de941faae9676b9245
+  a otl:InformationField;
+  otl:attr-InformationField-value "V-CONTINUOUS-SO";
+  otl:rel-InformationField-isClassifiedAs nlcs:965ac85b41943c884f3487cb131e05bd-info-type .
+
+nlcs:965ac85b41943c884f3487cb131e05bd-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "V linetype" .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-sym a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:Symbool> .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-arc-86b5c714e906b21b54c17622ae1d5d3c404db6b6
+  a otl:InformationField;
+  otl:attr-InformationField-value "ACO";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:Arcering> .
+
+nlcs:d8c25d21-898c-4612-8c77-8ca8d07a8992-field-uri a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/d8c25d21-898c-4612-8c77-8ca8d07a8992";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+
+<http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884> a
+    otl:Aspect;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884-seq-name>;
+  otl:attr-Conceptual-name "Status";
+  otl:attr-Aspect-datatype "http://www.w3.org/2001/XMLSchema#string"^^xsd:anyURI;
+  otl:attr-Aspect-registrational false;
+  otl:rel-Aspect-isRelatedTo <http://digitalbuildingdata.tech/nlcs/def/4644d710-5447-4ba0-b05f-0ed335bf5c9c>;
+  otl:rel-Conceptual-hasExternalLink <http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884-ext-link> .
+
+<http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "Status";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/4644d710-5447-4ba0-b05f-0ed335bf5c9c> a
+    otl:GroupForQualifications;
+  otl:attr-Group-name "Statussen";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/4644d710-5447-4ba0-b05f-0ed335bf5c9c-seq-name>;
+  otl:rel-Group-isCollectionFor <http://digitalbuildingdata.tech/nlcs/def/a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66>,
+    <http://digitalbuildingdata.tech/nlcs/def/1530e0da-0d59-4846-87fe-6e0462d7e914>, <http://digitalbuildingdata.tech/nlcs/def/3264cca5-3ae5-4a4b-85b3-40dd2c0d1957>,
+    <http://digitalbuildingdata.tech/nlcs/def/82773ef1-a4b2-42a9-803d-7078ac1db883>, <http://digitalbuildingdata.tech/nlcs/def/86c1a3da-c5fd-4af8-9d5f-7864605779d7>,
+    <http://digitalbuildingdata.tech/nlcs/def/a70f9a1f-4bf0-425b-80bf-0e058f695e76> .
+
+<http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884-ext-link>
+  a otl:ExternalLink;
+  otl:attr-ExternalLink-name "Status";
+  otl:attr-ExternalLink-relation "isSameAs";
+  otl:attr-ExternalLink-sourcename "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes";
+  otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes/versions/1"^^xsd:anyURI;
+  otl:attr-ExternalLink-uri "http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884"^^xsd:anyURI .
+
+<http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709> a
+    otl:Aspect;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709-seq-name>;
+  otl:attr-Conceptual-name "Discipline";
+  otl:attr-Aspect-datatype "http://www.w3.org/2001/XMLSchema#string"^^xsd:anyURI;
+  otl:attr-Aspect-registrational false;
+  otl:rel-Aspect-isRelatedTo <http://digitalbuildingdata.tech/nlcs/def/5f471bbf-473a-4975-9008-cbdcca2ffe9e>;
+  otl:rel-Conceptual-hasExternalLink <http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709-ext-link> .
+
+<http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "Discipline";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/5f471bbf-473a-4975-9008-cbdcca2ffe9e> a
+    otl:GroupForQualifications;
+  otl:attr-Group-name "Disciplines";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/5f471bbf-473a-4975-9008-cbdcca2ffe9e-seq-name>;
+  otl:rel-Group-isCollectionFor <http://digitalbuildingdata.tech/nlcs/def/ee93e1e8-186f-416d-a8f3-7f5856d3c22e>,
+    <http://digitalbuildingdata.tech/nlcs/def/a4074b0f-7910-4496-951e-1879d6059d4b>, <http://digitalbuildingdata.tech/nlcs/def/625e0234-17f9-4c0a-b891-e10798558f2b>,
+    <http://digitalbuildingdata.tech/nlcs/def/9b80deae-d0be-4bb6-8fb6-96abe3b497da>, <http://digitalbuildingdata.tech/nlcs/def/c45f8b5f-4b22-41cf-8a91-8934887d941e>,
+    <http://digitalbuildingdata.tech/nlcs/def/31a32580-67cc-4d4d-a5ee-fcb0f1b5104a>, <http://digitalbuildingdata.tech/nlcs/def/c9174191-b49e-4a71-9a3f-27659b59c294>,
+    <http://digitalbuildingdata.tech/nlcs/def/01781517-7aed-4a1e-8a43-3fb8ebb9d300>, <http://digitalbuildingdata.tech/nlcs/def/f6c771e5-493c-4112-a54f-04da3bd6d1b5>,
+    <http://digitalbuildingdata.tech/nlcs/def/00717a15-113d-462a-91b0-46fda569cd7e> .
+
+<http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709-ext-link>
+  a otl:ExternalLink;
+  otl:attr-ExternalLink-name "Discipline";
+  otl:attr-ExternalLink-relation "isSameAs";
+  otl:attr-ExternalLink-sourcename "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes";
+  otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes/versions/1"^^xsd:anyURI;
+  otl:attr-ExternalLink-uri "http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709"^^xsd:anyURI .
+
+<http://digitalbuildingdata.tech/nlcs/def/4644d710-5447-4ba0-b05f-0ed335bf5c9c-seq-name>
+  a otl:Seq_attr-Group-name;
+  rdf:_1 "Statussen";
+  owl:annotatedProperty otl:attr-Group-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/5f471bbf-473a-4975-9008-cbdcca2ffe9e-seq-name>
+  a otl:Seq_attr-Group-name;
+  rdf:_1 "Disciplines";
+  owl:annotatedProperty otl:attr-Group-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "X";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "X";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/1530e0da-0d59-4846-87fe-6e0462d7e914> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "N";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/1530e0da-0d59-4846-87fe-6e0462d7e914-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/1530e0da-0d59-4846-87fe-6e0462d7e914-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "N";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/3264cca5-3ae5-4a4b-85b3-40dd2c0d1957> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "R";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/3264cca5-3ae5-4a4b-85b3-40dd2c0d1957-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/3264cca5-3ae5-4a4b-85b3-40dd2c0d1957-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "R";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/82773ef1-a4b2-42a9-803d-7078ac1db883> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "B";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/82773ef1-a4b2-42a9-803d-7078ac1db883-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/82773ef1-a4b2-42a9-803d-7078ac1db883-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "B";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/86c1a3da-c5fd-4af8-9d5f-7864605779d7> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "V";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/86c1a3da-c5fd-4af8-9d5f-7864605779d7-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/86c1a3da-c5fd-4af8-9d5f-7864605779d7-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "V";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/a70f9a1f-4bf0-425b-80bf-0e058f695e76> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "T";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/a70f9a1f-4bf0-425b-80bf-0e058f695e76-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/a70f9a1f-4bf0-425b-80bf-0e058f695e76-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "T";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/ee93e1e8-186f-416d-a8f3-7f5856d3c22e> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "WE";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/ee93e1e8-186f-416d-a8f3-7f5856d3c22e-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/ee93e1e8-186f-416d-a8f3-7f5856d3c22e-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "WE";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/a4074b0f-7910-4496-951e-1879d6059d4b> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "XX";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/a4074b0f-7910-4496-951e-1879d6059d4b-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/a4074b0f-7910-4496-951e-1879d6059d4b-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "XX";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/625e0234-17f9-4c0a-b891-e10798558f2b> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "MI";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/625e0234-17f9-4c0a-b891-e10798558f2b-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/625e0234-17f9-4c0a-b891-e10798558f2b-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "MI";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/9b80deae-d0be-4bb6-8fb6-96abe3b497da> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "ME";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/9b80deae-d0be-4bb6-8fb6-96abe3b497da-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/9b80deae-d0be-4bb6-8fb6-96abe3b497da-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "ME";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/c45f8b5f-4b22-41cf-8a91-8934887d941e> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "WA";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/c45f8b5f-4b22-41cf-8a91-8934887d941e-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/c45f8b5f-4b22-41cf-8a91-8934887d941e-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "WA";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/31a32580-67cc-4d4d-a5ee-fcb0f1b5104a> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "CO";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/31a32580-67cc-4d4d-a5ee-fcb0f1b5104a-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/31a32580-67cc-4d4d-a5ee-fcb0f1b5104a-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "CO";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/c9174191-b49e-4a71-9a3f-27659b59c294> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "OI";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/c9174191-b49e-4a71-9a3f-27659b59c294-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/c9174191-b49e-4a71-9a3f-27659b59c294-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "OI";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/01781517-7aed-4a1e-8a43-3fb8ebb9d300> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "SB";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/01781517-7aed-4a1e-8a43-3fb8ebb9d300-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/01781517-7aed-4a1e-8a43-3fb8ebb9d300-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SB";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/f6c771e5-493c-4112-a54f-04da3bd6d1b5> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "GV";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/f6c771e5-493c-4112-a54f-04da3bd6d1b5-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/f6c771e5-493c-4112-a54f-04da3bd6d1b5-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "GV";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/00717a15-113d-462a-91b0-46fda569cd7e> a
+    otl:Qualification;
+  otl:attr-Conceptual-name "PV";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/00717a15-113d-462a-91b0-46fda569cd7e-seq-name> .
+
+<http://digitalbuildingdata.tech/nlcs/def/00717a15-113d-462a-91b0-46fda569cd7e-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "PV";
+  owl:annotatedProperty otl:attr-Conceptual-name .

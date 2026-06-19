@@ -1,0 +1,1123 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix otl: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/> .
+@prefix shapes: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+
+<http://digitalbuildingdata.tech/nlcs/def/799560e0-6bed-473f-ac32-e2fc51530fc0> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/799560e0-6bed-473f-ac32-e2fc51530fc0-seq-name>;
+  otl:attr-Conceptual-name "Symbool" .
+
+<http://digitalbuildingdata.tech/nlcs/def/799560e0-6bed-473f-ac32-e2fc51530fc0-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "Symbool";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<urn:nlcs:info-type:OriginalURI> a otl:InformationType;
+  otl:attr-Conceptual-name "Original URI" .
+
+<http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55-seq-name>;
+  otl:attr-Conceptual-name "SBV-LEUNING";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/3543855c-7623-4ecd-aadf-5ec5b6d0cf9a>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-LEUNING";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/3543855c-7623-4ecd-aadf-5ec5b6d0cf9a> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/3543855c-7623-4ecd-aadf-5ec5b6d0cf9a-seq-name>;
+  otl:attr-Conceptual-name "SBV";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/799560e0-6bed-473f-ac32-e2fc51530fc0>;
+  otl:attr-Conceptual-description "BermbeveiligingsVoorzieningen";
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/3543855c-7623-4ecd-aadf-5ec5b6d0cf9a-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/3543855c-7623-4ecd-aadf-5ec5b6d0cf9a-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/3543855c-7623-4ecd-aadf-5ec5b6d0cf9a-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/3543855c-7623-4ecd-aadf-5ec5b6d0cf9a-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/3543855c-7623-4ecd-aadf-5ec5b6d0cf9a-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe-seq-name>;
+  otl:attr-Conceptual-name "SBV-GELEIDECONSTRUCTIE";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/3543855c-7623-4ecd-aadf-5ec5b6d0cf9a>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-GELEIDECONSTRUCTIE";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/6d076150-6701-4fec-bff9-a8489ce32bd4> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/6d076150-6701-4fec-bff9-a8489ce32bd4-seq-name>;
+  otl:attr-Conceptual-name "SRI-SCHILDMUUR";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/7d78f17a-dc19-433f-924b-fa44e60d9558>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/6d076150-6701-4fec-bff9-a8489ce32bd4-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/6d076150-6701-4fec-bff9-a8489ce32bd4-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/6d076150-6701-4fec-bff9-a8489ce32bd4-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/6d076150-6701-4fec-bff9-a8489ce32bd4-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/6d076150-6701-4fec-bff9-a8489ce32bd4-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SRI-SCHILDMUUR";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/7d78f17a-dc19-433f-924b-fa44e60d9558> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/7d78f17a-dc19-433f-924b-fa44e60d9558-seq-name>;
+  otl:attr-Conceptual-name "SRI";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/799560e0-6bed-473f-ac32-e2fc51530fc0>;
+  otl:attr-Conceptual-description "RIolering";
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/7d78f17a-dc19-433f-924b-fa44e60d9558-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/7d78f17a-dc19-433f-924b-fa44e60d9558-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/7d78f17a-dc19-433f-924b-fa44e60d9558-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/7d78f17a-dc19-433f-924b-fa44e60d9558-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/7d78f17a-dc19-433f-924b-fa44e60d9558-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SRI";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/8cee570e-14f3-4a72-836a-3621f7ed40cc> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/8cee570e-14f3-4a72-836a-3621f7ed40cc-seq-name>;
+  otl:attr-Conceptual-name "SBV-LEUNING_3REG1000-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/8cee570e-14f3-4a72-836a-3621f7ed40cc-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/8cee570e-14f3-4a72-836a-3621f7ed40cc-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/8cee570e-14f3-4a72-836a-3621f7ed40cc-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/8cee570e-14f3-4a72-836a-3621f7ed40cc-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/8cee570e-14f3-4a72-836a-3621f7ed40cc-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-LEUNING_3REG1000-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/e4c18a4f-4807-44c6-85ae-c5c72bbfc6af> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/e4c18a4f-4807-44c6-85ae-c5c72bbfc6af-seq-name>;
+  otl:attr-Conceptual-name "SBV-LEUNING_SIER900-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/e4c18a4f-4807-44c6-85ae-c5c72bbfc6af-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/e4c18a4f-4807-44c6-85ae-c5c72bbfc6af-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/e4c18a4f-4807-44c6-85ae-c5c72bbfc6af-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/e4c18a4f-4807-44c6-85ae-c5c72bbfc6af-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/e4c18a4f-4807-44c6-85ae-c5c72bbfc6af-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-LEUNING_SIER900-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/9d7a1f06-6018-4b0d-85e7-b0703f157852> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/9d7a1f06-6018-4b0d-85e7-b0703f157852-seq-name>;
+  otl:attr-Conceptual-name "SBV-LEUNING_ANKER_GH-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/9d7a1f06-6018-4b0d-85e7-b0703f157852-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/9d7a1f06-6018-4b0d-85e7-b0703f157852-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/9d7a1f06-6018-4b0d-85e7-b0703f157852-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/9d7a1f06-6018-4b0d-85e7-b0703f157852-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/9d7a1f06-6018-4b0d-85e7-b0703f157852-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-LEUNING_ANKER_GH-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/30f8cb34-5457-44e7-8dd8-b92e160757f8> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/30f8cb34-5457-44e7-8dd8-b92e160757f8-seq-name>;
+  otl:attr-Conceptual-name "SBV-LEUNING_VOETPLAAT_RECHTHOEKIG-MM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/30f8cb34-5457-44e7-8dd8-b92e160757f8-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/30f8cb34-5457-44e7-8dd8-b92e160757f8-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/30f8cb34-5457-44e7-8dd8-b92e160757f8-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/30f8cb34-5457-44e7-8dd8-b92e160757f8-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/30f8cb34-5457-44e7-8dd8-b92e160757f8-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-LEUNING_VOETPLAAT_RECHTHOEKIG-MM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/fb31e262-7919-4413-a42b-bf964f9bee9a> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/fb31e262-7919-4413-a42b-bf964f9bee9a-seq-name>;
+  otl:attr-Conceptual-name "SBV-LEUNING_3REG0900-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/fb31e262-7919-4413-a42b-bf964f9bee9a-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/fb31e262-7919-4413-a42b-bf964f9bee9a-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/fb31e262-7919-4413-a42b-bf964f9bee9a-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/fb31e262-7919-4413-a42b-bf964f9bee9a-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/fb31e262-7919-4413-a42b-bf964f9bee9a-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-LEUNING_3REG0900-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/3f9699d3-aa53-401f-9c69-a327c151cf41> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/3f9699d3-aa53-401f-9c69-a327c151cf41-seq-name>;
+  otl:attr-Conceptual-name "SBV-LEUNING_VOETPLAAT_215_50-MM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/3f9699d3-aa53-401f-9c69-a327c151cf41-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/3f9699d3-aa53-401f-9c69-a327c151cf41-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/3f9699d3-aa53-401f-9c69-a327c151cf41-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/3f9699d3-aa53-401f-9c69-a327c151cf41-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/3f9699d3-aa53-401f-9c69-a327c151cf41-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-LEUNING_VOETPLAAT_215_50-MM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/476ec581-bc2e-424b-b22f-a863b97bff97> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/476ec581-bc2e-424b-b22f-a863b97bff97-seq-name>;
+  otl:attr-Conceptual-name "SBV-LEUNING_SIER1100-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/476ec581-bc2e-424b-b22f-a863b97bff97-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/476ec581-bc2e-424b-b22f-a863b97bff97-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/476ec581-bc2e-424b-b22f-a863b97bff97-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/476ec581-bc2e-424b-b22f-a863b97bff97-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/476ec581-bc2e-424b-b22f-a863b97bff97-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-LEUNING_SIER1100-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/c0bcaf73-3395-4d40-9aeb-2ab006aef9a8> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/c0bcaf73-3395-4d40-9aeb-2ab006aef9a8-seq-name>;
+  otl:attr-Conceptual-name "SBV-LEUNING_3REG1000ZWARTS-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/c0bcaf73-3395-4d40-9aeb-2ab006aef9a8-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/c0bcaf73-3395-4d40-9aeb-2ab006aef9a8-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/c0bcaf73-3395-4d40-9aeb-2ab006aef9a8-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/c0bcaf73-3395-4d40-9aeb-2ab006aef9a8-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/c0bcaf73-3395-4d40-9aeb-2ab006aef9a8-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-LEUNING_3REG1000ZWARTS-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/7ee97aff-39d4-4205-895f-b7d333737915> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/7ee97aff-39d4-4205-895f-b7d333737915-seq-name>;
+  otl:attr-Conceptual-name "SBV-LEUNING_3REG1100-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/7ee97aff-39d4-4205-895f-b7d333737915-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/7ee97aff-39d4-4205-895f-b7d333737915-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/7ee97aff-39d4-4205-895f-b7d333737915-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/7ee97aff-39d4-4205-895f-b7d333737915-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/7ee97aff-39d4-4205-895f-b7d333737915-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-LEUNING_3REG1100-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/2c8c55df-9c32-46df-80b3-b554b793be59> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/2c8c55df-9c32-46df-80b3-b554b793be59-seq-name>;
+  otl:attr-Conceptual-name "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_1DL13360-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/2c8c55df-9c32-46df-80b3-b554b793be59-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/2c8c55df-9c32-46df-80b3-b554b793be59-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/2c8c55df-9c32-46df-80b3-b554b793be59-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/2c8c55df-9c32-46df-80b3-b554b793be59-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/2c8c55df-9c32-46df-80b3-b554b793be59-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_1DL13360-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/ade9b3ea-de5f-43e4-a009-cca66f45d658> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/ade9b3ea-de5f-43e4-a009-cca66f45d658-seq-name>;
+  otl:attr-Conceptual-name "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_K ANKER-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/ade9b3ea-de5f-43e4-a009-cca66f45d658-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/ade9b3ea-de5f-43e4-a009-cca66f45d658-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/ade9b3ea-de5f-43e4-a009-cca66f45d658-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/ade9b3ea-de5f-43e4-a009-cca66f45d658-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/ade9b3ea-de5f-43e4-a009-cca66f45d658-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_K ANKER-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/8bd90c30-d456-4d31-9dd7-207c28af920f> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/8bd90c30-d456-4d31-9dd7-207c28af920f-seq-name>;
+  otl:attr-Conceptual-name "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_2R13380-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/8bd90c30-d456-4d31-9dd7-207c28af920f-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/8bd90c30-d456-4d31-9dd7-207c28af920f-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/8bd90c30-d456-4d31-9dd7-207c28af920f-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/8bd90c30-d456-4d31-9dd7-207c28af920f-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/8bd90c30-d456-4d31-9dd7-207c28af920f-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_2R13380-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/e06c8895-954e-4364-a6a8-473029b97c80> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/e06c8895-954e-4364-a6a8-473029b97c80-seq-name>;
+  otl:attr-Conceptual-name "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_2ZC13380-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/e06c8895-954e-4364-a6a8-473029b97c80-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/e06c8895-954e-4364-a6a8-473029b97c80-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/e06c8895-954e-4364-a6a8-473029b97c80-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/e06c8895-954e-4364-a6a8-473029b97c80-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/e06c8895-954e-4364-a6a8-473029b97c80-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_2ZC13380-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/a293ef1b-824d-4cc3-aebd-72628f227fa0> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/a293ef1b-824d-4cc3-aebd-72628f227fa0-seq-name>;
+  otl:attr-Conceptual-name "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_1Z13360-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/a293ef1b-824d-4cc3-aebd-72628f227fa0-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/a293ef1b-824d-4cc3-aebd-72628f227fa0-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/a293ef1b-824d-4cc3-aebd-72628f227fa0-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/a293ef1b-824d-4cc3-aebd-72628f227fa0-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/a293ef1b-824d-4cc3-aebd-72628f227fa0-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_1Z13360-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/9943ca65-d20d-4fcf-b584-bc333310e572> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/9943ca65-d20d-4fcf-b584-bc333310e572-seq-name>;
+  otl:attr-Conceptual-name "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_GRONDPLAAT_370_220-MM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/9943ca65-d20d-4fcf-b584-bc333310e572-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/9943ca65-d20d-4fcf-b584-bc333310e572-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/9943ca65-d20d-4fcf-b584-bc333310e572-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/9943ca65-d20d-4fcf-b584-bc333310e572-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/9943ca65-d20d-4fcf-b584-bc333310e572-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_GRONDPLAAT_370_220-MM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/0ecdb766-5a1f-4762-9947-87b018d252ca> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/0ecdb766-5a1f-4762-9947-87b018d252ca-seq-name>;
+  otl:attr-Conceptual-name "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_BAZ_13380-MM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/0ecdb766-5a1f-4762-9947-87b018d252ca-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/0ecdb766-5a1f-4762-9947-87b018d252ca-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/0ecdb766-5a1f-4762-9947-87b018d252ca-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/0ecdb766-5a1f-4762-9947-87b018d252ca-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/0ecdb766-5a1f-4762-9947-87b018d252ca-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_BAZ_13380-MM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/b5ba3b37-ea42-4331-989a-d4ec023f4163> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/b5ba3b37-ea42-4331-989a-d4ec023f4163-seq-name>;
+  otl:attr-Conceptual-name "SBV-GELEIDECONSTRUCTIE_BARRIER_ST1-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/b5ba3b37-ea42-4331-989a-d4ec023f4163-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/b5ba3b37-ea42-4331-989a-d4ec023f4163-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/b5ba3b37-ea42-4331-989a-d4ec023f4163-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/b5ba3b37-ea42-4331-989a-d4ec023f4163-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/b5ba3b37-ea42-4331-989a-d4ec023f4163-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-GELEIDECONSTRUCTIE_BARRIER_ST1-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/5472a8d8-bb83-45aa-b745-0dc866e20f3c> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/5472a8d8-bb83-45aa-b745-0dc866e20f3c-seq-name>;
+  otl:attr-Conceptual-name "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_GRONDPLAAT-MM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/5472a8d8-bb83-45aa-b745-0dc866e20f3c-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/5472a8d8-bb83-45aa-b745-0dc866e20f3c-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/5472a8d8-bb83-45aa-b745-0dc866e20f3c-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/5472a8d8-bb83-45aa-b745-0dc866e20f3c-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/5472a8d8-bb83-45aa-b745-0dc866e20f3c-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_GRONDPLAAT-MM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/665d3c45-ed4b-4679-8b8a-158d258c15ca> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/665d3c45-ed4b-4679-8b8a-158d258c15ca-seq-name>;
+  otl:attr-Conceptual-name "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_F2M4008-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/665d3c45-ed4b-4679-8b8a-158d258c15ca-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/665d3c45-ed4b-4679-8b8a-158d258c15ca-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/665d3c45-ed4b-4679-8b8a-158d258c15ca-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/665d3c45-ed4b-4679-8b8a-158d258c15ca-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/665d3c45-ed4b-4679-8b8a-158d258c15ca-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_F2M4008-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/47c7936e-b31d-45f3-80f3-892210a78025> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/47c7936e-b31d-45f3-80f3-892210a78025-seq-name>;
+  otl:attr-Conceptual-name "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_F2DL4008-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/47c7936e-b31d-45f3-80f3-892210a78025-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/47c7936e-b31d-45f3-80f3-892210a78025-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/47c7936e-b31d-45f3-80f3-892210a78025-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/47c7936e-b31d-45f3-80f3-892210a78025-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/47c7936e-b31d-45f3-80f3-892210a78025-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_F2DL4008-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/68a1fde3-9f7e-4f13-addb-7dda72aad7b4> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/68a1fde3-9f7e-4f13-addb-7dda72aad7b4-seq-name>;
+  otl:attr-Conceptual-name "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_BAZ_13360-MM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/68a1fde3-9f7e-4f13-addb-7dda72aad7b4-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/68a1fde3-9f7e-4f13-addb-7dda72aad7b4-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/68a1fde3-9f7e-4f13-addb-7dda72aad7b4-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/68a1fde3-9f7e-4f13-addb-7dda72aad7b4-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/68a1fde3-9f7e-4f13-addb-7dda72aad7b4-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_BAZ_13360-MM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/b7071c25-eafd-420c-877c-85fe5c0961e4> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/b7071c25-eafd-420c-877c-85fe5c0961e4-seq-name>;
+  otl:attr-Conceptual-name "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_LH2OP1-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/b7071c25-eafd-420c-877c-85fe5c0961e4-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/b7071c25-eafd-420c-877c-85fe5c0961e4-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/b7071c25-eafd-420c-877c-85fe5c0961e4-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/b7071c25-eafd-420c-877c-85fe5c0961e4-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/b7071c25-eafd-420c-877c-85fe5c0961e4-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_LH2OP1-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/4b889823-a7b0-41eb-9554-64f112a32a2d> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/4b889823-a7b0-41eb-9554-64f112a32a2d-seq-name>;
+  otl:attr-Conceptual-name "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_1LV13360-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/4b889823-a7b0-41eb-9554-64f112a32a2d-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/4b889823-a7b0-41eb-9554-64f112a32a2d-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/4b889823-a7b0-41eb-9554-64f112a32a2d-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/4b889823-a7b0-41eb-9554-64f112a32a2d-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/4b889823-a7b0-41eb-9554-64f112a32a2d-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_1LV13360-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/03a0a011-53e9-4f14-a80d-bf841a5f6b43> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/03a0a011-53e9-4f14-a80d-bf841a5f6b43-seq-name>;
+  otl:attr-Conceptual-name "SBV-GELEIDECONSTRUCTIE_BARRIER_BC1-DMM";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/03a0a011-53e9-4f14-a80d-bf841a5f6b43-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/03a0a011-53e9-4f14-a80d-bf841a5f6b43-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/03a0a011-53e9-4f14-a80d-bf841a5f6b43-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/03a0a011-53e9-4f14-a80d-bf841a5f6b43-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/03a0a011-53e9-4f14-a80d-bf841a5f6b43-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SBV-GELEIDECONSTRUCTIE_BARRIER_BC1-DMM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/fe88eff3-6ac7-4eb3-b84d-a7aa079b46d2> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/fe88eff3-6ac7-4eb3-b84d-a7aa079b46d2-seq-name>;
+  otl:attr-Conceptual-name "V-SRI-SCHILDMUUR-SO";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/6d076150-6701-4fec-bff9-a8489ce32bd4>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/fe88eff3-6ac7-4eb3-b84d-a7aa079b46d2-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/fe88eff3-6ac7-4eb3-b84d-a7aa079b46d2-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/fe88eff3-6ac7-4eb3-b84d-a7aa079b46d2-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/fe88eff3-6ac7-4eb3-b84d-a7aa079b46d2-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/fe88eff3-6ac7-4eb3-b84d-a7aa079b46d2-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "V-SRI-SCHILDMUUR-SO";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/2d0c4d08-15f9-4e95-8caa-69e964d957bb> a
+    otl:Document;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/2d0c4d08-15f9-4e95-8caa-69e964d957bb-seq-name>;
+  otl:attr-Conceptual-name "SRI-SCHILDMUUR-SO";
+  otl:rel-Conceptual-isSpecializationOf <http://digitalbuildingdata.tech/nlcs/def/6d076150-6701-4fec-bff9-a8489ce32bd4>;
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/2d0c4d08-15f9-4e95-8caa-69e964d957bb-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>,
+    <http://digitalbuildingdata.tech/nlcs/def/2d0c4d08-15f9-4e95-8caa-69e964d957bb-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>,
+    <http://digitalbuildingdata.tech/nlcs/def/2d0c4d08-15f9-4e95-8caa-69e964d957bb-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>,
+    <http://digitalbuildingdata.tech/nlcs/def/2d0c4d08-15f9-4e95-8caa-69e964d957bb-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/2d0c4d08-15f9-4e95-8caa-69e964d957bb-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "SRI-SCHILDMUUR-SO";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type>
+  a otl:InformationType;
+  otl:attr-Conceptual-name "ID" .
+
+<http://digitalbuildingdata.tech/nlcs/def/3543855c-7623-4ecd-aadf-5ec5b6d0cf9a-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "16";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/6d076150-6701-4fec-bff9-a8489ce32bd4-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/7d78f17a-dc19-433f-924b-fa44e60d9558-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "12";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/8cee570e-14f3-4a72-836a-3621f7ed40cc-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3323";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/e4c18a4f-4807-44c6-85ae-c5c72bbfc6af-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3027";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/9d7a1f06-6018-4b0d-85e7-b0703f157852-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3326";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/30f8cb34-5457-44e7-8dd8-b92e160757f8-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3330";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/fb31e262-7919-4413-a42b-bf964f9bee9a-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3322";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/3f9699d3-aa53-401f-9c69-a327c151cf41-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3329";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/476ec581-bc2e-424b-b22f-a863b97bff97-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3327";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/c0bcaf73-3395-4d40-9aeb-2ab006aef9a8-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3324";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/7ee97aff-39d4-4205-895f-b7d333737915-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3325";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/2c8c55df-9c32-46df-80b3-b554b793be59-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3309";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/ade9b3ea-de5f-43e4-a009-cca66f45d658-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3320";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/8bd90c30-d456-4d31-9dd7-207c28af920f-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3312";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/e06c8895-954e-4364-a6a8-473029b97c80-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3313";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/a293ef1b-824d-4cc3-aebd-72628f227fa0-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3311";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/9943ca65-d20d-4fcf-b584-bc333310e572-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3319";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/0ecdb766-5a1f-4762-9947-87b018d252ca-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3315";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/b5ba3b37-ea42-4331-989a-d4ec023f4163-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3308";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/5472a8d8-bb83-45aa-b745-0dc866e20f3c-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3318";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/665d3c45-ed4b-4679-8b8a-158d258c15ca-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3317";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/47c7936e-b31d-45f3-80f3-892210a78025-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3316";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/68a1fde3-9f7e-4f13-addb-7dda72aad7b4-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3314";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/b7071c25-eafd-420c-877c-85fe5c0961e4-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3321";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/4b889823-a7b0-41eb-9554-64f112a32a2d-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3310";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/03a0a011-53e9-4f14-a80d-bf841a5f6b43-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3307";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/fe88eff3-6ac7-4eb3-b84d-a7aa079b46d2-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3366";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/2d0c4d08-15f9-4e95-8caa-69e964d957bb-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c>
+  a otl:InformationField;
+  otl:attr-InformationField-value "3365";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type>
+  a otl:InformationType;
+  otl:attr-Conceptual-name "Optie" .
+
+<http://digitalbuildingdata.tech/nlcs/def/3543855c-7623-4ecd-aadf-5ec5b6d0cf9a-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/6d076150-6701-4fec-bff9-a8489ce32bd4-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/7d78f17a-dc19-433f-924b-fa44e60d9558-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/8cee570e-14f3-4a72-836a-3621f7ed40cc-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/e4c18a4f-4807-44c6-85ae-c5c72bbfc6af-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/9d7a1f06-6018-4b0d-85e7-b0703f157852-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/30f8cb34-5457-44e7-8dd8-b92e160757f8-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "MM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/fb31e262-7919-4413-a42b-bf964f9bee9a-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/3f9699d3-aa53-401f-9c69-a327c151cf41-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "MM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/476ec581-bc2e-424b-b22f-a863b97bff97-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/c0bcaf73-3395-4d40-9aeb-2ab006aef9a8-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/7ee97aff-39d4-4205-895f-b7d333737915-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/2c8c55df-9c32-46df-80b3-b554b793be59-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/ade9b3ea-de5f-43e4-a009-cca66f45d658-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/8bd90c30-d456-4d31-9dd7-207c28af920f-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/e06c8895-954e-4364-a6a8-473029b97c80-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/a293ef1b-824d-4cc3-aebd-72628f227fa0-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/9943ca65-d20d-4fcf-b584-bc333310e572-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "MM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/0ecdb766-5a1f-4762-9947-87b018d252ca-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "MM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/b5ba3b37-ea42-4331-989a-d4ec023f4163-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/5472a8d8-bb83-45aa-b745-0dc866e20f3c-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "MM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/665d3c45-ed4b-4679-8b8a-158d258c15ca-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/47c7936e-b31d-45f3-80f3-892210a78025-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/68a1fde3-9f7e-4f13-addb-7dda72aad7b4-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "MM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/b7071c25-eafd-420c-877c-85fe5c0961e4-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/4b889823-a7b0-41eb-9554-64f112a32a2d-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/03a0a011-53e9-4f14-a80d-bf841a5f6b43-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "DMM";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/fe88eff3-6ac7-4eb3-b84d-a7aa079b46d2-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "SO";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/2d0c4d08-15f9-4e95-8caa-69e964d957bb-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b>
+  a otl:InformationField;
+  otl:attr-InformationField-value "SO";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/24a5f883567803afcca3352ea07447a2-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type>
+  a otl:InformationType;
+  otl:attr-Conceptual-name "Fase" .
+
+<http://digitalbuildingdata.tech/nlcs/def/3543855c-7623-4ecd-aadf-5ec5b6d0cf9a-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/6d076150-6701-4fec-bff9-a8489ce32bd4-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/7d78f17a-dc19-433f-924b-fa44e60d9558-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/8cee570e-14f3-4a72-836a-3621f7ed40cc-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/e4c18a4f-4807-44c6-85ae-c5c72bbfc6af-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/9d7a1f06-6018-4b0d-85e7-b0703f157852-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/30f8cb34-5457-44e7-8dd8-b92e160757f8-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/fb31e262-7919-4413-a42b-bf964f9bee9a-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/3f9699d3-aa53-401f-9c69-a327c151cf41-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/476ec581-bc2e-424b-b22f-a863b97bff97-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/c0bcaf73-3395-4d40-9aeb-2ab006aef9a8-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/7ee97aff-39d4-4205-895f-b7d333737915-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/2c8c55df-9c32-46df-80b3-b554b793be59-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/ade9b3ea-de5f-43e4-a009-cca66f45d658-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/8bd90c30-d456-4d31-9dd7-207c28af920f-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/e06c8895-954e-4364-a6a8-473029b97c80-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/a293ef1b-824d-4cc3-aebd-72628f227fa0-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/9943ca65-d20d-4fcf-b584-bc333310e572-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/0ecdb766-5a1f-4762-9947-87b018d252ca-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/b5ba3b37-ea42-4331-989a-d4ec023f4163-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/5472a8d8-bb83-45aa-b745-0dc866e20f3c-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/665d3c45-ed4b-4679-8b8a-158d258c15ca-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/47c7936e-b31d-45f3-80f3-892210a78025-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/68a1fde3-9f7e-4f13-addb-7dda72aad7b4-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/b7071c25-eafd-420c-877c-85fe5c0961e4-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/4b889823-a7b0-41eb-9554-64f112a32a2d-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/03a0a011-53e9-4f14-a80d-bf841a5f6b43-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/fe88eff3-6ac7-4eb3-b84d-a7aa079b46d2-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "V";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/2d0c4d08-15f9-4e95-8caa-69e964d957bb-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f>
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs <http://digitalbuildingdata.tech/nlcs/def/2aee5f4dec823b7e993e6874acb8174e-info-type> .
+
+<http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/5abb74c4-a84d-439e-85ee-0418665c6b55";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/3543855c-7623-4ecd-aadf-5ec5b6d0cf9a-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/3543855c-7623-4ecd-aadf-5ec5b6d0cf9a";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/b677ff1d-795d-4d06-a474-5ba996c432fe";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/6d076150-6701-4fec-bff9-a8489ce32bd4-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/6d076150-6701-4fec-bff9-a8489ce32bd4";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/7d78f17a-dc19-433f-924b-fa44e60d9558-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/7d78f17a-dc19-433f-924b-fa44e60d9558";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/8cee570e-14f3-4a72-836a-3621f7ed40cc-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/8cee570e-14f3-4a72-836a-3621f7ed40cc";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/e4c18a4f-4807-44c6-85ae-c5c72bbfc6af-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/e4c18a4f-4807-44c6-85ae-c5c72bbfc6af";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/9d7a1f06-6018-4b0d-85e7-b0703f157852-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/9d7a1f06-6018-4b0d-85e7-b0703f157852";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/30f8cb34-5457-44e7-8dd8-b92e160757f8-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/30f8cb34-5457-44e7-8dd8-b92e160757f8";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/fb31e262-7919-4413-a42b-bf964f9bee9a-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/fb31e262-7919-4413-a42b-bf964f9bee9a";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/3f9699d3-aa53-401f-9c69-a327c151cf41-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/3f9699d3-aa53-401f-9c69-a327c151cf41";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/476ec581-bc2e-424b-b22f-a863b97bff97-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/476ec581-bc2e-424b-b22f-a863b97bff97";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/c0bcaf73-3395-4d40-9aeb-2ab006aef9a8-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/c0bcaf73-3395-4d40-9aeb-2ab006aef9a8";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/7ee97aff-39d4-4205-895f-b7d333737915-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/7ee97aff-39d4-4205-895f-b7d333737915";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/2c8c55df-9c32-46df-80b3-b554b793be59-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/2c8c55df-9c32-46df-80b3-b554b793be59";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/ade9b3ea-de5f-43e4-a009-cca66f45d658-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/ade9b3ea-de5f-43e4-a009-cca66f45d658";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/8bd90c30-d456-4d31-9dd7-207c28af920f-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/8bd90c30-d456-4d31-9dd7-207c28af920f";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/e06c8895-954e-4364-a6a8-473029b97c80-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/e06c8895-954e-4364-a6a8-473029b97c80";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/a293ef1b-824d-4cc3-aebd-72628f227fa0-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/a293ef1b-824d-4cc3-aebd-72628f227fa0";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/9943ca65-d20d-4fcf-b584-bc333310e572-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/9943ca65-d20d-4fcf-b584-bc333310e572";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/0ecdb766-5a1f-4762-9947-87b018d252ca-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/0ecdb766-5a1f-4762-9947-87b018d252ca";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/b5ba3b37-ea42-4331-989a-d4ec023f4163-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/b5ba3b37-ea42-4331-989a-d4ec023f4163";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/5472a8d8-bb83-45aa-b745-0dc866e20f3c-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/5472a8d8-bb83-45aa-b745-0dc866e20f3c";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/665d3c45-ed4b-4679-8b8a-158d258c15ca-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/665d3c45-ed4b-4679-8b8a-158d258c15ca";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/47c7936e-b31d-45f3-80f3-892210a78025-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/47c7936e-b31d-45f3-80f3-892210a78025";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/68a1fde3-9f7e-4f13-addb-7dda72aad7b4-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/68a1fde3-9f7e-4f13-addb-7dda72aad7b4";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/b7071c25-eafd-420c-877c-85fe5c0961e4-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/b7071c25-eafd-420c-877c-85fe5c0961e4";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/4b889823-a7b0-41eb-9554-64f112a32a2d-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/4b889823-a7b0-41eb-9554-64f112a32a2d";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/03a0a011-53e9-4f14-a80d-bf841a5f6b43-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/03a0a011-53e9-4f14-a80d-bf841a5f6b43";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/fe88eff3-6ac7-4eb3-b84d-a7aa079b46d2-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/fe88eff3-6ac7-4eb3-b84d-a7aa079b46d2";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/2d0c4d08-15f9-4e95-8caa-69e964d957bb-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/2d0c4d08-15f9-4e95-8caa-69e964d957bb";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
