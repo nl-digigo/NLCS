@@ -21,6 +21,14 @@ PREFIX shapes:  <http://www.laces.tech/publication/ns/semmtech/live/laces/schema
 #   - Discipline     (owl:ObjectProperty → otl:Aspect;
 #                     Disciplines enum class → otl:GroupForQualifications)
 #
+# Statussen/Disciplines and their Qualification members also get an
+# "Original URI" InformationField (same mechanism already used for
+# Lijnkleur/Lijnweight/Lijntype/Status/Discipline below), so that
+# ex:getOriginalUri resolves them to one canonical identity regardless of
+# whatever local URI Laces re-mints on import - otherwise every hoofdgroep
+# publication's own copy of Statussen/Disciplines fails to deduplicate when
+# merged and multiplies into N separate groups.
+#
 # Usage (Apache Jena ARQ):
 #   arq --data NLCS_5_0_2_2026-05-22_0944.ttl \
 #       --query construct_shared_as_laces_otl.rq \
@@ -243,32 +251,60 @@ WHERE {
   # from other blocks).  Runs over the same concept scope as Block A.
   {
     {
-      ?lijnkleurTop3 a owl:Class ; skos:prefLabel "Lijnkleur" .
-      { BIND(?lijnkleurTop3 AS ?cls3) }
+      {
+        ?lijnkleurTop3 a owl:Class ; skos:prefLabel "Lijnkleur" .
+        { BIND(?lijnkleurTop3 AS ?cls3) }
+        UNION
+        { ?cls3 rdfs:subClassOf+ ?lijnkleurTop3 ; a owl:Class . }
+      }
       UNION
-      { ?cls3 rdfs:subClassOf+ ?lijnkleurTop3 ; a owl:Class . }
-    }
-    UNION
-    {
-      ?lijnweightTop3 a owl:Class ; skos:prefLabel "Lijnweight" .
-      { BIND(?lijnweightTop3 AS ?cls3) }
+      {
+        ?lijnweightTop3 a owl:Class ; skos:prefLabel "Lijnweight" .
+        { BIND(?lijnweightTop3 AS ?cls3) }
+        UNION
+        { ?cls3 rdfs:subClassOf+ ?lijnweightTop3 ; a owl:Class . }
+      }
       UNION
-      { ?cls3 rdfs:subClassOf+ ?lijnweightTop3 ; a owl:Class . }
+      {
+        ?cls3 a owl:Class ; skos:prefLabel ?cls3Lbl .
+        FILTER (?cls3Lbl IN ("Lijntype", "CONTINUOUS", "V-CONTINUOUS-SO"))
+      }
+      UNION
+      {
+        ?cls3 a owl:ObjectProperty ;
+                  skos:prefLabel ?aspectLabel .
+        FILTER (?aspectLabel IN ("Status", "Discipline"))
+      }
+      BIND (BNODE() AS ?uriInfoField)
+      BIND (BNODE() AS ?uriTypeNode)
     }
     UNION
     {
-      ?cls3 a owl:Class ; skos:prefLabel ?cls3Lbl .
-      FILTER (?cls3Lbl IN ("Lijntype", "CONTINUOUS", "V-CONTINUOUS-SO"))
-    }
-    UNION
-    {
-      ?cls3 a owl:ObjectProperty ;
-                skos:prefLabel ?aspectLabel .
-      FILTER (?aspectLabel IN ("Status", "Discipline"))
+      # Statussen / Disciplines enumeration groups and their Qualification
+      # members. Uses deterministic IRI(CONCAT(...)) node minting instead of
+      # BNODE() - unlike the concept types above, these two UNION arms were
+      # observed to have RDF4J collapse BNODE() into a single shared blank
+      # node across every row (e.g. all 6 Statussen members ending up on one
+      # InformationField instead of one each), which silently merged all of
+      # their Original URI values onto one node.
+      {
+        ?cls3 a owl:Class ;
+              rdfs:subClassOf nen2660:EnumerationType ;
+              skos:prefLabel ?groupName3 .
+        FILTER (?groupName3 IN ("Statussen", "Disciplines"))
+      }
+      UNION
+      {
+        ?enumGroup3 a owl:Class ;
+                    rdfs:subClassOf nen2660:EnumerationType ;
+                    skos:prefLabel ?groupName3 .
+        FILTER (?groupName3 IN ("Statussen", "Disciplines"))
+        ?cls3 a ?enumGroup3 .
+      }
+      BIND (IRI(CONCAT(STR(?cls3), "-field-uri")) AS ?uriInfoField)
+      BIND (IRI(CONCAT(STR(?cls3), "-uri-type")) AS ?uriTypeNode)
     }
     BIND (STR(?cls3) AS ?uriStr)
     BIND ("Original URI" AS ?uriLabel)
-    BIND (BNODE() AS ?uriInfoField)
-    BIND (BNODE() AS ?uriTypeNode)
   }
 }

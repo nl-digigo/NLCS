@@ -20,6 +20,7 @@ PREFIX shapes:  <http://www.laces.tech/publication/ns/semmtech/live/laces/schema
 # Block A  — arcering class hierarchy           → otl:Document
 # Block B  — annotation properties              → otl:InformationField
 # Block C  — original NLCS URI                 → otl:InformationField
+# Block D  — original NLCS URI for the Arcering root concept → otl:InformationField
 # ─────────────────────────────────────────────────────────────────────────────
 
 CONSTRUCT {
@@ -49,6 +50,12 @@ CONSTRUCT {
   ?uriField otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
   <urn:nlcs:info-type:OriginalURI> a otl:InformationType .
   <urn:nlcs:info-type:OriginalURI> otl:attr-Conceptual-name "Original URI" .
+
+  # ── Block D: original NLCS URI for the Arcering root concept ──────────────
+  ?arcURI4 otl:rel-Conceptual-isDescribedIn ?uriField2 .
+  ?uriField2 a otl:InformationField .
+  ?uriField2 otl:attr-InformationField-value ?uriStr2 .
+  ?uriField2 otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
 
 }
 
@@ -158,6 +165,15 @@ WHERE {
     ?arcURI3 a owl:Class .
     BIND (STR(?arcURI3) AS ?uriStr)
     BIND (IRI(CONCAT(STR(?arcURI3), "-field-uri")) AS ?uriField)
+  }
+
+  UNION
+
+  # ── Block D: original NLCS URI for the Arcering root concept ──────────────
+  {
+    ?arcURI4 a owl:Class ; skos:prefLabel "Arcering" .
+    BIND (STR(?arcURI4) AS ?uriStr2)
+    BIND (IRI(CONCAT(STR(?arcURI4), "-field-uri")) AS ?uriField2)
   }
 
 }

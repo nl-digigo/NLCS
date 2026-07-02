@@ -447,15 +447,21 @@ ex:ConvertGroupForQualifications a sh:NodeShape ;
 				# ?possessedAspect otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification ?emptyQualification .
 				# ?emptyQualification otl:attr-Conceptual-name "" .
 				{
+					# Ordering is by ?tgtElementName (stable across every publication that
+					# owns a copy of this group), NOT by ?qualification's raw URI - that URI
+					# is re-minted independently per publication on import, so comparing it
+					# produces a different list order in each one and the merged output ends
+					# up with conflicting rdf:first values on what should be the same list node.
 					SELECT ?this ?qualification ?tgtElementName ((COUNT(?predecessor)) AS ?elementIndex)
 					WHERE {
 						?this a otl:GroupForQualifications .
 						?this otl:rel-Group-isCollectionFor ?qualification .
+						?qualification otl:attr-Conceptual-name ?tgtElementName .
 						OPTIONAL {
 							?this otl:rel-Group-isCollectionFor ?predecessor .
-							FILTER (str(?predecessor) < str(?qualification)) .
+							?predecessor otl:attr-Conceptual-name ?predecessorName .
+							FILTER (str(?predecessorName) < str(?tgtElementName)) .
 						} .
-						?qualification otl:attr-Conceptual-name ?tgtElementName .
 					}
 					GROUP BY ?this ?qualification ?tgtElementName
 				} .
@@ -464,11 +470,12 @@ ex:ConvertGroupForQualifications a sh:NodeShape ;
 					WHERE {
 						?this a otl:GroupForQualifications .
 						?this otl:rel-Group-isCollectionFor ?qualification .
+						?qualification otl:attr-Conceptual-name ?tgtElementName .
 						OPTIONAL {
 							?this otl:rel-Group-isCollectionFor ?successor .
-							FILTER (str(?successor) > str(?qualification)) .
+							?successor otl:attr-Conceptual-name ?successorName .
+							FILTER (str(?successorName) > str(?tgtElementName)) .
 						} .
-						?qualification otl:attr-Conceptual-name ?tgtElementName .
 						OPTIONAL {
 							?qualification otl:attr-Conceptual-description ?tgtElementDescription .
 						} .
@@ -487,7 +494,7 @@ ex:ConvertGroupForQualifications a sh:NodeShape ;
 				BIND (IF(CONTAINS(STR(?tgtRest), "; "), STRBEFORE(STR(?tgtRest), "; "), STR(?tgtRest)) AS ?tgtAltLabel) .
 			    BIND (IF(CONTAINS(STR(?tgtRest), "; "), STRAFTER(STR(?tgtRest), "; "), "") AS ?ElementDefinition) .
 				BIND (IF(?ElementDefinition="", ?undefined, ?ElementDefinition) AS ?tgtElementDefinition) .
-				BIND (ex:createURI(MD5("ID")) AS ?tgtAnnotationProperty) .
+				BIND (ex:createHumanReadableUri("ID") AS ?tgtAnnotationProperty) .
 			}
 			""" ;
             sh:deactivated false ;

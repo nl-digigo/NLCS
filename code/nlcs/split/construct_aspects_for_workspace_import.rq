@@ -16,9 +16,20 @@ PREFIX shapes:  <http://www.laces.tech/publication/ns/semmtech/live/laces/schema
 #
 #   Block A  — otl:Aspect with name, sequence node, datatype + registrational
 #              flags, and otl:rel-Aspect-isRelatedTo the local qualification group
-#   Block B  — otl:GroupForQualifications with name and sequence node
-#   Block C  — otl:Qualification members with name and sequence node
-#              (NO otl:attr-Conceptual-description)
+#   Block B  — otl:GroupForQualifications with name, sequence node, and an
+#              External-link back to its own original 5.0 URI (same mechanism
+#              as Block D). Every hoofdgroep workspace imports its own local
+#              copy of Statussen/Disciplines, so without this the group's
+#              identity can't be resolved back to a single canonical URI when
+#              hoofdgroep publications are merged together - it would surface
+#              as N duplicate "Statussen" groups instead of one.
+#   Block C  — otl:Qualification members with name, sequence node, and their
+#              5.0 original URI stored verbatim as otl:attr-Conceptual-description.
+#              Laces re-mints a local URI for each Qualification on import into
+#              every hoofdgroep workspace; the stylesheet (laces-to-NLCS-concept_split.ttl,
+#              ex:ConvertAspectWithRole) reads this back so that an object's
+#              filled Status/Discipline value is published against the
+#              qualification's correct original URI instead of the local one.
 #   Block D  — External-link relation node per aspect, pointing from the aspect
 #              to the canonical GroupForQualifications URI in the shared workspace
 #              (same URI used by construct_shared_as_laces_otl.rq)
@@ -49,11 +60,19 @@ CONSTRUCT {
   ?groupSeqNode rdf:type otl:Seq_attr-Group-name .
   ?groupSeqNode rdf:_1 ?groupName .
   ?groupSeqNode owl:annotatedProperty otl:attr-Group-name .
+  ?enumGroup otl:rel-Conceptual-hasExternalLink ?groupExtLinkNode .
+  ?groupExtLinkNode rdf:type otl:ExternalLink .
+  ?groupExtLinkNode otl:attr-ExternalLink-name ?groupName .
+  ?groupExtLinkNode otl:attr-ExternalLink-relation "isSameAs" .
+  ?groupExtLinkNode otl:attr-ExternalLink-sourcename "$external_sourcename" .
+  ?groupExtLinkNode otl:attr-ExternalLink-sourceurl "$external_sourceurl"^^xsd:anyURI .
+  ?groupExtLinkNode otl:attr-ExternalLink-uri ?groupExtURI .
 
-  # ── Block C: Qualification members (no description) ──────────────────────
+  # ── Block C: Qualification members (description = original 5.0 URI) ──────
   ?enumGroup otl:rel-Group-isCollectionFor ?member .
   ?member a otl:Qualification .
   ?member otl:attr-Conceptual-name ?memberLabel .
+  ?member otl:attr-Conceptual-description ?memberOriginalUri .
   ?member shapes:sequence ?memberSeqNode .
   ?memberSeqNode rdf:type otl:Seq_attr-Conceptual-name .
   ?memberSeqNode rdf:_1 ?memberLabel .
@@ -98,11 +117,13 @@ WHERE {
                skos:prefLabel ?groupName .
     FILTER (?groupName IN ("Statussen", "Disciplines"))
     BIND (IRI(CONCAT(STR(?enumGroup), "-seq-name")) AS ?groupSeqNode)
+    BIND (IRI(CONCAT(STR(?enumGroup), "-ext-link")) AS ?groupExtLinkNode)
+    BIND (STRDT(STR(?enumGroup), xsd:anyURI) AS ?groupExtURI)
   }
 
   UNION
 
-  # ── Block C: Qualification members — name only, no description ───────────
+  # ── Block C: Qualification members — name + original URI as description ──
   {
     ?enumGroup a owl:Class ;
                rdfs:subClassOf nen2660:EnumerationType ;
@@ -110,6 +131,7 @@ WHERE {
     FILTER (?groupName IN ("Statussen", "Disciplines"))
     ?member a ?enumGroup .
     ?member skos:prefLabel ?memberLabel .
+    BIND (STR(?member) AS ?memberOriginalUri)
     BIND (IRI(CONCAT(STR(?member), "-seq-name")) AS ?memberSeqNode)
   }
 
