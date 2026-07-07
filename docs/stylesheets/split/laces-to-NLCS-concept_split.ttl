@@ -68,7 +68,6 @@ ex:ConvertAspectWithRole a sh:NodeShape ;
 				?bnode2 owl:onProperty ?tgtAspect .
 				?bnode2 owl:onClass ?tgtAspectEnumeration .
 				?bnode2 owl:hasValue ?tgtQualificationUri .
-				?tgtQualificationUri skos:prefLabel ?tgtQualificationName .
 				?bnode2 owl:hasValue ?tgtQuantificationValue .
 			}
 			WHERE {
@@ -179,8 +178,9 @@ ex:ConvertAspectWithRole a sh:NodeShape ;
 						?this otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute ?attribute .
 					} .
 					?qualification otl:attr-Conceptual-name ?tgtQualificationName .
-					FILTER (?tgtQualificationName != "") .
-					BIND (URI(STR(?qualification)) AS ?tgtQualificationUri) .
+					FILTER (?tgtQualificationName != "") .					
+					OPTIONAL { ?qualification otl:attr-Conceptual-description ?tgtQualificationOriginalUri . }
+					BIND (COALESCE(URI(STR(?tgtQualificationOriginalUri)), URI(STR(?qualification))) AS ?tgtQualificationUri) .
 					BIND (owl:ObjectProperty AS ?tgtPropertyType) .
 				}
 				UNION
@@ -365,6 +365,22 @@ ex:ConvertConceptualFundamentals a sh:NodeShape ;
 			# Only certain subclasses of otl:Conceptual should be converted into classes (Qualifications for example should not be converted into instances of owl:Class)
 				?this a ?conceptual .
     			FILTER (?conceptual IN (otl:PhysicalObject, otl:GeometricalSpace, otl:Activity, otl:Function, otl:Document, otl:FunctionalSpace, otl:Objective, otl:Agent, otl:Event, otl:State, otl:Risk, otl:TimePeriod, otl:Matter)) .
+			# Shared concepts (lijnkleuren, lijnweights, lijntypes, aspects) are stubbed into each
+			# hoofdgroep workspace with an "isSameAs" ExternalLink whose sourceurl points back at
+			# the shared publication (see construct_lijnkleuren_lijnweights_per_hoofdgroep.rq /
+			# construct_lijntypes_per_hoofdgroep.rq / construct_aspects_for_workspace_import.rq).
+			# Laces re-mints a local URI for the stub on import, so its own recorded ExternalLink
+			# "uri" (the pre-import source id) no longer equals ?this - matching on sourceurl
+			# instead reliably identifies the stub regardless of that re-minted local id.
+			# Their real definition (skos:prefLabel etc.) is only published once, from the shared
+			# workspace, so this rule must not (re)generate it here - that produced conflicting
+			# duplicate labels once split publications were merged.
+				FILTER NOT EXISTS {
+					?this otl:rel-Conceptual-hasExternalLink ?sharedStubLink .
+					?sharedStubLink otl:attr-ExternalLink-relation "isSameAs" .
+					?sharedStubLink otl:attr-ExternalLink-sourceurl ?sharedStubSourceUrl .
+					FILTER (regex(str(?sharedStubSourceUrl), "nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes", "i")) .
+				} .
 			# If the concept is a specialization of another concept in the OTL, it should be modeled by a rdfs:subClassOf relation between the two concepts
 				OPTIONAL {
 			        ?this otl:rel-Conceptual-isSpecializationOf ?parentConceptual .
@@ -421,6 +437,8 @@ ex:ConvertConceptualFundamentals a sh:NodeShape ;
 					FILTER (!STRENDS(?tgtAnnotationName, "lineweight")) .
 					FILTER (?tgtAnnotationName != "Element") .
 					FILTER (?tgtAnnotationName != "Original URI") .
+					FILTER (?tgtAnnotationName != "Symbool") .
+					FILTER (?tgtAnnotationName != "Arcering") .
 					BIND (ex:createHumanReadableUri(?tgtAnnotationName) AS ?tgtAnnotationProperty) .
 				} .
 				
@@ -488,6 +506,107 @@ ex:ConvertConceptualFundamentals a sh:NodeShape ;
                 schema:,
                 nen2660: ] ;
     sh:targetClass otl:Conceptual .
+
+ex:ConvertConceptualSymbolArceringRelations a sh:NodeShape ;
+    sh:rule [ a sh:SPARQLRule ;
+            sh:construct """
+			CONSTRUCT {
+				?tgtThis rdfs:subClassOf ?bnode .
+				?bnode owl:onProperty nen2660:isDescribedBy .
+				?bnode owl:onClass ?tgtConcept .
+			}
+			WHERE {
+				?this a otl:PhysicalObject .
+				{
+					## Symbool
+					BIND (BNODE() AS ?bnode) .
+					OPTIONAL {
+						?this otl:rel-Conceptual-isDescribedIn ?informationFieldThis .
+						?informationFieldThis otl:rel-InformationField-isClassifiedAs ?informationType .
+						?informationFieldThis otl:attr-InformationField-value ?valueThis .
+						OPTIONAL { ?informationType otl:attr-Conceptual-name ?existingTypeName . }
+						BIND (IF(BOUND(?existingTypeName), STR(?existingTypeName),
+						         REPLACE(REPLACE(STRAFTER(STR(?informationType), "/Field-"), "[+]", " "), "%20", " ")) AS ?typeName) .
+						FILTER (?typeName = "Symbool") .
+					}
+#					OPTIONAL {
+#						?this otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
+#						?thisGrandparents otl:rel-Conceptual-isDescribedIn ?informationFieldGrandparent .
+#						?informationFieldGrandparent otl:rel-InformationField-isClassifiedAs ?informationType .
+#						?informationFieldGrandparent otl:attr-InformationField-value ?valueParent .
+#						FILTER NOT EXISTS {
+#							?thisParents otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
+#							?this otl:rel-Conceptual-isSpecializationOf+ ?thisParents .
+#							?thisParents otl:rel-Conceptual-isDescribedIn ?informationFieldParent .
+#							?informationFieldParent otl:rel-InformationField-isClassifiedAs ?informationType .
+#							?informationFieldParent otl:attr-InformationField-value ?valueTemp .
+#						}
+#					}
+					BIND (IF(BOUND(?valueThis),
+						IF(?valueThis = "nvt", ?undefined, ?valueThis),
+						IF(BOUND(?valueParent), ?valueParent, ?undefined2)) AS ?value) .
+					FILTER (BOUND(?informationType)) .
+					FILTER (BOUND(?value)) .
+					?SymboolTop a otl:Document .
+					?SymboolTop otl:attr-Conceptual-name "Symbool" .
+					?conceptStub otl:rel-Conceptual-isSpecializationOf+ ?SymboolTop .
+					?conceptStub otl:attr-Conceptual-name ?value .
+					BIND (COALESCE(ex:getOriginalUri(?conceptStub), ?conceptStub) AS ?tgtConcept) .
+				}
+				UNION
+				{
+					## Arcering
+					BIND (BNODE() AS ?bnode) .
+					OPTIONAL {
+						?this otl:rel-Conceptual-isDescribedIn ?informationFieldThis .
+						?informationFieldThis otl:rel-InformationField-isClassifiedAs ?informationType .
+						?informationFieldThis otl:attr-InformationField-value ?valueThis .
+						OPTIONAL { ?informationType otl:attr-Conceptual-name ?existingTypeName . }
+						BIND (IF(BOUND(?existingTypeName), STR(?existingTypeName),
+						         REPLACE(REPLACE(STRAFTER(STR(?informationType), "/Field-"), "[+]", " "), "%20", " ")) AS ?typeName) .
+						FILTER (?typeName = "Arcering") .
+					}
+#					OPTIONAL {
+#						?this otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
+#						?thisGrandparents otl:rel-Conceptual-isDescribedIn ?informationFieldGrandparent .
+#						?informationFieldGrandparent otl:rel-InformationField-isClassifiedAs ?informationType .
+#						?informationFieldGrandparent otl:attr-InformationField-value ?valueParent .
+#						FILTER NOT EXISTS {
+#							?thisParents otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
+#							?this otl:rel-Conceptual-isSpecializationOf+ ?thisParents .
+#							?thisParents otl:rel-Conceptual-isDescribedIn ?informationFieldParent .
+#							?informationFieldParent otl:rel-InformationField-isClassifiedAs ?informationType .
+#							?informationFieldParent otl:attr-InformationField-value ?valueTemp .
+#						}
+#					}
+					BIND (IF(BOUND(?valueThis),
+						IF(?valueThis = "nvt", ?undefined, ?valueThis),
+						IF(BOUND(?valueParent), ?valueParent, ?undefined2)) AS ?value) .
+					FILTER (BOUND(?informationType)) .
+					FILTER (BOUND(?value)) .
+					?ArceringTop a otl:Document .
+					?ArceringTop otl:attr-Conceptual-name "Arcering" .
+					?conceptStub otl:rel-Conceptual-isSpecializationOf+ ?ArceringTop .
+					?conceptStub otl:attr-Conceptual-name ?value .
+					BIND (COALESCE(ex:getOriginalUri(?conceptStub), ?conceptStub) AS ?tgtConcept) .
+				}
+				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
+			}
+			""" ;
+            sh:deactivated false ;
+            sh:prefixes ex:,
+                bm:,
+                otl:,
+                shapes:,
+                rdf:,
+                rdfs:,
+                xsd:,
+                owl:,
+                skos:,
+                sh:,
+                schema:,
+                nen2660: ] ;
+    sh:targetClass otl:PhysicalObject .
 
 ex:ConvertConceptualLijnkleurRelations a sh:NodeShape ;
     sh:rule [ a sh:SPARQLRule ;
@@ -709,6 +828,10 @@ ex:ConvertExternalSource a sh:NodeShape ;
 					?1externalRelation otl:attr-ExternalLink-uri ?sameAsExternalURI .
 					FILTER (!regex(str(?sameAsExternalURI), "http://qudt.org/vocab/unit/", "i")) .
 					BIND (URI(str(?sameAsExternalURI)) AS ?tgtSameAsExternalURI) .
+					# ex:getOriginalUri(?this) resolves through this very "isSameAs" link for shared
+					# concepts, so tgtSameAsExternalURI would equal tgtThis and produce a
+					# self-referencing owl:equivalentClass in every hoofdgroep split. Skip those.
+					FILTER (?tgtSameAsExternalURI != ex:getOriginalUri(?this)) .
 				} .
 				OPTIONAL {
 					?this otl:rel-Conceptual-hasExternalLink ?2externalRelation .
@@ -742,88 +865,6 @@ ex:ConvertExternalSource a sh:NodeShape ;
                 schema:,
                 nen2660: ] ;
     sh:targetClass otl:Conceptual .
-
-ex:ConvertGroupForQualifications a sh:NodeShape ;
-    sh:rule [ a sh:SPARQLRule ;
-            sh:construct """	
-			CONSTRUCT {
-				?tgtList a rdf:List .
-				?tgtList rdf:first ?tgtElementUri .
-				?tgtElementUri a ?tgtThis .
-				?tgtElementUri skos:prefLabel ?tgtElementName .
-				?tgtElementUri ?tgtAnnotationProperty ?tgtElementID .
-				?tgtElementUri skos:altLabel ?tgtAltLabel .
-				?tgtElementUri skos:definition ?tgtElementDefinition .
-				?tgtList rdf:rest ?tgtRestList .
-				?tgtThis rdfs:subClassOf nen2660:EnumerationType .
-				?tgtThis a owl:Class .
-				?tgtThis a sh:NodeShape .
-				?tgtThis skos:prefLabel ?tgtEnumerationName .
-				?tgtThis sh:in ?tgtListFirst .
-				?tgtThis owl:oneOf ?tgtListFirst .
-			}
-			WHERE {
-				?possessedAspect otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf ?this .
-				?possessedAspect otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification ?emptyQualification .
-				?emptyQualification otl:attr-Conceptual-name "" .
-				{
-					SELECT ?this ?qualification ?tgtElementName ((COUNT(?predecessor)) AS ?elementIndex)
-					WHERE {
-						?this a otl:GroupForQualifications .
-						?this otl:rel-Group-isCollectionFor ?qualification .
-						OPTIONAL {
-							?this otl:rel-Group-isCollectionFor ?predecessor .
-							FILTER (str(?predecessor) < str(?qualification)) .
-						} .
-						?qualification otl:attr-Conceptual-name ?tgtElementName .
-					}
-					GROUP BY ?this ?qualification ?tgtElementName
-				} .
-				{
-					SELECT ?this ?qualification ?tgtElementName ?tgtElementDescription ((COUNT(?successor)) AS ?isLastElement)
-					WHERE {
-						?this a otl:GroupForQualifications .
-						?this otl:rel-Group-isCollectionFor ?qualification .
-						OPTIONAL {
-							?this otl:rel-Group-isCollectionFor ?successor .
-							FILTER (str(?successor) > str(?qualification)) .
-						} .
-						?qualification otl:attr-Conceptual-name ?tgtElementName .
-						OPTIONAL {
-							?qualification otl:attr-Conceptual-description ?tgtElementDescription .
-						} .
-					}
-					GROUP BY ?this ?qualification ?tgtElementName ?tgtElementDescription
-				} .
-				?this otl:attr-Group-name ?tgtEnumerationName .
-				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
-				BIND (URI(STR(?qualification)) AS ?tgtElementUri) .
-				BIND (CONCAT(str(?tgtThis), "-list-") AS ?listBase) .
-				BIND (IRI(CONCAT(?listBase, "0")) AS ?tgtListFirst) .
-				BIND (IRI(CONCAT(?listBase, str(?elementIndex))) AS ?tgtList) .
-				BIND (IF((?isLastElement = 0), rdf:nil, URI(CONCAT(?listBase, str((?elementIndex + 1))))) AS ?tgtRestList) .
-				BIND (IF(CONTAINS(STR(?tgtElementDescription), "; "), STRBEFORE(STR(?tgtElementDescription), "; "), STR(?tgtElementDescription)) AS ?tgtElementID) .
-			    BIND (IF(CONTAINS(STR(?tgtElementDescription), "; "), STRAFTER(STR(?tgtElementDescription), "; "), "") AS ?tgtRest) .
-				BIND (IF(CONTAINS(STR(?tgtRest), "; "), STRBEFORE(STR(?tgtRest), "; "), STR(?tgtRest)) AS ?tgtAltLabel) .
-			    BIND (IF(CONTAINS(STR(?tgtRest), "; "), STRAFTER(STR(?tgtRest), "; "), "") AS ?ElementDefinition) .
-				BIND (IF(?ElementDefinition="", ?undefined, ?ElementDefinition) AS ?tgtElementDefinition) .
-				BIND (ex:createURI(MD5("ID")) AS ?tgtAnnotationProperty) .
-			}
-			""" ;
-            sh:deactivated false ;
-            sh:prefixes ex:,
-                bm:,
-                otl:,
-                shapes:,
-                rdf:,
-                rdfs:,
-                xsd:,
-                owl:,
-                skos:,
-                sh:,
-                schema:,
-                nen2660: ] ;
-    sh:targetClass otl:GroupForQualifications .
 
 ex:ConvertGroups a sh:NodeShape ;
     sh:rule [ a sh:SPARQLRule ;

@@ -47,7 +47,7 @@ VERSION = "5.0"
 QUERY_FOLDER = "./code/nlcs/split"
 HOOFDGROEPEN_QUERY_PATH = "./code/nlcs/nlcs_exporter/NLCS_Retrieve_Hoofdgroepen.rq"
 
-OUTPUT_ROOT = "output/split"
+OUTPUT_ROOT = "./code/nlcs/split_import_files"
 SHARED_OUTPUT_FOLDER = os.path.join(OUTPUT_ROOT, "shared")
 
 # Hoofdgroepen whose codes end with this letter are merged into one folder.
@@ -83,13 +83,13 @@ OBJECTS_QUERY = "construct_objects_per_hoofdgroep.rq"
 # Which hoofdgroepen to export.  Set to None to retrieve all from the endpoint.
 # Example single:  RUN_HOOFDGROEPEN = ["AL"]
 # Example subset:  RUN_HOOFDGROEPEN = ["AL", "AS", "BC"]
-RUN_HOOFDGROEPEN = ["BC", "FC", "GC", "HC", "KC", "MC", "SC"] # None
+RUN_HOOFDGROEPEN = None # ["BC", "FC", "GC", "HC", "KC", "MC", "SC"] 
 
 # Set to True to also export shared concepts (lijnkleuren, statussen, etc.)
 RUN_SHARED = False
 
 SOURCE_NAME_SHARED = "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes"
-SOURCE_URL_SHARED = "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes/versions/1"
+SOURCE_URL_SHARED = "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes"
 
 # ---------------------------------------------------------------------------
 # Logging
@@ -188,6 +188,52 @@ def _append_aspects_to_objects(aspects_path: str, objects_path: str) -> None:
         log.info("  (aspects body empty — skipping append)")
     os.remove(aspects_path)
     log.info("  Removed standalone %s", os.path.basename(aspects_path))
+
+
+def _extract_prefixes(ttl_text: str) -> list[str]:
+    """Return the @prefix / PREFIX declaration lines from a Turtle string, in order."""
+    return [
+        line for line in ttl_text.splitlines(keepends=True)
+        if line.lstrip().lower().startswith("@prefix")
+        or line.lstrip().upper().startswith("PREFIX ")
+    ]
+
+
+def _merge_all_types(saved: dict[str, str], out_dir: str, label: str) -> None:
+    """Combine every per-type TTL file for one hoofdgroep/group into a single
+    import-ready file, so objects (with aspects already appended), arceringen,
+    symbolen, lijntypes and lijnkleuren/lijnweights can be imported at once.
+
+    Prefixes are collected once (deduplicated by prefix name, first
+    occurrence wins) and placed at the top; each file's body follows in
+    PARAMETERIZED_QUERIES order.
+    """
+    ordered_stems = [
+        os.path.splitext(q)[0] for q in PARAMETERIZED_QUERIES
+        if os.path.splitext(q)[0] != os.path.splitext(ASPECTS_QUERY)[0]
+    ]
+    available = [stem for stem in ordered_stems if stem in saved]
+    if not available:
+        log.info("  (nothing to merge for '%s')", label)
+        return
+
+    seen_prefixes: dict[str, str] = {}
+    bodies: list[str] = []
+    for stem in available:
+        with open(saved[stem], "r", encoding="utf-8") as f:
+            content = f.read()
+        for line in _extract_prefixes(content):
+            name = line.split(":", 1)[0].strip().lstrip("@").upper()
+            seen_prefixes.setdefault(name, line.rstrip("\n"))
+        body = strip_ttl_prefixes(content).strip()
+        if body:
+            bodies.append(body)
+
+    merged_text = "\n".join(seen_prefixes.values()) + "\n\n" + "\n\n".join(bodies) + "\n"
+    output_path = os.path.join(out_dir, f"merged_all_per_hoofdgroep-{VERSION}-{label}.ttl")
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(merged_text)
+    log.info("  Saved merged-all-types file → %s", output_path)
 
 
 def save_ttl(ttl_text: str, output_path: str) -> bool:
@@ -297,6 +343,11 @@ def run_merged_group_queries(
         except Exception as exc:
             log.error("  Error appending aspects to objects for '%s': %s", group_label, exc)
 
+    try:
+        _merge_all_types(saved, out_dir, group_label)
+    except Exception as exc:
+        log.error("  Error merging all types for '%s': %s", group_label, exc)
+
 
 def run_per_hoofdgroep_queries(client: LacesClient, hoofdgroepen: list[str]) -> None:
     """For each hoofdgroep, run all parameterised CONSTRUCT queries."""
@@ -332,6 +383,11 @@ def run_per_hoofdgroep_queries(client: LacesClient, hoofdgroepen: list[str]) -> 
                 _append_aspects_to_objects(saved[aspects_stem], saved[objects_stem])
             except Exception as exc:
                 log.error("  Error appending aspects to objects for '%s': %s", hg, exc)
+
+        try:
+            _merge_all_types(saved, hg_folder, hg)
+        except Exception as exc:
+            log.error("  Error merging all types for '%s': %s", hg, exc)
 
 
 # ---------------------------------------------------------------------------

@@ -24,6 +24,7 @@ PREFIX shapes:  <http://www.laces.tech/publication/ns/semmtech/live/laces/schema
 # Block B  — Lijnkleur stubs + ExternalLink per referenced value
 # Block C  — Lijnweight root Document
 # Block D  — Lijnweight stubs + ExternalLink per referenced value
+#            (label always formatted to 2 decimals after the dot, e.g. 0.7 -> "0.70")
 # ─────────────────────────────────────────────────────────────────────────────
 
 CONSTRUCT {
@@ -141,7 +142,18 @@ WHERE {
     ?objD ?lwProp ?lwURI .
     ?LijnweightTopD a owl:Class ; skos:prefLabel "Lijnweight" .
     ?lwURI rdfs:subClassOf+ ?LijnweightTopD .
-    ?lwURI a owl:Class ; skos:prefLabel ?lwLabel .
+    ?lwURI a owl:Class ; skos:prefLabel ?lwLabelRaw .
+    # Format the lijnweight value to always show 2 decimals (0.7 -> "0.70").
+    BIND (xsd:decimal(?lwLabelRaw) AS ?lwNumTry)
+    BIND (ROUND(?lwNumTry * 100) AS ?lwCents)
+    BIND (xsd:integer(?lwCents) AS ?lwCentsInt)
+    BIND (ABS(?lwCentsInt) AS ?lwAbsCents)
+    BIND (FLOOR(?lwAbsCents / 100) AS ?lwIntPart)
+    BIND ((?lwAbsCents - (?lwIntPart * 100)) AS ?lwFracPart)
+    BIND (IF(BOUND(?lwFracPart),
+             CONCAT(IF(?lwCentsInt < 0, "-", ""), STR(?lwIntPart), ".",
+                    IF(?lwFracPart < 10, CONCAT("0", STR(?lwFracPart)), STR(?lwFracPart))),
+             ?lwLabelRaw) AS ?lwLabel)
     BIND (IRI(CONCAT(STR(?lwURI), "-seq-name")) AS ?lwSeqNode)
     BIND (?LijnweightTopD AS ?lwTopURI)
     BIND (IRI(CONCAT(STR(?lwURI), "-ext-link-shared")) AS ?lwExtLink)

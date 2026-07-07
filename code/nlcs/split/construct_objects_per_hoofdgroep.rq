@@ -25,6 +25,12 @@ PREFIX shapes:  <http://www.laces.tech/publication/ns/semmtech/live/laces/schema
 # Block G   — linked Arcering (isDescribedBy)     → otl:InformationField + otl:Group
 # Block I   — linked Lijntype (isDescribedBy)     → otl:Group (Document from lijntypes query)
 # Block H   — original NLCS URI                   → otl:InformationField
+# Block H0  — original NLCS URI for the hoofdgroep root itself → otl:InformationField
+#
+# Blocks B, B2, C, D, E, F additionally include the hoofdgroep root object
+# itself (not just its descendants), so every information attribute and
+# aspect connection also exists on the hoofdgroep — empty when the
+# hoofdgroep has no value, populated from 5.0 when it does (e.g. ID).
 #
 # Node URIs: RDF4J collapses BNODE() in CONSTRUCT; all nodes use IRI(CONCAT(...))
 # so each object (or object×property) gets a unique, stable URI.
@@ -66,7 +72,13 @@ CONSTRUCT {
   ?statusAspectNode otl:rel-Relation-toRole ?statusRoleNode .
   ?statusRoleNode rdf:type otl:RoleOfAspect-PossessedAspect .
   ?statusRoleNode otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute ?statusShapeAttr .
-  ?statusRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification ?statusValueURI .
+  ?statusRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification ?statusQualificationURI .
+  ?statusQualificationURI a otl:Qualification .
+  ?statusQualificationURI otl:attr-Conceptual-name ?statusEmptyQualificationName .
+  ?statusQualificationURI shapes:sequence ?statusQualificationSeqNode .
+  ?statusQualificationSeqNode rdf:type otl:Seq_attr-Conceptual-name .
+  ?statusQualificationSeqNode rdf:_1 ?statusEmptyQualificationName .
+  ?statusQualificationSeqNode owl:annotatedProperty otl:attr-Conceptual-name .
   ?statusRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf ?statusGroupURI .
   ?statusShapeAttr rdf:type bp:Attribute .
   ?statusShapeAttr bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger .
@@ -84,7 +96,13 @@ CONSTRUCT {
   ?disciplineAspectNode otl:rel-Relation-toRole ?disciplineRoleNode .
   ?disciplineRoleNode rdf:type otl:RoleOfAspect-PossessedAspect .
   ?disciplineRoleNode otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute ?disciplineShapeAttr .
-  ?disciplineRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification ?disciplineValueURI .
+  ?disciplineRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification ?disciplineQualificationURI .
+  ?disciplineQualificationURI a otl:Qualification .
+  ?disciplineQualificationURI otl:attr-Conceptual-name ?disciplineEmptyQualificationName .
+  ?disciplineQualificationURI shapes:sequence ?disciplineQualificationSeqNode .
+  ?disciplineQualificationSeqNode rdf:type otl:Seq_attr-Conceptual-name .
+  ?disciplineQualificationSeqNode rdf:_1 ?disciplineEmptyQualificationName .
+  ?disciplineQualificationSeqNode owl:annotatedProperty otl:attr-Conceptual-name .
   ?disciplineRoleNode otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf ?disciplineGroupURI .
   ?disciplineShapeAttr rdf:type bp:Attribute .
   ?disciplineShapeAttr bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger .
@@ -118,6 +136,12 @@ CONSTRUCT {
   <urn:nlcs:info-type:OriginalURI> a otl:InformationType .
   <urn:nlcs:info-type:OriginalURI> otl:attr-Conceptual-name "Original URI" .
 
+  # ── Block H0 — original NLCS URI for the hoofdgroep root itself ──────────
+  ?objURI9 otl:rel-Conceptual-isDescribedIn ?uriField9 .
+  ?uriField9 a otl:InformationField .
+  ?uriField9 otl:attr-InformationField-value ?uriStr9 .
+  ?uriField9 otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
 }
 
 WHERE {
@@ -130,6 +154,7 @@ WHERE {
   {
     ?NLCSObjectTopA0 a owl:Class ; skos:prefLabel "NLCS-object" .
     ?objURI rdfs:subClassOf ?NLCSObjectTopA0 ; skos:prefLabel ?hoofdgroep .
+    OPTIONAL { ?objURI skos:definition ?def }
     BIND (STR(?hoofdgroep) AS ?label)
     BIND (IRI(CONCAT(STR(?objURI), "-seq-name")) AS ?seqNode)
   }
@@ -169,7 +194,10 @@ WHERE {
     }
     ?NLCSObjectTopBO a owl:Class ; skos:prefLabel "NLCS-object" .
     ?hgBO rdfs:subClassOf ?NLCSObjectTopBO ; skos:prefLabel ?hoofdgroep .
-    ?objURI2 rdfs:subClassOf+ ?hgBO ; a owl:Class .
+    # Every descendant AND the hoofdgroep root itself get this InformationField.
+    { BIND (?hgBO AS ?objURI2) }
+    UNION
+    { ?objURI2 rdfs:subClassOf+ ?hgBO ; a owl:Class . }
     OPTIONAL { ?objURI2 ?annProp ?annValue . FILTER (isLiteral(?annValue)) }
     BIND (IF(BOUND(?annValue), STR(?annValue), "") AS ?annValueStr)
     BIND (IRI(CONCAT(STR(?objURI2), "-field-", SHA1(STR(?annProp)))) AS ?infoField)
@@ -219,13 +247,30 @@ WHERE {
     }
     ?NLCSObjectTopB2 a owl:Class ; skos:prefLabel "NLCS-object" .
     ?hgB2 rdfs:subClassOf ?NLCSObjectTopB2 ; skos:prefLabel ?hoofdgroep .
-    ?objURIdraw rdfs:subClassOf+ ?hgB2 ; a owl:Class .
+    # Every descendant AND the hoofdgroep root itself get this InformationField.
+    { BIND (?hgB2 AS ?objURIdraw) }
+    UNION
+    { ?objURIdraw rdfs:subClassOf+ ?hgB2 ; a owl:Class . }
     OPTIONAL {
       ?objURIdraw ?drawProp ?drawURI .
       FILTER (!isLiteral(?drawURI) && !isBlank(?drawURI))
       OPTIONAL { ?drawURI skos:prefLabel ?drawLabelOpt . }
     }
-    BIND (IF(BOUND(?drawURI), COALESCE(STR(?drawLabelOpt), STR(?drawURI)), "") AS ?drawValue)
+    BIND (IF(BOUND(?drawURI), COALESCE(STR(?drawLabelOpt), STR(?drawURI)), "") AS ?drawValueRaw)
+    # Lineweight values must always show 2 decimals after the dot (0.7 -> "0.70").
+    BIND (CONTAINS(?drawLabel, "lineweight") AS ?isLineweightAttr)
+    BIND (xsd:decimal(?drawValueRaw) AS ?lwNumTry)
+    BIND (ROUND(?lwNumTry * 100) AS ?lwCents)
+    BIND (xsd:integer(?lwCents) AS ?lwCentsInt)
+    BIND (ABS(?lwCentsInt) AS ?lwAbsCents)
+    BIND (FLOOR(?lwAbsCents / 100) AS ?lwIntPart)
+    BIND ((?lwAbsCents - (?lwIntPart * 100)) AS ?lwFracPart)
+    BIND (CONCAT(
+            IF(?lwCentsInt < 0, "-", ""),
+            STR(?lwIntPart), ".",
+            IF(?lwFracPart < 10, CONCAT("0", STR(?lwFracPart)), STR(?lwFracPart))
+          ) AS ?lwFormatted)
+    BIND (IF(?isLineweightAttr && BOUND(?lwFormatted), ?lwFormatted, ?drawValueRaw) AS ?drawValue)
     BIND (IRI(CONCAT(STR(?objURIdraw), "-field-", SHA1(STR(?drawProp)))) AS ?drawField)
     BIND (IRI(CONCAT(STR(?drawProp), "-info-type")) AS ?drawTypeNode)
   }
@@ -242,6 +287,37 @@ WHERE {
     ?bnodeStatus owl:onProperty nlcs:580a54a5-3f8e-4d92-afac-24eb23707884 .
     ?bnodeStatus owl:hasValue ?statusValueURI .
     ?statusGroupURI a owl:Class ; rdfs:subClassOf nen2660:EnumerationType ; skos:prefLabel "Statussen" .
+    BIND (?statusValueURI AS ?statusQualificationURI)
+    BIND (IRI(CONCAT(STR(?objURI3), "-aspect-status")) AS ?statusAspectNode)
+    BIND (IRI(CONCAT(STR(?objURI3), "-role-status")) AS ?statusRoleNode)
+    BIND (IRI(CONCAT(STR(?objURI3), "-shape-attr-status")) AS ?statusShapeAttr)
+    BIND (IRI(CONCAT(STR(?objURI3), "-shape-seq-status")) AS ?statusShapeSeqNode)
+  }
+
+  UNION
+
+  # ── Block C0: Status aspect connection for the hoofdgroep root itself ────
+  # The hoofdgroep has no owl:hasValue restriction for Status, so it is
+  # connected with the shape/qualification-group info only (empty value).
+  # A synthetic placeholder Qualification with an empty name is used for
+  # isQualifiedAs-Qualification, because the split stylesheet
+  # (ex:ConvertAspectWithRole) only recognises the "group known, no specific
+  # value chosen" case when that empty-named placeholder is present.
+  {
+    ?NLCSObjectTopC0 a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?objURI3 rdfs:subClassOf ?NLCSObjectTopC0 ; skos:prefLabel ?hoofdgroep .
+    OPTIONAL {
+      ?objURI3 rdfs:subClassOf ?bnodeStatus .
+      ?bnodeStatus owl:onProperty nlcs:580a54a5-3f8e-4d92-afac-24eb23707884 .
+      ?bnodeStatus owl:hasValue ?statusValueURI .
+    }
+    ?statusGroupURI a owl:Class ; rdfs:subClassOf nen2660:EnumerationType ; skos:prefLabel "Statussen" .
+    BIND (COALESCE(?statusValueURI, IRI(CONCAT(STR(?objURI3), "-empty-qualification-status"))) AS ?statusQualificationURI)
+    BIND (IF(BOUND(?statusValueURI), ?undefinedStatusEmptyName, "") AS ?statusEmptyQualificationName)
+    # Only the synthetic placeholder needs its own sequence node - a real,
+    # filled qualification already has one from construct_aspects_for_workspace_import.rq,
+    # and otl:Conceptual requires exactly one, so this must not fire for it.
+    BIND (IF(BOUND(?statusEmptyQualificationName), IRI(CONCAT(STR(?statusQualificationURI), "-seq-name")), ?undefinedStatusQualSeq) AS ?statusQualificationSeqNode)
     BIND (IRI(CONCAT(STR(?objURI3), "-aspect-status")) AS ?statusAspectNode)
     BIND (IRI(CONCAT(STR(?objURI3), "-role-status")) AS ?statusRoleNode)
     BIND (IRI(CONCAT(STR(?objURI3), "-shape-attr-status")) AS ?statusShapeAttr)
@@ -260,6 +336,30 @@ WHERE {
     ?bnodeDiscipline owl:onProperty nlcs:d01031dc-9abe-47d3-9656-17185c986709 .
     ?bnodeDiscipline owl:hasValue ?disciplineValueURI .
     ?disciplineGroupURI a owl:Class ; rdfs:subClassOf nen2660:EnumerationType ; skos:prefLabel "Disciplines" .
+    BIND (?disciplineValueURI AS ?disciplineQualificationURI)
+    BIND (IRI(CONCAT(STR(?objURI4), "-aspect-discipline")) AS ?disciplineAspectNode)
+    BIND (IRI(CONCAT(STR(?objURI4), "-role-discipline")) AS ?disciplineRoleNode)
+    BIND (IRI(CONCAT(STR(?objURI4), "-shape-attr-discipline")) AS ?disciplineShapeAttr)
+    BIND (IRI(CONCAT(STR(?objURI4), "-shape-seq-discipline")) AS ?disciplineShapeSeqNode)
+  }
+
+  UNION
+
+  # ── Block D0: Discipline aspect connection for the hoofdgroep root itself ─
+  # Same synthetic empty-qualification-placeholder mechanism as Block C0.
+  {
+    ?NLCSObjectTopD0 a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?objURI4 rdfs:subClassOf ?NLCSObjectTopD0 ; skos:prefLabel ?hoofdgroep .
+    OPTIONAL {
+      ?objURI4 rdfs:subClassOf ?bnodeDiscipline .
+      ?bnodeDiscipline owl:onProperty nlcs:d01031dc-9abe-47d3-9656-17185c986709 .
+      ?bnodeDiscipline owl:hasValue ?disciplineValueURI .
+    }
+    ?disciplineGroupURI a owl:Class ; rdfs:subClassOf nen2660:EnumerationType ; skos:prefLabel "Disciplines" .
+    BIND (COALESCE(?disciplineValueURI, IRI(CONCAT(STR(?objURI4), "-empty-qualification-discipline"))) AS ?disciplineQualificationURI)
+    BIND (IF(BOUND(?disciplineValueURI), ?undefinedDisciplineEmptyName, "") AS ?disciplineEmptyQualificationName)
+    # Only the synthetic placeholder needs its own sequence node - see Block C0.
+    BIND (IF(BOUND(?disciplineEmptyQualificationName), IRI(CONCAT(STR(?disciplineQualificationURI), "-seq-name")), ?undefinedDisciplineQualSeq) AS ?disciplineQualificationSeqNode)
     BIND (IRI(CONCAT(STR(?objURI4), "-aspect-discipline")) AS ?disciplineAspectNode)
     BIND (IRI(CONCAT(STR(?objURI4), "-role-discipline")) AS ?disciplineRoleNode)
     BIND (IRI(CONCAT(STR(?objURI4), "-shape-attr-discipline")) AS ?disciplineShapeAttr)
@@ -273,7 +373,10 @@ WHERE {
   {
     ?NLCSObjectTopF a owl:Class ; skos:prefLabel "NLCS-object" .
     ?hgF rdfs:subClassOf ?NLCSObjectTopF ; skos:prefLabel ?hoofdgroep .
-    ?objURI6 rdfs:subClassOf+ ?hgF ; a owl:Class .
+    # Every descendant AND the hoofdgroep root itself get this InformationField.
+    { BIND (?hgF AS ?objURI6) }
+    UNION
+    { ?objURI6 rdfs:subClassOf+ ?hgF ; a owl:Class . }
     OPTIONAL {
       ?objURI6 rdfs:subClassOf ?bnodeSymbool .
       ?bnodeSymbool owl:onProperty nen2660:isDescribedBy .
@@ -295,7 +398,10 @@ WHERE {
   {
     ?NLCSObjectTopG a owl:Class ; skos:prefLabel "NLCS-object" .
     ?hgG rdfs:subClassOf ?NLCSObjectTopG ; skos:prefLabel ?hoofdgroep .
-    ?objURI7 rdfs:subClassOf+ ?hgG ; a owl:Class .
+    # Every descendant AND the hoofdgroep root itself get this InformationField.
+    { BIND (?hgG AS ?objURI7) }
+    UNION
+    { ?objURI7 rdfs:subClassOf+ ?hgG ; a owl:Class . }
     OPTIONAL {
       ?objURI7 rdfs:subClassOf ?bnodeArcering .
       ?bnodeArcering owl:onProperty nen2660:isDescribedBy .
@@ -321,6 +427,16 @@ WHERE {
           a owl:Class .
     BIND (STR(?objURI8) AS ?uriStr)
     BIND (IRI(CONCAT(STR(?objURI8), "-field-uri")) AS ?uriField)
+  }
+
+  UNION
+
+  # ── Block H0: original NLCS URI for the hoofdgroep root itself ────────────
+  {
+    ?NLCSObjectTopH0 a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?objURI9 rdfs:subClassOf ?NLCSObjectTopH0 ; skos:prefLabel ?hoofdgroep .
+    BIND (STR(?objURI9) AS ?uriStr9)
+    BIND (IRI(CONCAT(STR(?objURI9), "-field-uri")) AS ?uriField9)
   }
 
 }
