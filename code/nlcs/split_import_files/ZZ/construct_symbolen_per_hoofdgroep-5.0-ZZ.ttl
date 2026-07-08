@@ -13,7 +13,8 @@
 <http://digitalbuildingdata.tech/nlcs/def/799560e0-6bed-473f-ac32-e2fc51530fc0> a
     otl:Document;
   shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/799560e0-6bed-473f-ac32-e2fc51530fc0-seq-name>;
-  otl:attr-Conceptual-name "Symbool" .
+  otl:attr-Conceptual-name "Symbool";
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/799560e0-6bed-473f-ac32-e2fc51530fc0-field-uri> .
 
 <http://digitalbuildingdata.tech/nlcs/def/799560e0-6bed-473f-ac32-e2fc51530fc0-seq-name>
   a otl:Seq_attr-Conceptual-name;
@@ -664,4 +665,9 @@
 <http://digitalbuildingdata.tech/nlcs/def/d9a030f5-a048-4199-a3d3-53c5fa126d2e-field-uri>
   a otl:InformationField;
   otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/d9a030f5-a048-4199-a3d3-53c5fa126d2e";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/799560e0-6bed-473f-ac32-e2fc51530fc0-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/799560e0-6bed-473f-ac32-e2fc51530fc0";
   otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
