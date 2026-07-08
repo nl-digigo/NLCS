@@ -18,7 +18,7 @@ PREFIX shapes:  <http://www.laces.tech/publication/ns/semmtech/live/laces/schema
 # Block A0  — hoofdgroep as root PhysicalObject   → otl:PhysicalObject
 # Block A   — object class hierarchy              → otl:PhysicalObject
 # Block B   — 3 literal annotation properties     → otl:InformationField
-#             (ID, Element, VRKL_KORT)
+#             (ID, VRKL_KORT)
 # Block B2  — 28 drawing attributes (URI-valued)  → otl:InformationField
 #             (B/N/T/V × lineweight, color×5, linetype)
 # Block F   — linked Symbool (isDescribedBy)      → otl:InformationField + otl:Group
@@ -128,6 +128,14 @@ CONSTRUCT {
   <urn:nlcs:info-type:Arcering> a otl:InformationType .
   <urn:nlcs:info-type:Arcering> otl:attr-Conceptual-name "Arcering" .
 
+  # ── Block EF0: InformationField for created Element ────────────────────
+  ?objURI10 otl:rel-Conceptual-isDescribedIn ?elementInfoField .
+  ?elementInfoField a otl:InformationField .
+  ?elementInfoField otl:attr-InformationField-value ?element .
+  ?elementInfoField otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:Element> .
+  <urn:nlcs:info-type:Element> a otl:InformationType .
+  <urn:nlcs:info-type:Element> otl:attr-Conceptual-name "Element" .
+
   # ── Block H ───────────────────────────────────────────────────────────────
   ?objURI8 otl:rel-Conceptual-isDescribedIn ?uriField .
   ?uriField a otl:InformationField .
@@ -184,12 +192,10 @@ WHERE {
   #
   # UUIDs (from 5.0)
   #   ID       = nlcs:b718adec73e04ce3ec720dd11a06a308
-  #   Element  = nlcs:231afe47f3f37d3808096b36c28b4ded
   #   VRKL_KORT= nlcs:9c241815bb021ad8b7146ffb88dcf856
   {
     VALUES (?annProp ?annLabel) {
       (nlcs:b718adec73e04ce3ec720dd11a06a308 "ID")
-      (nlcs:231afe47f3f37d3808096b36c28b4ded "Element")
       (nlcs:9c241815bb021ad8b7146ffb88dcf856 "VRKL_KORT")
     }
     ?NLCSObjectTopBO a owl:Class ; skos:prefLabel "NLCS-object" .
@@ -414,6 +420,63 @@ WHERE {
     BIND (IF(BOUND(?arcURI),
              IRI(CONCAT(STR(?objURI7), "-field-arc-", SHA1(STR(?arcURI)))),
              IRI(CONCAT(STR(?objURI7), "-field-arc"))) AS ?arcInfoField)
+  }
+
+  UNION
+
+  # ── Block EF0: Creation of Element attribute
+  # Every object gets an Element field; value is decided based on arcering + symbol.
+  {
+    ?NLCSObjectTopG a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgG rdfs:subClassOf ?NLCSObjectTopG ; skos:prefLabel ?hoofdgroep .
+    # Every descendant AND the hoofdgroep root itself get this InformationField.
+    { BIND (?hgG AS ?objURI10) }
+    UNION
+    { ?objURI10 rdfs:subClassOf+ ?hgG ; a owl:Class . }
+    ?objURI10 skos:prefLabel ?omschrijving .
+    OPTIONAL {
+      ?objURI10 rdfs:subClassOf ?bnodeSymbool .
+      ?bnodeSymbool owl:onProperty nen2660:isDescribedBy .
+      ?bnodeSymbool owl:onClass ?symURI .
+      ?SymboolTop a owl:Class ; skos:prefLabel "Symbool" .
+      ?symURI rdfs:subClassOf+ ?SymboolTop .
+      ?symURI a owl:Class ; skos:prefLabel ?symboolLabel .
+    }
+    OPTIONAL {
+      ?objURI10 rdfs:subClassOf ?bnodeArcering .
+      ?bnodeArcering owl:onProperty nen2660:isDescribedBy .
+      ?bnodeArcering owl:onClass ?arcURI .
+      ?ArceringTop a owl:Class ; skos:prefLabel "Arcering" .
+      ?arcURI rdfs:subClassOf+ ?ArceringTop .
+      ?arcURI a owl:Class ; skos:prefLabel ?arceringLabel .
+    }
+    BIND (BOUND(?symURI) as ?hasSymbol) 
+    BIND (BOUND(?arcURI) as ?hasArcering) 
+    
+    BIND(
+        # Condition 1: Starts with "("
+        IF(STRSTARTS(?omschrijving, "("), 
+            # Extract text between parentheses: (Value) -> Value
+            REPLACE(?omschrijving, "^\\\\((.*)\\\\).*", "$1"),
+            
+            # Condition 2: Both S and A
+            IF(?hasSymbol && ?hasArcering, "G/A/S",
+                
+                # Condition 3: Only S
+                IF(?hasSymbol, "G/S",
+                    
+                    # Condition 4: Only A
+                    IF(?hasArcering, "G/A", 
+                        
+                        # Default
+                        "G"
+                    )
+                )
+            )
+        ) AS ?element
+      )
+
+    BIND (IRI(CONCAT(STR(?objURI10), "-field-", SHA1(STR(?element)))) AS ?elementInfoField)
   }
 
   UNION
