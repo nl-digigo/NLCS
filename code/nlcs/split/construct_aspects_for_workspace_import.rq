@@ -68,15 +68,15 @@ CONSTRUCT {
   ?groupExtLinkNode otl:attr-ExternalLink-sourceurl "$external_sourceurl"^^xsd:anyURI .
   ?groupExtLinkNode otl:attr-ExternalLink-uri ?groupExtURI .
 
-  # ── Block C: Qualification members (description = original 5.0 URI) ──────
-  ?enumGroup otl:rel-Group-isCollectionFor ?member .
-  ?member a otl:Qualification .
-  ?member otl:attr-Conceptual-name ?memberLabel .
-  ?member otl:attr-Conceptual-description ?memberOriginalUri .
-  ?member shapes:sequence ?memberSeqNode .
-  ?memberSeqNode rdf:type otl:Seq_attr-Conceptual-name .
-  ?memberSeqNode rdf:_1 ?memberLabel .
-  ?memberSeqNode owl:annotatedProperty otl:attr-Conceptual-name .
+  # # ── Block C: Qualification members (description = original 5.0 URI) ──────
+  # ?enumGroup otl:rel-Group-isCollectionFor ?member .
+  # ?member a otl:Qualification .
+  # ?member otl:attr-Conceptual-name ?memberLabel .
+  # ?member otl:attr-Conceptual-description ?memberOriginalUri .
+  # ?member shapes:sequence ?memberSeqNode .
+  # ?memberSeqNode rdf:type otl:Seq_attr-Conceptual-name .
+  # ?memberSeqNode rdf:_1 ?memberLabel .
+  # ?memberSeqNode owl:annotatedProperty otl:attr-Conceptual-name .
 
   # ── Block D: External link → shared GroupForQualifications ───────────────
   # Links the local aspect to the canonical group URI produced by

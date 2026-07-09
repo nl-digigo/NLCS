@@ -13,7 +13,8 @@
 <http://digitalbuildingdata.tech/nlcs/def/113e537e-07ab-4ca6-97be-efc263898d50> a
     otl:Document;
   shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/113e537e-07ab-4ca6-97be-efc263898d50-seq-name>;
-  otl:attr-Conceptual-name "Arcering" .
+  otl:attr-Conceptual-name "Arcering";
+  otl:rel-Conceptual-isDescribedIn <http://digitalbuildingdata.tech/nlcs/def/113e537e-07ab-4ca6-97be-efc263898d50-field-uri> .
 
 <http://digitalbuildingdata.tech/nlcs/def/113e537e-07ab-4ca6-97be-efc263898d50-seq-name>
   a otl:Seq_attr-Conceptual-name;
@@ -1029,6 +1030,11 @@
 <http://digitalbuildingdata.tech/nlcs/def/3183991b-443d-4a16-a45d-0440e1d4d62f-field-uri>
   a otl:InformationField;
   otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/3183991b-443d-4a16-a45d-0440e1d4d62f";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/113e537e-07ab-4ca6-97be-efc263898d50-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/113e537e-07ab-4ca6-97be-efc263898d50";
   otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
 
 <http://digitalbuildingdata.tech/nlcs/def/086c44cf-8b27-44f4-a9e4-db8cc634d3e5> a

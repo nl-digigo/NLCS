@@ -294,9 +294,9 @@ OPTIONAL {
   BIND (BOUND(?arcering) as ?hasArcering) 
   BIND(
         # Condition 1: Starts with "("
-        IF(STRSTARTS(?name, "("), 
+        IF(STRSTARTS(?omschrijving, "("), 
             # Extract text between parentheses: (Value) -> Value
-            REPLACE(?name, "^\\\\((.*)\\\\).*", "$1"),
+            REPLACE(?omschrijving, "^\\\\((.*)\\\\).*", "$1"),
             
             # Condition 2: Both S and A
             IF(?hasSymbol && ?hasArcering, "G/A/S",

@@ -61238,3 +61238,11 @@
   a otl:InformationField;
   otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/5fecd589-7ac5-497c-bf2f-ff040a34f55d";
   otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/799560e0-6bed-473f-ac32-e2fc51530fc0> otl:rel-Conceptual-isDescribedIn
+    <http://digitalbuildingdata.tech/nlcs/def/799560e0-6bed-473f-ac32-e2fc51530fc0-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/799560e0-6bed-473f-ac32-e2fc51530fc0-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/799560e0-6bed-473f-ac32-e2fc51530fc0";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .

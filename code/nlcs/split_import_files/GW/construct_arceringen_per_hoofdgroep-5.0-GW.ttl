@@ -2052,3 +2052,11 @@
   a otl:InformationField;
   otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/b0335bf3-a64f-4578-8713-2a554c56e710";
   otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+<http://digitalbuildingdata.tech/nlcs/def/113e537e-07ab-4ca6-97be-efc263898d50> otl:rel-Conceptual-isDescribedIn
+    <http://digitalbuildingdata.tech/nlcs/def/113e537e-07ab-4ca6-97be-efc263898d50-field-uri> .
+
+<http://digitalbuildingdata.tech/nlcs/def/113e537e-07ab-4ca6-97be-efc263898d50-field-uri>
+  a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/113e537e-07ab-4ca6-97be-efc263898d50";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .

@@ -112,7 +112,7 @@ CONSTRUCT {
   ?disciplineShapeSeqNode rdf:_1 "Discipline" .
   ?disciplineShapeSeqNode owl:annotatedProperty bp:attr-ShapeElement-name .
 
-  # ── Block E: InformationField + Group for linked Symbool ─────────────────────
+  # ── Block E: InformationField for linked Symbool ─────────────────────
   ?objURI6 otl:rel-Conceptual-isDescribedIn ?symInfoField .
   ?symInfoField a otl:InformationField .
   ?symInfoField otl:attr-InformationField-value ?symAnnValue .
@@ -120,7 +120,7 @@ CONSTRUCT {
   <urn:nlcs:info-type:Symbool> a otl:InformationType .
   <urn:nlcs:info-type:Symbool> otl:attr-Conceptual-name "Symbool" .
 
-  # ── Block F: InformationField + Group for linked Arcering ────────────────────
+  # ── Block F: InformationField for linked Arcering ────────────────────
   ?objURI7 otl:rel-Conceptual-isDescribedIn ?arcInfoField .
   ?arcInfoField a otl:InformationField .
   ?arcInfoField otl:attr-InformationField-value ?arcAnnValue .

@@ -35,14 +35,15 @@ from requests.auth import HTTPBasicAuth
 # ---------------------------------------------------------------------------
 
 SPARQL_ENDPOINT = (
-    "https://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2/sparql"
+    # "https://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2/sparql"
+    # "https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv5_1_5/sparql"
 )
 
 # Leave empty strings if the endpoint is public
 LDP_TOKEN_ID = ""
 LDP_PASSWORD = ""
 
-VERSION = "5.0"
+VERSION = "5.0" # "5.1"
 
 QUERY_FOLDER = "./code/nlcs/split"
 HOOFDGROEPEN_QUERY_PATH = "./code/nlcs/nlcs_exporter/NLCS_Retrieve_Hoofdgroepen.rq"
@@ -57,7 +58,7 @@ CONSTRUCTIE_FOLDER = "Constructie"
 # Queries that are run once per hoofdgroep (parameterised with $hoofdgroup_name)
 PARAMETERIZED_QUERIES = [
     "construct_aspects_for_workspace_import.rq",
-    "construct_objects_per_hoofdgroep.rq",
+    f"construct_objects_per_hoofdgroep_{VERSION}.rq",
     "construct_arceringen_per_hoofdgroep.rq",
     "construct_symbolen_per_hoofdgroep.rq",
     "construct_lijntypes_per_hoofdgroep.rq",
@@ -82,8 +83,10 @@ OBJECTS_QUERY = "construct_objects_per_hoofdgroep.rq"
 
 # Which hoofdgroepen to export.  Set to None to retrieve all from the endpoint.
 # Example single:  RUN_HOOFDGROEPEN = ["AL"]
-# Example subset:  RUN_HOOFDGROEPEN = ["AL", "AS", "BC"]
-RUN_HOOFDGROEPEN = None # ["BC", "FC", "GC", "HC", "KC", "MC", "SC"] 
+# Example subset (5.1):  RUN_HOOFDGROEPEN = ["SB", "IS", "ES"]
+# Constructie subset: ["BC", "FC", "GC", "HC", "KC", "MC", "SC"] 
+# None for all: ['AL', 'AM', 'BC', 'BV', 'FC', 'FV', 'GC', 'GK', 'GR', 'GW', 'HC', 'HU', 'IE', 'IS', 'IV', 'IW', 'KC', 'KG', 'KL', 'KW', 'MC', 'MO', 'MW', 'OB', 'OG', 'OV', 'RI', 'SB', 'SC', 'VH', 'VS', 'VV', 'VW', 'WH', 'ZZ']
+RUN_HOOFDGROEPEN =  None 
 
 # Set to True to also export shared concepts (lijnkleuren, statussen, etc.)
 RUN_SHARED = False
