@@ -13,6 +13,7 @@
   .badge-nieuw    { background: #e6f4ea; color: #137333; border: 1px solid #a8d5b5; }
   .badge-bestaand { background: #eef1f5; color: #3c4043; border: 1px solid #cbd2da; }
   .badge-notin    { background: #f9d2d2; color: #a11; border: 1px solid #e2a3a3; }
+  .badge-insob    { background: #cdeccf; color: #14612a; border: 1px solid #9fcfa6; }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
   th, td { border: 1px solid #d7dce2; padding: 6px 10px; text-align: left; vertical-align: top; }
   thead th { background: #003865; color: #fff; position: sticky; top: 0; z-index: 2; }
@@ -21,6 +22,8 @@
   td.lvl1 { background: #eaf0f6; }
   /* zoekfilter komt niet voor in kolom 'sobject' van de objecttabel */
   td.hier.notin, td.lvl1.notin { background: #f9d2d2; color: #a11; }
+  /* zoekfilter staat zelf in kolom 'sobject' */
+  td.hier.insob, td.lvl1.insob { background: #cdeccf; color: #14612a; }
   td.empty { background: #fcfdfe; border-left: 1px dashed #e3e8ee; }
   td.name { font-family: Consolas, monospace; white-space: nowrap; }
   td.img { text-align: center; }
@@ -42,12 +45,13 @@
 <div class="legend">
   <span class="badge-nieuw">nieuw: 0</span>
   <span class="badge-bestaand">bestaand (5.0): 152</span>
-  <span class="badge-notin">rood zoekfilter = niet in kolom sobject van objecttabel</span>
+  <span class="badge-insob">groen zoekfilter = staat in kolom sobject</span>
+  <span class="badge-notin">rood zoekfilter = niet in sobject (ook niet dieper)</span>
 </div>
 <table>
 <thead><tr><th>Niveau 1</th><th>Niveau 2</th><th>Niveau 3</th><th>Niveau 4</th><th>Niveau 5</th><th>Niveau 6</th><th>Niveau 7</th><th>Niveau 8</th><th>Symbool (bestand)</th><th>Afbeelding</th><th>Status</th></tr></thead>
 <tbody>
-<tr><td class="lvl1" rowspan="152">SGC</td><td class="hier" rowspan="152">SGC-DAMWAND</td><td class="hier" rowspan="152">SGC-DAMWAND_STAAL</td><td class="hier notin" rowspan="101">SGC-DAMWAND_STAAL_ARCELOR</td><td class="hier notin" rowspan="5">SGC-DAMWAND_STAAL_ARCELOR_AS500</td><td class="hier notin" rowspan="1">SGC-DAMWAND_STAAL_ARCELOR_AS500_11.0-MM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SGC-DAMWAND_STAAL_ARCELOR_AS500_11.0-MM</td><td class="img bestaand"><img src="SGC-DAMWAND_STAAL_ARCELOR_AS500_11.0-MM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="lvl1" rowspan="152">SGC</td><td class="hier" rowspan="152">SGC-DAMWAND</td><td class="hier insob" rowspan="152">SGC-DAMWAND_STAAL</td><td class="hier notin" rowspan="101">SGC-DAMWAND_STAAL_ARCELOR</td><td class="hier notin" rowspan="5">SGC-DAMWAND_STAAL_ARCELOR_AS500</td><td class="hier notin" rowspan="1">SGC-DAMWAND_STAAL_ARCELOR_AS500_11.0-MM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SGC-DAMWAND_STAAL_ARCELOR_AS500_11.0-MM</td><td class="img bestaand"><img src="SGC-DAMWAND_STAAL_ARCELOR_AS500_11.0-MM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
 <tr><td class="hier notin" rowspan="1">SGC-DAMWAND_STAAL_ARCELOR_AS500_12.0-MM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SGC-DAMWAND_STAAL_ARCELOR_AS500_12.0-MM</td><td class="img bestaand"><img src="SGC-DAMWAND_STAAL_ARCELOR_AS500_12.0-MM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
 <tr><td class="hier notin" rowspan="1">SGC-DAMWAND_STAAL_ARCELOR_AS500_12.5-MM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SGC-DAMWAND_STAAL_ARCELOR_AS500_12.5-MM</td><td class="img bestaand"><img src="SGC-DAMWAND_STAAL_ARCELOR_AS500_12.5-MM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
 <tr><td class="hier notin" rowspan="1">SGC-DAMWAND_STAAL_ARCELOR_AS500_12.7-MM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SGC-DAMWAND_STAAL_ARCELOR_AS500_12.7-MM</td><td class="img bestaand"><img src="SGC-DAMWAND_STAAL_ARCELOR_AS500_12.7-MM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>

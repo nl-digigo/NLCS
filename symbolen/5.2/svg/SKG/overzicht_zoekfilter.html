@@ -13,6 +13,7 @@
   .badge-nieuw    { background: #e6f4ea; color: #137333; border: 1px solid #a8d5b5; }
   .badge-bestaand { background: #eef1f5; color: #3c4043; border: 1px solid #cbd2da; }
   .badge-notin    { background: #f9d2d2; color: #a11; border: 1px solid #e2a3a3; }
+  .badge-insob    { background: #cdeccf; color: #14612a; border: 1px solid #9fcfa6; }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
   th, td { border: 1px solid #d7dce2; padding: 6px 10px; text-align: left; vertical-align: top; }
   thead th { background: #003865; color: #fff; position: sticky; top: 0; z-index: 2; }
@@ -21,6 +22,8 @@
   td.lvl1 { background: #eaf0f6; }
   /* zoekfilter komt niet voor in kolom 'sobject' van de objecttabel */
   td.hier.notin, td.lvl1.notin { background: #f9d2d2; color: #a11; }
+  /* zoekfilter staat zelf in kolom 'sobject' */
+  td.hier.insob, td.lvl1.insob { background: #cdeccf; color: #14612a; }
   td.empty { background: #fcfdfe; border-left: 1px dashed #e3e8ee; }
   td.name { font-family: Consolas, monospace; white-space: nowrap; }
   td.img { text-align: center; }
@@ -42,12 +45,13 @@
 <div class="legend">
   <span class="badge-nieuw">nieuw: 0</span>
   <span class="badge-bestaand">bestaand (5.0): 4</span>
-  <span class="badge-notin">rood zoekfilter = niet in kolom sobject van objecttabel</span>
+  <span class="badge-insob">groen zoekfilter = staat in kolom sobject</span>
+  <span class="badge-notin">rood zoekfilter = niet in sobject (ook niet dieper)</span>
 </div>
 <table>
 <thead><tr><th>Niveau 1</th><th>Niveau 2</th><th>Niveau 3</th><th>Niveau 4</th><th>Symbool (bestand)</th><th>Afbeelding</th><th>Status</th></tr></thead>
 <tbody>
-<tr><td class="lvl1" rowspan="4">SKG</td><td class="hier" rowspan="4">SKG-KADASTRAAL</td><td class="hier notin" rowspan="2">SKG-KADASTRAAL_GRENSPAAL</td><td class="empty"></td><td class="name bestaand">SKG-KADASTRAAL_GRENSPAAL-SO</td><td class="img bestaand"><img src="SKG-KADASTRAAL_GRENSPAAL-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="lvl1" rowspan="4">SKG</td><td class="hier insob" rowspan="4">SKG-KADASTRAAL</td><td class="hier notin" rowspan="2">SKG-KADASTRAAL_GRENSPAAL</td><td class="empty"></td><td class="name bestaand">SKG-KADASTRAAL_GRENSPAAL-SO</td><td class="img bestaand"><img src="SKG-KADASTRAAL_GRENSPAAL-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
 <tr><td class="empty"></td><td class="name bestaand">V-SKG-KADASTRAAL_GRENSPAAL-SO</td><td class="img bestaand"><img src="V-SKG-KADASTRAAL_GRENSPAAL-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
 <tr><td class="hier notin" rowspan="2">SKG-KADASTRAAL_NOK</td><td class="hier notin" rowspan="1">SKG-KADASTRAAL_NOK_PLAT</td><td class="name bestaand">SKG-KADASTRAAL_NOK_PLAT-SO</td><td class="img bestaand"><img src="SKG-KADASTRAAL_NOK_PLAT-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
 <tr><td class="hier notin" rowspan="1">SKG-KADASTRAAL_NOK_PUNT</td><td class="name bestaand">SKG-KADASTRAAL_NOK_PUNT-SO</td><td class="img bestaand"><img src="SKG-KADASTRAAL_NOK_PUNT-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>

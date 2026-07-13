@@ -13,6 +13,7 @@
   .badge-nieuw    { background: #e6f4ea; color: #137333; border: 1px solid #a8d5b5; }
   .badge-bestaand { background: #eef1f5; color: #3c4043; border: 1px solid #cbd2da; }
   .badge-notin    { background: #f9d2d2; color: #a11; border: 1px solid #e2a3a3; }
+  .badge-insob    { background: #cdeccf; color: #14612a; border: 1px solid #9fcfa6; }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
   th, td { border: 1px solid #d7dce2; padding: 6px 10px; text-align: left; vertical-align: top; }
   thead th { background: #003865; color: #fff; position: sticky; top: 0; z-index: 2; }
@@ -21,6 +22,8 @@
   td.lvl1 { background: #eaf0f6; }
   /* zoekfilter komt niet voor in kolom 'sobject' van de objecttabel */
   td.hier.notin, td.lvl1.notin { background: #f9d2d2; color: #a11; }
+  /* zoekfilter staat zelf in kolom 'sobject' */
+  td.hier.insob, td.lvl1.insob { background: #cdeccf; color: #14612a; }
   td.empty { background: #fcfdfe; border-left: 1px dashed #e3e8ee; }
   td.name { font-family: Consolas, monospace; white-space: nowrap; }
   td.img { text-align: center; }
@@ -42,17 +45,18 @@
 <div class="legend">
   <span class="badge-nieuw">nieuw: 5</span>
   <span class="badge-bestaand">bestaand (5.0): 2</span>
-  <span class="badge-notin">rood zoekfilter = niet in kolom sobject van objecttabel</span>
+  <span class="badge-insob">groen zoekfilter = staat in kolom sobject</span>
+  <span class="badge-notin">rood zoekfilter = niet in sobject (ook niet dieper)</span>
 </div>
 <table>
 <thead><tr><th>Niveau 1</th><th>Niveau 2</th><th>Niveau 3</th><th>Niveau 4</th><th>Niveau 5</th><th>Symbool (bestand)</th><th>Afbeelding</th><th>Status</th></tr></thead>
 <tbody>
-<tr><td class="lvl1" rowspan="7">SAM</td><td class="hier" rowspan="5">SAM-AS</td><td class="hier" rowspan="5">SAM-AS_SPOOR</td><td class="hier notin" rowspan="3">SAM-AS_SPOOR_NUMMER</td><td class="hier notin" rowspan="1">SAM-AS_SPOOR_NUMMER_1</td><td class="name nieuw">SAM-AS_SPOOR_NUMMER_1-SO</td><td class="img nieuw"><img src="SAM-AS_SPOOR_NUMMER_1-SO.svg" alt="" loading="lazy"></td><td class="status nieuw">nieuw</td></tr>
+<tr><td class="lvl1" rowspan="7">SAM</td><td class="hier insob" rowspan="5">SAM-AS</td><td class="hier insob" rowspan="5">SAM-AS_SPOOR</td><td class="hier notin" rowspan="3">SAM-AS_SPOOR_NUMMER</td><td class="hier notin" rowspan="1">SAM-AS_SPOOR_NUMMER_1</td><td class="name nieuw">SAM-AS_SPOOR_NUMMER_1-SO</td><td class="img nieuw"><img src="SAM-AS_SPOOR_NUMMER_1-SO.svg" alt="" loading="lazy"></td><td class="status nieuw">nieuw</td></tr>
 <tr><td class="hier notin" rowspan="1">SAM-AS_SPOOR_NUMMER_2</td><td class="name nieuw">SAM-AS_SPOOR_NUMMER_2-SO</td><td class="img nieuw"><img src="SAM-AS_SPOOR_NUMMER_2-SO.svg" alt="" loading="lazy"></td><td class="status nieuw">nieuw</td></tr>
 <tr><td class="hier notin" rowspan="1">SAM-AS_SPOOR_NUMMER_3</td><td class="name nieuw">SAM-AS_SPOOR_NUMMER_3-SO</td><td class="img nieuw"><img src="SAM-AS_SPOOR_NUMMER_3-SO.svg" alt="" loading="lazy"></td><td class="status nieuw">nieuw</td></tr>
 <tr><td class="hier notin" rowspan="2">SAM-AS_SPOOR_RIJRICHTING</td><td class="hier notin" rowspan="1">SAM-AS_SPOOR_RIJRICHTING_LINKS</td><td class="name nieuw">SAM-AS_SPOOR_RIJRICHTING_LINKS-SO</td><td class="img nieuw"><img src="SAM-AS_SPOOR_RIJRICHTING_LINKS-SO.svg" alt="" loading="lazy"></td><td class="status nieuw">nieuw</td></tr>
 <tr><td class="hier notin" rowspan="1">SAM-AS_SPOOR_RIJRICHTING_RECHTS</td><td class="name nieuw">SAM-AS_SPOOR_RIJRICHTING_RECHTS-SO</td><td class="img nieuw"><img src="SAM-AS_SPOOR_RIJRICHTING_RECHTS-SO.svg" alt="" loading="lazy"></td><td class="status nieuw">nieuw</td></tr>
 <tr><td class="hier notin" rowspan="1">SAM-AS-D</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SAM-AS-D</td><td class="img bestaand"><img src="SAM-AS-D.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier" rowspan="1">SAM-ASPUNTNUMMER</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SAM-ASPUNTNUMMER-SO</td><td class="img bestaand"><img src="SAM-ASPUNTNUMMER-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier insob" rowspan="1">SAM-ASPUNTNUMMER</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SAM-ASPUNTNUMMER-SO</td><td class="img bestaand"><img src="SAM-ASPUNTNUMMER-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
 </tbody></table>
 </body></html>

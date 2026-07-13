@@ -173,7 +173,8 @@ walk($root);
 my $n_best = grep { $_->{status} eq 'bestaand' } @files;
 my $n_new  = grep { $_->{status} eq 'nieuw' } @files;
 my $obj_legend = $have_obj
-    ? '  <span class="badge-notin">rood zoekfilter = niet in kolom sobject van objecttabel</span>'
+    ? '  <span class="badge-insob">groen zoekfilter = staat in kolom sobject</span>' . "\n"
+    . '  <span class="badge-notin">rood zoekfilter = niet in sobject (ook niet dieper)</span>'
     : '';
 
 # --- SVG aanwezig? ---
@@ -203,6 +204,7 @@ print $fh <<HEAD;
   .badge-nieuw    { background: #e6f4ea; color: #137333; border: 1px solid #a8d5b5; }
   .badge-bestaand { background: #eef1f5; color: #3c4043; border: 1px solid #cbd2da; }
   .badge-notin    { background: #f9d2d2; color: #a11; border: 1px solid #e2a3a3; }
+  .badge-insob    { background: #cdeccf; color: #14612a; border: 1px solid #9fcfa6; }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
   th, td { border: 1px solid #d7dce2; padding: 6px 10px; text-align: left; vertical-align: top; }
   thead th { background: #003865; color: #fff; position: sticky; top: 0; z-index: 2; }
@@ -211,6 +213,8 @@ print $fh <<HEAD;
   td.lvl1 { background: #eaf0f6; }
   /* zoekfilter komt niet voor in kolom 'sobject' van de objecttabel */
   td.hier.notin, td.lvl1.notin { background: #f9d2d2; color: #a11; }
+  /* zoekfilter staat zelf in kolom 'sobject' */
+  td.hier.insob, td.lvl1.insob { background: #cdeccf; color: #14612a; }
   td.empty { background: #fcfdfe; border-left: 1px dashed #e3e8ee; }
   td.name { font-family: Consolas, monospace; white-space: nowrap; }
   td.img { text-align: center; }
@@ -254,7 +258,13 @@ for my $r (@rows) {
                 $emitted{"$node"} = 1;
                 my $rs  = subrows($node);
                 my $cls = ($lvl == 1) ? 'lvl1' : 'hier';
-                $cls .= ' notin' if $have_obj && !subtreeHit($node);
+                if ($have_obj) {
+                    if ($node->{filter} && $sobject{ $node->{filter} }) {
+                        $cls .= ' insob';       # term zelf gevonden -> groen
+                    } elsif (!subtreeHit($node)) {
+                        $cls .= ' notin';       # nergens in subtak gevonden -> rood
+                    }
+                }
                 print $fh "<td class=\"$cls\" rowspan=\"$rs\">@{[esc($node->{filter})]}</td>";
             }
         } else {
