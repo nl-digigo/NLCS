@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SBV â BermbeveiligingsVoorzieningen: symbolen per zoekfilter (NLCS 5.2)</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; margin: 2em; color: #222; }
+  h1 { border-bottom: 2px solid #003865; padding-bottom: .3em; color: #003865; }
+  .info { color: #555; font-size: 14px; margin: .3em 0 1em; }
+  .legend { margin: 1em 0 1.5em; font-size: 14px; }
+  .legend span { display: inline-block; padding: 3px 12px; border-radius: 12px; margin-right: 10px; font-weight: 600; }
+  .badge-nieuw    { background: #e6f4ea; color: #137333; border: 1px solid #a8d5b5; }
+  .badge-bestaand { background: #eef1f5; color: #3c4043; border: 1px solid #cbd2da; }
+  .badge-notin    { background: #f9d2d2; color: #a11; border: 1px solid #e2a3a3; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { border: 1px solid #d7dce2; padding: 6px 10px; text-align: left; vertical-align: top; }
+  thead th { background: #003865; color: #fff; position: sticky; top: 0; z-index: 2; }
+  td.hier, td.lvl1 { font-family: Consolas, monospace; background: #f7f9fb; color: #003865;
+                     white-space: nowrap; font-weight: 600; }
+  td.lvl1 { background: #eaf0f6; }
+  /* zoekfilter komt niet voor in kolom 'sobject' van de objecttabel */
+  td.hier.notin, td.lvl1.notin { background: #f9d2d2; color: #a11; }
+  td.empty { background: #fcfdfe; border-left: 1px dashed #e3e8ee; }
+  td.name { font-family: Consolas, monospace; white-space: nowrap; }
+  td.img { text-align: center; }
+  td.img img { max-width: 90px; max-height: 90px; min-width: 24px; min-height: 24px; }
+  td.status { text-align: center; font-weight: 600; white-space: nowrap; }
+  /* statuskleuren op de symboolrijen */
+  .nieuw    { background: #e9f7ee; }
+  .bestaand { background: #ffffff; }
+  td.status.nieuw    { color: #137333; }
+  td.status.bestaand { color: #5f6368; }
+  tr:hover .nieuw    { background: #d8f0e1; }
+  tr:hover .bestaand { background: #f2f5f8; }
+  .missing { color: #c00; font-style: italic; }
+</style>
+</head>
+<body>
+<h1>SBV â BermbeveiligingsVoorzieningen: symbolen per zoekfilter (NLCS 5.2)</h1>
+<p class="info">24 symbolen â hiÃ«rarchisch gegroepeerd op zoekfilter (V-/B-varianten genegeerd voor groepering)</p>
+<div class="legend">
+  <span class="badge-nieuw">nieuw: 0</span>
+  <span class="badge-bestaand">bestaand (5.0): 24</span>
+  <span class="badge-notin">rood zoekfilter = niet in kolom sobject van objecttabel</span>
+</div>
+<table>
+<thead><tr><th>Niveau 1</th><th>Niveau 2</th><th>Niveau 3</th><th>Niveau 4</th><th>Niveau 5</th><th>Niveau 6</th><th>Symbool (bestand)</th><th>Afbeelding</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td class="lvl1" rowspan="24">SBV</td><td class="hier" rowspan="15">SBV-GELEIDECONSTRUCTIE</td><td class="hier" rowspan="2">SBV-GELEIDECONSTRUCTIE_BARRIER</td><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_BARRIER_BC1-DMM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-GELEIDECONSTRUCTIE_BARRIER_BC1-DMM</td><td class="img bestaand"><img src="SBV-GELEIDECONSTRUCTIE_BARRIER_BC1-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_BARRIER_ST1-DMM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-GELEIDECONSTRUCTIE_BARRIER_ST1-DMM</td><td class="img bestaand"><img src="SBV-GELEIDECONSTRUCTIE_BARRIER_ST1-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier" rowspan="13">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL</td><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_1DL13360-DMM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_1DL13360-DMM</td><td class="img bestaand"><img src="SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_1DL13360-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_1LV13360-DMM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_1LV13360-DMM</td><td class="img bestaand"><img src="SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_1LV13360-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_1Z13360-DMM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_1Z13360-DMM</td><td class="img bestaand"><img src="SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_1Z13360-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_2R13380-DMM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_2R13380-DMM</td><td class="img bestaand"><img src="SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_2R13380-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_2ZC13380-DMM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_2ZC13380-DMM</td><td class="img bestaand"><img src="SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_2ZC13380-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="2">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_BAZ</td><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_BAZ_13360-MM</td><td class="empty"></td><td class="name bestaand">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_BAZ_13360-MM</td><td class="img bestaand"><img src="SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_BAZ_13360-MM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_BAZ_13380-MM</td><td class="empty"></td><td class="name bestaand">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_BAZ_13380-MM</td><td class="img bestaand"><img src="SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_BAZ_13380-MM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_F2DL4008-DMM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_F2DL4008-DMM</td><td class="img bestaand"><img src="SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_F2DL4008-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_F2M4008-DMM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_F2M4008-DMM</td><td class="img bestaand"><img src="SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_F2M4008-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_GRONDPLAAT</td><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_GRONDPLAAT_370</td><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_GRONDPLAAT_370_220-MM</td><td class="name bestaand">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_GRONDPLAAT_370_220-MM</td><td class="img bestaand"><img src="SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_GRONDPLAAT_370_220-MM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_GRONDPLAAT-MM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_GRONDPLAAT-MM</td><td class="img bestaand"><img src="SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_GRONDPLAAT-MM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_K ANKER-DMM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_K ANKER-DMM</td><td class="img bestaand"><img src="SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_K%20ANKER-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_LH2OP1-DMM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_LH2OP1-DMM</td><td class="img bestaand"><img src="SBV-GELEIDECONSTRUCTIE_GELEIDERAIL_LH2OP1-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier" rowspan="9">SBV-LEUNING</td><td class="hier notin" rowspan="1">SBV-LEUNING_3REG0900-DMM</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-LEUNING_3REG0900-DMM</td><td class="img bestaand"><img src="SBV-LEUNING_3REG0900-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-LEUNING_3REG1000-DMM</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-LEUNING_3REG1000-DMM</td><td class="img bestaand"><img src="SBV-LEUNING_3REG1000-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-LEUNING_3REG1000ZWARTS-DMM</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-LEUNING_3REG1000ZWARTS-DMM</td><td class="img bestaand"><img src="SBV-LEUNING_3REG1000ZWARTS-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-LEUNING_3REG1100-DMM</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-LEUNING_3REG1100-DMM</td><td class="img bestaand"><img src="SBV-LEUNING_3REG1100-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-LEUNING_ANKER</td><td class="hier notin" rowspan="1">SBV-LEUNING_ANKER_GH-DMM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-LEUNING_ANKER_GH-DMM</td><td class="img bestaand"><img src="SBV-LEUNING_ANKER_GH-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-LEUNING_SIER1100-DMM</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-LEUNING_SIER1100-DMM</td><td class="img bestaand"><img src="SBV-LEUNING_SIER1100-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-LEUNING_SIER900-DMM</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-LEUNING_SIER900-DMM</td><td class="img bestaand"><img src="SBV-LEUNING_SIER900-DMM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="2">SBV-LEUNING_VOETPLAAT</td><td class="hier notin" rowspan="1">SBV-LEUNING_VOETPLAAT_215</td><td class="hier notin" rowspan="1">SBV-LEUNING_VOETPLAAT_215_50-MM</td><td class="empty"></td><td class="name bestaand">SBV-LEUNING_VOETPLAAT_215_50-MM</td><td class="img bestaand"><img src="SBV-LEUNING_VOETPLAAT_215_50-MM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="hier notin" rowspan="1">SBV-LEUNING_VOETPLAAT_RECHTHOEKIG-MM</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SBV-LEUNING_VOETPLAAT_RECHTHOEKIG-MM</td><td class="img bestaand"><img src="SBV-LEUNING_VOETPLAAT_RECHTHOEKIG-MM.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+</tbody></table>
+</body></html>

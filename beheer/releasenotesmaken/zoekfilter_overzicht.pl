@@ -10,32 +10,84 @@
 # zoekfilter); ze verschijnen wel als aparte varianten. Bestaande en nieuwe
 # symbolen krijgen een eigen kleur.
 #
-# Gebruik:
-#   perl zoekfilter_overzicht.pl <dwg-bestaand-map> <dwg-nieuw-map> <svg-map> <out.html> [titel]
+# Gebruik (twee modi):
+#   1) losse mappen bestaand/nieuw:
+#      perl zoekfilter_overzicht.pl <dwg-bestaand-map> <dwg-nieuw-map> <svg-map> <out.html> [titel]
+#   2) referentievergelijking (5.2 vs 5.0): classificeert per bestandsnaam
+#      perl zoekfilter_overzicht.pl --ref <dwg-5.2-map> <dwg-5.0-ref-map> <svg-map> <out.html> [titel]
 #
 use strict;
 use warnings;
 
-my ($dwg_best, $dwg_new, $svgdir, $out, $title) = @ARGV;
-die "Gebruik: perl $0 <dwg-bestaand> <dwg-nieuw> <svg-map> <out.html> [titel]\n"
-    unless $dwg_best && $dwg_new && $svgdir && $out;
-$title //= "Zoekfilter-overzicht";
-
 sub esc { my $s = shift // ''; $s =~ s/&/&amp;/g; $s =~ s/</&lt;/g; $s =~ s/>/&gt;/g; $s =~ s/"/&quot;/g; return $s; }
 
-# --- bestanden verzamelen ---
-my @files;
-sub collect {
-    my ($dir, $status) = @_;
-    opendir(my $dh, $dir) or return;
-    for my $f (sort readdir $dh) {
-        next unless $f =~ /\.dwg$/i;
-        push @files, { fname => $f, status => $status };
-    }
+sub list_dwg {
+    my $dir = shift;
+    my @out;
+    opendir(my $dh, $dir) or return @out;
+    for my $f (sort readdir $dh) { push @out, $f if $f =~ /\.dwg$/i; }
     closedir $dh;
+    return @out;
 }
-collect($dwg_best, 'bestaand');
-collect($dwg_new,  'nieuw');
+
+my @files;
+my ($svgdir, $out, $title);
+
+# optionele objecttabel: --obj <csv>  (vergelijk zoekfilters met kolom 'sobject')
+my $objcsv;
+{
+    my @a = @ARGV;
+    for (my $i = 0; $i < @a; $i++) {
+        if ($a[$i] eq '--obj') { $objcsv = $a[$i + 1]; splice(@a, $i, 2); last; }
+    }
+    @ARGV = @a;
+}
+
+# sobject-set laden (scheidingsteken per bestand detecteren, kolom op naam zoeken)
+my %sobject;
+my $have_obj = 0;
+if (defined $objcsv && -f $objcsv) {
+    open(my $oh, '<:encoding(UTF-8)', $objcsv) or die "Kan objecttabel niet lezen: $objcsv\n";
+    my $hdr = <$oh>;
+    $hdr //= '';
+    $hdr =~ s/^\x{FEFF}//;      # BOM
+    $hdr =~ s/[\r\n]+$//;
+    my $sep = (($hdr =~ tr/;//) >= ($hdr =~ tr/,//)) ? ';' : ',';
+    my @cols = split /\Q$sep\E/, $hdr, -1;
+    my $idx = -1;
+    for my $i (0 .. $#cols) { if (lc($cols[$i]) eq 'sobject') { $idx = $i; last; } }
+    if ($idx >= 0) {
+        while (my $line = <$oh>) {
+            $line =~ s/[\r\n]+$//;
+            my @f = split /\Q$sep\E/, $line, -1;
+            my $v = $f[$idx];
+            next unless defined $v && $v ne '';
+            $v =~ s/^\s+|\s+$//g;
+            $sobject{$v} = 1 if $v ne '';
+        }
+        $have_obj = 1;
+    }
+    close $oh;
+}
+
+if (@ARGV && $ARGV[0] eq '--ref') {
+    my ($mode, $dwg52, $ref50);
+    ($mode, $dwg52, $ref50, $svgdir, $out, $title) = @ARGV;
+    die "Gebruik: perl $0 --ref <dwg-5.2> <dwg-5.0-ref> <svg-map> <out.html> [titel]\n"
+        unless $dwg52 && $ref50 && $svgdir && $out;
+    my %in50 = map { $_ => 1 } list_dwg($ref50);
+    for my $f (list_dwg($dwg52)) {
+        push @files, { fname => $f, status => ($in50{$f} ? 'bestaand' : 'nieuw') };
+    }
+} else {
+    my ($dwg_best, $dwg_new);
+    ($dwg_best, $dwg_new, $svgdir, $out, $title) = @ARGV;
+    die "Gebruik: perl $0 <dwg-bestaand> <dwg-nieuw> <svg-map> <out.html> [titel]\n"
+        unless $dwg_best && $dwg_new && $svgdir && $out;
+    push @files, { fname => $_, status => 'bestaand' } for list_dwg($dwg_best);
+    push @files, { fname => $_, status => 'nieuw' }    for list_dwg($dwg_new);
+}
+$title //= "Zoekfilter-overzicht";
 die "Geen DWG-bestanden gevonden.\n" unless @files;
 
 # --- boom opbouwen ---
@@ -91,6 +143,22 @@ sub subrows {
     return $subcache{"$n"} = $c;
 }
 
+# subtreeHit: staat deze zoekfilter, of een gedetailleerder niveau eronder,
+# in de sobject-kolom? Zo ja, dan hoeft (dit én) een minder uitgebreid
+# bovenliggend niveau niet rood.
+my %hitcache;
+sub subtreeHit {
+    my $n = shift;
+    return $hitcache{"$n"} if exists $hitcache{"$n"};
+    my $hit = ($n->{filter} && $sobject{ $n->{filter} }) ? 1 : 0;
+    if (!$hit) {
+        for my $t (@{$n->{order}}) {
+            if (subtreeHit($n->{children}{$t})) { $hit = 1; last; }
+        }
+    }
+    return $hitcache{"$n"} = $hit;
+}
+
 my %vord = ('' => 0, 'B' => 1, 'V' => 2);
 my @rows;
 sub walk {
@@ -104,6 +172,9 @@ walk($root);
 
 my $n_best = grep { $_->{status} eq 'bestaand' } @files;
 my $n_new  = grep { $_->{status} eq 'nieuw' } @files;
+my $obj_legend = $have_obj
+    ? '  <span class="badge-notin">rood zoekfilter = niet in kolom sobject van objecttabel</span>'
+    : '';
 
 # --- SVG aanwezig? ---
 sub svg_exists { my $name = shift; return -f "$svgdir/$name"; }
@@ -131,12 +202,15 @@ print $fh <<HEAD;
   .legend span { display: inline-block; padding: 3px 12px; border-radius: 12px; margin-right: 10px; font-weight: 600; }
   .badge-nieuw    { background: #e6f4ea; color: #137333; border: 1px solid #a8d5b5; }
   .badge-bestaand { background: #eef1f5; color: #3c4043; border: 1px solid #cbd2da; }
+  .badge-notin    { background: #f9d2d2; color: #a11; border: 1px solid #e2a3a3; }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
   th, td { border: 1px solid #d7dce2; padding: 6px 10px; text-align: left; vertical-align: top; }
   thead th { background: #003865; color: #fff; position: sticky; top: 0; z-index: 2; }
   td.hier, td.lvl1 { font-family: Consolas, monospace; background: #f7f9fb; color: #003865;
                      white-space: nowrap; font-weight: 600; }
   td.lvl1 { background: #eaf0f6; }
+  /* zoekfilter komt niet voor in kolom 'sobject' van de objecttabel */
+  td.hier.notin, td.lvl1.notin { background: #f9d2d2; color: #a11; }
   td.empty { background: #fcfdfe; border-left: 1px dashed #e3e8ee; }
   td.name { font-family: Consolas, monospace; white-space: nowrap; }
   td.img { text-align: center; }
@@ -158,6 +232,7 @@ print $fh <<HEAD;
 <div class="legend">
   <span class="badge-nieuw">nieuw: $n_new</span>
   <span class="badge-bestaand">bestaand (5.0): $n_best</span>
+$obj_legend
 </div>
 <table>
 <thead><tr>$hierhead<th>Symbool (bestand)</th><th>Afbeelding</th><th>Status</th></tr></thead>
@@ -179,6 +254,7 @@ for my $r (@rows) {
                 $emitted{"$node"} = 1;
                 my $rs  = subrows($node);
                 my $cls = ($lvl == 1) ? 'lvl1' : 'hier';
+                $cls .= ' notin' if $have_obj && !subtreeHit($node);
                 print $fh "<td class=\"$cls\" rowspan=\"$rs\">@{[esc($node->{filter})]}</td>";
             }
         } else {
