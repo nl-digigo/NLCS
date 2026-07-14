@@ -100,14 +100,17 @@ for my $e (@files) {
     my $core = $stem;
     if ($core =~ /^([BV])-(.+)$/) { $variant = $1; $core = $2; }
 
-    # tokens: hoofdgroep vóór eerste '-', daarna op '_' gesplitst; -SO-suffix negeren
-    my $tokcore = $core;
-    $tokcore =~ s/-SO$//;
+    # tokens: hoofdgroep vóór eerste '-'; het objectpad (met '_' als scheiding)
+    # is het deel daarna tót het volgende '-'. Het element-/bewerkingssuffix
+    # (bv. -SO, -D, -G, -P) staat achter dat streepje en hoort niet bij de
+    # zoekfilter, dus dat kappen we af.
     my @toks;
-    if ($tokcore =~ /^([A-Z0-9]+)-(.+)$/) {
-        @toks = ($1, split(/_/, $2));
+    if ($core =~ /^([A-Z0-9]+)-(.+)$/) {
+        my ($code0, $rest) = ($1, $2);
+        (my $objpath = $rest) =~ s/-.*$//;
+        @toks = ($code0, split(/_/, $objpath));
     } else {
-        @toks = ($tokcore);
+        @toks = ($core);
     }
     my $code = $toks[0];
 
