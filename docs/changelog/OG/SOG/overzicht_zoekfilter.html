@@ -10,8 +10,9 @@
   .info { color: #555; font-size: 14px; margin: .3em 0 1em; }
   .legend { margin: 1em 0 1.5em; font-size: 14px; }
   .legend span { display: inline-block; padding: 3px 12px; border-radius: 12px; margin-right: 10px; font-weight: 600; }
-  .badge-nieuw    { background: #e6f4ea; color: #137333; border: 1px solid #a8d5b5; }
+  .badge-neutraal { background: #ffffff; color: #3c4043; border: 1px solid #cbd2da; }
   .badge-bestaand { background: #eef1f5; color: #3c4043; border: 1px solid #cbd2da; }
+  .badge-vervallen{ background: #f7dede; color: #a11;    border: 1px solid #e2a3a3; }
   .badge-notin    { background: #f9d2d2; color: #a11; border: 1px solid #e2a3a3; }
   .badge-insob    { background: #cdeccf; color: #14612a; border: 1px solid #9fcfa6; }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
@@ -29,13 +30,16 @@
   td.img { text-align: center; }
   td.img img { max-width: 90px; max-height: 90px; min-width: 24px; min-height: 24px; }
   td.status { text-align: center; font-weight: 600; white-space: nowrap; }
-  /* statuskleuren op de symboolrijen */
-  .nieuw    { background: #e9f7ee; }
-  .bestaand { background: #ffffff; }
-  td.status.nieuw    { color: #137333; }
-  td.status.bestaand { color: #5f6368; }
-  tr:hover .nieuw    { background: #d8f0e1; }
-  tr:hover .bestaand { background: #f2f5f8; }
+  /* statuskleuren op de symboolrijen (NLCS-situatie uit voorvoegsel) */
+  .neutraal  { background: #ffffff; }
+  .bestaand  { background: #f2f5f8; }
+  .vervallen { background: #fbeaea; }
+  td.status.neutraal  { color: #5f6368; }
+  td.status.bestaand  { color: #3c4043; }
+  td.status.vervallen { color: #a11; }
+  tr:hover .neutraal  { background: #f5f7fa; }
+  tr:hover .bestaand  { background: #e8edf3; }
+  tr:hover .vervallen { background: #f5dada; }
   .missing { color: #c00; font-style: italic; }
 </style>
 </head>
@@ -43,57 +47,58 @@
 <h1>SOG â OnderGrond: symbolen per zoekfilter (NLCS 5.2)</h1>
 <p class="info">44 symbolen â hiÃ«rarchisch gegroepeerd op zoekfilter (V-/B-varianten genegeerd voor groepering)</p>
 <div class="legend">
-  <span class="badge-nieuw">nieuw: 8</span>
-  <span class="badge-bestaand">bestaand (5.0): 36</span>
+  <span class="badge-neutraal">neutraal (geen voorvoegsel): 36</span>
+  <span class="badge-bestaand">bestaand (B-): 0</span>
+  <span class="badge-vervallen">vervallen (V-): 8</span>
   <span class="badge-insob">groen zoekfilter = staat in kolom sobject</span>
   <span class="badge-notin">rood zoekfilter = niet in sobject (ook niet dieper)</span>
 </div>
 <table>
 <thead><tr><th>Niveau 1</th><th>Niveau 2</th><th>Niveau 3</th><th>Niveau 4</th><th>Symbool (bestand)</th><th>Afbeelding</th><th>Status</th></tr></thead>
 <tbody>
-<tr><td class="lvl1" rowspan="44">SOG</td><td class="hier" rowspan="7">SOG-BEBOUWING</td><td class="hier insob" rowspan="1">SOG-BEBOUWING_ENTREE</td><td class="empty"></td><td class="name bestaand">SOG-BEBOUWING_ENTREE-SO</td><td class="img bestaand"><img src="SOG-BEBOUWING_ENTREE-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="2">SOG-BEBOUWING_FIETSENSTALLING</td><td class="empty"></td><td class="name bestaand">SOG-BEBOUWING_FIETSENSTALLING-SO</td><td class="img bestaand"><img src="SOG-BEBOUWING_FIETSENSTALLING-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="empty"></td><td class="name bestaand">V-SOG-BEBOUWING_FIETSENSTALLING-SO</td><td class="img bestaand"><img src="V-SOG-BEBOUWING_FIETSENSTALLING-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier" rowspan="2">SOG-BEBOUWING_OPENBAAR</td><td class="hier insob" rowspan="2">SOG-BEBOUWING_OPENBAAR_TOILET</td><td class="name bestaand">SOG-BEBOUWING_OPENBAAR_TOILET-SO</td><td class="img bestaand"><img src="SOG-BEBOUWING_OPENBAAR_TOILET-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="name bestaand">V-SOG-BEBOUWING_OPENBAAR_TOILET-SO</td><td class="img bestaand"><img src="V-SOG-BEBOUWING_OPENBAAR_TOILET-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier" rowspan="2">SOG-BEBOUWING_TRAFO</td><td class="hier insob" rowspan="2">SOG-BEBOUWING_TRAFO_LAGE</td><td class="name bestaand">SOG-BEBOUWING_TRAFO_LAGE-SO</td><td class="img bestaand"><img src="SOG-BEBOUWING_TRAFO_LAGE-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="name bestaand">V-SOG-BEBOUWING_TRAFO_LAGE-SO</td><td class="img bestaand"><img src="V-SOG-BEBOUWING_TRAFO_LAGE-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="2">SOG-ERF</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SOG-ERF-SO</td><td class="img bestaand"><img src="SOG-ERF-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SOG-ERF_PARKEREN</td><td class="empty"></td><td class="name bestaand">SOG-ERF_PARKEREN-SO</td><td class="img bestaand"><img src="SOG-ERF_PARKEREN-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="2">SOG-ERFGRENS</td><td class="hier notin" rowspan="1">SOG-ERFGRENS_LINKS</td><td class="empty"></td><td class="name bestaand">SOG-ERFGRENS_LINKS-D</td><td class="img bestaand"><img src="SOG-ERFGRENS_LINKS-D.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SOG-ERFGRENS_RECHTS</td><td class="empty"></td><td class="name bestaand">SOG-ERFGRENS_RECHTS-D</td><td class="img bestaand"><img src="SOG-ERFGRENS_RECHTS-D.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="2">SOG-GEVEL</td><td class="hier notin" rowspan="1">SOG-GEVEL_LINKS</td><td class="empty"></td><td class="name bestaand">SOG-GEVEL_LINKS-D</td><td class="img bestaand"><img src="SOG-GEVEL_LINKS-D.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SOG-GEVEL_RECHTS</td><td class="empty"></td><td class="name bestaand">SOG-GEVEL_RECHTS-D</td><td class="img bestaand"><img src="SOG-GEVEL_RECHTS-D.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="1">SOG-HEK</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SOG-HEK-D</td><td class="img bestaand"><img src="SOG-HEK-D.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="1">SOG-HOOGTEPUNT</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SOG-HOOGTEPUNT-SO</td><td class="img bestaand"><img src="SOG-HOOGTEPUNT-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="1">SOG-ONBEGROEID</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SOG-ONBEGROEID-SO</td><td class="img bestaand"><img src="SOG-ONBEGROEID-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="1">SOG-RIJRICHTING</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SOG-RIJRICHTING-SO</td><td class="img bestaand"><img src="SOG-RIJRICHTING-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="1">SOG-SLIK</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SOG-SLIK-SO</td><td class="img bestaand"><img src="SOG-SLIK-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="1">SOG-SLOOTKANT</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SOG-SLOOTKANT-SO</td><td class="img bestaand"><img src="SOG-SLOOTKANT-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="1">SOG-STRAND</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SOG-STRAND-SO</td><td class="img bestaand"><img src="SOG-STRAND-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="8">SOG-TANK</td><td class="empty"></td><td class="empty"></td><td class="name nieuw">SOG-TANK-SO</td><td class="img nieuw"><img src="SOG-TANK-SO.svg" alt="" loading="lazy"></td><td class="status nieuw">nieuw</td></tr>
-<tr><td class="empty"></td><td class="empty"></td><td class="name nieuw">V-SOG-TANK-SO</td><td class="img nieuw"><img src="V-SOG-TANK-SO.svg" alt="" loading="lazy"></td><td class="status nieuw">nieuw</td></tr>
-<tr><td class="hier insob" rowspan="2">SOG-TANK_AARDGAS</td><td class="empty"></td><td class="name nieuw">SOG-TANK_AARDGAS-SO</td><td class="img nieuw"><img src="SOG-TANK_AARDGAS-SO.svg" alt="" loading="lazy"></td><td class="status nieuw">nieuw</td></tr>
-<tr><td class="empty"></td><td class="name nieuw">V-SOG-TANK_AARDGAS-SO</td><td class="img nieuw"><img src="V-SOG-TANK_AARDGAS-SO.svg" alt="" loading="lazy"></td><td class="status nieuw">nieuw</td></tr>
-<tr><td class="hier insob" rowspan="2">SOG-TANK_PROPAAN</td><td class="empty"></td><td class="name nieuw">SOG-TANK_PROPAAN-SO</td><td class="img nieuw"><img src="SOG-TANK_PROPAAN-SO.svg" alt="" loading="lazy"></td><td class="status nieuw">nieuw</td></tr>
-<tr><td class="empty"></td><td class="name nieuw">V-SOG-TANK_PROPAAN-SO</td><td class="img nieuw"><img src="V-SOG-TANK_PROPAAN-SO.svg" alt="" loading="lazy"></td><td class="status nieuw">nieuw</td></tr>
-<tr><td class="hier notin" rowspan="2">SOG-TANK_SEPTIC</td><td class="empty"></td><td class="name nieuw">SOG-TANK_SEPTIC-SO</td><td class="img nieuw"><img src="SOG-TANK_SEPTIC-SO.svg" alt="" loading="lazy"></td><td class="status nieuw">nieuw</td></tr>
-<tr><td class="empty"></td><td class="name nieuw">V-SOG-TANK_SEPTIC-SO</td><td class="img nieuw"><img src="V-SOG-TANK_SEPTIC-SO.svg" alt="" loading="lazy"></td><td class="status nieuw">nieuw</td></tr>
-<tr><td class="hier insob" rowspan="2">SOG-TAXISTANDPLAATS</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SOG-TAXISTANDPLAATS-SO</td><td class="img bestaand"><img src="SOG-TAXISTANDPLAATS-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="empty"></td><td class="empty"></td><td class="name bestaand">V-SOG-TAXISTANDPLAATS-SO</td><td class="img bestaand"><img src="V-SOG-TAXISTANDPLAATS-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="12">SOG-WATER</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SOG-WATER-SO</td><td class="img bestaand"><img src="SOG-WATER-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="1">SOG-WATER_BEEK</td><td class="empty"></td><td class="name bestaand">SOG-WATER_BEEK-SO</td><td class="img bestaand"><img src="SOG-WATER_BEEK-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="1">SOG-WATER_BRON</td><td class="empty"></td><td class="name bestaand">SOG-WATER_BRON-SO</td><td class="img bestaand"><img src="SOG-WATER_BRON-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="1">SOG-WATER_GRACHT</td><td class="empty"></td><td class="name bestaand">SOG-WATER_GRACHT-SO</td><td class="img bestaand"><img src="SOG-WATER_GRACHT-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="1">SOG-WATER_GREPPEL</td><td class="empty"></td><td class="name bestaand">SOG-WATER_GREPPEL-SO</td><td class="img bestaand"><img src="SOG-WATER_GREPPEL-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="1">SOG-WATER_HAVEN</td><td class="empty"></td><td class="name bestaand">SOG-WATER_HAVEN-SO</td><td class="img bestaand"><img src="SOG-WATER_HAVEN-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SOG-WATER_HOUTWAL</td><td class="empty"></td><td class="name bestaand">SOG-WATER_HOUTWAL-SO</td><td class="img bestaand"><img src="SOG-WATER_HOUTWAL-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="1">SOG-WATER_KANAAL</td><td class="empty"></td><td class="name bestaand">SOG-WATER_KANAAL-SO</td><td class="img bestaand"><img src="SOG-WATER_KANAAL-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SOG-WATER_KWELDER</td><td class="empty"></td><td class="name bestaand">SOG-WATER_KWELDER-SO</td><td class="img bestaand"><img src="SOG-WATER_KWELDER-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="1">SOG-WATER_MEER</td><td class="empty"></td><td class="name bestaand">SOG-WATER_MEER-SO</td><td class="img bestaand"><img src="SOG-WATER_MEER-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="1">SOG-WATER_RIVIER</td><td class="empty"></td><td class="name bestaand">SOG-WATER_RIVIER-SO</td><td class="img bestaand"><img src="SOG-WATER_RIVIER-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SOG-WATER_SLOOT</td><td class="empty"></td><td class="name bestaand">SOG-WATER_SLOOT-SO</td><td class="img bestaand"><img src="SOG-WATER_SLOOT-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SOG-WATERLIJN</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SOG-WATERLIJN-D</td><td class="img bestaand"><img src="SOG-WATERLIJN-D.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="1">SOG-ZANDVERSTUIVING</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SOG-ZANDVERSTUIVING-SO</td><td class="img bestaand"><img src="SOG-ZANDVERSTUIVING-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="lvl1" rowspan="44">SOG</td><td class="hier" rowspan="7">SOG-BEBOUWING</td><td class="hier insob" rowspan="1">SOG-BEBOUWING_ENTREE</td><td class="empty"></td><td class="name neutraal">SOG-BEBOUWING_ENTREE-SO</td><td class="img neutraal"><img src="SOG-BEBOUWING_ENTREE-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="2">SOG-BEBOUWING_FIETSENSTALLING</td><td class="empty"></td><td class="name neutraal">SOG-BEBOUWING_FIETSENSTALLING-SO</td><td class="img neutraal"><img src="SOG-BEBOUWING_FIETSENSTALLING-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="name vervallen">V-SOG-BEBOUWING_FIETSENSTALLING-SO</td><td class="img vervallen"><img src="V-SOG-BEBOUWING_FIETSENSTALLING-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier" rowspan="2">SOG-BEBOUWING_OPENBAAR</td><td class="hier insob" rowspan="2">SOG-BEBOUWING_OPENBAAR_TOILET</td><td class="name neutraal">SOG-BEBOUWING_OPENBAAR_TOILET-SO</td><td class="img neutraal"><img src="SOG-BEBOUWING_OPENBAAR_TOILET-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="name vervallen">V-SOG-BEBOUWING_OPENBAAR_TOILET-SO</td><td class="img vervallen"><img src="V-SOG-BEBOUWING_OPENBAAR_TOILET-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier" rowspan="2">SOG-BEBOUWING_TRAFO</td><td class="hier insob" rowspan="2">SOG-BEBOUWING_TRAFO_LAGE</td><td class="name neutraal">SOG-BEBOUWING_TRAFO_LAGE-SO</td><td class="img neutraal"><img src="SOG-BEBOUWING_TRAFO_LAGE-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="name vervallen">V-SOG-BEBOUWING_TRAFO_LAGE-SO</td><td class="img vervallen"><img src="V-SOG-BEBOUWING_TRAFO_LAGE-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier insob" rowspan="2">SOG-ERF</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SOG-ERF-SO</td><td class="img neutraal"><img src="SOG-ERF-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SOG-ERF_PARKEREN</td><td class="empty"></td><td class="name neutraal">SOG-ERF_PARKEREN-SO</td><td class="img neutraal"><img src="SOG-ERF_PARKEREN-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="2">SOG-ERFGRENS</td><td class="hier notin" rowspan="1">SOG-ERFGRENS_LINKS</td><td class="empty"></td><td class="name neutraal">SOG-ERFGRENS_LINKS-D</td><td class="img neutraal"><img src="SOG-ERFGRENS_LINKS-D.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SOG-ERFGRENS_RECHTS</td><td class="empty"></td><td class="name neutraal">SOG-ERFGRENS_RECHTS-D</td><td class="img neutraal"><img src="SOG-ERFGRENS_RECHTS-D.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="2">SOG-GEVEL</td><td class="hier notin" rowspan="1">SOG-GEVEL_LINKS</td><td class="empty"></td><td class="name neutraal">SOG-GEVEL_LINKS-D</td><td class="img neutraal"><img src="SOG-GEVEL_LINKS-D.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SOG-GEVEL_RECHTS</td><td class="empty"></td><td class="name neutraal">SOG-GEVEL_RECHTS-D</td><td class="img neutraal"><img src="SOG-GEVEL_RECHTS-D.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">SOG-HEK</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SOG-HEK-D</td><td class="img neutraal"><img src="SOG-HEK-D.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">SOG-HOOGTEPUNT</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SOG-HOOGTEPUNT-SO</td><td class="img neutraal"><img src="SOG-HOOGTEPUNT-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">SOG-ONBEGROEID</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SOG-ONBEGROEID-SO</td><td class="img neutraal"><img src="SOG-ONBEGROEID-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">SOG-RIJRICHTING</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SOG-RIJRICHTING-SO</td><td class="img neutraal"><img src="SOG-RIJRICHTING-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">SOG-SLIK</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SOG-SLIK-SO</td><td class="img neutraal"><img src="SOG-SLIK-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">SOG-SLOOTKANT</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SOG-SLOOTKANT-SO</td><td class="img neutraal"><img src="SOG-SLOOTKANT-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">SOG-STRAND</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SOG-STRAND-SO</td><td class="img neutraal"><img src="SOG-STRAND-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="8">SOG-TANK</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SOG-TANK-SO</td><td class="img neutraal"><img src="SOG-TANK-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="empty"></td><td class="name vervallen">V-SOG-TANK-SO</td><td class="img vervallen"><img src="V-SOG-TANK-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier insob" rowspan="2">SOG-TANK_AARDGAS</td><td class="empty"></td><td class="name neutraal">SOG-TANK_AARDGAS-SO</td><td class="img neutraal"><img src="SOG-TANK_AARDGAS-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="name vervallen">V-SOG-TANK_AARDGAS-SO</td><td class="img vervallen"><img src="V-SOG-TANK_AARDGAS-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier insob" rowspan="2">SOG-TANK_PROPAAN</td><td class="empty"></td><td class="name neutraal">SOG-TANK_PROPAAN-SO</td><td class="img neutraal"><img src="SOG-TANK_PROPAAN-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="name vervallen">V-SOG-TANK_PROPAAN-SO</td><td class="img vervallen"><img src="V-SOG-TANK_PROPAAN-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier notin" rowspan="2">SOG-TANK_SEPTIC</td><td class="empty"></td><td class="name neutraal">SOG-TANK_SEPTIC-SO</td><td class="img neutraal"><img src="SOG-TANK_SEPTIC-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="name vervallen">V-SOG-TANK_SEPTIC-SO</td><td class="img vervallen"><img src="V-SOG-TANK_SEPTIC-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier insob" rowspan="2">SOG-TAXISTANDPLAATS</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SOG-TAXISTANDPLAATS-SO</td><td class="img neutraal"><img src="SOG-TAXISTANDPLAATS-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="empty"></td><td class="name vervallen">V-SOG-TAXISTANDPLAATS-SO</td><td class="img vervallen"><img src="V-SOG-TAXISTANDPLAATS-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier insob" rowspan="12">SOG-WATER</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SOG-WATER-SO</td><td class="img neutraal"><img src="SOG-WATER-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">SOG-WATER_BEEK</td><td class="empty"></td><td class="name neutraal">SOG-WATER_BEEK-SO</td><td class="img neutraal"><img src="SOG-WATER_BEEK-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">SOG-WATER_BRON</td><td class="empty"></td><td class="name neutraal">SOG-WATER_BRON-SO</td><td class="img neutraal"><img src="SOG-WATER_BRON-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">SOG-WATER_GRACHT</td><td class="empty"></td><td class="name neutraal">SOG-WATER_GRACHT-SO</td><td class="img neutraal"><img src="SOG-WATER_GRACHT-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">SOG-WATER_GREPPEL</td><td class="empty"></td><td class="name neutraal">SOG-WATER_GREPPEL-SO</td><td class="img neutraal"><img src="SOG-WATER_GREPPEL-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">SOG-WATER_HAVEN</td><td class="empty"></td><td class="name neutraal">SOG-WATER_HAVEN-SO</td><td class="img neutraal"><img src="SOG-WATER_HAVEN-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SOG-WATER_HOUTWAL</td><td class="empty"></td><td class="name neutraal">SOG-WATER_HOUTWAL-SO</td><td class="img neutraal"><img src="SOG-WATER_HOUTWAL-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">SOG-WATER_KANAAL</td><td class="empty"></td><td class="name neutraal">SOG-WATER_KANAAL-SO</td><td class="img neutraal"><img src="SOG-WATER_KANAAL-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SOG-WATER_KWELDER</td><td class="empty"></td><td class="name neutraal">SOG-WATER_KWELDER-SO</td><td class="img neutraal"><img src="SOG-WATER_KWELDER-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">SOG-WATER_MEER</td><td class="empty"></td><td class="name neutraal">SOG-WATER_MEER-SO</td><td class="img neutraal"><img src="SOG-WATER_MEER-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">SOG-WATER_RIVIER</td><td class="empty"></td><td class="name neutraal">SOG-WATER_RIVIER-SO</td><td class="img neutraal"><img src="SOG-WATER_RIVIER-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SOG-WATER_SLOOT</td><td class="empty"></td><td class="name neutraal">SOG-WATER_SLOOT-SO</td><td class="img neutraal"><img src="SOG-WATER_SLOOT-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SOG-WATERLIJN</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SOG-WATERLIJN-D</td><td class="img neutraal"><img src="SOG-WATERLIJN-D.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">SOG-ZANDVERSTUIVING</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SOG-ZANDVERSTUIVING-SO</td><td class="img neutraal"><img src="SOG-ZANDVERSTUIVING-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 </tbody></table>
 </body></html>

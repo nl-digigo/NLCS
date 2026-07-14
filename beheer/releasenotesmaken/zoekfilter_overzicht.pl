@@ -133,7 +133,9 @@ for my $e (@files) {
         }
         $node = $node->{children}{$t};
     }
-    push @{$node->{symbols}}, { stem => $stem, variant => $variant, status => $e->{status} };
+    # status = NLCS-situatie uit het voorvoegsel: V- vervallen, B- bestaand, geen neutraal
+    my $vstatus = $variant eq 'V' ? 'vervallen' : ($variant eq 'B' ? 'bestaand' : 'neutraal');
+    push @{$node->{symbols}}, { stem => $stem, variant => $variant, status => $vstatus };
 }
 
 # --- hulpfuncties ---
@@ -173,8 +175,9 @@ sub walk {
 }
 walk($root);
 
-my $n_best = grep { $_->{status} eq 'bestaand' } @files;
-my $n_new  = grep { $_->{status} eq 'nieuw' } @files;
+my $n_verv = grep { $_->{fname} =~ /^V-/i } @files;
+my $n_best = grep { $_->{fname} =~ /^B-/i } @files;
+my $n_neut = @files - $n_verv - $n_best;
 my $obj_legend = $have_obj
     ? '  <span class="badge-insob">groen zoekfilter = staat in kolom sobject</span>' . "\n"
     . '  <span class="badge-notin">rood zoekfilter = niet in sobject (ook niet dieper)</span>'
@@ -204,8 +207,9 @@ print $fh <<HEAD;
   .info { color: #555; font-size: 14px; margin: .3em 0 1em; }
   .legend { margin: 1em 0 1.5em; font-size: 14px; }
   .legend span { display: inline-block; padding: 3px 12px; border-radius: 12px; margin-right: 10px; font-weight: 600; }
-  .badge-nieuw    { background: #e6f4ea; color: #137333; border: 1px solid #a8d5b5; }
+  .badge-neutraal { background: #ffffff; color: #3c4043; border: 1px solid #cbd2da; }
   .badge-bestaand { background: #eef1f5; color: #3c4043; border: 1px solid #cbd2da; }
+  .badge-vervallen{ background: #f7dede; color: #a11;    border: 1px solid #e2a3a3; }
   .badge-notin    { background: #f9d2d2; color: #a11; border: 1px solid #e2a3a3; }
   .badge-insob    { background: #cdeccf; color: #14612a; border: 1px solid #9fcfa6; }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
@@ -223,13 +227,16 @@ print $fh <<HEAD;
   td.img { text-align: center; }
   td.img img { max-width: 90px; max-height: 90px; min-width: 24px; min-height: 24px; }
   td.status { text-align: center; font-weight: 600; white-space: nowrap; }
-  /* statuskleuren op de symboolrijen */
-  .nieuw    { background: #e9f7ee; }
-  .bestaand { background: #ffffff; }
-  td.status.nieuw    { color: #137333; }
-  td.status.bestaand { color: #5f6368; }
-  tr:hover .nieuw    { background: #d8f0e1; }
-  tr:hover .bestaand { background: #f2f5f8; }
+  /* statuskleuren op de symboolrijen (NLCS-situatie uit voorvoegsel) */
+  .neutraal  { background: #ffffff; }
+  .bestaand  { background: #f2f5f8; }
+  .vervallen { background: #fbeaea; }
+  td.status.neutraal  { color: #5f6368; }
+  td.status.bestaand  { color: #3c4043; }
+  td.status.vervallen { color: #a11; }
+  tr:hover .neutraal  { background: #f5f7fa; }
+  tr:hover .bestaand  { background: #e8edf3; }
+  tr:hover .vervallen { background: #f5dada; }
   .missing { color: #c00; font-style: italic; }
 </style>
 </head>
@@ -237,8 +244,9 @@ print $fh <<HEAD;
 <h1>@{[esc($title)]}</h1>
 <p class="info">@{[scalar @files]} symbolen — hiërarchisch gegroepeerd op zoekfilter (V-/B-varianten genegeerd voor groepering)</p>
 <div class="legend">
-  <span class="badge-nieuw">nieuw: $n_new</span>
-  <span class="badge-bestaand">bestaand (5.0): $n_best</span>
+  <span class="badge-neutraal">neutraal (geen voorvoegsel): $n_neut</span>
+  <span class="badge-bestaand">bestaand (B-): $n_best</span>
+  <span class="badge-vervallen">vervallen (V-): $n_verv</span>
 $obj_legend
 </div>
 <table>
@@ -291,5 +299,5 @@ print $fh "</tbody></table>\n</body></html>\n";
 close $fh;
 
 print "geschreven: $out\n";
-print "symbolen:   @{[scalar @files]} (nieuw: $n_new, bestaand: $n_best)\n";
+print "symbolen:   @{[scalar @files]} (neutraal: $n_neut, bestaand: $n_best, vervallen: $n_verv)\n";
 print "kolommen:   $maxdepth filterniveaus\n";

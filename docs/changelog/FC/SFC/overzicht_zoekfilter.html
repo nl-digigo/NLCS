@@ -10,8 +10,9 @@
   .info { color: #555; font-size: 14px; margin: .3em 0 1em; }
   .legend { margin: 1em 0 1.5em; font-size: 14px; }
   .legend span { display: inline-block; padding: 3px 12px; border-radius: 12px; margin-right: 10px; font-weight: 600; }
-  .badge-nieuw    { background: #e6f4ea; color: #137333; border: 1px solid #a8d5b5; }
+  .badge-neutraal { background: #ffffff; color: #3c4043; border: 1px solid #cbd2da; }
   .badge-bestaand { background: #eef1f5; color: #3c4043; border: 1px solid #cbd2da; }
+  .badge-vervallen{ background: #f7dede; color: #a11;    border: 1px solid #e2a3a3; }
   .badge-notin    { background: #f9d2d2; color: #a11; border: 1px solid #e2a3a3; }
   .badge-insob    { background: #cdeccf; color: #14612a; border: 1px solid #9fcfa6; }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
@@ -29,13 +30,16 @@
   td.img { text-align: center; }
   td.img img { max-width: 90px; max-height: 90px; min-width: 24px; min-height: 24px; }
   td.status { text-align: center; font-weight: 600; white-space: nowrap; }
-  /* statuskleuren op de symboolrijen */
-  .nieuw    { background: #e9f7ee; }
-  .bestaand { background: #ffffff; }
-  td.status.nieuw    { color: #137333; }
-  td.status.bestaand { color: #5f6368; }
-  tr:hover .nieuw    { background: #d8f0e1; }
-  tr:hover .bestaand { background: #f2f5f8; }
+  /* statuskleuren op de symboolrijen (NLCS-situatie uit voorvoegsel) */
+  .neutraal  { background: #ffffff; }
+  .bestaand  { background: #f2f5f8; }
+  .vervallen { background: #fbeaea; }
+  td.status.neutraal  { color: #5f6368; }
+  td.status.bestaand  { color: #3c4043; }
+  td.status.vervallen { color: #a11; }
+  tr:hover .neutraal  { background: #f5f7fa; }
+  tr:hover .bestaand  { background: #e8edf3; }
+  tr:hover .vervallen { background: #f5dada; }
   .missing { color: #c00; font-style: italic; }
 </style>
 </head>
@@ -43,43 +47,44 @@
 <h1>SFC â FunderingsConstructies: symbolen per zoekfilter (NLCS 5.2)</h1>
 <p class="info">30 symbolen â hiÃ«rarchisch gegroepeerd op zoekfilter (V-/B-varianten genegeerd voor groepering)</p>
 <div class="legend">
-  <span class="badge-nieuw">nieuw: 0</span>
-  <span class="badge-bestaand">bestaand (5.0): 30</span>
+  <span class="badge-neutraal">neutraal (geen voorvoegsel): 26</span>
+  <span class="badge-bestaand">bestaand (B-): 0</span>
+  <span class="badge-vervallen">vervallen (V-): 4</span>
   <span class="badge-insob">groen zoekfilter = staat in kolom sobject</span>
   <span class="badge-notin">rood zoekfilter = niet in sobject (ook niet dieper)</span>
 </div>
 <table>
 <thead><tr><th>Niveau 1</th><th>Niveau 2</th><th>Niveau 3</th><th>Niveau 4</th><th>Niveau 5</th><th>Symbool (bestand)</th><th>Afbeelding</th><th>Status</th></tr></thead>
 <tbody>
-<tr><td class="lvl1" rowspan="30">SFC</td><td class="hier insob" rowspan="10">SFC-KESP</td><td class="hier notin" rowspan="1">SFC-KESP_01</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SFC-KESP_01-SO</td><td class="img bestaand"><img src="SFC-KESP_01-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-KESP_02</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SFC-KESP_02-SO</td><td class="img bestaand"><img src="SFC-KESP_02-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-KESP_03</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SFC-KESP_03-SO</td><td class="img bestaand"><img src="SFC-KESP_03-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-KESP_04</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SFC-KESP_04-SO</td><td class="img bestaand"><img src="SFC-KESP_04-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-KESP_05</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SFC-KESP_05-SO</td><td class="img bestaand"><img src="SFC-KESP_05-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-KESP_06</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SFC-KESP_06-SO</td><td class="img bestaand"><img src="SFC-KESP_06-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-KESP_07</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SFC-KESP_07-SO</td><td class="img bestaand"><img src="SFC-KESP_07-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-KESP_08</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SFC-KESP_08-SO</td><td class="img bestaand"><img src="SFC-KESP_08-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-KESP_09</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SFC-KESP_09-SO</td><td class="img bestaand"><img src="SFC-KESP_09-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-KESP_10</td><td class="empty"></td><td class="empty"></td><td class="name bestaand">SFC-KESP_10-SO</td><td class="img bestaand"><img src="SFC-KESP_10-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier" rowspan="20">SFC-PAAL</td><td class="hier insob" rowspan="12">SFC-PAAL_BETON</td><td class="hier notin" rowspan="12">SFC-PAAL_BETON_PREFAB</td><td class="hier notin" rowspan="2">SFC-PAAL_BETON_PREFAB_01</td><td class="name bestaand">SFC-PAAL_BETON_PREFAB_01-SO</td><td class="img bestaand"><img src="SFC-PAAL_BETON_PREFAB_01-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="name bestaand">V-SFC-PAAL_BETON_PREFAB_01-SO</td><td class="img bestaand"><img src="V-SFC-PAAL_BETON_PREFAB_01-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="2">SFC-PAAL_BETON_PREFAB_02</td><td class="name bestaand">SFC-PAAL_BETON_PREFAB_02-SO</td><td class="img bestaand"><img src="SFC-PAAL_BETON_PREFAB_02-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="name bestaand">V-SFC-PAAL_BETON_PREFAB_02-SO</td><td class="img bestaand"><img src="V-SFC-PAAL_BETON_PREFAB_02-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-PAAL_BETON_PREFAB_03</td><td class="name bestaand">SFC-PAAL_BETON_PREFAB_03-SO</td><td class="img bestaand"><img src="SFC-PAAL_BETON_PREFAB_03-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-PAAL_BETON_PREFAB_04</td><td class="name bestaand">SFC-PAAL_BETON_PREFAB_04-SO</td><td class="img bestaand"><img src="SFC-PAAL_BETON_PREFAB_04-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-PAAL_BETON_PREFAB_05</td><td class="name bestaand">SFC-PAAL_BETON_PREFAB_05-SO</td><td class="img bestaand"><img src="SFC-PAAL_BETON_PREFAB_05-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-PAAL_BETON_PREFAB_06</td><td class="name bestaand">SFC-PAAL_BETON_PREFAB_06-SO</td><td class="img bestaand"><img src="SFC-PAAL_BETON_PREFAB_06-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-PAAL_BETON_PREFAB_07</td><td class="name bestaand">SFC-PAAL_BETON_PREFAB_07-SO</td><td class="img bestaand"><img src="SFC-PAAL_BETON_PREFAB_07-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-PAAL_BETON_PREFAB_08</td><td class="name bestaand">SFC-PAAL_BETON_PREFAB_08-SO</td><td class="img bestaand"><img src="SFC-PAAL_BETON_PREFAB_08-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-PAAL_BETON_PREFAB_09</td><td class="name bestaand">SFC-PAAL_BETON_PREFAB_09-SO</td><td class="img bestaand"><img src="SFC-PAAL_BETON_PREFAB_09-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-PAAL_BETON_PREFAB_10</td><td class="name bestaand">SFC-PAAL_BETON_PREFAB_10-SO</td><td class="img bestaand"><img src="SFC-PAAL_BETON_PREFAB_10-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="4">SFC-PAAL_HOUT</td><td class="hier notin" rowspan="2">SFC-PAAL_HOUT_01</td><td class="empty"></td><td class="name bestaand">SFC-PAAL_HOUT_01-SO</td><td class="img bestaand"><img src="SFC-PAAL_HOUT_01-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="empty"></td><td class="name bestaand">V-SFC-PAAL_HOUT_01-SO</td><td class="img bestaand"><img src="V-SFC-PAAL_HOUT_01-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-PAAL_HOUT_02</td><td class="empty"></td><td class="name bestaand">SFC-PAAL_HOUT_02-SO</td><td class="img bestaand"><img src="SFC-PAAL_HOUT_02-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-PAAL_HOUT_03</td><td class="empty"></td><td class="name bestaand">SFC-PAAL_HOUT_03-SO</td><td class="img bestaand"><img src="SFC-PAAL_HOUT_03-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier insob" rowspan="4">SFC-PAAL_STAAL</td><td class="hier notin" rowspan="2">SFC-PAAL_STAAL_01</td><td class="empty"></td><td class="name bestaand">SFC-PAAL_STAAL_01-SO</td><td class="img bestaand"><img src="SFC-PAAL_STAAL_01-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="empty"></td><td class="name bestaand">V-SFC-PAAL_STAAL_01-SO</td><td class="img bestaand"><img src="V-SFC-PAAL_STAAL_01-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-PAAL_STAAL_02</td><td class="empty"></td><td class="name bestaand">SFC-PAAL_STAAL_02-SO</td><td class="img bestaand"><img src="SFC-PAAL_STAAL_02-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
-<tr><td class="hier notin" rowspan="1">SFC-PAAL_STAAL_03</td><td class="empty"></td><td class="name bestaand">SFC-PAAL_STAAL_03-SO</td><td class="img bestaand"><img src="SFC-PAAL_STAAL_03-SO.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
+<tr><td class="lvl1" rowspan="30">SFC</td><td class="hier insob" rowspan="10">SFC-KESP</td><td class="hier notin" rowspan="1">SFC-KESP_01</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SFC-KESP_01-SO</td><td class="img neutraal"><img src="SFC-KESP_01-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-KESP_02</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SFC-KESP_02-SO</td><td class="img neutraal"><img src="SFC-KESP_02-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-KESP_03</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SFC-KESP_03-SO</td><td class="img neutraal"><img src="SFC-KESP_03-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-KESP_04</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SFC-KESP_04-SO</td><td class="img neutraal"><img src="SFC-KESP_04-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-KESP_05</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SFC-KESP_05-SO</td><td class="img neutraal"><img src="SFC-KESP_05-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-KESP_06</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SFC-KESP_06-SO</td><td class="img neutraal"><img src="SFC-KESP_06-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-KESP_07</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SFC-KESP_07-SO</td><td class="img neutraal"><img src="SFC-KESP_07-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-KESP_08</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SFC-KESP_08-SO</td><td class="img neutraal"><img src="SFC-KESP_08-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-KESP_09</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SFC-KESP_09-SO</td><td class="img neutraal"><img src="SFC-KESP_09-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-KESP_10</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SFC-KESP_10-SO</td><td class="img neutraal"><img src="SFC-KESP_10-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier" rowspan="20">SFC-PAAL</td><td class="hier insob" rowspan="12">SFC-PAAL_BETON</td><td class="hier notin" rowspan="12">SFC-PAAL_BETON_PREFAB</td><td class="hier notin" rowspan="2">SFC-PAAL_BETON_PREFAB_01</td><td class="name neutraal">SFC-PAAL_BETON_PREFAB_01-SO</td><td class="img neutraal"><img src="SFC-PAAL_BETON_PREFAB_01-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="name vervallen">V-SFC-PAAL_BETON_PREFAB_01-SO</td><td class="img vervallen"><img src="V-SFC-PAAL_BETON_PREFAB_01-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier notin" rowspan="2">SFC-PAAL_BETON_PREFAB_02</td><td class="name neutraal">SFC-PAAL_BETON_PREFAB_02-SO</td><td class="img neutraal"><img src="SFC-PAAL_BETON_PREFAB_02-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="name vervallen">V-SFC-PAAL_BETON_PREFAB_02-SO</td><td class="img vervallen"><img src="V-SFC-PAAL_BETON_PREFAB_02-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-PAAL_BETON_PREFAB_03</td><td class="name neutraal">SFC-PAAL_BETON_PREFAB_03-SO</td><td class="img neutraal"><img src="SFC-PAAL_BETON_PREFAB_03-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-PAAL_BETON_PREFAB_04</td><td class="name neutraal">SFC-PAAL_BETON_PREFAB_04-SO</td><td class="img neutraal"><img src="SFC-PAAL_BETON_PREFAB_04-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-PAAL_BETON_PREFAB_05</td><td class="name neutraal">SFC-PAAL_BETON_PREFAB_05-SO</td><td class="img neutraal"><img src="SFC-PAAL_BETON_PREFAB_05-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-PAAL_BETON_PREFAB_06</td><td class="name neutraal">SFC-PAAL_BETON_PREFAB_06-SO</td><td class="img neutraal"><img src="SFC-PAAL_BETON_PREFAB_06-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-PAAL_BETON_PREFAB_07</td><td class="name neutraal">SFC-PAAL_BETON_PREFAB_07-SO</td><td class="img neutraal"><img src="SFC-PAAL_BETON_PREFAB_07-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-PAAL_BETON_PREFAB_08</td><td class="name neutraal">SFC-PAAL_BETON_PREFAB_08-SO</td><td class="img neutraal"><img src="SFC-PAAL_BETON_PREFAB_08-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-PAAL_BETON_PREFAB_09</td><td class="name neutraal">SFC-PAAL_BETON_PREFAB_09-SO</td><td class="img neutraal"><img src="SFC-PAAL_BETON_PREFAB_09-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-PAAL_BETON_PREFAB_10</td><td class="name neutraal">SFC-PAAL_BETON_PREFAB_10-SO</td><td class="img neutraal"><img src="SFC-PAAL_BETON_PREFAB_10-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="4">SFC-PAAL_HOUT</td><td class="hier notin" rowspan="2">SFC-PAAL_HOUT_01</td><td class="empty"></td><td class="name neutraal">SFC-PAAL_HOUT_01-SO</td><td class="img neutraal"><img src="SFC-PAAL_HOUT_01-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="name vervallen">V-SFC-PAAL_HOUT_01-SO</td><td class="img vervallen"><img src="V-SFC-PAAL_HOUT_01-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-PAAL_HOUT_02</td><td class="empty"></td><td class="name neutraal">SFC-PAAL_HOUT_02-SO</td><td class="img neutraal"><img src="SFC-PAAL_HOUT_02-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-PAAL_HOUT_03</td><td class="empty"></td><td class="name neutraal">SFC-PAAL_HOUT_03-SO</td><td class="img neutraal"><img src="SFC-PAAL_HOUT_03-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="4">SFC-PAAL_STAAL</td><td class="hier notin" rowspan="2">SFC-PAAL_STAAL_01</td><td class="empty"></td><td class="name neutraal">SFC-PAAL_STAAL_01-SO</td><td class="img neutraal"><img src="SFC-PAAL_STAAL_01-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="name vervallen">V-SFC-PAAL_STAAL_01-SO</td><td class="img vervallen"><img src="V-SFC-PAAL_STAAL_01-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-PAAL_STAAL_02</td><td class="empty"></td><td class="name neutraal">SFC-PAAL_STAAL_02-SO</td><td class="img neutraal"><img src="SFC-PAAL_STAAL_02-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SFC-PAAL_STAAL_03</td><td class="empty"></td><td class="name neutraal">SFC-PAAL_STAAL_03-SO</td><td class="img neutraal"><img src="SFC-PAAL_STAAL_03-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 </tbody></table>
 </body></html>
