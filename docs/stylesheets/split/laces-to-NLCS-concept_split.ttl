@@ -337,6 +337,37 @@ ex:ConvertAspectsWithoutRole a sh:NodeShape ;
                 nen2660: ] ;
     sh:targetClass otl:Aspect .
 
+ex:CreateNLCSobject a sh:NodeShape ;
+	sh:rule [ a sh:SPARQLRule ;
+			sh:construct """
+			CONSTRUCT {
+				?tgtThis rdfs:subClassOf ?nlcsObject .
+				?nlcsObject a owl:Class .
+				?nlcsObject skos:prefLabel "NLCS-object" .
+				?nlcsObject rdfs:subClassOf nen2660:InformationObject .
+			}
+			WHERE {
+				?this a otl:PhysicalObject .
+				FILTER NOT EXISTS { ?this otl:rel-Conceptual-isSpecializationOf ?anyParent . } .
+				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
+				BIND (ex:createURI("NLCS-object") AS ?nlcsObject) .
+			}
+			""" ;
+            sh:deactivated false ;
+            sh:prefixes ex:,
+                bm:,
+                otl:,
+                shapes:,
+                rdf:,
+                rdfs:,
+                xsd:,
+                owl:,
+                skos:,
+                sh:,
+                schema:,
+                nen2660: ] ;
+	sh:targetClass otl:Conceptual .
+
 ex:ConvertConceptualFundamentals a sh:NodeShape ;
     sh:rule [ a sh:SPARQLRule ;
             sh:construct """	
@@ -435,7 +466,6 @@ ex:ConvertConceptualFundamentals a sh:NodeShape ;
 					FILTER (!STRENDS(?tgtAnnotationName, "linetype")) .
 					FILTER (!CONTAINS(?tgtAnnotationName, "color")) .
 					FILTER (!STRENDS(?tgtAnnotationName, "lineweight")) .
-					FILTER (?tgtAnnotationName != "Element") .
 					FILTER (?tgtAnnotationName != "Original URI") .
 					FILTER (?tgtAnnotationName != "Symbool") .
 					FILTER (?tgtAnnotationName != "Arcering") .
@@ -529,19 +559,6 @@ ex:ConvertConceptualSymbolArceringRelations a sh:NodeShape ;
 						         REPLACE(REPLACE(STRAFTER(STR(?informationType), "/Field-"), "[+]", " "), "%20", " ")) AS ?typeName) .
 						FILTER (?typeName = "Symbool") .
 					}
-#					OPTIONAL {
-#						?this otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
-#						?thisGrandparents otl:rel-Conceptual-isDescribedIn ?informationFieldGrandparent .
-#						?informationFieldGrandparent otl:rel-InformationField-isClassifiedAs ?informationType .
-#						?informationFieldGrandparent otl:attr-InformationField-value ?valueParent .
-#						FILTER NOT EXISTS {
-#							?thisParents otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
-#							?this otl:rel-Conceptual-isSpecializationOf+ ?thisParents .
-#							?thisParents otl:rel-Conceptual-isDescribedIn ?informationFieldParent .
-#							?informationFieldParent otl:rel-InformationField-isClassifiedAs ?informationType .
-#							?informationFieldParent otl:attr-InformationField-value ?valueTemp .
-#						}
-#					}
 					BIND (IF(BOUND(?valueThis),
 						IF(?valueThis = "nvt", ?undefined, ?valueThis),
 						IF(BOUND(?valueParent), ?valueParent, ?undefined2)) AS ?value) .
@@ -566,19 +583,6 @@ ex:ConvertConceptualSymbolArceringRelations a sh:NodeShape ;
 						         REPLACE(REPLACE(STRAFTER(STR(?informationType), "/Field-"), "[+]", " "), "%20", " ")) AS ?typeName) .
 						FILTER (?typeName = "Arcering") .
 					}
-#					OPTIONAL {
-#						?this otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
-#						?thisGrandparents otl:rel-Conceptual-isDescribedIn ?informationFieldGrandparent .
-#						?informationFieldGrandparent otl:rel-InformationField-isClassifiedAs ?informationType .
-#						?informationFieldGrandparent otl:attr-InformationField-value ?valueParent .
-#						FILTER NOT EXISTS {
-#							?thisParents otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
-#							?this otl:rel-Conceptual-isSpecializationOf+ ?thisParents .
-#							?thisParents otl:rel-Conceptual-isDescribedIn ?informationFieldParent .
-#							?informationFieldParent otl:rel-InformationField-isClassifiedAs ?informationType .
-#							?informationFieldParent otl:attr-InformationField-value ?valueTemp .
-#						}
-#					}
 					BIND (IF(BOUND(?valueThis),
 						IF(?valueThis = "nvt", ?undefined, ?valueThis),
 						IF(BOUND(?valueParent), ?valueParent, ?undefined2)) AS ?value) .
