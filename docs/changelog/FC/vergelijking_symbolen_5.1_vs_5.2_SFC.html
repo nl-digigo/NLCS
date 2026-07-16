@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SFC â symbolen-vergelijking 5.1 vs 5.2 (naam + hash)</title>
+  <style>
+    body { font-family: Arial, sans-serif; font-size: 13px; margin: 20px; color:#222; }
+    h1 { font-size: 1.2em; color:#003865; }
+    h2 { font-size: 1.05em; margin-top: 1.4em; border-bottom:1px solid #ccc; padding-bottom:3px; }
+    .legend span { display:inline-block; padding:3px 10px; margin:2px 8px 2px 0; border-radius:3px; font-weight:600; }
+    .b-nieuw{background:#d4edda;border:1px solid #b8dfc4;} .b-verw{background:#d0d0d0;border:1px solid #aaa;}
+    .b-gew{background:#cce5ff;border:1px solid #99caff;} .b-ong{background:#f2f2f2;border:1px solid #ddd;}
+    table{border-collapse:collapse;width:100%;margin-top:6px;} td,th{border:1px solid #ccc;padding:3px 8px;text-align:left;}
+    th{background:#003865;color:#fff;} td.mono{font-family:Consolas,monospace;font-size:12px;}
+    tr:nth-child(even) td{background:#fafafa;}
+  </style>
+</head>
+<body>
+  <h1>SFC â symbolen-vergelijking 5.1 vs 5.2 (naam + hash)</h1>
+  <p>5.1: 30 symbolen &nbsp;|&nbsp; 5.2: 30 symbolen &nbsp;|&nbsp; vergelijking op bestandsnaam en MD5-hash van de DWG.</p>
+  <div class="legend">
+    <span class="b-nieuw">Nieuw in 5.2: 0</span>
+    <span class="b-verw">Verwijderd (was in 5.1): 0</span>
+    <span class="b-gew">Gewijzigd (zelfde naam, andere inhoud): 0</span>
+    <span class="b-ong">Ongewijzigd: 30</span>
+  </div>
+  <h2>Gewijzigd &ndash; zelfde naam, andere hash (0)</h2>
+  <p><em>geen</em></p>
+  <h2>Nieuw in 5.2 (0)</h2>
+  <p><em>geen</em></p>
+  <h2>Verwijderd (was in 5.1) (0)</h2>
+  <p><em>geen</em></p>
+  <h2>Ongewijzigd (30)</h2>
+  <p>Identieke naam Ã©n hash; niet uitgelijst.</p>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AOG â arceringen OnderGrond per zoekfilter (NLCS 5.2)</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; margin: 2em; color: #222; }
+  h1 { border-bottom: 2px solid #003865; padding-bottom: .3em; color: #003865; }
+  .info { color: #555; font-size: 14px; margin: .3em 0 1em; }
+  .legend { margin: 1em 0 1.5em; font-size: 14px; }
+  .legend span { display: inline-block; padding: 3px 12px; border-radius: 12px; margin-right: 10px; font-weight: 600; }
+  .badge-neutraal { background: #ffffff; color: #3c4043; border: 1px solid #cbd2da; }
+  .badge-bestaand { background: #eef1f5; color: #3c4043; border: 1px solid #cbd2da; }
+  .badge-vervallen{ background: #f7dede; color: #a11;    border: 1px solid #e2a3a3; }
+  .badge-notin    { background: #f9d2d2; color: #a11; border: 1px solid #e2a3a3; }
+  .badge-insob    { background: #cdeccf; color: #14612a; border: 1px solid #9fcfa6; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { border: 1px solid #d7dce2; padding: 6px 10px; text-align: left; vertical-align: top; }
+  thead th { background: #003865; color: #fff; position: sticky; top: 0; z-index: 2; }
+  td.hier, td.lvl1 { font-family: Consolas, monospace; background: #f7f9fb; color: #003865;
+                     white-space: nowrap; font-weight: 600; }
+  td.lvl1 { background: #eaf0f6; }
+  /* zoekfilter komt niet voor in kolom 'sobject' van de objecttabel */
+  td.hier.notin, td.lvl1.notin { background: #f9d2d2; color: #a11; }
+  /* zoekfilter staat zelf in kolom 'sobject' */
+  td.hier.insob, td.lvl1.insob { background: #cdeccf; color: #14612a; }
+  td.empty { background: #fcfdfe; border-left: 1px dashed #e3e8ee; }
+  td.name { font-family: Consolas, monospace; white-space: nowrap; }
+  td.img { text-align: center; }
+  td.img img { max-width: 90px; max-height: 90px; min-width: 24px; min-height: 24px; }
+  td.status { text-align: center; font-weight: 600; white-space: nowrap; }
+  /* statuskleuren op de symboolrijen (NLCS-situatie uit voorvoegsel) */
+  .neutraal  { background: #ffffff; }
+  .bestaand  { background: #f2f5f8; }
+  .vervallen { background: #fbeaea; }
+  td.status.neutraal  { color: #5f6368; }
+  td.status.bestaand  { color: #3c4043; }
+  td.status.vervallen { color: #a11; }
+  tr:hover .neutraal  { background: #f5f7fa; }
+  tr:hover .bestaand  { background: #e8edf3; }
+  tr:hover .vervallen { background: #f5dada; }
+  .missing { color: #c00; font-style: italic; }
+</style>
+</head>
+<body>
+<h1>AOG â arceringen OnderGrond per zoekfilter (NLCS 5.2)</h1>
+<p class="info">23 symbolen â hiÃ«rarchisch gegroepeerd op zoekfilter (V-/B-varianten genegeerd voor groepering)</p>
+<div class="legend">
+  <span class="badge-neutraal">neutraal (geen voorvoegsel): 23</span>
+  <span class="badge-bestaand">bestaand (B-): 0</span>
+  <span class="badge-vervallen">vervallen (V-): 0</span>
+  <span class="badge-insob">groen zoekfilter = staat in kolom aobject</span>
+  <span class="badge-notin">rood zoekfilter = niet in aobject (ook niet dieper)</span>
+</div>
+<table>
+<thead><tr><th>Niveau 1</th><th>Niveau 2</th><th>Niveau 3</th><th>Niveau 4</th><th>Symbool (bestand)</th><th>Afbeelding</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td class="lvl1" rowspan="23">AOG</td><td class="hier insob" rowspan="6">AOG-BELEMMERING</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AOG-BELEMMERING-SO</td><td class="img neutraal"><img src="AOG-BELEMMERING-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="empty"></td><td class="name neutraal">AOG-BELEMMERING-SOD</td><td class="img neutraal"><img src="AOG-BELEMMERING-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">AOG-BELEMMERING_LEIDINGSTR</td><td class="empty"></td><td class="name neutraal">AOG-BELEMMERING_LEIDINGSTR-SOD</td><td class="img neutraal"><img src="AOG-BELEMMERING_LEIDINGSTR-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">AOG-BELEMMERING_LEIDINGSTRSO</td><td class="empty"></td><td class="name neutraal">AOG-BELEMMERING_LEIDINGSTRSO</td><td class="img neutraal"><img src="AOG-BELEMMERING_LEIDINGSTRSO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="2">AOG-BELEMMERING_OBJECT</td><td class="empty"></td><td class="name neutraal">AOG-BELEMMERING_OBJECT-SO</td><td class="img neutraal"><img src="AOG-BELEMMERING_OBJECT-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="name neutraal">AOG-BELEMMERING_OBJECT-SOD</td><td class="img neutraal"><img src="AOG-BELEMMERING_OBJECT-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">AOG-BESCHERMDSTADSGEZICHT</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AOG-BESCHERMDSTADSGEZICHT-SO</td><td class="img neutraal"><img src="AOG-BESCHERMDSTADSGEZICHT-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">AOG-BORDES</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AOG-BORDES-SO</td><td class="img neutraal"><img src="AOG-BORDES-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">AOG-LUIFEL</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AOG-LUIFEL-SO</td><td class="img neutraal"><img src="AOG-LUIFEL-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="2">AOG-MILIEUBESCHERMINGSGEB</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AOG-MILIEUBESCHERMINGSGEB-SO</td><td class="img neutraal"><img src="AOG-MILIEUBESCHERMINGSGEB-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="empty"></td><td class="name neutraal">AOG-MILIEUBESCHERMINGSGEB-SOD</td><td class="img neutraal"><img src="AOG-MILIEUBESCHERMINGSGEB-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="2">AOG-OVERB</td><td class="hier notin" rowspan="1">AOG-OVERB_MET</td><td class="hier notin" rowspan="1">AOG-OVERB_MET_KOPPELBALKEN</td><td class="name neutraal">AOG-OVERB_MET_KOPPELBALKEN-SO</td><td class="img neutraal"><img src="AOG-OVERB_MET_KOPPELBALKEN-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">AOG-OVERB_ZONDER</td><td class="hier notin" rowspan="1">AOG-OVERB_ZONDER_KOPPELBALK</td><td class="name neutraal">AOG-OVERB_ZONDER_KOPPELBALK-SO</td><td class="img neutraal"><img src="AOG-OVERB_ZONDER_KOPPELBALK-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier" rowspan="10">AOG-ZONE</td><td class="hier insob" rowspan="2">AOG-ZONE_ECOZONE</td><td class="empty"></td><td class="name neutraal">AOG-ZONE_ECOZONE-SO</td><td class="img neutraal"><img src="AOG-ZONE_ECOZONE-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="name neutraal">AOG-ZONE_ECOZONE-SOD</td><td class="img neutraal"><img src="AOG-ZONE_ECOZONE-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier" rowspan="2">AOG-ZONE_GEVAARLIJKE</td><td class="hier insob" rowspan="2">AOG-ZONE_GEVAARLIJKE_STOF</td><td class="name neutraal">AOG-ZONE_GEVAARLIJKE_STOF-SO</td><td class="img neutraal"><img src="AOG-ZONE_GEVAARLIJKE_STOF-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="name neutraal">AOG-ZONE_GEVAARLIJKE_STOF-SOD</td><td class="img neutraal"><img src="AOG-ZONE_GEVAARLIJKE_STOF-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="2">AOG-ZONE_HOOGSPANNINGSTRACE</td><td class="empty"></td><td class="name neutraal">AOG-ZONE_HOOGSPANNINGSTRACE-SO</td><td class="img neutraal"><img src="AOG-ZONE_HOOGSPANNINGSTRACE-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="name neutraal">AOG-ZONE_HOOGSPANNINGSTRACE-SOD</td><td class="img neutraal"><img src="AOG-ZONE_HOOGSPANNINGSTRACE-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="2">AOG-ZONE_LEIDINGSTROOK</td><td class="empty"></td><td class="name neutraal">AOG-ZONE_LEIDINGSTROOK-SO</td><td class="img neutraal"><img src="AOG-ZONE_LEIDINGSTROOK-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="name neutraal">AOG-ZONE_LEIDINGSTROOK-SOD</td><td class="img neutraal"><img src="AOG-ZONE_LEIDINGSTROOK-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="2">AOG-ZONE_LPG</td><td class="empty"></td><td class="name neutraal">AOG-ZONE_LPG-SO</td><td class="img neutraal"><img src="AOG-ZONE_LPG-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="name neutraal">AOG-ZONE_LPG-SOD</td><td class="img neutraal"><img src="AOG-ZONE_LPG-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+</tbody></table>
+</body></html>

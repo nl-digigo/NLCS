@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIE â arceringen InrichtingsElementen per zoekfilter (NLCS 5.2)</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; margin: 2em; color: #222; }
+  h1 { border-bottom: 2px solid #003865; padding-bottom: .3em; color: #003865; }
+  .info { color: #555; font-size: 14px; margin: .3em 0 1em; }
+  .legend { margin: 1em 0 1.5em; font-size: 14px; }
+  .legend span { display: inline-block; padding: 3px 12px; border-radius: 12px; margin-right: 10px; font-weight: 600; }
+  .badge-neutraal { background: #ffffff; color: #3c4043; border: 1px solid #cbd2da; }
+  .badge-bestaand { background: #eef1f5; color: #3c4043; border: 1px solid #cbd2da; }
+  .badge-vervallen{ background: #f7dede; color: #a11;    border: 1px solid #e2a3a3; }
+  .badge-notin    { background: #f9d2d2; color: #a11; border: 1px solid #e2a3a3; }
+  .badge-insob    { background: #cdeccf; color: #14612a; border: 1px solid #9fcfa6; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { border: 1px solid #d7dce2; padding: 6px 10px; text-align: left; vertical-align: top; }
+  thead th { background: #003865; color: #fff; position: sticky; top: 0; z-index: 2; }
+  td.hier, td.lvl1 { font-family: Consolas, monospace; background: #f7f9fb; color: #003865;
+                     white-space: nowrap; font-weight: 600; }
+  td.lvl1 { background: #eaf0f6; }
+  /* zoekfilter komt niet voor in kolom 'sobject' van de objecttabel */
+  td.hier.notin, td.lvl1.notin { background: #f9d2d2; color: #a11; }
+  /* zoekfilter staat zelf in kolom 'sobject' */
+  td.hier.insob, td.lvl1.insob { background: #cdeccf; color: #14612a; }
+  td.empty { background: #fcfdfe; border-left: 1px dashed #e3e8ee; }
+  td.name { font-family: Consolas, monospace; white-space: nowrap; }
+  td.img { text-align: center; }
+  td.img img { max-width: 90px; max-height: 90px; min-width: 24px; min-height: 24px; }
+  td.status { text-align: center; font-weight: 600; white-space: nowrap; }
+  /* statuskleuren op de symboolrijen (NLCS-situatie uit voorvoegsel) */
+  .neutraal  { background: #ffffff; }
+  .bestaand  { background: #f2f5f8; }
+  .vervallen { background: #fbeaea; }
+  td.status.neutraal  { color: #5f6368; }
+  td.status.bestaand  { color: #3c4043; }
+  td.status.vervallen { color: #a11; }
+  tr:hover .neutraal  { background: #f5f7fa; }
+  tr:hover .bestaand  { background: #e8edf3; }
+  tr:hover .vervallen { background: #f5dada; }
+  .missing { color: #c00; font-style: italic; }
+</style>
+</head>
+<body>
+<h1>AIE â arceringen InrichtingsElementen per zoekfilter (NLCS 5.2)</h1>
+<p class="info">1 symbolen â hiÃ«rarchisch gegroepeerd op zoekfilter (V-/B-varianten genegeerd voor groepering)</p>
+<div class="legend">
+  <span class="badge-neutraal">neutraal (geen voorvoegsel): 1</span>
+  <span class="badge-bestaand">bestaand (B-): 0</span>
+  <span class="badge-vervallen">vervallen (V-): 0</span>
+  <span class="badge-insob">groen zoekfilter = staat in kolom aobject</span>
+  <span class="badge-notin">rood zoekfilter = niet in aobject (ook niet dieper)</span>
+</div>
+<table>
+<thead><tr><th>Niveau 1</th><th>Niveau 2</th><th>Niveau 3</th><th>Symbool (bestand)</th><th>Afbeelding</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td class="lvl1" rowspan="1">AIE</td><td class="hier" rowspan="1">AIE-SPEELTOESTEL</td><td class="hier insob" rowspan="1">AIE-SPEELTOESTEL_VALZONE</td><td class="name neutraal">AIE-SPEELTOESTEL_VALZONE-SO</td><td class="img neutraal"><img src="AIE-SPEELTOESTEL_VALZONE-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+</tbody></table>
+</body></html>

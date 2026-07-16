@@ -30,20 +30,31 @@ sub list_dwg {
     return @out;
 }
 
+sub list_sym {   # svg (of dwg) uit één map; status volgt uit het voorvoegsel
+    my $dir = shift;
+    my @out;
+    opendir(my $dh, $dir) or return @out;
+    for my $f (sort readdir $dh) { push @out, $f if $f =~ /\.(svg|dwg)$/i; }
+    closedir $dh;
+    return @out;
+}
+
 my @files;
 my ($svgdir, $out, $title);
 
 # optionele objecttabel: --obj <csv>  (vergelijk zoekfilters met kolom 'sobject')
 my $objcsv;
+my $cmpcol = 'sobject';   # kolom in de objecttabel om tegen te vergelijken
 {
     my @a = @ARGV;
     for (my $i = 0; $i < @a; $i++) {
-        if ($a[$i] eq '--obj') { $objcsv = $a[$i + 1]; splice(@a, $i, 2); last; }
+        if ($a[$i] eq '--obj') { $objcsv = $a[$i + 1]; splice(@a, $i, 2); $i--; next; }
+        if ($a[$i] eq '--col') { $cmpcol = $a[$i + 1]; splice(@a, $i, 2); $i--; next; }
     }
     @ARGV = @a;
 }
 
-# sobject-set laden (scheidingsteken per bestand detecteren, kolom op naam zoeken)
+# vergelijkingsset laden (scheidingsteken per bestand detecteren, kolom op naam zoeken)
 my %sobject;
 my $have_obj = 0;
 if (defined $objcsv && -f $objcsv) {
@@ -55,7 +66,7 @@ if (defined $objcsv && -f $objcsv) {
     my $sep = (($hdr =~ tr/;//) >= ($hdr =~ tr/,//)) ? ';' : ',';
     my @cols = split /\Q$sep\E/, $hdr, -1;
     my $idx = -1;
-    for my $i (0 .. $#cols) { if (lc($cols[$i]) eq 'sobject') { $idx = $i; last; } }
+    for my $i (0 .. $#cols) { if (lc($cols[$i]) eq lc($cmpcol)) { $idx = $i; last; } }
     if ($idx >= 0) {
         while (my $line = <$oh>) {
             $line =~ s/[\r\n]+$//;
@@ -70,7 +81,14 @@ if (defined $objcsv && -f $objcsv) {
     close $oh;
 }
 
-if (@ARGV && $ARGV[0] eq '--ref') {
+if (@ARGV && $ARGV[0] eq '--dir') {
+    # één map met svg-bestanden (bv. arceringen); status volgt uit het voorvoegsel
+    my $mode;
+    ($mode, $svgdir, $out, $title) = @ARGV;
+    die "Gebruik: perl $0 [--col <kolom>] --dir <svg-map> <out.html> [titel]\n"
+        unless $svgdir && $out;
+    push @files, { fname => $_, status => '' } for list_sym($svgdir);
+} elsif (@ARGV && $ARGV[0] eq '--ref') {
     my ($mode, $dwg52, $ref50);
     ($mode, $dwg52, $ref50, $svgdir, $out, $title) = @ARGV;
     die "Gebruik: perl $0 --ref <dwg-5.2> <dwg-5.0-ref> <svg-map> <out.html> [titel]\n"
@@ -88,14 +106,14 @@ if (@ARGV && $ARGV[0] eq '--ref') {
     push @files, { fname => $_, status => 'nieuw' }    for list_dwg($dwg_new);
 }
 $title //= "Zoekfilter-overzicht";
-die "Geen DWG-bestanden gevonden.\n" unless @files;
+die "Geen bestanden gevonden.\n" unless @files;
 
 # --- boom opbouwen ---
 my $root = { children => {}, order => [], symbols => [], depth => 0, parent => undef };
 my $maxdepth = 0;
 
 for my $e (@files) {
-    my $stem = $e->{fname}; $stem =~ s/\.dwg$//i;
+    my $stem = $e->{fname}; $stem =~ s/\.(dwg|svg)$//i;
     my $variant = '';
     my $core = $stem;
     if ($core =~ /^([BV])-(.+)$/) { $variant = $1; $core = $2; }
@@ -179,8 +197,8 @@ my $n_verv = grep { $_->{fname} =~ /^V-/i } @files;
 my $n_best = grep { $_->{fname} =~ /^B-/i } @files;
 my $n_neut = @files - $n_verv - $n_best;
 my $obj_legend = $have_obj
-    ? '  <span class="badge-insob">groen zoekfilter = staat in kolom sobject</span>' . "\n"
-    . '  <span class="badge-notin">rood zoekfilter = niet in sobject (ook niet dieper)</span>'
+    ? "  <span class=\"badge-insob\">groen zoekfilter = staat in kolom $cmpcol</span>\n"
+    . "  <span class=\"badge-notin\">rood zoekfilter = niet in $cmpcol (ook niet dieper)</span>"
     : '';
 
 # --- SVG aanwezig? ---
