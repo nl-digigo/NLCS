@@ -116,7 +116,7 @@ for my $e (@files) {
     my $stem = $e->{fname}; $stem =~ s/\.(dwg|svg)$//i;
     my $variant = '';
     my $core = $stem;
-    if ($core =~ /^([BV])-(.+)$/) { $variant = $1; $core = $2; }
+    if ($core =~ /^([BVT])-(.+)$/) { $variant = $1; $core = $2; }
 
     # tokens: hoofdgroep vóór eerste '-'; het objectpad (met '_' als scheiding)
     # is het deel daarna tót het volgende '-'. Het element-/bewerkingssuffix
@@ -152,7 +152,8 @@ for my $e (@files) {
         $node = $node->{children}{$t};
     }
     # status = NLCS-situatie uit het voorvoegsel: V- vervallen, B- bestaand, geen neutraal
-    my $vstatus = $variant eq 'V' ? 'vervallen' : ($variant eq 'B' ? 'bestaand' : 'neutraal');
+    my %vmap = (V => 'vervallen', B => 'bestaand', T => 'tijdelijk');
+    my $vstatus = $vmap{$variant} // 'neutraal';
     push @{$node->{symbols}}, { stem => $stem, variant => $variant, status => $vstatus };
 }
 
@@ -182,7 +183,7 @@ sub subtreeHit {
     return $hitcache{"$n"} = $hit;
 }
 
-my %vord = ('' => 0, 'B' => 1, 'V' => 2);
+my %vord = ('' => 0, 'B' => 1, 'V' => 2, 'T' => 3);
 my @rows;
 sub walk {
     my ($n) = @_;
@@ -195,7 +196,8 @@ walk($root);
 
 my $n_verv = grep { $_->{fname} =~ /^V-/i } @files;
 my $n_best = grep { $_->{fname} =~ /^B-/i } @files;
-my $n_neut = @files - $n_verv - $n_best;
+my $n_tijd = grep { $_->{fname} =~ /^T-/i } @files;
+my $n_neut = @files - $n_verv - $n_best - $n_tijd;
 my $obj_legend = $have_obj
     ? "  <span class=\"badge-insob\">groen zoekfilter = staat in kolom $cmpcol</span>\n"
     . "  <span class=\"badge-notin\">rood zoekfilter = niet in $cmpcol (ook niet dieper)</span>"
@@ -228,6 +230,7 @@ print $fh <<HEAD;
   .badge-neutraal { background: #ffffff; color: #3c4043; border: 1px solid #cbd2da; }
   .badge-bestaand { background: #eef1f5; color: #3c4043; border: 1px solid #cbd2da; }
   .badge-vervallen{ background: #f7dede; color: #a11;    border: 1px solid #e2a3a3; }
+  .badge-tijdelijk{ background: #fff3d6; color: #8a6d00; border: 1px solid #e6cf8a; }
   .badge-notin    { background: #f9d2d2; color: #a11; border: 1px solid #e2a3a3; }
   .badge-insob    { background: #cdeccf; color: #14612a; border: 1px solid #9fcfa6; }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
@@ -249,12 +252,15 @@ print $fh <<HEAD;
   .neutraal  { background: #ffffff; }
   .bestaand  { background: #f2f5f8; }
   .vervallen { background: #fbeaea; }
+  .tijdelijk { background: #fff8e6; }
   td.status.neutraal  { color: #5f6368; }
   td.status.bestaand  { color: #3c4043; }
   td.status.vervallen { color: #a11; }
+  td.status.tijdelijk { color: #8a6d00; }
   tr:hover .neutraal  { background: #f5f7fa; }
   tr:hover .bestaand  { background: #e8edf3; }
   tr:hover .vervallen { background: #f5dada; }
+  tr:hover .tijdelijk { background: #fbedc8; }
   .missing { color: #c00; font-style: italic; }
 </style>
 </head>
@@ -265,6 +271,7 @@ print $fh <<HEAD;
   <span class="badge-neutraal">neutraal (geen voorvoegsel): $n_neut</span>
   <span class="badge-bestaand">bestaand (B-): $n_best</span>
   <span class="badge-vervallen">vervallen (V-): $n_verv</span>
+  <span class="badge-tijdelijk">tijdelijk (T-): $n_tijd</span>
 $obj_legend
 </div>
 <table>
@@ -317,5 +324,5 @@ print $fh "</tbody></table>\n</body></html>\n";
 close $fh;
 
 print "geschreven: $out\n";
-print "symbolen:   @{[scalar @files]} (neutraal: $n_neut, bestaand: $n_best, vervallen: $n_verv)\n";
+print "symbolen:   @{[scalar @files]} (neutraal: $n_neut, bestaand: $n_best, vervallen: $n_verv, tijdelijk: $n_tijd)\n";
 print "kolommen:   $maxdepth filterniveaus\n";

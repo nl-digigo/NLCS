@@ -284,6 +284,11 @@ done
 # Sorted list of library names
 mapfile -t libs < <(printf '%s\n' "${!all_libs[@]}" | sort)
 
+# Optioneel: beperk tot één bibliotheek (arg 1), bv. 'bash compare_libraries.sh SVH'
+if [[ $# -ge 1 && -n "$1" ]]; then
+    libs=("$1")
+fi
+
 echo "Gevonden bibliotheken (${#libs[@]}): ${libs[*]}"
 echo ""
 
