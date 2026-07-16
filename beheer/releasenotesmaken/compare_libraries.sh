@@ -12,7 +12,7 @@
 set -uo pipefail
 
 V50_BASE="C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSmain/NLCS/symbolen/autocad"
-V52_BASE="C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCS/symbolen/autocad"
+V52_BASE="C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCS/symbolen/5.2/autocad"
 OUT_BASE="C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCS/docs/changelog"
 
 TMP_DIR="$(mktemp -d)"
