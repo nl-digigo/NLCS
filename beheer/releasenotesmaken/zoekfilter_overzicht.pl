@@ -334,9 +334,45 @@ for my $r (@rows) {
     print $fh "</tr>\n";
 }
 
-print $fh "</tbody></table>\n</body></html>\n";
+print $fh "</tbody></table>\n";
+
+# --- Omgekeerde check: zoekfilters in de Excel-kolom zonder bijbehorend symbool ---
+# Een Excel-waarde geldt als 'gedekt' zodra een bestandsnaam-kern ermee begint
+# (de Excel-waarde kapt soms eerder af dan de bestandsnaam, bv. VERKEERSTEKEN_A).
+my $n_orphan = 0;
+if ($have_obj) {
+    # alle bestandsnaam-kernen: variant-prefix weg, laatste -ELEMENT weg
+    my @cores;
+    for my $e (@files) {
+        (my $c = $e->{fname}) =~ s/\.(dwg|svg)$//i;
+        $c =~ s/^[BVT]-//;
+        $c =~ s/-[A-Za-z0-9]+$//;
+        push @cores, $c;
+    }
+    my %seen; @cores = grep { !$seen{$_}++ } @cores;
+    # 'gedekt' = een bestandsnaam-kern begint met de zoekfilter (tekst-prefix).
+    # Bewust géén eis op een '_'/'-' erna: een zoekfilter kapt soms af midden in
+    # een token, bv. sobject 'SVV-VERKEERSTEKEN_A' <- bestand 'SVV-VERKEERSTEKEN_A1'.
+    my @orphan = sort grep {
+        my $ev = $_;
+        !( grep { index($_, $ev) == 0 } @cores )
+    } keys %sobject;
+    $n_orphan = scalar @orphan;
+    print $fh "<h2 style=\"font-size:1.05em;color:#a11;margin-top:1.5em;\">Zoekfilters in kolom $cmpcol zonder symbool (" . scalar(@orphan) . ")</h2>\n";
+    print $fh "<p style=\"font-size:12px;color:#555;\">Deze zoekfilters staan wel in de objecttabel maar er is geen symbool waarvan de naam ermee begint.</p>\n";
+    if (@orphan) {
+        print $fh "<table style=\"width:auto;\"><tbody>\n";
+        print $fh "  <tr><td class=\"name notin\">" . esc($_) . "</td></tr>\n" for @orphan;
+        print $fh "</tbody></table>\n";
+    } else {
+        print $fh "<p><em>geen &ndash; elke zoekfilter uit de tabel heeft minstens één symbool.</em></p>\n";
+    }
+}
+
+print $fh "</body></html>\n";
 close $fh;
 
 print "geschreven: $out\n";
+print "omgekeerde check: $n_orphan zoekfilter(s) in '$cmpcol' zonder symbool\n" if $have_obj;
 print "symbolen:   @{[scalar @files]} (neutraal: $n_neut, bestaand: $n_best, vervallen: $n_verv, tijdelijk: $n_tijd)\n";
 print "kolommen:   $maxdepth filterniveaus\n";
