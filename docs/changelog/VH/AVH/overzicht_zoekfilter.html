@@ -13,6 +13,7 @@
   .badge-neutraal { background: #ffffff; color: #3c4043; border: 1px solid #cbd2da; }
   .badge-bestaand { background: #eef1f5; color: #3c4043; border: 1px solid #cbd2da; }
   .badge-vervallen{ background: #f7dede; color: #a11;    border: 1px solid #e2a3a3; }
+  .badge-tijdelijk{ background: #fff3d6; color: #8a6d00; border: 1px solid #e6cf8a; }
   .badge-notin    { background: #f9d2d2; color: #a11; border: 1px solid #e2a3a3; }
   .badge-insob    { background: #cdeccf; color: #14612a; border: 1px solid #9fcfa6; }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
@@ -29,17 +30,22 @@
   td.name { font-family: Consolas, monospace; white-space: nowrap; }
   td.img { text-align: center; }
   td.img img { max-width: 90px; max-height: 90px; min-width: 24px; min-height: 24px; }
+  td.prev { background: #2b2b2b !important; text-align: center; }
+  td.prev img { max-width: 90px; max-height: 90px; }
   td.status { text-align: center; font-weight: 600; white-space: nowrap; }
   /* statuskleuren op de symboolrijen (NLCS-situatie uit voorvoegsel) */
   .neutraal  { background: #ffffff; }
   .bestaand  { background: #f2f5f8; }
   .vervallen { background: #fbeaea; }
+  .tijdelijk { background: #fff8e6; }
   td.status.neutraal  { color: #5f6368; }
   td.status.bestaand  { color: #3c4043; }
   td.status.vervallen { color: #a11; }
+  td.status.tijdelijk { color: #8a6d00; }
   tr:hover .neutraal  { background: #f5f7fa; }
   tr:hover .bestaand  { background: #e8edf3; }
   tr:hover .vervallen { background: #f5dada; }
+  tr:hover .tijdelijk { background: #fbedc8; }
   .missing { color: #c00; font-style: italic; }
 </style>
 </head>
@@ -50,6 +56,7 @@
   <span class="badge-neutraal">neutraal (geen voorvoegsel): 270</span>
   <span class="badge-bestaand">bestaand (B-): 1</span>
   <span class="badge-vervallen">vervallen (V-): 0</span>
+  <span class="badge-tijdelijk">tijdelijk (T-): 0</span>
   <span class="badge-insob">groen zoekfilter = staat in kolom aobject</span>
   <span class="badge-notin">rood zoekfilter = niet in aobject (ook niet dieper)</span>
 </div>
@@ -60,7 +67,7 @@
 <tr><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-ASFALT-SOD</td><td class="img neutraal"><img src="AVH-ASFALT-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name bestaand">B-AVH-ASFALT-SOD</td><td class="img bestaand"><img src="B-AVH-ASFALT-SOD.svg" alt="" loading="lazy"></td><td class="status bestaand">bestaand</td></tr>
 <tr><td class="hier notin" rowspan="1">AVH-ASFALT_B</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-ASFALT_B-SO</td><td class="img neutraal"><img src="AVH-ASFALT_B-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="hier notin" rowspan="1">AVH-ASFALT_FREESVAK</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-ASFALT_FREESVAK-SO</td><td class="img neutraal"><img src="AVH-ASFALT_FREESVAK-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">AVH-ASFALT_FREESVAK</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-ASFALT_FREESVAK-SO</td><td class="img neutraal"><img src="AVH-ASFALT_FREESVAK-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier notin" rowspan="1">AVH-ASFALT_LAAG1</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-ASFALT_LAAG1-SOD</td><td class="img neutraal"><img src="AVH-ASFALT_LAAG1-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier notin" rowspan="1">AVH-ASFALT_LAAG2</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-ASFALT_LAAG2-SOD</td><td class="img neutraal"><img src="AVH-ASFALT_LAAG2-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier notin" rowspan="1">AVH-ASFALT_LAAG3</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-ASFALT_LAAG3-SOD</td><td class="img neutraal"><img src="AVH-ASFALT_LAAG3-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
@@ -73,9 +80,9 @@
 <tr><td class="hier insob" rowspan="1">AVH-BESTORTING</td><td class="hier notin" rowspan="1">AVH-BESTORTING_01</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-BESTORTING_01-SO</td><td class="img neutraal"><img src="AVH-BESTORTING_01-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier insob" rowspan="6">AVH-BETON</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-BETON-SO</td><td class="img neutraal"><img src="AVH-BETON-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-BETON-SOD</td><td class="img neutraal"><img src="AVH-BETON-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="hier notin" rowspan="2">AVH-BETON_GEWAPEND</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-BETON_GEWAPEND-SO</td><td class="img neutraal"><img src="AVH-BETON_GEWAPEND-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="2">AVH-BETON_GEWAPEND</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-BETON_GEWAPEND-SO</td><td class="img neutraal"><img src="AVH-BETON_GEWAPEND-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-BETON_GEWAPEND-SOD</td><td class="img neutraal"><img src="AVH-BETON_GEWAPEND-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="hier notin" rowspan="2">AVH-BETON_SCHRAAL</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-BETON_SCHRAAL-SO</td><td class="img neutraal"><img src="AVH-BETON_SCHRAAL-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="2">AVH-BETON_SCHRAAL</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-BETON_SCHRAAL-SO</td><td class="img neutraal"><img src="AVH-BETON_SCHRAAL-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-BETON_SCHRAAL-SOD</td><td class="img neutraal"><img src="AVH-BETON_SCHRAAL-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier notin" rowspan="2">AVH-BOUWWEG</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-BOUWWEG-SO</td><td class="img neutraal"><img src="AVH-BOUWWEG-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-BOUWWEG-SOD</td><td class="img neutraal"><img src="AVH-BOUWWEG-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
@@ -128,20 +135,20 @@
 <tr><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-FLOWBLOCK-SOD</td><td class="img neutraal"><img src="AVH-FLOWBLOCK-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier insob" rowspan="18">AVH-FUNDERING</td><td class="hier notin" rowspan="1">AVH-FUNDERING_01</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_01-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_01-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier notin" rowspan="1">AVH-FUNDERING_02</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_02-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_02-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="hier notin" rowspan="1">AVH-FUNDERING_BIMS</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_BIMS-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_BIMS-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="hier notin" rowspan="1">AVH-FUNDERING_EPS</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_EPS-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_EPS-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="hier notin" rowspan="9">AVH-FUNDERING_GRAN</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_GRAN-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_GRAN-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="hier notin" rowspan="1">AVH-FUNDERING_GRAN_BETON</td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_GRAN_BETON-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_GRAN_BETON-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="hier notin" rowspan="1">AVH-FUNDERING_GRAN_BOMEN</td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_GRAN_BOMEN-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_GRAN_BOMEN-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="hier notin" rowspan="1">AVH-FUNDERING_GRAN_KLEIKORR</td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_GRAN_KLEIKORR-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_GRAN_KLEIKORR-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="hier notin" rowspan="1">AVH-FUNDERING_GRAN_LAVA</td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_GRAN_LAVA-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_GRAN_LAVA-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">AVH-FUNDERING_BIMS</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_BIMS-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_BIMS-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">AVH-FUNDERING_EPS</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_EPS-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_EPS-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="9">AVH-FUNDERING_GRAN</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_GRAN-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_GRAN-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">AVH-FUNDERING_GRAN_BETON</td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_GRAN_BETON-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_GRAN_BETON-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">AVH-FUNDERING_GRAN_BOMEN</td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_GRAN_BOMEN-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_GRAN_BOMEN-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">AVH-FUNDERING_GRAN_KLEIKORR</td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_GRAN_KLEIKORR-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_GRAN_KLEIKORR-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">AVH-FUNDERING_GRAN_LAVA</td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_GRAN_LAVA-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_GRAN_LAVA-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier notin" rowspan="2">AVH-FUNDERING_GRAN_MENG</td><td class="hier notin" rowspan="1">AVH-FUNDERING_GRAN_MENG_01</td><td class="name neutraal">AVH-FUNDERING_GRAN_MENG_01-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_GRAN_MENG_01-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier notin" rowspan="1">AVH-FUNDERING_GRAN_MENG_02</td><td class="name neutraal">AVH-FUNDERING_GRAN_MENG_02-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_GRAN_MENG_02-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="hier notin" rowspan="1">AVH-FUNDERING_GRAN_PUIN</td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_GRAN_PUIN-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_GRAN_PUIN-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="hier notin" rowspan="1">AVH-FUNDERING_GRAN_SINTELS</td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_GRAN_SINTELS-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_GRAN_SINTELS-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">AVH-FUNDERING_GRAN_PUIN</td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_GRAN_PUIN-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_GRAN_PUIN-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="1">AVH-FUNDERING_GRAN_SINTELS</td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_GRAN_SINTELS-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_GRAN_SINTELS-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier notin" rowspan="1">AVH-FUNDERING_OVERIG</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_OVERIG-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_OVERIG-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier notin" rowspan="1">AVH-FUNDERING_SCHUIMBETON</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_SCHUIMBETON-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_SCHUIMBETON-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="hier notin" rowspan="2">AVH-FUNDERING_SLAKKEN</td><td class="hier notin" rowspan="1">AVH-FUNDERING_SLAKKEN_01</td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_SLAKKEN_01-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_SLAKKEN_01-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="2">AVH-FUNDERING_SLAKKEN</td><td class="hier notin" rowspan="1">AVH-FUNDERING_SLAKKEN_01</td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_SLAKKEN_01-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_SLAKKEN_01-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier notin" rowspan="1">AVH-FUNDERING_SLAKKEN_02</td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_SLAKKEN_02-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_SLAKKEN_02-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier notin" rowspan="1">AVH-FUNDERING_ZANDCEMENTSTA</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-FUNDERING_ZANDCEMENTSTA-SOD</td><td class="img neutraal"><img src="AVH-FUNDERING_ZANDCEMENTSTA-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier insob" rowspan="2">AVH-GEOTEXTIEL</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-GEOTEXTIEL-SO</td><td class="img neutraal"><img src="AVH-GEOTEXTIEL-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
@@ -163,7 +170,7 @@
 <tr><td class="hier notin" rowspan="1">AVH-GRASTEGEL_STIP</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-GRASTEGEL_STIP-SO</td><td class="img neutraal"><img src="AVH-GRASTEGEL_STIP-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier insob" rowspan="2">AVH-GRAVEL</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-GRAVEL-SO</td><td class="img neutraal"><img src="AVH-GRAVEL-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-GRAVEL-SOD</td><td class="img neutraal"><img src="AVH-GRAVEL-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="hier notin" rowspan="8">AVH-HALFVERHARDING</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-HALFVERHARDING-SO</td><td class="img neutraal"><img src="AVH-HALFVERHARDING-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier insob" rowspan="8">AVH-HALFVERHARDING</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-HALFVERHARDING-SO</td><td class="img neutraal"><img src="AVH-HALFVERHARDING-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-HALFVERHARDING-SOD</td><td class="img neutraal"><img src="AVH-HALFVERHARDING-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier notin" rowspan="4">AVH-HALFVERHARDING_GRIND</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">AVH-HALFVERHARDING_GRIND-SOD</td><td class="img neutraal"><img src="AVH-HALFVERHARDING_GRIND-SOD.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 <tr><td class="hier notin" rowspan="1">AVH-HALFVERHARDING_GRIND_01</td><td class="empty"></td><td class="name neutraal">AVH-HALFVERHARDING_GRIND_01-SO</td><td class="img neutraal"><img src="AVH-HALFVERHARDING_GRIND_01-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
