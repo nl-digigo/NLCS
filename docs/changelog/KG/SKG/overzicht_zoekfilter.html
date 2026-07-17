@@ -13,6 +13,7 @@
   .badge-neutraal { background: #ffffff; color: #3c4043; border: 1px solid #cbd2da; }
   .badge-bestaand { background: #eef1f5; color: #3c4043; border: 1px solid #cbd2da; }
   .badge-vervallen{ background: #f7dede; color: #a11;    border: 1px solid #e2a3a3; }
+  .badge-tijdelijk{ background: #fff3d6; color: #8a6d00; border: 1px solid #e6cf8a; }
   .badge-notin    { background: #f9d2d2; color: #a11; border: 1px solid #e2a3a3; }
   .badge-insob    { background: #cdeccf; color: #14612a; border: 1px solid #9fcfa6; }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
@@ -29,17 +30,22 @@
   td.name { font-family: Consolas, monospace; white-space: nowrap; }
   td.img { text-align: center; }
   td.img img { max-width: 90px; max-height: 90px; min-width: 24px; min-height: 24px; }
+  td.prev { background: #2b2b2b !important; text-align: center; }
+  td.prev img { max-width: 90px; max-height: 90px; }
   td.status { text-align: center; font-weight: 600; white-space: nowrap; }
   /* statuskleuren op de symboolrijen (NLCS-situatie uit voorvoegsel) */
   .neutraal  { background: #ffffff; }
   .bestaand  { background: #f2f5f8; }
   .vervallen { background: #fbeaea; }
+  .tijdelijk { background: #fff8e6; }
   td.status.neutraal  { color: #5f6368; }
   td.status.bestaand  { color: #3c4043; }
   td.status.vervallen { color: #a11; }
+  td.status.tijdelijk { color: #8a6d00; }
   tr:hover .neutraal  { background: #f5f7fa; }
   tr:hover .bestaand  { background: #e8edf3; }
   tr:hover .vervallen { background: #f5dada; }
+  tr:hover .tijdelijk { background: #fbedc8; }
   .missing { color: #c00; font-style: italic; }
 </style>
 </head>
@@ -50,15 +56,16 @@
   <span class="badge-neutraal">neutraal (geen voorvoegsel): 3</span>
   <span class="badge-bestaand">bestaand (B-): 0</span>
   <span class="badge-vervallen">vervallen (V-): 1</span>
+  <span class="badge-tijdelijk">tijdelijk (T-): 0</span>
   <span class="badge-insob">groen zoekfilter = staat in kolom sobject</span>
   <span class="badge-notin">rood zoekfilter = niet in sobject (ook niet dieper)</span>
 </div>
 <table>
-<thead><tr><th>Niveau 1</th><th>Niveau 2</th><th>Niveau 3</th><th>Niveau 4</th><th>Symbool (bestand)</th><th>Afbeelding</th><th>Status</th></tr></thead>
+<thead><tr><th>Niveau 1</th><th>Niveau 2</th><th>Niveau 3</th><th>Niveau 4</th><th>Symbool (bestand)</th><th>Afbeelding</th><th>Preview (DWG)</th><th>Status</th></tr></thead>
 <tbody>
-<tr><td class="lvl1" rowspan="4">SKG</td><td class="hier insob" rowspan="4">SKG-KADASTRAAL</td><td class="hier notin" rowspan="2">SKG-KADASTRAAL_GRENSPAAL</td><td class="empty"></td><td class="name neutraal">SKG-KADASTRAAL_GRENSPAAL-SO</td><td class="img neutraal"><img src="SKG-KADASTRAAL_GRENSPAAL-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="empty"></td><td class="name vervallen">V-SKG-KADASTRAAL_GRENSPAAL-SO</td><td class="img vervallen"><img src="V-SKG-KADASTRAAL_GRENSPAAL-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
-<tr><td class="hier notin" rowspan="2">SKG-KADASTRAAL_NOK</td><td class="hier notin" rowspan="1">SKG-KADASTRAAL_NOK_PLAT</td><td class="name neutraal">SKG-KADASTRAAL_NOK_PLAT-SO</td><td class="img neutraal"><img src="SKG-KADASTRAAL_NOK_PLAT-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="hier notin" rowspan="1">SKG-KADASTRAAL_NOK_PUNT</td><td class="name neutraal">SKG-KADASTRAAL_NOK_PUNT-SO</td><td class="img neutraal"><img src="SKG-KADASTRAAL_NOK_PUNT-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="lvl1" rowspan="4">SKG</td><td class="hier insob" rowspan="4">SKG-KADASTRAAL</td><td class="hier notin" rowspan="2">SKG-KADASTRAAL_GRENSPAAL</td><td class="empty"></td><td class="name neutraal">SKG-KADASTRAAL_GRENSPAAL-SO</td><td class="img neutraal"><img src="SKG-KADASTRAAL_GRENSPAAL-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/SKG-KADASTRAAL_GRENSPAAL-SO.bmp" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="name vervallen">V-SKG-KADASTRAAL_GRENSPAAL-SO</td><td class="img vervallen"><img src="V-SKG-KADASTRAAL_GRENSPAAL-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/V-SKG-KADASTRAAL_GRENSPAAL-SO.bmp" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier notin" rowspan="2">SKG-KADASTRAAL_NOK</td><td class="hier notin" rowspan="1">SKG-KADASTRAAL_NOK_PLAT</td><td class="name neutraal">SKG-KADASTRAAL_NOK_PLAT-SO</td><td class="img neutraal"><img src="SKG-KADASTRAAL_NOK_PLAT-SO.svg" alt="" loading="lazy"></td><td class="img prev"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier notin" rowspan="1">SKG-KADASTRAAL_NOK_PUNT</td><td class="name neutraal">SKG-KADASTRAAL_NOK_PUNT-SO</td><td class="img neutraal"><img src="SKG-KADASTRAAL_NOK_PUNT-SO.svg" alt="" loading="lazy"></td><td class="img prev"></td><td class="status neutraal">neutraal</td></tr>
 </tbody></table>
 </body></html>

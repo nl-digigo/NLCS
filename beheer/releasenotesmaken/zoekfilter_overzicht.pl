@@ -45,14 +45,17 @@ my ($svgdir, $out, $title);
 # optionele objecttabel: --obj <csv>  (vergelijk zoekfilters met kolom 'sobject')
 my $objcsv;
 my $cmpcol = 'sobject';   # kolom in de objecttabel om tegen te vergelijken
+my $prevsub = '';         # submap met DWG-previews (relatief t.o.v. svg-map); leeg = geen preview-kolom
 {
     my @a = @ARGV;
     for (my $i = 0; $i < @a; $i++) {
-        if ($a[$i] eq '--obj') { $objcsv = $a[$i + 1]; splice(@a, $i, 2); $i--; next; }
-        if ($a[$i] eq '--col') { $cmpcol = $a[$i + 1]; splice(@a, $i, 2); $i--; next; }
+        if ($a[$i] eq '--obj')     { $objcsv  = $a[$i + 1]; splice(@a, $i, 2); $i--; next; }
+        if ($a[$i] eq '--col')     { $cmpcol  = $a[$i + 1]; splice(@a, $i, 2); $i--; next; }
+        if ($a[$i] eq '--preview') { $prevsub = $a[$i + 1]; splice(@a, $i, 2); $i--; next; }
     }
     @ARGV = @a;
 }
+my $have_prev = length $prevsub ? 1 : 0;
 
 # vergelijkingsset laden (scheidingsteken per bestand detecteren, kolom op naam zoeken)
 my %sobject;
@@ -247,6 +250,8 @@ print $fh <<HEAD;
   td.name { font-family: Consolas, monospace; white-space: nowrap; }
   td.img { text-align: center; }
   td.img img { max-width: 90px; max-height: 90px; min-width: 24px; min-height: 24px; }
+  td.prev { background: #2b2b2b !important; text-align: center; }
+  td.prev img { max-width: 90px; max-height: 90px; }
   td.status { text-align: center; font-weight: 600; white-space: nowrap; }
   /* statuskleuren op de symboolrijen (NLCS-situatie uit voorvoegsel) */
   .neutraal  { background: #ffffff; }
@@ -275,7 +280,7 @@ print $fh <<HEAD;
 $obj_legend
 </div>
 <table>
-<thead><tr>$hierhead<th>Symbool (bestand)</th><th>Afbeelding</th><th>Status</th></tr></thead>
+<thead><tr>$hierhead<th>Symbool (bestand)</th><th>Afbeelding</th>@{[ $have_prev ? '<th>Preview (DWG)</th>' : '' ]}<th>Status</th></tr></thead>
 <tbody>
 HEAD
 
@@ -316,6 +321,15 @@ for my $r (@rows) {
         : "<span class=\"missing\">geen svg</span>";
     print $fh "<td class=\"name $cls\">@{[esc($s->{stem})]}</td>";
     print $fh "<td class=\"img $cls\">$img</td>";
+    if ($have_prev) {
+        my $pv = "";
+        for my $ext (qw(png bmp)) {
+            my $rel = "$prevsub/$s->{stem}.$ext";
+            if (-f "$svgdir/$rel") { (my $psrc = $rel) =~ s/ /%20/g;
+                $pv = "<img src=\"@{[esc($psrc)]}\" alt=\"\" loading=\"lazy\">"; last; }
+        }
+        print $fh "<td class=\"img prev\">$pv</td>";
+    }
     print $fh "<td class=\"status $cls\">$s->{status}</td>";
     print $fh "</tr>\n";
 }

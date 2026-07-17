@@ -13,6 +13,7 @@
   .badge-neutraal { background: #ffffff; color: #3c4043; border: 1px solid #cbd2da; }
   .badge-bestaand { background: #eef1f5; color: #3c4043; border: 1px solid #cbd2da; }
   .badge-vervallen{ background: #f7dede; color: #a11;    border: 1px solid #e2a3a3; }
+  .badge-tijdelijk{ background: #fff3d6; color: #8a6d00; border: 1px solid #e6cf8a; }
   .badge-notin    { background: #f9d2d2; color: #a11; border: 1px solid #e2a3a3; }
   .badge-insob    { background: #cdeccf; color: #14612a; border: 1px solid #9fcfa6; }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
@@ -29,17 +30,22 @@
   td.name { font-family: Consolas, monospace; white-space: nowrap; }
   td.img { text-align: center; }
   td.img img { max-width: 90px; max-height: 90px; min-width: 24px; min-height: 24px; }
+  td.prev { background: #2b2b2b !important; text-align: center; }
+  td.prev img { max-width: 90px; max-height: 90px; }
   td.status { text-align: center; font-weight: 600; white-space: nowrap; }
   /* statuskleuren op de symboolrijen (NLCS-situatie uit voorvoegsel) */
   .neutraal  { background: #ffffff; }
   .bestaand  { background: #f2f5f8; }
   .vervallen { background: #fbeaea; }
+  .tijdelijk { background: #fff8e6; }
   td.status.neutraal  { color: #5f6368; }
   td.status.bestaand  { color: #3c4043; }
   td.status.vervallen { color: #a11; }
+  td.status.tijdelijk { color: #8a6d00; }
   tr:hover .neutraal  { background: #f5f7fa; }
   tr:hover .bestaand  { background: #e8edf3; }
   tr:hover .vervallen { background: #f5dada; }
+  tr:hover .tijdelijk { background: #fbedc8; }
   .missing { color: #c00; font-style: italic; }
 </style>
 </head>
@@ -50,29 +56,30 @@
   <span class="badge-neutraal">neutraal (geen voorvoegsel): 10</span>
   <span class="badge-bestaand">bestaand (B-): 0</span>
   <span class="badge-vervallen">vervallen (V-): 8</span>
+  <span class="badge-tijdelijk">tijdelijk (T-): 0</span>
   <span class="badge-insob">groen zoekfilter = staat in kolom sobject</span>
   <span class="badge-notin">rood zoekfilter = niet in sobject (ook niet dieper)</span>
 </div>
 <table>
-<thead><tr><th>Niveau 1</th><th>Niveau 2</th><th>Niveau 3</th><th>Niveau 4</th><th>Niveau 5</th><th>Symbool (bestand)</th><th>Afbeelding</th><th>Status</th></tr></thead>
+<thead><tr><th>Niveau 1</th><th>Niveau 2</th><th>Niveau 3</th><th>Niveau 4</th><th>Niveau 5</th><th>Symbool (bestand)</th><th>Afbeelding</th><th>Preview (DWG)</th><th>Status</th></tr></thead>
 <tbody>
-<tr><td class="lvl1" rowspan="18">SGW</td><td class="hier" rowspan="16">SGW-GRONDSOORTEN</td><td class="hier insob" rowspan="4">SGW-GRONDSOORTEN_BOMENGROND</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SGW-GRONDSOORTEN_BOMENGROND-SO</td><td class="img neutraal"><img src="SGW-GRONDSOORTEN_BOMENGROND-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="empty"></td><td class="empty"></td><td class="name vervallen">V-SGW-GRONDSOORTEN_BOMENGROND-SO</td><td class="img vervallen"><img src="V-SGW-GRONDSOORTEN_BOMENGROND-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
-<tr><td class="hier notin" rowspan="2">SGW-GRONDSOORTEN_BOMENGROND_KL</td><td class="empty"></td><td class="name neutraal">SGW-GRONDSOORTEN_BOMENGROND_KL-SO</td><td class="img neutraal"><img src="SGW-GRONDSOORTEN_BOMENGROND_KL-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="empty"></td><td class="name vervallen">V-SGW-GRONDSOORTEN_BOMENGROND_KL-SO</td><td class="img vervallen"><img src="V-SGW-GRONDSOORTEN_BOMENGROND_KL-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
-<tr><td class="hier insob" rowspan="4">SGW-GRONDSOORTEN_BOMENZAND</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SGW-GRONDSOORTEN_BOMENZAND-SO</td><td class="img neutraal"><img src="SGW-GRONDSOORTEN_BOMENZAND-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="empty"></td><td class="empty"></td><td class="name vervallen">V-SGW-GRONDSOORTEN_BOMENZAND-SO</td><td class="img vervallen"><img src="V-SGW-GRONDSOORTEN_BOMENZAND-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
-<tr><td class="hier notin" rowspan="2">SGW-GRONDSOORTEN_BOMENZAND_KL</td><td class="empty"></td><td class="name neutraal">SGW-GRONDSOORTEN_BOMENZAND_KL-SO</td><td class="img neutraal"><img src="SGW-GRONDSOORTEN_BOMENZAND_KL-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="empty"></td><td class="name vervallen">V-SGW-GRONDSOORTEN_BOMENZAND_KL-SO</td><td class="img vervallen"><img src="V-SGW-GRONDSOORTEN_BOMENZAND_KL-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
-<tr><td class="hier insob" rowspan="4">SGW-GRONDSOORTEN_GROND</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SGW-GRONDSOORTEN_GROND-SO</td><td class="img neutraal"><img src="SGW-GRONDSOORTEN_GROND-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="empty"></td><td class="empty"></td><td class="name vervallen">V-SGW-GRONDSOORTEN_GROND-SO</td><td class="img vervallen"><img src="V-SGW-GRONDSOORTEN_GROND-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
-<tr><td class="hier notin" rowspan="2">SGW-GRONDSOORTEN_GROND_KL</td><td class="empty"></td><td class="name neutraal">SGW-GRONDSOORTEN_GROND_KL-SO</td><td class="img neutraal"><img src="SGW-GRONDSOORTEN_GROND_KL-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="empty"></td><td class="name vervallen">V-SGW-GRONDSOORTEN_GROND_KL-SO</td><td class="img vervallen"><img src="V-SGW-GRONDSOORTEN_GROND_KL-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
-<tr><td class="hier insob" rowspan="4">SGW-GRONDSOORTEN_TEELGROND</td><td class="hier notin" rowspan="4">SGW-GRONDSOORTEN_TEELGROND_02</td><td class="empty"></td><td class="name neutraal">SGW-GRONDSOORTEN_TEELGROND_02-SO</td><td class="img neutraal"><img src="SGW-GRONDSOORTEN_TEELGROND_02-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="empty"></td><td class="name vervallen">V-SGW-GRONDSOORTEN_TEELGROND_02-SO</td><td class="img vervallen"><img src="V-SGW-GRONDSOORTEN_TEELGROND_02-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
-<tr><td class="hier notin" rowspan="2">SGW-GRONDSOORTEN_TEELGROND_02_KL</td><td class="name neutraal">SGW-GRONDSOORTEN_TEELGROND_02_KL-SO</td><td class="img neutraal"><img src="SGW-GRONDSOORTEN_TEELGROND_02_KL-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="name vervallen">V-SGW-GRONDSOORTEN_TEELGROND_02_KL-SO</td><td class="img vervallen"><img src="V-SGW-GRONDSOORTEN_TEELGROND_02_KL-SO.svg" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
-<tr><td class="hier insob" rowspan="1">SGW-MAAIVELD</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SGW-MAAIVELD-D</td><td class="img neutraal"><img src="SGW-MAAIVELD-D.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
-<tr><td class="hier" rowspan="1">SGW-TALUD</td><td class="hier insob" rowspan="1">SGW-TALUD_STIJL</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SGW-TALUD_STIJL-SO</td><td class="img neutraal"><img src="SGW-TALUD_STIJL-SO.svg" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="lvl1" rowspan="18">SGW</td><td class="hier" rowspan="16">SGW-GRONDSOORTEN</td><td class="hier insob" rowspan="4">SGW-GRONDSOORTEN_BOMENGROND</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SGW-GRONDSOORTEN_BOMENGROND-SO</td><td class="img neutraal"><img src="SGW-GRONDSOORTEN_BOMENGROND-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/SGW-GRONDSOORTEN_BOMENGROND-SO.png" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="empty"></td><td class="name vervallen">V-SGW-GRONDSOORTEN_BOMENGROND-SO</td><td class="img vervallen"><img src="V-SGW-GRONDSOORTEN_BOMENGROND-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/V-SGW-GRONDSOORTEN_BOMENGROND-SO.png" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier notin" rowspan="2">SGW-GRONDSOORTEN_BOMENGROND_KL</td><td class="empty"></td><td class="name neutraal">SGW-GRONDSOORTEN_BOMENGROND_KL-SO</td><td class="img neutraal"><img src="SGW-GRONDSOORTEN_BOMENGROND_KL-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/SGW-GRONDSOORTEN_BOMENGROND_KL-SO.png" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="name vervallen">V-SGW-GRONDSOORTEN_BOMENGROND_KL-SO</td><td class="img vervallen"><img src="V-SGW-GRONDSOORTEN_BOMENGROND_KL-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/V-SGW-GRONDSOORTEN_BOMENGROND_KL-SO.png" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier insob" rowspan="4">SGW-GRONDSOORTEN_BOMENZAND</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SGW-GRONDSOORTEN_BOMENZAND-SO</td><td class="img neutraal"><img src="SGW-GRONDSOORTEN_BOMENZAND-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/SGW-GRONDSOORTEN_BOMENZAND-SO.png" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="empty"></td><td class="name vervallen">V-SGW-GRONDSOORTEN_BOMENZAND-SO</td><td class="img vervallen"><img src="V-SGW-GRONDSOORTEN_BOMENZAND-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/V-SGW-GRONDSOORTEN_BOMENZAND-SO.png" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier notin" rowspan="2">SGW-GRONDSOORTEN_BOMENZAND_KL</td><td class="empty"></td><td class="name neutraal">SGW-GRONDSOORTEN_BOMENZAND_KL-SO</td><td class="img neutraal"><img src="SGW-GRONDSOORTEN_BOMENZAND_KL-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/SGW-GRONDSOORTEN_BOMENZAND_KL-SO.png" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="name vervallen">V-SGW-GRONDSOORTEN_BOMENZAND_KL-SO</td><td class="img vervallen"><img src="V-SGW-GRONDSOORTEN_BOMENZAND_KL-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/V-SGW-GRONDSOORTEN_BOMENZAND_KL-SO.png" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier insob" rowspan="4">SGW-GRONDSOORTEN_GROND</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SGW-GRONDSOORTEN_GROND-SO</td><td class="img neutraal"><img src="SGW-GRONDSOORTEN_GROND-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/SGW-GRONDSOORTEN_GROND-SO.png" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="empty"></td><td class="name vervallen">V-SGW-GRONDSOORTEN_GROND-SO</td><td class="img vervallen"><img src="V-SGW-GRONDSOORTEN_GROND-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/V-SGW-GRONDSOORTEN_GROND-SO.png" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier notin" rowspan="2">SGW-GRONDSOORTEN_GROND_KL</td><td class="empty"></td><td class="name neutraal">SGW-GRONDSOORTEN_GROND_KL-SO</td><td class="img neutraal"><img src="SGW-GRONDSOORTEN_GROND_KL-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/SGW-GRONDSOORTEN_GROND_KL-SO.png" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="name vervallen">V-SGW-GRONDSOORTEN_GROND_KL-SO</td><td class="img vervallen"><img src="V-SGW-GRONDSOORTEN_GROND_KL-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/V-SGW-GRONDSOORTEN_GROND_KL-SO.png" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier insob" rowspan="4">SGW-GRONDSOORTEN_TEELGROND</td><td class="hier notin" rowspan="4">SGW-GRONDSOORTEN_TEELGROND_02</td><td class="empty"></td><td class="name neutraal">SGW-GRONDSOORTEN_TEELGROND_02-SO</td><td class="img neutraal"><img src="SGW-GRONDSOORTEN_TEELGROND_02-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/SGW-GRONDSOORTEN_TEELGROND_02-SO.png" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="empty"></td><td class="name vervallen">V-SGW-GRONDSOORTEN_TEELGROND_02-SO</td><td class="img vervallen"><img src="V-SGW-GRONDSOORTEN_TEELGROND_02-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/V-SGW-GRONDSOORTEN_TEELGROND_02-SO.png" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier notin" rowspan="2">SGW-GRONDSOORTEN_TEELGROND_02_KL</td><td class="name neutraal">SGW-GRONDSOORTEN_TEELGROND_02_KL-SO</td><td class="img neutraal"><img src="SGW-GRONDSOORTEN_TEELGROND_02_KL-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/SGW-GRONDSOORTEN_TEELGROND_02_KL-SO.png" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="name vervallen">V-SGW-GRONDSOORTEN_TEELGROND_02_KL-SO</td><td class="img vervallen"><img src="V-SGW-GRONDSOORTEN_TEELGROND_02_KL-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/V-SGW-GRONDSOORTEN_TEELGROND_02_KL-SO.png" alt="" loading="lazy"></td><td class="status vervallen">vervallen</td></tr>
+<tr><td class="hier insob" rowspan="1">SGW-MAAIVELD</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SGW-MAAIVELD-D</td><td class="img neutraal"><img src="SGW-MAAIVELD-D.svg" alt="" loading="lazy"></td><td class="img prev"></td><td class="status neutraal">neutraal</td></tr>
+<tr><td class="hier" rowspan="1">SGW-TALUD</td><td class="hier insob" rowspan="1">SGW-TALUD_STIJL</td><td class="empty"></td><td class="empty"></td><td class="name neutraal">SGW-TALUD_STIJL-SO</td><td class="img neutraal"><img src="SGW-TALUD_STIJL-SO.svg" alt="" loading="lazy"></td><td class="img prev"><img src="_preview/SGW-TALUD_STIJL-SO.bmp" alt="" loading="lazy"></td><td class="status neutraal">neutraal</td></tr>
 </tbody></table>
 </body></html>
