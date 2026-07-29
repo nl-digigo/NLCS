@@ -128,23 +128,6 @@ nlcs:bd94c067-fc89-49c7-aeab-1b8d19c51ec7-ext-link-shared a otl:ExternalLink;
   otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes"^^xsd:anyURI;
   otl:attr-ExternalLink-uri "http://digitalbuildingdata.tech/nlcs/def/bd94c067-fc89-49c7-aeab-1b8d19c51ec7"^^xsd:anyURI .
 
-nlcs:effa8cb2-00d4-44c4-89c3-7a6368eaab69 a otl:Document;
-  otl:attr-Conceptual-name "252";
-  otl:rel-Conceptual-isSpecializationOf nlcs:efc13f93-add4-456d-9769-9d1df653ad4e;
-  shapes:sequence nlcs:effa8cb2-00d4-44c4-89c3-7a6368eaab69-seq-name;
-  otl:rel-Conceptual-hasExternalLink nlcs:effa8cb2-00d4-44c4-89c3-7a6368eaab69-ext-link-shared .
-
-nlcs:effa8cb2-00d4-44c4-89c3-7a6368eaab69-seq-name a otl:Seq_attr-Conceptual-name;
-  rdf:_1 "252";
-  owl:annotatedProperty otl:attr-Conceptual-name .
-
-nlcs:effa8cb2-00d4-44c4-89c3-7a6368eaab69-ext-link-shared a otl:ExternalLink;
-  otl:attr-ExternalLink-name "252";
-  otl:attr-ExternalLink-relation "isSameAs";
-  otl:attr-ExternalLink-sourcename "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes";
-  otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes"^^xsd:anyURI;
-  otl:attr-ExternalLink-uri "http://digitalbuildingdata.tech/nlcs/def/effa8cb2-00d4-44c4-89c3-7a6368eaab69"^^xsd:anyURI .
-
 nlcs:9581bafe-5d14-4c6f-a22b-d573f8bfab25 a otl:Document;
   otl:attr-Conceptual-name "150";
   otl:rel-Conceptual-isSpecializationOf nlcs:efc13f93-add4-456d-9769-9d1df653ad4e;
@@ -195,6 +178,23 @@ nlcs:7501c286-9ea8-4646-ad1c-cd6f6cf3a4a9-ext-link-shared a otl:ExternalLink;
   otl:attr-ExternalLink-sourcename "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes";
   otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes"^^xsd:anyURI;
   otl:attr-ExternalLink-uri "http://digitalbuildingdata.tech/nlcs/def/7501c286-9ea8-4646-ad1c-cd6f6cf3a4a9"^^xsd:anyURI .
+
+nlcs:effa8cb2-00d4-44c4-89c3-7a6368eaab69 a otl:Document;
+  otl:attr-Conceptual-name "252";
+  otl:rel-Conceptual-isSpecializationOf nlcs:efc13f93-add4-456d-9769-9d1df653ad4e;
+  shapes:sequence nlcs:effa8cb2-00d4-44c4-89c3-7a6368eaab69-seq-name;
+  otl:rel-Conceptual-hasExternalLink nlcs:effa8cb2-00d4-44c4-89c3-7a6368eaab69-ext-link-shared .
+
+nlcs:effa8cb2-00d4-44c4-89c3-7a6368eaab69-seq-name a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "252";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+nlcs:effa8cb2-00d4-44c4-89c3-7a6368eaab69-ext-link-shared a otl:ExternalLink;
+  otl:attr-ExternalLink-name "252";
+  otl:attr-ExternalLink-relation "isSameAs";
+  otl:attr-ExternalLink-sourcename "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes";
+  otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes"^^xsd:anyURI;
+  otl:attr-ExternalLink-uri "http://digitalbuildingdata.tech/nlcs/def/effa8cb2-00d4-44c4-89c3-7a6368eaab69"^^xsd:anyURI .
 
 nlcs:965f6bed-a894-4d35-974b-672a44fee398 a otl:Document;
   otl:attr-Conceptual-name "140";

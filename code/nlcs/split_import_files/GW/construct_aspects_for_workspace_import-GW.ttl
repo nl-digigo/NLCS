@@ -1,0 +1,94 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix otl: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix bp: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/blueprint-manager/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix shapes: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/> .
+@prefix nen2660: <https://w3id.org/nen2660/def#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+
+<http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884> a
+    otl:Aspect;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884-seq-name>;
+  otl:attr-Conceptual-name "Status";
+  otl:attr-Aspect-datatype "http://www.w3.org/2001/XMLSchema#string"^^xsd:anyURI;
+  otl:attr-Aspect-registrational false;
+  otl:rel-Aspect-isRelatedTo <http://digitalbuildingdata.tech/nlcs/def/4644d710-5447-4ba0-b05f-0ed335bf5c9c>;
+  otl:rel-Conceptual-hasExternalLink <http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884-ext-link> .
+
+<http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "Status";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/4644d710-5447-4ba0-b05f-0ed335bf5c9c> a
+    otl:GroupForQualifications;
+  otl:attr-Group-name "Statussen";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/4644d710-5447-4ba0-b05f-0ed335bf5c9c-seq-name>;
+  otl:rel-Conceptual-hasExternalLink <http://digitalbuildingdata.tech/nlcs/def/4644d710-5447-4ba0-b05f-0ed335bf5c9c-ext-link> .
+
+<http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884-ext-link>
+  a otl:ExternalLink;
+  otl:attr-ExternalLink-name "Status";
+  otl:attr-ExternalLink-relation "isSameAs";
+  otl:attr-ExternalLink-sourcename "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes";
+  otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes"^^xsd:anyURI;
+  otl:attr-ExternalLink-uri "http://digitalbuildingdata.tech/nlcs/def/580a54a5-3f8e-4d92-afac-24eb23707884"^^xsd:anyURI .
+
+<http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709> a
+    otl:Aspect;
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709-seq-name>;
+  otl:attr-Conceptual-name "Discipline";
+  otl:attr-Aspect-datatype "http://www.w3.org/2001/XMLSchema#string"^^xsd:anyURI;
+  otl:attr-Aspect-registrational false;
+  otl:rel-Aspect-isRelatedTo <http://digitalbuildingdata.tech/nlcs/def/5f471bbf-473a-4975-9008-cbdcca2ffe9e>;
+  otl:rel-Conceptual-hasExternalLink <http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709-ext-link> .
+
+<http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709-seq-name>
+  a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "Discipline";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/5f471bbf-473a-4975-9008-cbdcca2ffe9e> a
+    otl:GroupForQualifications;
+  otl:attr-Group-name "Disciplines";
+  shapes:sequence <http://digitalbuildingdata.tech/nlcs/def/5f471bbf-473a-4975-9008-cbdcca2ffe9e-seq-name>;
+  otl:rel-Conceptual-hasExternalLink <http://digitalbuildingdata.tech/nlcs/def/5f471bbf-473a-4975-9008-cbdcca2ffe9e-ext-link> .
+
+<http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709-ext-link>
+  a otl:ExternalLink;
+  otl:attr-ExternalLink-name "Discipline";
+  otl:attr-ExternalLink-relation "isSameAs";
+  otl:attr-ExternalLink-sourcename "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes";
+  otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes"^^xsd:anyURI;
+  otl:attr-ExternalLink-uri "http://digitalbuildingdata.tech/nlcs/def/d01031dc-9abe-47d3-9656-17185c986709"^^xsd:anyURI .
+
+<http://digitalbuildingdata.tech/nlcs/def/4644d710-5447-4ba0-b05f-0ed335bf5c9c-seq-name>
+  a otl:Seq_attr-Group-name;
+  rdf:_1 "Statussen";
+  owl:annotatedProperty otl:attr-Group-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/4644d710-5447-4ba0-b05f-0ed335bf5c9c-ext-link>
+  a otl:ExternalLink;
+  otl:attr-ExternalLink-name "Statussen";
+  otl:attr-ExternalLink-relation "isSameAs";
+  otl:attr-ExternalLink-sourcename "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes";
+  otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes"^^xsd:anyURI;
+  otl:attr-ExternalLink-uri "http://digitalbuildingdata.tech/nlcs/def/4644d710-5447-4ba0-b05f-0ed335bf5c9c"^^xsd:anyURI .
+
+<http://digitalbuildingdata.tech/nlcs/def/5f471bbf-473a-4975-9008-cbdcca2ffe9e-seq-name>
+  a otl:Seq_attr-Group-name;
+  rdf:_1 "Disciplines";
+  owl:annotatedProperty otl:attr-Group-name .
+
+<http://digitalbuildingdata.tech/nlcs/def/5f471bbf-473a-4975-9008-cbdcca2ffe9e-ext-link>
+  a otl:ExternalLink;
+  otl:attr-ExternalLink-name "Disciplines";
+  otl:attr-ExternalLink-relation "isSameAs";
+  otl:attr-ExternalLink-sourcename "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes";
+  otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes"^^xsd:anyURI;
+  otl:attr-ExternalLink-uri "http://digitalbuildingdata.tech/nlcs/def/5f471bbf-473a-4975-9008-cbdcca2ffe9e"^^xsd:anyURI .
