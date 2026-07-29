@@ -206,10 +206,13 @@ WHERE {
 
   UNION
 
-  # ── Block B2: 28 CAD drawing attributes (URI-valued) ──────────────────────────
-  # All 28 properties point to Lijnkleur / Lijnweight / Lijntype instances;
-  # the value stored is the skos:prefLabel of the referenced resource,
-  # or "" when the object does not have that attribute.
+  # ── Block B2: 28 CAD drawing attributes (URI-valued or free-text) ─────────────
+  # Normally these 28 properties point to Lijnkleur / Lijnweight / Lijntype
+  # instances, and the value stored is the skos:prefLabel of the referenced
+  # resource - but a few objects have a free-text literal instead (e.g. a
+  # custom RGB color like "0,153,0" that isn't one of the defined Lijnkleuren),
+  # in which case the literal itself is the value. "" when the object does not
+  # have that attribute at all.
   {
     VALUES (?drawProp ?drawLabel) {
       # B variant 
@@ -253,7 +256,11 @@ WHERE {
     { ?objURIdraw rdfs:subClassOf+ ?hgB2 ; a owl:Class . }
     OPTIONAL {
       ?objURIdraw ?drawProp ?drawURI .
-      FILTER (!isLiteral(?drawURI) && !isBlank(?drawURI))
+      FILTER (!isBlank(?drawURI))
+      # Only look up a label when it's a URI reference - a literal (e.g. a
+      # free-text "0,153,0" RGB value) can't be the subject of a triple, so
+      # this OPTIONAL simply won't match for one, and ?drawURI's own string
+      # form is used directly via the COALESCE below.
       OPTIONAL { ?drawURI skos:prefLabel ?drawLabelOpt . }
     }
     BIND (IF(BOUND(?drawURI), COALESCE(STR(?drawLabelOpt), STR(?drawURI)), "") AS ?drawValueRaw)
