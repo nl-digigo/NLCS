@@ -29,20 +29,6 @@ nlcs:f436e1b4-9c9b-401b-a64a-634cc6c4cc50-ext-link-shared a otl:ExternalLink;
 <urn:nlcs:info-type:OriginalURI> a otl:InformationType;
   otl:attr-Conceptual-name "Original URI" .
 
-nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8 a otl:Document;
-  shapes:sequence nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-seq-name;
-  otl:attr-Conceptual-name "KW-PVR-SO";
-  otl:rel-Conceptual-isSpecializationOf nlcs:0f8bda9c-9684-487c-b8dd-12fa059be595;
-  otl:attr-Conceptual-description "A,6,-1.5";
-  otl:rel-Conceptual-isDescribedIn nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c,
-    nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b,
-    nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f,
-    nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-uri .
-
-nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-seq-name a otl:Seq_attr-Conceptual-name;
-  rdf:_1 "KW-PVR-SO";
-  owl:annotatedProperty otl:attr-Conceptual-name .
-
 nlcs:0f8bda9c-9684-487c-b8dd-12fa059be595 a otl:Document;
   shapes:sequence nlcs:0f8bda9c-9684-487c-b8dd-12fa059be595-seq-name;
   otl:attr-Conceptual-name "KW";
@@ -54,6 +40,20 @@ nlcs:0f8bda9c-9684-487c-b8dd-12fa059be595 a otl:Document;
 
 nlcs:0f8bda9c-9684-487c-b8dd-12fa059be595-seq-name a otl:Seq_attr-Conceptual-name;
   rdf:_1 "KW";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a a otl:Document;
+  shapes:sequence nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-seq-name;
+  otl:attr-Conceptual-name "V-KW-ZICHTRUIMTE-SO";
+  otl:rel-Conceptual-isSpecializationOf nlcs:0f8bda9c-9684-487c-b8dd-12fa059be595;
+  otl:attr-Conceptual-description "A,1.5,[VERWIJDEREN1,NLCS.SHX,s=0.5],1.5,-4.5";
+  otl:rel-Conceptual-isDescribedIn nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c,
+    nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b,
+    nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f,
+    nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-field-uri .
+
+nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-seq-name a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "V-KW-ZICHTRUIMTE-SO";
   owl:annotatedProperty otl:attr-Conceptual-name .
 
 nlcs:9c5ac7a1-71fa-480e-b210-0ecc07a94e0e a otl:Document;
@@ -84,18 +84,18 @@ nlcs:3fd9e965-3575-458d-a11f-d0cb6fc791e2-seq-name a otl:Seq_attr-Conceptual-nam
   rdf:_1 "V-KW-PVR-SO";
   owl:annotatedProperty otl:attr-Conceptual-name .
 
-nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a a otl:Document;
-  shapes:sequence nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-seq-name;
-  otl:attr-Conceptual-name "V-KW-ZICHTRUIMTE-SO";
+nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8 a otl:Document;
+  shapes:sequence nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-seq-name;
+  otl:attr-Conceptual-name "KW-PVR-SO";
   otl:rel-Conceptual-isSpecializationOf nlcs:0f8bda9c-9684-487c-b8dd-12fa059be595;
-  otl:attr-Conceptual-description "A,1.5,[VERWIJDEREN1,NLCS.SHX,s=0.5],1.5,-4.5";
-  otl:rel-Conceptual-isDescribedIn nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c,
-    nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b,
-    nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f,
-    nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-field-uri .
+  otl:attr-Conceptual-description "A,6,-1.5";
+  otl:rel-Conceptual-isDescribedIn nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c,
+    nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b,
+    nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f,
+    nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-uri .
 
-nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-seq-name a otl:Seq_attr-Conceptual-name;
-  rdf:_1 "V-KW-ZICHTRUIMTE-SO";
+nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-seq-name a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "KW-PVR-SO";
   owl:annotatedProperty otl:attr-Conceptual-name .
 
 nlcs:21484fcb-4d9f-4e86-a9f5-fd6d855c7437 a otl:Document;
@@ -132,17 +132,17 @@ nlcs:270c7274-5fc6-4b2c-804f-0eeafcef2cd8-ext-link-shared a otl:ExternalLink;
   otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes"^^xsd:anyURI;
   otl:attr-ExternalLink-uri "http://digitalbuildingdata.tech/nlcs/def/270c7274-5fc6-4b2c-804f-0eeafcef2cd8"^^xsd:anyURI .
 
-nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c
+nlcs:0f8bda9c-9684-487c-b8dd-12fa059be595-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c
   a otl:InformationField;
-  otl:attr-InformationField-value "256";
+  otl:attr-InformationField-value "12";
   otl:rel-InformationField-isClassifiedAs nlcs:b718adec73e04ce3ec720dd11a06a308-info-type .
 
 nlcs:b718adec73e04ce3ec720dd11a06a308-info-type a otl:InformationType;
   otl:attr-Conceptual-name "ID" .
 
-nlcs:0f8bda9c-9684-487c-b8dd-12fa059be595-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c
+nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c
   a otl:InformationField;
-  otl:attr-InformationField-value "12";
+  otl:attr-InformationField-value "259";
   otl:rel-InformationField-isClassifiedAs nlcs:b718adec73e04ce3ec720dd11a06a308-info-type .
 
 nlcs:9c5ac7a1-71fa-480e-b210-0ecc07a94e0e-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c
@@ -155,22 +155,22 @@ nlcs:3fd9e965-3575-458d-a11f-d0cb6fc791e2-field-d1acbe8954d7793457c2d79f9c9ac237
   otl:attr-InformationField-value "257";
   otl:rel-InformationField-isClassifiedAs nlcs:b718adec73e04ce3ec720dd11a06a308-info-type .
 
-nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c
+nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c
   a otl:InformationField;
-  otl:attr-InformationField-value "259";
+  otl:attr-InformationField-value "256";
   otl:rel-InformationField-isClassifiedAs nlcs:b718adec73e04ce3ec720dd11a06a308-info-type .
 
-nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b
+nlcs:0f8bda9c-9684-487c-b8dd-12fa059be595-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b
   a otl:InformationField;
-  otl:attr-InformationField-value "SO";
+  otl:attr-InformationField-value "";
   otl:rel-InformationField-isClassifiedAs nlcs:24a5f883567803afcca3352ea07447a2-info-type .
 
 nlcs:24a5f883567803afcca3352ea07447a2-info-type a otl:InformationType;
   otl:attr-Conceptual-name "Optie" .
 
-nlcs:0f8bda9c-9684-487c-b8dd-12fa059be595-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b
+nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b
   a otl:InformationField;
-  otl:attr-InformationField-value "";
+  otl:attr-InformationField-value "SO";
   otl:rel-InformationField-isClassifiedAs nlcs:24a5f883567803afcca3352ea07447a2-info-type .
 
 nlcs:9c5ac7a1-71fa-480e-b210-0ecc07a94e0e-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b
@@ -183,12 +183,12 @@ nlcs:3fd9e965-3575-458d-a11f-d0cb6fc791e2-field-30a16961da38a74c3a4ff9eaf08c97d6
   otl:attr-InformationField-value "SO";
   otl:rel-InformationField-isClassifiedAs nlcs:24a5f883567803afcca3352ea07447a2-info-type .
 
-nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b
+nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b
   a otl:InformationField;
   otl:attr-InformationField-value "SO";
   otl:rel-InformationField-isClassifiedAs nlcs:24a5f883567803afcca3352ea07447a2-info-type .
 
-nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f
+nlcs:0f8bda9c-9684-487c-b8dd-12fa059be595-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f
   a otl:InformationField;
   otl:attr-InformationField-value "";
   otl:rel-InformationField-isClassifiedAs nlcs:2aee5f4dec823b7e993e6874acb8174e-info-type .
@@ -196,9 +196,9 @@ nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-dd5f3d7fb40a9e9625852b72321e481c
 nlcs:2aee5f4dec823b7e993e6874acb8174e-info-type a otl:InformationType;
   otl:attr-Conceptual-name "Fase" .
 
-nlcs:0f8bda9c-9684-487c-b8dd-12fa059be595-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f
+nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f
   a otl:InformationField;
-  otl:attr-InformationField-value "";
+  otl:attr-InformationField-value "V";
   otl:rel-InformationField-isClassifiedAs nlcs:2aee5f4dec823b7e993e6874acb8174e-info-type .
 
 nlcs:9c5ac7a1-71fa-480e-b210-0ecc07a94e0e-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f
@@ -211,17 +211,17 @@ nlcs:3fd9e965-3575-458d-a11f-d0cb6fc791e2-field-dd5f3d7fb40a9e9625852b72321e481c
   otl:attr-InformationField-value "V";
   otl:rel-InformationField-isClassifiedAs nlcs:2aee5f4dec823b7e993e6874acb8174e-info-type .
 
-nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f
+nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f
   a otl:InformationField;
-  otl:attr-InformationField-value "V";
+  otl:attr-InformationField-value "";
   otl:rel-InformationField-isClassifiedAs nlcs:2aee5f4dec823b7e993e6874acb8174e-info-type .
-
-nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-uri a otl:InformationField;
-  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/6a727e4b-4062-4918-a487-4b2b6b23abb8";
-  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
 
 nlcs:0f8bda9c-9684-487c-b8dd-12fa059be595-field-uri a otl:InformationField;
   otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/0f8bda9c-9684-487c-b8dd-12fa059be595";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-field-uri a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/84484cee-65c6-42c0-8fdb-9d1353c2032a";
   otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
 
 nlcs:9c5ac7a1-71fa-480e-b210-0ecc07a94e0e-field-uri a otl:InformationField;
@@ -232,6 +232,6 @@ nlcs:3fd9e965-3575-458d-a11f-d0cb6fc791e2-field-uri a otl:InformationField;
   otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/3fd9e965-3575-458d-a11f-d0cb6fc791e2";
   otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
 
-nlcs:84484cee-65c6-42c0-8fdb-9d1353c2032a-field-uri a otl:InformationField;
-  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/84484cee-65c6-42c0-8fdb-9d1353c2032a";
+nlcs:6a727e4b-4062-4918-a487-4b2b6b23abb8-field-uri a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/6a727e4b-4062-4918-a487-4b2b6b23abb8";
   otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
