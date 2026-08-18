@@ -35,7 +35,7 @@ from requests.auth import HTTPBasicAuth
 # ---------------------------------------------------------------------------
 
 SPARQL_ENDPOINT = (
-    # "https://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2/sparql"
+    "https://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs/versions/5_0_2/sparql"
     # "https://hub.laces.tech/digitalbuildingdata/nlcs/acceptance/nlcs-acceptatie/versions/rv5_1_5/sparql"
 )
 
@@ -75,7 +75,7 @@ OTL_CONSTRUCT_QUERY = "construct_shared_as_laces_otl.rq"
 # After per-hoofdgroep queries run, the aspects result is appended to the objects
 # file and the standalone aspects file is removed.
 ASPECTS_QUERY = "construct_aspects_for_workspace_import.rq"
-OBJECTS_QUERY = "construct_objects_per_hoofdgroep.rq"
+OBJECTS_QUERY = f"construct_objects_per_hoofdgroep_{VERSION}.rq"
 
 # ---------------------------------------------------------------------------
 # Run configuration — edit these before running
@@ -86,7 +86,7 @@ OBJECTS_QUERY = "construct_objects_per_hoofdgroep.rq"
 # Example subset (5.1):  RUN_HOOFDGROEPEN = ["SB", "IS", "ES"]
 # Constructie subset: ["BC", "FC", "GC", "HC", "KC", "MC", "SC"] 
 # None for all: ['AL', 'AM', 'BC', 'BV', 'FC', 'FV', 'GC', 'GK', 'GR', 'GW', 'HC', 'HU', 'IE', 'IS', 'IV', 'IW', 'KC', 'KG', 'KL', 'KW', 'MC', 'MO', 'MW', 'OB', 'OG', 'OV', 'RI', 'SB', 'SC', 'VH', 'VS', 'VV', 'VW', 'WH', 'ZZ']
-RUN_HOOFDGROEPEN =  None 
+RUN_HOOFDGROEPEN =  None
 
 # Set to True to also export shared concepts (lijnkleuren, statussen, etc.)
 RUN_SHARED = False
@@ -325,7 +325,7 @@ def run_merged_group_queries(
     for query_file in PARAMETERIZED_QUERIES:
         query_path = os.path.join(QUERY_FOLDER, query_file)
         stem = os.path.splitext(query_file)[0]
-        output_path = os.path.join(out_dir, f"{stem}-{VERSION}-{group_label}.ttl")
+        output_path = os.path.join(out_dir, f"{stem}-{group_label}.ttl")
         log.info("  %s ...", query_file)
         try:
             template = load_query(query_path)
@@ -366,7 +366,7 @@ def run_per_hoofdgroep_queries(client: LacesClient, hoofdgroepen: list[str]) -> 
         for query_file in PARAMETERIZED_QUERIES:
             query_path = os.path.join(QUERY_FOLDER, query_file)
             stem = os.path.splitext(query_file)[0]
-            output_path = os.path.join(hg_folder, f"{stem}-{VERSION}-{hg}.ttl")
+            output_path = os.path.join(hg_folder, f"{stem}-{hg}.ttl")
             log.info("  %s ...", query_file)
             try:
                 template = load_query(query_path)

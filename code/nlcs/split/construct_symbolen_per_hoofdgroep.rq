@@ -14,8 +14,11 @@ PREFIX shapes:  <http://www.laces.tech/publication/ns/semmtech/live/laces/schema
 # nen2660:isDescribedBy from objects in one hoofdgroep.
 # $hoofdgroup_name is replaced by the Python script before execution.
 #
-# Scope: directly linked symbolen + all ancestor classes + all descendant classes
-# within the Symbool hierarchy, so the full sub-tree is present for import.
+# Scope: for each top-level Symbool category (direct child of "Symbool", e.g.
+# "SVH" for VerHardingen) that this hoofdgroep's objects reference at all, the
+# WHOLE category subtree is included - not just the specific symbolen actually
+# referenced. This carries over unused-but-legitimate siblings (e.g. an "Overig"
+# catch-all with no current object references) alongside the ones in active use.
 #
 # Block A  — symbool class hierarchy            → otl:Document
 # Block B  — annotation properties              → otl:InformationField
@@ -74,19 +77,34 @@ WHERE {
 
   # ── Block A: symbool classes in scope → otl:Document triples ─────────────
   {
-    ?NLCSObjectTopA a owl:Class ; skos:prefLabel "NLCS-object" .
-    ?hgA rdfs:subClassOf ?NLCSObjectTopA ; skos:prefLabel ?hoofdgroep .
-    ?objA rdfs:subClassOf+ ?hgA ; a owl:Class .
-    ?objA rdfs:subClassOf ?bnodeSymA .
-    ?bnodeSymA owl:onProperty nen2660:isDescribedBy .
-    ?bnodeSymA owl:onClass ?linkedSym .
     ?SymboolTopA a owl:Class ; skos:prefLabel "Symbool" .
-    ?linkedSym rdfs:subClassOf+ ?SymboolTopA .
-    # Linked symbool + all ancestors + all descendants within Symbool hierarchy
-    { ?linkedSym rdfs:subClassOf* ?symURI . }
+    # Distinct top-level Symbool categories (direct children of Symbool) that
+    # this hoofdgroep's objects reference at all - computed once via a DISTINCT
+    # subquery (same technique Block B already uses for ?annProp) so the
+    # per-category subtree expansion below runs once per category, not once
+    # per object/reference - the whole-category scan is expensive on a large
+    # tree and must not be repeated per referencing object.
+    {
+      SELECT DISTINCT ?topCatA WHERE {
+        VALUES (?hgNameA) { ("$hoofdgroup_name") }
+        ?NLCSObjectTopA0 a owl:Class ; skos:prefLabel "NLCS-object" .
+        ?hgA0 rdfs:subClassOf ?NLCSObjectTopA0 ; skos:prefLabel ?hgNameA .
+        ?objA0 rdfs:subClassOf+ ?hgA0 ; a owl:Class .
+        ?objA0 rdfs:subClassOf ?bnodeSymA0 .
+        ?bnodeSymA0 owl:onProperty nen2660:isDescribedBy .
+        ?bnodeSymA0 owl:onClass ?linkedSymA0 .
+        ?SymboolTopA0 a owl:Class ; skos:prefLabel "Symbool" .
+        ?linkedSymA0 rdfs:subClassOf+ ?SymboolTopA0 .
+        ?topCatA rdfs:subClassOf ?SymboolTopA0 .
+        ?linkedSymA0 rdfs:subClassOf* ?topCatA .
+      }
+    }
+    # Whole top-category subtree, not just the specific branch referenced - so
+    # unused-but-legitimate siblings (e.g. an "Overig" catch-all) are carried
+    # over too.
+    { ?symURI a owl:Class . FILTER (?symURI = ?topCatA) }
     UNION
-    { ?symURI rdfs:subClassOf+ ?linkedSym . }
-    ?symURI rdfs:subClassOf+ ?SymboolTopA .
+    { ?symURI rdfs:subClassOf+ ?topCatA . }
     ?symURI a owl:Class .
     ?symURI skos:prefLabel ?label .
     OPTIONAL {
@@ -104,35 +122,44 @@ WHERE {
   {
     {
       SELECT DISTINCT ?annProp ?annLabel WHERE {
-        VALUES (?hgNameB) { ("$hoofdgroup_name") }
-        ?NLCSObjectTopB a owl:Class ; skos:prefLabel "NLCS-object" .
-        ?hgB rdfs:subClassOf ?NLCSObjectTopB ; skos:prefLabel ?hgNameB .
-        ?objB rdfs:subClassOf+ ?hgB ; a owl:Class .
-        ?objB rdfs:subClassOf ?bnodeSymB .
-        ?bnodeSymB owl:onProperty nen2660:isDescribedBy .
-        ?bnodeSymB owl:onClass ?linkedSymB .
-        ?SymboolTopB a owl:Class ; skos:prefLabel "Symbool" .
-        ?linkedSymB rdfs:subClassOf+ ?SymboolTopB .
-        { ?linkedSymB rdfs:subClassOf* ?anySym . }
-        UNION
-        { ?anySym rdfs:subClassOf+ ?linkedSymB . }
-        ?anySym rdfs:subClassOf+ ?SymboolTopB .
+        # Distinct top categories first (see Block A comment) so the ?anySym
+        # subtree scan below runs once per category, not once per object.
+        {
+          SELECT DISTINCT ?topCatB WHERE {
+            VALUES (?hgNameB) { ("$hoofdgroup_name") }
+            ?NLCSObjectTopB0 a owl:Class ; skos:prefLabel "NLCS-object" .
+            ?hgB0 rdfs:subClassOf ?NLCSObjectTopB0 ; skos:prefLabel ?hgNameB .
+            ?objB0 rdfs:subClassOf+ ?hgB0 ; a owl:Class .
+            ?objB0 rdfs:subClassOf ?bnodeSymB0 .
+            ?bnodeSymB0 owl:onProperty nen2660:isDescribedBy .
+            ?bnodeSymB0 owl:onClass ?linkedSymB0 .
+            ?SymboolTopB0 a owl:Class ; skos:prefLabel "Symbool" .
+            ?linkedSymB0 rdfs:subClassOf+ ?SymboolTopB0 .
+            ?topCatB rdfs:subClassOf ?SymboolTopB0 .
+            ?linkedSymB0 rdfs:subClassOf* ?topCatB .
+          }
+        }
+        ?anySym rdfs:subClassOf* ?topCatB .
         ?anySym ?annProp ?v .
         ?annProp a owl:AnnotationProperty ; skos:prefLabel ?annLabel .
       }
     }
-    ?NLCSObjectTopBO a owl:Class ; skos:prefLabel "NLCS-object" .
-    ?hgBO rdfs:subClassOf ?NLCSObjectTopBO ; skos:prefLabel ?hoofdgroep .
-    ?objBO rdfs:subClassOf+ ?hgBO ; a owl:Class .
-    ?objBO rdfs:subClassOf ?bnodeSymBO .
-    ?bnodeSymBO owl:onProperty nen2660:isDescribedBy .
-    ?bnodeSymBO owl:onClass ?linkedSymBO .
-    ?SymboolTopBO a owl:Class ; skos:prefLabel "Symbool" .
-    ?linkedSymBO rdfs:subClassOf+ ?SymboolTopBO .
-    { ?linkedSymBO rdfs:subClassOf* ?symURI2 . }
-    UNION
-    { ?symURI2 rdfs:subClassOf+ ?linkedSymBO . }
-    ?symURI2 rdfs:subClassOf+ ?SymboolTopBO .
+    {
+      SELECT DISTINCT ?topCatBO WHERE {
+        VALUES (?hgNameBO) { ("$hoofdgroup_name") }
+        ?NLCSObjectTopBO0 a owl:Class ; skos:prefLabel "NLCS-object" .
+        ?hgBO0 rdfs:subClassOf ?NLCSObjectTopBO0 ; skos:prefLabel ?hgNameBO .
+        ?objBO0 rdfs:subClassOf+ ?hgBO0 ; a owl:Class .
+        ?objBO0 rdfs:subClassOf ?bnodeSymBO0 .
+        ?bnodeSymBO0 owl:onProperty nen2660:isDescribedBy .
+        ?bnodeSymBO0 owl:onClass ?linkedSymBO0 .
+        ?SymboolTopBO0 a owl:Class ; skos:prefLabel "Symbool" .
+        ?linkedSymBO0 rdfs:subClassOf+ ?SymboolTopBO0 .
+        ?topCatBO rdfs:subClassOf ?SymboolTopBO0 .
+        ?linkedSymBO0 rdfs:subClassOf* ?topCatBO .
+      }
+    }
+    ?symURI2 rdfs:subClassOf* ?topCatBO .
     ?symURI2 a owl:Class .
     OPTIONAL { ?symURI2 ?annProp ?litVal . FILTER (isLiteral(?litVal)) }
     OPTIONAL {
@@ -150,18 +177,22 @@ WHERE {
 
   # ── Block C: original NLCS URI stored as InformationField ─────────────────
   {
-    ?NLCSObjectTopC a owl:Class ; skos:prefLabel "NLCS-object" .
-    ?hgC rdfs:subClassOf ?NLCSObjectTopC ; skos:prefLabel ?hoofdgroep .
-    ?objC rdfs:subClassOf+ ?hgC ; a owl:Class .
-    ?objC rdfs:subClassOf ?bnodeSymC .
-    ?bnodeSymC owl:onProperty nen2660:isDescribedBy .
-    ?bnodeSymC owl:onClass ?linkedSymC .
-    ?SymboolTopC a owl:Class ; skos:prefLabel "Symbool" .
-    ?linkedSymC rdfs:subClassOf+ ?SymboolTopC .
-    { ?linkedSymC rdfs:subClassOf* ?symURI3 . }
-    UNION
-    { ?symURI3 rdfs:subClassOf+ ?linkedSymC . }
-    ?symURI3 rdfs:subClassOf+ ?SymboolTopC .
+    {
+      SELECT DISTINCT ?topCatC WHERE {
+        VALUES (?hgNameC) { ("$hoofdgroup_name") }
+        ?NLCSObjectTopC0 a owl:Class ; skos:prefLabel "NLCS-object" .
+        ?hgC0 rdfs:subClassOf ?NLCSObjectTopC0 ; skos:prefLabel ?hgNameC .
+        ?objC0 rdfs:subClassOf+ ?hgC0 ; a owl:Class .
+        ?objC0 rdfs:subClassOf ?bnodeSymC0 .
+        ?bnodeSymC0 owl:onProperty nen2660:isDescribedBy .
+        ?bnodeSymC0 owl:onClass ?linkedSymC0 .
+        ?SymboolTopC0 a owl:Class ; skos:prefLabel "Symbool" .
+        ?linkedSymC0 rdfs:subClassOf+ ?SymboolTopC0 .
+        ?topCatC rdfs:subClassOf ?SymboolTopC0 .
+        ?linkedSymC0 rdfs:subClassOf* ?topCatC .
+      }
+    }
+    ?symURI3 rdfs:subClassOf* ?topCatC .
     ?symURI3 a owl:Class .
     BIND (STR(?symURI3) AS ?uriStr)
     BIND (IRI(CONCAT(STR(?symURI3), "-field-uri")) AS ?uriField)
