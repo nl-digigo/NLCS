@@ -212,10 +212,13 @@ WHERE {
 
   UNION
 
-  # ── Block B2: 28 CAD drawing attributes (URI-valued) ──────────────────────────
-  # All 28 properties point to Lijnkleur / Lijnweight / Lijntype instances;
-  # the value stored is the skos:prefLabel of the referenced resource,
-  # or "" when the object does not have that attribute.
+  # ── Block B2: 28 CAD drawing attributes (URI-valued or free-text) ─────────────
+  # Normally these 28 properties point to Lijnkleur / Lijnweight / Lijntype
+  # instances, and the value stored is the skos:prefLabel of the referenced
+  # resource - but a few objects have a free-text literal instead (e.g. a
+  # custom RGB color like "0,153,0" that isn't one of the defined Lijnkleuren),
+  # in which case the literal itself is the value. "" when the object does not
+  # have that attribute at all.
   {
     VALUES (?drawProp ?drawLabel) {
       # B variant 
@@ -259,7 +262,11 @@ WHERE {
     { ?objURIdraw rdfs:subClassOf+ ?hgB2 ; a owl:Class . }
     OPTIONAL {
       ?objURIdraw ?drawProp ?drawURI .
-      FILTER (!isLiteral(?drawURI) && !isBlank(?drawURI))
+      FILTER (!isBlank(?drawURI))
+      # Only look up a label when it's a URI reference - a literal (e.g. a
+      # free-text "0,153,0" RGB value) can't be the subject of a triple, so
+      # this OPTIONAL simply won't match for one, and ?drawURI's own string
+      # form is used directly via the COALESCE below.
       OPTIONAL { ?drawURI skos:prefLabel ?drawLabelOpt . }
     }
     BIND (IF(BOUND(?drawURI), COALESCE(STR(?drawLabelOpt), STR(?drawURI)), "") AS ?drawValueRaw)
@@ -283,35 +290,25 @@ WHERE {
 
   UNION
 
-  # ── Block C: Status aspect link (OWL restriction via blank node) ──────────
-  # nlcs:580a54a5-3f8e-4d92-afac-24eb23707884 = Status property UUID
-  {
-    ?NLCSObjectTopC a owl:Class ; skos:prefLabel "NLCS-object" .
-    ?hgC rdfs:subClassOf ?NLCSObjectTopC ; skos:prefLabel ?hoofdgroep .
-    ?objURI3 rdfs:subClassOf+ ?hgC ; a owl:Class .
-    ?objURI3 rdfs:subClassOf ?bnodeStatus .
-    ?bnodeStatus owl:onProperty nlcs:580a54a5-3f8e-4d92-afac-24eb23707884 .
-    ?bnodeStatus owl:hasValue ?statusValueURI .
-    ?statusGroupURI a owl:Class ; rdfs:subClassOf nen2660:EnumerationType ; skos:prefLabel "Statussen" .
-    BIND (?statusValueURI AS ?statusQualificationURI)
-    BIND (IRI(CONCAT(STR(?objURI3), "-aspect-status")) AS ?statusAspectNode)
-    BIND (IRI(CONCAT(STR(?objURI3), "-role-status")) AS ?statusRoleNode)
-    BIND (IRI(CONCAT(STR(?objURI3), "-shape-attr-status")) AS ?statusShapeAttr)
-    BIND (IRI(CONCAT(STR(?objURI3), "-shape-seq-status")) AS ?statusShapeSeqNode)
-  }
-
-  UNION
-
-  # ── Block C0: Status aspect connection for the hoofdgroep root itself ────
-  # The hoofdgroep has no owl:hasValue restriction for Status, so it is
-  # connected with the shape/qualification-group info only (empty value).
+  # ── Block C: Status aspect connection for every object (root + descendants) ──
+  # Every object gets a Status connection: filled with the real value from the
+  # source when it has one (owl:hasValue present), or the synthetic
+  # empty-qualification placeholder when the aspect is present but unset.
+  # Previously this was two separate blocks - C matched descendants only and
+  # required owl:hasValue, C0 covered the empty/placeholder case but only for
+  # the hoofdgroep root - so any descendant with no chosen value was silently
+  # dropped entirely. Unified so every object is covered exactly once.
   # A synthetic placeholder Qualification with an empty name is used for
   # isQualifiedAs-Qualification, because the split stylesheet
   # (ex:ConvertAspectWithRole) only recognises the "group known, no specific
   # value chosen" case when that empty-named placeholder is present.
+  # nlcs:580a54a5-3f8e-4d92-afac-24eb23707884 = Status property UUID
   {
-    ?NLCSObjectTopC0 a owl:Class ; skos:prefLabel "NLCS-object" .
-    ?objURI3 rdfs:subClassOf ?NLCSObjectTopC0 ; skos:prefLabel ?hoofdgroep .
+    ?NLCSObjectTopC a owl:Class ; skos:prefLabel "NLCS-object" .
+    ?hgC rdfs:subClassOf ?NLCSObjectTopC ; skos:prefLabel ?hoofdgroep .
+    { BIND (?hgC AS ?objURI3) }
+    UNION
+    { ?objURI3 rdfs:subClassOf+ ?hgC ; a owl:Class . }
     OPTIONAL {
       ?objURI3 rdfs:subClassOf ?bnodeStatus .
       ?bnodeStatus owl:onProperty nlcs:580a54a5-3f8e-4d92-afac-24eb23707884 .
@@ -332,30 +329,15 @@ WHERE {
 
   UNION
 
-  # ── Block D: Discipline aspect link (OWL restriction via blank node) ───────
+  # ── Block D: Discipline aspect connection for every object (root + descendants) ──
+  # Same unification as Block C, for Discipline instead of Status.
   # nlcs:d01031dc-9abe-47d3-9656-17185c986709 = Discipline property UUID
   {
     ?NLCSObjectTopD a owl:Class ; skos:prefLabel "NLCS-object" .
     ?hgD rdfs:subClassOf ?NLCSObjectTopD ; skos:prefLabel ?hoofdgroep .
-    ?objURI4 rdfs:subClassOf+ ?hgD ; a owl:Class .
-    ?objURI4 rdfs:subClassOf ?bnodeDiscipline .
-    ?bnodeDiscipline owl:onProperty nlcs:d01031dc-9abe-47d3-9656-17185c986709 .
-    ?bnodeDiscipline owl:hasValue ?disciplineValueURI .
-    ?disciplineGroupURI a owl:Class ; rdfs:subClassOf nen2660:EnumerationType ; skos:prefLabel "Disciplines" .
-    BIND (?disciplineValueURI AS ?disciplineQualificationURI)
-    BIND (IRI(CONCAT(STR(?objURI4), "-aspect-discipline")) AS ?disciplineAspectNode)
-    BIND (IRI(CONCAT(STR(?objURI4), "-role-discipline")) AS ?disciplineRoleNode)
-    BIND (IRI(CONCAT(STR(?objURI4), "-shape-attr-discipline")) AS ?disciplineShapeAttr)
-    BIND (IRI(CONCAT(STR(?objURI4), "-shape-seq-discipline")) AS ?disciplineShapeSeqNode)
-  }
-
-  UNION
-
-  # ── Block D0: Discipline aspect connection for the hoofdgroep root itself ─
-  # Same synthetic empty-qualification-placeholder mechanism as Block C0.
-  {
-    ?NLCSObjectTopD0 a owl:Class ; skos:prefLabel "NLCS-object" .
-    ?objURI4 rdfs:subClassOf ?NLCSObjectTopD0 ; skos:prefLabel ?hoofdgroep .
+    { BIND (?hgD AS ?objURI4) }
+    UNION
+    { ?objURI4 rdfs:subClassOf+ ?hgD ; a owl:Class . }
     OPTIONAL {
       ?objURI4 rdfs:subClassOf ?bnodeDiscipline .
       ?bnodeDiscipline owl:onProperty nlcs:d01031dc-9abe-47d3-9656-17185c986709 .
@@ -364,7 +346,7 @@ WHERE {
     ?disciplineGroupURI a owl:Class ; rdfs:subClassOf nen2660:EnumerationType ; skos:prefLabel "Disciplines" .
     BIND (COALESCE(?disciplineValueURI, IRI(CONCAT(STR(?objURI4), "-empty-qualification-discipline"))) AS ?disciplineQualificationURI)
     BIND (IF(BOUND(?disciplineValueURI), ?undefinedDisciplineEmptyName, "") AS ?disciplineEmptyQualificationName)
-    # Only the synthetic placeholder needs its own sequence node - see Block C0.
+    # Only the synthetic placeholder needs its own sequence node - see Block C.
     BIND (IF(BOUND(?disciplineEmptyQualificationName), IRI(CONCAT(STR(?disciplineQualificationURI), "-seq-name")), ?undefinedDisciplineQualSeq) AS ?disciplineQualificationSeqNode)
     BIND (IRI(CONCAT(STR(?objURI4), "-aspect-discipline")) AS ?disciplineAspectNode)
     BIND (IRI(CONCAT(STR(?objURI4), "-role-discipline")) AS ?disciplineRoleNode)

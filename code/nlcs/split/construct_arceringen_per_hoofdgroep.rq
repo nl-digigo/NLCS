@@ -14,8 +14,11 @@ PREFIX shapes:  <http://www.laces.tech/publication/ns/semmtech/live/laces/schema
 # nen2660:isDescribedBy from objects in one hoofdgroep.
 # $hoofdgroup_name is replaced by the Python script before execution.
 #
-# Scope: directly linked arceringen + all ancestor classes + all descendant classes
-# within the Arcering hierarchy, so the full sub-tree is present for import.
+# Scope: for each top-level Arcering category (direct child of "Arcering", e.g.
+# "AVH" for VerHardingen) that this hoofdgroep's objects reference at all, the
+# WHOLE category subtree is included - not just the specific arceringen actually
+# referenced. This carries over unused-but-legitimate siblings (e.g. an "Overig"
+# catch-all with no current object references) alongside the ones in active use.
 #
 # Block A  — arcering class hierarchy           → otl:Document
 # Block B  — annotation properties              → otl:InformationField
@@ -74,19 +77,34 @@ WHERE {
 
   # ── Block A: arcering classes in scope → otl:Document triples ────────────
   {
-    ?NLCSObjectTopA a owl:Class ; skos:prefLabel "NLCS-object" .
-    ?hgA rdfs:subClassOf ?NLCSObjectTopA ; skos:prefLabel ?hoofdgroep .
-    ?objA rdfs:subClassOf+ ?hgA ; a owl:Class .
-    ?objA rdfs:subClassOf ?bnodeArcA .
-    ?bnodeArcA owl:onProperty nen2660:isDescribedBy .
-    ?bnodeArcA owl:onClass ?linkedArc .
     ?ArceringTopA a owl:Class ; skos:prefLabel "Arcering" .
-    ?linkedArc rdfs:subClassOf+ ?ArceringTopA .
-    # Linked arcering + all ancestors + all descendants within Arcering hierarchy
-    { ?linkedArc rdfs:subClassOf* ?arcURI . }
+    # Distinct top-level Arcering categories (direct children of Arcering) that
+    # this hoofdgroep's objects reference at all - computed once via a DISTINCT
+    # subquery (same technique Block B already uses for ?annProp) so the
+    # per-category subtree expansion below runs once per category, not once
+    # per object/reference - the whole-category scan is expensive on a large
+    # tree and must not be repeated per referencing object.
+    {
+      SELECT DISTINCT ?topCatA WHERE {
+        VALUES (?hgNameA) { ("$hoofdgroup_name") }
+        ?NLCSObjectTopA0 a owl:Class ; skos:prefLabel "NLCS-object" .
+        ?hgA0 rdfs:subClassOf ?NLCSObjectTopA0 ; skos:prefLabel ?hgNameA .
+        ?objA0 rdfs:subClassOf+ ?hgA0 ; a owl:Class .
+        ?objA0 rdfs:subClassOf ?bnodeArcA0 .
+        ?bnodeArcA0 owl:onProperty nen2660:isDescribedBy .
+        ?bnodeArcA0 owl:onClass ?linkedArcA0 .
+        ?ArceringTopA0 a owl:Class ; skos:prefLabel "Arcering" .
+        ?linkedArcA0 rdfs:subClassOf+ ?ArceringTopA0 .
+        ?topCatA rdfs:subClassOf ?ArceringTopA0 .
+        ?linkedArcA0 rdfs:subClassOf* ?topCatA .
+      }
+    }
+    # Whole top-category subtree, not just the specific branch referenced - so
+    # unused-but-legitimate siblings (e.g. an "Overig" catch-all) are carried
+    # over too.
+    { ?arcURI a owl:Class . FILTER (?arcURI = ?topCatA) }
     UNION
-    { ?arcURI rdfs:subClassOf+ ?linkedArc . }
-    ?arcURI rdfs:subClassOf+ ?ArceringTopA .
+    { ?arcURI rdfs:subClassOf+ ?topCatA . }
     ?arcURI a owl:Class .
     ?arcURI skos:prefLabel ?label .
     OPTIONAL {
@@ -104,35 +122,44 @@ WHERE {
   {
     {
       SELECT DISTINCT ?annProp ?annLabel WHERE {
-        VALUES (?hgNameB) { ("$hoofdgroup_name") }
-        ?NLCSObjectTopB a owl:Class ; skos:prefLabel "NLCS-object" .
-        ?hgB rdfs:subClassOf ?NLCSObjectTopB ; skos:prefLabel ?hgNameB .
-        ?objB rdfs:subClassOf+ ?hgB ; a owl:Class .
-        ?objB rdfs:subClassOf ?bnodeArcB .
-        ?bnodeArcB owl:onProperty nen2660:isDescribedBy .
-        ?bnodeArcB owl:onClass ?linkedArcB .
-        ?ArceringTopB a owl:Class ; skos:prefLabel "Arcering" .
-        ?linkedArcB rdfs:subClassOf+ ?ArceringTopB .
-        { ?linkedArcB rdfs:subClassOf* ?anyArc . }
-        UNION
-        { ?anyArc rdfs:subClassOf+ ?linkedArcB . }
-        ?anyArc rdfs:subClassOf+ ?ArceringTopB .
+        # Distinct top categories first (see Block A comment) so the ?anyArc
+        # subtree scan below runs once per category, not once per object.
+        {
+          SELECT DISTINCT ?topCatB WHERE {
+            VALUES (?hgNameB) { ("$hoofdgroup_name") }
+            ?NLCSObjectTopB0 a owl:Class ; skos:prefLabel "NLCS-object" .
+            ?hgB0 rdfs:subClassOf ?NLCSObjectTopB0 ; skos:prefLabel ?hgNameB .
+            ?objB0 rdfs:subClassOf+ ?hgB0 ; a owl:Class .
+            ?objB0 rdfs:subClassOf ?bnodeArcB0 .
+            ?bnodeArcB0 owl:onProperty nen2660:isDescribedBy .
+            ?bnodeArcB0 owl:onClass ?linkedArcB0 .
+            ?ArceringTopB0 a owl:Class ; skos:prefLabel "Arcering" .
+            ?linkedArcB0 rdfs:subClassOf+ ?ArceringTopB0 .
+            ?topCatB rdfs:subClassOf ?ArceringTopB0 .
+            ?linkedArcB0 rdfs:subClassOf* ?topCatB .
+          }
+        }
+        ?anyArc rdfs:subClassOf* ?topCatB .
         ?anyArc ?annProp ?v .
         ?annProp a owl:AnnotationProperty ; skos:prefLabel ?annLabel .
       }
     }
-    ?NLCSObjectTopBO a owl:Class ; skos:prefLabel "NLCS-object" .
-    ?hgBO rdfs:subClassOf ?NLCSObjectTopBO ; skos:prefLabel ?hoofdgroep .
-    ?objBO rdfs:subClassOf+ ?hgBO ; a owl:Class .
-    ?objBO rdfs:subClassOf ?bnodeArcBO .
-    ?bnodeArcBO owl:onProperty nen2660:isDescribedBy .
-    ?bnodeArcBO owl:onClass ?linkedArcBO .
-    ?ArceringTopBO a owl:Class ; skos:prefLabel "Arcering" .
-    ?linkedArcBO rdfs:subClassOf+ ?ArceringTopBO .
-    { ?linkedArcBO rdfs:subClassOf* ?arcURI2 . }
-    UNION
-    { ?arcURI2 rdfs:subClassOf+ ?linkedArcBO . }
-    ?arcURI2 rdfs:subClassOf+ ?ArceringTopBO .
+    {
+      SELECT DISTINCT ?topCatBO WHERE {
+        VALUES (?hgNameBO) { ("$hoofdgroup_name") }
+        ?NLCSObjectTopBO0 a owl:Class ; skos:prefLabel "NLCS-object" .
+        ?hgBO0 rdfs:subClassOf ?NLCSObjectTopBO0 ; skos:prefLabel ?hgNameBO .
+        ?objBO0 rdfs:subClassOf+ ?hgBO0 ; a owl:Class .
+        ?objBO0 rdfs:subClassOf ?bnodeArcBO0 .
+        ?bnodeArcBO0 owl:onProperty nen2660:isDescribedBy .
+        ?bnodeArcBO0 owl:onClass ?linkedArcBO0 .
+        ?ArceringTopBO0 a owl:Class ; skos:prefLabel "Arcering" .
+        ?linkedArcBO0 rdfs:subClassOf+ ?ArceringTopBO0 .
+        ?topCatBO rdfs:subClassOf ?ArceringTopBO0 .
+        ?linkedArcBO0 rdfs:subClassOf* ?topCatBO .
+      }
+    }
+    ?arcURI2 rdfs:subClassOf* ?topCatBO .
     ?arcURI2 a owl:Class .
     OPTIONAL { ?arcURI2 ?annProp ?litVal . FILTER (isLiteral(?litVal)) }
     OPTIONAL {
@@ -150,18 +177,22 @@ WHERE {
 
   # ── Block C: original NLCS URI stored as InformationField ─────────────────
   {
-    ?NLCSObjectTopC a owl:Class ; skos:prefLabel "NLCS-object" .
-    ?hgC rdfs:subClassOf ?NLCSObjectTopC ; skos:prefLabel ?hoofdgroep .
-    ?objC rdfs:subClassOf+ ?hgC ; a owl:Class .
-    ?objC rdfs:subClassOf ?bnodeArcC .
-    ?bnodeArcC owl:onProperty nen2660:isDescribedBy .
-    ?bnodeArcC owl:onClass ?linkedArcC .
-    ?ArceringTopC a owl:Class ; skos:prefLabel "Arcering" .
-    ?linkedArcC rdfs:subClassOf+ ?ArceringTopC .
-    { ?linkedArcC rdfs:subClassOf* ?arcURI3 . }
-    UNION
-    { ?arcURI3 rdfs:subClassOf+ ?linkedArcC . }
-    ?arcURI3 rdfs:subClassOf+ ?ArceringTopC .
+    {
+      SELECT DISTINCT ?topCatC WHERE {
+        VALUES (?hgNameC) { ("$hoofdgroup_name") }
+        ?NLCSObjectTopC0 a owl:Class ; skos:prefLabel "NLCS-object" .
+        ?hgC0 rdfs:subClassOf ?NLCSObjectTopC0 ; skos:prefLabel ?hgNameC .
+        ?objC0 rdfs:subClassOf+ ?hgC0 ; a owl:Class .
+        ?objC0 rdfs:subClassOf ?bnodeArcC0 .
+        ?bnodeArcC0 owl:onProperty nen2660:isDescribedBy .
+        ?bnodeArcC0 owl:onClass ?linkedArcC0 .
+        ?ArceringTopC0 a owl:Class ; skos:prefLabel "Arcering" .
+        ?linkedArcC0 rdfs:subClassOf+ ?ArceringTopC0 .
+        ?topCatC rdfs:subClassOf ?ArceringTopC0 .
+        ?linkedArcC0 rdfs:subClassOf* ?topCatC .
+      }
+    }
+    ?arcURI3 rdfs:subClassOf* ?topCatC .
     ?arcURI3 a owl:Class .
     BIND (STR(?arcURI3) AS ?uriStr)
     BIND (IRI(CONCAT(STR(?arcURI3), "-field-uri")) AS ?uriField)

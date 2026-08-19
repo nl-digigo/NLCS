@@ -1,0 +1,171 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix otl: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/otl-manager/> .
+@prefix shapes: <http://www.laces.tech/publication/ns/semmtech/live/laces/schema/shapes/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix nlcs: <http://digitalbuildingdata.tech/nlcs/def/> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+
+nlcs:f436e1b4-9c9b-401b-a64a-634cc6c4cc50 a otl:Document;
+  shapes:sequence nlcs:f436e1b4-9c9b-401b-a64a-634cc6c4cc50-seq-name;
+  otl:attr-Conceptual-name "Lijntype";
+  otl:rel-Conceptual-hasExternalLink nlcs:f436e1b4-9c9b-401b-a64a-634cc6c4cc50-ext-link-shared .
+
+nlcs:f436e1b4-9c9b-401b-a64a-634cc6c4cc50-seq-name a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "Lijntype";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+nlcs:f436e1b4-9c9b-401b-a64a-634cc6c4cc50-ext-link-shared a otl:ExternalLink;
+  otl:attr-ExternalLink-name "Lijntype";
+  otl:attr-ExternalLink-relation "isSameAs";
+  otl:attr-ExternalLink-sourcename "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes";
+  otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes"^^xsd:anyURI;
+  otl:attr-ExternalLink-uri "http://digitalbuildingdata.tech/nlcs/def/f436e1b4-9c9b-401b-a64a-634cc6c4cc50"^^xsd:anyURI .
+
+<urn:nlcs:info-type:OriginalURI> a otl:InformationType;
+  otl:attr-Conceptual-name "Original URI" .
+
+nlcs:f4757f72-0d03-41fe-87f5-b8a6e225253a a otl:Document;
+  shapes:sequence nlcs:f4757f72-0d03-41fe-87f5-b8a6e225253a-seq-name;
+  otl:attr-Conceptual-name "AM";
+  otl:rel-Conceptual-isSpecializationOf nlcs:f436e1b4-9c9b-401b-a64a-634cc6c4cc50;
+  otl:rel-Conceptual-isDescribedIn nlcs:f4757f72-0d03-41fe-87f5-b8a6e225253a-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c,
+    nlcs:f4757f72-0d03-41fe-87f5-b8a6e225253a-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b,
+    nlcs:f4757f72-0d03-41fe-87f5-b8a6e225253a-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f,
+    nlcs:f4757f72-0d03-41fe-87f5-b8a6e225253a-field-uri .
+
+nlcs:f4757f72-0d03-41fe-87f5-b8a6e225253a-seq-name a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "AM";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+nlcs:aac8b44e-f3a0-459c-9d99-3e13f2e0ab93 a otl:Document;
+  shapes:sequence nlcs:aac8b44e-f3a0-459c-9d99-3e13f2e0ab93-seq-name;
+  otl:attr-Conceptual-name "AM-AS-SO";
+  otl:rel-Conceptual-isSpecializationOf nlcs:f4757f72-0d03-41fe-87f5-b8a6e225253a;
+  otl:attr-Conceptual-description "A,10,-2,2,-2";
+  otl:rel-Conceptual-isDescribedIn nlcs:aac8b44e-f3a0-459c-9d99-3e13f2e0ab93-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c,
+    nlcs:aac8b44e-f3a0-459c-9d99-3e13f2e0ab93-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b,
+    nlcs:aac8b44e-f3a0-459c-9d99-3e13f2e0ab93-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f,
+    nlcs:aac8b44e-f3a0-459c-9d99-3e13f2e0ab93-field-uri .
+
+nlcs:aac8b44e-f3a0-459c-9d99-3e13f2e0ab93-seq-name a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "AM-AS-SO";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+nlcs:b820bb90-1d83-4888-a875-8987d2f26af7 a otl:Document;
+  shapes:sequence nlcs:b820bb90-1d83-4888-a875-8987d2f26af7-seq-name;
+  otl:attr-Conceptual-name "V-AM-AS-SO";
+  otl:rel-Conceptual-isSpecializationOf nlcs:f4757f72-0d03-41fe-87f5-b8a6e225253a;
+  otl:attr-Conceptual-description "A,10,[VERWIJDEREN2,NLCS.SHX,x=-5,s=1],-2,2,-2";
+  otl:rel-Conceptual-isDescribedIn nlcs:b820bb90-1d83-4888-a875-8987d2f26af7-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c,
+    nlcs:b820bb90-1d83-4888-a875-8987d2f26af7-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b,
+    nlcs:b820bb90-1d83-4888-a875-8987d2f26af7-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f,
+    nlcs:b820bb90-1d83-4888-a875-8987d2f26af7-field-uri .
+
+nlcs:b820bb90-1d83-4888-a875-8987d2f26af7-seq-name a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "V-AM-AS-SO";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+nlcs:21484fcb-4d9f-4e86-a9f5-fd6d855c7437 a otl:Document;
+  shapes:sequence nlcs:21484fcb-4d9f-4e86-a9f5-fd6d855c7437-seq-name;
+  otl:attr-Conceptual-name "CONTINUOUS";
+  otl:rel-Conceptual-isSpecializationOf nlcs:f436e1b4-9c9b-401b-a64a-634cc6c4cc50;
+  otl:rel-Conceptual-hasExternalLink nlcs:21484fcb-4d9f-4e86-a9f5-fd6d855c7437-ext-link-shared .
+
+nlcs:21484fcb-4d9f-4e86-a9f5-fd6d855c7437-seq-name a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "CONTINUOUS";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+nlcs:21484fcb-4d9f-4e86-a9f5-fd6d855c7437-ext-link-shared a otl:ExternalLink;
+  otl:attr-ExternalLink-name "CONTINUOUS";
+  otl:attr-ExternalLink-relation "isSameAs";
+  otl:attr-ExternalLink-sourcename "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes";
+  otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes"^^xsd:anyURI;
+  otl:attr-ExternalLink-uri "http://digitalbuildingdata.tech/nlcs/def/21484fcb-4d9f-4e86-a9f5-fd6d855c7437"^^xsd:anyURI .
+
+nlcs:270c7274-5fc6-4b2c-804f-0eeafcef2cd8 a otl:Document;
+  shapes:sequence nlcs:270c7274-5fc6-4b2c-804f-0eeafcef2cd8-seq-name;
+  otl:attr-Conceptual-name "V-CONTINUOUS-SO";
+  otl:rel-Conceptual-isSpecializationOf nlcs:f436e1b4-9c9b-401b-a64a-634cc6c4cc50;
+  otl:rel-Conceptual-hasExternalLink nlcs:270c7274-5fc6-4b2c-804f-0eeafcef2cd8-ext-link-shared .
+
+nlcs:270c7274-5fc6-4b2c-804f-0eeafcef2cd8-seq-name a otl:Seq_attr-Conceptual-name;
+  rdf:_1 "V-CONTINUOUS-SO";
+  owl:annotatedProperty otl:attr-Conceptual-name .
+
+nlcs:270c7274-5fc6-4b2c-804f-0eeafcef2cd8-ext-link-shared a otl:ExternalLink;
+  otl:attr-ExternalLink-name "V-CONTINUOUS-SO";
+  otl:attr-ExternalLink-relation "isSameAs";
+  otl:attr-ExternalLink-sourcename "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes";
+  otl:attr-ExternalLink-sourceurl "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes"^^xsd:anyURI;
+  otl:attr-ExternalLink-uri "http://digitalbuildingdata.tech/nlcs/def/270c7274-5fc6-4b2c-804f-0eeafcef2cd8"^^xsd:anyURI .
+
+nlcs:f4757f72-0d03-41fe-87f5-b8a6e225253a-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c
+  a otl:InformationField;
+  otl:attr-InformationField-value "3";
+  otl:rel-InformationField-isClassifiedAs nlcs:b718adec73e04ce3ec720dd11a06a308-info-type .
+
+nlcs:b718adec73e04ce3ec720dd11a06a308-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "ID" .
+
+nlcs:aac8b44e-f3a0-459c-9d99-3e13f2e0ab93-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c
+  a otl:InformationField;
+  otl:attr-InformationField-value "10";
+  otl:rel-InformationField-isClassifiedAs nlcs:b718adec73e04ce3ec720dd11a06a308-info-type .
+
+nlcs:b820bb90-1d83-4888-a875-8987d2f26af7-field-d1acbe8954d7793457c2d79f9c9ac237fd1aae5c
+  a otl:InformationField;
+  otl:attr-InformationField-value "11";
+  otl:rel-InformationField-isClassifiedAs nlcs:b718adec73e04ce3ec720dd11a06a308-info-type .
+
+nlcs:f4757f72-0d03-41fe-87f5-b8a6e225253a-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs nlcs:24a5f883567803afcca3352ea07447a2-info-type .
+
+nlcs:24a5f883567803afcca3352ea07447a2-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "Optie" .
+
+nlcs:aac8b44e-f3a0-459c-9d99-3e13f2e0ab93-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b
+  a otl:InformationField;
+  otl:attr-InformationField-value "SO";
+  otl:rel-InformationField-isClassifiedAs nlcs:24a5f883567803afcca3352ea07447a2-info-type .
+
+nlcs:b820bb90-1d83-4888-a875-8987d2f26af7-field-30a16961da38a74c3a4ff9eaf08c97d6cf8d1e9b
+  a otl:InformationField;
+  otl:attr-InformationField-value "SO";
+  otl:rel-InformationField-isClassifiedAs nlcs:24a5f883567803afcca3352ea07447a2-info-type .
+
+nlcs:f4757f72-0d03-41fe-87f5-b8a6e225253a-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs nlcs:2aee5f4dec823b7e993e6874acb8174e-info-type .
+
+nlcs:2aee5f4dec823b7e993e6874acb8174e-info-type a otl:InformationType;
+  otl:attr-Conceptual-name "Fase" .
+
+nlcs:aac8b44e-f3a0-459c-9d99-3e13f2e0ab93-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f
+  a otl:InformationField;
+  otl:attr-InformationField-value "";
+  otl:rel-InformationField-isClassifiedAs nlcs:2aee5f4dec823b7e993e6874acb8174e-info-type .
+
+nlcs:b820bb90-1d83-4888-a875-8987d2f26af7-field-dd5f3d7fb40a9e9625852b72321e481c7bbfc05f
+  a otl:InformationField;
+  otl:attr-InformationField-value "V";
+  otl:rel-InformationField-isClassifiedAs nlcs:2aee5f4dec823b7e993e6874acb8174e-info-type .
+
+nlcs:f4757f72-0d03-41fe-87f5-b8a6e225253a-field-uri a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/f4757f72-0d03-41fe-87f5-b8a6e225253a";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+nlcs:aac8b44e-f3a0-459c-9d99-3e13f2e0ab93-field-uri a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/aac8b44e-f3a0-459c-9d99-3e13f2e0ab93";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .
+
+nlcs:b820bb90-1d83-4888-a875-8987d2f26af7-field-uri a otl:InformationField;
+  otl:attr-InformationField-value "http://digitalbuildingdata.tech/nlcs/def/b820bb90-1d83-4888-a875-8987d2f26af7";
+  otl:rel-InformationField-isClassifiedAs <urn:nlcs:info-type:OriginalURI> .

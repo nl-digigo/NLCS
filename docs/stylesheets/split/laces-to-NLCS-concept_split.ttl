@@ -39,6 +39,7 @@ ex:ConvertAspectWithRole a sh:NodeShape ;
 				?tgtAspectWithValue a sh:NodeShape .
 				?tgtAspectWithValue sh:targetClass ?tgtObject .
 
+				?tgtShape sh:targetClass ?tgtObject .
 				?tgtShape sh:property ?bnode1 .
 				?bnode1 sh:path ?tgtAspect .
 				?bnode1 ?ShaclValueType ?tgtAspectDatatype . 
@@ -74,6 +75,7 @@ ex:ConvertAspectWithRole a sh:NodeShape ;
 				?hasAspect otl:rel-Relation-toRole ?this .
 				?hasAspect otl:rel-Relation-to ?aspect .
 				?hasAspect otl:rel-Relation-from ?object .
+				BIND (ex:getOriginalUri(?object) AS ?tgtObject) .										#### Moved this up for clarity (shouldn't matter I hope)
 				?aspect a otl:Aspect .
 				# Check if the object has a defined shape, otherwise create a shape
 				{
@@ -90,15 +92,15 @@ ex:ConvertAspectWithRole a sh:NodeShape ;
 					} .
 					BIND (ex:createURI(CONCAT(ex:localname(?object), "-Shape")) AS ?tgtAspectWithValue) .
 				} .
-				# Check if the aspect has a parent and whether it is an internal or external link 
-				OPTIONAL {
-					?aspect otl:rel-Conceptual-isSpecializationOf ?parentAspect .
-					OPTIONAL {
-						?parentAspect shapes:sequence/rdf:_1 ?parentName .
-						BIND (ex:getOriginalUri(?parentAspect) AS ?newParentAspectURI) .
-					} .
-					BIND (COALESCE(?newParentAspectURI, ?parentAspect) AS ?tgtParent) .
-				} .
+				# Check if the aspect has a parent and whether it is an internal or external link 		#### Not relevant for NLCS aspects and slows down things
+				#OPTIONAL {
+				#	?aspect otl:rel-Conceptual-isSpecializationOf ?parentAspect .
+				#	OPTIONAL {
+				#		?parentAspect shapes:sequence/rdf:_1 ?parentName .
+				#		BIND (ex:getOriginalUri(?parentAspect) AS ?newParentAspectURI) .
+				#	} .
+				#	BIND (COALESCE(?newParentAspectURI, ?parentAspect) AS ?tgtParent) .
+				#} .
 				# Check if the aspect is internal or external
 				{
 					?hasAspect otl:rel-Relation-toRole ?this .
@@ -115,7 +117,6 @@ ex:ConvertAspectWithRole a sh:NodeShape ;
 					} .
 					BIND (?aspect AS ?tgtAspect) .
 				} .
-				BIND (ex:getOriginalUri(?object) AS ?tgtObject) .
 				
 				# Get all the descriptive information of the aspect
 				?aspect shapes:sequence/rdf:_1 ?tgtAspectPrefName .
@@ -138,16 +139,16 @@ ex:ConvertAspectWithRole a sh:NodeShape ;
 				OPTIONAL {
 					?this otl:attr-Conceptual-abbreviation ?tgtAspectAbbreviation .
 				} .
-				OPTIONAL {
-					?aspect otl:rel-Conceptual-isDescribedIn ?informationField .
-					?informationField otl:attr-InformationField-value ?tgtAnnotationValue .
-					?informationField otl:rel-InformationField-isClassifiedAs ?informationType .
-					OPTIONAL { ?informationType otl:attr-Conceptual-name ?existingAnnotationName . }
-					BIND (IF(BOUND(?existingAnnotationName), STR(?existingAnnotationName),
-					         REPLACE(REPLACE(STRAFTER(STR(?informationType), "/Field-"), "[+]", " "), "%20", " ")) AS ?tgtAnnotationName) .
-					FILTER (?tgtAnnotationName != "Original URI") .
-					BIND (ex:createHumanReadableUri(?tgtAnnotationName) AS ?tgtAnnotationProperty) .
-				} .
+				#OPTIONAL {
+				#	?aspect otl:rel-Conceptual-isDescribedIn ?informationField . 						#### Not relevant for NLCS aspects and slows down things
+				#	?informationField otl:attr-InformationField-value ?tgtAnnotationValue .
+				#	?informationField otl:rel-InformationField-isClassifiedAs ?informationType .
+				#	OPTIONAL { ?informationType otl:attr-Conceptual-name ?existingAnnotationName . }
+				#	BIND (IF(BOUND(?existingAnnotationName), STR(?existingAnnotationName),
+				#	         REPLACE(REPLACE(STRAFTER(STR(?informationType), "/Field-"), "[+]", " "), "%20", " ")) AS ?tgtAnnotationName) .
+				#	FILTER (?tgtAnnotationName != "Original URI") .
+				#	BIND (ex:createHumanReadableUri(?tgtAnnotationName) AS ?tgtAnnotationProperty) .
+				#} .
 				OPTIONAL {
 					?this otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute ?attribute .
 					?attribute bm:attr-Component-maxCardinality ?maxCardinality .
@@ -187,10 +188,11 @@ ex:ConvertAspectWithRole a sh:NodeShape ;
 				# Convert aspects with a qualification group
 				{
 					?this otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf ?aspectEnumeration .
+					?aspectEnumeration otl:attr-Group-name ?aspectEnumerationName .												#### needed for name-based URI
 					?this otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification ?emptyQualification .
 					?emptyQualification otl:attr-Conceptual-name ?EmptyQualificationName .
 					FILTER (?EmptyQualificationName = "") .
-					BIND (URI(STR(?aspectEnumeration)) AS ?tgtAspectEnumeration) .
+					BIND (ex:createURI(MD5(CONCAT("QualificationGroup",?aspectEnumerationName))) AS ?tgtAspectEnumeration) .	#### changed to get name-based URI
 					BIND (owl:ObjectProperty AS ?tgtPropertyType) .
 					BIND (rdfs:Resource AS ?tgtRangeDatatype) .
 				}
@@ -1567,4 +1569,3 @@ owl: sh:declare [ sh:namespace "http://www.w3.org/2002/07/owl#"^^xsd:anyURI ;
 
 ex: sh:declare [ sh:namespace "http://example.org/example#"^^xsd:anyURI ;
             sh:prefix "ex" ] .
-
