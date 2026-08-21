@@ -408,11 +408,15 @@ ex:ConvertConceptualFundamentals a sh:NodeShape ;
 			# Their real definition (skos:prefLabel etc.) is only published once, from the shared
 			# workspace, so this rule must not (re)generate it here - that produced conflicting
 			# duplicate labels once split publications were merged.
+			
+			# The FILTER statement should match with the final live shared publication (basis).
+			# For now we don't need to filter since we have ext links only to that shared publication.
+			
 				FILTER NOT EXISTS {
 					?this otl:rel-Conceptual-hasExternalLink ?sharedStubLink .
 					?sharedStubLink otl:attr-ExternalLink-relation "isSameAs" .
 					?sharedStubLink otl:attr-ExternalLink-sourceurl ?sharedStubSourceUrl .
-					FILTER (regex(str(?sharedStubSourceUrl), "nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes", "i")) .
+					
 				} .
 			# If the concept is a specialization of another concept in the OTL, it should be modeled by a rdfs:subClassOf relation between the two concepts
 				OPTIONAL {
@@ -546,6 +550,14 @@ ex:ConvertConceptualSymbolArceringRelations a sh:NodeShape ;
 				?tgtThis rdfs:subClassOf ?bnode .
 				?bnode owl:onProperty nen2660:isDescribedBy .
 				?bnode owl:onClass ?tgtConcept .
+
+				?tgtShapeFromLaces a sh:NodeShape .
+				?tgtShapeFromLaces sh:targetClass ?tgtThis .
+				?tgtShapeFromLaces sh:property ?bnode2 .
+				?bnode2 sh:qualifiedValueShape ?bnode3 .
+				?bnode3 sh:class ?tgtConcept .
+				?bnode2 sh:path nen2660:isDescribedBy .
+				?bnode3 sh:qualifiedMinCount "0"^^xsd:nonNegativeInteger .
 			}
 			WHERE {
 				?this a otl:PhysicalObject .
@@ -562,14 +574,15 @@ ex:ConvertConceptualSymbolArceringRelations a sh:NodeShape ;
 						FILTER (?typeName = "Symbool") .
 					}
 					BIND (IF(BOUND(?valueThis),
-						IF(?valueThis = "nvt", ?undefined, ?valueThis),
-						IF(BOUND(?valueParent), ?valueParent, ?undefined2)) AS ?value) .
+						IF(?valueThis = "nvt", ?undefined, ?valueThis), 
+						?undefined2) AS ?value) .
 					FILTER (BOUND(?informationType)) .
 					FILTER (BOUND(?value)) .
 					?SymboolTop a otl:Document .
 					?SymboolTop otl:attr-Conceptual-name "Symbool" .
 					?conceptStub otl:rel-Conceptual-isSpecializationOf+ ?SymboolTop .
 					?conceptStub otl:attr-Conceptual-name ?value .
+					
 					BIND (COALESCE(ex:getOriginalUri(?conceptStub), ?conceptStub) AS ?tgtConcept) .
 				}
 				UNION
@@ -587,16 +600,24 @@ ex:ConvertConceptualSymbolArceringRelations a sh:NodeShape ;
 					}
 					BIND (IF(BOUND(?valueThis),
 						IF(?valueThis = "nvt", ?undefined, ?valueThis),
-						IF(BOUND(?valueParent), ?valueParent, ?undefined2)) AS ?value) .
+						?undefined2) AS ?value) .
 					FILTER (BOUND(?informationType)) .
 					FILTER (BOUND(?value)) .
 					?ArceringTop a otl:Document .
 					?ArceringTop otl:attr-Conceptual-name "Arcering" .
 					?conceptStub otl:rel-Conceptual-isSpecializationOf+ ?ArceringTop .
 					?conceptStub otl:attr-Conceptual-name ?value .
+					
 					BIND (COALESCE(ex:getOriginalUri(?conceptStub), ?conceptStub) AS ?tgtConcept) .
 				}
-				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
+				OPTIONAL {
+					?this otl:rel-Conceptual-hasShape ?shapeFrom .
+					BIND (?shapeFrom AS ?shapeFromReused) .
+				} .
+				BIND (COALESCE(?shapeFromReused, ex:createURI(CONCAT(ex:localname(?this), "-Shape"))) AS ?tgtShapeFromLaces) .
+				BIND (BNODE() AS ?bnode2) .
+				BIND (BNODE() AS ?bnode3) .
+				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .		# nlcs object
 			}
 			""" ;
             sh:deactivated false ;
@@ -625,15 +646,16 @@ ex:ConvertConceptualLijnkleurRelations a sh:NodeShape ;
 			WHERE {
 				?this a otl:PhysicalObject .
 
+				?lijnkleurInformationType a otl:InformationType .
+				?lijnkleurInformationType otl:attr-Conceptual-name ?tgtLijnkleurTypeName .
+				FILTER (CONTAINS(?tgtLijnkleurTypeName, " color")) .
+
 				## Option 1: SPARQL logic
 				OPTIONAL {
 					?this otl:rel-Conceptual-isDescribedIn ?informationFieldThis .
 					?informationFieldThis otl:rel-InformationField-isClassifiedAs ?lijnkleurInformationType .
 					?informationFieldThis otl:attr-InformationField-value ?lijnkleurValueThis .
-					OPTIONAL { ?lijnkleurInformationType otl:attr-Conceptual-name ?existingLkName . }
-					BIND (IF(BOUND(?existingLkName), STR(?existingLkName),
-					         REPLACE(REPLACE(STRAFTER(STR(?lijnkleurInformationType), "/Field-"), "[+]", " "), "%20", " ")) AS ?tgtLijnkleurTypeName) .
-					FILTER (CONTAINS(LCASE(?tgtLijnkleurTypeName), "color")) .
+					
 				}
 				OPTIONAL {
 					?this otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
@@ -652,10 +674,6 @@ ex:ConvertConceptualLijnkleurRelations a sh:NodeShape ;
 					IF(?lijnkleurValueThis = "nvt", ?undefined, ?lijnkleurValueThis),
 					IF(BOUND(?lijnkleurValueParent), ?lijnkleurValueParent, ?undefined2)) AS ?lijnkleurValue) .
 
-				## Option 2: Recursive function
-				# BIND (ex:retrieveValue(?this, ?lijnkleurInformationType) AS ?lijnkleurValue) .
-
-				FILTER (BOUND(?lijnkleurInformationType)) .
 				BIND (IF(BOUND(?lijnkleurValue),ex:linkLijnkleur(?lijnkleurValue), ?undefined3) AS ?tgtLijnkleur) .
 				BIND (ex:createHumanReadableUri(?tgtLijnkleurTypeName) AS ?tgtLijnkleurProperty) .
 				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
@@ -1325,9 +1343,27 @@ ex:linkLijnkleur a sh:SPARQLFunction ;
                 ?lijnkleur otl:attr-Conceptual-name "Lijnkleur" .
                 ?lijnkleurConcept otl:rel-Conceptual-isSpecializationOf+ ?lijnkleur .
                 ?lijnkleurConcept otl:attr-Conceptual-name ?op1 .
-                BIND (ex:getOriginalUri(?lijnkleurConcept) AS ?canonicalUri) .
+                OPTIONAL {
+                    {
+                        ?lijnkleurConcept otl:rel-Conceptual-isDescribedIn ?ouInformationField .
+                        ?ouInformationField otl:attr-InformationField-value ?ouValue .
+                        ?ouInformationField otl:rel-InformationField-isClassifiedAs ?ouInformationType .
+                        OPTIONAL { ?ouInformationType otl:attr-Conceptual-name ?ouTypeName . }
+                        FILTER (
+                            (BOUND(?ouTypeName) && STR(?ouTypeName) = "Original URI") ||
+                            CONTAINS(STR(?ouInformationType), "Field-Original")
+                        ) .
+                        BIND (URI(str(?ouValue)) AS ?canonicalUri) .
+                    } UNION {
+                        ?lijnkleurConcept otl:rel-Conceptual-hasExternalLink ?ouExtLink .
+                        ?ouExtLink otl:attr-ExternalLink-relation "isSameAs" .
+                        ?ouExtLink otl:attr-ExternalLink-uri ?ouExtUri .
+                        BIND (URI(STR(?ouExtUri)) AS ?canonicalUri) .
+                    }
+                }
             }
-            BIND(IF(BOUND(?lijnkleurConcept), COALESCE(?canonicalUri, ?lijnkleurConcept), URI($op1)) AS ?tgtKleur) .
+
+            BIND(IF(BOUND(?canonicalUri), ?canonicalUri, $op1) AS ?tgtKleur) .
         }
         LIMIT 1
 		""" .
@@ -1356,17 +1392,14 @@ ex:getOriginalUri a sh:SPARQLFunction ;
         otl: ;
     sh:returnType rdfs:Resource ;
     sh:select """
-		SELECT ?uri
+		SELECT ?tgtUri
 		WHERE {
 			{
 				$op1 otl:rel-Conceptual-isDescribedIn ?informationField .
 				?informationField otl:attr-InformationField-value ?value .
+				FILTER (str(?value) != "") .
 				?informationField otl:rel-InformationField-isClassifiedAs ?informationType .
-				OPTIONAL { ?informationType otl:attr-Conceptual-name ?typeName . }
-				FILTER (
-					(BOUND(?typeName) && STR(?typeName) = "Original URI") ||
-					CONTAINS(STR(?informationType), "Field-Original")
-				) .
+				?informationType otl:attr-Conceptual-name "Original URI" .
 				BIND (URI(str(?value)) AS ?uri) .
 			} UNION {
 				$op1 otl:rel-Conceptual-hasExternalLink ?extLink .
@@ -1374,6 +1407,13 @@ ex:getOriginalUri a sh:SPARQLFunction ;
 				?extLink otl:attr-ExternalLink-uri ?extUri .
 				BIND (URI(STR(?extUri)) AS ?uri) .
 			}
+			# This union is needed to make sure $op1 is retrieved in the bind statement below.
+			# Without this union, this query does not fall into anywhere, so concepts without 
+			# original uri attr. or ext link are not processed.
+			UNION {
+				?dummy a owl:Ontology .
+			}
+			BIND(IF(BOUND(?uri), ?uri, $op1) AS ?tgtUri) 
 		}
 		LIMIT 1
 		""" .
