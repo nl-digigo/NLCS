@@ -625,15 +625,16 @@ ex:ConvertConceptualLijnkleurRelations a sh:NodeShape ;
 			WHERE {
 				?this a otl:PhysicalObject .
 
+				?lijnkleurInformationType a otl:InformationType .
+				?lijnkleurInformationType otl:attr-Conceptual-name ?tgtLijnkleurTypeName .
+				FILTER (CONTAINS(?tgtLijnkleurTypeName, " color")) .
+
 				## Option 1: SPARQL logic
 				OPTIONAL {
 					?this otl:rel-Conceptual-isDescribedIn ?informationFieldThis .
 					?informationFieldThis otl:rel-InformationField-isClassifiedAs ?lijnkleurInformationType .
 					?informationFieldThis otl:attr-InformationField-value ?lijnkleurValueThis .
-					OPTIONAL { ?lijnkleurInformationType otl:attr-Conceptual-name ?existingLkName . }
-					BIND (IF(BOUND(?existingLkName), STR(?existingLkName),
-					         REPLACE(REPLACE(STRAFTER(STR(?lijnkleurInformationType), "/Field-"), "[+]", " "), "%20", " ")) AS ?tgtLijnkleurTypeName) .
-					FILTER (CONTAINS(LCASE(?tgtLijnkleurTypeName), "color")) .
+					
 				}
 				OPTIONAL {
 					?this otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
@@ -652,10 +653,6 @@ ex:ConvertConceptualLijnkleurRelations a sh:NodeShape ;
 					IF(?lijnkleurValueThis = "nvt", ?undefined, ?lijnkleurValueThis),
 					IF(BOUND(?lijnkleurValueParent), ?lijnkleurValueParent, ?undefined2)) AS ?lijnkleurValue) .
 
-				## Option 2: Recursive function
-				# BIND (ex:retrieveValue(?this, ?lijnkleurInformationType) AS ?lijnkleurValue) .
-
-				FILTER (BOUND(?lijnkleurInformationType)) .
 				BIND (IF(BOUND(?lijnkleurValue),ex:linkLijnkleur(?lijnkleurValue), ?undefined3) AS ?tgtLijnkleur) .
 				BIND (ex:createHumanReadableUri(?tgtLijnkleurTypeName) AS ?tgtLijnkleurProperty) .
 				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
@@ -1325,9 +1322,27 @@ ex:linkLijnkleur a sh:SPARQLFunction ;
                 ?lijnkleur otl:attr-Conceptual-name "Lijnkleur" .
                 ?lijnkleurConcept otl:rel-Conceptual-isSpecializationOf+ ?lijnkleur .
                 ?lijnkleurConcept otl:attr-Conceptual-name ?op1 .
-                BIND (ex:getOriginalUri(?lijnkleurConcept) AS ?canonicalUri) .
+                OPTIONAL {
+                    {
+                        ?lijnkleurConcept otl:rel-Conceptual-isDescribedIn ?ouInformationField .
+                        ?ouInformationField otl:attr-InformationField-value ?ouValue .
+                        ?ouInformationField otl:rel-InformationField-isClassifiedAs ?ouInformationType .
+                        OPTIONAL { ?ouInformationType otl:attr-Conceptual-name ?ouTypeName . }
+                        FILTER (
+                            (BOUND(?ouTypeName) && STR(?ouTypeName) = "Original URI") ||
+                            CONTAINS(STR(?ouInformationType), "Field-Original")
+                        ) .
+                        BIND (URI(str(?ouValue)) AS ?canonicalUri) .
+                    } UNION {
+                        ?lijnkleurConcept otl:rel-Conceptual-hasExternalLink ?ouExtLink .
+                        ?ouExtLink otl:attr-ExternalLink-relation "isSameAs" .
+                        ?ouExtLink otl:attr-ExternalLink-uri ?ouExtUri .
+                        BIND (URI(STR(?ouExtUri)) AS ?canonicalUri) .
+                    }
+                }
             }
-            BIND(IF(BOUND(?lijnkleurConcept), COALESCE(?canonicalUri, ?lijnkleurConcept), URI($op1)) AS ?tgtKleur) .
+
+            BIND(IF(BOUND(?canonicalUri), ?canonicalUri, $op1) AS ?tgtKleur) .
         }
         LIMIT 1
 		""" .
@@ -1356,7 +1371,7 @@ ex:getOriginalUri a sh:SPARQLFunction ;
         otl: ;
     sh:returnType rdfs:Resource ;
     sh:select """
-		SELECT ?uri
+		SELECT ?tgtUri
 		WHERE {
 			{
 				$op1 otl:rel-Conceptual-isDescribedIn ?informationField .
@@ -1374,6 +1389,7 @@ ex:getOriginalUri a sh:SPARQLFunction ;
 				?extLink otl:attr-ExternalLink-uri ?extUri .
 				BIND (URI(STR(?extUri)) AS ?uri) .
 			}
+			BIND(IF(BOUND(?uri), ?uri, $op1) AS ?tgtUri) 
 		}
 		LIMIT 1
 		""" .
