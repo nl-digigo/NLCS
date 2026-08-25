@@ -705,15 +705,15 @@ ex:ConvertConceptualLijntypeRelations a sh:NodeShape ;
 			WHERE {
 				?this a otl:PhysicalObject .
 
+				?lijntypeInformationType a otl:InformationType .
+				?lijntypeInformationType otl:attr-Conceptual-name ?tgtLijntypeTypeName .
+				FILTER (CONTAINS(?tgtLijntypeTypeName, "linetype")) .
+
 				## Option 1: SPARQL logic
 				OPTIONAL {
 					?this otl:rel-Conceptual-isDescribedIn ?informationFieldThis .
 					?informationFieldThis otl:rel-InformationField-isClassifiedAs ?lijntypeInformationType .
 					?informationFieldThis otl:attr-InformationField-value ?lijntypeValueThis .
-					OPTIONAL { ?lijntypeInformationType otl:attr-Conceptual-name ?existingLtName . }
-					BIND (IF(BOUND(?existingLtName), STR(?existingLtName),
-					         REPLACE(REPLACE(STRAFTER(STR(?lijntypeInformationType), "/Field-"), "[+]", " "), "%20", " ")) AS ?tgtLijntypeTypeName) .
-					FILTER (STRENDS(LCASE(?tgtLijntypeTypeName), "linetype")) .
 				}
 				OPTIONAL {
 					?this otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
@@ -732,10 +732,6 @@ ex:ConvertConceptualLijntypeRelations a sh:NodeShape ;
 					IF(?lijntypeValueThis = "nvt", ?undefined, ?lijntypeValueThis),
 					IF(BOUND(?lijntypeValueParent), ?lijntypeValueParent, ?undefined2)) AS ?lijntypeValue) .
 
-				## Option 2: Recursive function
-				# BIND (ex:retrieveValue(?this, ?lijntypeInformationType) AS ?lijntypeValue) .
-
-				FILTER (BOUND(?lijntypeInformationType)) .
 				?Lijntype a otl:Document .
 				?Lijntype otl:attr-Conceptual-name "Lijntype" .
 				?lijntypeConceptStub otl:rel-Conceptual-isSpecializationOf+ ?Lijntype .
@@ -772,15 +768,15 @@ ex:ConvertConceptualLijnweightRelations a sh:NodeShape ;
 			WHERE {
 				?this a otl:PhysicalObject .
 
+				?lijnweightInformationType a otl:InformationType .
+				?lijnweightInformationType otl:attr-Conceptual-name ?tgtLijnweightTypeName .
+				FILTER (CONTAINS(?tgtLijnweightTypeName, "lineweight")) .
+
 				## Option 1: SPARQL logic
 				OPTIONAL {
 					?this otl:rel-Conceptual-isDescribedIn ?informationFieldThis .
 					?informationFieldThis otl:rel-InformationField-isClassifiedAs ?lijnweightInformationType .
 					?informationFieldThis otl:attr-InformationField-value ?lijnweightValueThis .
-					OPTIONAL { ?lijnweightInformationType otl:attr-Conceptual-name ?existingLwName . }
-					BIND (IF(BOUND(?existingLwName), STR(?existingLwName),
-					         REPLACE(REPLACE(STRAFTER(STR(?lijnweightInformationType), "/Field-"), "[+]", " "), "%20", " ")) AS ?tgtLijnweightTypeName) .
-					FILTER (STRENDS(LCASE(?tgtLijnweightTypeName), "lineweight")) .
 				}
 				OPTIONAL {
 					?this otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
@@ -799,10 +795,6 @@ ex:ConvertConceptualLijnweightRelations a sh:NodeShape ;
 					IF(?lijnweightValueThis = "nvt", ?undefined, ?lijnweightValueThis),
 					IF(BOUND(?lijnweightValueParent), ?lijnweightValueParent, ?undefined2)) AS ?lijnweightValue) .
 
-				## Option 2: Recursive function
-				# BIND (ex:retrieveValue(?this, ?lijnweightInformationType) AS ?lijnweightValue) .
-
-				FILTER (BOUND(?lijnweightInformationType)) .
 				?Lijnweight a otl:Document .
 				?Lijnweight otl:attr-Conceptual-name "Lijnweight" .
 				?lijnweightConceptStub otl:rel-Conceptual-isSpecializationOf+ ?Lijnweight .
