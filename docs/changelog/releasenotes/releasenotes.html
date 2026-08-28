@@ -1,0 +1,894 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>NLCS Release Notes</title>
+<link rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+</head><script>
+$(document).ready(function () {
+    const table = $('table').DataTable({
+        pageLength: 50,
+        order: [[3, 'asc'], [0, 'asc']]
+    });
+
+    const milestones = new Set();
+
+    table.column(3).data().each(function (value) {
+        const text = $('<div>').html(value).text().trim();
+        if (text) milestones.add(text);
+    });
+
+    [...milestones].sort().forEach(function (m) {
+        $('#milestoneFilter').append(
+            $('<option>').val(m).text(m)
+        );
+    });
+
+    $('#milestoneFilter').on('change', function () {
+        const value = $(this).val();
+        table.column(3)
+            .search(value ? '^' + value + '$' : '', true, false)
+            .draw();
+    });
+
+    $.fn.dataTable.ext.search.push(function(settings, data) {
+        if (!$('#onlyReleaseNotes').is(':checked')) {
+            return true;
+        }
+        return data[5].trim() !== '';
+    });
+
+    $('#onlyReleaseNotes').on('change', function () {
+        table.draw();
+    });
+});
+</script><body>
+<h1>NLCS Release Notes</h1>
+<link rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<select id="milestoneFilter">
+<option value="">Alle milestones</option>
+</select>
+$.fn.dataTable.ext.search.push(function(settings, data) {
+if (!$('#onlyReleaseNotes').is(':checked')) {
+return true;
+}
+return data[5].trim() !== '';
+});
+$('#onlyReleaseNotes').on('change', function() {
+table.draw();
+});
+<table>
+<colgroup><col/><col/><col/><col/><col/><col/></colgroup>
+<tr><th>number</th><th>title</th><th>state</th><th>milestone</th><th>labels</th><th>release_notes</th></tr>
+<tr><td>1</td><td>Inspectieput riolering: vierkant symbool ipv ovaal</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>minor fix; RI_riolering-en-GWSW; BGT; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT); Release note</td><td>De symbolen voor putdeksels van rioleringen zijn aangevuld: er zijn nu putdeksels met een reguliere putrand en de _01 variant een ronde putrand met deksel. In de hoofdgroep KL zijn ovale symbolen beschikbaar voor de controleputjes/brandkranen van de waterleidingmaatschappijen.</td></tr>
+<tr><td>2</td><td>Hoe omgaan met termen, laagnamen, afkortingen in de thesaurus?</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>thesaurus NLCS</td><td></td></tr>
+<tr><td>3</td><td>NLCS kent geen FysiekeObjecten, alleen informatieobjecten. Objectclassificatie nodig?</td><td>CLOSED</td><td>Gebruikersvragen</td><td>Informatiemodel; Bespreken EC</td><td></td></tr>
+<tr><td>4</td><td>As kilometrering informatieobject?</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>Informatiemodel</td><td></td></tr>
+<tr><td>5</td><td>#1703 Hoofdgroep ZZ, hoogtelabel, kantopsluting.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; ZZ_voor alle hoofdgroepen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT); Release note</td><td>Alle symbolen voor hoogtelabel worden verwijderd uit de standaard. Aanbeveling aan tekenaars is een losse tekst plaatsen in het dwarsprofiel. De pijlen staan in de meeste tekeningen in de weg. Dit maakt de standaard eenvoudiger.</td></tr>
+<tr><td>6</td><td>#1702 Meerdere ZZ linetypes hebben geen V- variant.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Lijnen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT); Release note</td><td>Lijntypes ZZ-CENTER-SO en ZZ-DASHDOT-SO worden niet meer gebruikt. Indien een dergelijk lijntype nodig is, wordt een lijntypes aangemaakt bij het objetc.</td></tr>
+<tr><td>7</td><td>#1686  Het object RI-RWZI_DOCEERLEIDING moet RI-RWZI_DOSEERLEIDING zijn.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT); Release note</td><td>Spelfout in object RI-RWZI_DOCEERLEIDING  verbeterd naar RI-RWZI_DOSEERLEIDING.</td></tr>
+<tr><td>8</td><td>#1685	De ene keer wordt de aanduiding LOZELEIDING gebruikt en de andere keer LOZE LEIDING </td><td>CLOSED</td><td>Gebruikersvragen</td><td>RI_riolering-en-GWSW; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>9</td><td>#1684 Het object GW-WATERGANG_TALUD komt twee keer voor</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>minor fix; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT); Release note</td><td>Objecten GW-WATERGANG_TALUD en GW-WATERGANG_KNIKLIJN kwamen dubbel voor in de database, de dubbeling is verwijderd.</td></tr>
+<tr><td>10</td><td>#1683  Het object GW-DIJK_TALUD komt 2 keer voor. </td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GW-grondwerk; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT); Release note</td><td>Objecten GW-DIJK_TALUD en GW-DIJK_KNIKLIJN kwamen dubbel voor, dubbeling is verwijderd.</td></tr>
+<tr><td>11</td><td>#1682 SKL-Waterpomp terug bij de BGT import,</td><td>OPEN</td><td>BGT Mapping 5.1</td><td>BGT; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>12</td><td>BGT mapping NLCS</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>duplicate</td><td></td></tr>
+<tr><td>13</td><td>controle input gebruikers op GWSW mapping</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>14</td><td>#1681	geleideconstructie opnemen in BGT mapping</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>BGT; IE-inrichtingselementen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT); Release note</td><td>Symbolen voor geleideconstructie opgenomen bij inrichtingselementen.</td></tr>
+<tr><td>15</td><td>#1666 Niet alle rioolleidingen hebben de optie tot volschuimen, volzanden en relining</td><td>OPEN</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; Bespreken EC; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT); Release note</td><td>Bij alle soorten stelsel zijn de opties voor bewerkingen van rioolleidingen toegevoegd (volschuimen, volzanden en relinen)</td></tr>
+<tr><td>16</td><td>#1664	Zeer veel BGT symbolen zijn een factor 5 te klein.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>minor fix; BGT; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>17</td><td>#1663 lijnen van het ELEMENT GD  moeten worden getekend met &#233;&#233;n pen dikker (binnen dezelfde lijngroep) </td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Lijnen; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>18</td><td>#1658	rare situaties element -GD linetype continuous</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Lijnen; eisen aan NLCS applicaties; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>19</td><td>#1638	&quot;Zaagsnede heeft alleen een NIEUW blok gedefinieerd,</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>20</td><td>#1637 Naamgeving lijnstijlen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation</td><td></td></tr>
+<tr><td>21</td><td>#1632	&quot;1. Kunt u aangeven wat de reden is dat deze verschillende haaientanden niet meer zijn opgenomen?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Symbolen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>22</td><td>#1624	&quot;In NLCS 5.0 is nog maar &#233;&#233;n lijntype voor haaientanden aanwezig. </td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>duplicate</td><td></td></tr>
+<tr><td>23</td><td>#1591 e kleur voor -GV is gelijk aan -G of hoort een -GV object de kleur te krijgen van een -V element (vlakvulling).</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>24</td><td>#1589 riolering, oa wat het verschil is tussen een RIOOLLEIDING en TRANSPORTLEIDING?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>25</td><td>#1588	de kleur van tekstlagen ook aanpassen per laag</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>documentation; NLCS Basis; overal; kleuren</td><td></td></tr>
+<tr><td>26</td><td>#1574 voor Nuts bedrijven is het belangrijk dat bewerkingen ook aan objecten met de status Bestaand kan worden toegevoegd. </td><td>CLOSED</td><td>Release Netbeheer​ in NLCS versie x</td><td>documentation; duplicate; Netbeheer; status&amp;bewerking</td><td></td></tr>
+<tr><td>27</td><td>#1554	&quot;Er komen objecten voor met spatie in de Object naam.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Bespreken EC</td><td></td></tr>
+<tr><td>28</td><td>#1547	&quot;We zien dat er spaties staan in de objectnaam en/of subobjectnaam.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>duplicate</td><td></td></tr>
+<tr><td>29</td><td>#1543	&quot;Is er een lijst met gebruikte afkortingen van de NLCS objecten.</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Informatiemodel</td><td></td></tr>
+<tr><td>30</td><td>#1526	In NLCS wordt een getrokken lijn aangeduid met de naam &#39;Continuous&#39;  is leveranciersspecifiek</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>minor fix; documentation; Lijnen; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>31</td><td>#1525	&quot;Basiskleur wit (RGB 255,255,255, de &#39;wisselkleur&#39;)  leveranciersspecifiek</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>minor fix; documentation; kleuren; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>32</td><td>#1513  De aanhaallijnen van de maatvoering  / De prefix van de radius en diameter aanduidingen.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; extra review expertcommissie vereist; maatvoering-leaders-teksten</td><td></td></tr>
+<tr><td>33</td><td>#1502	&quot;o.a. “KANTOPSLUITING_TROTTOIRBAND_130 150-G</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>34</td><td>#1501	&quot;NLCS 5 kent de lagen: OG-BEBOUWING_HOOFDGEBOUW OG-BEBOUWING_ENTREE_HOOFDGEBOUW</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>OG-ondergrond; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>35</td><td>#1495	Ik had een vraag over de minimale Autocad versie </td><td>OPEN</td><td>Inhoudelijke backlog</td><td>documentation; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>36</td><td>#1476	in de lin file bestaat SWA nog als lijnstyle. echter zijn alle SWA objecten vervallen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; Lijnen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>37</td><td>#1473	bij het symbool (V-)SVH-SBS_DIKFORMAAT_BLOK(_KL)-SO ontbreken de stipjes</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>38</td><td>integratie tussen de NLCS en de NL/SfB codering?</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>KW kunstwerken</td><td></td></tr>
+<tr><td>39</td><td>#1420	In de praktijk wordt de materiaalscheidingslijn op situatietekeningen wel eens aangezien voor een 1 - 1 markeringsstreep. </td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>40</td><td>Welke downloads van de inhoud van NLCS worden gegenereerd voor “directe” gebruikers NLCS (excel/csv)</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie</td><td></td></tr>
+<tr><td>41</td><td>bgt mapping nlcs als linked data publiceren</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>BGT</td><td></td></tr>
+<tr><td>42</td><td>#1398	&quot;In de NLCS norm is niet beschreven hoe een aanpijling is opgebouwd.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; ZZ_voor alle hoofdgroepen; eisen aan NLCS applicaties; extra review expertcommissie vereist; CAD interoperabiliteit</td><td></td></tr>
+<tr><td>43</td><td>#1079	Waarom is de symbool voor een trekker oplegger een combinatie van 18,5m? Wettelijk gezien is de maximale lengte 16,5m.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>minor fix; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>44</td><td>#1025	Gebruikersvraag countrykits voor gebruik NLCS in 3D pakketten</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>documentation; Bespreken EC; 3D softwaretemplates</td><td></td></tr>
+<tr><td>45</td><td>#890	SAL-VERWIJZING_WIJZIGING_RECHTS-SO en SAL-VERWIJZING_WIJZIGING_LINKS-SO zijn niet goed zichtbaar.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>minor fix; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>46</td><td>#888	Bij het symbool SIE-FIETSENKLUIS-SO vraag ik af of het symbool wel -SO moet zijn. </td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>IE-inrichtingselementen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>47</td><td>#887	Verwijzing naar een doorsnede moet volgens formele beschrijving een lijndikte van 0.18 mm hebben</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; doorsneden; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>48</td><td>#886	een Engelse benaming in een Nederlandse standaard? Volgens mij kan SVH-COBBLESTONE </td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>49</td><td>#885	Veel arceringslagen ten behoeve van “Constructies” hebben de kleur 252.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>BC betonconstructies; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>50</td><td>#884	Er is geen arcering voor dikke tegels. (zowel 300x300 als 300x150 als 150x300).</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; VH - verhardingen; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>51</td><td>#883	De blocken voor straatbaksteen zijn door de puntjes behoorlijk onduidelijk</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; eisen aan NLCS applicaties; extra review expertcommissie vereist</td><td></td></tr>
+<tr><td>52</td><td>#882	Waarom zijn de SVH-symbolen voor BSS en straatbaksteen dikformaat</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>53</td><td>#881	Worden bijschriften t.a.v. te verwijderen situatie als zijnde bestaand weergegeven of wel met 1.8 en cursief?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>54</td><td>#879	13. Ondanks dat de symbolen voor verwijzingen slechts aanbevolen symbolen zijn</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>AL - Algemeen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>55</td><td>#878	In de formele omschrijving staat bij 4.4.4 “verwijzing naar een detail” dat er gebruikt moet worden gemaakt van een rechthoek</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>56</td><td>#877	Het symbool voor tegel 150x300 en 300x150 in zogenaamd “blokverband”</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>57</td><td>#840	Linestyle RI-GWA-V lijkt niet op de linestyle RI-GWA.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>58</td><td>#839	Linestylen RI-DRAINAGE en RI-GWA lijken te veel op elkaar. Kan hier een ander linestyle voor bedacht worden?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>59</td><td>#838	Linestyle bij laag V-OI-RI-GWA-G klopt niet. Er wordt aangegeven dat dit laag RI-GWA moet zijn, maar dat zou RI-GWA-V moeten zijn.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>duplicate; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>60</td><td>#837	&quot;Er wordt niet altijd consequent omgegaan met de linestylen m.b.t. bestaand/vervallen/nieuw.</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Bespreken EC</td><td></td></tr>
+<tr><td>61</td><td>#827	Er bestaan geen doorsnede symbolen voor 280/300x160 en 280/300x250 banden</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>62</td><td>#821	&quot;In de NLCS Database staat bijv. het Object KOLK op Geometrie en Symbool, maar de children verwijzen alleen naar Geometrie.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; Symbolen; VH - verhardingen; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>63</td><td>#599 De vraag is dan ook wat de juiste aanpak voor een dergelijke laagnaam is?</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Bespreken EC</td><td></td></tr>
+<tr><td>64</td><td>#585	&quot;In de NLCS wordt aangegeven dat als decimaalteken de “punt” (.) wordt gebruikt. Dit is echter de Angelsaksische methode.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>65</td><td>#508	&quot;Hierbij wil ik jullie de symbolen voor de groep Verkeerskunde Vaarwegen doen toekomen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VV verkeersmaatregelen vaarweg; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>66</td><td>#457	&quot;Wij zijn momenteel bezig om voor een klant verschillende as-built autocadtekeningen om te zetten naar NLCS. </td><td>CLOSED</td><td>Gebruikersvragen</td><td>CAD-applicaties</td><td></td></tr>
+<tr><td>67</td><td>#454	&quot;Het object stootband is als symbool terug te vinden bij SIE en bij SVH</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>NLCS Basis; VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>68</td><td>#454	&quot;Grondkeringen Deze groep is naar mijn mening niet logisch opgebouwd.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>NLCS Basis; GK Grondkeringen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>69</td><td>#422	&quot;Pagina 40-41, paragraaf 4.6.3. Wellicht extra duidelijk om hier op te nemen dat peilmaten/hoogtematen t.o.v. NAP altijd teksthoogte 1.8mm hebben: </td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>70</td><td>#422	Volgens mij zat bij NLCS v3.1 (2012) voor het laatst een lijst met verklaring van alle afkortingen die in de NLCS gebruikt worden.</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>documentation</td><td></td></tr>
+<tr><td>71</td><td>#422	Waarvoor dienen de lagen met de bewerking ‘-WERK’ ? Kan dat uitgelegd worden in de formele beschrijving?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>72</td><td>#398	De NLCS lagen om damwanden weer te geven zijn te summier, alleen linetype continuous.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>NLCS Basis; IE-inrichtingselementen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>73</td><td>#E001	&quot;in NLCS-5.0 lin ontbreken AL-SYSTEEMGRENS-SO</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td></td><td></td></tr>
+<tr><td>74</td><td>#E002	&quot;lijntype komt dubbel voor: aansluitleiding</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; NLCS Basis; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>75</td><td>#E003	Maatvoering wijkt af bij de diverse softwareleveranciers en komt niet overeen met FB</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; duplicate; Bespreken EC; maatvoering-leaders-teksten</td><td></td></tr>
+<tr><td>76</td><td>#E004	het ontbreken van de Tekstgrootte in NLCS Maatvoerings layers. </td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>duplicate; NLCS Basis; Bespreken EC</td><td></td></tr>
+<tr><td>77</td><td>#E005	SAM-ASPUNTNUMMER-SO bestaat uit een tag/attribute met een verkeerde tekststijl en een teksthoogte die niet conform de afspraken is.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>NLCS Basis; AM assen en metrering; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>78</td><td>#E006	&quot;BGT mapping: -	Sommige symbolen zijn niet SO en dus niet schaalbaar:</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; BGT; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>79</td><td>#E007	&quot;&quot;&quot;-	B-SAL-VERWIJZING_MATERIAALNUMMER-SO , wit vlakje met witte tekst?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>NLCS Basis; AL - Algemeen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>80</td><td>#E008	Onze filters hebben weer een fout gevonden, onder KL, Poller Kast.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>KL kabels en leidingen; IW installaties weg; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>81</td><td>#E009	&quot;NLCS ObjectID 3168, OPENBAAR TOILET</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>NLCS Basis; OG-ondergrond; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>82</td><td>#E010	&quot;Status van symbooleigenschappen is niet juist in database voor 3740 en 3821</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>NLCS Basis; KL kabels en leidingen; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>83</td><td>#E011	NLCS objectID 517; lt_b en lt_n staan beide ingesteld op 685,</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GW-grondwerk; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>84</td><td>#E012	&quot;De volgende lijntypes worden niet toegepast bij de NLCS objecten; 87 AL-WATERLIJN-SO   </td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Lijnen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>85</td><td>#E013	&quot;Lijntypes voor status vervallen niet ingesteld voor:</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GR-Groen-inclusief-bomen; Lijnen; ZZ_voor alle hoofdgroepen; KL kabels en leidingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>86</td><td>#E014	Objecten dubbel: KNIKLIJN en TALUD; ObjectID&#39;s verwijderen: 4088, 4087, 4099 en 4100</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GW-grondwerk; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>87</td><td>#E015	&quot;Symbool mantelbuis controleren; &#39;VERVALLEN&#39; maar ook &#39;NIEUW&#39; in combinatie met &#39;VERVALLEN!!!!&#39;</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Symbolen; Vastgesteld-in-EC; dynamische symbolen; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>88</td><td>#E016	Dubbele definitie in de NLCS.lin, RI-AANSLUITLEIDING-SO (349 en 381) &amp; V-RI-AANSLUITLEIDING-SO</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Lijnen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>89</td><td>#E017	&quot;10 ID&#39;s in de &quot;&quot;VIEW&quot;&quot; worden wel gebruikt maar hebben fase=&quot;&quot;vervallen&quot;&quot;</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie</td><td></td></tr>
+<tr><td>90</td><td>#E018	Symbool N-SVH-KANTOPSLUITING_TROTTOIRBAND_130 250-D;</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>91</td><td>#E019	&quot;4 symbolen voor mapping BGT niet -SO; kan logisch zijn maar hoe dan om te gaan met rotatie van het object &quot;</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>BGT; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>92</td><td>#E020	&quot;op regel 144 van NLCS-OBJECTEN-OG-5.0.xls zit een bug.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>NLCS Basis; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>93</td><td>#E021	&quot;In de formele beschrijving lees ik het volgende op blz 60 (par 5.2.2.c) voor arceringen met een vervallen status:</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>94</td><td>#E022	&quot;Wat betreft BEWERKINGEN: </td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>NLCS Basis; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>95</td><td>#E023	voor alle objecten kleur 50 vervangen door kleur 40</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>NLCS Basis; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>96</td><td>#E024 AVH-TEGELS_300x300_HALFST &#233;n AVH-TEGELS_300x300_HALFST-SO</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; duplicate; Bespreken EC; Controversieel</td><td></td></tr>
+<tr><td>97</td><td>BGT ondergrond</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>BGT; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>98</td><td>Meta-informatie / Tekenblad onderdelen, niet in informatiemodel?</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Informatiemodel; meta-informatie</td><td></td></tr>
+<tr><td>99</td><td>Governance ontology alignment NLCS - IMBOR</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>BOMOS; IMBOR</td><td></td></tr>
+<tr><td>100</td><td>Documentatie importsheet nieuwe NLCs objecten opstellen</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>documentation; BOMOS</td><td></td></tr>
+<tr><td>101</td><td>Governance mapping GWSW - NLCS</td><td>OPEN</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW; BOMOS</td><td></td></tr>
+<tr><td>102</td><td>2D/3D</td><td>CLOSED</td><td>Gebruikersvragen</td><td>duplicate; Project &lt;&gt; Beheer</td><td></td></tr>
+<tr><td>103</td><td>#1704 KG-GRONDVERWERVING_OPSTALLEN</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>NLCS Basis; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>104</td><td>#1705 KG-BENOGRENS en KG-ONDERHOUDSGRENS</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>NLCS Basis; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>105</td><td>#1706 Naamgeving inritblokken</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>106</td><td>#1707 fout in de tag bij het symbool STROOMRICHTING_RECHTS</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>107</td><td>#1708 Tekstgrootte chemische stoffen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>108</td><td>#1709 Hoogtemaatvoering cursief of niet.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>109</td><td>objecten die niet in NLCS voorkomen, maar wel in IMBOR</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR</td><td></td></tr>
+<tr><td>110</td><td>Vergelijking IMBOR - NLCS</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR</td><td></td></tr>
+<tr><td>111</td><td>Use cases ontology alignment IMBOR - NLCS</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR</td><td></td></tr>
+<tr><td>112</td><td>Toevoegen Bomen aan NLCS</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>GR-Groen-inclusief-bomen; Scope</td><td></td></tr>
+<tr><td>113</td><td>Op elkaar afstemmen IMBOR en NLCS</td><td>CLOSED</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR</td><td></td></tr>
+<tr><td>114</td><td>Review objectentabel stedelijk spoor: Check op decompositie</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor</td><td></td></tr>
+<tr><td>115</td><td>Stedelijk Spoor, lagen met alleen tekst</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Informatiemodel; Stedelijk Spoor</td><td></td></tr>
+<tr><td>116</td><td>Stedelijk spoor: spaties en hoofdletter</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Netbeheer; Stedelijk Spoor; Bespreken EC</td><td></td></tr>
+<tr><td>117</td><td>Stedelijk spoor: kabels en leidingen afstemmen met netbeheer</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Netbeheer; Stedelijk Spoor</td><td></td></tr>
+<tr><td>118</td><td>Opstellen symbolen voor Stedelijk Spoor door werkgroep</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor</td><td></td></tr>
+<tr><td>119</td><td>We nemen geen status op in de laagnaam bij Stedelijk spoor, ook niet als het altijd meetgegevens zijn</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; status&amp;bewerking</td><td></td></tr>
+<tr><td>120</td><td>Uitbreiden NLCS met Stedelijk Spoor: tabellen vaststellen in werkgroep</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>duplicate; Stedelijk Spoor</td><td></td></tr>
+<tr><td>121</td><td>Concept publicatie &amp; documentatie Stedelijk Spoor</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor</td><td></td></tr>
+<tr><td>122</td><td>Afstemmen beschrijving SD in Formele beschrijving NLCS</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Vastgesteld-in-EC; CAD-elementen</td><td></td></tr>
+<tr><td>123</td><td>VWA symbolen bij DWA</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; Symbolen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>124</td><td>Schema feedback verwerken: afronden issues</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>BOMOS</td><td></td></tr>
+<tr><td>125</td><td>Toevoegen VRI aan NLCS</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Bespreken EC; VRI</td><td></td></tr>
+<tr><td>126</td><td>Release notes 5.0 toevoegen aan formele documentatie</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation</td><td></td></tr>
+<tr><td>127</td><td>implementatie: minimale eisen documenteren</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; BOMOS</td><td></td></tr>
+<tr><td>128</td><td>Analyse oneigenlijk gebruik van X in de laagnaam</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; VH - verhardingen; VW Verkeersmaatregelen Weg; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>129</td><td>Voorstel hekwerken &#39;terreinafscheidingen&#39;</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>130</td><td>Voorstel hoofdgroep beplanting</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GR-Groen-inclusief-bomen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>131</td><td>lijntypes riolering</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>132</td><td>mapping BGT, finetuning</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>duplicate; BGT; Symbolen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>133</td><td>Symbolen NLCS publiceren via Github</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Symbolen; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>134</td><td>Arceringen  exporteren als .pat bestand</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; publicatie</td><td></td></tr>
+<tr><td>135</td><td>.lin kunnen genereren uit de database</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; publicatie</td><td></td></tr>
+<tr><td>136</td><td>Symbolen NLCS: viewer inrichten</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Bespreken EC; Symbolen</td><td></td></tr>
+<tr><td>137</td><td>Symbolen NLCS ook publiceren als SVG, voor representatie in GIS</td><td>CLOSED</td><td>Gebruikersvragen</td><td>Symbolen; CAD&lt;&gt;GIS datatransformaties</td><td></td></tr>
+<tr><td>138</td><td>Monitoren project &quot;NLCS mee in ISO 19650: OTL+ILS&quot;</td><td>CLOSED</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; Project &lt;&gt; Beheer</td><td></td></tr>
+<tr><td>139</td><td>(hoe) kunnen we zorgen dat NLCS gebruikt kan worden in de ILS Configurator?</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>ILS-tekening</td><td></td></tr>
+<tr><td>140</td><td>Hoe actueel is de BGT achtergondinformatie op de website?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; BGT; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>141</td><td>Straatnamen en huisnummers uit BGT?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; BGT; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>142</td><td>Onderzoek opname constructies in NLCS</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Bespreken EC; BC betonconstructies</td><td></td></tr>
+<tr><td>143</td><td>Kabels dubbel in ET en OV?</td><td>CLOSED</td><td>Release Netbeheer​ in NLCS versie x</td><td>documentation; Netbeheer; KL kabels en leidingen; OV Openbare verlichting</td><td></td></tr>
+<tr><td>144</td><td>Substatus uitbreiden</td><td>CLOSED</td><td>Release Netbeheer​ in NLCS versie x</td><td>duplicate; Netbeheer; status&amp;bewerking</td><td></td></tr>
+<tr><td>145</td><td>NLCS bewerkingen toepassen op alle NLCS statussen</td><td>CLOSED</td><td>Release Netbeheer​ in NLCS versie x</td><td>documentation; duplicate; Netbeheer; status&amp;bewerking</td><td></td></tr>
+<tr><td>146</td><td>Documenteren doel use case en probleemstelling 2D/3D</td><td>CLOSED</td><td>Gebruikersvragen</td><td>Project &lt;&gt; Beheer</td><td></td></tr>
+<tr><td>147</td><td>Onderzoeken aansluiting op IFC 4.3</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>3D: IFC+Classificatie</td><td></td></tr>
+<tr><td>148</td><td>Ontwerpfasen Bouwend Nederland</td><td>CLOSED</td><td>Gebruikersvragen</td><td>Bespreken EC; status&amp;bewerking; GroeipadDSGO/NLCS</td><td></td></tr>
+<tr><td>149</td><td>Wijzigingen / versiebeheer linked data publicatie documenteren en queries maken</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>documentation; publicatie; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>150</td><td>Database / publicatieplatform documentatie functionaliteiten</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>documentation; publicatie</td><td></td></tr>
+<tr><td>151</td><td>Tekeningen checken op voldoen aan NLCS</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>152</td><td>Keuze model voor publicatie van wijzigingen tussen versies van een standaard</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>Informatiemodel</td><td></td></tr>
+<tr><td>153</td><td>Handleiding wijzigingen aanleveren door expertcommissie aan database</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>documentation</td><td></td></tr>
+<tr><td>154</td><td>Handleiding gebruik database door softwareleveranciers</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>documentation</td><td></td></tr>
+<tr><td>155</td><td>transformatie / script autocad bestanden naar microstation</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>BOMOS; publicatie</td><td></td></tr>
+<tr><td>156</td><td>Vaststellen welke toevoegingen gedaan moeten worden aan de linkeddatabase om dezelfde functionaliteit te bieden als de oude database</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie</td><td></td></tr>
+<tr><td>157</td><td>Check inhoud linkeddatapublicatie en documenteer verschillen met sql publicatie</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie</td><td></td></tr>
+<tr><td>158</td><td>Advies implementatieondersteuning linkeddata door softwareleveranciers</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>documentation; publicatie</td><td></td></tr>
+<tr><td>159</td><td>Advies implementatieondersteuning linkeddata voor expertcommissie</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>documentation; Bespreken EC; publicatie</td><td></td></tr>
+<tr><td>160</td><td>wat moet er gebeuren met objecten die in de SQL database op vervallen stonden?</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td></td><td></td></tr>
+<tr><td>161</td><td>Rest-API versus Sparql-endpoint, ondersteuning nodig?</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie</td><td></td></tr>
+<tr><td>162</td><td>Review op afbeelding: functionaliteit NLCS</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>163</td><td>Foutjes Mapping BGT NLCS 5.0</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>minor fix; BGT; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>164</td><td>NLCS 5.0 namen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>IE-inrichtingselementen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>165</td><td>Linetype tekenbladgrens</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>AL - Algemeen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>166</td><td>Arceerpatronen grondwerk, onjuiste benamingen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GW-grondwerk; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>167</td><td>Arceerpatronen grond</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Arceringen; GW-grondwerk; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>168</td><td>Arceerpatronen grond versus groen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GR-Groen-inclusief-bomen; GW-grondwerk; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>169</td><td>Arcering funderingen dubbele definities?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Arceringen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>170</td><td>Arceringen GW versus VH-fundering</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Arceringen; GW-grondwerk; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>171</td><td>Kleurgebruik arceringen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Arceringen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>172</td><td>Hondentoilet in &#39;GR&#39;</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GR-Groen-inclusief-bomen; OG-ondergrond; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>173</td><td>Maaiveld in Groen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GR-Groen-inclusief-bomen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>174</td><td>Voorstel: lijntypes haag</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GR-Groen-inclusief-bomen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>175</td><td>Arcering bomengranulaat</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GR-Groen-inclusief-bomen; Arceringen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>176</td><td>Variant lijnstylen: staat in de standaard vanaf 5.0, maar leveranciers ondersteunen het nog niet</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Informatiemodel; RI_riolering-en-GWSW; Lijnen; VH - verhardingen; eisen aan NLCS applicaties; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>177</td><td>Hoe kan je in een ILS defini&#235;ren welke attributen, samenstellingen moeten worden ingevuld bij een object in het model?</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>objectattributen</td><td></td></tr>
+<tr><td>178</td><td>NLCS Thesaurus publiceren</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>thesaurus NLCS</td><td></td></tr>
+<tr><td>179</td><td>Beheeromgeving mapping IMBOR-NLCS inrichten</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR</td><td></td></tr>
+<tr><td>180</td><td>Linksets imbor - nlcs publiceren</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR</td><td></td></tr>
+<tr><td>181</td><td>Viewer inrichten linkset NLCS - IMBOR</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR</td><td></td></tr>
+<tr><td>182</td><td>Query NLCS - IMBOR</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR</td><td></td></tr>
+<tr><td>183</td><td>kaderrand</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>184</td><td>Monitoren voortgang project Stedelijk Spoor</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Stedelijk Spoor</td><td></td></tr>
+<tr><td>185</td><td>Opstellen projectplan ontology alignment GWSW - NLCS</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>186</td><td>Opstellen vaststellingsprotocol om  &quot;NLCS leverancier&quot; te worden/blijven</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>BOMOS; eisen aan NLCS applicaties</td><td></td></tr>
+<tr><td>187</td><td>Monitoren voortgang project IMBOR - NLCS</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR</td><td></td></tr>
+<tr><td>188</td><td>Opstellen toelichting bij huidige versie Stedelijk Spoor, focus op tram</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor</td><td></td></tr>
+<tr><td>189</td><td>BIM Basis Infra / BIM Basis ILS -&gt; BIM Basis Stedelijk Spoor</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Stedelijk Spoor; ILS-tekening</td><td></td></tr>
+<tr><td>190</td><td>Review concept-versie door werkgroepleden</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor</td><td></td></tr>
+<tr><td>191</td><td>Verkenning Informatiemodel / OTL Stedelijk Spoor</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor</td><td></td></tr>
+<tr><td>192</td><td>Stedelijk Spoor: SAP en GIS versus NLCS en CAD</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; CAD&lt;&gt;GIS datatransformaties</td><td></td></tr>
+<tr><td>193</td><td>Monitoren project Verkeersborden</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>194</td><td>Inventarisatie bebordingsbibliotheken 3 leveranciers, beoordelen adhv PvE NLCS</td><td>CLOSED</td><td>Release Verkeersborden in NLCS 5.1</td><td>VW Verkeersmaatregelen Weg; Release note</td><td>De NLCS bibliotheek is aangevuld met de meest voorkomende verkeersborden uit de [Reglement verkeersregels en verkeerstekens 1990 (RVV 1990)](https://wetten.overheid.nl/BWBR0004825), Categorie A t/m J. 
+Van alle snelheidsborden zijn varianten gemaakt voor alle voorkomende snelheden, met ook de meest voorkomende zoneborden. Borden waarop een tekst of getal moet worden afgedrukt die meer varieert, is een symbool gemaakt waarbij de tekst nog moet worden aangevuld in het symbool. Voor de bebouwde kom borden zijn de verschillende varianten met en zonder onderteksten opgenomen. Onderborden zijn nog niet in de NLCS bibliotheek opgenomen.
+Door de aanvulling van de NLCS‑bibliotheek met de meest voorkomende RVV‑verkeersborden vervalt de noodzaak voor maatwerk symbolenbibliotheken bij individuele opdrachtgevers en marktpartijen. Dit leidt tot een structurele reductie in beheer‑ en projectgebonden tekenwerk. Op basis van conservatieve aannames kan deze besparing worden ingeschat op enkele duizenden tot ruim tienduizend arbeidsuren per jaar, wat neerkomt op een maatschappelijke kostenbesparing in de orde van enkele tonnen tot meer dan &#233;&#233;n miljoen euro per jaar.</td></tr>
+<tr><td>195</td><td>inventarisatie ideeen project ontology alignment GWSW - NLCS</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>196</td><td>Onderzoek naar automatisering omzetten van symbolen van CAD naar GIS</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Symbolen; CAD&lt;&gt;GIS datatransformaties</td><td></td></tr>
+<tr><td>197</td><td>Use case PDOK Stedelijk Water &gt; NLCS tekening</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; RI_riolering-en-GWSW; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>198</td><td>Indienen versie 5.0 bij het Forum voor Standaardisatie</td><td>CLOSED</td><td>Inhoudelijke backlog</td><td>BOMOS</td><td></td></tr>
+<tr><td>199</td><td>Migratie bij ophogen versie standaard beter beschrijven</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>BOMOS</td><td></td></tr>
+<tr><td>200</td><td>Handvaten bieden voor developers om sparql-query&#39;s te gebruiken</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>documentation; implementatie; publicatie</td><td></td></tr>
+<tr><td>201</td><td>Monitoren voortgang project Netbeheer</td><td>CLOSED</td><td>Release Netbeheer​ in NLCS versie x</td><td>Netbeheer</td><td></td></tr>
+<tr><td>202</td><td>Monitoren project RAW - NLCS</td><td>CLOSED</td><td>Gebruikersvragen</td><td>RAW-NLCS</td><td></td></tr>
+<tr><td>203</td><td>Rapporteren resultaat PoC RAW-NLCS uit 2022</td><td>CLOSED</td><td>Gebruikersvragen</td><td>documentation; RAW-NLCS</td><td></td></tr>
+<tr><td>204</td><td>Monitoren project NLCS Constructies</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>BC betonconstructies</td><td></td></tr>
+<tr><td>205</td><td>Monitoren project NLCS 3D</td><td>CLOSED</td><td>Gebruikersvragen</td><td>Project &lt;&gt; Beheer</td><td></td></tr>
+<tr><td>206</td><td>Onderzoeken relatie CAD en GIS</td><td>CLOSED</td><td>Gebruikersvragen</td><td>Project &lt;&gt; Beheer; CAD&lt;&gt;GIS datatransformaties</td><td></td></tr>
+<tr><td>207</td><td>Monitoren project NLCS inmeting</td><td>CLOSED</td><td>Gebruikersvragen</td><td>Inmetingen</td><td></td></tr>
+<tr><td>208</td><td>COORDINAATPUNT van AL naar ZZ</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>ZZ_voor alle hoofdgroepen; AL - Algemeen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>209</td><td>COB analyse kabels, leidingen en bomen: relevantie uitzoeken voor NLCS</td><td>CLOSED</td><td>Inhoudelijke backlog</td><td>GR-Groen-inclusief-bomen; Scope; KL kabels en leidingen</td><td></td></tr>
+<tr><td>210</td><td>Variant lijnstijlen en kleuren: &quot;NLCS varianten&quot; publiceren </td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Bespreken EC; objectattributen; tekenvrijheid</td><td></td></tr>
+<tr><td>211</td><td>documenteren relatie NLCS met beheerders van country kits</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; 3D softwaretemplates</td><td></td></tr>
+<tr><td>212</td><td>documenteren werking en functie van country kits voor 3D / 2D in combinatie met NLCS</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; 3D softwaretemplates</td><td></td></tr>
+<tr><td>213</td><td>Monitoren project NLCS release Vaststellen 5.0 als linked data​</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie; publicatie</td><td></td></tr>
+<tr><td>214</td><td>Monitoren project &quot;ontology alignment BGT-NLCS&quot;</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>BGT</td><td></td></tr>
+<tr><td>215</td><td>Query voor tabellen hoofdgroep</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie</td><td></td></tr>
+<tr><td>216</td><td>Opstellen query&#39;s plus opnemen toelichting in documentatie voor oude sql tabellen</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie</td><td></td></tr>
+<tr><td>217</td><td>query voor tabel abibliotheken</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie</td><td></td></tr>
+<tr><td>218</td><td>query voor tabel arceringen</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie</td><td></td></tr>
+<tr><td>219</td><td>query voor tabel disciplines</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie</td><td></td></tr>
+<tr><td>220</td><td>query voor tabel lijnkleuren</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie</td><td></td></tr>
+<tr><td>221</td><td>query voor tabel lijntypes</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie</td><td></td></tr>
+<tr><td>222</td><td>query voor tabel lijnweights</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie</td><td></td></tr>
+<tr><td>223</td><td>query voor tabel object</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie</td><td></td></tr>
+<tr><td>224</td><td>query voor tabel sbibliotheken</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie</td><td></td></tr>
+<tr><td>225</td><td>query voor tabel status</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie; status&amp;bewerking</td><td></td></tr>
+<tr><td>226</td><td>query voor tabel symbolen</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie</td><td></td></tr>
+<tr><td>227</td><td>query voor tabel versies</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie</td><td></td></tr>
+<tr><td>228</td><td>Werken met ID&#39;s uit oude SQL database</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie</td><td></td></tr>
+<tr><td>229</td><td>Afbeelding maken van logisch informatiemodel van NLCS</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>documentation; Informatiemodel</td><td></td></tr>
+<tr><td>230</td><td>Handleidingen / voorschriften bij objecten in CAD tonen (bijv Handboek Bomen)</td><td>OPEN</td><td>Inhoudelijke issues release xx</td><td>documentation; GR-Groen-inclusief-bomen</td><td></td></tr>
+<tr><td>231</td><td>Verkenning van behoefte andere spoorse disciplines</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Stedelijk Spoor</td><td></td></tr>
+<tr><td>232</td><td>Verkenning behoefte metro</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Stedelijk Spoor</td><td></td></tr>
+<tr><td>233</td><td>Verkenning OTL spoor voor stedelijk vervoerders i.c.m. NLCS, NEN 2660-2, ISO 19650</td><td>CLOSED</td><td>Gebruikersvragen</td><td>duplicate</td><td></td></tr>
+<tr><td>234</td><td>Symbool &#39;GROND&#39; ongeldige arcering</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GR-Groen-inclusief-bomen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>235</td><td>Use case Gelderland: IMBOR versus NLCS</td><td>CLOSED</td><td>Gebruikersvragen</td><td>Project &lt;&gt; Beheer; objectattributen; uitwisselformaat</td><td></td></tr>
+<tr><td>236</td><td>Titelblok als S, niet G: overerven elementtypes? </td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Symbolen; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>237</td><td>Symbolen, lijnstijlen en arceringen als block beschikbaar?</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Bespreken EC; Symbolen; Lijnen; Arceringen</td><td></td></tr>
+<tr><td>238</td><td>gebruikersvraag: Revit template</td><td>CLOSED</td><td>Gebruikersvragen</td><td>3D softwaretemplates</td><td></td></tr>
+<tr><td>239</td><td>NLCS object STATUS - versie 5.0 ophelderen documentatie</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; status&amp;bewerking; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>240</td><td>Prioriteren ontwikkelroadmap voor NLCS</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>BOMOS; GroeipadDSGO/NLCS</td><td></td></tr>
+<tr><td>241</td><td>FAQ&#39;s verwerken in documentatie</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>documentation; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>242</td><td>Ophelderen: regels over kleurgebruik in de standaard</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; kleuren; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>243</td><td>Zijn er trainingen of cursussen beschikbaar om gebruikers te helpen bij het begrijpen en implementeren van NLCS? </td><td>OPEN</td><td>Inhoudelijke backlog</td><td>BOMOS</td><td></td></tr>
+<tr><td>244</td><td>Check FAQ: Hoe wordt de interoperabiliteit tussen verschillende CAD-systemen gewaarborgd bij het gebruik van NLCS? </td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Bespreken EC; BOMOS; uitwisselformaat</td><td></td></tr>
+<tr><td>245</td><td>Check FAQ: Zijn er specifieke eisen of richtlijnen voor het archiveren van tekeningen die zijn gemaakt volgens de NLCS-standaard? </td><td>OPEN</td><td>Inhoudelijke backlog</td><td>meta-informatie; Bespreken EC; BOMOS; uitwisselformaat</td><td></td></tr>
+<tr><td>246</td><td>ontbrekende objecten tbv grondscheiding</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>minor fix; GW-grondwerk; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>247</td><td>Monitoren projecten NLCS</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>BOMOS</td><td></td></tr>
+<tr><td>248</td><td>Monitoren project Onderzoek uitwisseling modellen op basis van NLCS</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>uitwisselformaat</td><td></td></tr>
+<tr><td>249</td><td>Vaststellen onderzoeksvragen uitwisseling modellen op basis van NLCS</td><td>CLOSED</td><td>Gebruikersvragen</td><td>CAD&lt;&gt;GIS datatransformaties; 3D: IFC+Classificatie; uitwisselformaat; 3D softwaretemplates</td><td></td></tr>
+<tr><td>250</td><td>Symbool &#39;beplanting_01 bevat ongeldig arceerpatroon</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>duplicate; GR-Groen-inclusief-bomen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>251</td><td>Omgang status &#39;Vervallen&#39; i.r.t. allerlei beheer wensen / presentatie vervallen met scraps  versus rood</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Project &lt;&gt; Beheer; status&amp;bewerking; kleuren; tekenvrijheid; fasering</td><td></td></tr>
+<tr><td>252</td><td>Stappenplan om tot Release NLCS Stedelijk Spoor te komen toevoegen als Milestones</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; implementatie</td><td></td></tr>
+<tr><td>253</td><td>symbolen niet consequent in opbouw en vloeien dicht</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>NLCS Basis; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>254</td><td>Presentatie &#39;perceelsgrensen&#39;</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>KG - Kadastrale informatie en grenzen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>255</td><td>Onjuiste termology drainzand</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>256</td><td>Eisen aan NLCS leveranciers: PDOK thema stedelijk water &quot;GWSW&quot;</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>CAD&lt;&gt;GIS datatransformaties; eisen aan NLCS applicaties</td><td></td></tr>
+<tr><td>257</td><td>Eisen aan NLCS leveranciers: BGT</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>CAD&lt;&gt;GIS datatransformaties; eisen aan NLCS applicaties</td><td></td></tr>
+<tr><td>258</td><td>verwijzing naar 4.7e in par 3.5.6</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; duplicate; SO schaalbare objecten; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>259</td><td>Diameter in millimeters</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>260</td><td>Opmerkingenveld oude database ontbreekt in nieuwe</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>Informatiemodel; Bespreken EC</td><td></td></tr>
+<tr><td>261</td><td>Arceringen: dubbele ID&#39;s</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>Informatiemodel; Arceringen</td><td></td></tr>
+<tr><td>262</td><td>Disciplines: ontbreken ID&#39;s uit oude database</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>disciplines</td><td></td></tr>
+<tr><td>263</td><td>Impliciete informatie-onderdelen die wel in tabellen stonden in oude database</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>Informatiemodel</td><td></td></tr>
+<tr><td>264</td><td>Onderdelen niet gepubliceerd / foutje in query tabel hoofdgroepen?</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>Informatiemodel</td><td></td></tr>
+<tr><td>265</td><td>query voor hoofdgroep, afkortingen</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td></td><td></td></tr>
+<tr><td>266</td><td>ontbrekende onderdelen afkortingen hoofdgroep</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>hoofdgroepen</td><td></td></tr>
+<tr><td>267</td><td>hoofdgroepen geen id in nieuwe database</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>hoofdgroepen</td><td></td></tr>
+<tr><td>268</td><td>Molgoot in hoofdgroep riolering?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>269</td><td>lijnkleuren tabel lijkt niet uit linked data versie te komen?</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>Informatiemodel</td><td></td></tr>
+<tr><td>270</td><td>a-bibliotheken: ID &amp; omschrijving niet in publicatie?</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td></td><td></td></tr>
+<tr><td>271</td><td>200 missende lijntypes in nieuwe database</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>Lijnen</td><td></td></tr>
+<tr><td>272</td><td>lijntype-query resulteert in brakke csv export </td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie</td><td></td></tr>
+<tr><td>273</td><td>tabel lijnweights uit oude bibliotheek niet te queryen</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>Informatiemodel; publicatie</td><td></td></tr>
+<tr><td>274</td><td>NLCS pentabellen</td><td>CLOSED</td><td>Inhoudelijke backlog</td><td>documentation; kleuren; Voorgenomen wijziging; Controversieel</td><td></td></tr>
+<tr><td>275</td><td>Kleuren grondwerklijnen aanpassen van groen naar bruinisch</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GW-grondwerk; kleuren; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>276</td><td>FB 3.5.2, NEN-ISO 128- 23:1999, norm bestaat niet meer</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Lijnen; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>277</td><td>KG-GRENS_KADASTRAAL en KG-GRENS_PERCEEL</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>duplicate; KG - Kadastrale informatie en grenzen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>278</td><td>NLCS.SHX inhoud i.r.t. linetypes</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Bespreken EC; Lijnen</td><td></td></tr>
+<tr><td>279</td><td>Arceringen,  wat is VRKL_LANG?</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>documentation; Informatiemodel; Arceringen</td><td></td></tr>
+<tr><td>280</td><td>Arceringen: URI relatie opnemen naast de ID</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie</td><td></td></tr>
+<tr><td>281</td><td>Arceringen: Wat is &quot;fase&quot; in de sql tabel? </td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>documentation; Informatiemodel; Arceringen</td><td></td></tr>
+<tr><td>282</td><td>Documentatie uitwisseling CAD-modellen: toelichten verschil geometrische en alfanumerieke data</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>documentation; Project &lt;&gt; Beheer</td><td></td></tr>
+<tr><td>283</td><td>symbolen: opnemen expliciete fases</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td></td><td></td></tr>
+<tr><td>284</td><td>OPT symbolen ontbreekt in publicatie</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td></td><td></td></tr>
+<tr><td>285</td><td>Arceringen: Fase niet expliciet gepubliceerd</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td></td><td></td></tr>
+<tr><td>286</td><td>Arceringen: OPT niet expliciet gepubliceerd</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td></td><td></td></tr>
+<tr><td>287</td><td>ID en naam van sbibliotheken niet in nieuwe database</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td></td><td></td></tr>
+<tr><td>288</td><td>sbibliotheken, hoe omschrijvingen van de bijbehorende hoofdgroerpen te queryen</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>Informatiemodel</td><td></td></tr>
+<tr><td>289</td><td>tabel sbibliotheken uitleggen in documentatie standaard</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td></td><td></td></tr>
+<tr><td>290</td><td>Status ID mist in nieuwe database, is dat erg?</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie; status&amp;bewerking</td><td></td></tr>
+<tr><td>291</td><td>Tabel Status: Weergave Als.. mist in nieuwe database</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie; status&amp;bewerking</td><td></td></tr>
+<tr><td>292</td><td>Naast oude ID&#39;s ook zorgen voor URI&#39;s in nieuwe queries</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>implementatie</td><td></td></tr>
+<tr><td>293</td><td>Gebruikersvraag: geleideband en soorten geometrie</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>294</td><td>Veel variatie in presentatie &#39;scraps&#39; bij vervallen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Lijnen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>295</td><td>GWSW mapping, documenteren informatiemodel</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>296</td><td>Implementatie-eisen: kleuren en symbolen tewrugzetten naar NLCS v&#243;&#243;r uitwisseling</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>eisen aan NLCS applicaties</td><td></td></tr>
+<tr><td>297</td><td>Implementatievraag: sparql-endpoint oproepen vanuit c-sharp / dotnet</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>documentation; implementatie</td><td></td></tr>
+<tr><td>298</td><td>Probleem vrijheidsgraden NLCS</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Bespreken EC; tekenvrijheid</td><td></td></tr>
+<tr><td>299</td><td>Implementatieverseisten NLCS applicaties: presentatie (symbology) van objecten</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>duplicate; eisen aan NLCS applicaties</td><td></td></tr>
+<tr><td>300</td><td>Implementatievereisten NLCS applicaties: individuele toevoegingen op NLCS kunnen uitwisselen tussen leveranciers </td><td>OPEN</td><td>Inhoudelijke backlog</td><td>eisen aan NLCS applicaties; organisatiebibliotheken</td><td></td></tr>
+<tr><td>301</td><td>Implementatievereisten NLCS applicaties: controle modellen, aanvullen met testtekeningen van DigiGO</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>tekeningen-valideren; eisen aan NLCS applicaties</td><td></td></tr>
+<tr><td>302</td><td>Klic2NLCS?</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Netbeheer; CAD&lt;&gt;GIS datatransformaties; Scope</td><td></td></tr>
+<tr><td>303</td><td>Vanaf linked data publicatie juiste link naar symbolengeven</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>documentation; Informatiemodel; publicatie</td><td></td></tr>
+<tr><td>304</td><td>Query naar laces platform om te vragen of er een nieuwe versie is</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>implementatie; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>305</td><td>Dilemma: uitwisseling alfanumerieke data over objecten opnemen als eis aan NLCS applicaties en  uitwisselformaat voorschrijven?</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>eisen aan NLCS applicaties; objectattributen</td><td></td></tr>
+<tr><td>306</td><td>Onderzoeken CAD/Geo uitwisselformaten in relatie tot NLCS</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>uitwisselformaat</td><td></td></tr>
+<tr><td>307</td><td>Monitoren voortgang vaststellen eisen aan NLCS applicaties</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>BOMOS; eisen aan NLCS applicaties</td><td></td></tr>
+<tr><td>308</td><td>NLCS versus 3D BIM: praktijkproblemen</td><td>CLOSED</td><td>Gebruikersvragen</td><td>documentation; Project &lt;&gt; Beheer</td><td></td></tr>
+<tr><td>309</td><td>Kaders als niet SO?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; duplicate; AL - Algemeen; SO schaalbare objecten; uitwisselformaat</td><td></td></tr>
+<tr><td>310</td><td>Disciplines invulling verschilt per organisatie</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>documentation; Bespreken EC; disciplines; discipline-ter-discussie</td><td></td></tr>
+<tr><td>311</td><td>Link naar voorbeeld tekeningen niet meer actueel</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td></td><td></td></tr>
+<tr><td>312</td><td>AutoCAD Hatch met &#39;achtergrondkleur</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Arceringen; arcering-met-achtergrondkleur; gemak gebruiker</td><td></td></tr>
+<tr><td>313</td><td>Symbolen, fout in publicatie</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie</td><td></td></tr>
+<tr><td>314</td><td>Monitoring issue: besluitvorming nlcs verkeersborden door opdrachtgever</td><td>CLOSED</td><td>Release Verkeersborden in NLCS 5.1</td><td>VW Verkeersmaatregelen Weg; besluit OG; Release note</td><td>: Zie #194</td></tr>
+<tr><td>315</td><td>Ter besluit OG: in NLCS wel/niet overnemen van 10- en 100 borden op verkeersbordenoverzicht.nl</td><td>CLOSED</td><td>Release Verkeersborden in NLCS 5.1</td><td>VW Verkeersmaatregelen Weg; Release note</td><td>zie #194</td></tr>
+<tr><td>316</td><td>ter besluit og: verkeersborden svg&#39;s genereren uit CAD bestanden</td><td>CLOSED</td><td>Release Verkeersborden in NLCS 5.1</td><td>VW Verkeersmaatregelen Weg; besluit OG; Release note</td><td>Bij de verkeersbordenbibliotheek voor de NLCS standaard zijn naast CAD-symbolen ook svg-afbeeldingen gemaakt van alle verkeersborden. Deze symbolen maken het mogelijk dat de verkeersborden in CAD-tekeningen er net zo uitzien als in een GIS-kaart bijvoorbeeld in het George dataportaal. In het huidige George-dataportaal worden eenvoudige svg&#39;s gebruikt waarbij bijvoorbeeld de snelheid niet in het bord is afgebeeld, maar in een tekst naast het bord. De visualisatie met svg-afbeeldingen vanuit NLCS is veel duidelijker en toont gewoon het snelheidsbord zoals de weggebruiker deze ziet. Deze SVG&#39;s hebben niet de kwaliteit om gebruikt te worden bij het fysiek produceren van verkeersborden maar zijn bedoeld om op een kaart in een beeldscherm goed over te komen.</td></tr>
+<tr><td>317</td><td>Ter besluit OG: in NLCS beperkt aantal borden opnemen, faciliteren van nieuwe codering VNVF via koppeling met informatiemodel</td><td>CLOSED</td><td>Release Verkeersborden in NLCS 5.1</td><td>VW Verkeersmaatregelen Weg; besluit OG; Release note</td><td>: Zie #194</td></tr>
+<tr><td>318</td><td>Ter besluit OG: Afwijking verkeersborden symbolen van NEN productienormen</td><td>CLOSED</td><td>Release Verkeersborden in NLCS 5.1</td><td>VW Verkeersmaatregelen Weg; Release note</td><td>Bij de verkeersbordenbibliotheek voor de NLCS standaard zijn CAD-symbolen en svg-afbeeldingen gemaakt van verkeersborden. De kleuren en maten van de symbolen wijken af van de NEN-productienormen. Dit is bewust gedaan, omdat de afbeelding van de borden op een tekening of op een beeldscherm veel kleiner is, en hierbij andere eisen gelden voor de leesbaarheid van het verkeersbord.</td></tr>
+<tr><td>319</td><td>Continue updates NLCS</td><td>CLOSED</td><td>Gebruikersvragen</td><td></td><td></td></tr>
+<tr><td>320</td><td>De huidige werkwijze voor disciplines moet worden opgehelderd in de uitleg standaard</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>disciplines; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>321</td><td>Outdated link in eisen aan tekeningen en modellen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td></td><td></td></tr>
+<tr><td>322</td><td>[NLCS NBH] NLCS Netbeheer gebundelde wijziging 2024Q1</td><td>CLOSED</td><td>Release Netbeheer​ in NLCS versie x</td><td>Netbeheer; Bespreken EC</td><td></td></tr>
+<tr><td>323</td><td>[NLCS NBH] 1. Vaste posities ten behoeve van Laagbenamingen NLCS-Netbeheer</td><td>CLOSED</td><td>Release Netbeheer​ in NLCS versie x</td><td>Netbeheer; Bespreken EC; laagnamen</td><td></td></tr>
+<tr><td>324</td><td>[NLCS NBH] 2.	NLCS subobject02 (Subnettype)</td><td>CLOSED</td><td>Release Netbeheer​ in NLCS versie x</td><td>documentation; Netbeheer; Bespreken EC; laagnamen</td><td></td></tr>
+<tr><td>325</td><td>[NLCS NBH] 3. Gebruik van speciale tekens in laag- en symboolnamen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Netbeheer; laagnamen; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>326</td><td>[NLCS NBH] 4. Hoofdlettergebruik</td><td>CLOSED</td><td>Release Netbeheer​ in NLCS versie x</td><td>Netbeheer; Bespreken EC; laagnamen</td><td></td></tr>
+<tr><td>327</td><td>[NLCS NBH] 5. Status soorten en waarden</td><td>CLOSED</td><td>Release Netbeheer​ in NLCS versie x</td><td>Netbeheer; Bespreken EC; status&amp;bewerking</td><td></td></tr>
+<tr><td>328</td><td>[NLCS NBH] 6. Bewerkingen</td><td>CLOSED</td><td>Release Netbeheer​ in NLCS versie x</td><td>Netbeheer; Bespreken EC; status&amp;bewerking</td><td></td></tr>
+<tr><td>329</td><td>Overbodige symbolen aarding</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>KL kabels en leidingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>330</td><td>Advies Form voor standaardisatie opnemen NLCS 5.0 in GEMMA</td><td>CLOSED</td><td>Gebruikersvragen</td><td>BOMOS</td><td></td></tr>
+<tr><td>331</td><td>nieuwe hoofdgroep Energievoorziening Spoor (ES) </td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor</td><td></td></tr>
+<tr><td>332</td><td>Motie voor mijden van &#39;OVERIG&#39; in NLCS-laagnamen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>laagnamen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>333</td><td>NLCS-IMBOR projectie: AL</td><td>CLOSED</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; AL - Algemeen</td><td></td></tr>
+<tr><td>334</td><td>NLCS-IMBOR projectie: AM</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; AM assen en metrering</td><td></td></tr>
+<tr><td>335</td><td>NLCS-IMBOR projectie: BC</td><td>CLOSED</td><td>Alignment NLCS-IMBOR​</td><td>BC betonconstructies; IMBOR</td><td></td></tr>
+<tr><td>336</td><td>NLCS-IMBOR projectie: BV</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; BV bermbeveiligingsvoorziening</td><td></td></tr>
+<tr><td>337</td><td>NLCS-IMBOR projectie: FC</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; FC Funderingsconstructies</td><td></td></tr>
+<tr><td>338</td><td>NLCS-IMBOR projectie: FV</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; FV faunavoorzieningen</td><td></td></tr>
+<tr><td>339</td><td>NLCS-IMBOR projectie: GC</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; GC Grondkerende constructies</td><td></td></tr>
+<tr><td>340</td><td>NLCS-IMBOR projectie: GK</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; GK Grondkeringen</td><td></td></tr>
+<tr><td>341</td><td>NLCS-IMBOR projectie: GR</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; GR-Groen-inclusief-bomen</td><td></td></tr>
+<tr><td>342</td><td>NLCS-IMBOR projectie: GW</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; GW-grondwerk</td><td></td></tr>
+<tr><td>343</td><td>NLCS-IMBOR projectie: HC</td><td>CLOSED</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; HC - houtconstructies</td><td></td></tr>
+<tr><td>344</td><td>NLCS-IMBOR projectie: HU</td><td>CLOSED</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; HU hulpconstructies</td><td></td></tr>
+<tr><td>345</td><td>NLCS-IMBOR projectie: IE</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; IE-inrichtingselementen</td><td></td></tr>
+<tr><td>346</td><td>NLCS-IMBOR projectie: IV</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; IV Installaties vaarweg</td><td></td></tr>
+<tr><td>347</td><td>NLCS-IMBOR projectie: IW</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; IW installaties weg</td><td></td></tr>
+<tr><td>348</td><td>NLCS-IMBOR projectie: KC</td><td>CLOSED</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; KC Kunststofconstructies</td><td></td></tr>
+<tr><td>349</td><td>NLCS-IMBOR projectie: KG</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; KG - Kadastrale informatie en grenzen</td><td></td></tr>
+<tr><td>350</td><td>NLCS-IMBOR projectie: KL</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; KL kabels en leidingen</td><td></td></tr>
+<tr><td>351</td><td>NLCS-IMBOR projectie: KW</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; KW kunstwerken</td><td></td></tr>
+<tr><td>352</td><td>NLCS-IMBOR projectie: MC</td><td>CLOSED</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; MC Mechanische constructies</td><td></td></tr>
+<tr><td>353</td><td>NLCS-IMBOR projectie: MO</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>IMBOR; MO milieu en onderzoek</td><td></td></tr>
+<tr><td>354</td><td>NLCS-IMBOR projectie: MW</td><td>CLOSED</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; MW metselwerk</td><td></td></tr>
+<tr><td>355</td><td>NLCS-IMBOR projectie: OB</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; OB Oeverbescherming</td><td></td></tr>
+<tr><td>356</td><td>NLCS-IMBOR projectie: OG</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; OG-ondergrond</td><td></td></tr>
+<tr><td>357</td><td>NLCS-IMBOR projectie: OV</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; OV Openbare verlichting</td><td></td></tr>
+<tr><td>358</td><td>NLCS-IMBOR projectie: RI</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW; IMBOR</td><td></td></tr>
+<tr><td>359</td><td>NLCS-IMBOR projectie: SC</td><td>CLOSED</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; SC staalconstructies</td><td></td></tr>
+<tr><td>360</td><td>NLCS-IMBOR projectie: VH</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; VH - verhardingen</td><td></td></tr>
+<tr><td>361</td><td>NLCS-IMBOR projectie: VV</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; VV verkeersmaatregelen vaarweg</td><td></td></tr>
+<tr><td>362</td><td>NLCS-IMBOR projectie: VW</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>363</td><td>NLCS-IMBOR projectie: WH</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; WH Waterhuishouding</td><td></td></tr>
+<tr><td>364</td><td>lijnstijlen markeringen in NLCS</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Lijnen; VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>365</td><td>uri&#39;s digital building data gebruiken bij publicatie NLCS</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie</td><td></td></tr>
+<tr><td>366</td><td>feedback pilot dordrecht</td><td>CLOSED</td><td>Gebruikersvragen</td><td>Project &lt;&gt; Beheer</td><td></td></tr>
+<tr><td>367</td><td>Controleren nieuwe test-publicatie NLCS 5.0 in linked data</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie</td><td></td></tr>
+<tr><td>368</td><td>Mogen dezelfde objecten in meerdere hoofdgroepen voorkomen?</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Informatiemodel; dubbele objecttypen</td><td></td></tr>
+<tr><td>369</td><td>Waarom zijn laagnamen voor trottoirbanden hernoemd?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>duplicate; VH - verhardingen; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>370</td><td>Gebruikerswens: Waardelijsten met bewerkingen per object publiceren in de database, plus eigen uitbreidingen toestaan</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>status&amp;bewerking; eisen aan NLCS applicaties; organisatiebibliotheken; waardelijst-bewerkingen</td><td></td></tr>
+<tr><td>371</td><td>Ter consultatie: Voorstel extra statussen voor ondergrondse infra en voor overdracht van gegevens naar beheerpakketten</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>RI_riolering-en-GWSW; Netbeheer; VRI; status&amp;bewerking; eisen aan NLCS applicaties; KL kabels en leidingen; IV Installaties vaarweg; IW installaties weg; OV Openbare verlichting</td><td></td></tr>
+<tr><td>372</td><td>Gebruikersvraag NLCS gebruiken voor aanbouw sluisgebouw </td><td>CLOSED</td><td>Gebruikersvragen</td><td>toepassingsvragen</td><td></td></tr>
+<tr><td>373</td><td>Linetypes markeringen zijn onjuiste verschaling</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>VH - verhardingen; Opgenomen in voorstel 5.1 (MHT); extra review expertcommissie vereist; CAD interoperabiliteit</td><td></td></tr>
+<tr><td>374</td><td>Symbool goot, wat is het nut?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>375</td><td>De tooling moet duidelijk aangeven met welke versie van de NLCS in de tooling wordt gewerkt.</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>eisen aan NLCS applicaties</td><td></td></tr>
+<tr><td>376</td><td>NLCS tooling: voor gebruiker tijdens tekenen duidelijk onderscheid gebruik standaard of eigen uitbreiding van de standaard</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>eisen aan NLCS applicaties; organisatiebibliotheken</td><td></td></tr>
+<tr><td>377</td><td>NLCS tooling, aanvullende bibliotheken / wijzigingen toestaan en uitwisselen</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>eisen aan NLCS applicaties; organisatiebibliotheken</td><td></td></tr>
+<tr><td>378</td><td>in de database symbolen hoofdgroepen maken voor elke hoofdgroep, ook als zitten er nog geen blocks in</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>Informatiemodel; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>379</td><td>Plot opmaak voorschrijven?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Vastgesteld-in-EC; CAD interoperabiliteit</td><td></td></tr>
+<tr><td>380</td><td>over -SO</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; duplicate; Symbolen; Lijnen; Controversieel</td><td></td></tr>
+<tr><td>381</td><td>Ontbrekend lijntype RO-BESCHERMDSTADSGEZICHT-SO</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>publicatie; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>382</td><td>Referentie naar ontbrekend lijntype met ID 685</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>publicatie; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>383</td><td>Referentie naar ontbrekend symbool SVH-OVERIG</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>publicatie; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>384</td><td>Gebruik standaardco&#246;rdinaten blocks?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>385</td><td>Onderwerpen verzamelen voor roadmap groeipad NLCS standaard naar samenhang met DSGO</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Inmetingen; meta-informatie; Project &lt;&gt; Beheer; tekeningen-valideren; thesaurus NLCS; RAW-NLCS; CAD&lt;&gt;GIS datatransformaties; eisen aan NLCS applicaties; GroeipadDSGO/NLCS; Ontologie; groeperingen; objectattributen; ILS-tekening; 3D: IFC+Classificatie; arcering-met-achtergrondkleur; uitwisselformaat; 3D softwaretemplates; organisatiebibliotheken; waardelijst-bewerkingen; discipline-ter-discussie</td><td></td></tr>
+<tr><td>386</td><td>Symbool hondentoilet</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>387</td><td>GRONDWERKLIJNEN, onvolledig en kleuren</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GW-grondwerk; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>388</td><td>SWA symbolen in database</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>389</td><td>Inconsequente halfsteensverband symbolen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>390</td><td>lagen in symbolen, maatvoeringen, multileaders</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>391</td><td>Gebruikersvraag NLCS en GWSW</td><td>CLOSED</td><td>Gebruikersvragen</td><td>RI_riolering-en-GWSW; implementatie</td><td></td></tr>
+<tr><td>392</td><td>Use case beschrijven vocabulaire NLCS</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>thesaurus NLCS; Ontologie</td><td></td></tr>
+<tr><td>393</td><td>Use case uitwerken core-borius vergelijking IMBOR-NLCS</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR; Ontologie</td><td></td></tr>
+<tr><td>394</td><td>442 arceringen in sql, 5 vervallen, maar 435 in query-output van publicatie. Waar zijn de laatste 2?</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td></td><td></td></tr>
+<tr><td>395</td><td>De laatste 3 hoofdgroepen ontbreken in de publicatie?</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie</td><td></td></tr>
+<tr><td>396</td><td>Query hoofdgroep VW, niet alle statussen hebben lijnkleuren enzovoorts</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie</td><td></td></tr>
+<tr><td>397</td><td>Moet NLCS handvaten bieden voor gebruik NLCS in contracten?</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>implementatie; ILS-tekening</td><td></td></tr>
+<tr><td>398</td><td>Enkele Objecten linkeddata publicatie zitten in de verkeerde hoofdgroep omdat er in de sql database een kind-van relatie zat met andere hoofdgroep</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; BV bermbeveiligingsvoorziening; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>399</td><td>Verkorte query maken voor objecten per hoofdgroep, zonder URI&#39;s en zonder relaties naar arceringen en symbolen</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td></td><td></td></tr>
+<tr><td>400</td><td>Lijnweight/lijnkleur met ID -1 niet ge&#239;mporteerd?</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>documentation; publicatie</td><td></td></tr>
+<tr><td>401</td><td>laag OPENVERHARDING_STRAATBAKSTEEN-OP DE KOP</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>402</td><td>lagen voor REPARATIES, HERSTRATEN, KNIPLIJN, VERKANTING</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>403</td><td>Verzoek vanuit Netbeheerders: afspreken korte termijn oplossing voor uitwisseling alfanumerieke data bij objecten</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Netbeheer; objectattributen</td><td></td></tr>
+<tr><td>404</td><td>WH, missende lijnkleuren et cetera</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie; WH Waterhuishouding</td><td></td></tr>
+<tr><td>405</td><td>Verschil naamgeving symbool en arcering RIET / RIETLAND</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GR-Groen-inclusief-bomen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>406</td><td>formaten bij verhardingcellen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>duplicate; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>407</td><td>Objecten FV afwijkende kleurcode</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>FV faunavoorzieningen</td><td></td></tr>
+<tr><td>408</td><td>Keerwand, afwijkende B color V</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>GK Grondkeringen</td><td></td></tr>
+<tr><td>409</td><td>Objecten GR, afwijkende kleurcodes</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>GR-Groen-inclusief-bomen</td><td></td></tr>
+<tr><td>410</td><td>GW, afwijkende kleurcodes</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>GW-grondwerk</td><td></td></tr>
+<tr><td>411</td><td>IE, afwijkende kleurcodes</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>IE-inrichtingselementen</td><td></td></tr>
+<tr><td>412</td><td>KG, afwijkende kleurcodes</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>KG - Kadastrale informatie en grenzen</td><td></td></tr>
+<tr><td>413</td><td>instructie schrijven over interpretatie relaties imbor-nlcs mapping: waar mag je wat voor gebruiken?</td><td>CLOSED</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR</td><td></td></tr>
+<tr><td>414</td><td>connecten met sparql-endpoint via typescript, assure platform</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>documentation; implementatie</td><td></td></tr>
+<tr><td>415</td><td>Lijntypes hagen kloppen niet</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>416</td><td>Nalopen diverse &#39;vervallen&#39; lijntypes</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; BC betonconstructies; VH - verhardingen; OG-ondergrond; VW Verkeersmaatregelen Weg; ZZ_voor alle hoofdgroepen; KG - Kadastrale informatie en grenzen; KL kabels en leidingen; MC Mechanische constructies; MO milieu en onderzoek; OB Oeverbescherming; OV Openbare verlichting; WH Waterhuishouding; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>417</td><td> &#39;Betonrug&#39;, &#39;stelspecie&#39;, &#39;steunrug&#39;, &#39;stampbeton&#39;</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>418</td><td>Object ZZ-GRENS in relatie tot hoofdgroen KG, diverse onduidelijke objecten in KG</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>419</td><td>wat betekent &#39;lijngroep35&#39;, als eigenschap van lijnweigths?</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>documentation</td><td></td></tr>
+<tr><td>420</td><td>query objects en objects verkort aanpassen / of is responstijd hub te groot? </td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie</td><td></td></tr>
+<tr><td>421</td><td>Object HULPLIJN als wildcard in NLCS</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>eisen aan NLCS applicaties; extra review expertcommissie vereist</td><td></td></tr>
+<tr><td>422</td><td>Vreemde toelichting bij 5.1.5.d</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; eisen aan NLCS applicaties; extra review expertcommissie vereist</td><td></td></tr>
+<tr><td>423</td><td>conversietabel lijndiktes microstation opnemen in de database; query maken en tabel publiceren </td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Lijnen; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>424</td><td>Documenteren eisen aan NLCS applicaties bij NLCS 5.0</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>eisen aan NLCS applicaties</td><td></td></tr>
+<tr><td>425</td><td>Toegevoegde waarde &#39;BIJLAGE 2&#39; van de FB?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; groeperingen; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>426</td><td>Metadata opnemen in database en eis aan applicaities: deze aanbieden</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Informatiemodel; meta-informatie; eisen aan NLCS applicaties</td><td></td></tr>
+<tr><td>427</td><td>Hoofdgroep KL =&gt; Combikabel</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>KL kabels en leidingen; Vastgesteld-in-EC</td><td></td></tr>
+<tr><td>428</td><td>PUTDEKSELHOOGTE &lt;&gt; PUTDEKSELNIVEAU</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>429</td><td>viewer maken van 5.02 en concept 5.1</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>publicatie</td><td></td></tr>
+<tr><td>430</td><td>Controle Shape bestand - Deze functie controleert het voorkomen in de NLCS lijntypes van shapes uit een te selecteren NLCS shape bestand - ????</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie</td><td></td></tr>
+<tr><td>431</td><td>Gebruikersvraag GWSW mapping; stelseltype Rioolstelsel niet beschikbaar in mapping</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>RI_riolering-en-GWSW; CAD&lt;&gt;GIS datatransformaties</td><td></td></tr>
+<tr><td>432</td><td>Publiceren Database definitief NLCS versie 5.0.2 LinkedData</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie</td><td></td></tr>
+<tr><td>433</td><td>Monitoren publicatie 5.1</td><td>OPEN</td><td>Inhoudelijke issues Release 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>434</td><td>Scope imbor-nlcs</td><td>CLOSED</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR</td><td></td></tr>
+<tr><td>435</td><td>3.5.3.g fout in omschrijving</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Lijnen</td><td></td></tr>
+<tr><td>436</td><td>Tabellen &quot;contract&#39; (buitenruimte en constructies) en tabel hoofdgroep-contract niet in linked database</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>duplicate; Informatiemodel; groeperingen</td><td></td></tr>
+<tr><td>437</td><td>tabel &quot;object view&quot; uit sql database: is dat planvorming?</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>Informatiemodel; eisen aan NLCS applicaties</td><td></td></tr>
+<tr><td>438</td><td>formele beschrijving 5.1.3 buitenruimte, constructies publiceren als groep in database</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>documentation; Informatiemodel; eisen aan NLCS applicaties; groeperingen</td><td></td></tr>
+<tr><td>439</td><td>SHX bestand opschonen, niet in database staande shapes verwijderen</td><td>CLOSED</td><td>Inhoudelijke backlog</td><td>documentation; publicatie</td><td></td></tr>
+<tr><td>440</td><td>inritblok moet vervangen door term inritband</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Voorgenomen wijziging</td><td></td></tr>
+<tr><td>441</td><td>VH-KANTOPSLUITING_ELEMENT</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>442</td><td>Vragen en antwoorden uit de chat van het Webinar IMBOR - NLCS 23 mei 2024</td><td>CLOSED</td><td>Gebruikersvragen</td><td>IMBOR</td><td></td></tr>
+<tr><td>443</td><td>NLCS Verkeersborden: tabel en symbolen leveren voor advies Expertcommissie</td><td>CLOSED</td><td>Release Verkeersborden in NLCS 5.1</td><td>VW Verkeersmaatregelen Weg; Vastgesteld-in-EC; Release note</td><td>De NLCS bibliotheek is aangevuld met de meest voorkomende verkeersborden uit het [Reglement verkeersregels en verkeerstekens 1990 (RVV 1990)](https://wetten.overheid.nl/BWBR0004825), Categorie A t/m J.. In overleg met de Expertcommissie zijn daarbij de volgende spelregels gebruikt voor de symbolen. ,
+1. Om de ketenuitwisseling van objectinformatie te kunnen ondersteunen naar bijvoorbeeld het George-dataportaal van het NDW zijn attribuutsymbolen toegevoegd voor vrije teksten met tag: textSigns (Locatie per bord verschillend). 
+2. Ook zijn algemene attributen toegevoegd aan alle symbolen:
+- tag: ID
+- tag: PLACEMENT
+- visibility; not visible
+- Locatie: 0,0 BL en TL
+3. Schaal en tekstgebruik zijn doorgevoerd conform de technische documentatie van de standaard met toepassen van de “kale” NLCS‑RVV tekststijl.</td></tr>
+<tr><td>444</td><td>Lijntype element GD opnemen in database, om te kunnen varieren</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Lijnen; eisen aan NLCS applicaties; gemak gebruiker</td><td></td></tr>
+<tr><td>445</td><td>SO-voorstel voor lijnen, arceringen en symbolen &amp; tekstuele opschoning functionele beschrijving</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>Symbolen; Lijnen; Arceringen; eisen aan NLCS applicaties; SO schaalbare objecten; extra review expertcommissie vereist; CAD interoperabiliteit</td><td></td></tr>
+<tr><td>446</td><td>Aanvullende rioleringssymbolen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; Vastgesteld-in-EC; Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>447</td><td>Dynamische blocks, verschil AutoCAD/Microstation</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Symbolen; dynamische symbolen</td><td></td></tr>
+<tr><td>448</td><td>Toelichting opnemen in documentatie over mappings BGT/Stedelijk water: wel in standaard, geen eis aan NLCS applicatie</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; RI_riolering-en-GWSW; BGT; eisen aan NLCS applicaties</td><td></td></tr>
+<tr><td>449</td><td>(Tijdelijke) Verkeersborden: gebruikerswens dynamische verkeersborden / parametrische input </td><td>CLOSED</td><td>Gebruikersvragen</td><td>objectattributen; dynamische symbolen</td><td></td></tr>
+<tr><td>450</td><td>Tekenstatussen NLCS uitbreiden om doorvoeren van mutaties in asset databeheer te kunnen automatiseren bij overdracht project - Beheer</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Project &lt;&gt; Beheer; status&amp;bewerking</td><td></td></tr>
+<tr><td>451</td><td>Opnemen disciplines in database, als tabel publiceren en dan tabel uit FB weghalen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>disciplines</td><td></td></tr>
+<tr><td>452</td><td>Gebruikersvraag: Kleuren asfaltarceringen &amp; haaietanden in versie 5.0</td><td>CLOSED</td><td>Gebruikersvragen</td><td>VH - verhardingen</td><td></td></tr>
+<tr><td>453</td><td>Default values G field KLEUR in diverse dwg block verhardingsymbolen, kunnen deze worden verwijderd.</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; extra review expertcommissie vereist</td><td></td></tr>
+<tr><td>454</td><td>verhardingssymbolen bevatten soms een vulling, is dit bewust of een fout in het betreffende symbool. </td><td>CLOSED</td><td></td><td>VH - verhardingen</td><td></td></tr>
+<tr><td>455</td><td>Check: de aanduiding van t ELEMENT G - S - A in de database is overbodig, want is al duidelijk doordat er een symbool of arcering beschikbaar is</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>extra review expertcommissie vereist; CAD-elementen</td><td></td></tr>
+<tr><td>456</td><td>Details voertuigen</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>AL - Algemeen</td><td></td></tr>
+<tr><td>457</td><td>Hoofdgroep BV laten vervallen, onderbrengen onder IE</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>IE-inrichtingselementen; BV bermbeveiligingsvoorziening</td><td></td></tr>
+<tr><td>458</td><td>RI-VACUUMLEIDING onderdeel maken van DWA/GWA en RI-PERSLEIDING onderdeel maken van stelsels?</td><td>CLOSED</td><td>Inhoudelijke backlog</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>459</td><td>Heroverweging verschil in visualisatie ELEMENTEN</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>CAD-elementen</td><td></td></tr>
+<tr><td>460</td><td>Gebundeld voorstel voor wijzigingen 5.1 verwerken in database en dwg-bestanden</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Opgenomen in voorstel 5.1 (MHT)</td><td></td></tr>
+<tr><td>461</td><td>Publicatie van bedrijfstoestand in NLCS publicatie / objectentabellen; onderdeel van veld BEWERKING</td><td>OPEN</td><td>Technische backlog</td><td>RI_riolering-en-GWSW; Netbeheer; status&amp;bewerking; KL kabels en leidingen</td><td></td></tr>
+<tr><td>462</td><td>Discrepantie in NLCS 5.0 documentatie over symbolen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Symbolen</td><td></td></tr>
+<tr><td>463</td><td>BESCHOEIING1,2,3 of banden verharding: keuzelijst met te gebruiken lijnstijlen combineren met attributen om aantal objecten te beperken</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Lijnen; objectattributen</td><td></td></tr>
+<tr><td>464</td><td>informatie- en verkeersborden: staan nu zowel bord in IE, VW en VV</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VW Verkeersmaatregelen Weg; IE-inrichtingselementen; VV verkeersmaatregelen vaarweg</td><td></td></tr>
+<tr><td>465</td><td>Inrichtingselementen IE uitbreiding vervallen symbolen logischer inrichting objectenboom</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>IE-inrichtingselementen</td><td></td></tr>
+<tr><td>466</td><td>kasten k&amp;l in hoofdgroep inrichtingselementen, behalve pollerkast??</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VW Verkeersmaatregelen Weg; IE-inrichtingselementen; KL kabels en leidingen</td><td></td></tr>
+<tr><td>467</td><td>Waarom in KG KADASTRAAL_BEBOUWING en in OG ook een object KADASTRAAL? Wat is het verschil?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>OG-ondergrond; KG - Kadastrale informatie en grenzen</td><td></td></tr>
+<tr><td>468</td><td>Watergang, dijk: uit BGT / meer functionele beschrijving, hoort dit thuis in GW of beter in OG?</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>OG-ondergrond; GW-grondwerk</td><td></td></tr>
+<tr><td>469</td><td>Heeft iemand het fontstijl NLCS-RVV.ttf?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>470</td><td>Moeten de arceringsbibliotheken overeenkomen met de hoofdgroepen?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Arceringen</td><td></td></tr>
+<tr><td>471</td><td>_BG voor tekststijlen met achtergrond</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; NLCS Basis</td><td></td></tr>
+<tr><td>472</td><td>gebruikersvraag WIBON</td><td>CLOSED</td><td></td><td>Netbeheer; KL kabels en leidingen</td><td></td></tr>
+<tr><td>473</td><td>Nut en noodzaak verschillende hoofdgroepen voor &#39;Constructies&#39;</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>KW kunstwerken</td><td></td></tr>
+<tr><td>474</td><td>HECTOMETRERING in VW verplaatsen naar AM</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VW Verkeersmaatregelen Weg; AM assen en metrering</td><td></td></tr>
+<tr><td>475</td><td>VERKANTING en ALIGNEMENT</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen; VW Verkeersmaatregelen Weg; AM assen en metrering</td><td></td></tr>
+<tr><td>476</td><td>Gebruikersvraag discipines</td><td>CLOSED</td><td>Gebruikersvragen</td><td>disciplines; discipline-ter-discussie</td><td></td></tr>
+<tr><td>477</td><td>Implementatie Stadswarmte NLCS</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>KL kabels en leidingen</td><td></td></tr>
+<tr><td>478</td><td>Input voor pilot NLCS Verkeersborden - mutatiues doorvoeren in GEORGE</td><td>CLOSED</td><td>Release Verkeersborden in NLCS 5.1</td><td>VW Verkeersmaatregelen Weg; Release note</td><td>: zie #489</td></tr>
+<tr><td>479</td><td>standaardiseren datatrasformaties tussen cad en gis</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>CAD&lt;&gt;GIS datatransformaties</td><td></td></tr>
+<tr><td>480</td><td>NLCS-model met relatie naar digitaal RAW contract</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>RAW-NLCS</td><td></td></tr>
+<tr><td>481</td><td>object met attributen die als waarde bij het object op tekening moeten komen te staan / in het symbool</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>objectattributen; dynamische symbolen</td><td></td></tr>
+<tr><td>482</td><td>Gebruikersvraag NLCS - IMBOR  Utrecht FME script</td><td>CLOSED</td><td>Gebruikersvragen</td><td>IMBOR</td><td></td></tr>
+<tr><td>483</td><td>Oplevering concept-objectentabellen en symbolen netbeheer </td><td>OPEN</td><td>Release Netbeheer​ in NLCS versie x</td><td>Netbeheer; KL kabels en leidingen</td><td></td></tr>
+<tr><td>484</td><td>Gebruikersvraag droge blusleiding</td><td>CLOSED</td><td>Gebruikersvragen</td><td>gebouwen</td><td></td></tr>
+<tr><td>485</td><td>Toe te passen &#39;elementen&#39; voor diverse CAD objecten</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>CAD-elementen</td><td></td></tr>
+<tr><td>486</td><td>pat bestand AVH-SBS_DIKFORMAAT_HALFST klopt niet deze arcering heeft de afmetingen van een waalformaat</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen</td><td></td></tr>
+<tr><td>487</td><td>Verschil in schalen in Microstation en AutoCAD NLCS tooling</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>documentation; implementatie; CAD-elementen; CAD interoperabiliteit</td><td></td></tr>
+<tr><td>488</td><td>Gebruikersvraag technische definitie element G</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>uitwisselformaat; CAD-elementen</td><td></td></tr>
+<tr><td>489</td><td>Ter besluit OG: pilot NLCS-NDW op basis van huidige invoer NDW</td><td>CLOSED</td><td>Release Verkeersborden in NLCS 5.1</td><td>VW Verkeersmaatregelen Weg; Release note</td><td>Tijdens de ontwikkeling van de verkeersbordenbibliotheek voor NLCS is onderzocht of het George dataportaal van het Nationaal Dataportaal Wegverkeer een bron kan zijn voor het inladen van bestaande verkeersborden in een NLCS-tekening, en of nieuwe borden uit het ontwerp of de revisietekening kunnen worden ge&#252;ploaded naar het George dataportaal. Er is een praktische mapping gemaakt waarmee dit ingeregeld kan worden vanuit CAD-applicaties. Dit is als beschrijving opgenomen in [Uitwisselafspraken bij NLCS 5.1](https://nl-digigo.github.io/NLCS/representations/5-1/#ndw-nlcs-verkeersborden). Deze aanvulling op de standaard zorgt ervoor dat een wegbeheerder niet meer met de hand nieuwe verkeersborden hoeft in te voeren in het George dataportaal, maar dit geautomatiseerd kan doen. Indien mutaties in verkeersborden niet meer handmatig per bord in het GEORGE‑dataportaal hoeven te worden ingevoerd, maar automatisch worden afgeleid uit ontwerp‑ of beheergegevens (bijv. NLCS of IMBOR), kan het handmatige invoerwerk per bord met circa 5 tot 7 minuten worden gereduceerd. Bij enkele honderdduizenden bordmutaties per jaar betekent dit een potenti&#235;le besparing van tienduizenden uren, wat zich vertaalt in een jaarlijkse maatschappelijke kostenbesparing in de orde van enkele miljoenen euro’s.</td></tr>
+<tr><td>490</td><td>Gebruikersvraag instellen schalen</td><td>CLOSED</td><td>Gebruikersvragen</td><td>implementatie</td><td></td></tr>
+<tr><td>492</td><td>Pilot NLCS Verkeersborden - NLCS</td><td>CLOSED</td><td>Release Verkeersborden in NLCS 5.1</td><td>VW Verkeersmaatregelen Weg; Release note</td><td>Zie #489</td></tr>
+<tr><td>493</td><td>lijndikte ASsen voor alle statussen gelijk</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>AM assen en metrering</td><td></td></tr>
+<tr><td>495</td><td>Organiseren reviewsessie met wegbeheerders over pilot NLCS - George</td><td>CLOSED</td><td>Gebruikersvragen</td><td>VW Verkeersmaatregelen Weg; besluit OG</td><td></td></tr>
+<tr><td>496</td><td>Check Verkeersborden codering met wetten.overheid.nl</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>497</td><td>Gebruikersvraag diameter symbool</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>documentation</td><td></td></tr>
+<tr><td>498</td><td>Query objecten werkt niet</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>499</td><td>Hectometerpaal, hectometrering: AM, VW of beide?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VW Verkeersmaatregelen Weg; AM assen en metrering</td><td></td></tr>
+<tr><td>500</td><td>GELEIDECONSTRUCTIE_GELEIDERAIL_KOPPELING_SCHILDMUUR: foutje in BV, alle schildmuren zitten in RI?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; BV bermbeveiligingsvoorziening</td><td></td></tr>
+<tr><td>501</td><td>Bomen - dynamische blocks bij een gebruiker....</td><td>CLOSED</td><td>Inhoudelijke backlog</td><td>GR-Groen-inclusief-bomen; dynamische symbolen</td><td></td></tr>
+<tr><td>502</td><td>AL - twee objecten hebben geen kleuren mee gekregen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>publicatie; AL - Algemeen</td><td></td></tr>
+<tr><td>503</td><td>Onderzoek NLCS Classificatie verhardingen en kunstwerken</td><td>CLOSED</td><td>Gebruikersvragen</td><td>3D: IFC+Classificatie</td><td></td></tr>
+<tr><td>504</td><td>Opvolging issue #51: afwijkende lijndikte voor sommige symbolen opnemen in de database</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Symbolen</td><td></td></tr>
+<tr><td>505</td><td>Automatiseren controles publicatie database</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>publicatie</td><td></td></tr>
+<tr><td>506</td><td>check arceringen, harde returns probleem opgelost? </td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>507</td><td>Toevoeging beheerhandleiding voor aanpassen stylesheet v&#243;&#243;r release</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td></td><td></td></tr>
+<tr><td>510</td><td>GK - deel van de objecten is niet gepubliceerd ;opnemen in beheerhandleigingh</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>511</td><td>4 Symbolen concept-5.1 te laat toegevoegd voor Microstation conversie, wel beschikbaar in dwg</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GR-Groen-inclusief-bomen</td><td></td></tr>
+<tr><td>512</td><td>uitleg lijndiktes opnemen in beheerhandleiding </td><td>OPEN</td><td>Inhoudelijke backlog</td><td>BOMOS</td><td></td></tr>
+<tr><td>513</td><td>Attributen op eigen lagen plaatsen</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>GR-Groen-inclusief-bomen; Symbolen; objectattributen; dynamische symbolen</td><td></td></tr>
+<tr><td>514</td><td>GK keerwand heeft geen bestaande visualisatie in publiccatie, wel in database</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>515</td><td>query objects levert zes-dubbele rijen op bij sommige IE objecten, zonder relaties naar arceringen/objecten</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>IE-inrichtingselementen</td><td></td></tr>
+<tr><td>516</td><td>B-symbolen SIW komen niet voor in de publicatie</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>publicatie; IW installaties weg</td><td></td></tr>
+<tr><td>517</td><td>link naar nieuwe versie beheerdocument digigo ook in beheerhandleiding opnemen</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>BOMOS</td><td></td></tr>
+<tr><td>518</td><td>SRI-KOLK_ZANDVANGPUT er zijn wel symbolen, maar geen bijpassende objecten?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>519</td><td>DRAINAGE_RIOOLLEIDING_GRES komt niet voor in de publicatie</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; publicatie</td><td></td></tr>
+<tr><td>520</td><td>definitieve concept-publicatie uploaden op hub, en .lin maken</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td></td><td></td></tr>
+<tr><td>521</td><td>GWSW mapping 5.0 laatste stappen</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>522</td><td>input stedelijk spoor, hoofdgroep AL</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; AL - Algemeen</td><td></td></tr>
+<tr><td>523</td><td>input stedelijk spoor, hoofdgroep AM</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; AM assen en metrering</td><td></td></tr>
+<tr><td>524</td><td>input stedelijk spoor, hoofdgroep ES</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; ES - energievoorziening spoor</td><td></td></tr>
+<tr><td>525</td><td>input stedelijk spoor, hoofdgroep KG</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; KG - Kadastrale informatie en grenzen</td><td></td></tr>
+<tr><td>526</td><td>input stedelijk spoor, hoofdgroep KL</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; KL kabels en leidingen</td><td></td></tr>
+<tr><td>527</td><td>input stedelijk spoor, hoofdgroep OG</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; OG-ondergrond</td><td></td></tr>
+<tr><td>528</td><td>input stedelijk spoor, hoofdgroep VW</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>duplicate; Stedelijk Spoor; VH - verhardingen; VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>529</td><td>input stedelijk spoor, hoofdgroep GR</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; GR-Groen-inclusief-bomen</td><td></td></tr>
+<tr><td>530</td><td>input stedelijk spoor, hoofdgroep IS</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; IS installaties spoor</td><td></td></tr>
+<tr><td>531</td><td>input stedelijk spoor, hoofdgroep SB</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; SB spoorbouw</td><td></td></tr>
+<tr><td>532</td><td>input stedelijk spoor, hoofdgroep VW</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>533</td><td>Vragen werkgroep stedelijk spoor, symbolen</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; Symbolen</td><td></td></tr>
+<tr><td>534</td><td>bewerkingen niet als data in database</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie; status&amp;bewerking; KL kabels en leidingen</td><td></td></tr>
+<tr><td>535</td><td>Feedback op concept-5.1 / linked data publicatie versus sql namen in database van symbolen, arceringen, lijnen zijn veranderd</td><td>CLOSED</td><td>NLCS release Vaststellen 5.02 als linked data​</td><td>Informatiemodel; Symbolen; Lijnen; Arceringen</td><td></td></tr>
+<tr><td>536</td><td>Regelset bij NLCS </td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Informatiemodel; tekeningen-valideren</td><td></td></tr>
+<tr><td>537</td><td>concept-5.1 Discipline XX staat wel in beheeromgeving, maar lijkt niet in publicatie te zitten?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>publicatie; disciplines</td><td></td></tr>
+<tr><td>538</td><td>Data voor kleurnummers bij veel nieuwe nlcsobjecten in hoofdgroep SB niet juist ingevuld</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>publicatie; SB spoorbouw</td><td></td></tr>
+<tr><td>539</td><td>Uitvoeren spike NLCS verkeersborden</td><td>CLOSED</td><td>Release Verkeersborden in NLCS 5.1</td><td>VW Verkeersmaatregelen Weg; Release note</td><td>Zie #489</td></tr>
+<tr><td>540</td><td>oplevering concept informeel alignment tussen IMBOR-NLCS </td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR</td><td></td></tr>
+<tr><td>541</td><td>Vast Excel-uitwisselformaat voor tests en individuele uitwisseling</td><td>OPEN</td><td>Technische backlog</td><td>publicatie; eisen aan NLCS applicaties</td><td></td></tr>
+<tr><td>542</td><td>Opnemen in documentatie: naamgeving verkeersborden</td><td>CLOSED</td><td>Release Verkeersborden in NLCS 5.1</td><td>VW Verkeersmaatregelen Weg; Release note</td><td>Er is een toelichting op de naamgeving van verkeersborden opgenomen in de [functionele specificatie](https://nl-digigo.github.io/NLCS/functionalspecification/5-1/#naamgeving-verkeersbord-symbolen).</td></tr>
+<tr><td>543</td><td>Feedback NDW op verkeersborden in NLCS 5.1-concept</td><td>CLOSED</td><td>Release Verkeersborden in NLCS 5.1</td><td>VW Verkeersmaatregelen Weg; Release note</td><td>In het Reglement verkeersregels en verkeerstekens 1990 (RVV 1990) zijn de borden aangeduid met gedeeltelijk kleine en gedeeltelijk hoofdletters. Nummering begint bij 1. In de NLCS bibliotheek is gekozen voor gebruik van alleen hoofdletters, conform de standaard. Ook is een 0 voor de getallen onder de tien toegevoegd, dit zorgt voor een logische sortering van de bordsymbolen in de software. Verder zijn aanduidingen toegevoegd om varianten te onderscheiden van hetzelfde bord.  Waar de wet bijvoorbeeld bord E8a kent is dit in de symboolnaam met hoofdletters geschreven; waar de wet bord A1 ken is hier A0130 gebruikt: de 0 zorgt voor betere sortering van de bordsymbolen in de software; de toevoeging 30 omdat er een snelheidskeuze is gemaakt terwijl in de wet &#233;&#233;n naam gebruikt wordt voor alle snelheidsborden.</td></tr>
+<tr><td>544</td><td>Advies verdere uitwerking relatie NLCS-IMBOR</td><td>OPEN</td><td>Alignment NLCS-IMBOR​</td><td>IMBOR</td><td></td></tr>
+<tr><td>545</td><td>Oplevering test linked data mapping NLCS 5.0 - GWSW</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>546</td><td>Feedback Verkeersborden Gelderland</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>547</td><td>welke relatie is sh:parameter</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td></td><td></td></tr>
+<tr><td>548</td><td>VRI missende bestanden 5.1</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VRI; VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>549</td><td>SVW-VERKEERSTEKEN_BORD_A01_030_ZH-SO.svg + x andere missen tekst Herhaling</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>550</td><td>Opmerkingen NLCS 5.1</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>VW Verkeersmaatregelen Weg; VV verkeersmaatregelen vaarweg</td><td></td></tr>
+<tr><td>551</td><td>Verkeerde onderbrenging verkeersbord-symbolen</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>552</td><td>Verkeersborden D02-RB en RO, en D02-LB en LO zijn hetzelfde</td><td>CLOSED</td><td>Release Verkeersborden in NLCS 5.1</td><td>VW Verkeersmaatregelen Weg; Release note</td><td>In het Reglement verkeersregels en verkeerstekens 1990 (RVV 1990) is &#233;&#233;n voorbeeld van een D2 bord opgenomen. In de praktijk zijn er vier varianten in gebruik: men kan het bord links of rechts moeten passeren, de pijl die dat aangeeft kan omhoog en naar beneden staan.  Daarom zijn in de NLCS-bibliotheek vier symbolen opgenomen: D02-RB en D02-RO, en D02-LB en DO2-LO.</td></tr>
+<tr><td>553</td><td>VW: E10 en E10-ZB zijn hetzelfde bord</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>554</td><td>VW Geen SVG aanwezig van borden E10A tm/ F</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>555</td><td>VW Verkeersborden, loze subobjectnaam Categorie bij verkeersborden niet nodig, men kan meteen catA CatB krijgen</td><td>CLOSED</td><td>Release Verkeersborden in NLCS 5.1</td><td>VW Verkeersmaatregelen Weg; Release note</td><td>In NLCS 5.02 was alleen een placeholder beschikbaar voor alle soorten verkeersborden: VERKEERSTEKEN_BORD (2638). Tijdens de ontwikkeling van NLCS 5.1  is eerst bedacht verkeersborden op te delen in categorie&#235;n. Er zat in eerste instantie een underscore tussen VERKEERSTEKEN_BORD_CATEGORIE en VERKEERSTEKEN_BORD_CATEGORIE_A, terwijl van alle borden de categorie bekend is zodra ze op tekening komen. Daarom is de loze laagnaam VERKEERSTEKEN_BORD_CATEGORIE vervallen en gaat men direct van VERKEERSTEKEN_BORD naar VERKEERSTEKEN_BORD_CATEGORIE A.</td></tr>
+<tr><td>556</td><td>VW Geen verkeersbord E11-ZE-sleep en -klem</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>557</td><td>Plaatsnaamborden H01,A,B en C en H02</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>558</td><td>Toets werkgroep &amp; expertcommissie op herziene versie stedelijk spoor voor NLCS 5.1</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor</td><td></td></tr>
+<tr><td>559</td><td>Werkgroep Spoor, onderdeel &#39;Bovenleiding&#39;, inhoudelijke kennis gewenst</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Stedelijk Spoor; ES - energievoorziening spoor; IS installaties spoor; SB spoorbouw</td><td></td></tr>
+<tr><td>560</td><td>Afspraken genereren van svg&#39;s uit symbolen</td><td>OPEN</td><td>Technische backlog</td><td>Symbolen; CAD&lt;&gt;GIS datatransformaties</td><td></td></tr>
+<tr><td>561</td><td>Terugtrekken aanvulling werkgroep stedelijk spoor in hoofdgroepen AL</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; AL - Algemeen</td><td></td></tr>
+<tr><td>562</td><td>Terugtrekken aanvulling werkgroep stedelijk spoor in hoofdgroep GR</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; GR-Groen-inclusief-bomen</td><td></td></tr>
+<tr><td>563</td><td>Terugtrekken aanvulling werkgroep stedelijk spoor in hoofdgroep KG</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; KG - Kadastrale informatie en grenzen</td><td></td></tr>
+<tr><td>564</td><td>Terugtrekken aanvulling werkgroep stedelijk spoor in hoofdgroep KL</td><td>CLOSED</td><td></td><td>Stedelijk Spoor; KL kabels en leidingen</td><td></td></tr>
+<tr><td>565</td><td>AS_SPOOR_TRAM_ONTWERP versus NLCS-STATUS ontwerp</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; AM assen en metrering</td><td></td></tr>
+<tr><td>566</td><td>AS_SPOOR_TRAM_AFWIJKING_ONBEKEND</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; AM assen en metrering</td><td></td></tr>
+<tr><td>567</td><td>DUBBEL ELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_ DUBBEL EN ENKEL zijn dubbel</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; ES - energievoorziening spoor</td><td></td></tr>
+<tr><td>568</td><td>ES Mast N 0.25, alle andere tram masten 0.50?</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; ES - energievoorziening spoor</td><td></td></tr>
+<tr><td>569</td><td>ES spandraad, onderliggende geen lijntype spandraad?</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; ES - energievoorziening spoor</td><td></td></tr>
+<tr><td>570</td><td>SB bewerkingen, streepje of underscore</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; SB spoorbouw</td><td></td></tr>
+<tr><td>571</td><td>OVL voorstel</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>OV Openbare verlichting</td><td></td></tr>
+<tr><td>572</td><td>Input voor discussie met EC: NLCS versimpelen, en beter gebruik mogelijk maken?</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>dynamische symbolen; CAD interoperabiliteit</td><td></td></tr>
+<tr><td>573</td><td>SB lijntype N heet V-SB-OMGRENZINGSPROFIEL_DYNAMISCH-SO?</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; SB spoorbouw</td><td></td></tr>
+<tr><td>574</td><td>input SVW vanuit stedelijk spoor overbodig</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>575</td><td>NLCS 5.1 project grens (KG)</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>KG - Kadastrale informatie en grenzen</td><td></td></tr>
+<tr><td>576</td><td>SAM-AS</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; AM assen en metrering</td><td></td></tr>
+<tr><td>577</td><td>Opheldering procedure advies door Expertcommissie</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>BOMOS</td><td></td></tr>
+<tr><td>578</td><td>assen spoor metro, trein et cetera ook lijntype as spoor?</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; AM assen en metrering</td><td></td></tr>
+<tr><td>579</td><td>damwand staal directe relatie met alle symbolen,</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GC Grondkerende constructies</td><td></td></tr>
+<tr><td>580</td><td>Query objecten op hoofdgroep ES werkt niet / duurt heel lang</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>581</td><td>Acceptance, test en def? omgeving NLCS weer correct koppelen aan beheeromgeving</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>publicatie</td><td></td></tr>
+<tr><td>582</td><td>GW bewerkingen &quot;werk&quot; en &quot;grondwerk&quot; door elkaar</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GW-grondwerk</td><td></td></tr>
+<tr><td>583</td><td>stadswarmte input, check expertcommissie op inpassen in NLCS</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>KL kabels en leidingen</td><td></td></tr>
+<tr><td>584</td><td>Symbolen: groepsnaam versus koppeling individueel, gaat niet goed in publicatie of query</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GR-Groen-inclusief-bomen; publicatie</td><td></td></tr>
+<tr><td>585</td><td>symbolen houtopstand ten onrechte verwijderd uit database</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GR-Groen-inclusief-bomen</td><td></td></tr>
+<tr><td>586</td><td>SIS symbolen, vraag over welke laagnaam</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; Symbolen; IS installaties spoor</td><td></td></tr>
+<tr><td>587</td><td>symbolen svh-inrichtelement wijzigen naar kantopsluiting-inritband</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen</td><td></td></tr>
+<tr><td>588</td><td>missende symbolen VH</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen</td><td></td></tr>
+<tr><td>589</td><td>check op harde returns in database bij AVH-SBS_DIKFORMAAT_HALFST</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>VH - verhardingen</td><td></td></tr>
+<tr><td>590</td><td>sommige nieuwe symbolen hebben bij het importeren per ongeluk naam met .dwg gekregen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Symbolen</td><td></td></tr>
+<tr><td>591</td><td>groepen in symbolen SMO missen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>MO milieu en onderzoek</td><td></td></tr>
+<tr><td>592</td><td>symbolen KL onbekende oorsprong, plek?</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>KL kabels en leidingen</td><td></td></tr>
+<tr><td>593</td><td>KL SYMBOLEN DATA EN ET niet goed gegroepeerd in database</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>KL kabels en leidingen</td><td></td></tr>
+<tr><td>594</td><td>ES mast, lijntype?</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; ES - energievoorziening spoor</td><td></td></tr>
+<tr><td>595</td><td>symbolen groen houtopstand ten onrechte verwijderd uit concept 5.1</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>GR-Groen-inclusief-bomen</td><td></td></tr>
+<tr><td>596</td><td>SB-BOVENBOUW_SCHOUWPAD lijntype</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; SB spoorbouw</td><td></td></tr>
+<tr><td>597</td><td>BOVENBOUW_SPOORCONSTRUCTIE_OPENSLOPEN VOOR AANSLUITING v COLOR gd 77?</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor; SB spoorbouw</td><td></td></tr>
+<tr><td>598</td><td>KL missende groeperingen in database</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>KL kabels en leidingen</td><td></td></tr>
+<tr><td>599</td><td>SOV missende groeperingen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>OV Openbare verlichting</td><td></td></tr>
+<tr><td>600</td><td>Element toevoeging &#39;Schaal&#39; voor Geometrie</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>CAD-elementen</td><td></td></tr>
+<tr><td>601</td><td>review op functionele specificatie, verwijzing naar informatieleveringsstandaarden</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; ILS-tekening</td><td></td></tr>
+<tr><td>602</td><td>review op functionele specificatie, rol individuele bibliotheken</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation</td><td></td></tr>
+<tr><td>603</td><td>Review op functionele specificatie 5.1: NLCS-versie van voorbeeldtekeningen</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>documentation; implementatie</td><td></td></tr>
+<tr><td>604</td><td>Review functionele specificatie, multileaderstijlen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation</td><td></td></tr>
+<tr><td>605</td><td>Documentmanagement voor symbolen</td><td>OPEN</td><td>Technische backlog</td><td>Symbolen; publicatie</td><td></td></tr>
+<tr><td>606</td><td>Wijziging in beheerproces: beheerst ontwikkelen, technische commissie</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>BOMOS</td><td></td></tr>
+<tr><td>607</td><td>afspraken logo NLCS in NLCS-applicaties</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>documentation</td><td></td></tr>
+<tr><td>608</td><td>Werkgroep Spoor, Heavy Rail</td><td>OPEN</td><td>Backlog Stedelijk Spoor</td><td>Stedelijk Spoor; SB spoorbouw</td><td></td></tr>
+<tr><td>609</td><td>Gebruikersvraag nlcs-leverancier, feedback op 5.01 en 5.1</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>implementatie</td><td></td></tr>
+<tr><td>610</td><td>vergelijking 5.0 sql met 5.01 linked data: Inhoud &#39;arcering&#39; is verschillend , heeft gevolgen</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>611</td><td>Vergelijking 5.0 met 5.01 Inhoud &#39;vkrl_lang&#39; is anders, kan gevolgen hebben</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>612</td><td>Vergelijking 5.0 en 5.01: &#39;autocaddef&#39; is verschillend, kan gevolgen hebben</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>613</td><td>verwerken in documentatie: toegang sparql-endpoint</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation</td><td></td></tr>
+<tr><td>614</td><td>Gebruikersvraag lintypen, arceringen en symbolen</td><td>CLOSED</td><td></td><td></td><td></td></tr>
+<tr><td>615</td><td>Toevoegen ID nummers aan release 5.1</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>616</td><td>BOVENBOUW_MVP_S+T WERKZAAMHEDEN wordt hier een werkzaamheid bedoeld?</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>SB spoorbouw</td><td></td></tr>
+<tr><td>617</td><td>Gebruikersvraag zwart-wit</td><td>CLOSED</td><td>Inhoudelijke backlog</td><td>kleuren</td><td></td></tr>
+<tr><td>618</td><td>Twee modelleringsmethodes lijnkleuren</td><td>OPEN</td><td>Technische backlog</td><td>kleuren</td><td></td></tr>
+<tr><td>619</td><td>Review funtionele sepc 5.1: discussie verplicht maken visuele representatie</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>tekenvrijheid</td><td></td></tr>
+<tr><td>620</td><td>Vraag toegang en performance linked data platform</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>implementatie; publicatie</td><td></td></tr>
+<tr><td>621</td><td>uitleg dynamische en statische url&#39;s endpoint</td><td>CLOSED</td><td>Inhoudelijke backlog</td><td>implementatie; publicatie</td><td></td></tr>
+<tr><td>622</td><td>Beter regelen mutatiestructuur releases NLCS</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>BOMOS</td><td></td></tr>
+<tr><td>623</td><td>Onderzoeksvragen technische commissie release 5.1</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>implementatie</td><td></td></tr>
+<tr><td>624</td><td>twee lijntypes zonder ID</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Lijnen</td><td></td></tr>
+<tr><td>625</td><td>Groeperen symboolnamen VW</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie; VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>626</td><td>bewerking in de objectentabellen-query</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>627</td><td>foutje in laagnaam DWA_TRANSPORTLEIDING-O PHOOGTE BRENGEN</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; publicatie</td><td></td></tr>
+<tr><td>628</td><td>Gebruikersvraag landschapsarchitect</td><td>CLOSED</td><td>Gebruikersvragen</td><td>implementatie</td><td></td></tr>
+<tr><td>629</td><td>Gebruikersvraag: Coderingen met omschrijving</td><td>CLOSED</td><td>Gebruikersvragen</td><td>thesaurus NLCS</td><td></td></tr>
+<tr><td>630</td><td>Gebruikersvraag: aansluiten beheersysteem/GIS/IMBOR op NLCS</td><td>CLOSED</td><td>Gebruikersvragen</td><td>RI_riolering-en-GWSW; IMBOR</td><td></td></tr>
+<tr><td>631</td><td>NLCS Classificatie Rioleringen: Beheeromgeving inrichten</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW; Ontologie</td><td></td></tr>
+<tr><td>632</td><td>Vlakvulling NLCS 5... BGT mapping aanpassen</td><td>OPEN</td><td>Inhoudelijke issues release xx</td><td>BGT; kleuren</td><td></td></tr>
+<tr><td>633</td><td>PDOK Thema Stedelijk Water &lt;&gt; wat is de minimale dataset volgens GWSW?</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>634</td><td>Vraagstuk gezamenlijke symbolen NLCS en PDOK Thema Stedelijk Water</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>RI_riolering-en-GWSW; Symbolen</td><td></td></tr>
+<tr><td>635</td><td>NLCS classificatie rioleringen maken op basis van bestaand alignment NLCS-GWSW</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>636</td><td>Documentatie opstellen met use cases alignments NLCS rioleringen</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>637</td><td>Gezamenlijke publicatie van symbolen GWSW/NLCS in DWG, DGN en SVG</td><td>CLOSED</td><td>Inhoudelijke backlog</td><td>duplicate; RI_riolering-en-GWSW; Symbolen</td><td></td></tr>
+<tr><td>638</td><td>Inrichten beheeromgeving alignment NLCS Classificatie - NLCS Basis Rioleringen</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>639</td><td>Inrichten viewer alignment NLCS Classificatie Rioleringen - NLCS Laagnamen</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>640</td><td>Ter besluit beheercommissie: Prioritering technische ontwikkelingen NLCS</td><td>CLOSED</td><td>Technische backlog</td><td>BOMOS; GroeipadDSGO/NLCS</td><td></td></tr>
+<tr><td>641</td><td>Feedback op tabellen 5.1</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>642</td><td>Automatic generation of output csv&#39;s</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>643</td><td>Query to check on subobject above</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>644</td><td>RIOOLPUTTEN hebben twee zoektermen bij de symbolen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>645</td><td>MEUBILAIR_DIJKPAAL - gekoppeld aan groepen symbolen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>IE-inrichtingselementen</td><td></td></tr>
+<tr><td>646</td><td>MEUBILAIR_FIETSENKLUIS  er zijn twee groepen symbolen aan gekoppeld</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>IE-inrichtingselementen</td><td></td></tr>
+<tr><td>647</td><td>Grote hoeveelheid symbolen: in database anders inrichten?</td><td>OPEN</td><td>Technische backlog</td><td>Symbolen</td><td></td></tr>
+<tr><td>648</td><td>COMPONENT_RASBAK heeft twee zoektermen</td><td>CLOSED</td><td>Release Stedelijk Spoor​ Tram in NLCS 5.1</td><td>Stedelijk Spoor</td><td></td></tr>
+<tr><td>649</td><td>Voorselecties van NLCS Objecten voor ontwerpen, revisie, BGT</td><td>OPEN</td><td>Technische backlog</td><td>publicatie</td><td></td></tr>
+<tr><td>650</td><td>symbols need fase and optie</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>Symbolen; publicatie</td><td></td></tr>
+<tr><td>651</td><td>30 Arceringen in NLCS 5.0 passen niet in AutoCAD &amp; pat bestand mist prefix</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>Arceringen</td><td></td></tr>
+<tr><td>652</td><td>In beheeromgeving NLCS classificatie rioleringen: links naar IMBOR 2025 en GWSW (laatste versie) mogelijk maken</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>653</td><td>Project dynamische symbolen groeiplaatsen bomen</td><td>OPEN</td><td>Inhoudelijke issues release xx</td><td>GR-Groen-inclusief-bomen; dynamische symbolen</td><td></td></tr>
+<tr><td>654</td><td>Always work with search-term for symbolen / arceringen and new query objects classic</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>Symbolen; Arceringen</td><td></td></tr>
+<tr><td>655</td><td>Query Arceringen, more columns</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>Arceringen</td><td></td></tr>
+<tr><td>656</td><td>Query symbolen needs more colums</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>Symbolen</td><td></td></tr>
+<tr><td>657</td><td>Omgang met wijzigingen</td><td>CLOSED</td><td>Technische backlog</td><td>duplicate; Informatiemodel; ID en wijzigingen</td><td></td></tr>
+<tr><td>658</td><td>Query lijntype aanvullen</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>Lijnen</td><td></td></tr>
+<tr><td>659</td><td>Checkvraag technische commissie; short name van symbolen / arceringen</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>660</td><td>Niveau waarop symbolen gekoppeld moeten zijn</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Symbolen</td><td></td></tr>
+<tr><td>661</td><td>Project NLCS drinkwater</td><td>OPEN</td><td>NLCS Drinkwater</td><td>KL kabels en leidingen; NLCS drinkwater</td><td></td></tr>
+<tr><td>662</td><td>VW-MARKERING subobjecten tbv materialisatie?</td><td>OPEN</td><td>Inhoudelijke issues release xx</td><td>VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>663</td><td>Afwijkende URI&#39;s</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>664</td><td>Checks arceringen, expired objects?</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>665</td><td>all-objects-concept-51 misses values</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>666</td><td>CHECK DOUBLE id&#39;S SYMBOLS</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>Symbolen</td><td></td></tr>
+<tr><td>667</td><td>CHECK MISSING SUBOBJECTS &amp; CHANGE QUERY</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>668</td><td>check control query bewerkingen &amp; new output</td><td>CLOSED</td><td></td><td>publicatie</td><td></td></tr>
+<tr><td>669</td><td>check control query object name should be arcering name</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>670</td><td>fix missing id &amp; symbolen fase / optie</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>671</td><td>unique ID check for BESCHOEIING_COMBINATIE</td><td>CLOSED</td><td></td><td></td><td></td></tr>
+<tr><td>672</td><td>Check/Fix mistakes in line weights</td><td>CLOSED</td><td></td><td></td><td></td></tr>
+<tr><td>673</td><td>.PAT generator</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>Arceringen</td><td></td></tr>
+<tr><td>674</td><td>Nieuwe acceptatie-versie voor nlcs leveranciers</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>675</td><td>Foutive lijndiktes voor Object</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>OG-ondergrond</td><td></td></tr>
+<tr><td>676</td><td>Naamgeving verhardingen &#39;gesloten verharding en openverharding en halfverharding</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>VH - verhardingen</td><td></td></tr>
+<tr><td>677</td><td>feedback op acceptatieversie 5.0 van 1 juli</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>678</td><td>Beta-classificatie NLCS Verhardingen opnemen in beheeromgeving en publiceren op sparql-endpoint</td><td>OPEN</td><td>NLCS Objectgericht</td><td>Ontologie</td><td></td></tr>
+<tr><td>679</td><td>Beta-classificatie NLCS Verhardingen: links naar IMBOR opnemen en ontology alignment publiceren</td><td>OPEN</td><td>NLCS Objectgericht</td><td></td><td></td></tr>
+<tr><td>680</td><td>IFC uitwisselen werkpakket 1: PVA &amp; Verhaallijn en added value</td><td>OPEN</td><td>NLCS Objectgericht</td><td>3D: IFC+Classificatie</td><td></td></tr>
+<tr><td>681</td><td>Revit Template Update bestaand  naar NLCS 5.1, proof of concept met kunstwerken</td><td>OPEN</td><td>NLCS Objectgericht</td><td>3D softwaretemplates</td><td></td></tr>
+<tr><td>682</td><td>Civil3D Template &amp; Countrykit Fase 1 Update bestaand  proof of concept met verhardingen</td><td>OPEN</td><td>NLCS Objectgericht</td><td>3D softwaretemplates</td><td></td></tr>
+<tr><td>683</td><td>Gebruikersvraag inspectie / trekputten KL</td><td>OPEN</td><td>Gebruikersvragen</td><td>KL kabels en leidingen</td><td></td></tr>
+<tr><td>684</td><td>Overzichtsissue Project NLCS Objectgericht, BIM Basis Infra &amp; NLCS</td><td>OPEN</td><td>NLCS Objectgericht</td><td>3D: IFC+Classificatie</td><td></td></tr>
+<tr><td>685</td><td>Beta-classificatie NLCS BC Betonconstructies opnemen in beheeromgeving en publiceren op sparql-endpoint</td><td>OPEN</td><td>NLCS Objectgericht</td><td>BC betonconstructies</td><td></td></tr>
+<tr><td>686</td><td>Beta-classificatie NLCS BC; links naar IMBOR opnemen en publiceren op sparql-endpoint</td><td>OPEN</td><td>NLCS Objectgericht</td><td>BC betonconstructies</td><td></td></tr>
+<tr><td>687</td><td>Experiment Hoeveelheden berekenen met NLCS Classificatie VH door VolkerWessels</td><td>OPEN</td><td>NLCS Objectgericht</td><td></td><td></td></tr>
+<tr><td>688</td><td>Experiment aansluiten op Assetinformatie beheerder met NLCS Classificatie VH door Gelderland</td><td>OPEN</td><td>NLCS Objectgericht</td><td></td><td></td></tr>
+<tr><td>689</td><td>Experiment Hoeveelheden berekenen met NLCS Classificatie BC door VolkerWessels</td><td>OPEN</td><td>NLCS Objectgericht</td><td></td><td></td></tr>
+<tr><td>690</td><td>Experiment aansluiten op asset informatie beheerder NLCS Classificatie BC door Gelderland</td><td>OPEN</td><td>NLCS Objectgericht</td><td></td><td></td></tr>
+<tr><td>691</td><td>Go / No Go besluit voor Classificaties NLCS Objectgericht VH + BC</td><td>OPEN</td><td>NLCS Objectgericht</td><td>3D: IFC+Classificatie</td><td></td></tr>
+<tr><td>692</td><td>Go / No Go besluit voor Beta Templates NLCS Objectgericht</td><td>OPEN</td><td>NLCS Objectgericht</td><td></td><td></td></tr>
+<tr><td>693</td><td>Kleurenkolommen en kind van kolommen  in objectentabellen geen geheel getal, maar decimaal</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td></td><td></td></tr>
+<tr><td>694</td><td>Hoofdgroep constructies typefout &quot;Acceptatie versie 5.1.4&quot;</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>disciplines</td><td></td></tr>
+<tr><td>695</td><td>GitHub inrichten met releases zodat we elke test versie goed kunnen tracken</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>698</td><td>Feedback on &quot;Acceptatie versie 5.1.4&quot;</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>699</td><td>Gebruikersvraag lijndiktes: verschil in diktes van de verschillende soorten lagen per materiaal</td><td>OPEN</td><td>Gebruikersvragen</td><td>BC betonconstructies; Lijnen; VH - verhardingen; GW-grondwerk</td><td></td></tr>
+<tr><td>700</td><td>missing values SO and phase for linetypes</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>Lijnen</td><td></td></tr>
+<tr><td>701</td><td>overbodige patterns in NLCS 5.0</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Bespreken EC; Arceringen</td><td></td></tr>
+<tr><td>702</td><td>&#39;doorsnede&#39; en &#39;niet zichtbaar&#39;</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>Bespreken EC; CAD-elementen</td><td></td></tr>
+<tr><td>703</td><td>Lijndiktes</td><td>OPEN</td><td>Inhoudelijke issues Release 5.1</td><td>Lijnen; CAD-elementen</td><td></td></tr>
+<tr><td>704</td><td>Feedback rv5.1.5</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>705</td><td>end of lines in linetypes</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td></td><td></td></tr>
+<tr><td>706</td><td>add column URI&#39;s to symbols-query</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td></td><td></td></tr>
+<tr><td>708</td><td>1 Kick-off en analyse informatiebehoefte</td><td>OPEN</td><td>NLCS Objectgericht</td><td></td><td></td></tr>
+<tr><td>709</td><td>2 Analyseren Revit workflow</td><td>OPEN</td><td>NLCS Objectgericht</td><td></td><td></td></tr>
+<tr><td>710</td><td>3 Analyseren Calculatie behoefte</td><td>OPEN</td><td>NLCS Objectgericht</td><td></td><td></td></tr>
+<tr><td>711</td><td>4 Beschrijven gewenste informatie structuur</td><td>OPEN</td><td>NLCS Objectgericht</td><td></td><td></td></tr>
+<tr><td>712</td><td>5 Realiseren gewenste output in IFC voor eerste testbatch</td><td>OPEN</td><td>NLCS Objectgericht</td><td></td><td></td></tr>
+<tr><td>713</td><td>6 Testen IFC testbatch in IBIS</td><td>OPEN</td><td>NLCS Objectgericht</td><td></td><td></td></tr>
+<tr><td>714</td><td>7 Evaluatie eerste batch 8 uur</td><td>OPEN</td><td>NLCS Objectgericht</td><td></td><td></td></tr>
+<tr><td>716</td><td>Check documentatie op toevoegingen netbeheerders</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td></td><td></td></tr>
+<tr><td>717</td><td>Afspraken lagenopbouw NLCS drinkwater</td><td>CLOSED</td><td>NLCS Drinkwater</td><td>KL kabels en leidingen; NLCS drinkwater</td><td></td></tr>
+<tr><td>718</td><td>NLCS Informatiemodel Drinkwater - Inventarisatie MVP datamodel</td><td>OPEN</td><td>NLCS Drinkwater</td><td>KL kabels en leidingen; NLCS drinkwater</td><td></td></tr>
+<tr><td>719</td><td>Use cases samenhang standaarden NLCS - GWSW</td><td>CLOSED</td><td>Inhoudelijke backlog</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>720</td><td>10% versie NLCS ontologie Rioleringen</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>721</td><td>10% versie NLCS ontologie-IMBOR/GWSW</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>722</td><td>10% versie alignment NLCS ontologie - NLCS voor rioleringen</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>723</td><td>Klassieke mappingstabel gwsw-nlcs genereren uit 10% versie</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>724</td><td>Vraag over BEWERKING: alleen nieuw of tijdelijk, wordt in revisietekeningen niet aangeduid wat er gedaan is?</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>status&amp;bewerking</td><td></td></tr>
+<tr><td>725</td><td>Documentatie maken objectgericht informatiemodel NLCS</td><td>CLOSED</td><td>Alignment GWSW</td><td>Informatiemodel</td><td></td></tr>
+<tr><td>726</td><td>STROMINGSRICHTING of STROOMRICHTING</td><td>CLOSED</td><td></td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>727</td><td>Herkennen van objecten in tekeningen: legenda</td><td>OPEN</td><td>Technische backlog</td><td>CAD interoperabiliteit</td><td></td></tr>
+<tr><td>728</td><td>Vraag NLCS voor landmeters</td><td>OPEN</td><td>Gebruikersvragen</td><td>landmeten</td><td></td></tr>
+<tr><td>729</td><td>Verzamelen gebruikte individuele CAD-bibliotheken met symbolen door drinkwaterbedrijven</td><td>OPEN</td><td>NLCS Drinkwater</td><td>KL kabels en leidingen; NLCS drinkwater</td><td></td></tr>
+<tr><td>730</td><td>Volgorde en inhoud objecten subobjecten drinkwater bepalen</td><td>OPEN</td><td>NLCS Drinkwater</td><td>KL kabels en leidingen; NLCS drinkwater</td><td></td></tr>
+<tr><td>731</td><td>Voorstel omgang met kleuren voor Expert- en technische commissie</td><td>OPEN</td><td>Inhoudelijke issues release xx</td><td>kleuren</td><td></td></tr>
+<tr><td>732</td><td>Gebruikersvraag kleuren van teksten</td><td>CLOSED</td><td>Gebruikersvragen</td><td>kleuren</td><td></td></tr>
+<tr><td>733</td><td>feedback eisen aan tekeningen en modellen 5.1</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation</td><td></td></tr>
+<tr><td>734</td><td>Check technische commissie op software-impact toevoeging bedrijfstoestand in CAD-database netbeheerders</td><td>OPEN</td><td>Technische backlog</td><td>Netbeheer; status&amp;bewerking; KL kabels en leidingen</td><td></td></tr>
+<tr><td>735</td><td>Bold (vet) lijkt niet te werken op .ttf font</td><td>OPEN</td><td></td><td></td><td></td></tr>
+<tr><td>736</td><td>Feedback 5.1 ID nummers, twee versies in de lucht houden in de software en aansluiting maatwerk bibliotheken</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>publicatie; ID en wijzigingen</td><td></td></tr>
+<tr><td>737</td><td>SIS-symbolen hebben unit ipv unitless</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>IS installaties spoor</td><td></td></tr>
+<tr><td>738</td><td>IS-objecten: feedback</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>duplicate; IS installaties spoor</td><td></td></tr>
+<tr><td>739</td><td>feedback op eisen aan softwareimplementatie</td><td>OPEN</td><td></td><td>eisen aan NLCS applicaties</td><td></td></tr>
+<tr><td>740</td><td>feedback op functionele beschrijving</td><td>OPEN</td><td>Inhoudelijke issues Release 5.1</td><td>documentation</td><td></td></tr>
+<tr><td>741</td><td>feedback 5.1.5</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>742</td><td>5.2.3 Naamgeving en plaatsing van symbolen</td><td>OPEN</td><td></td><td>documentation; Symbolen</td><td></td></tr>
+<tr><td>743</td><td>Vele klachten rondom lijntypes kantopsluitingen</td><td>OPEN</td><td></td><td>VH - verhardingen</td><td></td></tr>
+<tr><td>744</td><td>Feedback dubbele objecten of worden bewerkingen niet goed verwerkt in test 5.1 in CAD-applicaties</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>RI_riolering-en-GWSW; status&amp;bewerking; GW-grondwerk</td><td></td></tr>
+<tr><td>745</td><td>Feedback documentatie 5.1</td><td>OPEN</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Lijnen</td><td></td></tr>
+<tr><td>746</td><td>Feedback test 5.1 applicatie</td><td>OPEN</td><td>Inhoudelijke issues Release 5.1</td><td>GR-Groen-inclusief-bomen; VH - verhardingen</td><td></td></tr>
+<tr><td>747</td><td>aanpassen functionele beschrijving 5.1 hoofdgroepen stedelijk spoor kloppen niet meer</td><td>OPEN</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; Stedelijk Spoor</td><td></td></tr>
+<tr><td>748</td><td>Onderzoeken of er een koppeling met de ETIM nodig is voor bestellen van producten op basis van tekening</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>NLCS drinkwater</td><td></td></tr>
+<tr><td>749</td><td>LIN bestand probleem?</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>Lijnen</td><td></td></tr>
+<tr><td>750</td><td>feedback 5.1 symbolen zijn niet geoptimaliseerd</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>Symbolen</td><td></td></tr>
+<tr><td>751</td><td>Relaties NLCS versus GWSW, inhoudelijke vragen</td><td>OPEN</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>752</td><td>testlinks naar ontologie vanuit beheeromgeving nlcs weghalen</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>753</td><td>Gebruikersvraag BGT-mapping NLCS5.0</td><td>OPEN</td><td>Gebruikersvragen</td><td>BGT</td><td></td></tr>
+<tr><td>754</td><td>Relaties NLCS - GWSW, modelleertechnische vragen</td><td>CLOSED</td><td>Alignment GWSW</td><td>Informatiemodel; RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>755</td><td>Vragen GWSW versus NLCS, afsluiter, afsluitstuk, eindkap</td><td>CLOSED</td><td>Alignment GWSW</td><td></td><td></td></tr>
+<tr><td>756</td><td>Beoordelen symbolen rioleringen, of dit apart objecten in de taxonomie moeten worden</td><td>OPEN</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>757</td><td>queries opstellen rioleringsontologie en alignments met voorbeeld output in ReadME</td><td>OPEN</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>758</td><td>Rioleringsclassifcatie: Samenstellingen maken onder stelseltypes</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>759</td><td>beheerogeving rioleringsontologie, matter?</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW; publicatie</td><td></td></tr>
+<tr><td>760</td><td>beheeromgeving classificatie rioleringen, links naar NLCS tonen alleen uri</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW; publicatie</td><td></td></tr>
+<tr><td>761</td><td>feedback 5.1 probleem sbs arceringen</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>VH - verhardingen; Arceringen</td><td></td></tr>
+<tr><td>762</td><td>B-status symbolen bij gelijk uiterlijk?</td><td>OPEN</td><td>Inhoudelijke issues Release 5.1</td><td>Symbolen; KL kabels en leidingen</td><td></td></tr>
+<tr><td>763</td><td>Zoekfilters symbolen &gt; KAST? BAKEN, DRIS, MINUS, enz hebben allemaal dezelfde symbolen als hun parent.</td><td>OPEN</td><td>Inhoudelijke issues Release 5.1</td><td>Symbolen; IS installaties spoor</td><td></td></tr>
+<tr><td>764</td><td>Objecten met haakjes</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>765</td><td>Controlequeries nlcs-gwsw mapping</td><td>CLOSED</td><td>Alignment GWSW</td><td>duplicate; RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>766</td><td>Opstellen minimale dataset rioleringsrevisie</td><td>OPEN</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>767</td><td>Relatie van classificatie naar tekenstandaard: described by maken</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>768</td><td>Gebruikersvraag: nieuwe, vervallen, gewijzigde objecten</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>ID en wijzigingen</td><td></td></tr>
+<tr><td>769</td><td>Feedbacklijst 5.1 technische issues</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>770</td><td>Experttoets release 5.1.5</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>771</td><td>Relaties GWSW - NLCS, URI overnemen?</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>772</td><td>Binnenonderkant buis</td><td>CLOSED</td><td>Alignment GWSW</td><td>Informatiemodel; RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>773</td><td>OVERIG: soms bedoelen we &quot;ander stelsel&quot; uit GWSW, soms bedoelen we &quot;geen stelsel&quot;</td><td>OPEN</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>774</td><td>VACUUMLEIDING_RIOOLLEIDING_MATERIAAL is dit een tekstlaag? moeten we zeggen dat er altijd een materiaal moet worden opgegeven? </td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>775</td><td>Technische commissie: heroverweg om twee &quot;kolommen&quot; terug in de publicaties te nemen: - en G/A/S</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td></td><td></td></tr>
+<tr><td>776</td><td>Beheercommissie: Besluit NLCS Objectgericht</td><td>CLOSED</td><td>NLCS Objectgericht</td><td>GroeipadDSGO/NLCS</td><td></td></tr>
+<tr><td>777</td><td>Beheercommissie: besluit jaarplan</td><td>CLOSED</td><td>Gebruikersvragen</td><td>Stedelijk Spoor; BOMOS</td><td></td></tr>
+<tr><td>778</td><td>Gebruikersvraag: versxchillen tussen 4.2 en 5.0 versie van NLCS</td><td>CLOSED</td><td>Gebruikersvragen</td><td>implementatie; 3D softwaretemplates; ID en wijzigingen</td><td></td></tr>
+<tr><td>779</td><td>fout in bestandsnaam AOG-BELEMMERING_LEIDINGSTRSO</td><td>OPEN</td><td>Inhoudelijke backlog</td><td>OG-ondergrond</td><td></td></tr>
+<tr><td>780</td><td>Benaming tekststijlhoogte</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>documentation; maatvoering-leaders-teksten</td><td></td></tr>
+<tr><td>781</td><td>Gebruikersvraag: ANWB font</td><td>OPEN</td><td>Inhoudelijke issues Release 5.1</td><td>maatvoering-leaders-teksten</td><td></td></tr>
+<tr><td>782</td><td>verbeteren documentatie Benaming van maatvoeringstijlen</td><td>CLOSED</td><td>Inhoudelijke issues Release 5.1</td><td>maatvoering-leaders-teksten</td><td></td></tr>
+<tr><td>783</td><td>Verzoek wijziging volgorde maatvoeringsstijlen</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>maatvoering-leaders-teksten</td><td></td></tr>
+<tr><td>784</td><td>Vergelijking NLCS - IMBOR - GWSW: lijst met niet-gelijke objecten</td><td>OPEN</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>785</td><td>Harmonicamodel leidt soms tot niet-gebruikte objecttypen zoals HULPSTUK</td><td>OPEN</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>786</td><td>Controle-query dubbele ID&#39;s maken</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>787</td><td>Controle query zelfde object, nieuwe ID</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>788</td><td>check controle queries / nlcs exporter: fase and option symbolen/arceringen</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>789</td><td>Maken controle-query ongeldige karakters</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>790</td><td>Maken controle query lijntypes V-naam mogen alleen gekoppeld zijn aan fase V</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>791</td><td>Controle-query maken &quot;RGB-colors&quot;</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>792</td><td>Controle-query kleuren</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>793</td><td>Cotrole-query op invullen van kleuren, lijnen enzovoorts bij objecten</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>794</td><td>Controle queries &amp; NLCS-exporter</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>795</td><td>Riolering persleiding en vacuumleiding indeling harmonicamodel niet correct</td><td>OPEN</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW; Bespreken EC</td><td></td></tr>
+<tr><td>796</td><td>GWA_RIOOLLEIDING_BETON_EI kind van beton?</td><td>OPEN</td><td>Inhoudelijke issues Release 5.1</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>797</td><td>implementatievraag: changelog ook uitdraaien tussen acceptatie-versies</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>implementatie</td><td></td></tr>
+<tr><td>798</td><td>Kwaliteitsborging Publicaties standaard</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>BOMOS</td><td></td></tr>
+<tr><td>799</td><td>missing controle-querys in nlcs exporter</td><td>CLOSED</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>800</td><td>Input technische commissie controle naamgeving objecten, symbolen, arceringen, lijntypes</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>801</td><td>Verbeteren inrichting GitHub voor duidelijker overzicht per publicatie</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>publicatie</td><td></td></tr>
+<tr><td>802</td><td>Generate html for control queries instead of csv</td><td>OPEN</td><td></td><td></td><td></td></tr>
+<tr><td>803</td><td>NLCS drinkwater: vraag diepgang &amp; l;abels / objectinformatie</td><td>OPEN</td><td>NLCS Drinkwater</td><td>KL kabels en leidingen; objectattributen</td><td></td></tr>
+<tr><td>804</td><td>NLCS drinkwater: vraag scope, wanneer ander groep dan WATER? HoogSpanning en KathodischeBescherming?</td><td>CLOSED</td><td>NLCS Drinkwater</td><td>KL kabels en leidingen; NLCS drinkwater</td><td></td></tr>
+<tr><td>805</td><td>Drainagestelsel en Infiltratiestelsel</td><td>OPEN</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>806</td><td>Druk en perssystemen</td><td>OPEN</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>807</td><td>Is een transportleiding een objectsoort of een functie?</td><td>OPEN</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW; Bespreken EC</td><td></td></tr>
+<tr><td>808</td><td>Zoektermen IE-symbolen</td><td>OPEN</td><td>Inhoudelijke issues Release 5.1</td><td>IE-inrichtingselementen</td><td>In de hoofdgroep IE misten in een acceptatie-versie van de 5.1.5 op hoger niveau de &quot;zoektermen&quot; voor objecten na de herordening van deze hoofdgroep uit 5.0 waarbij MEUBILAIR_WEG en MEUBILAIR_WATER samengevoegd zijn. Op niveau &quot;MEUBILAR&quot; is nu de zoekterm &quot;SIE-MEUBILAIR&quot; toegevoegd. Bij CONSTRUCTIEVE AFSCHEIDINGEN is de zoekterm SIE-CONSTRUCTIEVE AFSCHEIDING toegevoegd.</td></tr>
+<tr><td>809</td><td>Vraag VRI&#39;s</td><td>OPEN</td><td>Inhoudelijke issues Release 5.1</td><td>VRI; IW installaties weg</td><td></td></tr>
+<tr><td>810</td><td>Gebruikersvraag ori&#235;ntatie NLCS-tekening</td><td>CLOSED</td><td>Gebruikersvragen</td><td>tekenblad</td><td></td></tr>
+<tr><td>811</td><td>link laagtabellen</td><td>CLOSED</td><td>Gebruikersvragen</td><td>publicatie</td><td>De ReadME van de 5.0 is aangepast nadat de main branch is opgeschoond tot puur de 5.0 publicatie zonder historie.</td></tr>
+<tr><td>812</td><td>Onterechte ID wijzigingen Hoofdgroep VW</td><td>OPEN</td><td>Technische issues voor NLCS 5.1</td><td>VW Verkeersmaatregelen Weg</td><td></td></tr>
+<tr><td>813</td><td>Hoofdgroep IE: balustrade onderdeel BGT mapping, moet daarom als object blijven bestaan</td><td>OPEN</td><td>Inhoudelijke issues Release 5.1</td><td>IE-inrichtingselementen</td><td></td></tr>
+<tr><td>814</td><td>Gebruikersvraag Toepassing NLCS voor vastleggen planstudies</td><td>CLOSED</td><td>Gebruikersvragen</td><td>BGT; implementatie</td><td></td></tr>
+<tr><td>815</td><td>Gebruikersvraag inlezen standaard in een CAD-applicatie</td><td>CLOSED</td><td>Gebruikersvragen</td><td>implementatie</td><td></td></tr>
+<tr><td>816</td><td>Extra controlequery nodig: komt zoekterm ook voor in de onderliggende , arceringnaam</td><td>OPEN</td><td>Inhoudelijke issues Release 5.1</td><td>Symbolen; publicatie; VH - verhardingen</td><td></td></tr>
+<tr><td>817</td><td>Zoeken van symbolen: wat is de regel?</td><td>OPEN</td><td>Technische backlog</td><td>publicatie</td><td></td></tr>
+<tr><td>818</td><td>404 dead URL op hoofdpagina</td><td>CLOSED</td><td>Gebruikersvragen</td><td></td><td></td></tr>
+<tr><td>819</td><td>Benadering rioolputtten in de NLCS</td><td>OPEN</td><td></td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>820</td><td>Vuilwaterriolering</td><td>CLOSED</td><td>Alignment GWSW</td><td>RI_riolering-en-GWSW</td><td></td></tr>
+<tr><td>821</td><td>*.pat materialen werkt niet goed</td><td>OPEN</td><td></td><td></td><td></td></tr>
+<tr><td>822</td><td>Tekenen van mantelbuizen</td><td>OPEN</td><td>NLCS Drinkwater</td><td>KL kabels en leidingen; NLCS drinkwater</td><td></td></tr>
+<tr><td>823</td><td>file url in linked data publicatie / styulesheet moet aangepast worden naar nieuwe github structuur</td><td>OPEN</td><td>Technische backlog</td><td>publicatie</td><td></td></tr>
+</table>
+</body></html>
