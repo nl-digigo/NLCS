@@ -34,7 +34,7 @@ $OutputCsv  = Join-Path $ScriptDir "release_notes_issues.csv"
 $OutputHtml = Join-Path $ScriptDir "release_notes_issues.html"
 
 # Zoekteksten voor release notes in comments
-$ReleaseNoteTag = "[Release note]"
+$ReleaseNoteTag = "[[Release note]]"
 $NoChangeTag    = "[release note: no change from issue]"
 
 
@@ -146,7 +146,7 @@ function Get-AllClosedIssues {
         # - state=closed  -> alleen gesloten issues
         # - per_page=100  -> maximaal 100 per pagina (het maximum van de API)
         # - page=N        -> welke pagina we willen
-        $url = "$BaseUrl/issues?state=closed&per_page=100&page=$page"
+        $url = "$BaseUrl/issues?state=all&per_page=100&page=$page"
 
         $issuesOnPage = Invoke-GitHubApi -Url $url -Headers $Headers
 
@@ -364,6 +364,9 @@ function Sort-Rows {
 # =============================================================================
 # STAP 6: CSV genereren
 # =============================================================================
+
+$OutputCsv = "C:\Users\100289\OneDrive - CROW\Documents\GitHub\NLCSdev\beheer\releasenotesmaken\release_notes_issues.csv"
+$OutputHtml = "C:\Users\100289\OneDrive - CROW\Documents\GitHub\NLCSdev\beheer\releasenotesmaken\release_notes_issues.html"
 
 function Export-CsvFile {
     <#
