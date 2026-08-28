@@ -75,17 +75,42 @@ ex:ConvertAspectWithRole a sh:NodeShape ;
 				?hasAspect otl:rel-Relation-toRole ?this .
 				?hasAspect otl:rel-Relation-to ?aspect .
 				?hasAspect otl:rel-Relation-from ?object .
-				BIND (ex:getOriginalUri(?object) AS ?tgtObject) .										#### Moved this up for clarity (shouldn't matter I hope)
-				?aspect a otl:Aspect .
+				BIND (ex:getOriginalUri(?object) AS ?tgtObject) .
+				
 				# Check if the object has a defined shape, otherwise create a shape
+				{
+					?hasAspect otl:rel-Relation-toRole ?this .
+					?hasAspect otl:rel-Relation-from ?object .
+					?object otl:rel-Conceptual-hasShape ?shape .
+					BIND (URI(STR(?shape)) AS ?tgtShape) .
+				}
+				UNION
+				{
+					?hasAspect otl:rel-Relation-toRole ?this .
+					?hasAspect otl:rel-Relation-from ?object .
+					FILTER NOT EXISTS {
+						?object otl:rel-Conceptual-hasShape ?shape .
+					} .
+					BIND (ex:createURI(CONCAT(ex:localname(?object), "-Shape")) AS ?tgtAspectWithValue) .
+				} .
 				
-				?hasAspect otl:rel-Relation-from ?object .
-				?object otl:rel-Conceptual-hasShape ?shape .
-				BIND (URI(STR(?shape)) AS ?tgtShape) .
-			
-				BIND (ex:getOriginalUri(?aspect) AS ?tgtAspect) .
-				
-				
+				# Check if the aspect is internal or external
+				{
+					?hasAspect otl:rel-Relation-toRole ?this .
+					?hasAspect otl:rel-Relation-to ?aspect .
+					?aspect a otl:Aspect .
+					BIND (ex:getOriginalUri(?aspect) AS ?tgtAspect) .
+				}
+				UNION
+				{
+					?hasAspect otl:rel-Relation-toRole ?this .
+					?hasAspect otl:rel-Relation-to ?aspect .
+					FILTER NOT EXISTS {
+						?aspect a otl:Aspect .
+					} .
+					BIND (?aspect AS ?tgtAspect) .
+				} .
+
 				# Get all the descriptive information of the aspect
 				?aspect shapes:sequence/rdf:_1 ?tgtAspectPrefName .
 				OPTIONAL {
@@ -311,17 +336,17 @@ ex:CreateNLCSobject a sh:NodeShape ;
 	sh:rule [ a sh:SPARQLRule ;
 			sh:construct """
 			CONSTRUCT {
-				?tgtThis rdfs:subClassOf ?nlcsObject .
+				# ?tgtThis rdfs:subClassOf ?nlcsObject .
 				?nlcsObject a owl:Class .
 				?nlcsObject skos:prefLabel "NLCS-object" .
 				?nlcsObject rdfs:subClassOf nen2660:InformationObject .
 			}
 			WHERE {
 				?this a otl:PhysicalObject .
-				FILTER NOT EXISTS { ?this otl:rel-Conceptual-isSpecializationOf ?anyParent . } .
-				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
+				# FILTER NOT EXISTS { ?this otl:rel-Conceptual-isSpecializationOf ?anyParent . } .
+				# BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
 				BIND (ex:createURI("e160a4d4-d97c-4555-8928-7affd0051548") AS ?nlcsObject) .
-			}
+			} LIMIT 1
 			""" ;
             sh:deactivated false ;
             sh:prefixes ex:,
@@ -405,8 +430,10 @@ ex:ConvertConceptualFundamentals a sh:NodeShape ;
 					BIND (ex:createURI(?tgtTopConceptualLabel) AS ?lacesTopConceptual) .
 				} .
 				BIND (COALESCE(?ntaTopConceptual, ?lacesTopConceptual) AS ?tgtTopConceptual) .
-				BIND (IF(?conceptual=otl:PhysicalObject && !BOUND(?parentConceptual), ex:createURI("e160a4d4-d97c-4555-8928-7affd0051548"), COALESCE(?newParentConceptual, ?tgtTopConceptual)) AS ?tgtParentConcept) .
-			
+				BIND (IF(?conceptual=otl:PhysicalObject, 
+					COALESCE(?newParentConceptual, ex:createURI("e160a4d4-d97c-4555-8928-7affd0051548")), 
+					COALESCE(?newParentConceptual, ?tgtTopConceptual)) AS ?tgtParentConcept) .
+
 			# This section finds any names, the preferred name, descriptions, notes, codes and abbreviations of the concept (if applicable).
 				?this shapes:sequence/rdf:_1 ?tgtConceptualPrefName .
 				OPTIONAL {
