@@ -206,6 +206,64 @@ def dwg_hash_status(names, new_abs: dict, old_abs: dict) -> dict:
     return out
 
 
+def find_csv_by_code(folder: str, code: str) -> str:
+    """Zoek in `folder` de CSV waarvan de hoofdgroep-code gelijk is aan `code`
+    (bijv. code 'AM' -> 'objecten-5-2-AM.csv'). "" als er niets past."""
+    if not folder or not os.path.isdir(folder) or not code:
+        return ""
+    code = code.strip().upper()
+    for path in sorted(glob.glob(os.path.join(folder, "*.csv"))):
+        if hoofdgroep_code(path) == code:
+            return path
+    return ""
+
+
+def column_values(path: str, column: str) -> list:
+    """Distinct, niet-lege waarden van kolom `column` uit één CSV, in
+    oorspronkelijke schrijfwijze en op volgorde van eerste voorkomen."""
+    headers, rows = read_table(path)
+    if column not in headers:
+        return []
+    ci = headers.index(column)
+    seen: set = set()
+    out: list = []
+    for r in rows:
+        v = r[ci].strip() if ci < len(r) else ""
+        if v and v not in seen:
+            seen.add(v)
+            out.append(v)
+    return out
+
+
+def zoekfilter_map(names, terms) -> dict:
+    """Bepaal per symboolnaam de zoekfilter-term waarmee het symbool gevonden
+    wordt: de langste `terms`-waarde die een voorvoegsel is van de symboolnaam.
+
+    Parameters:
+      names : iterable van symboolnamen (bijv. 'SAM-ASPUNTNUMMER-SO')
+      terms : iterable van zoekfilter-termen (de `sobject`-kolom uit de
+              objectentabel, bijv. 'SAM-AS', 'SAM-ASPUNTNUMMER')
+
+    Geeft {stem.lower(): term} (lege string als geen enkele term past).
+    Bij meerdere passende termen wint de langste (meest specifieke)."""
+    terms_sorted = sorted({t.strip() for t in terms if t and t.strip()},
+                          key=len, reverse=True)
+    out: dict = {}
+    for nm in names:
+        s = (nm or "").strip()
+        if not s:
+            continue
+        key = s.lower()
+        if key in out:
+            continue
+        out[key] = ""
+        for t in terms_sorted:
+            if s == t or s.startswith(t):
+                out[key] = t
+                break
+    return out
+
+
 def read_table(path: str) -> tuple[list[str], list[list[str]]]:
     """Lees een CSV in als (headers, rijen). Elke rij is een lijst strings met
     dezelfde lengte als headers (aangevuld/afgekapt waar nodig). UTF-8, BOM-ok."""
