@@ -193,13 +193,16 @@ def sbib_to_code(sbib: str) -> str:
     return s
 
 
-def split_result_by_bib(result: dict, scope_col: str = "sbibliotheek") -> list:
+def split_result_by_bib(result: dict, scope_col: str = "sbibliotheek",
+                         strip_s: bool = True) -> list:
     """Splits een compare()-resultaat op in deelresultaten per hoofdgroep.
 
-    De hoofdgroep-code wordt afgeleid uit de `scope_col`-kolom (sbibliotheek)
-    via sbib_to_code (SBC->BC). Nodig voor CO: dat symbolenbestand bevat
-    meerdere bibliotheken (SBC/SFC/SGC) en moet uiteenvallen in aparte
-    hoofdgroepen (BC/FC/GC), elk met een eigen uitvoerbestand.
+    De hoofdgroep-code wordt afgeleid uit de `scope_col`-kolom. Bij symbolen is
+    dat de `sbibliotheek` (SBC), waar `strip_s=True` de leidende 'S' afhaalt
+    (SBC->BC). Bij lijntypes is `scope_col` de kolom `hoofdgroep` die de code al
+    letterlijk bevat (BV, BC, ...); geef daar `strip_s=False` zodat een code als
+    'SB' niet foutief tot 'B' wordt gestript. Nodig voor CO: dat verzamelbestand
+    bevat meerdere hoofdgroepen en moet uiteenvallen in aparte bestanden.
 
     Geeft een lijst (code, deelresultaat), gesorteerd op code. Ontbreekt de
     kolom of is er maar één code, dan één paar (die code, het originele
@@ -210,11 +213,14 @@ def split_result_by_bib(result: dict, scope_col: str = "sbibliotheek") -> list:
         return [("", result)]
     bi = headers.index(scope_col)
 
+    def code_of(value: str) -> str:
+        return sbib_to_code(value) if strip_s else (value or "").strip().upper()
+
     def rcode(row: dict) -> str:
-        return sbib_to_code(row["cells"][bi]["value"])
+        return code_of(row["cells"][bi]["value"])
 
     def dcode(drow: list) -> str:
-        return sbib_to_code(drow[bi] if bi < len(drow) else "")
+        return code_of(drow[bi] if bi < len(drow) else "")
 
     codes = sorted({rcode(r) for r in result["rows"] if rcode(r)}
                    | {dcode(d) for d in result["deleted"] if dcode(d)})
