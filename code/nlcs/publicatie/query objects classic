@@ -7,7 +7,14 @@ PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 PREFIX nlcs: <http://digitalbuildingdata.tech/nlcs/def/>
 
-# Retrieves all Object information and stores it in the familiar Excel/CSV format from the SQL database
+# IMPORTANT: this query involves a search term to be replaced by hoofdgroep names in a loop!
+# Retrieves all Object information per hoofdgroup and stores it in the familiar Excel/CSV format from the SQL database
+#
+# Variant of template_objects_per_hoofdgroup.rq for querying a MERGED SPLIT PUBLICATION rather
+# than the pre-split live endpoint. The split stylesheet mints human-readable property URIs
+# (e.g. nlcs:BLineweight) instead of the pre-split MD5-hash UUIDs (e.g. nlcs:f0ae4b93...) for
+# annotation/drawing-attribute properties - this is an intentional modelling change, not a bug.
+# Status/Discipline/Bewerking aspect properties are unaffected and keep their original UUIDs.
 
 SELECT DISTINCT ?omschrijving ?status ?underscore ?discipline ?underscore2 ?hoofdgroep ?underscore3 ?object ?underscore4 ?subobject01 ?underscore5 ?subobject02 ?underscore6 ?subobject03 ?underscore7 ?subobject04 ?underscore8 ?subobject05 
 ?streepje ?bewerking 
@@ -29,7 +36,7 @@ WHERE {
   ?objectURI skos:prefLabel ?omschrijving .
   FILTER (?hoofdgroep = "?hoofdgroepCode") . # INPUT REQUIRED - Change value to the desired hoofdgroep, AL is used as example
   OPTIONAL {
-    ?objectURI nlcs:ID ?id_nummer .
+    ?objectURI nlcs:ID ?id_nummer . # ?objectURI ?idProperty ?id_nummer . ?idProperty skos:prefLabel "ID" .
   }
   OPTIONAL {
     ?objectURI nlcs:VRKL_KORT ?vrkl_kort .
@@ -60,14 +67,6 @@ WHERE {
     }
     BIND( COALESCE(?DisciplineValue, "**") AS ?discipline) .
   }
-  # sobject/aobject are multi-valued per object (an object can reference more than one
-  # Symbool/Arcering). Each is pre-aggregated into one GROUP_CONCAT'd row per objectURI in its
-  # own subquery *before* joining into the outer query, so the two multi-valued relationships
-  # never cross-join against each other here. Without this, e.g. 2 symbols x 3 arceringen would
-  # fan out into 6 rows for one object, objectURI would stop uniquely keying a row, and the diff
-  # tool would report the object as MODIFIED whenever that fan-out's enumeration order differed
-  # between old/new -- even when the actual symbol/arcering sets were identical. The inner
-  # subqueries are DISTINCT + ORDER BY so the GROUP_CONCAT result is deterministic between runs.
   OPTIONAL {
     SELECT ?objectURI (GROUP_CONCAT(?sobject; separator="; ") AS ?sobject) WHERE {
       SELECT DISTINCT ?objectURI ?sobject WHERE {
