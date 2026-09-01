@@ -1,0 +1,652 @@
+"""
+ot_gui.py - tkinter-venster voor de NLCS tabellen-changelog tool.
+
+Twee tabbladen met dezelfde werkwijze, voor verschillende tabelsoorten:
+  - Objectentabellen (match op objectURI; verbergt de kolommen status..streepje3)
+  - Symbolentabellen (match op symboolURI; toont alleen symboolURI, sbibliotheek,
+    fase, id, symbool, optie)
+
+De versienamen (nieuw/oud) vul je maar één keer in; ze gelden voor beide
+tabbladen. Per tabblad kies je de map met de nieuwe en de vorige versie, klik je
+'Zoek hoofdgroepen' en vink je aan welke je vergelijkt (één, een paar of alle).
+Per gekozen paar komen er twee HTML's:
+  - <naam-inputfile>.html            : volledige tabel, sorteer/filter alle kolommen
+  - changelog-<naam-inputfile>.html  : changelog met gekleurde wijzigingen
+
+Instellingen worden onthouden via ot_config.
+"""
+
+import html
+import os
+import queue
+import threading
+import webbrowser
+from urllib.parse import quote
+
+import tkinter as tk
+from tkinter import ttk, filedialog, messagebox
+
+import ot_compare
+import ot_config
+import ot_html
+
+
+# ---------------------------------------------------------------------------
+# Profielen: wat verschilt er per tabelsoort
+# ---------------------------------------------------------------------------
+PROFILES = [
+    {
+        "key": "obj",
+        "label": "Objectentabellen",
+        "match_key": "objectURI",
+        # verberg het blok status..streepje3
+        "visible": lambda headers: ot_html.hide_range_indices(
+            headers, "status", "streepje3"),
+        # vrij zoekveld voor omschrijving, laagnaam en URI's; rest = keuzelijst
+        "text_search": lambda h: h in ("omschrijving", "laagnaam")
+        or "uri" in h.lower(),
+    },
+    {
+        "key": "sym",
+        "label": "Symbolentabellen",
+        "match_key": "symboolURI",
+        # toon alleen deze kolommen (in CSV-volgorde)
+        "visible": lambda headers: ot_html.show_names_indices(
+            headers, ["symboolURI", "sbibliotheek", "fase", "id",
+                      "symbool", "optie"]),
+        # vrij zoekveld voor URI's, symbool en id; rest (sbibliotheek, fase,
+        # optie) = keuzelijst
+        "text_search": lambda h: "uri" in h.lower() or h in ("symbool", "id"),
+        # symbolen: extra map met de nieuwe .dwg's + svg/.dwg-kolommen in de changelog
+        "needs_symbol_files": True,
+        "symbol_name_col": "symbool",
+        # oude versie = één grote CSV; scope per bibliotheek zodat 'vervallen'
+        # beperkt blijft tot dezelfde hoofdgroep
+        "old_is_file": True,
+        "scope_col": "sbibliotheek",
+    },
+]
+
+
+def _dwg_cell(naam: str, dwg_stems: set) -> str:
+    present = bool(naam) and naam.lower() in dwg_stems
+    return ('<span class="dwg-ja">ja</span>' if present
+            else '<span class="dwg-nee">nee</span>')
+
+
+def _svg_cell(naam: str) -> str:
+    if not naam:
+        return ""
+    # De svg's staan in een submap per bibliotheek, genoemd naar het voorvoegsel
+    # van de symboolnaam (bijv. 'SAM-ASPUNTNUMMER-SO' -> ./SAM/SAM-ASPUNTNUMMER-SO.svg).
+    prefix = naam.split("-", 1)[0] if "-" in naam else ""
+    folder = ("./" + quote(prefix) + "/") if prefix else "./"
+    href = folder + quote(naam + ".svg")
+    alt = html.escape(naam, quote=True)
+    return (f'<a href="{href}" target="_blank">'
+            f'<img src="{href}" alt="{alt}" loading="lazy" '
+            f'onerror="this.parentNode.style.display=\'none\'"></a>')
+
+
+# Weergave van de hash-vergelijking (oude .dwg t.o.v. nieuwe .dwg).
+_HASH_LABEL = {
+    "identiek": '<span class="hash-gelijk">identiek</span>',
+    "gewijzigd": '<span class="hash-wijz">inhoudelijk gewijzigd</span>',
+    "alleen nieuw": '<span class="hash-neutraal">alleen nieuw</span>',
+    "alleen oud": '<span class="hash-neutraal">alleen oud</span>',
+}
+
+
+def _hash_cell(naam: str, hash_status: dict) -> str:
+    if not naam:
+        return ""
+    return _HASH_LABEL.get(hash_status.get(naam.lower(), ""), "")
+
+
+def _symbol_extra_columns(result: dict, name_col: str, dwg_stems: set,
+                          hash_status: dict = None) -> list:
+    """Bouw de extra changelog-kolommen voor de symbolen:
+      1. '.dwg aanwezig'   : ja/nee, of <symbool>.dwg in de nieuwe map (recursief)
+                             gevonden is.
+      2. '.dwg t.o.v. oud' : identiek / inhoudelijk gewijzigd (op basis van een
+                             SHA-256 hash van het oude en nieuwe .dwg-bestand),
+                             of 'alleen nieuw'/'alleen oud'. Alleen als
+                             `hash_status` is meegegeven.
+      3. 'svg'             : de svg als klikbare afbeelding via een relatief pad
+                             (svg/<symbool>.svg, verondersteld naast de HTML).
+    De bestandsnaam komt uit de kolom `name_col` (doorgaans 'symbool'). Elke kolom
+    levert cellen voor de gewone rijen én voor de vervallen rijen (beide in de
+    nieuwe-kolomindeling)."""
+    headers = result["headers"]
+    if name_col not in headers:
+        return []
+    ni = headers.index(name_col)
+
+    def naam_of(row):      # gewone rij: cells[i]["value"]
+        return (row["cells"][ni]["value"] or "").strip()
+
+    def naam_of_del(drow):  # vervallen rij: platte lijst in nieuwe-indeling
+        return (drow[ni] if ni < len(drow) else "" or "").strip()
+
+    rows = result["rows"]
+    deleted = result["deleted"]
+
+    cols = [{
+        "header": ".dwg aanwezig",
+        "cells": [_dwg_cell(naam_of(r), dwg_stems) for r in rows],
+        "deleted_cells": [_dwg_cell(naam_of_del(d), dwg_stems) for d in deleted],
+    }]
+
+    if hash_status is not None:
+        cols.append({
+            "header": ".dwg t.o.v. oud",
+            "cells": [_hash_cell(naam_of(r), hash_status) for r in rows],
+            "deleted_cells": [_hash_cell(naam_of_del(d), hash_status)
+                              for d in deleted],
+        })
+
+    cols.append({
+        "header": "svg",
+        "cells": [_svg_cell(naam_of(r)) for r in rows],
+        "deleted_cells": [_svg_cell(naam_of_del(d)) for d in deleted],
+        "td_class": "svgcell",
+    })
+    return cols
+
+
+# ---------------------------------------------------------------------------
+# Herbruikbaar: scrollbare lijst met aanvinkvakjes
+# ---------------------------------------------------------------------------
+class ScrollableChecklist(ttk.Frame):
+    """Een aanvinklijst met scrollbalk en 'Alles'/'Niets'-knoppen."""
+
+    def __init__(self, master, title: str, height: int = 130):
+        super().__init__(master)
+
+        header = ttk.Frame(self)
+        header.pack(fill="x")
+        ttk.Label(header, text=title, font=("Segoe UI", 9, "bold")).pack(side="left")
+        ttk.Button(header, text="Niets", width=6,
+                   command=lambda: self.set_all(False)).pack(side="right")
+        ttk.Button(header, text="Alles", width=6,
+                   command=lambda: self.set_all(True)).pack(side="right")
+
+        container = ttk.Frame(self)
+        container.pack(fill="both", expand=True)
+        self.canvas = tk.Canvas(container, height=height, highlightthickness=1,
+                                highlightbackground="#c8ccd0")
+        scrollbar = ttk.Scrollbar(container, orient="vertical",
+                                  command=self.canvas.yview)
+        self.inner = ttk.Frame(self.canvas)
+        self.inner.bind(
+            "<Configure>",
+            lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
+        self.canvas.create_window((0, 0), window=self.inner, anchor="nw")
+        self.canvas.configure(yscrollcommand=scrollbar.set)
+        self.canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+        self.canvas.bind("<Enter>",
+                         lambda e: self.canvas.bind_all("<MouseWheel>", self._wheel))
+        self.canvas.bind("<Leave>",
+                         lambda e: self.canvas.unbind_all("<MouseWheel>"))
+
+        self.vars: dict[str, tk.BooleanVar] = {}
+
+    def _wheel(self, event) -> None:
+        self.canvas.yview_scroll(int(-event.delta / 120), "units")
+
+    def set_items(self, items: list[str], checked=None) -> None:
+        checked = set(checked or [])
+        for widget in self.inner.winfo_children():
+            widget.destroy()
+        self.vars = {}
+        for item in items:
+            var = tk.BooleanVar(value=(item in checked))
+            ttk.Checkbutton(self.inner, text=item, variable=var).pack(anchor="w")
+            self.vars[item] = var
+
+    def checked(self) -> list[str]:
+        return [name for name, var in self.vars.items() if var.get()]
+
+    def set_all(self, value: bool) -> None:
+        for var in self.vars.values():
+            var.set(value)
+
+
+# ---------------------------------------------------------------------------
+# Eén tabblad voor één tabelsoort
+# ---------------------------------------------------------------------------
+class TableTab(ttk.Frame):
+    def __init__(self, master, app: "App", profile: dict):
+        super().__init__(master, padding=10)
+        self.app = app
+        self.profile = profile
+        self._queue: queue.Queue = queue.Queue()
+        self.pairs: dict[str, tuple[str, str]] = {}   # code -> (nieuw, oud)
+
+        self._build()
+
+    # -- opbouw ------------------------------------------------------------
+    def _build(self) -> None:
+        loc = ttk.LabelFrame(self, text="Locaties", padding=8)
+        loc.pack(fill="x")
+
+        ttk.Label(loc, text="Map nieuwe versie:").grid(row=0, column=0, sticky="w")
+        self.new_dir_var = tk.StringVar()
+        ttk.Entry(loc, textvariable=self.new_dir_var, width=52
+                  ).grid(row=0, column=1, sticky="we", padx=4, pady=2)
+        ttk.Button(loc, text="Bladeren...",
+                   command=lambda: self._browse_dir(self.new_dir_var)
+                   ).grid(row=0, column=2, padx=4)
+
+        self.old_is_file = bool(self.profile.get("old_is_file"))
+        old_label = ("CSV vorige versie (één groot bestand):"
+                     if self.old_is_file else "Map vorige versie:")
+        ttk.Label(loc, text=old_label).grid(row=1, column=0, sticky="w")
+        self.old_dir_var = tk.StringVar()
+        ttk.Entry(loc, textvariable=self.old_dir_var, width=52
+                  ).grid(row=1, column=1, sticky="we", padx=4, pady=2)
+        old_browse = ((lambda: self._browse_file(self.old_dir_var))
+                      if self.old_is_file
+                      else (lambda: self._browse_dir(self.old_dir_var)))
+        ttk.Button(loc, text="Bladeren...", command=old_browse
+                   ).grid(row=1, column=2, padx=4)
+
+        # Alleen symbolen: hoofdmap met de .dwg-symbolen. Onder deze map zit per
+        # versie een submap (bijv. '5.0' en '5.2'); die worden gekoppeld aan de
+        # ingevulde versienamen en recursief doorzocht.
+        self.symbols_dir_var = tk.StringVar()
+        if self.profile.get("needs_symbol_files"):
+            ttk.Label(loc, text="Hoofdmap symbolen (.dwg; submap per versie):"
+                      ).grid(row=2, column=0, sticky="w")
+            ttk.Entry(loc, textvariable=self.symbols_dir_var, width=52
+                      ).grid(row=2, column=1, sticky="we", padx=4, pady=2)
+            ttk.Button(loc, text="Bladeren...",
+                       command=lambda: self._browse_dir(self.symbols_dir_var)
+                       ).grid(row=2, column=2, padx=4)
+        loc.columnconfigure(1, weight=1)
+
+        groups = ttk.LabelFrame(self, text="Hoofdgroepen (kies wat je vergelijkt)",
+                                padding=8)
+        groups.pack(fill="both", expand=True, pady=8)
+        top = ttk.Frame(groups)
+        top.pack(fill="x")
+        ttk.Button(top, text="Zoek hoofdgroepen", command=self.on_scan
+                   ).pack(side="left")
+        self.scan_status_var = tk.StringVar(
+            value="Kies beide mappen en klik 'Zoek hoofdgroepen'.")
+        ttk.Label(top, textvariable=self.scan_status_var, foreground="#555"
+                  ).pack(side="left", padx=10)
+        self.code_list = ScrollableChecklist(groups, "Hoofdgroep-codes")
+        self.code_list.pack(fill="both", expand=True, pady=(8, 0))
+
+        out = ttk.LabelFrame(self, text="Uitvoer", padding=8)
+        out.pack(fill="x")
+        ttk.Label(out, text="Uitvoermap:").grid(row=0, column=0, sticky="w")
+        self.output_dir_var = tk.StringVar()
+        ttk.Entry(out, textvariable=self.output_dir_var, width=52
+                  ).grid(row=0, column=1, sticky="we", padx=4, pady=2)
+        ttk.Button(out, text="Bladeren...",
+                   command=lambda: self._browse_dir(self.output_dir_var)
+                   ).grid(row=0, column=2, padx=4)
+        self.gen_btn = ttk.Button(out, text="Genereer HTML's",
+                                  command=self.on_generate)
+        self.gen_btn.grid(row=1, column=2, sticky="e", padx=4, pady=(4, 0))
+        out.columnconfigure(1, weight=1)
+
+        logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
+        logframe.pack(fill="both", expand=True, pady=(8, 0))
+        self.log = tk.Text(logframe, height=7, wrap="word", state="disabled",
+                           font=("Consolas", 9), background="#fbfbfb")
+        scroll = ttk.Scrollbar(logframe, orient="vertical", command=self.log.yview)
+        self.log.configure(yscrollcommand=scroll.set)
+        self.log.pack(side="left", fill="both", expand=True)
+        scroll.pack(side="right", fill="y")
+
+    # -- config ------------------------------------------------------------
+    def load_cfg(self, tabcfg: dict) -> None:
+        self.new_dir_var.set(tabcfg.get("new_dir", ""))
+        self.old_dir_var.set(tabcfg.get("old_dir", ""))
+        self.output_dir_var.set(tabcfg.get("output_dir", ""))
+        self.symbols_dir_var.set(tabcfg.get("symbols_dir", ""))
+        self._saved_codes = list(tabcfg.get("codes", []))
+        if os.path.isdir(self.new_dir_var.get()) and self._old_ok():
+            self.on_scan(silent=True)
+
+    def collect_cfg(self) -> dict:
+        return {
+            "new_dir": self.new_dir_var.get().strip(),
+            "old_dir": self.old_dir_var.get().strip(),
+            "codes": self.code_list.checked(),
+            "output_dir": self.output_dir_var.get().strip(),
+            "symbols_dir": self.symbols_dir_var.get().strip(),
+        }
+
+    # -- helpers -----------------------------------------------------------
+    def _browse_dir(self, var: tk.StringVar) -> None:
+        path = filedialog.askdirectory(initialdir=var.get() or os.getcwd())
+        if path:
+            var.set(path)
+
+    def _browse_file(self, var: tk.StringVar) -> None:
+        current = var.get().strip()
+        initial = os.path.dirname(current) if current else os.getcwd()
+        path = filedialog.askopenfilename(
+            initialdir=initial,
+            filetypes=[("CSV-bestanden", "*.csv"), ("Alle bestanden", "*.*")])
+        if path:
+            var.set(path)
+
+    def _logmsg(self, msg: str) -> None:
+        self.log.configure(state="normal")
+        self.log.insert("end", msg + "\n")
+        self.log.see("end")
+        self.log.configure(state="disabled")
+
+    def _old_ok(self) -> bool:
+        old = self.old_dir_var.get().strip()
+        return os.path.isfile(old) if self.old_is_file else os.path.isdir(old)
+
+    # -- hoofdgroepen zoeken ----------------------------------------------
+    def on_scan(self, silent: bool = False) -> None:
+        new_dir = self.new_dir_var.get().strip()
+        old = self.old_dir_var.get().strip()
+        if not (os.path.isdir(new_dir) and self._old_ok()):
+            if not silent:
+                msg = ("Kies eerst een geldige map voor de nieuwe versie én een "
+                       "CSV-bestand voor de vorige versie." if self.old_is_file
+                       else "Kies eerst een geldige map voor de nieuwe én de "
+                       "vorige versie.")
+                messagebox.showwarning("Locaties ontbreken", msg)
+            return
+
+        if self.old_is_file:
+            pairs, only_new, only_old = ot_compare.pair_folder_to_file(new_dir, old)
+        else:
+            pairs, only_new, only_old = ot_compare.pair_folders(new_dir, old)
+        self.pairs = {code: (npath, opath) for code, npath, opath in pairs}
+        codes = [code for code, _, _ in pairs]
+
+        saved = set(getattr(self, "_saved_codes", []) or [])
+        checked = [c for c in codes if c in saved] if saved else codes
+        self.code_list.set_items(codes, checked=checked or codes)
+
+        msg = f"{len(codes)} gekoppelde hoofdgroep(en) gevonden."
+        self.scan_status_var.set(msg)
+        if not silent:
+            self._logmsg(msg + (" (" + ", ".join(codes) + ")" if codes else ""))
+            if only_new:
+                self._logmsg("Alleen in nieuwe map (geen paar): "
+                             + ", ".join(only_new))
+            if only_old:
+                self._logmsg("Alleen in vorige map (geen paar): "
+                             + ", ".join(only_old))
+            if not codes:
+                messagebox.showinfo(
+                    "Niets gekoppeld",
+                    "Geen CSV's met een gedeelde hoofdgroep-code in beide mappen.")
+
+    # -- genereren (in aparte thread) -------------------------------------
+    def on_generate(self) -> None:
+        out_dir = self.output_dir_var.get().strip()
+        if not self.pairs:
+            self.on_scan()
+            if not self.pairs:
+                return
+        if not out_dir:
+            messagebox.showwarning("Geen uitvoermap", "Kies een uitvoermap.")
+            return
+
+        chosen = self.code_list.checked()
+        if not chosen:
+            messagebox.showwarning(
+                "Niets aangevinkt",
+                "Vink minstens één hoofdgroep aan (of klik 'Alles').")
+            return
+
+        os.makedirs(out_dir, exist_ok=True)
+        version_new = self.app.version_new_var.get().strip()
+        version_old = self.app.version_old_var.get().strip()
+        open_after = self.app.open_after_var.get()
+        match_key = self.profile["match_key"]
+        visible_fn = self.profile["visible"]
+        text_search_fn = self.profile["text_search"]
+        needs_files = self.profile.get("needs_symbol_files", False)
+        symbol_name_col = self.profile.get("symbol_name_col", "")
+        scope_col = self.profile.get("scope_col", "")
+        symbols_dir = self.symbols_dir_var.get().strip()
+        new_dir = self.new_dir_var.get().strip()
+        selected = [(code, self.pairs[code][0], self.pairs[code][1])
+                    for code in chosen if code in self.pairs]
+
+        self.gen_btn.config(state="disabled")
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+
+        def worker():
+            try:
+                self._queue.put(("log", f"{len(selected)} hoofdgroep(en) verwerken: "
+                                 + ", ".join(c for c, _, _ in selected)))
+                # Symbolen-.dwg's: onder de hoofdmap zit per versie een submap.
+                # De nieuwe submap voedt '.dwg aanwezig' + wees-controle; oud + nieuw
+                # samen voeden de hash-vergelijking.
+                dwg_map = {}            # {stem: relpad} in de nieuwe submap
+                new_abs = {}            # {stem: absoluut pad} nieuwe submap
+                old_abs = {}            # {stem: absoluut pad} oude submap
+                do_hash = False
+                if needs_files:
+                    if not symbols_dir:
+                        self._queue.put(("log",
+                            "Geen symbolen-hoofdmap gekozen: '.dwg aanwezig' wordt "
+                            "overal 'nee', geen hash-vergelijking en geen "
+                            "wees-controle."))
+                    elif not os.path.isdir(symbols_dir):
+                        self._queue.put(("log",
+                            f"Let op: symbolen-hoofdmap bestaat niet: {symbols_dir}"))
+                    else:
+                        new_sub = ot_compare.find_version_subdir(
+                            symbols_dir, version_new)
+                        old_sub = ot_compare.find_version_subdir(
+                            symbols_dir, version_old)
+                        if new_sub:
+                            dwg_map = ot_compare.dwg_index(new_sub)
+                            new_abs = {k: os.path.join(new_sub, v)
+                                       for k, v in dwg_map.items()}
+                            self._queue.put(("log",
+                                f"Nieuwe symbolen: submap "
+                                f"'{os.path.basename(new_sub)}' "
+                                f"({len(dwg_map)} .dwg-bestand(en))."))
+                        else:
+                            self._queue.put(("log",
+                                f"Let op: geen submap voor versie '{version_new}' "
+                                f"gevonden onder de symbolen-hoofdmap; "
+                                f"'.dwg aanwezig' wordt overal 'nee'."))
+                        if old_sub:
+                            old_map = ot_compare.dwg_index(old_sub)
+                            old_abs = {k: os.path.join(old_sub, v)
+                                       for k, v in old_map.items()}
+                            do_hash = bool(new_abs)
+                            self._queue.put(("log",
+                                f"Oude symbolen: submap "
+                                f"'{os.path.basename(old_sub)}' "
+                                f"({len(old_map)} .dwg-bestand(en))."))
+                        else:
+                            self._queue.put(("log",
+                                f"Geen submap voor versie '{version_old}' gevonden: "
+                                f"geen hash-vergelijking (kolom '.dwg t.o.v. oud' "
+                                f"wordt weggelaten)."))
+
+                made = 0
+                files = 0
+                first = None
+                for code, new_path, old_path in selected:
+                    base = os.path.splitext(os.path.basename(new_path))[0]
+                    result = ot_compare.compare(new_path, old_path, key=match_key,
+                                                scope_col=scope_col)
+                    vis = visible_fn(result["headers"])
+                    text_cols = [h for h in result["headers"] if text_search_fn(h)]
+                    s = result["stats"]
+
+                    extra_cols = None
+                    hash_summary = ""
+                    if needs_files:
+                        hash_status = None
+                        if do_hash and symbol_name_col in result["headers"]:
+                            ni = result["headers"].index(symbol_name_col)
+                            names = [r["cells"][ni]["value"] for r in result["rows"]]
+                            names += [d[ni] if ni < len(d) else ""
+                                      for d in result["deleted"]]
+                            hash_status = ot_compare.dwg_hash_status(
+                                names, new_abs, old_abs)
+                            gew = sum(1 for v in hash_status.values()
+                                      if v == "gewijzigd")
+                            ident = sum(1 for v in hash_status.values()
+                                        if v == "identiek")
+                            hash_summary = (f", .dwg: {ident} identiek/"
+                                            f"{gew} gewijzigd")
+                        extra_cols = _symbol_extra_columns(
+                            result, symbol_name_col, dwg_map, hash_status)
+
+                    full_html = ot_html.build_full_html(
+                        result, title=base, version_new=version_new,
+                        visible_indices=vis, text_columns=text_cols)
+                    changelog_html = ot_html.build_changelog_html(
+                        result, title=f"Changelog {base}",
+                        version_new=version_new, version_old=version_old,
+                        visible_indices=vis, extra_columns=extra_cols)
+
+                    full_path = os.path.join(out_dir, f"{base}.html")
+                    changelog_path = os.path.join(out_dir, f"changelog-{base}.html")
+                    with open(full_path, "w", encoding="utf-8") as f:
+                        f.write(full_html)
+                    with open(changelog_path, "w", encoding="utf-8") as f:
+                        f.write(changelog_html)
+
+                    if first is None:
+                        first = full_path
+                    self._queue.put(("log",
+                        f"[{code}] {base}: {s['new']} nieuw, {s['changed']} "
+                        f"gewijzigd, {s['deleted']} vervallen{hash_summary} -> "
+                        f"{base}.html + changelog-{base}.html"))
+                    made += 1
+                    files += 2
+
+                # Wees-.dwg's: bestanden zonder een regel in de symbolentabellen
+                # (run-breed: alle nieuwe symbolen-CSV's samen bepalen 'de tabel').
+                if needs_files and dwg_map:
+                    tabel = ot_compare.collect_column_values(new_dir, symbol_name_col)
+                    orphans = sorted(
+                        ((naam, dwg_map[naam]) for naam in dwg_map
+                         if naam not in tabel),
+                        key=lambda t: t[0])
+                    orphan_html = ot_html.build_orphans_html(
+                        orphans, title="dwg zonder regel in de symbolentabel",
+                        symbols_dir=symbols_dir, version_new=version_new)
+                    orphan_path = os.path.join(out_dir, "dwg-zonder-tabelregel.html")
+                    with open(orphan_path, "w", encoding="utf-8") as f:
+                        f.write(orphan_html)
+                    files += 1
+                    self._queue.put(("log",
+                        f"{len(orphans)} .dwg-bestand(en) zonder regel in de tabel "
+                        f"-> dwg-zonder-tabelregel.html"))
+
+                self._queue.put(("done", (made, files, first, open_after)))
+            except Exception as exc:  # noqa: BLE001 - tonen in de GUI
+                self._queue.put(("error", str(exc)))
+
+        threading.Thread(target=worker, daemon=True).start()
+        self.after(100, self._poll_queue)
+
+    def _poll_queue(self) -> None:
+        try:
+            while True:
+                kind, payload = self._queue.get_nowait()
+                if kind == "log":
+                    self._logmsg(payload)
+                elif kind == "done":
+                    made, files, first, open_after = payload
+                    self._logmsg(f"Klaar: {made} hoofdgroep(en) verwerkt "
+                                 f"({files} HTML-bestanden).")
+                    self.gen_btn.config(state="normal")
+                    self.app.save_config()
+                    if open_after and first:
+                        webbrowser.open(os.path.abspath(first))
+                    return
+                elif kind == "error":
+                    messagebox.showerror("Fout", payload)
+                    self._logmsg("FOUT: " + payload)
+                    self.gen_btn.config(state="normal")
+                    return
+        except queue.Empty:
+            pass
+        self.after(100, self._poll_queue)
+
+
+# ---------------------------------------------------------------------------
+# Hoofdvenster
+# ---------------------------------------------------------------------------
+class App(ttk.Frame):
+    def __init__(self, master: tk.Tk):
+        super().__init__(master, padding=10)
+        self.master = master
+        self.pack(fill="both", expand=True)
+
+        self.cfg = ot_config.load()
+
+        # Gedeeld: versienamen + 'openen na genereren'
+        shared = ttk.LabelFrame(self, text="Versies (voor alle vergelijkingen)",
+                                padding=8)
+        shared.pack(fill="x")
+        ttk.Label(shared, text="Naam nieuwe versie:").pack(side="left")
+        self.version_new_var = tk.StringVar(value=self.cfg["version_new"])
+        ttk.Entry(shared, textvariable=self.version_new_var, width=12
+                  ).pack(side="left", padx=(4, 18))
+        ttk.Label(shared, text="Naam vorige versie:").pack(side="left")
+        self.version_old_var = tk.StringVar(value=self.cfg["version_old"])
+        ttk.Entry(shared, textvariable=self.version_old_var, width=12
+                  ).pack(side="left", padx=4)
+        self.open_after_var = tk.BooleanVar(value=bool(self.cfg["open_after"]))
+        ttk.Checkbutton(shared, text="eerste HTML openen na genereren",
+                        variable=self.open_after_var).pack(side="left", padx=(24, 0))
+
+        # Tabbladen per tabelsoort
+        nb = ttk.Notebook(self)
+        nb.pack(fill="both", expand=True, pady=(8, 0))
+        self.tabs: dict[str, TableTab] = {}
+        for prof in PROFILES:
+            tab = TableTab(nb, self, prof)
+            nb.add(tab, text=prof["label"])
+            tab.load_cfg(self.cfg["tabs"].get(prof["key"], {}))
+            self.tabs[prof["key"]] = tab
+
+        master.protocol("WM_DELETE_WINDOW", self._on_close)
+
+    def _collect_config(self) -> dict:
+        return {
+            "version_new": self.version_new_var.get().strip(),
+            "version_old": self.version_old_var.get().strip(),
+            "open_after": self.open_after_var.get(),
+            "tabs": {key: tab.collect_cfg() for key, tab in self.tabs.items()},
+        }
+
+    def save_config(self) -> None:
+        ot_config.save(self._collect_config())
+
+    def _on_close(self) -> None:
+        self.save_config()
+        self.master.destroy()
+
+
+def run() -> None:
+    root = tk.Tk()
+    root.title("NLCS Tabellen changelog")
+    root.geometry("860x760")
+    root.minsize(720, 660)
+    App(root)
+    root.mainloop()
+
+
+if __name__ == "__main__":
+    run()
