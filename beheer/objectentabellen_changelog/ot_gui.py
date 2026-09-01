@@ -60,6 +60,9 @@ PROFILES = [
         # symbolen: extra map met de nieuwe .dwg's + svg/.dwg-kolommen in de changelog
         "needs_symbol_files": True,
         "symbol_name_col": "symbool",
+        # zoekfilter-kolom: welke sobject-term uit de objectentabel het symbool vindt
+        "needs_objecten": True,
+        "objecten_col": "sobject",
         # oude versie = één grote CSV; scope per bibliotheek zodat 'vervallen'
         # beperkt blijft tot dezelfde hoofdgroep
         "old_is_file": True,
@@ -103,17 +106,41 @@ def _hash_cell(naam: str, hash_status: dict) -> str:
     return _HASH_LABEL.get(hash_status.get(naam.lower(), ""), "")
 
 
+def _zoekfilter_cell(naam: str, zoekfilters: dict) -> str:
+    if not naam:
+        return ""
+    term = zoekfilters.get(naam.lower(), "")
+    if not term:
+        return '<span class="zf-geen">(geen)</span>'
+    return f'<span class="zf-term">{html.escape(term)}</span>'
+
+
+def _base_for_code(stem: str, code: str) -> str:
+    """Vervang de laatste code in een bestandsnaam-stam door `code`.
+
+    'symbolen-5-2-CO' + 'BC' -> 'symbolen-5-2-BC'. Gebruikt om bij het
+    uiteenvallen van een verzamelbestand (CO) een naam per hoofdgroep te maken."""
+    if not code:
+        return stem
+    left, sep, _last = stem.rpartition("-")
+    return f"{left}-{code}" if sep else code
+
+
 def _symbol_extra_columns(result: dict, name_col: str, dwg_stems: set,
-                          hash_status: dict = None) -> list:
+                          hash_status: dict = None,
+                          zoekfilters: dict = None) -> list:
     """Bouw de extra changelog-kolommen voor de symbolen:
-      1. '.dwg aanwezig'   : ja/nee, of <symbool>.dwg in de nieuwe map (recursief)
+      1. 'zoekfilter'      : de sobject-term uit de objectentabel waarmee het
+                             symbool gevonden wordt (langste voorvoegsel-match).
+                             Alleen als `zoekfilters` is meegegeven.
+      2. '.dwg aanwezig'   : ja/nee, of <symbool>.dwg in de nieuwe map (recursief)
                              gevonden is.
-      2. '.dwg t.o.v. oud' : identiek / inhoudelijk gewijzigd (op basis van een
+      3. '.dwg t.o.v. oud' : identiek / inhoudelijk gewijzigd (op basis van een
                              SHA-256 hash van het oude en nieuwe .dwg-bestand),
                              of 'alleen nieuw'/'alleen oud'. Alleen als
                              `hash_status` is meegegeven.
-      3. 'svg'             : de svg als klikbare afbeelding via een relatief pad
-                             (svg/<symbool>.svg, verondersteld naast de HTML).
+      4. 'svg'             : de svg als klikbare afbeelding via een relatief pad
+                             (./<PREFIX>/<symbool>.svg, verondersteld naast de HTML).
     De bestandsnaam komt uit de kolom `name_col` (doorgaans 'symbool'). Elke kolom
     levert cellen voor de gewone rijen én voor de vervallen rijen (beide in de
     nieuwe-kolomindeling)."""
@@ -131,11 +158,20 @@ def _symbol_extra_columns(result: dict, name_col: str, dwg_stems: set,
     rows = result["rows"]
     deleted = result["deleted"]
 
-    cols = [{
+    cols = []
+    if zoekfilters is not None:
+        cols.append({
+            "header": "zoekfilter (sobject)",
+            "cells": [_zoekfilter_cell(naam_of(r), zoekfilters) for r in rows],
+            "deleted_cells": [_zoekfilter_cell(naam_of_del(d), zoekfilters)
+                              for d in deleted],
+        })
+
+    cols.append({
         "header": ".dwg aanwezig",
         "cells": [_dwg_cell(naam_of(r), dwg_stems) for r in rows],
         "deleted_cells": [_dwg_cell(naam_of_del(d), dwg_stems) for d in deleted],
-    }]
+    })
 
     if hash_status is not None:
         cols.append({
@@ -253,18 +289,39 @@ class TableTab(ttk.Frame):
         ttk.Button(loc, text="Bladeren...", command=old_browse
                    ).grid(row=1, column=2, padx=4)
 
-        # Alleen symbolen: hoofdmap met de .dwg-symbolen. Onder deze map zit per
-        # versie een submap (bijv. '5.0' en '5.2'); die worden gekoppeld aan de
-        # ingevulde versienamen en recursief doorzocht.
+        # Alleen symbolen: aparte mappen met de nieuwe en de oude .dwg-symbolen
+        # (elk recursief doorzocht). De nieuwe map voedt '.dwg aanwezig' + de
+        # wees-controle; nieuw + oud samen voeden de hash-vergelijking.
         self.symbols_dir_var = tk.StringVar()
+        self.symbols_old_dir_var = tk.StringVar()
         if self.profile.get("needs_symbol_files"):
-            ttk.Label(loc, text="Hoofdmap symbolen (.dwg; submap per versie):"
+            ttk.Label(loc, text="Map nieuwe symbolen (.dwg):"
                       ).grid(row=2, column=0, sticky="w")
             ttk.Entry(loc, textvariable=self.symbols_dir_var, width=52
                       ).grid(row=2, column=1, sticky="we", padx=4, pady=2)
             ttk.Button(loc, text="Bladeren...",
                        command=lambda: self._browse_dir(self.symbols_dir_var)
                        ).grid(row=2, column=2, padx=4)
+
+            ttk.Label(loc, text="Map oude symbolen (.dwg, voor hash):"
+                      ).grid(row=3, column=0, sticky="w")
+            ttk.Entry(loc, textvariable=self.symbols_old_dir_var, width=52
+                      ).grid(row=3, column=1, sticky="we", padx=4, pady=2)
+            ttk.Button(loc, text="Bladeren...",
+                       command=lambda: self._browse_dir(self.symbols_old_dir_var)
+                       ).grid(row=3, column=2, padx=4)
+
+        # Alleen symbolen: map met de nieuwe objectentabellen, voor de zoekfilter-
+        # kolom (welke sobject-term uit de objectentabel het symbool vindt).
+        self.objecten_dir_var = tk.StringVar()
+        if self.profile.get("needs_objecten"):
+            ttk.Label(loc, text="Map objectentabellen (nieuw, voor zoekfilter):"
+                      ).grid(row=4, column=0, sticky="w")
+            ttk.Entry(loc, textvariable=self.objecten_dir_var, width=52
+                      ).grid(row=4, column=1, sticky="we", padx=4, pady=2)
+            ttk.Button(loc, text="Bladeren...",
+                       command=lambda: self._browse_dir(self.objecten_dir_var)
+                       ).grid(row=4, column=2, padx=4)
         loc.columnconfigure(1, weight=1)
 
         groups = ttk.LabelFrame(self, text="Hoofdgroepen (kies wat je vergelijkt)",
@@ -310,6 +367,8 @@ class TableTab(ttk.Frame):
         self.old_dir_var.set(tabcfg.get("old_dir", ""))
         self.output_dir_var.set(tabcfg.get("output_dir", ""))
         self.symbols_dir_var.set(tabcfg.get("symbols_dir", ""))
+        self.symbols_old_dir_var.set(tabcfg.get("symbols_old_dir", ""))
+        self.objecten_dir_var.set(tabcfg.get("objecten_dir", ""))
         self._saved_codes = list(tabcfg.get("codes", []))
         if os.path.isdir(self.new_dir_var.get()) and self._old_ok():
             self.on_scan(silent=True)
@@ -321,6 +380,8 @@ class TableTab(ttk.Frame):
             "codes": self.code_list.checked(),
             "output_dir": self.output_dir_var.get().strip(),
             "symbols_dir": self.symbols_dir_var.get().strip(),
+            "symbols_old_dir": self.symbols_old_dir_var.get().strip(),
+            "objecten_dir": self.objecten_dir_var.get().strip(),
         }
 
     # -- helpers -----------------------------------------------------------
@@ -415,7 +476,11 @@ class TableTab(ttk.Frame):
         needs_files = self.profile.get("needs_symbol_files", False)
         symbol_name_col = self.profile.get("symbol_name_col", "")
         scope_col = self.profile.get("scope_col", "")
+        needs_objecten = self.profile.get("needs_objecten", False)
+        objecten_col = self.profile.get("objecten_col", "")
+        objecten_dir = self.objecten_dir_var.get().strip()
         symbols_dir = self.symbols_dir_var.get().strip()
+        symbols_old_dir = self.symbols_old_dir_var.get().strip()
         new_dir = self.new_dir_var.get().strip()
         selected = [(code, self.pairs[code][0], self.pairs[code][1])
                     for code in chosen if code in self.pairs]
@@ -429,118 +494,224 @@ class TableTab(ttk.Frame):
             try:
                 self._queue.put(("log", f"{len(selected)} hoofdgroep(en) verwerken: "
                                  + ", ".join(c for c, _, _ in selected)))
-                # Symbolen-.dwg's: onder de hoofdmap zit per versie een submap.
-                # De nieuwe submap voedt '.dwg aanwezig' + wees-controle; oud + nieuw
-                # samen voeden de hash-vergelijking.
-                dwg_map = {}            # {stem: relpad} in de nieuwe submap
-                new_abs = {}            # {stem: absoluut pad} nieuwe submap
-                old_abs = {}            # {stem: absoluut pad} oude submap
+                # Symbolen-.dwg's uit twee aparte mappen (elk recursief). De nieuwe
+                # map voedt '.dwg aanwezig' + wees-controle; nieuw + oud samen
+                # voeden de hash-vergelijking.
+                dwg_map = {}            # {stem: relpad} in de nieuwe map
+                new_abs = {}            # {stem: absoluut pad} nieuwe map
+                old_abs = {}            # {stem: absoluut pad} oude map
                 do_hash = False
                 if needs_files:
                     if not symbols_dir:
                         self._queue.put(("log",
-                            "Geen symbolen-hoofdmap gekozen: '.dwg aanwezig' wordt "
-                            "overal 'nee', geen hash-vergelijking en geen "
+                            "Geen map met nieuwe symbolen gekozen: '.dwg aanwezig' "
+                            "wordt overal 'nee', geen hash-vergelijking en geen "
                             "wees-controle."))
                     elif not os.path.isdir(symbols_dir):
                         self._queue.put(("log",
-                            f"Let op: symbolen-hoofdmap bestaat niet: {symbols_dir}"))
+                            f"Let op: map nieuwe symbolen bestaat niet: {symbols_dir}"))
                     else:
-                        new_sub = ot_compare.find_version_subdir(
-                            symbols_dir, version_new)
-                        old_sub = ot_compare.find_version_subdir(
-                            symbols_dir, version_old)
-                        if new_sub:
-                            dwg_map = ot_compare.dwg_index(new_sub)
-                            new_abs = {k: os.path.join(new_sub, v)
-                                       for k, v in dwg_map.items()}
-                            self._queue.put(("log",
-                                f"Nieuwe symbolen: submap "
-                                f"'{os.path.basename(new_sub)}' "
-                                f"({len(dwg_map)} .dwg-bestand(en))."))
-                        else:
-                            self._queue.put(("log",
-                                f"Let op: geen submap voor versie '{version_new}' "
-                                f"gevonden onder de symbolen-hoofdmap; "
-                                f"'.dwg aanwezig' wordt overal 'nee'."))
-                        if old_sub:
-                            old_map = ot_compare.dwg_index(old_sub)
-                            old_abs = {k: os.path.join(old_sub, v)
-                                       for k, v in old_map.items()}
-                            do_hash = bool(new_abs)
-                            self._queue.put(("log",
-                                f"Oude symbolen: submap "
-                                f"'{os.path.basename(old_sub)}' "
-                                f"({len(old_map)} .dwg-bestand(en))."))
-                        else:
-                            self._queue.put(("log",
-                                f"Geen submap voor versie '{version_old}' gevonden: "
-                                f"geen hash-vergelijking (kolom '.dwg t.o.v. oud' "
-                                f"wordt weggelaten)."))
+                        dwg_map = ot_compare.dwg_index(symbols_dir)
+                        new_abs = {k: os.path.join(symbols_dir, v)
+                                   for k, v in dwg_map.items()}
+                        self._queue.put(("log",
+                            f"{len(dwg_map)} nieuwe .dwg-bestand(en) gevonden."))
+
+                    if not symbols_old_dir:
+                        self._queue.put(("log",
+                            "Geen map met oude symbolen gekozen: geen "
+                            "hash-vergelijking (kolom '.dwg t.o.v. oud' vervalt)."))
+                    elif not os.path.isdir(symbols_old_dir):
+                        self._queue.put(("log",
+                            f"Let op: map oude symbolen bestaat niet: "
+                            f"{symbols_old_dir}"))
+                    else:
+                        old_map = ot_compare.dwg_index(symbols_old_dir)
+                        old_abs = {k: os.path.join(symbols_old_dir, v)
+                                   for k, v in old_map.items()}
+                        do_hash = bool(new_abs)
+                        self._queue.put(("log",
+                            f"{len(old_map)} oude .dwg-bestand(en) gevonden."))
+
+                # Objectentabellen voor de zoekfilter-kolom (sobject-term).
+                use_zf = False
+                if needs_objecten:
+                    if not objecten_dir:
+                        self._queue.put(("log",
+                            "Geen map objectentabellen gekozen: kolom "
+                            "'zoekfilter (sobject)' wordt weggelaten."))
+                    elif not os.path.isdir(objecten_dir):
+                        self._queue.put(("log",
+                            f"Let op: map objectentabellen bestaat niet: "
+                            f"{objecten_dir}"))
+                    else:
+                        use_zf = True
+                        self._queue.put(("log",
+                            "Zoekfilter: sobject-termen uit de objectentabellen."))
 
                 made = 0
                 files = 0
                 first = None
+                # Voor de wees-controle: symbolen uit de VERWERKTE nieuwe tabellen
+                # en de bijbehorende bibliotheek-voorvoegsels (bijv. SAM, SAL).
+                all_symbols: set = set()
+                processed_bibs: set = set()
                 for code, new_path, old_path in selected:
-                    base = os.path.splitext(os.path.basename(new_path))[0]
-                    result = ot_compare.compare(new_path, old_path, key=match_key,
-                                                scope_col=scope_col)
-                    vis = visible_fn(result["headers"])
-                    text_cols = [h for h in result["headers"] if text_search_fn(h)]
-                    s = result["stats"]
+                    orig_base = os.path.splitext(os.path.basename(new_path))[0]
+                    full_result = ot_compare.compare(
+                        new_path, old_path, key=match_key, scope_col=scope_col)
 
-                    extra_cols = None
-                    hash_summary = ""
-                    if needs_files:
-                        hash_status = None
-                        if do_hash and symbol_name_col in result["headers"]:
-                            ni = result["headers"].index(symbol_name_col)
-                            names = [r["cells"][ni]["value"] for r in result["rows"]]
-                            names += [d[ni] if ni < len(d) else ""
-                                      for d in result["deleted"]]
-                            hash_status = ot_compare.dwg_hash_status(
-                                names, new_abs, old_abs)
-                            gew = sum(1 for v in hash_status.values()
-                                      if v == "gewijzigd")
-                            ident = sum(1 for v in hash_status.values()
-                                        if v == "identiek")
-                            hash_summary = (f", .dwg: {ident} identiek/"
-                                            f"{gew} gewijzigd")
-                        extra_cols = _symbol_extra_columns(
-                            result, symbol_name_col, dwg_map, hash_status)
+                    # Verzamelbestand (CO) uiteen laten vallen in aparte
+                    # hoofdgroepen; gewone bestanden blijven één geheel.
+                    groups = ot_compare.split_result_by_bib(full_result, scope_col)
+                    multi = len(groups) > 1
+                    if multi:
+                        self._queue.put(("log",
+                            f"[{code}] verzameling hoofdgroepen -> "
+                            f"{', '.join(c for c, _ in groups)}: "
+                            f"{len(groups)} aparte bestanden."))
 
-                    full_html = ot_html.build_full_html(
-                        result, title=base, version_new=version_new,
-                        visible_indices=vis, text_columns=text_cols)
-                    changelog_html = ot_html.build_changelog_html(
-                        result, title=f"Changelog {base}",
-                        version_new=version_new, version_old=version_old,
-                        visible_indices=vis, extra_columns=extra_cols)
+                    for gcode, result in groups:
+                        base = _base_for_code(orig_base, gcode) if multi else orig_base
+                        vis = visible_fn(result["headers"])
+                        text_cols = [h for h in result["headers"]
+                                     if text_search_fn(h)]
+                        s = result["stats"]
 
-                    full_path = os.path.join(out_dir, f"{base}.html")
-                    changelog_path = os.path.join(out_dir, f"changelog-{base}.html")
-                    with open(full_path, "w", encoding="utf-8") as f:
-                        f.write(full_html)
-                    with open(changelog_path, "w", encoding="utf-8") as f:
-                        f.write(changelog_html)
+                        extra_cols = None
+                        orphans_this = None
+                        hash_summary = ""
+                        if needs_files:
+                            has_name = symbol_name_col in result["headers"]
+                            # symboolnamen (gewone + vervallen rijen) verzamelen
+                            names = []
+                            this_symbols: set = set()
+                            this_bibs: set = set()
+                            if has_name:
+                                ni = result["headers"].index(symbol_name_col)
+                                row_names = [r["cells"][ni]["value"]
+                                             for r in result["rows"]]
+                                names = row_names + [d[ni] if ni < len(d) else ""
+                                                     for d in result["deleted"]]
+                                # Wees-scope: alleen de symbolen (en hun
+                                # bibliotheek-voorvoegsel) uit de VERWERKTE nieuwe
+                                # tabellen tellen mee. Vervallen rijen niet: een
+                                # achtergebleven .dwg van een vervallen symbool is
+                                # juist een wees.
+                                for nm in row_names:
+                                    stem = (nm or "").strip().lower()
+                                    if not stem:
+                                        continue
+                                    this_symbols.add(stem)
+                                    bib = (stem.split("-", 1)[0].upper()
+                                           if "-" in stem else "")
+                                    if bib:
+                                        this_bibs.add(bib)
+                                all_symbols |= this_symbols
+                                processed_bibs |= this_bibs
 
-                    if first is None:
-                        first = full_path
-                    self._queue.put(("log",
-                        f"[{code}] {base}: {s['new']} nieuw, {s['changed']} "
-                        f"gewijzigd, {s['deleted']} vervallen{hash_summary} -> "
-                        f"{base}.html + changelog-{base}.html"))
-                    made += 1
-                    files += 2
+                            # Wezen van DEZE hoofdgroep (bibliotheek) voor de
+                            # changelog: .dwg's van dezelfde bib(s) zonder regel.
+                            if has_name and dwg_map and this_bibs:
+                                orphans_this = sorted(
+                                    ((stem, dwg_map[stem]) for stem in dwg_map
+                                     if (stem.split("-", 1)[0].upper()
+                                         if "-" in stem else "") in this_bibs
+                                     and stem not in this_symbols),
+                                    key=lambda t: t[0])
 
-                # Wees-.dwg's: bestanden zonder een regel in de symbolentabellen
-                # (run-breed: alle nieuwe symbolen-CSV's samen bepalen 'de tabel').
+                            hash_status = None
+                            if do_hash and has_name:
+                                hash_status = ot_compare.dwg_hash_status(
+                                    names, new_abs, old_abs)
+                                gew = sum(1 for v in hash_status.values()
+                                          if v == "gewijzigd")
+                                ident = sum(1 for v in hash_status.values()
+                                            if v == "identiek")
+                                hash_summary = (f", .dwg: {ident} identiek/"
+                                                f"{gew} gewijzigd")
+
+                            zoekfilters = None
+                            if use_zf and has_name:
+                                # Hoofdgroep(en) uit de sbibliotheek-kolom. Na het
+                                # splitsen is dit er één per bestand; termen uit de
+                                # bijbehorende objectentabel(len) samenvoegen.
+                                codes_needed: set = set()
+                                if scope_col in result["headers"]:
+                                    bi = result["headers"].index(scope_col)
+                                    for r in result["rows"]:
+                                        ch = ot_compare.sbib_to_code(
+                                            r["cells"][bi]["value"])
+                                        if ch:
+                                            codes_needed.add(ch)
+                                if not codes_needed:
+                                    codes_needed = {gcode or code}
+                                terms: list = []
+                                missing = []
+                                for ch in sorted(codes_needed):
+                                    ocsv = ot_compare.find_csv_by_code(
+                                        objecten_dir, ch)
+                                    if ocsv:
+                                        terms += ot_compare.column_values(
+                                            ocsv, objecten_col)
+                                    else:
+                                        missing.append(ch)
+                                zoekfilters = ot_compare.zoekfilter_map(
+                                    names, terms)
+                                if missing:
+                                    self._queue.put(("log",
+                                        f"[{gcode or code}] geen objectentabel "
+                                        f"voor: {', '.join(missing)} (zoekfilter "
+                                        f"voor die groep leeg)."))
+
+                            extra_cols = _symbol_extra_columns(
+                                result, symbol_name_col, dwg_map, hash_status,
+                                zoekfilters)
+
+                        full_html = ot_html.build_full_html(
+                            result, title=base, version_new=version_new,
+                            visible_indices=vis, text_columns=text_cols)
+                        changelog_html = ot_html.build_changelog_html(
+                            result, title=f"Changelog {base}",
+                            version_new=version_new, version_old=version_old,
+                            visible_indices=vis, extra_columns=extra_cols,
+                            orphans=orphans_this)
+
+                        full_path = os.path.join(out_dir, f"{base}.html")
+                        changelog_path = os.path.join(
+                            out_dir, f"changelog-{base}.html")
+                        with open(full_path, "w", encoding="utf-8") as f:
+                            f.write(full_html)
+                        with open(changelog_path, "w", encoding="utf-8") as f:
+                            f.write(changelog_html)
+
+                        if first is None:
+                            first = full_path
+                        wees_txt = (f", {len(orphans_this)} wees-.dwg"
+                                    if orphans_this else "")
+                        self._queue.put(("log",
+                            f"[{gcode or code}] {base}: {s['new']} nieuw, "
+                            f"{s['changed']} gewijzigd, {s['deleted']} vervallen"
+                            f"{hash_summary}{wees_txt} -> {base}.html + "
+                            f"changelog-{base}.html"))
+                        made += 1
+                        files += 2
+
+                # Wees-.dwg's: bestanden zonder een regel in de verwerkte
+                # symbolentabellen. Alleen .dwg's van de bibliotheken die in deze
+                # run zijn verwerkt tellen mee (bijv. SAM, SAL); .dwg's van andere
+                # groepen worden overgeslagen (anders wordt bijv. heel SAL als wees
+                # gemeld terwijl die groep niet is vergeleken).
                 if needs_files and dwg_map:
-                    tabel = ot_compare.collect_column_values(new_dir, symbol_name_col)
-                    orphans = sorted(
-                        ((naam, dwg_map[naam]) for naam in dwg_map
-                         if naam not in tabel),
-                        key=lambda t: t[0])
+                    orphans = []
+                    skipped_bibs: set = set()
+                    for stem in sorted(dwg_map):
+                        bib = stem.split("-", 1)[0].upper() if "-" in stem else ""
+                        if processed_bibs and bib not in processed_bibs:
+                            skipped_bibs.add(bib or "?")
+                            continue  # andere groep, niet in deze run verwerkt
+                        if stem not in all_symbols:
+                            orphans.append((stem, dwg_map[stem]))
                     orphan_html = ot_html.build_orphans_html(
                         orphans, title="dwg zonder regel in de symbolentabel",
                         symbols_dir=symbols_dir, version_new=version_new)
@@ -548,9 +719,14 @@ class TableTab(ttk.Frame):
                     with open(orphan_path, "w", encoding="utf-8") as f:
                         f.write(orphan_html)
                     files += 1
-                    self._queue.put(("log",
-                        f"{len(orphans)} .dwg-bestand(en) zonder regel in de tabel "
-                        f"-> dwg-zonder-tabelregel.html"))
+                    bibs_txt = ", ".join(sorted(processed_bibs)) or "?"
+                    msg = (f"{len(orphans)} .dwg-bestand(en) zonder regel in de "
+                           f"tabel (bibliotheken: {bibs_txt}) "
+                           f"-> dwg-zonder-tabelregel.html")
+                    if skipped_bibs:
+                        msg += (f" [{len(skipped_bibs)} andere groep(en) "
+                                f"overgeslagen: {', '.join(sorted(skipped_bibs))}]")
+                    self._queue.put(("log", msg))
 
                 self._queue.put(("done", (made, files, first, open_after)))
             except Exception as exc:  # noqa: BLE001 - tonen in de GUI
