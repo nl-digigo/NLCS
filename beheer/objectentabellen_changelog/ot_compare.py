@@ -21,7 +21,6 @@ import csv
 import glob
 import hashlib
 import os
-import re
 
 KEY = "objectURI"          # kolom waarop rijen gematcht worden (stabiele unieke URI;
                            # id_nummer is in oudere versies leeg)
@@ -116,43 +115,6 @@ def collect_column_values(folder: str, column: str) -> set:
     return values
 
 
-def _norm_ver(s: str) -> str:
-    """Normaliseer een versie-aanduiding tot alleen letters/cijfers in kleine
-    letters, bijv. '5.2' -> '52', '5-2' -> '52', 'v5.2' -> 'v52'."""
-    return re.sub(r"[^0-9a-z]+", "", (s or "").lower())
-
-
-def find_version_subdir(root: str, version_label: str) -> str:
-    """Zoek in `root` de directe submap die hoort bij `version_label`.
-
-    Bedoeld voor 'één hoofdmap met een submap per versie' (bijv. root met
-    submappen '5.0' en '5.2'). Vergelijking is soepel: leestekens en
-    hoofdletters worden genegeerd ('5.2' matcht '5-2'). Geeft het volledige pad
-    terug, of "" als er niets past. Eerst een exacte (genormaliseerde) match,
-    dan begint-met, dan bevat."""
-    if not root or not os.path.isdir(root):
-        return ""
-    target = _norm_ver(version_label)
-    if not target:
-        return ""
-    try:
-        subs = [d for d in sorted(os.listdir(root))
-                if os.path.isdir(os.path.join(root, d))]
-    except OSError:
-        return ""
-    for d in subs:                                   # exacte match
-        if _norm_ver(d) == target:
-            return os.path.join(root, d)
-    for d in subs:                                   # begint-met (beide kanten)
-        nd = _norm_ver(d)
-        if nd and (nd.startswith(target) or target.startswith(nd)):
-            return os.path.join(root, d)
-    for d in subs:                                   # bevat
-        if target in _norm_ver(d):
-            return os.path.join(root, d)
-    return ""
-
-
 def file_sha256(path: str) -> str:
     """SHA-256 (hex) van een bestand, in blokken gelezen. "" bij leesfouten."""
     try:
@@ -216,6 +178,65 @@ def find_csv_by_code(folder: str, code: str) -> str:
         if hoofdgroep_code(path) == code:
             return path
     return ""
+
+
+def sbib_to_code(sbib: str) -> str:
+    """Hoofdgroep-code bij een `sbibliotheek`-waarde: de leidende 'S' eraf.
+
+    De symbolen-bibliotheek is 'S' + de objecten-hoofdgroepcode (SAM->AM,
+    SAL->AL, SBV->BV, SBC->BC, SFC->FC, SGC->GC). Zo vind je bij elk symbool de
+    juiste objectentabel. Nodig voor CO: dat symbolenbestand bevat meerdere
+    bibliotheken (SBC/SFC/SGC), dus meerdere hoofdgroepen. Lege invoer -> ""."""
+    s = (sbib or "").strip().upper()
+    if len(s) > 1 and s.startswith("S"):
+        return s[1:]
+    return s
+
+
+def split_result_by_bib(result: dict, scope_col: str = "sbibliotheek") -> list:
+    """Splits een compare()-resultaat op in deelresultaten per hoofdgroep.
+
+    De hoofdgroep-code wordt afgeleid uit de `scope_col`-kolom (sbibliotheek)
+    via sbib_to_code (SBC->BC). Nodig voor CO: dat symbolenbestand bevat
+    meerdere bibliotheken (SBC/SFC/SGC) en moet uiteenvallen in aparte
+    hoofdgroepen (BC/FC/GC), elk met een eigen uitvoerbestand.
+
+    Geeft een lijst (code, deelresultaat), gesorteerd op code. Ontbreekt de
+    kolom of is er maar één code, dan één paar (die code, het originele
+    resultaat) zodat gewone bestanden onveranderd blijven. Elk deelresultaat
+    heeft dezelfde headers; rows/deleted zijn gefilterd en stats herberekend."""
+    headers = result["headers"]
+    if not scope_col or scope_col not in headers:
+        return [("", result)]
+    bi = headers.index(scope_col)
+
+    def rcode(row: dict) -> str:
+        return sbib_to_code(row["cells"][bi]["value"])
+
+    def dcode(drow: list) -> str:
+        return sbib_to_code(drow[bi] if bi < len(drow) else "")
+
+    codes = sorted({rcode(r) for r in result["rows"] if rcode(r)}
+                   | {dcode(d) for d in result["deleted"] if dcode(d)})
+    if len(codes) <= 1:
+        return [(codes[0] if codes else "", result)]
+
+    out = []
+    for c in codes:
+        rows = [r for r in result["rows"] if rcode(r) == c]
+        deleted = [d for d in result["deleted"] if dcode(d) == c]
+        out.append((c, {
+            "headers": headers,
+            "rows": rows,
+            "deleted": deleted,
+            "stats": {
+                "new": sum(1 for x in rows if x["status"] == "new"),
+                "changed": sum(1 for x in rows if x["status"] == "changed"),
+                "deleted": len(deleted),
+                "total_new": len(rows),
+            },
+        }))
+    return out
 
 
 def column_values(path: str, column: str) -> list:

@@ -16,11 +16,12 @@ import sys
 
 
 def _tab() -> dict:
-    # symbols_dir en objecten_dir worden alleen door het symbolen-tabblad
-    # gebruikt (hoofdmap .dwg-symbolen met submap per versie; map met de nieuwe
-    # objectentabellen voor de zoekfilter-kolom). Voor objecten blijven ze leeg.
+    # symbols_dir/symbols_old_dir/objecten_dir worden alleen door het symbolen-
+    # tabblad gebruikt (map met de nieuwe .dwg's; map met de oude .dwg's voor de
+    # hash-vergelijking; map met de nieuwe objectentabellen voor de zoekfilter-
+    # kolom). Voor objecten blijven ze leeg.
     return {"new_dir": "", "old_dir": "", "codes": [], "output_dir": "",
-            "symbols_dir": "", "objecten_dir": ""}
+            "symbols_dir": "", "symbols_old_dir": "", "objecten_dir": ""}
 
 
 TAB_KEYS = ("obj", "sym")

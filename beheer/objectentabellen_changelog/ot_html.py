@@ -357,6 +357,15 @@ _CHANGELOG_STYLE = """
     span.hash-gelijk { color: var(--dg-green); font-weight: bold; }
     span.hash-wijz { color: var(--dg-blue); font-weight: bold; }
     span.hash-neutraal { color: var(--dg-grey2); }
+    span.zf-term { font-family: Consolas, "Courier New", monospace; }
+    span.zf-geen { color: var(--dg-grey2); font-style: italic; }
+
+    /* Wees-.dwg's: bestanden zonder regel in deze symbolentabel */
+    tr.section-header.wees th { border-top-color: var(--dg-grey2); }
+    table.otab tbody tr.orphan td { background-color: #f0f0f0; }
+    table.otab tbody tr.orphan td.weespad { color: var(--dg-grey2);
+                    white-space: normal; }
+    .sw-wees { background-color: #f0f0f0; }
 """
 
 
@@ -385,19 +394,24 @@ def _changelog_row(row: dict, version_new: str, version_old: str,
 
 def build_changelog_html(result: dict, title: str,
                          version_new: str = "", version_old: str = "",
-                         visible_indices=None, extra_columns=None) -> str:
+                         visible_indices=None, extra_columns=None,
+                         orphans=None) -> str:
     """Changelog-pagina: gewijzigde cellen blauw (oud + nieuw), nieuwe rijen
     groen, vervallen rijen onderaan rood.
 
     extra_columns : optionele extra kolommen achteraan (symbolen: '.dwg aanwezig'
                     + 'svg'). Elk een dict met header, cells (op volgorde van
                     result['rows']), deleted_cells (op volgorde van
-                    result['deleted']) en optioneel td_class."""
+                    result['deleted']) en optioneel td_class.
+    orphans       : optionele lijst (bestandsnaam, relatief pad) van .dwg-
+                    bestanden die bij GEEN regel in deze symbolentabel horen;
+                    onderaan getoond in een aparte 'wees'-sectie."""
     headers = result["headers"]
     rows = result["rows"]
     deleted = result["deleted"]
     stats = result["stats"]
     extra = extra_columns or []
+    orphans = orphans or []
     vis = _visible_indices(headers) if visible_indices is None else visible_indices
 
     head_cells = "".join(f"<th>{_esc(headers[i])}</th>" for i in vis)
@@ -423,12 +437,25 @@ def build_changelog_html(result: dict, title: str,
                         else f"<td>{cell}</td>")
             body.append(f'<tr class="deleted">{tds}</tr>')
 
+    if orphans:
+        body.append(
+            f'<tr class="section-header wees"><th colspan="{ncols}">'
+            f'Wees-.dwg\'s ({len(orphans)}) &middot; .dwg-bestand aanwezig, '
+            f'maar geen regel in deze symbolentabel</th></tr>')
+        pad_span = ncols - 1 if ncols > 1 else 1
+        for naam, pad in orphans:
+            body.append(
+                f'<tr class="orphan"><td>{_esc(naam)}.dwg</td>'
+                f'<td class="weespad" colspan="{pad_span}">{_esc(pad)}</td></tr>')
+
     versie_txt = ""
     if version_new or version_old:
         versie_txt = (f" &middot; {_esc(version_old or '?')} "
                       f"&rarr; {_esc(version_new or '?')}")
     info = (f"{stats['new']} nieuw &middot; {stats['changed']} gewijzigd &middot; "
-            f"{stats['deleted']} vervallen &middot; {len(rows)} rijen totaal"
+            f"{stats['deleted']} vervallen"
+            + (f" &middot; {len(orphans)} wees-.dwg" if orphans else "")
+            + f" &middot; {len(rows)} rijen totaal"
             + versie_txt)
 
     legend = (
@@ -437,7 +464,9 @@ def build_changelog_html(result: dict, title: str,
         '<span><span class="swatch sw-changed"></span> gewijzigde cel '
         '(oud doorgestreept, nieuw in blauw)</span>'
         '<span><span class="swatch sw-deleted"></span> vervallen rij</span>'
-        '</div>')
+        + ('<span><span class="swatch sw-wees"></span> wees-.dwg '
+           '(geen tabelregel)</span>' if orphans else "")
+        + '</div>')
 
     return (
         _shell_head(title, extra_style=_CHANGELOG_STYLE, cdn=False)
