@@ -398,64 +398,16 @@ class TableTab(ttk.Frame):
 
     # -- opbouw ------------------------------------------------------------
     def _build(self) -> None:
-        loc = ttk.LabelFrame(self, text="Locaties", padding=8)
-        loc.pack(fill="x")
-
-        ttk.Label(loc, text="Map nieuwe versie:").grid(row=0, column=0, sticky="w")
-        self.new_dir_var = tk.StringVar()
-        ttk.Entry(loc, textvariable=self.new_dir_var, width=52
-                  ).grid(row=0, column=1, sticky="we", padx=4, pady=2)
-        ttk.Button(loc, text="Bladeren...",
-                   command=lambda: self._browse_dir(self.new_dir_var)
-                   ).grid(row=0, column=2, padx=4)
-
         self.old_is_file = bool(self.profile.get("old_is_file"))
-        old_label = ("CSV vorige versie (één groot bestand):"
-                     if self.old_is_file else "Map vorige versie:")
-        ttk.Label(loc, text=old_label).grid(row=1, column=0, sticky="w")
-        self.old_dir_var = tk.StringVar()
-        ttk.Entry(loc, textvariable=self.old_dir_var, width=52
-                  ).grid(row=1, column=1, sticky="we", padx=4, pady=2)
-        old_browse = ((lambda: self._browse_file(self.old_dir_var))
-                      if self.old_is_file
-                      else (lambda: self._browse_dir(self.old_dir_var)))
-        ttk.Button(loc, text="Bladeren...", command=old_browse
-                   ).grid(row=1, column=2, padx=4)
 
-        # Alleen symbolen: aparte mappen met de nieuwe en de oude .dwg-symbolen
-        # (elk recursief doorzocht). De nieuwe map voedt '.dwg aanwezig' + de
-        # wees-controle; nieuw + oud samen voeden de hash-vergelijking.
-        self.symbols_dir_var = tk.StringVar()
-        self.symbols_old_dir_var = tk.StringVar()
-        if self.profile.get("needs_symbol_files"):
-            ttk.Label(loc, text="Map nieuwe symbolen (.dwg):"
-                      ).grid(row=2, column=0, sticky="w")
-            ttk.Entry(loc, textvariable=self.symbols_dir_var, width=52
-                      ).grid(row=2, column=1, sticky="we", padx=4, pady=2)
-            ttk.Button(loc, text="Bladeren...",
-                       command=lambda: self._browse_dir(self.symbols_dir_var)
-                       ).grid(row=2, column=2, padx=4)
-
-            ttk.Label(loc, text="Map oude symbolen (.dwg, voor hash):"
-                      ).grid(row=3, column=0, sticky="w")
-            ttk.Entry(loc, textvariable=self.symbols_old_dir_var, width=52
-                      ).grid(row=3, column=1, sticky="we", padx=4, pady=2)
-            ttk.Button(loc, text="Bladeren...",
-                       command=lambda: self._browse_dir(self.symbols_old_dir_var)
-                       ).grid(row=3, column=2, padx=4)
-
-        # Alleen symbolen: map met de nieuwe objectentabellen, voor de zoekfilter-
-        # kolom (welke sobject-term uit de objectentabel het symbool vindt).
-        self.objecten_dir_var = tk.StringVar()
-        if self.profile.get("needs_objecten"):
-            ttk.Label(loc, text="Map objectentabellen (nieuw, voor zoekfilter):"
-                      ).grid(row=4, column=0, sticky="w")
-            ttk.Entry(loc, textvariable=self.objecten_dir_var, width=52
-                      ).grid(row=4, column=1, sticky="we", padx=4, pady=2)
-            ttk.Button(loc, text="Bladeren...",
-                       command=lambda: self._browse_dir(self.objecten_dir_var)
-                       ).grid(row=4, column=2, padx=4)
-        loc.columnconfigure(1, weight=1)
+        # De mappen staan in het gedeelde tabblad 'Locaties'; hier alleen een
+        # korte herinnering welke velden dit tabblad gebruikt.
+        info = ttk.Frame(self)
+        info.pack(fill="x")
+        ttk.Label(
+            info, foreground="#555",
+            text="Vul de mappen in op het tabblad 'Locaties'; kies hier de "
+                 "hoofdgroepen en klik 'Genereer'.").pack(anchor="w")
 
         groups = ttk.LabelFrame(self, text="Hoofdgroepen (kies wat je vergelijkt)",
                                 padding=8)
@@ -465,25 +417,17 @@ class TableTab(ttk.Frame):
         ttk.Button(top, text="Zoek hoofdgroepen", command=self.on_scan
                    ).pack(side="left")
         self.scan_status_var = tk.StringVar(
-            value="Kies beide mappen en klik 'Zoek hoofdgroepen'.")
+            value="Vul de mappen in bij 'Locaties' en klik 'Zoek hoofdgroepen'.")
         ttk.Label(top, textvariable=self.scan_status_var, foreground="#555"
                   ).pack(side="left", padx=10)
         self.code_list = ScrollableChecklist(groups, "Hoofdgroep-codes")
         self.code_list.pack(fill="both", expand=True, pady=(8, 0))
 
-        out = ttk.LabelFrame(self, text="Uitvoer", padding=8)
+        out = ttk.Frame(self)
         out.pack(fill="x")
-        ttk.Label(out, text="Uitvoermap:").grid(row=0, column=0, sticky="w")
-        self.output_dir_var = tk.StringVar()
-        ttk.Entry(out, textvariable=self.output_dir_var, width=52
-                  ).grid(row=0, column=1, sticky="we", padx=4, pady=2)
-        ttk.Button(out, text="Bladeren...",
-                   command=lambda: self._browse_dir(self.output_dir_var)
-                   ).grid(row=0, column=2, padx=4)
         self.gen_btn = ttk.Button(out, text="Genereer HTML's",
                                   command=self.on_generate)
-        self.gen_btn.grid(row=1, column=2, sticky="e", padx=4, pady=(4, 0))
-        out.columnconfigure(1, weight=1)
+        self.gen_btn.pack(side="right")
 
         logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
         logframe.pack(fill="both", expand=True, pady=(8, 0))
