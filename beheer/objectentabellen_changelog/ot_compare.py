@@ -312,17 +312,24 @@ def _sort_key(row: list[str]) -> str:
 
 
 def compare(new_path: str, old_path: str, key: str = KEY,
-            scope_col: str = "") -> dict:
+            scope_col: str = "", blank_spec: dict = None) -> dict:
     """Vergelijk twee CSV-versies en geef een resultaat-dict terug.
 
     Parameters:
-      key       : kolom waarop rijen gematcht worden (standaard 'objectURI'; voor
-                  symbolentabellen bijv. 'symboolURI').
-      scope_col : optioneel. Als de oude CSV meer bevat dan de nieuwe (bijv. één
-                  grote symbolen-CSV voor alle bibliotheken), beperk de oude rijen
-                  dan tot de waarden van deze kolom die ook in de nieuwe versie
-                  voorkomen (bijv. 'sbibliotheek'). Zo blijven 'vervallen' rijen
-                  beperkt tot dezelfde bibliotheek/hoofdgroep.
+      key        : kolom waarop rijen gematcht worden (standaard 'objectURI'; voor
+                   symbolentabellen bijv. 'symboolURI').
+      scope_col  : optioneel. Als de oude CSV meer bevat dan de nieuwe (bijv. één
+                   grote symbolen-CSV voor alle bibliotheken), beperk de oude rijen
+                   dan tot de waarden van deze kolom die ook in de nieuwe versie
+                   voorkomen (bijv. 'sbibliotheek'). Zo blijven 'vervallen' rijen
+                   beperkt tot dezelfde bibliotheek/hoofdgroep.
+      blank_spec : optioneel. Maakt bepaalde kolommen leeg (aan BEIDE kanten) voor
+                   rijen die uit een andere publicatie komen, zodat die kolommen
+                   niet als 'wijziging' tellen. Vorm:
+                   {"match_col": <kolom>, "values": {<waarde>, ...},
+                    "columns": [<kolom>, ...]}. Voor lijntypes: de generieke lijnen
+                   'CONTINUOUS' en 'V-CONTINUOUS-SO' (uit een andere publicatie)
+                   met blanco fase/optie/autocaddef.
 
     Keys in het resultaat:
       headers       : koppen van de nieuwe versie (bepalen de kolomindeling)
@@ -347,6 +354,28 @@ def compare(new_path: str, old_path: str, key: str = KEY,
         raise ValueError(f"Kolom '{key}' ontbreekt in {os.path.basename(new_path)}")
     if key not in oidx:
         raise ValueError(f"Kolom '{key}' ontbreekt in {os.path.basename(old_path)}")
+
+    # Andere-publicatie-rijen: bepaalde kolommen aan BEIDE kanten leegmaken zodat
+    # ze niet als wijziging tellen (bijv. lijntypes CONTINUOUS/V-CONTINUOUS-SO met
+    # blanco fase/optie/autocaddef). Match op de waarde in 'match_col'.
+    if blank_spec:
+        mcol = blank_spec.get("match_col", "")
+        vals = {(v or "").strip().upper() for v in blank_spec.get("values", [])}
+        cols = blank_spec.get("columns", [])
+
+        def _blank(rows, idx):
+            if not mcol or mcol not in idx:
+                return
+            mi = idx[mcol]
+            cis = [idx[c] for c in cols if c in idx]
+            for r in rows:
+                if mi < len(r) and r[mi].strip().upper() in vals:
+                    for ci in cis:
+                        if ci < len(r):
+                            r[ci] = ""
+
+        _blank(new_rows, nidx)
+        _blank(old_rows, oidx)
 
     # Scope: beperk de oude rijen tot de bibliotheken/waarden die ook in de
     # nieuwe versie voorkomen (voor de grote gedeelde symbolen-/lijntypes-CSV).

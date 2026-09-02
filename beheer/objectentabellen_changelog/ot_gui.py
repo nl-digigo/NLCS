@@ -89,6 +89,14 @@ PROFILES = [
         # (anders wordt bijv. 'SB' foutief 'B'). Verzamelbestand CO valt zo net als
         # bij symbolen uiteen in aparte hoofdgroep-bestanden.
         "scope_strip_s": False,
+        # De generieke lijnen 'CONTINUOUS' en 'V-CONTINUOUS-SO' komen uit een andere
+        # publicatie; neem ze op met blanco fase/optie/autocaddef (die kolommen aan
+        # beide kanten leegmaken zodat ze niet als wijziging tellen).
+        "blank_spec": {
+            "match_col": "omschrijving",
+            "values": {"CONTINUOUS", "V-CONTINUOUS-SO"},
+            "columns": ["fase", "optie", "autocaddef"],
+        },
     },
     {
         "key": "arc",
@@ -559,6 +567,7 @@ class TableTab(ttk.Frame):
         symbol_name_col = self.profile.get("symbol_name_col", "")
         scope_col = self.profile.get("scope_col", "")
         scope_strip_s = self.profile.get("scope_strip_s", True)
+        blank_spec = self.profile.get("blank_spec")
         needs_objecten = self.profile.get("needs_objecten", False)
         objecten_col = self.profile.get("objecten_col", "")
         objecten_dir = self.objecten_dir_var.get().strip()
@@ -642,7 +651,8 @@ class TableTab(ttk.Frame):
                 for code, new_path, old_path in selected:
                     orig_base = os.path.splitext(os.path.basename(new_path))[0]
                     full_result = ot_compare.compare(
-                        new_path, old_path, key=match_key, scope_col=scope_col)
+                        new_path, old_path, key=match_key, scope_col=scope_col,
+                        blank_spec=blank_spec)
 
                     # Verzamelbestand (CO) uiteen laten vallen in aparte
                     # hoofdgroepen; gewone bestanden blijven één geheel.
