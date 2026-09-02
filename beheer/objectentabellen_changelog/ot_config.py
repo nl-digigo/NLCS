@@ -26,11 +26,19 @@ def _tab() -> dict:
 
 TAB_KEYS = ("obj", "sym", "lijn", "arc")
 
+def _index() -> dict:
+    # Instellingen van het overzicht-tabblad ('kaart'): de map die doorzocht
+    # wordt (docs/changelog), de online basis-URL en het uitvoerbestand.
+    return {"root": "", "base_url": "https://nl-digigo.github.io/NLCS/",
+            "output": ""}
+
+
 DEFAULTS = {
     "version_new": "",     # naam van de nieuwe versie (bijv. "5.2") - gedeeld
     "version_old": "",     # naam van de vorige versie (bijv. "5.0") - gedeeld
     "open_after": True,    # eerste HTML openen na genereren - gedeeld
     "tabs": {key: _tab() for key in TAB_KEYS},
+    "index": _index(),
 }
 
 
@@ -77,6 +85,12 @@ def load() -> dict:
             for kk in cfg["tabs"][key]:
                 if kk in t:
                     cfg["tabs"][key][kk] = t[kk]
+
+    idx = saved.get("index")
+    if isinstance(idx, dict):
+        for kk in cfg["index"]:
+            if kk in idx:
+                cfg["index"][kk] = idx[kk]
     return cfg
 
 

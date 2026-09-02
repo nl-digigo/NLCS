@@ -495,7 +495,103 @@ def build_changelog_html(result: dict, title: str,
 
 
 # ---------------------------------------------------------------------------
-# 3. Wees-.dwg's: bestanden zonder een regel in de symbolentabel
+# 3. Publicatie-overzicht ("kaart"): één blok per hoofdgroep met knoppen
+# ---------------------------------------------------------------------------
+_INDEX_STYLE = """
+    .card-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+                 gap: 18px; align-items: start; }
+    @media (max-width: 1180px) { .card-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+    @media (max-width: 900px)  { .card-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 600px)  { .card-grid { grid-template-columns: 1fr; } }
+
+    .card { background:#fff; border:1px solid var(--dg-grey);
+            border-top:5px solid var(--dg-yellow); border-radius:6px;
+            padding:14px 16px 16px; display:flex; flex-direction:column;
+            min-height:210px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+    .card.general { border-top-color: var(--dg-blue); }
+    .card h2 { margin:0; font-size:1.2rem; color:var(--dg-ink); }
+    .card .subtitle { color:var(--dg-grey2); font-size:.8rem; margin:2px 0 10px; }
+    .card .section-lbl { font-size:.7rem; text-transform:uppercase; letter-spacing:.5px;
+            color:var(--dg-grey2); font-weight:700; margin:10px 0 5px; }
+    .card .section-lbl:first-of-type { margin-top:4px; }
+    .card .empty { color:var(--dg-grey2); font-style:italic; font-size:.85rem; }
+
+    a.btn { display:block; text-decoration:none; color:var(--dg-ink);
+            border:1px solid var(--dg-grey); border-left:4px solid var(--dg-grey2);
+            border-radius:4px; padding:6px 9px; margin:4px 0; font-size:.86rem;
+            background:#fbfbfb; transition:background .12s, border-color .12s; }
+    a.btn:hover { background:#FFF8CC; }
+    a.btn.tabel { border-left-color: var(--dg-green); }
+    a.btn.changelog { border-left-color: var(--dg-blue); }
+"""
+
+
+def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
+                     version: str = "", base_url: str = "") -> str:
+    """Overzichtspagina ('kaart') met één blok per hoofdgroep en knoppen naar de
+    gepubliceerde tabellen en changelogs.
+
+    groups  : lijst (code, [entry, ...]) zoals ot_compare.scan_publication levert.
+    general : lijst entries voor het algemene blok ('voor alle hoofdgroepen').
+    base_url: online basis (bijv. 'https://nl-digigo.github.io/NLCS/'); het
+              entry-subpad wordt eraan geplakt. Leeg -> relatieve links.
+    Elke entry heeft: filename, subpath, kind ('tabel'|'changelog'), label."""
+    base = (base_url or "").strip()
+    if base and not base.endswith("/"):
+        base += "/"
+
+    def _btn(entry: dict) -> str:
+        url = (base + entry["subpath"]) if base else entry["subpath"]
+        cls = "changelog" if entry.get("kind") == "changelog" else "tabel"
+        return (f'<a class="btn {cls}" href="{_esc(url)}" target="_blank" '
+                f'title="{_esc(entry["filename"])}">{_esc(entry["label"])}</a>')
+
+    def _card(heading: str, subtitle: str, entries: list, general: bool) -> str:
+        tabellen = [e for e in entries if e.get("kind") != "changelog"]
+        changelogs = [e for e in entries if e.get("kind") == "changelog"]
+        parts = [f'<div class="card{" general" if general else ""}">',
+                 f"<h2>{_esc(heading)}</h2>",
+                 f'<p class="subtitle">{_esc(subtitle)}</p>']
+        if tabellen:
+            parts.append('<div class="section-lbl">Tabellen</div>')
+            parts += [_btn(e) for e in tabellen]
+        if changelogs:
+            parts.append('<div class="section-lbl">Changelogs</div>')
+            parts += [_btn(e) for e in changelogs]
+        if not entries:
+            parts.append('<p class="empty">geen bestanden</p>')
+        parts.append("</div>")
+        return "\n".join(parts)
+
+    cards = []
+    if general:
+        cards.append(_card("Voor alle hoofdgroepen",
+                           f"{len(general)} algemeen bestand(en)", general, True))
+    for code, entries in groups:
+        cards.append(_card(code, f"hoofdgroep {code} &middot; "
+                           f"{len(entries)} bestand(en)", entries, False))
+
+    total = sum(len(e) for _c, e in groups) + len(general)
+    info = (f"{len(groups)} hoofdgroep(en) &middot; {total} bestand(en)"
+            + (f" &middot; versie {_esc(version)}" if version else "")
+            + (f' &middot; <a href="{_esc(base)}" target="_blank">{_esc(base)}</a>'
+               if base else ""))
+
+    body = ('<p class="empty">Geen gepubliceerde bestanden gevonden voor deze '
+            'versie.</p>' if not cards else
+            '<div class="card-grid">\n' + "\n".join(cards) + "\n</div>")
+
+    return (
+        _shell_head(title, extra_style=_INDEX_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n'
+        + body + "\n"
+        + "</div>\n"
+        + _FOOTER
+    )
+
+
+# ---------------------------------------------------------------------------
+# 4. Wees-.dwg's: bestanden zonder een regel in de symbolentabel
 # ---------------------------------------------------------------------------
 _ORPHAN_STYLE = """
     table.otab tbody td { white-space: normal; }
