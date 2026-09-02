@@ -439,42 +439,22 @@ class TableTab(ttk.Frame):
         scroll.pack(side="right", fill="y")
 
     # -- config ------------------------------------------------------------
-    def load_cfg(self, tabcfg: dict) -> None:
-        self.new_dir_var.set(tabcfg.get("new_dir", ""))
-        self.old_dir_var.set(tabcfg.get("old_dir", ""))
-        self.output_dir_var.set(tabcfg.get("output_dir", ""))
-        self.symbols_dir_var.set(tabcfg.get("symbols_dir", ""))
-        self.symbols_old_dir_var.set(tabcfg.get("symbols_old_dir", ""))
-        self.objecten_dir_var.set(tabcfg.get("objecten_dir", ""))
-        self._saved_codes = list(tabcfg.get("codes", []))
-        if os.path.isdir(self.new_dir_var.get()) and self._old_ok():
+    def load_cfg(self, codes) -> None:
+        """Alleen de aangevinkte hoofdgroep-codes worden per tabblad onthouden;
+        de mappen komen uit het gedeelde 'Locaties'-tabblad (app.loc)."""
+        self._saved_codes = list(codes or [])
+        if os.path.isdir(self._loc("new")) and self._old_ok():
             self.on_scan(silent=True)
 
     def collect_cfg(self) -> dict:
-        return {
-            "new_dir": self.new_dir_var.get().strip(),
-            "old_dir": self.old_dir_var.get().strip(),
-            "codes": self.code_list.checked(),
-            "output_dir": self.output_dir_var.get().strip(),
-            "symbols_dir": self.symbols_dir_var.get().strip(),
-            "symbols_old_dir": self.symbols_old_dir_var.get().strip(),
-            "objecten_dir": self.objecten_dir_var.get().strip(),
-        }
+        return {"codes": self.code_list.checked()}
 
     # -- helpers -----------------------------------------------------------
-    def _browse_dir(self, var: tk.StringVar) -> None:
-        path = filedialog.askdirectory(initialdir=var.get() or os.getcwd())
-        if path:
-            var.set(path)
-
-    def _browse_file(self, var: tk.StringVar) -> None:
-        current = var.get().strip()
-        initial = os.path.dirname(current) if current else os.getcwd()
-        path = filedialog.askopenfilename(
-            initialdir=initial,
-            filetypes=[("CSV-bestanden", "*.csv"), ("Alle bestanden", "*.*")])
-        if path:
-            var.set(path)
+    def _loc(self, role: str) -> str:
+        """De gedeelde locatie voor een rol ('new'/'old'/'dwg_new'/...) van dit
+        profiel, uit app.loc. Lege string als de rol niet bestaat."""
+        key = self.profile.get("locations", {}).get(role)
+        return self.app.loc[key].get().strip() if key else ""
 
     def _logmsg(self, msg: str) -> None:
         self.log.configure(state="normal")
@@ -483,19 +463,20 @@ class TableTab(ttk.Frame):
         self.log.configure(state="disabled")
 
     def _old_ok(self) -> bool:
-        old = self.old_dir_var.get().strip()
+        old = self._loc("old")
         return os.path.isfile(old) if self.old_is_file else os.path.isdir(old)
 
     # -- hoofdgroepen zoeken ----------------------------------------------
     def on_scan(self, silent: bool = False) -> None:
-        new_dir = self.new_dir_var.get().strip()
-        old = self.old_dir_var.get().strip()
+        new_dir = self._loc("new")
+        old = self._loc("old")
         if not (os.path.isdir(new_dir) and self._old_ok()):
             if not silent:
-                msg = ("Kies eerst een geldige map voor de nieuwe versie én een "
-                       "CSV-bestand voor de vorige versie." if self.old_is_file
-                       else "Kies eerst een geldige map voor de nieuwe én de "
-                       "vorige versie.")
+                msg = ("Vul bij 'Locaties' een geldige map voor de nieuwe versie "
+                       "én een CSV-bestand voor de vorige versie in."
+                       if self.old_is_file
+                       else "Vul bij 'Locaties' een geldige map voor de nieuwe "
+                       "én de vorige versie in.")
                 messagebox.showwarning("Locaties ontbreken", msg)
             return
 
@@ -541,13 +522,15 @@ class TableTab(ttk.Frame):
 
     # -- genereren (in aparte thread) -------------------------------------
     def on_generate(self) -> None:
-        out_dir = self.output_dir_var.get().strip()
+        out_dir = self.app.loc["output_dir"].get().strip()
         if not self.pairs:
             self.on_scan()
             if not self.pairs:
                 return
         if not out_dir:
-            messagebox.showwarning("Geen uitvoermap", "Kies een uitvoermap.")
+            messagebox.showwarning(
+                "Geen uitvoermap",
+                "Vul bij 'Locaties' een uitvoermap in.")
             return
 
         chosen = self.code_list.checked()
@@ -571,10 +554,13 @@ class TableTab(ttk.Frame):
         blank_spec = self.profile.get("blank_spec")
         needs_objecten = self.profile.get("needs_objecten", False)
         objecten_col = self.profile.get("objecten_col", "")
-        objecten_dir = self.objecten_dir_var.get().strip()
-        symbols_dir = self.symbols_dir_var.get().strip()
-        symbols_old_dir = self.symbols_old_dir_var.get().strip()
-        new_dir = self.new_dir_var.get().strip()
+        zf_name_col = self.profile.get("zoekfilter_name_col", "")
+        zf_scope = self.profile.get("zoekfilter_scope", "per_code")
+        front_svg = self.profile.get("front_svg", False)
+        objecten_dir = self._loc("objecten")
+        symbols_dir = self._loc("dwg_new")
+        symbols_old_dir = self._loc("dwg_old")
+        new_dir = self._loc("new")
         selected = [(code, self.pairs[code][0], self.pairs[code][1])
                     for code in chosen if code in self.pairs]
 
@@ -626,13 +612,13 @@ class TableTab(ttk.Frame):
                         self._queue.put(("log",
                             f"{len(old_map)} oude .dwg-bestand(en) gevonden."))
 
-                # Objectentabellen voor de zoekfilter-kolom (sobject-term).
+                # Objectentabellen voor de zoekfilter-kolom (sobject/aobject-term).
                 use_zf = False
                 if needs_objecten:
                     if not objecten_dir:
                         self._queue.put(("log",
-                            "Geen map objectentabellen gekozen: kolom "
-                            "'zoekfilter (sobject)' wordt weggelaten."))
+                            f"Geen map objectentabellen gekozen: kolom "
+                            f"'zoekfilter ({objecten_col})' wordt weggelaten."))
                     elif not os.path.isdir(objecten_dir):
                         self._queue.put(("log",
                             f"Let op: map objectentabellen bestaat niet: "
@@ -640,7 +626,8 @@ class TableTab(ttk.Frame):
                     else:
                         use_zf = True
                         self._queue.put(("log",
-                            "Zoekfilter: sobject-termen uit de objectentabellen."))
+                            f"Zoekfilter: {objecten_col}-termen uit de "
+                            f"objectentabellen."))
 
                 made = 0
                 files = 0
@@ -689,8 +676,62 @@ class TableTab(ttk.Frame):
                         s = result["stats"]
 
                         extra_cols = None
+                        front_cols = None
                         orphans_this = None
                         hash_summary = ""
+
+                        # Zoekfilter-map (langste voorvoegsel-match) voor de
+                        # front-kolom in de volledige tabel; symbolen gebruiken 'm
+                        # ook in de changelog. Werkt voor symbolen (per hoofdgroep-
+                        # code) én arceringen (termen uit ALLE objectentabellen).
+                        zoekfilters = None
+                        if use_zf and zf_name_col in result["headers"]:
+                            zni = result["headers"].index(zf_name_col)
+                            zf_names = (
+                                [r["cells"][zni]["value"] for r in result["rows"]]
+                                + [d[zni] if zni < len(d) else ""
+                                   for d in result["deleted"]])
+                            if zf_scope == "all":
+                                terms = ot_compare.collect_column_values_list(
+                                    objecten_dir, objecten_col)
+                            else:
+                                # Hoofdgroep(en) uit de sbibliotheek-kolom; na het
+                                # splitsen één per bestand. Termen uit de bijbe-
+                                # horende objectentabel(len) samenvoegen.
+                                codes_needed: set = set()
+                                if scope_col in result["headers"]:
+                                    bi = result["headers"].index(scope_col)
+                                    for r in result["rows"]:
+                                        ch = ot_compare.sbib_to_code(
+                                            r["cells"][bi]["value"])
+                                        if ch:
+                                            codes_needed.add(ch)
+                                if not codes_needed:
+                                    codes_needed = {gcode or code}
+                                terms = []
+                                missing = []
+                                for ch in sorted(codes_needed):
+                                    ocsv = ot_compare.find_csv_by_code(
+                                        objecten_dir, ch)
+                                    if ocsv:
+                                        terms += ot_compare.column_values(
+                                            ocsv, objecten_col)
+                                    else:
+                                        missing.append(ch)
+                                if missing:
+                                    self._queue.put(("log",
+                                        f"[{gcode or code}] geen objectentabel "
+                                        f"voor: {', '.join(missing)} (zoekfilter "
+                                        f"voor die groep leeg)."))
+                            zoekfilters = ot_compare.zoekfilter_map(
+                                zf_names, terms)
+
+                        # Front-kolommen (zoekfilter [+ svg]) voor de basis-tabel.
+                        if needs_objecten or front_svg:
+                            front_cols = _front_columns(
+                                result, zf_name_col or symbol_name_col,
+                                zoekfilters, objecten_col, front_svg) or None
+
                         if needs_files:
                             has_name = symbol_name_col in result["headers"]
                             # symboolnamen (gewone + vervallen rijen) verzamelen
@@ -747,46 +788,14 @@ class TableTab(ttk.Frame):
                                 hash_summary = (f", .dwg: {ident} identiek/"
                                                 f"{gew} gewijzigd")
 
-                            zoekfilters = None
-                            if use_zf and has_name:
-                                # Hoofdgroep(en) uit de sbibliotheek-kolom. Na het
-                                # splitsen is dit er één per bestand; termen uit de
-                                # bijbehorende objectentabel(len) samenvoegen.
-                                codes_needed: set = set()
-                                if scope_col in result["headers"]:
-                                    bi = result["headers"].index(scope_col)
-                                    for r in result["rows"]:
-                                        ch = ot_compare.sbib_to_code(
-                                            r["cells"][bi]["value"])
-                                        if ch:
-                                            codes_needed.add(ch)
-                                if not codes_needed:
-                                    codes_needed = {gcode or code}
-                                terms: list = []
-                                missing = []
-                                for ch in sorted(codes_needed):
-                                    ocsv = ot_compare.find_csv_by_code(
-                                        objecten_dir, ch)
-                                    if ocsv:
-                                        terms += ot_compare.column_values(
-                                            ocsv, objecten_col)
-                                    else:
-                                        missing.append(ch)
-                                zoekfilters = ot_compare.zoekfilter_map(
-                                    names, terms)
-                                if missing:
-                                    self._queue.put(("log",
-                                        f"[{gcode or code}] geen objectentabel "
-                                        f"voor: {', '.join(missing)} (zoekfilter "
-                                        f"voor die groep leeg)."))
-
                             extra_cols = _symbol_extra_columns(
                                 result, symbol_name_col, dwg_map, hash_status,
                                 zoekfilters)
 
                         full_html = ot_html.build_full_html(
                             result, title=base, version_new=version_new,
-                            visible_indices=vis, text_columns=text_cols)
+                            visible_indices=vis, text_columns=text_cols,
+                            front_columns=front_cols)
                         changelog_html = ot_html.build_changelog_html(
                             result, title=f"Changelog {base}",
                             version_new=version_new, version_old=version_old,
@@ -894,47 +903,21 @@ class IndexTab(ttk.Frame):
         self._build()
 
     def _build(self) -> None:
-        loc = ttk.LabelFrame(self, text="Bron en publicatie", padding=8)
-        loc.pack(fill="x")
+        info = ttk.Frame(self)
+        info.pack(fill="x")
+        ttk.Label(
+            info, foreground="#555",
+            text="Bron-map (docs/changelog), basis-URL en uitvoerbestand staan "
+                 "op het tabblad 'Locaties'; de versie komt uit 'Versies'. Klik "
+                 "hier 'Zoek bestanden' en 'Genereer overzicht'.").pack(anchor="w")
 
-        ttk.Label(loc, text="Map om te doorzoeken (docs/changelog):"
-                  ).grid(row=0, column=0, sticky="w")
-        self.root_var = tk.StringVar()
-        ttk.Entry(loc, textvariable=self.root_var, width=52
-                  ).grid(row=0, column=1, sticky="we", padx=4, pady=2)
-        ttk.Button(loc, text="Bladeren...",
-                   command=lambda: self._browse_dir(self.root_var)
-                   ).grid(row=0, column=2, padx=4)
-
-        ttk.Label(loc, text="Versie (in bestandsnaam, bijv. 5.2):"
-                  ).grid(row=1, column=0, sticky="w")
-        self.version_var = tk.StringVar()
-        ttk.Entry(loc, textvariable=self.version_var, width=12
-                  ).grid(row=1, column=1, sticky="w", padx=4, pady=2)
-
-        ttk.Label(loc, text="Basis-URL (online publicatie):"
-                  ).grid(row=2, column=0, sticky="w")
-        self.base_url_var = tk.StringVar()
-        ttk.Entry(loc, textvariable=self.base_url_var, width=52
-                  ).grid(row=2, column=1, sticky="we", padx=4, pady=2)
-        loc.columnconfigure(1, weight=1)
-
-        out = ttk.LabelFrame(self, text="Uitvoer", padding=8)
-        out.pack(fill="x", pady=8)
-        ttk.Label(out, text="HTML-bestand:").grid(row=0, column=0, sticky="w")
-        self.output_var = tk.StringVar()
-        ttk.Entry(out, textvariable=self.output_var, width=52
-                  ).grid(row=0, column=1, sticky="we", padx=4, pady=2)
-        ttk.Button(out, text="Bladeren...", command=self._browse_output
-                   ).grid(row=0, column=2, padx=4)
-        btns = ttk.Frame(out)
-        btns.grid(row=1, column=1, columnspan=2, sticky="e", pady=(6, 0))
+        btns = ttk.Frame(self)
+        btns.pack(fill="x", pady=8)
         ttk.Button(btns, text="Zoek bestanden", command=self.on_scan
-                   ).pack(side="left", padx=4)
+                   ).pack(side="left", padx=(0, 4))
         self.gen_btn = ttk.Button(btns, text="Genereer overzicht",
                                   command=self.on_generate)
         self.gen_btn.pack(side="left", padx=4)
-        out.columnconfigure(1, weight=1)
 
         logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
         logframe.pack(fill="both", expand=True, pady=(8, 0))
@@ -945,40 +928,7 @@ class IndexTab(ttk.Frame):
         self.log.pack(side="left", fill="both", expand=True)
         scroll.pack(side="right", fill="y")
 
-    # -- config ------------------------------------------------------------
-    def load_cfg(self, cfg: dict) -> None:
-        self.root_var.set(cfg.get("root", ""))
-        self.base_url_var.set(cfg.get("base_url", "")
-                              or "https://nl-digigo.github.io/NLCS/")
-        self.output_var.set(cfg.get("output", ""))
-        # Versie is niet apart opgeslagen: standaard de gedeelde nieuwe versie.
-        self.version_var.set(self.app.version_new_var.get().strip())
-
-    def collect_cfg(self) -> dict:
-        return {
-            "root": self.root_var.get().strip(),
-            "base_url": self.base_url_var.get().strip(),
-            "output": self.output_var.get().strip(),
-        }
-
     # -- helpers -----------------------------------------------------------
-    def _browse_dir(self, var: tk.StringVar) -> None:
-        path = filedialog.askdirectory(initialdir=var.get() or os.getcwd())
-        if path:
-            var.set(path)
-
-    def _browse_output(self) -> None:
-        cur = self.output_var.get().strip()
-        initial = os.path.dirname(cur) if cur else (
-            self.root_var.get().strip() or os.getcwd())
-        path = filedialog.asksaveasfilename(
-            initialdir=initial,
-            initialfile=os.path.basename(cur) or "overzicht.html",
-            defaultextension=".html",
-            filetypes=[("HTML-bestand", "*.html"), ("Alle bestanden", "*.*")])
-        if path:
-            self.output_var.set(path)
-
     def _logmsg(self, msg: str) -> None:
         self.log.configure(state="normal")
         self.log.insert("end", msg + "\n")
@@ -987,16 +937,17 @@ class IndexTab(ttk.Frame):
 
     # -- zoeken + genereren ------------------------------------------------
     def on_scan(self):
-        root = self.root_var.get().strip()
-        version = self.version_var.get().strip()
+        root = self.app.loc["index_root"].get().strip()
+        version = self.app.version_new_var.get().strip()
         if not os.path.isdir(root):
             messagebox.showwarning(
-                "Geen map", "Kies een geldige map om te doorzoeken "
-                "(bijv. de map docs/changelog).")
+                "Geen map", "Vul bij 'Locaties' een geldige map in om te "
+                "doorzoeken (bijv. de map docs/changelog).")
             return None
         if not version:
             messagebox.showwarning(
-                "Geen versie", "Vul een versie in (bijv. 5.2).")
+                "Geen versie", "Vul bij 'Versies' een nieuwe versie in "
+                "(bijv. 5.2).")
             return None
 
         data = ot_compare.scan_publication(root, version)
@@ -1026,15 +977,15 @@ class IndexTab(ttk.Frame):
                 "Niets gevonden",
                 "Geen gepubliceerde bestanden met deze versie in de map.")
             return
-        output = self.output_var.get().strip()
+        output = self.app.loc["index_output"].get().strip()
         if not output:
             messagebox.showwarning(
                 "Geen uitvoerbestand",
-                "Kies waar het overzicht opgeslagen moet worden.")
+                "Vul bij 'Locaties' een uitvoerbestand voor het overzicht in.")
             return
 
-        version = self.version_var.get().strip()
-        base_url = self.base_url_var.get().strip()
+        version = self.app.version_new_var.get().strip()
+        base_url = self.app.loc["base_url"].get().strip()
         html_txt = ot_html.build_index_html(
             data["groups"], data["general"],
             title=f"NLCS publicatie-overzicht {version}".strip(),
@@ -1056,257 +1007,106 @@ class IndexTab(ttk.Frame):
 
 
 # ---------------------------------------------------------------------------
-# Tabblad 'Zoekfilters': hiërarchie van zoekfilters met de bijbehorende
-# symbolen / arceringen bij de meest gedetailleerde zoekfilter
+# Tabblad 'Locaties': alle mappen/bestanden die de tabbladen delen, één keer
 # ---------------------------------------------------------------------------
-def _zf_item_count(section: dict) -> int:
-    """Aantal items (symbolen/arceringen) in een sectie-boom, voor de logregel."""
-    n = 0
-    stack = list(section.get("roots") or [])
-    while stack:
-        node = stack.pop()
-        n += len(node["items"])
-        stack.extend(node["children"])
-    return n
+# Velden in het Locaties-tabblad, gegroepeerd. Elke regel:
+#   (sleutel in app.loc, label, soort) waarbij soort = "dir" (map),
+#   "csv" (bestaand CSV-bestand) of "html" (op te slaan HTML-bestand).
+_LOC_GROUPS = [
+    ("Objectentabellen", [
+        ("obj_new", "Map nieuwe versie:", "dir"),
+        ("obj_old", "Map vorige versie:", "dir"),
+    ]),
+    ("Symbolentabellen", [
+        ("sym_new", "Map nieuwe versie:", "dir"),
+        ("sym_old", "CSV vorige versie (één bestand):", "csv"),
+    ]),
+    ("Symbolen .dwg-bestanden", [
+        ("dwg_new", "Map nieuwe .dwg's:", "dir"),
+        ("dwg_old", "Map oude .dwg's:", "dir"),
+    ]),
+    ("Lijntypes", [
+        ("lijn_new", "Map nieuwe versie:", "dir"),
+        ("lijn_old", "CSV vorige versie (één bestand):", "csv"),
+    ]),
+    ("Arceringen", [
+        ("arc_new", "Map nieuwe versie:", "dir"),
+        ("arc_old", "CSV vorige versie (één bestand):", "csv"),
+    ]),
+    ("Overzicht (kaart)", [
+        ("index_root", "Map om te doorzoeken (docs/changelog):", "dir"),
+        ("base_url", "Basis-URL (online publicatie):", "text"),
+        ("index_output", "Uitvoerbestand (HTML):", "html"),
+    ]),
+    ("Uitvoer", [
+        ("output_dir", "Uitvoermap voor de changelog-HTML's:", "dir"),
+    ]),
+]
 
 
-class ZoekfilterTab(ttk.Frame):
-    """Maakt per hoofdgroep één overzichtspagina die de zoekfilters uit de
-    objectentabel als boom toont, met bij de MEEST GEDETAILLEERDE zoekfilter de
-    bijbehorende symbolen (kolom sobject -> symbool) en arceringen (kolom
-    aobject -> arcering). Elk item hangt aan de langste passende zoekfilter-term,
-    zodat een kortere (minder gedetailleerde) term dat item niet herhaalt."""
+class LocationsTab(ttk.Frame):
+    """Eerste tabblad: alle gedeelde mappen/bestanden één keer invullen. De
+    waarden staan in app.loc (StringVars) zodat de andere tabbladen ze lezen."""
 
     def __init__(self, master, app: "App"):
         super().__init__(master, padding=10)
         self.app = app
-        self.codes: list[str] = []          # hoofdgroep-codes uit de objectenmap
         self._build()
 
-    # -- opbouw ------------------------------------------------------------
     def _build(self) -> None:
-        loc = ttk.LabelFrame(self, text="Locaties", padding=8)
-        loc.pack(fill="x")
+        ttk.Label(
+            self, foreground="#555",
+            text="Vul de mappen en bestanden hier één keer in; de tabbladen "
+                 "hierboven gebruiken ze allemaal. Kies daarna per tabblad de "
+                 "hoofdgroepen en klik 'Genereer'.").pack(anchor="w", pady=(0, 8))
 
-        ttk.Label(loc, text="Map objectentabellen (zoekfilters sobject/aobject):"
-                  ).grid(row=0, column=0, sticky="w")
-        self.objecten_dir_var = tk.StringVar()
-        ttk.Entry(loc, textvariable=self.objecten_dir_var, width=52
-                  ).grid(row=0, column=1, sticky="we", padx=4, pady=2)
-        ttk.Button(loc, text="Bladeren...",
-                   command=lambda: self._browse_dir(self.objecten_dir_var)
-                   ).grid(row=0, column=2, padx=4)
+        canvas = tk.Canvas(self, highlightthickness=0)
+        scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
+        inner = ttk.Frame(canvas)
+        inner.bind("<Configure>",
+                   lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        win = canvas.create_window((0, 0), window=inner, anchor="nw")
+        canvas.bind("<Configure>",
+                    lambda e: canvas.itemconfigure(win, width=e.width))
+        canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+        canvas.bind("<Enter>", lambda e: canvas.bind_all(
+            "<MouseWheel>", lambda ev: canvas.yview_scroll(
+                int(-ev.delta / 120), "units")))
+        canvas.bind("<Leave>", lambda e: canvas.unbind_all("<MouseWheel>"))
 
-        ttk.Label(loc, text="Map symbolentabellen (kolom symbool):"
-                  ).grid(row=1, column=0, sticky="w")
-        self.symbols_dir_var = tk.StringVar()
-        ttk.Entry(loc, textvariable=self.symbols_dir_var, width=52
-                  ).grid(row=1, column=1, sticky="we", padx=4, pady=2)
-        ttk.Button(loc, text="Bladeren...",
-                   command=lambda: self._browse_dir(self.symbols_dir_var)
-                   ).grid(row=1, column=2, padx=4)
+        for title, fields in _LOC_GROUPS:
+            frame = ttk.LabelFrame(inner, text=title, padding=8)
+            frame.pack(fill="x", pady=(0, 8))
+            frame.columnconfigure(1, weight=1)
+            for row, (key, label, kind) in enumerate(fields):
+                ttk.Label(frame, text=label).grid(row=row, column=0, sticky="w")
+                ttk.Entry(frame, textvariable=self.app.loc[key], width=52
+                          ).grid(row=row, column=1, sticky="we", padx=4, pady=2)
+                if kind != "text":
+                    ttk.Button(
+                        frame, text="Bladeren...",
+                        command=lambda k=key, t=kind: self._browse(k, t)
+                    ).grid(row=row, column=2, padx=4)
 
-        ttk.Label(loc, text="Map arceringentabellen (kolom arcering):"
-                  ).grid(row=2, column=0, sticky="w")
-        self.arceringen_dir_var = tk.StringVar()
-        ttk.Entry(loc, textvariable=self.arceringen_dir_var, width=52
-                  ).grid(row=2, column=1, sticky="we", padx=4, pady=2)
-        ttk.Button(loc, text="Bladeren...",
-                   command=lambda: self._browse_dir(self.arceringen_dir_var)
-                   ).grid(row=2, column=2, padx=4)
-        loc.columnconfigure(1, weight=1)
-
-        groups = ttk.LabelFrame(self, text="Hoofdgroepen (kies waarvoor je een "
-                                "overzicht maakt)", padding=8)
-        groups.pack(fill="both", expand=True, pady=8)
-        top = ttk.Frame(groups)
-        top.pack(fill="x")
-        ttk.Button(top, text="Zoek hoofdgroepen", command=self.on_scan
-                   ).pack(side="left")
-        self.scan_status_var = tk.StringVar(
-            value="Kies de map objectentabellen en klik 'Zoek hoofdgroepen'.")
-        ttk.Label(top, textvariable=self.scan_status_var, foreground="#555"
-                  ).pack(side="left", padx=10)
-        self.code_list = ScrollableChecklist(groups, "Hoofdgroep-codes")
-        self.code_list.pack(fill="both", expand=True, pady=(8, 0))
-
-        out = ttk.LabelFrame(self, text="Uitvoer", padding=8)
-        out.pack(fill="x")
-        ttk.Label(out, text="Uitvoermap:").grid(row=0, column=0, sticky="w")
-        self.output_dir_var = tk.StringVar()
-        ttk.Entry(out, textvariable=self.output_dir_var, width=52
-                  ).grid(row=0, column=1, sticky="we", padx=4, pady=2)
-        ttk.Button(out, text="Bladeren...",
-                   command=lambda: self._browse_dir(self.output_dir_var)
-                   ).grid(row=0, column=2, padx=4)
-        self.gen_btn = ttk.Button(out, text="Genereer overzichten",
-                                  command=self.on_generate)
-        self.gen_btn.grid(row=1, column=2, sticky="e", padx=4, pady=(4, 0))
-        out.columnconfigure(1, weight=1)
-
-        logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
-        logframe.pack(fill="both", expand=True, pady=(8, 0))
-        self.log = tk.Text(logframe, height=9, wrap="word", state="disabled",
-                           font=("Consolas", 9), background="#fbfbfb")
-        scroll = ttk.Scrollbar(logframe, orient="vertical", command=self.log.yview)
-        self.log.configure(yscrollcommand=scroll.set)
-        self.log.pack(side="left", fill="both", expand=True)
-        scroll.pack(side="right", fill="y")
-
-    # -- config ------------------------------------------------------------
-    def load_cfg(self, cfg: dict) -> None:
-        self.objecten_dir_var.set(cfg.get("objecten_dir", ""))
-        self.symbols_dir_var.set(cfg.get("symbols_dir", ""))
-        self.arceringen_dir_var.set(cfg.get("arceringen_dir", ""))
-        self.output_dir_var.set(cfg.get("output_dir", ""))
-        self._saved_codes = list(cfg.get("codes", []))
-        if os.path.isdir(self.objecten_dir_var.get()):
-            self.on_scan(silent=True)
-
-    def collect_cfg(self) -> dict:
-        return {
-            "objecten_dir": self.objecten_dir_var.get().strip(),
-            "symbols_dir": self.symbols_dir_var.get().strip(),
-            "arceringen_dir": self.arceringen_dir_var.get().strip(),
-            "codes": self.code_list.checked(),
-            "output_dir": self.output_dir_var.get().strip(),
-        }
-
-    # -- helpers -----------------------------------------------------------
-    def _browse_dir(self, var: tk.StringVar) -> None:
-        path = filedialog.askdirectory(initialdir=var.get() or os.getcwd())
+    def _browse(self, key: str, kind: str) -> None:
+        var = self.app.loc[key]
+        cur = var.get().strip()
+        if kind == "dir":
+            path = filedialog.askdirectory(initialdir=cur or os.getcwd())
+        elif kind == "csv":
+            path = filedialog.askopenfilename(
+                initialdir=os.path.dirname(cur) if cur else os.getcwd(),
+                filetypes=[("CSV-bestand", "*.csv"), ("Alle bestanden", "*.*")])
+        else:  # html: op te slaan bestand
+            path = filedialog.asksaveasfilename(
+                initialdir=os.path.dirname(cur) if cur else os.getcwd(),
+                initialfile=os.path.basename(cur) or "overzicht.html",
+                defaultextension=".html",
+                filetypes=[("HTML-bestand", "*.html"), ("Alle bestanden", "*.*")])
         if path:
             var.set(path)
-
-    def _logmsg(self, msg: str) -> None:
-        self.log.configure(state="normal")
-        self.log.insert("end", msg + "\n")
-        self.log.see("end")
-        self.log.configure(state="disabled")
-
-    # -- hoofdgroepen zoeken ----------------------------------------------
-    def on_scan(self, silent: bool = False) -> None:
-        objecten_dir = self.objecten_dir_var.get().strip()
-        if not os.path.isdir(objecten_dir):
-            if not silent:
-                messagebox.showwarning(
-                    "Geen map", "Kies eerst een geldige map met de "
-                    "objectentabellen.")
-            return
-        pairs, _n, _o = ot_compare.pair_folder_to_file(objecten_dir, "")
-        self.codes = sorted({code for code, _p, _q in pairs})
-        saved = set(getattr(self, "_saved_codes", []) or [])
-        checked = [c for c in self.codes if c in saved] if saved else self.codes
-        self.code_list.set_items(self.codes, checked=checked or self.codes)
-        msg = f"{len(self.codes)} hoofdgroep(en) gevonden."
-        self.scan_status_var.set(msg)
-        if not silent:
-            self._logmsg(msg + (" (" + ", ".join(self.codes) + ")"
-                                if self.codes else ""))
-            if not self.codes:
-                messagebox.showinfo(
-                    "Niets gevonden",
-                    "Geen CSV's met een hoofdgroep-code in de objectenmap.")
-
-    # -- genereren ---------------------------------------------------------
-    def on_generate(self) -> None:
-        objecten_dir = self.objecten_dir_var.get().strip()
-        symbols_dir = self.symbols_dir_var.get().strip()
-        arceringen_dir = self.arceringen_dir_var.get().strip()
-        out_dir = self.output_dir_var.get().strip()
-        if not self.codes:
-            self.on_scan()
-            if not self.codes:
-                return
-        if not out_dir:
-            messagebox.showwarning("Geen uitvoermap", "Kies een uitvoermap.")
-            return
-        chosen = self.code_list.checked()
-        if not chosen:
-            messagebox.showwarning(
-                "Niets aangevinkt",
-                "Vink minstens één hoofdgroep aan (of klik 'Alles').")
-            return
-
-        os.makedirs(out_dir, exist_ok=True)
-        version_new = self.app.version_new_var.get().strip()
-        self.log.configure(state="normal")
-        self.log.delete("1.0", "end")
-        self.log.configure(state="disabled")
-
-        # Arceringnamen staan (net als de aobject-zoekfilter 'ACO-...') niet per
-        # hoofdgroep maar in de gedeelde CO-bibliotheek; verzamel ze één keer uit
-        # ALLE arceringen-CSV's. De voorvoegsel-match beperkt ze vanzelf tot de
-        # aobject-termen van de hoofdgroep.
-        arc_names = ot_compare.collect_column_values_list(
-            arceringen_dir, "arcering") if os.path.isdir(arceringen_dir) else []
-        if arceringen_dir and not arc_names:
-            self._logmsg("Let op: geen arceringnamen gevonden in de arceringenmap "
-                         "(kolom 'arcering'). Arceringen-sectie blijft leeg.")
-
-        made = 0
-        first = None
-        for code in chosen:
-            ocsv = ot_compare.find_csv_by_code(objecten_dir, code)
-            if not ocsv:
-                self._logmsg(f"[{code}] geen objectentabel gevonden, overgeslagen.")
-                continue
-            sobj_terms = ot_compare.column_values(ocsv, "sobject")
-            aobj_terms = ot_compare.column_values(ocsv, "aobject")
-
-            scsv = ot_compare.find_csv_by_code(symbols_dir, code) \
-                if os.path.isdir(symbols_dir) else ""
-            sym_names = ot_compare.column_values(scsv, "symbool") if scsv else []
-
-            sections = []
-            if sobj_terms:
-                roots, unmatched = ot_compare.build_zoekfilter_tree(
-                    sobj_terms, sym_names)
-                sections.append({
-                    "name": "Symbolen", "filter_lbl": "sobject",
-                    "item_lbl": "symbolen", "roots": roots,
-                    "unmatched": unmatched, "show_unmatched": True, "css": ""})
-            if aobj_terms:
-                roots, unmatched = ot_compare.build_zoekfilter_tree(
-                    aobj_terms, arc_names)
-                sections.append({
-                    "name": "Arceringen", "filter_lbl": "aobject",
-                    "item_lbl": "arceringen", "roots": roots,
-                    "unmatched": unmatched, "show_unmatched": False,
-                    "css": "arc"})
-
-            if not sections:
-                self._logmsg(f"[{code}] geen zoekfilters (sobject/aobject) in de "
-                             f"objectentabel, overgeslagen.")
-                continue
-
-            obase = os.path.splitext(os.path.basename(ocsv))[0]
-            base = (obase.replace("objecten", "zoekfilters", 1)
-                    if "objecten" in obase else f"zoekfilters-{obase}")
-            title = f"Zoekfilters {code}"
-            html_txt = ot_html.build_zoekfilter_html(
-                title, sections, version_new=version_new,
-                subtitle=f"hoofdgroep {code}")
-            path = os.path.join(out_dir, f"{base}.html")
-            try:
-                with open(path, "w", encoding="utf-8") as f:
-                    f.write(html_txt)
-            except OSError as exc:
-                messagebox.showerror("Fout", str(exc))
-                self._logmsg("FOUT: " + str(exc))
-                return
-
-            summ = " + ".join(
-                f"{s['item_lbl']} ({_zf_item_count(s)})" for s in sections)
-            self._logmsg(f"[{code}] {summ} -> {base}.html")
-            made += 1
-            if first is None:
-                first = path
-
-        self._logmsg(f"Klaar: {made} overzicht(en) geschreven.")
-        self.app.save_config()
-        if made and first and self.app.open_after_var.get():
-            webbrowser.open(os.path.abspath(first))
 
 
 # ---------------------------------------------------------------------------
@@ -1336,27 +1136,34 @@ class App(ttk.Frame):
         ttk.Checkbutton(shared, text="eerste HTML openen na genereren",
                         variable=self.open_after_var).pack(side="left", padx=(24, 0))
 
-        # Tabbladen per tabelsoort
+        # Gedeelde locaties (alle mappen/bestanden): één StringVar per sleutel,
+        # gevuld uit config. De tabbladen lezen deze via app.loc.
+        loc_cfg = self.cfg["locations"]
+        self.loc: dict[str, tk.StringVar] = {
+            key: tk.StringVar(value=loc_cfg.get(key, ""))
+            for key in ot_config._locations()
+        }
+
+        # Tabbladen
         nb = ttk.Notebook(self)
         nb.pack(fill="both", expand=True, pady=(8, 0))
+
+        # Eerste tabblad: de gedeelde locaties.
+        self.locations_tab = LocationsTab(nb, self)
+        nb.add(self.locations_tab, text="Locaties")
+
+        # Per tabelsoort een vergelijk-tabblad; die lezen de mappen uit app.loc.
         self.tabs: dict[str, TableTab] = {}
         for prof in PROFILES:
             tab = TableTab(nb, self, prof)
             nb.add(tab, text=prof["label"])
-            tab.load_cfg(self.cfg["tabs"].get(prof["key"], {}))
+            tab.load_cfg(self.cfg["codes"].get(prof["key"], []))
             self.tabs[prof["key"]] = tab
 
         # Laatste tabblad: het publicatie-overzicht ('kaart') met knoppen naar de
         # gepubliceerde HTML's. Geen vergelijking, dus een eigen tabblad-klasse.
         self.index_tab = IndexTab(nb, self)
         nb.add(self.index_tab, text="Overzicht")
-        self.index_tab.load_cfg(self.cfg.get("index", {}))
-
-        # Zoekfilter-overzicht: zoekfilters (sobject/aobject) uit de objecten-
-        # tabellen als boom, met de bijbehorende symbolen/arceringen.
-        self.zf_tab = ZoekfilterTab(nb, self)
-        nb.add(self.zf_tab, text="Zoekfilters")
-        self.zf_tab.load_cfg(self.cfg.get("zoekfilter", {}))
 
         master.protocol("WM_DELETE_WINDOW", self._on_close)
 
@@ -1365,9 +1172,10 @@ class App(ttk.Frame):
             "version_new": self.version_new_var.get().strip(),
             "version_old": self.version_old_var.get().strip(),
             "open_after": self.open_after_var.get(),
-            "tabs": {key: tab.collect_cfg() for key, tab in self.tabs.items()},
-            "index": self.index_tab.collect_cfg(),
-            "zoekfilter": self.zf_tab.collect_cfg(),
+            "locations": {key: var.get().strip()
+                          for key, var in self.loc.items()},
+            "codes": {key: tab.collect_cfg()["codes"]
+                      for key, tab in self.tabs.items()},
         }
 
     def save_config(self) -> None:

@@ -2,55 +2,34 @@
   "version_new": "5.2",
   "version_old": "5.0",
   "open_after": true,
-  "tabs": {
-    "obj": {
-      "new_dir": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/objectentabellen/5-2",
-      "old_dir": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/objectentabellen/5-0",
-      "codes": [
-        "BV"
-      ],
-      "output_dir": "C:/Users/100289/Downloads",
-      "symbols_dir": "",
-      "symbols_old_dir": "",
-      "objecten_dir": ""
-    },
-    "sym": {
-      "new_dir": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/symbolentabellen/5-2",
-      "old_dir": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/symbolentabellen/5-0/symbolen-5-0.csv",
-      "codes": [
-        "BV"
-      ],
-      "output_dir": "C:/Users/100289/Downloads",
-      "symbols_dir": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSacc/symbolen/autocad",
-      "symbols_old_dir": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSmain/NLCS/symbolen/autocad",
-      "objecten_dir": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/objectentabellen/5-2"
-    },
-    "lijn": {
-      "new_dir": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/lijntypes/5-2",
-      "old_dir": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/lijntypes/5-0/lijntypes-5-0.csv",
-      "codes": [
-        "CO"
-      ],
-      "output_dir": "C:/Users/100289/Downloads",
-      "symbols_dir": "",
-      "symbols_old_dir": "",
-      "objecten_dir": ""
-    },
-    "arc": {
-      "new_dir": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/arceringen/5.2",
-      "old_dir": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/arceringen/5.0/arceringen-5-0.csv",
-      "codes": [
-        "CO"
-      ],
-      "output_dir": "C:/Users/100289/Downloads",
-      "symbols_dir": "",
-      "symbols_old_dir": "",
-      "objecten_dir": ""
-    }
-  },
-  "index": {
-    "root": "",
+  "locations": {
+    "obj_new": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/objectentabellen/5-2",
+    "obj_old": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/objectentabellen/5-0",
+    "sym_new": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/symbolentabellen/5-2",
+    "sym_old": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/symbolentabellen/5-0/symbolen-5-0.csv",
+    "dwg_new": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSacc/symbolen/autocad",
+    "dwg_old": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSmain/NLCS/symbolen/autocad",
+    "lijn_new": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/lijntypes/5-2",
+    "lijn_old": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/lijntypes/5-0/lijntypes-5-0.csv",
+    "arc_new": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/arceringen/5.2",
+    "arc_old": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/arceringen/5.0/arceringen-5-0.csv",
+    "index_root": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/docs/changelog",
     "base_url": "https://nl-digigo.github.io/NLCS/",
-    "output": ""
+    "index_output": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/docs/changelog",
+    "output_dir": "C:/Users/100289/Downloads"
+  },
+  "codes": {
+    "obj": [
+      "BV"
+    ],
+    "sym": [
+      "BV"
+    ],
+    "lijn": [
+      "ES"
+    ],
+    "arc": [
+      "CO"
+    ]
   }
 }
