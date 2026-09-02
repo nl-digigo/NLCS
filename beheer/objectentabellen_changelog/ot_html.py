@@ -366,6 +366,11 @@ _CHANGELOG_STYLE = """
     table.otab tbody tr.orphan td.weespad { color: var(--dg-grey2);
                     white-space: normal; }
     .sw-wees { background-color: #f0f0f0; }
+
+    /* Melding bovenaan als er geen wijzigingen zijn */
+    p.geen-wijzigingen { margin: 0 0 14px; padding: 12px 16px;
+                    background-color: #eef7ee; border-left: 6px solid var(--dg-green);
+                    font-size: 1.05em; font-weight: 600; color: #1f6b23; }
 """
 
 
@@ -468,9 +473,19 @@ def build_changelog_html(result: dict, title: str,
            '(geen tabelregel)</span>' if orphans else "")
         + '</div>')
 
+    # Melding bovenaan wanneer er niets aan de tabel is veranderd (geen nieuwe,
+    # gewijzigde of vervallen rijen). Wees-.dwg's tellen niet als tabelwijziging.
+    geen_wijzigingen = (stats["new"] == 0 and stats["changed"] == 0
+                        and stats["deleted"] == 0)
+    banner = ""
+    if geen_wijzigingen:
+        banner = (f'<p class="geen-wijzigingen">Versie '
+                  f'{_esc(version_new or "?")} bevat geen wijzigingen ten '
+                  f'opzichte van versie {_esc(version_old or "?")}.</p>\n')
+
     return (
         _shell_head(title, extra_style=_CHANGELOG_STYLE, cdn=False)
-        + f'<div class="wrap">\n<p class="info">{info}</p>\n{legend}\n'
+        + f'<div class="wrap">\n{banner}<p class="info">{info}</p>\n{legend}\n'
         + '<div class="tablescroll">\n<table class="otab">\n<thead>\n'
         + f"<tr>{head_cells}</tr>\n</thead>\n<tbody>\n"
         + "\n".join(body)

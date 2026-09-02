@@ -67,6 +67,49 @@ PROFILES = [
         # beperkt blijft tot dezelfde hoofdgroep
         "old_is_file": True,
         "scope_col": "sbibliotheek",
+        # sbibliotheek = 'S' + hoofdgroepcode: 'S' eraf bij het splitsen van CO
+        "scope_strip_s": True,
+    },
+    {
+        "key": "lijn",
+        "label": "Lijntypes",
+        "match_key": "lijntypeURI",
+        # toon de informatieve kolommen (in CSV-volgorde); id + finalCleanName weg
+        "visible": lambda headers: ot_html.show_names_indices(
+            headers, ["lijntypeURI", "hoofdgroep", "omschrijving", "fase",
+                      "optie", "autocaddef"]),
+        # vrij zoekveld voor URI, omschrijving en autocaddef; rest = keuzelijst
+        "text_search": lambda h: h in ("omschrijving", "autocaddef")
+        or "uri" in h.lower(),
+        # oude versie = één grote CSV met alle lijntypes; scope op hoofdgroep zodat
+        # 'vervallen' beperkt blijft tot de vergeleken hoofdgroep
+        "old_is_file": True,
+        "scope_col": "hoofdgroep",
+        # hoofdgroep bevat de code al letterlijk (BV, BC, ...); NIET de 'S' strippen
+        # (anders wordt bijv. 'SB' foutief 'B'). Verzamelbestand CO valt zo net als
+        # bij symbolen uiteen in aparte hoofdgroep-bestanden.
+        "scope_strip_s": False,
+    },
+    {
+        "key": "arc",
+        "label": "Arceringen",
+        "match_key": "arceringURI",
+        # toon de informatieve kolommen (in CSV-volgorde); searchterm,
+        # abibliotheekURI en finalCleanName weglaten
+        "visible": lambda headers: ot_html.show_names_indices(
+            headers, ["arceringURI", "abibliotheek", "fase", "id", "arcering",
+                      "optie", "schaal", "vrkl_kort", "vrkl_lang", "fileURL"]),
+        # vrij zoekveld voor URI, arcering, id, de verklaringen en de fileURL;
+        # rest (abibliotheek, fase, optie, schaal) = keuzelijst
+        "text_search": lambda h: h in ("arcering", "vrkl_kort", "vrkl_lang",
+                                       "id", "fileURL") or "uri" in h.lower(),
+        # oude versie = één grote CSV met alle arceringen; scope op abibliotheek
+        # zodat 'vervallen' beperkt blijft tot de vergeleken groep
+        "old_is_file": True,
+        "scope_col": "abibliotheek",
+        # abibliotheek bevat de groepscode al letterlijk (ACO, ...); NIET strippen.
+        # CO werkt als één hoofdgroep met groep 'ACO', dus geen split.
+        "scope_strip_s": False,
     },
 ]
 
@@ -80,9 +123,16 @@ def _dwg_cell(naam: str, dwg_stems: set) -> str:
 def _svg_cell(naam: str) -> str:
     if not naam:
         return ""
-    # De svg's staan in een submap per bibliotheek, genoemd naar het voorvoegsel
-    # van de symboolnaam (bijv. 'SAM-ASPUNTNUMMER-SO' -> ./SAM/SAM-ASPUNTNUMMER-SO.svg).
-    prefix = naam.split("-", 1)[0] if "-" in naam else ""
+    # De svg's staan in een submap per bibliotheek, genoemd naar de bibliotheek-
+    # code (SAM/SAL/SFC...). Die code is het eerste naamsegment dat met 'S'
+    # begint: 'SAM-ASPUNTNUMMER-SO' -> ./SAM/. Symboolnamen kunnen een prefix
+    # 'V-'/'B-' hebben ('V-SFC-PAAL_BETON_PREFAB_01-SO'); die segmenten beginnen
+    # nooit met 'S', dus 'V-SFC-...' -> ./SFC/ (niet ./V/). De svg-BESTANDSnaam
+    # blijft de volledige symboolnaam (incl. eventueel voorvoegsel).
+    segs = naam.split("-")
+    prefix = next((s for s in segs if s[:1].upper() == "S" and len(s) > 1), "")
+    if not prefix:
+        prefix = segs[0] if len(segs) > 1 else ""
     folder = ("./" + quote(prefix) + "/") if prefix else "./"
     href = folder + quote(naam + ".svg")
     alt = html.escape(naam, quote=True)
@@ -124,6 +174,24 @@ def _base_for_code(stem: str, code: str) -> str:
         return stem
     left, sep, _last = stem.rpartition("-")
     return f"{left}-{code}" if sep else code
+
+
+def _bib_of_stem(stem: str, known_bibs) -> str:
+    """De bibliotheek-code die als los segment in een bestands-/symboolnaam staat.
+
+    Symboolnamen kunnen een prefix hebben (bijv. 'V-SFC-PAAL...', 'B-SGC-...'),
+    dus het EERSTE naam-segment is geen betrouwbare bibliotheek. We zoeken daarom
+    welke bekende bibliotheek (uit de `sbibliotheek`-kolom, bijv. SFC/SGC/SAM) als
+    hyphen-segment in de naam voorkomt; het eerste passende segment wint. Geeft ""
+    als geen enkele bekende bibliotheek in de naam zit (dan hoort het .dwg-bestand
+    niet bij een verwerkte hoofdgroep)."""
+    if not stem or not known_bibs:
+        return ""
+    known = {b.upper() for b in known_bibs if b}
+    for seg in stem.upper().split("-"):
+        if seg in known:
+            return seg
+    return ""
 
 
 def _symbol_extra_columns(result: dict, name_col: str, dwg_stems: set,
@@ -427,19 +495,33 @@ class TableTab(ttk.Frame):
         else:
             pairs, only_new, only_old = ot_compare.pair_folders(new_dir, old)
         self.pairs = {code: (npath, opath) for code, npath, opath in pairs}
-        codes = [code for code, _, _ in pairs]
+
+        # Hoofdgroepen die alleen in de nieuwe versie bestaan (nog niet in de
+        # vorige, bijv. nieuw in 5.2): toch meenemen met een lege oude kant, zodat
+        # er een changelog met alleen nieuwe (groene) regels uit komt. Geldt voor
+        # de map-koppeling (objecten); bij een groot oud bestand (symbolen/
+        # lijntypes) is only_new leeg en levert de scope dat vanzelf al op.
+        new_only_added = []
+        if not self.old_is_file:
+            for code in only_new:
+                np = ot_compare.find_csv_by_code(new_dir, code)
+                if np:
+                    self.pairs[code] = (np, "")
+                    new_only_added.append(code)
+        codes = sorted(self.pairs)
 
         saved = set(getattr(self, "_saved_codes", []) or [])
         checked = [c for c in codes if c in saved] if saved else codes
         self.code_list.set_items(codes, checked=checked or codes)
 
-        msg = f"{len(codes)} gekoppelde hoofdgroep(en) gevonden."
+        msg = f"{len(codes)} hoofdgroep(en) gevonden."
         self.scan_status_var.set(msg)
         if not silent:
             self._logmsg(msg + (" (" + ", ".join(codes) + ")" if codes else ""))
-            if only_new:
-                self._logmsg("Alleen in nieuwe map (geen paar): "
-                             + ", ".join(only_new))
+            if new_only_added:
+                self._logmsg(
+                    "Nieuw in deze versie (geen vorige) -> changelog met alleen "
+                    "nieuwe regels: " + ", ".join(new_only_added))
             if only_old:
                 self._logmsg("Alleen in vorige map (geen paar): "
                              + ", ".join(only_old))
@@ -476,6 +558,7 @@ class TableTab(ttk.Frame):
         needs_files = self.profile.get("needs_symbol_files", False)
         symbol_name_col = self.profile.get("symbol_name_col", "")
         scope_col = self.profile.get("scope_col", "")
+        scope_strip_s = self.profile.get("scope_strip_s", True)
         needs_objecten = self.profile.get("needs_objecten", False)
         objecten_col = self.profile.get("objecten_col", "")
         objecten_dir = self.objecten_dir_var.get().strip()
@@ -563,13 +646,29 @@ class TableTab(ttk.Frame):
 
                     # Verzamelbestand (CO) uiteen laten vallen in aparte
                     # hoofdgroepen; gewone bestanden blijven één geheel.
-                    groups = ot_compare.split_result_by_bib(full_result, scope_col)
+                    groups = ot_compare.split_result_by_bib(
+                        full_result, scope_col, strip_s=scope_strip_s)
                     multi = len(groups) > 1
                     if multi:
+                        # Per hoofdgroep het aantal rijen tonen, zodat direct
+                        # zichtbaar is welke hoofdgroepen in het verzamelbestand
+                        # zitten (bijv. CO: BC/FC/GC/HC/KC/MC/SC).
+                        per = ", ".join(
+                            f"{c} ({len(r['rows'])})" for c, r in groups)
                         self._queue.put(("log",
-                            f"[{code}] verzameling hoofdgroepen -> "
-                            f"{', '.join(c for c, _ in groups)}: "
+                            f"[{code}] verzameling hoofdgroepen -> {per}: "
                             f"{len(groups)} aparte bestanden."))
+                        # Waarschuw als rijen geen herkenbare hoofdgroep hadden
+                        # en dus niet in een uitvoerbestand terechtkomen.
+                        assigned = sum(len(r["rows"]) + len(r["deleted"])
+                                       for _c, r in groups)
+                        total_in = (len(full_result["rows"])
+                                    + len(full_result["deleted"]))
+                        if assigned < total_in:
+                            self._queue.put(("log",
+                                f"[{code}] LET OP: {total_in - assigned} rij(en) "
+                                f"zonder herkenbare hoofdgroep (kolom "
+                                f"'{scope_col}') vallen buiten de uitvoer."))
 
                     for gcode, result in groups:
                         base = _base_for_code(orig_base, gcode) if multi else orig_base
@@ -593,30 +692,36 @@ class TableTab(ttk.Frame):
                                              for r in result["rows"]]
                                 names = row_names + [d[ni] if ni < len(d) else ""
                                                      for d in result["deleted"]]
-                                # Wees-scope: alleen de symbolen (en hun
-                                # bibliotheek-voorvoegsel) uit de VERWERKTE nieuwe
-                                # tabellen tellen mee. Vervallen rijen niet: een
+                                # Wees-scope: alleen de symbolen uit de VERWERKTE
+                                # nieuwe tabellen tellen mee (exacte namen, incl.
+                                # eventueel prefix). Vervallen rijen niet: een
                                 # achtergebleven .dwg van een vervallen symbool is
                                 # juist een wees.
                                 for nm in row_names:
                                     stem = (nm or "").strip().lower()
-                                    if not stem:
-                                        continue
-                                    this_symbols.add(stem)
-                                    bib = (stem.split("-", 1)[0].upper()
-                                           if "-" in stem else "")
-                                    if bib:
-                                        this_bibs.add(bib)
+                                    if stem:
+                                        this_symbols.add(stem)
+                                # Bibliotheek uit de sbibliotheek-kolom (betrouw-
+                                # baar). De symboolnaam kan een prefix hebben
+                                # (V-SFC-..., B-SGC-...), dus het eerste naam-
+                                # segment deugt NIET als bibliotheek.
+                                if scope_col and scope_col in result["headers"]:
+                                    bcol = result["headers"].index(scope_col)
+                                    for r in result["rows"]:
+                                        sb = (r["cells"][bcol]["value"]
+                                              or "").strip().upper()
+                                        if sb:
+                                            this_bibs.add(sb)
                                 all_symbols |= this_symbols
                                 processed_bibs |= this_bibs
 
                             # Wezen van DEZE hoofdgroep (bibliotheek) voor de
                             # changelog: .dwg's van dezelfde bib(s) zonder regel.
+                            # Bib per .dwg via segment-match (prefix-proof).
                             if has_name and dwg_map and this_bibs:
                                 orphans_this = sorted(
                                     ((stem, dwg_map[stem]) for stem in dwg_map
-                                     if (stem.split("-", 1)[0].upper()
-                                         if "-" in stem else "") in this_bibs
+                                     if _bib_of_stem(stem, this_bibs)
                                      and stem not in this_symbols),
                                     key=lambda t: t[0])
 
@@ -706,9 +811,12 @@ class TableTab(ttk.Frame):
                     orphans = []
                     skipped_bibs: set = set()
                     for stem in sorted(dwg_map):
-                        bib = stem.split("-", 1)[0].upper() if "-" in stem else ""
-                        if processed_bibs and bib not in processed_bibs:
-                            skipped_bibs.add(bib or "?")
+                        # Bib per .dwg via segment-match (prefix-proof: V-SFC-...).
+                        bib = _bib_of_stem(stem, processed_bibs)
+                        if processed_bibs and not bib:
+                            first_seg = (stem.split("-", 1)[0].upper()
+                                         if "-" in stem else "?")
+                            skipped_bibs.add(first_seg or "?")
                             continue  # andere groep, niet in deze run verwerkt
                         if stem not in all_symbols:
                             orphans.append((stem, dwg_map[stem]))

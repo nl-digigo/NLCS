@@ -333,7 +333,13 @@ def compare(new_path: str, old_path: str, key: str = KEY,
       stats         : {new, changed, deleted, total_new}
     """
     new_headers, new_rows = read_table(new_path)
-    old_headers, old_rows = read_table(old_path)
+    if not old_path or not os.path.isfile(old_path):
+        # Geen vorige versie beschikbaar (deze hoofdgroep bestond nog niet):
+        # lege oude kant, zodat elke nieuwe rij als 'nieuw' telt en er een
+        # changelog met alleen nieuwe (groene) regels uitkomt.
+        old_headers, old_rows = list(new_headers), []
+    else:
+        old_headers, old_rows = read_table(old_path)
 
     nidx = {h: i for i, h in enumerate(new_headers)}
     oidx = {h: i for i, h in enumerate(old_headers)}
@@ -343,12 +349,17 @@ def compare(new_path: str, old_path: str, key: str = KEY,
         raise ValueError(f"Kolom '{key}' ontbreekt in {os.path.basename(old_path)}")
 
     # Scope: beperk de oude rijen tot de bibliotheken/waarden die ook in de
-    # nieuwe versie voorkomen (voor de grote gedeelde symbolen-CSV).
+    # nieuwe versie voorkomen (voor de grote gedeelde symbolen-/lijntypes-CSV).
+    # Heeft de nieuwe versie ook rijen met een LEGE scope-waarde (bijv. generieke
+    # lijntypes als CONTINUOUS zonder hoofdgroep), dan tellen de oude lege-scope-
+    # rijen ook mee, zodat die matchen i.p.v. onterecht 'nieuw' te lijken.
     if scope_col and scope_col in nidx and scope_col in oidx:
         allowed = {r[nidx[scope_col]].strip() for r in new_rows
                    if r[nidx[scope_col]].strip()}
+        allow_empty = any(not r[nidx[scope_col]].strip() for r in new_rows)
         old_rows = [r for r in old_rows
-                    if r[oidx[scope_col]].strip() in allowed]
+                    if r[oidx[scope_col]].strip() in allowed
+                    or (allow_empty and not r[oidx[scope_col]].strip())]
 
     # Oude rijen op id (eerste voorkomen wint).
     old_by_id: dict[str, list[str]] = {}

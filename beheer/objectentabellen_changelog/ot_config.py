@@ -5,8 +5,8 @@ Slaat de keuzes op in config.json naast het programma (of naast de .exe als
 het gebundeld is).
 
 De versienamen (nieuw/oud) en 'openen na genereren' zijn gedeeld; de mappen,
-de aangevinkte codes en de uitvoermap worden per tabblad ('obj', 'sym')
-onthouden.
+de aangevinkte codes en de uitvoermap worden per tabblad ('obj', 'sym',
+'lijn', 'arc') onthouden.
 """
 
 import copy
@@ -24,7 +24,7 @@ def _tab() -> dict:
             "symbols_dir": "", "symbols_old_dir": "", "objecten_dir": ""}
 
 
-TAB_KEYS = ("obj", "sym")
+TAB_KEYS = ("obj", "sym", "lijn", "arc")
 
 DEFAULTS = {
     "version_new": "",     # naam van de nieuwe versie (bijv. "5.2") - gedeeld
