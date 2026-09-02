@@ -51,6 +51,16 @@ def show_names_indices(headers: list[str], names) -> list[int]:
     return [i for i, h in enumerate(headers) if h in wanted]
 
 
+def show_names_ordered(headers: list[str], names) -> list[int]:
+    """De kolomindices van de opgegeven kolomnamen, in de VOLGORDE van `names`
+    (dus niet de CSV-volgorde). Namen die niet bestaan worden overgeslagen.
+
+    Zo kun je de weergave-volgorde sturen, bijv. de symboolnaam vooraan en de
+    URI-kolom achteraan."""
+    idx = {h: i for i, h in enumerate(headers)}
+    return [idx[n] for n in names if n in idx]
+
+
 def _visible_indices(headers: list[str]) -> list[int]:
     """Standaard (objectentabellen): het blok HIDE_FROM..HIDE_TO weg."""
     return hide_range_indices(headers, HIDE_FROM, HIDE_TO)
@@ -591,7 +601,149 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
 
 
 # ---------------------------------------------------------------------------
-# 4. Wees-.dwg's: bestanden zonder een regel in de symbolentabel
+# 4. Zoekfilter-overzicht: hiërarchie van zoekfilters met de bijbehorende
+#    symbolen / arceringen bij de meest gedetailleerde zoekfilter
+# ---------------------------------------------------------------------------
+_ZF_STYLE = """
+    .zf-section { background:#fff; border:1px solid var(--dg-grey);
+                  border-top:5px solid var(--dg-yellow); border-radius:6px;
+                  padding:14px 18px 18px; margin:0 0 22px;
+                  box-shadow:0 1px 3px rgba(0,0,0,.06); }
+    .zf-section.arc { border-top-color: var(--dg-blue); }
+    .zf-section h2 { margin:0 0 2px; font-size:1.2rem; }
+    .zf-section .zf-sub { color:var(--dg-grey2); font-size:.85rem; margin:0 0 12px; }
+    .zf-section .zf-leeg { color:var(--dg-grey2); font-style:italic; }
+
+    ul.zf-tree, ul.zf-children { list-style:none; margin:0; padding:0; }
+    ul.zf-children { margin-left:16px; padding-left:14px;
+                     border-left:2px solid var(--dg-grey); }
+    ul.zf-tree > li { margin:6px 0; }
+    ul.zf-children > li { margin:5px 0; }
+
+    .zf-node { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .zf-term { font-family: Consolas, "Courier New", monospace; font-weight:600;
+               color:var(--dg-ink); }
+    .zf-count { font-size:.72rem; font-weight:700; color:#fff;
+                background:var(--dg-green); border-radius:10px; padding:1px 8px; }
+    .zf-section.arc .zf-count { background:var(--dg-blue); }
+    .zf-node.leeg .zf-term { color:var(--dg-grey2); font-weight:600; }
+
+    ul.zf-items { list-style:none; margin:4px 0 8px; padding:0;
+                  display:flex; flex-wrap:wrap; gap:6px; }
+    ul.zf-items li { font-size:.82rem; background:#f4f8f2; color:var(--dg-ink);
+                     border:1px solid var(--dg-grey); border-radius:4px;
+                     padding:2px 8px; font-family: Consolas, "Courier New", monospace; }
+    .zf-section.arc ul.zf-items li { background:#eef7fc; }
+
+    .zf-unmatched { margin-top:14px; padding-top:10px;
+                    border-top:1px dashed var(--dg-grey); }
+    .zf-unmatched .zf-sub { margin:0 0 6px; }
+"""
+
+
+def _zf_counts(roots) -> tuple[int, int]:
+    """(#termen, #items) in een zoekfilter-boom."""
+    n_terms = 0
+    n_items = 0
+    stack = list(roots)
+    while stack:
+        n = stack.pop()
+        n_terms += 1
+        n_items += len(n["items"])
+        stack.extend(n["children"])
+    return n_terms, n_items
+
+
+def _zf_node_html(node: dict) -> str:
+    items = node["items"]
+    kids = node["children"]
+    cls = "zf-node" + ("" if items else " leeg")
+    parts = [f'<li><div class="{cls}"><span class="zf-term">{_esc(node["term"])}</span>']
+    if items:
+        parts.append(f'<span class="zf-count">{len(items)}</span>')
+    parts.append("</div>")
+    if items:
+        parts.append('<ul class="zf-items">'
+                     + "".join(f"<li>{_esc(it)}</li>" for it in items)
+                     + "</ul>")
+    if kids:
+        parts.append('<ul class="zf-children">'
+                     + "".join(_zf_node_html(k) for k in kids)
+                     + "</ul>")
+    parts.append("</li>")
+    return "".join(parts)
+
+
+def _zf_section_html(section: dict) -> str:
+    """Eén sectie (symbolen of arceringen). section:
+      name       : koptekst (bijv. 'Symbolen')
+      filter_lbl : naam van de zoekfilter-kolom ('sobject'/'aobject')
+      item_lbl   : meervoud van het item ('symbolen'/'arceringen')
+      roots      : boom (ot_compare.build_zoekfilter_tree)
+      unmatched  : items zonder zoekfilter
+      show_unmatched : toon het 'zonder zoekfilter'-blok (standaard True). Zet op
+                   False als de itemlijst niet groep-specifiek is (arceringen komen
+                   uit de gedeelde bibliotheek, dus 'unmatched' hoort meestal bij
+                   een andere hoofdgroep en is geen wees).
+      css        : extra class op de sectie ('' of 'arc')"""
+    roots = section.get("roots") or []
+    unmatched = (section.get("unmatched") or []
+                 if section.get("show_unmatched", True) else [])
+    n_terms, n_items = _zf_counts(roots)
+    css = section.get("css", "")
+    sub = (f"{n_terms} zoekfilter(s) ({_esc(section['filter_lbl'])}) &middot; "
+           f"{n_items} gekoppelde {_esc(section['item_lbl'])}"
+           + (f" &middot; {len(unmatched)} zonder zoekfilter"
+              if unmatched else ""))
+
+    parts = [f'<section class="zf-section{(" " + css) if css else ""}">',
+             f"<h2>{_esc(section['name'])}</h2>",
+             f'<p class="zf-sub">{sub}</p>']
+    if roots:
+        parts.append('<ul class="zf-tree">'
+                     + "".join(_zf_node_html(n) for n in roots)
+                     + "</ul>")
+    else:
+        parts.append(f'<p class="zf-leeg">Geen zoekfilters '
+                     f'({_esc(section["filter_lbl"])}) in de objectentabel.</p>')
+    if unmatched:
+        parts.append('<div class="zf-unmatched">'
+                     f'<p class="zf-sub">{_esc(section["item_lbl"]).capitalize()} '
+                     f'zonder passende zoekfilter ({len(unmatched)}):</p>'
+                     '<ul class="zf-items">'
+                     + "".join(f"<li>{_esc(it)}</li>" for it in unmatched)
+                     + "</ul></div>")
+    parts.append("</section>")
+    return "\n".join(parts)
+
+
+def build_zoekfilter_html(title: str, sections, version_new: str = "",
+                          subtitle: str = "") -> str:
+    """Zoekfilter-overzicht voor één hoofdgroep: per soort (symbolen, arceringen)
+    een hiërarchie van zoekfilters, met bij de meest gedetailleerde zoekfilter de
+    bijbehorende symbool- of arceringnamen.
+
+    sections : lijst dicts (zie `_zf_section_html`); secties zonder zoekfilters
+               worden door de aanroeper meestal al weggelaten."""
+    info = (subtitle or "").strip()
+    if version_new:
+        info += (" &middot; " if info else "") + f"versie {_esc(version_new)}"
+
+    body = ("\n".join(_zf_section_html(s) for s in sections) if sections
+            else '<p class="info">Geen zoekfilters gevonden voor deze hoofdgroep.</p>')
+
+    return (
+        _shell_head(title, extra_style=_ZF_STYLE, cdn=False)
+        + '<div class="wrap">\n'
+        + (f'<p class="info">{info}</p>\n' if info else "")
+        + body + "\n"
+        + "</div>\n"
+        + _FOOTER
+    )
+
+
+# ---------------------------------------------------------------------------
+# 5. Wees-.dwg's: bestanden zonder een regel in de symbolentabel
 # ---------------------------------------------------------------------------
 _ORPHAN_STYLE = """
     table.otab tbody td { white-space: normal; }

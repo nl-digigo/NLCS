@@ -226,12 +226,21 @@ def nice_index_label(filename: str, group_code: str = "") -> str:
 
     'changelog-lijntypes-5-2-AM.html' -> 'Changelog lijntypes' (in de AM-kaart).
     Weggelaten: het 'NLCS_'-voorvoegsel, versienummers (5, 2, 5.2), het woordje
-    'vs' en de groepscode zelf (de kaart toont die al). Bibliotheek-varianten als
-    'SAL'/'ACO' blijven staan omdat ze extra informatie geven."""
+    'vs', de groepscode zelf en de bibliotheek-varianten daarvan (de kaart toont
+    de hoofdgroep al): de code 'AL' én 'SAL'/'ACO' e.d. (de code met één
+    bibliotheek-letter ervoor) worden allemaal weggelaten."""
     stem = os.path.splitext(filename)[0]
     if stem.lower().startswith("nlcs_"):
         stem = stem[5:]
     code = (group_code or "").strip().upper()
+
+    def _is_code(tok: str) -> bool:
+        # De hoofdgroepcode zelf (AL) of een bibliotheek-variant: de code met één
+        # letter ervoor (SAL, ACO, SBC). Alleen op hoofdletter-tokens.
+        tu = tok.upper()
+        return bool(code) and (tu == code
+                               or (len(tu) == len(code) + 1 and tu.endswith(code)))
+
     out = []
     for t in re.split(r"[-_ ]+", stem):
         if not t:
@@ -240,7 +249,7 @@ def nice_index_label(filename: str, group_code: str = "") -> str:
             continue
         if t.lower() == "vs":
             continue
-        if code and t.upper() == code:        # redundante groepscode -> weg
+        if _is_code(t):                        # groepscode + bib-variant -> weg
             continue
         out.append(t)
     label = " ".join(out).strip()
@@ -413,6 +422,99 @@ def zoekfilter_map(names, terms) -> dict:
                 out[key] = t
                 break
     return out
+
+
+def collect_column_values_list(folder: str, column: str) -> list:
+    """Distinct, niet-lege waarden van kolom `column` uit ALLE CSV's in `folder`,
+    in oorspronkelijke schrijfwijze en op volgorde van eerste voorkomen (over de
+    bestanden heen, alfabetisch op bestandsnaam). Anders dan
+    `collect_column_values` (set, kleine letters) blijft de schrijfwijze behouden;
+    nodig om bijv. alle arceringnamen te tonen. Lege map -> lege lijst."""
+    out: list = []
+    seen: set = set()
+    if not folder or not os.path.isdir(folder):
+        return out
+    for path in sorted(glob.glob(os.path.join(folder, "*.csv"))):
+        for v in column_values(path, column):
+            key = v.lower()
+            if key not in seen:
+                seen.add(key)
+                out.append(v)
+    return out
+
+
+def build_zoekfilter_tree(terms, items) -> tuple[list, list]:
+    """Bouw een hiërarchische boom van zoekfilter-termen en hang elk item (symbool-
+    of arceringnaam) onder de MEEST GEDETAILLEERDE (langste) term die een
+    voorvoegsel van de naam is.
+
+    Parameters:
+      terms : zoekfilter-termen (de `sobject`- of `aobject`-kolom uit de
+              objectentabel, bijv. 'SAM-AS', 'SAM-AS_GENERIEK').
+      items : namen om onder de termen te hangen (de `symbool`- of `arcering`-
+              kolom, bijv. 'SAM-AS_GENERIEK-D').
+
+    De ouder van een term is de langste ANDERE term die er een echt voorvoegsel
+    van is (SAM-AS is ouder van SAM-AS_GENERIEK). Elk item komt via de langste
+    voorvoegsel-match (zie `zoekfilter_map`) bij precies één term terecht; een
+    kortere (minder gedetailleerde) term draagt dat item dus niet. Een term kan
+    ook items dragen én kinderen hebben (items die geen diepere term matchen).
+
+    Geeft (roots, unmatched):
+      roots     : lijst node-dicts {'term', 'items': [namen], 'children': [nodes]}
+                  (items + children alfabetisch; roots alfabetisch)
+      unmatched : items die bij geen enkele term passen (alfabetisch, ontdubbeld)"""
+    uniq: list = []
+    seen: set = set()
+    for t in terms:
+        s = (t or "").strip()
+        if s and s.lower() not in seen:
+            seen.add(s.lower())
+            uniq.append(s)
+
+    # Ouder = langste andere term die een echt voorvoegsel is.
+    parent: dict = {}
+    for t in uniq:
+        best = None
+        for p in uniq:
+            if p is t or p == t:
+                continue
+            if len(p) < len(t) and t.startswith(p):
+                if best is None or len(p) > len(best):
+                    best = p
+        parent[t] = best
+
+    # Items toewijzen aan hun langste voorvoegsel-term.
+    assign = zoekfilter_map(items, uniq)          # naam.lower() -> term
+    by_term: dict = {t: [] for t in uniq}
+    unmatched: list = []
+    for nm in items:
+        s = (nm or "").strip()
+        if not s:
+            continue
+        term = assign.get(s.lower(), "")
+        if term:
+            by_term.setdefault(term, []).append(s)
+        else:
+            unmatched.append(s)
+    for t in by_term:
+        by_term[t] = sorted(dict.fromkeys(by_term[t]), key=str.casefold)
+    unmatched = sorted(dict.fromkeys(unmatched), key=str.casefold)
+
+    nodes = {t: {"term": t, "items": by_term.get(t, []), "children": []}
+             for t in uniq}
+    roots: list = []
+    for t in uniq:
+        p = parent[t]
+        (roots if p is None else nodes[p]["children"]).append(nodes[t])
+
+    def _sort(nodelist: list) -> None:
+        nodelist.sort(key=lambda n: n["term"].casefold())
+        for n in nodelist:
+            _sort(n["children"])
+
+    _sort(roots)
+    return roots, unmatched
 
 
 def read_table(path: str) -> tuple[list[str], list[list[str]]]:

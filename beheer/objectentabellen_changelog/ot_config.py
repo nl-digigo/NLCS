@@ -33,12 +33,22 @@ def _index() -> dict:
             "output": ""}
 
 
+def _zf() -> dict:
+    # Instellingen van het zoekfilter-tabblad: de map met de objectentabellen
+    # (bevat de zoekfilters sobject/aobject), de map met de symbolentabellen en
+    # de map met de arceringentabellen (namen om onder de zoekfilters te hangen),
+    # de aangevinkte hoofdgroep-codes en de uitvoermap.
+    return {"objecten_dir": "", "symbols_dir": "", "arceringen_dir": "",
+            "codes": [], "output_dir": ""}
+
+
 DEFAULTS = {
     "version_new": "",     # naam van de nieuwe versie (bijv. "5.2") - gedeeld
     "version_old": "",     # naam van de vorige versie (bijv. "5.0") - gedeeld
     "open_after": True,    # eerste HTML openen na genereren - gedeeld
     "tabs": {key: _tab() for key in TAB_KEYS},
     "index": _index(),
+    "zoekfilter": _zf(),
 }
 
 
@@ -91,6 +101,12 @@ def load() -> dict:
         for kk in cfg["index"]:
             if kk in idx:
                 cfg["index"][kk] = idx[kk]
+
+    zf = saved.get("zoekfilter")
+    if isinstance(zf, dict):
+        for kk in cfg["zoekfilter"]:
+            if kk in zf:
+                cfg["zoekfilter"][kk] = zf[kk]
     return cfg
 
 
