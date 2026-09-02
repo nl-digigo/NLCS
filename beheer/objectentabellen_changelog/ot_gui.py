@@ -39,6 +39,8 @@ PROFILES = [
         "key": "obj",
         "label": "Objectentabellen",
         "match_key": "objectURI",
+        # gedeelde mappen (blok 'Locaties'): rol -> sleutel in app.loc
+        "locations": {"new": "obj_new", "old": "obj_old"},
         # verberg het blok status..streepje3
         "visible": lambda headers: ot_html.hide_range_indices(
             headers, "status", "streepje3"),
@@ -50,19 +52,27 @@ PROFILES = [
         "key": "sym",
         "label": "Symbolentabellen",
         "match_key": "symboolURI",
-        # toon alleen deze kolommen (in CSV-volgorde)
-        "visible": lambda headers: ot_html.show_names_indices(
-            headers, ["symboolURI", "sbibliotheek", "fase", "id",
-                      "symbool", "optie"]),
+        "locations": {"new": "sym_new", "old": "sym_old",
+                      "dwg_new": "dwg_new", "dwg_old": "dwg_old",
+                      "objecten": "obj_new"},
+        # toon deze kolommen; URI's achteraan (de zoekfilter/svg-kolommen komen
+        # vooraan als front_columns in de volledige tabel)
+        "visible": lambda headers: ot_html.show_names_ordered(
+            headers, ["sbibliotheek", "fase", "id", "symbool", "optie",
+                      "symboolURI"]),
         # vrij zoekveld voor URI's, symbool en id; rest (sbibliotheek, fase,
         # optie) = keuzelijst
         "text_search": lambda h: "uri" in h.lower() or h in ("symbool", "id"),
         # symbolen: extra map met de nieuwe .dwg's + svg/.dwg-kolommen in de changelog
         "needs_symbol_files": True,
         "symbol_name_col": "symbool",
-        # zoekfilter-kolom: welke sobject-term uit de objectentabel het symbool vindt
+        # zoekfilter-kolom (vooraan in de volledige tabel): welke sobject-term uit
+        # de objectentabel het symbool vindt; svg-kolom erbij.
         "needs_objecten": True,
         "objecten_col": "sobject",
+        "zoekfilter_name_col": "symbool",
+        "zoekfilter_scope": "per_code",
+        "front_svg": True,
         # oude versie = één grote CSV; scope per bibliotheek zodat 'vervallen'
         # beperkt blijft tot dezelfde hoofdgroep
         "old_is_file": True,
@@ -74,6 +84,7 @@ PROFILES = [
         "key": "lijn",
         "label": "Lijntypes",
         "match_key": "lijntypeURI",
+        "locations": {"new": "lijn_new", "old": "lijn_old"},
         # toon de informatieve kolommen (in CSV-volgorde); id + finalCleanName weg
         "visible": lambda headers: ot_html.show_names_indices(
             headers, ["lijntypeURI", "hoofdgroep", "omschrijving", "fase",
@@ -102,6 +113,8 @@ PROFILES = [
         "key": "arc",
         "label": "Arceringen",
         "match_key": "arceringURI",
+        "locations": {"new": "arc_new", "old": "arc_old",
+                      "objecten": "obj_new"},
         # toon de informatieve kolommen (in CSV-volgorde); searchterm,
         # abibliotheekURI en finalCleanName weglaten
         "visible": lambda headers: ot_html.show_names_indices(
@@ -111,6 +124,14 @@ PROFILES = [
         # rest (abibliotheek, fase, optie, schaal) = keuzelijst
         "text_search": lambda h: h in ("arcering", "vrkl_kort", "vrkl_lang",
                                        "id", "fileURL") or "uri" in h.lower(),
+        # zoekfilter-kolom (vooraan in de volledige tabel): welke aobject-term uit
+        # de objectentabellen de arcering vindt. Arceringen zijn één gedeelde groep,
+        # dus de termen komen uit ALLE objectentabellen samen.
+        "needs_objecten": True,
+        "objecten_col": "aobject",
+        "zoekfilter_name_col": "arcering",
+        "zoekfilter_scope": "all",
+        "front_svg": False,
         # oude versie = één grote CSV met alle arceringen; scope op abibliotheek
         # zodat 'vervallen' beperkt blijft tot de vergeleken groep
         "old_is_file": True,
@@ -263,6 +284,42 @@ def _symbol_extra_columns(result: dict, name_col: str, dwg_stems: set,
         "deleted_cells": [_svg_cell(naam_of_del(d)) for d in deleted],
         "td_class": "svgcell",
     })
+    return cols
+
+
+def _front_columns(result: dict, name_col: str, zoekfilters: dict,
+                   objecten_col: str, want_svg: bool) -> list:
+    """Kolommen die VOORAAN in de volledige (basis-)tabel komen:
+      1. 'zoekfilter (<objecten_col>)' : de sobject/aobject-term waarmee het
+         symbool/de arcering gevonden wordt (langste voorvoegsel-match). Keuzelijst.
+      2. 'svg' (alleen `want_svg`)      : de svg als klikbare afbeelding.
+    De eerste kolom (zoekfilter) is sorteerbaar zodat DataTables' standaardsortering
+    (kolom 0) blijft werken; de svg-kolom is niet sorteerbaar."""
+    headers = result["headers"]
+    if name_col not in headers:
+        return []
+    ni = headers.index(name_col)
+
+    def naam(row):
+        return (row["cells"][ni]["value"] or "").strip()
+
+    rows = result["rows"]
+    cols = []
+    if zoekfilters is not None:
+        cols.append({
+            "header": f"zoekfilter ({objecten_col})",
+            "cells": [_zoekfilter_cell(naam(r), zoekfilters) for r in rows],
+            "filter": "select",
+            "filter_values": [zoekfilters.get(naam(r).lower(), "") for r in rows],
+        })
+    if want_svg:
+        cols.append({
+            "header": "svg",
+            "cells": [_svg_cell(naam(r)) for r in rows],
+            "orderable": False,
+            "td_class": "svgcell",
+            "filter": "none",
+        })
     return cols
 
 

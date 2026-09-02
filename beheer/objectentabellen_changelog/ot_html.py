@@ -168,11 +168,13 @@ _FULL_STYLE = """
     thead tr.filters select { width: 100%; box-sizing: border-box; padding: 2px;
                     font-size: 0.8em; font-weight: normal; }
     thead tr.filters select { cursor: pointer; }
-    /* Extra symbolen-kolommen */
+    /* Extra kolommen (zoekfilter / svg / .dwg) */
     td.svgcell { text-align: center; }
     td.svgcell img { max-height: 46px; max-width: 90px; vertical-align: middle; }
     span.dwg-ja { color: var(--dg-green); font-weight: bold; }
     span.dwg-nee { color: var(--dg-red); font-weight: bold; }
+    span.zf-term { font-family: Consolas, "Courier New", monospace; }
+    span.zf-geen { color: var(--dg-grey2); font-style: italic; }
     .dataTables_wrapper .dataTables_paginate .paginate_button.current,
     .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
         background: var(--dg-yellow) !important; border-color: var(--dg-yellow) !important;
@@ -267,13 +269,13 @@ def _extra_filter_cell(col: dict) -> str:
 
 def build_full_html(result: dict, title: str, version_new: str = "",
                     visible_indices=None, text_columns=None,
-                    extra_columns=None) -> str:
+                    extra_columns=None, front_columns=None) -> str:
     """Volledige nieuwe tabel als sorteerbare/filterbare DataTables-pagina.
 
     text_columns  : kolomnamen die een vrij zoekveld krijgen; alle andere
                     zichtbare kolommen krijgen een keuzelijst. None -> standaard
                     (_default_is_text: omschrijving, laagnaam en URI-kolommen).
-    extra_columns : optionele extra kolommen achteraan (bijv. symbolen: '.dwg
+    extra_columns : optionele extra kolommen ACHTERAAN (bijv. symbolen: '.dwg
                     aanwezig' + 'svg'). Elk een dict met:
                       header        : koptekst
                       cells         : lijst rauwe-HTML-cellen (op volgorde van
@@ -281,9 +283,12 @@ def build_full_html(result: dict, title: str, version_new: str = "",
                       filter        : 'none' | 'select' | 'text'
                       filter_values : lijst platte waarden per rij (voor 'select')
                       orderable     : bool (svg-kolom = False)
-                      td_class      : optionele class op de <td>"""
+                      td_class      : optionele class op de <td>
+    front_columns : idem, maar VOORAAN (bijv. symbolen: 'zoekfilter' + 'svg').
+                    De eerste front-kolom moet sorteerbaar zijn (order [[0]])."""
     headers = result["headers"]
     rows = result["rows"]
+    front = front_columns or []
     extra = extra_columns or []
     vis = _visible_indices(headers) if visible_indices is None else visible_indices
 
@@ -292,28 +297,36 @@ def build_full_html(result: dict, title: str, version_new: str = "",
     else:
         text_set = set(text_columns)
 
-    head_cells = "".join(f"<th>{_esc(headers[i])}</th>" for i in vis)
+    # Volgorde overal gelijk: front -> zichtbaar -> extra (de filter-JS koppelt op
+    # de DOM-index van de <th>).
+    head_cells = "".join(f"<th>{_esc(col['header'])}</th>" for col in front)
+    head_cells += "".join(f"<th>{_esc(headers[i])}</th>" for i in vis)
     head_cells += "".join(f"<th>{_esc(col['header'])}</th>" for col in extra)
-    filter_cells = "".join(
+    filter_cells = "".join(_extra_filter_cell(col) for col in front)
+    filter_cells += "".join(
         _filter_cell(i, headers[i], headers[i] in text_set, rows) for i in vis)
     filter_cells += "".join(_extra_filter_cell(col) for col in extra)
 
+    def _cell_td(col, ri):
+        cls = col.get("td_class")
+        cell = col["cells"][ri] if ri < len(col["cells"]) else ""
+        return f'<td class="{cls}">{cell}</td>' if cls else f"<td>{cell}</td>"
+
     body = []
     for ri, row in enumerate(rows):
-        tds = "".join(f"<td>{_esc(row['cells'][i]['value'])}</td>" for i in vis)
-        for col in extra:
-            cls = col.get("td_class")
-            cell = col["cells"][ri] if ri < len(col["cells"]) else ""
-            tds += (f'<td class="{cls}">{cell}</td>' if cls else f"<td>{cell}</td>")
+        tds = "".join(_cell_td(col, ri) for col in front)
+        tds += "".join(f"<td>{_esc(row['cells'][i]['value'])}</td>" for i in vis)
+        tds += "".join(_cell_td(col, ri) for col in extra)
         body.append(f"<tr>{tds}</tr>")
 
-    # svg-achtige kolommen niet sorteerbaar maken
-    no_sort = [len(vis) + j for j, col in enumerate(extra)
-               if not col.get("orderable", True)]
+    # svg-achtige kolommen niet sorteerbaar maken (front vooraan, extra achteraan)
+    no_sort = [j for j, col in enumerate(front) if not col.get("orderable", True)]
+    no_sort += [len(front) + len(vis) + j for j, col in enumerate(extra)
+                if not col.get("orderable", True)]
 
     n_text = sum(1 for i in vis if headers[i] in text_set)
     info = (f"{len(rows)} rijen &middot; {len(vis)} van {len(headers)} kolommen"
-            + (f" + {len(extra)} extra" if extra else "")
+            + (f" + {len(front) + len(extra)} extra" if (front or extra) else "")
             + (f" &middot; versie {_esc(version_new)}" if version_new else "")
             + f" &middot; {n_text} kolommen met vrij zoekveld, de rest met keuzelijst")
 
@@ -601,149 +614,7 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
 
 
 # ---------------------------------------------------------------------------
-# 4. Zoekfilter-overzicht: hiërarchie van zoekfilters met de bijbehorende
-#    symbolen / arceringen bij de meest gedetailleerde zoekfilter
-# ---------------------------------------------------------------------------
-_ZF_STYLE = """
-    .zf-section { background:#fff; border:1px solid var(--dg-grey);
-                  border-top:5px solid var(--dg-yellow); border-radius:6px;
-                  padding:14px 18px 18px; margin:0 0 22px;
-                  box-shadow:0 1px 3px rgba(0,0,0,.06); }
-    .zf-section.arc { border-top-color: var(--dg-blue); }
-    .zf-section h2 { margin:0 0 2px; font-size:1.2rem; }
-    .zf-section .zf-sub { color:var(--dg-grey2); font-size:.85rem; margin:0 0 12px; }
-    .zf-section .zf-leeg { color:var(--dg-grey2); font-style:italic; }
-
-    ul.zf-tree, ul.zf-children { list-style:none; margin:0; padding:0; }
-    ul.zf-children { margin-left:16px; padding-left:14px;
-                     border-left:2px solid var(--dg-grey); }
-    ul.zf-tree > li { margin:6px 0; }
-    ul.zf-children > li { margin:5px 0; }
-
-    .zf-node { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-    .zf-term { font-family: Consolas, "Courier New", monospace; font-weight:600;
-               color:var(--dg-ink); }
-    .zf-count { font-size:.72rem; font-weight:700; color:#fff;
-                background:var(--dg-green); border-radius:10px; padding:1px 8px; }
-    .zf-section.arc .zf-count { background:var(--dg-blue); }
-    .zf-node.leeg .zf-term { color:var(--dg-grey2); font-weight:600; }
-
-    ul.zf-items { list-style:none; margin:4px 0 8px; padding:0;
-                  display:flex; flex-wrap:wrap; gap:6px; }
-    ul.zf-items li { font-size:.82rem; background:#f4f8f2; color:var(--dg-ink);
-                     border:1px solid var(--dg-grey); border-radius:4px;
-                     padding:2px 8px; font-family: Consolas, "Courier New", monospace; }
-    .zf-section.arc ul.zf-items li { background:#eef7fc; }
-
-    .zf-unmatched { margin-top:14px; padding-top:10px;
-                    border-top:1px dashed var(--dg-grey); }
-    .zf-unmatched .zf-sub { margin:0 0 6px; }
-"""
-
-
-def _zf_counts(roots) -> tuple[int, int]:
-    """(#termen, #items) in een zoekfilter-boom."""
-    n_terms = 0
-    n_items = 0
-    stack = list(roots)
-    while stack:
-        n = stack.pop()
-        n_terms += 1
-        n_items += len(n["items"])
-        stack.extend(n["children"])
-    return n_terms, n_items
-
-
-def _zf_node_html(node: dict) -> str:
-    items = node["items"]
-    kids = node["children"]
-    cls = "zf-node" + ("" if items else " leeg")
-    parts = [f'<li><div class="{cls}"><span class="zf-term">{_esc(node["term"])}</span>']
-    if items:
-        parts.append(f'<span class="zf-count">{len(items)}</span>')
-    parts.append("</div>")
-    if items:
-        parts.append('<ul class="zf-items">'
-                     + "".join(f"<li>{_esc(it)}</li>" for it in items)
-                     + "</ul>")
-    if kids:
-        parts.append('<ul class="zf-children">'
-                     + "".join(_zf_node_html(k) for k in kids)
-                     + "</ul>")
-    parts.append("</li>")
-    return "".join(parts)
-
-
-def _zf_section_html(section: dict) -> str:
-    """Eén sectie (symbolen of arceringen). section:
-      name       : koptekst (bijv. 'Symbolen')
-      filter_lbl : naam van de zoekfilter-kolom ('sobject'/'aobject')
-      item_lbl   : meervoud van het item ('symbolen'/'arceringen')
-      roots      : boom (ot_compare.build_zoekfilter_tree)
-      unmatched  : items zonder zoekfilter
-      show_unmatched : toon het 'zonder zoekfilter'-blok (standaard True). Zet op
-                   False als de itemlijst niet groep-specifiek is (arceringen komen
-                   uit de gedeelde bibliotheek, dus 'unmatched' hoort meestal bij
-                   een andere hoofdgroep en is geen wees).
-      css        : extra class op de sectie ('' of 'arc')"""
-    roots = section.get("roots") or []
-    unmatched = (section.get("unmatched") or []
-                 if section.get("show_unmatched", True) else [])
-    n_terms, n_items = _zf_counts(roots)
-    css = section.get("css", "")
-    sub = (f"{n_terms} zoekfilter(s) ({_esc(section['filter_lbl'])}) &middot; "
-           f"{n_items} gekoppelde {_esc(section['item_lbl'])}"
-           + (f" &middot; {len(unmatched)} zonder zoekfilter"
-              if unmatched else ""))
-
-    parts = [f'<section class="zf-section{(" " + css) if css else ""}">',
-             f"<h2>{_esc(section['name'])}</h2>",
-             f'<p class="zf-sub">{sub}</p>']
-    if roots:
-        parts.append('<ul class="zf-tree">'
-                     + "".join(_zf_node_html(n) for n in roots)
-                     + "</ul>")
-    else:
-        parts.append(f'<p class="zf-leeg">Geen zoekfilters '
-                     f'({_esc(section["filter_lbl"])}) in de objectentabel.</p>')
-    if unmatched:
-        parts.append('<div class="zf-unmatched">'
-                     f'<p class="zf-sub">{_esc(section["item_lbl"]).capitalize()} '
-                     f'zonder passende zoekfilter ({len(unmatched)}):</p>'
-                     '<ul class="zf-items">'
-                     + "".join(f"<li>{_esc(it)}</li>" for it in unmatched)
-                     + "</ul></div>")
-    parts.append("</section>")
-    return "\n".join(parts)
-
-
-def build_zoekfilter_html(title: str, sections, version_new: str = "",
-                          subtitle: str = "") -> str:
-    """Zoekfilter-overzicht voor één hoofdgroep: per soort (symbolen, arceringen)
-    een hiërarchie van zoekfilters, met bij de meest gedetailleerde zoekfilter de
-    bijbehorende symbool- of arceringnamen.
-
-    sections : lijst dicts (zie `_zf_section_html`); secties zonder zoekfilters
-               worden door de aanroeper meestal al weggelaten."""
-    info = (subtitle or "").strip()
-    if version_new:
-        info += (" &middot; " if info else "") + f"versie {_esc(version_new)}"
-
-    body = ("\n".join(_zf_section_html(s) for s in sections) if sections
-            else '<p class="info">Geen zoekfilters gevonden voor deze hoofdgroep.</p>')
-
-    return (
-        _shell_head(title, extra_style=_ZF_STYLE, cdn=False)
-        + '<div class="wrap">\n'
-        + (f'<p class="info">{info}</p>\n' if info else "")
-        + body + "\n"
-        + "</div>\n"
-        + _FOOTER
-    )
-
-
-# ---------------------------------------------------------------------------
-# 5. Wees-.dwg's: bestanden zonder een regel in de symbolentabel
+# 4. Wees-.dwg's: bestanden zonder een regel in de symbolentabel
 # ---------------------------------------------------------------------------
 _ORPHAN_STYLE = """
     table.otab tbody td { white-space: normal; }
