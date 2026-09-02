@@ -21,6 +21,7 @@ import csv
 import glob
 import hashlib
 import os
+import re
 
 KEY = "objectURI"          # kolom waarop rijen gematcht worden (stabiele unieke URI;
                            # id_nummer is in oudere versies leeg)
@@ -178,6 +179,129 @@ def find_csv_by_code(folder: str, code: str) -> str:
         if hoofdgroep_code(path) == code:
             return path
     return ""
+
+
+# ---------------------------------------------------------------------------
+# Publicatie-overzicht ("kaart"): gepubliceerde HTML's per hoofdgroep vinden
+# ---------------------------------------------------------------------------
+def version_variants(version: str) -> set:
+    """Alle schrijfwijzen van een versie die in bestandsnamen voorkomen.
+
+    De versie staat soms met punt ('objecten-concept-5.2-AL.html') en soms met
+    koppelteken ('changelog-lijntypes-5-2-AM.html'). Geef daarom beide vormen
+    terug: '5.2' -> {'5.2', '5-2'}. Lege invoer -> lege set."""
+    v = (version or "").strip()
+    if not v:
+        return set()
+    return {v, v.replace(".", "-"), v.replace("-", ".")}
+
+
+def docs_root_of(folder: str) -> str:
+    """De 'docs'-map boven `folder`, waarvan de online-URL de basis is.
+
+    De site wordt vanaf de docs-map gepubliceerd, dus het online sub-pad van een
+    bestand is zijn pad t.o.v. deze map. Zoekt omhoog naar een map met de naam
+    'docs'; valt terug op de oudermap van `folder` als die niet bestaat."""
+    cur = os.path.abspath(folder)
+    while True:
+        if os.path.basename(cur).lower() == "docs":
+            return cur
+        parent = os.path.dirname(cur)
+        if parent == cur:
+            break
+        cur = parent
+    return os.path.dirname(os.path.abspath(folder))
+
+
+def index_kind(filename: str) -> str:
+    """'changelog' voor changelog-/vergelijkingspagina's, anders 'tabel'."""
+    low = filename.lower()
+    if low.startswith("changelog") or "vergelijking" in low:
+        return "changelog"
+    return "tabel"
+
+
+def nice_index_label(filename: str, group_code: str = "") -> str:
+    """Leesbaar knop-label uit een bestandsnaam.
+
+    'changelog-lijntypes-5-2-AM.html' -> 'Changelog lijntypes' (in de AM-kaart).
+    Weggelaten: het 'NLCS_'-voorvoegsel, versienummers (5, 2, 5.2), het woordje
+    'vs' en de groepscode zelf (de kaart toont die al). Bibliotheek-varianten als
+    'SAL'/'ACO' blijven staan omdat ze extra informatie geven."""
+    stem = os.path.splitext(filename)[0]
+    if stem.lower().startswith("nlcs_"):
+        stem = stem[5:]
+    code = (group_code or "").strip().upper()
+    out = []
+    for t in re.split(r"[-_ ]+", stem):
+        if not t:
+            continue
+        if re.fullmatch(r"\d+(\.\d+)?", t):   # 5, 2, 5.2, 5.0 -> weg
+            continue
+        if t.lower() == "vs":
+            continue
+        if code and t.upper() == code:        # redundante groepscode -> weg
+            continue
+        out.append(t)
+    label = " ".join(out).strip()
+    if label:
+        label = label[0].upper() + label[1:]
+    return label or os.path.splitext(filename)[0]
+
+
+def scan_publication(root: str, version: str) -> dict:
+    """Doorzoek `root` (bijv. docs/changelog) recursief naar HTML-bestanden
+    waarvan de bestandsnaam een versie-variant bevat (zowel '5.2' als '5-2').
+
+    Groepeer op de eerste submap onder `root` (de hoofdgroep-code, bijv. 'AM');
+    bestanden direct in `root` komen in de algemene groep ('voor alle
+    hoofdgroepen'). Geeft:
+      {"groups": [(code, [entry, ...]), ...],   # gesorteerd op code
+       "general": [entry, ...],
+       "docs_root": <pad>, "count": <int>}
+    entry = {"filename", "subpath", "kind", "label"} waarbij subpath het pad is
+    t.o.v. de docs-map (posix, voor de online-URL). Per groep staan de tabellen
+    vooraan, dan de changelogs, elk alfabetisch op label."""
+    variants = version_variants(version)
+    docs_root = docs_root_of(root)
+    groups: dict = {}
+    general: list = []
+    count = 0
+    if variants and os.path.isdir(root):
+        for dirpath, _dirs, files in os.walk(root):
+            for name in sorted(files):
+                if not name.lower().endswith((".html", ".htm")):
+                    continue
+                if not any(v in name for v in variants):
+                    continue
+                full = os.path.join(dirpath, name)
+                rel_parts = os.path.relpath(full, root).replace("\\", "/").split("/")
+                entry = {
+                    "filename": name,
+                    "subpath": os.path.relpath(full, docs_root).replace("\\", "/"),
+                    "kind": index_kind(name),
+                }
+                if len(rel_parts) == 1:
+                    entry["label"] = nice_index_label(name, "")
+                    general.append(entry)
+                else:
+                    code = rel_parts[0].strip().upper()
+                    entry["label"] = nice_index_label(name, code)
+                    groups.setdefault(code, []).append(entry)
+                count += 1
+
+    def _sortkey(e: dict) -> tuple:
+        return (0 if e["kind"] == "tabel" else 1, e["label"].casefold())
+
+    for lst in groups.values():
+        lst.sort(key=_sortkey)
+    general.sort(key=_sortkey)
+    return {
+        "groups": sorted(groups.items()),
+        "general": general,
+        "docs_root": docs_root,
+        "count": count,
+    }
 
 
 def sbib_to_code(sbib: str) -> str:
