@@ -260,10 +260,17 @@ class App(ttk.Frame):
         return states
 
     def _browse_output(self) -> None:
+        # Open de dialoog in de map van het huidige pad, zodat een eerder gekozen
+        # locatie (bijv. docs/changelog/releasenotes) meteen in beeld is.
+        current = self.output_var.get().strip()
+        initial_dir = os.path.dirname(current) if current else rn_config.base_dir()
+        if not os.path.isdir(initial_dir):
+            initial_dir = rn_config.base_dir()
         path = filedialog.asksaveasfilename(
             defaultextension=".html",
             filetypes=[("HTML", "*.html"), ("Alle bestanden", "*.*")],
-            initialfile=os.path.basename(self.output_var.get() or "releasenotes.html"))
+            initialdir=initial_dir,
+            initialfile=os.path.basename(current or "releasenotes.html"))
         if path:
             self.output_var.set(path)
 

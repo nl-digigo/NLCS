@@ -556,13 +556,16 @@ _INDEX_STYLE = """
     .card .section-lbl:first-of-type { margin-top:4px; }
     .card .empty { color:var(--dg-grey2); font-style:italic; font-size:.85rem; }
 
-    a.btn { display:block; text-decoration:none; color:var(--dg-ink);
+    .btn { display:block; text-decoration:none; color:var(--dg-ink);
             border:1px solid var(--dg-grey); border-left:4px solid var(--dg-grey2);
             border-radius:4px; padding:6px 9px; margin:4px 0; font-size:.86rem;
             background:#fbfbfb; transition:background .12s, border-color .12s; }
     a.btn:hover { background:#FFF8CC; }
     a.btn.tabel { border-left-color: var(--dg-green); }
     a.btn.changelog { border-left-color: var(--dg-blue); }
+    span.btn.nvt { color:var(--dg-grey2); background:#f4f4f4;
+            border-style:dashed; border-left-color:var(--dg-grey);
+            cursor:default; font-style:italic; }
 """
 
 
@@ -598,6 +601,16 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
         if changelogs:
             parts.append('<div class="section-lbl">Changelogs</div>')
             parts += [_btn(e) for e in changelogs]
+        # Per hoofdgroep (niet in het algemene blok): een knop-zonder-link
+        # "<categorie> nvt" tonen voor elke categorie waarvoor geen enkel
+        # bestand aanwezig is.
+        if not general:
+            fnames = " ".join(e.get("filename", "").lower() for e in entries)
+            ontbreekt = [woord for woord in ("symbolen", "lijntypes", "arceringen")
+                         if woord not in fnames]
+            if ontbreekt:
+                parts.append('<div class="section-lbl">Niet van toepassing</div>')
+                parts += [f'<span class="btn nvt">{w} nvt</span>' for w in ontbreekt]
         if not entries:
             parts.append('<p class="empty">geen bestanden</p>')
         parts.append("</div>")

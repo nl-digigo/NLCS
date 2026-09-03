@@ -108,6 +108,11 @@ PROFILES = [
             "values": {"CONTINUOUS", "V-CONTINUOUS-SO"},
             "columns": ["fase", "optie", "autocaddef"],
         },
+        # Verzamelbestand (CO): de generieke lijntypes (lege hoofdgroep) vallen
+        # bij het splitsen buiten de hoofdgroep-bestanden. Draai ze dan toch uit
+        # als eigen bestand onder de bestandscode (bijv. lijntypes-5-2-CO), en
+        # sla voor een uitdraai met alleen generieke lijntypes de changelog over.
+        "generic_fallback": True,
     },
     {
         "key": "arc",
@@ -192,6 +197,55 @@ def _zoekfilter_cell(naam: str, zoekfilters: dict) -> str:
     if not term:
         return '<span class="zf-geen">(geen)</span>'
     return f'<span class="zf-term">{html.escape(term)}</span>'
+
+
+def _leftover_generic(result: dict, scope_col: str):
+    """Deelresultaat met alleen de rijen zonder hoofdgroep (lege `scope_col`):
+    de generieke lijntypes CONTINUOUS/V-CONTINUOUS-SO uit een verzamelbestand die
+    bij het splitsen per hoofdgroep buiten de boot vallen. Geeft None als er geen
+    zulke rijen zijn."""
+    headers = result["headers"]
+    if scope_col not in headers:
+        return None
+    bi = headers.index(scope_col)
+
+    def empty_r(r):
+        return not (r["cells"][bi]["value"] or "").strip()
+
+    def empty_d(d):
+        return not ((d[bi] if bi < len(d) else "") or "").strip()
+
+    rows = [r for r in result["rows"] if empty_r(r)]
+    deleted = [d for d in result["deleted"] if empty_d(d)]
+    if not rows and not deleted:
+        return None
+    return {
+        "headers": headers,
+        "rows": rows,
+        "deleted": deleted,
+        "stats": {
+            "new": sum(1 for x in rows if x["status"] == "new"),
+            "changed": sum(1 for x in rows if x["status"] == "changed"),
+            "deleted": len(deleted),
+            "total_new": len(rows),
+        },
+    }
+
+
+def _is_generic_only(result: dict, scope_col: str) -> bool:
+    """True als geen enkele (gewone of vervallen) rij een hoofdgroep heeft: een
+    uitdraai met uitsluitend generieke lijntypes. Voor zo'n uitdraai is geen
+    changelog nodig."""
+    headers = result["headers"]
+    if scope_col not in headers or not (result["rows"] or result["deleted"]):
+        return False
+    bi = headers.index(scope_col)
+    if any((r["cells"][bi]["value"] or "").strip() for r in result["rows"]):
+        return False
+    if any(((d[bi] if bi < len(d) else "") or "").strip()
+           for d in result["deleted"]):
+        return False
+    return True
 
 
 def _base_for_code(stem: str, code: str) -> str:
@@ -552,6 +606,7 @@ class TableTab(ttk.Frame):
         scope_col = self.profile.get("scope_col", "")
         scope_strip_s = self.profile.get("scope_strip_s", True)
         blank_spec = self.profile.get("blank_spec")
+        generic_fallback = self.profile.get("generic_fallback", False)
         needs_objecten = self.profile.get("needs_objecten", False)
         objecten_col = self.profile.get("objecten_col", "")
         zf_name_col = self.profile.get("zoekfilter_name_col", "")
@@ -646,6 +701,26 @@ class TableTab(ttk.Frame):
                     # hoofdgroepen; gewone bestanden blijven één geheel.
                     groups = ot_compare.split_result_by_bib(
                         full_result, scope_col, strip_s=scope_strip_s)
+                    # Generieke lijntypes (lege hoofdgroep) vallen bij het splitsen
+                    # buiten de hoofdgroep-bestanden. Zet ze vooraan in ELKE
+                    # hoofdgroep-uitdraai (BC, MC, ...) én draai ze apart uit onder
+                    # de bestandscode (bijv. CO), zodat de generieke lijntypes
+                    # overal zichtbaar zijn en CO niet zonder lijntypes komt.
+                    if generic_fallback and len(groups) > 1:
+                        leftover = _leftover_generic(full_result, scope_col)
+                        if leftover:
+                            for _c, r in groups:
+                                r["rows"] = leftover["rows"] + r["rows"]
+                                r["deleted"] = leftover["deleted"] + r["deleted"]
+                                r["stats"] = {
+                                    "new": sum(1 for x in r["rows"]
+                                               if x["status"] == "new"),
+                                    "changed": sum(1 for x in r["rows"]
+                                                   if x["status"] == "changed"),
+                                    "deleted": len(r["deleted"]),
+                                    "total_new": len(r["rows"]),
+                                }
+                            groups = groups + [(code, leftover)]
                     multi = len(groups) > 1
                     if multi:
                         # Per hoofdgroep het aantal rijen tonen, zodat direct
@@ -796,31 +871,45 @@ class TableTab(ttk.Frame):
                             result, title=base, version_new=version_new,
                             visible_indices=vis, text_columns=text_cols,
                             front_columns=front_cols)
-                        changelog_html = ot_html.build_changelog_html(
-                            result, title=f"Changelog {base}",
-                            version_new=version_new, version_old=version_old,
-                            visible_indices=vis, extra_columns=extra_cols,
-                            orphans=orphans_this)
 
                         full_path = os.path.join(out_dir, f"{base}.html")
-                        changelog_path = os.path.join(
-                            out_dir, f"changelog-{base}.html")
                         with open(full_path, "w", encoding="utf-8") as f:
                             f.write(full_html)
-                        with open(changelog_path, "w", encoding="utf-8") as f:
-                            f.write(changelog_html)
+
+                        # Een uitdraai met uitsluitend generieke lijntypes (geen
+                        # hoofdgroep-specifieke rijen) krijgt geen changelog.
+                        skip_changelog = (generic_fallback
+                                          and _is_generic_only(result, scope_col))
+                        if not skip_changelog:
+                            changelog_html = ot_html.build_changelog_html(
+                                result, title=f"Changelog {base}",
+                                version_new=version_new, version_old=version_old,
+                                visible_indices=vis, extra_columns=extra_cols,
+                                orphans=orphans_this)
+                            changelog_path = os.path.join(
+                                out_dir, f"changelog-{base}.html")
+                            with open(changelog_path, "w", encoding="utf-8") as f:
+                                f.write(changelog_html)
 
                         if first is None:
                             first = full_path
                         wees_txt = (f", {len(orphans_this)} wees-.dwg"
                                     if orphans_this else "")
-                        self._queue.put(("log",
-                            f"[{gcode or code}] {base}: {s['new']} nieuw, "
-                            f"{s['changed']} gewijzigd, {s['deleted']} vervallen"
-                            f"{hash_summary}{wees_txt} -> {base}.html + "
-                            f"changelog-{base}.html"))
+                        if skip_changelog:
+                            self._queue.put(("log",
+                                f"[{gcode or code}] {base}: alleen generieke "
+                                f"lijntypes ({s['new'] + s['changed'] + s['deleted']}"
+                                f" wijziging(en)) -> {base}.html "
+                                f"(geen changelog nodig)"))
+                            files += 1
+                        else:
+                            self._queue.put(("log",
+                                f"[{gcode or code}] {base}: {s['new']} nieuw, "
+                                f"{s['changed']} gewijzigd, {s['deleted']} vervallen"
+                                f"{hash_summary}{wees_txt} -> {base}.html + "
+                                f"changelog-{base}.html"))
+                            files += 2
                         made += 1
-                        files += 2
 
                 # Wees-.dwg's: bestanden zonder een regel in de verwerkte
                 # symbolentabellen. Alleen .dwg's van de bibliotheken die in deze
