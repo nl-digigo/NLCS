@@ -397,21 +397,38 @@ _CHANGELOG_STYLE = """
 """
 
 
+# Kolommen waarvan een waarde uit meerdere puntkomma-gescheiden termen kan bestaan
+# (objecten: sobject/aobject verwijzen soms naar tien+ symbolen/arceringen). In de
+# changelog tonen we zo'n lange lijst niet letterlijk, maar de tekst 'multiple links'.
+_MULTI_LINK_COLS = {"sobject", "aobject"}
+
+
+def _cl_val(headers: list[str], i: int, value: str) -> str:
+    """Celtekst voor de changelog: voor sobject/aobject een lange puntkomma-lijst
+    tonen als 'multiple links', anders de (ge-escapete) waarde zelf."""
+    if headers and headers[i] in _MULTI_LINK_COLS:
+        parts = [p for p in (value or "").split(";") if p.strip()]
+        if len(parts) > 1:
+            return "multiple links"
+    return _esc(value)
+
+
 def _changelog_row(row: dict, version_new: str, version_old: str,
-                   vis: list[int], extra=None, ri: int = 0) -> str:
+                   vis: list[int], extra=None, ri: int = 0,
+                   headers: list[str] = None) -> str:
     tds = []
     for i in vis:
         cell = row["cells"][i]
         if cell["changed"]:
             old_lbl = f'<span class="lbl">{_esc(version_old or "oud")}:</span> ' \
-                      f'{_esc(cell["old"])}'
+                      f'{_cl_val(headers, i, cell["old"])}'
             new_lbl = f'<span class="lbl">{_esc(version_new or "nieuw")}:</span> ' \
-                      f'{_esc(cell["value"])}'
+                      f'{_cl_val(headers, i, cell["value"])}'
             tds.append(f'<td class="changed">'
                        f'<span class="old-val">{old_lbl}</span>'
                        f'<span class="new-val">{new_lbl}</span></td>')
         else:
-            tds.append(f"<td>{_esc(cell['value'])}</td>")
+            tds.append(f"<td>{_cl_val(headers, i, cell['value'])}</td>")
     for col in (extra or []):
         cls = col.get("td_class")
         cell = col["cells"][ri] if ri < len(col["cells"]) else ""
@@ -446,7 +463,7 @@ def build_changelog_html(result: dict, title: str,
     head_cells += "".join(f"<th>{_esc(col['header'])}</th>" for col in extra)
     ncols = len(vis) + len(extra)
 
-    body = [_changelog_row(r, version_new, version_old, vis, extra, ri)
+    body = [_changelog_row(r, version_new, version_old, vis, extra, ri, headers)
             for ri, r in enumerate(rows)]
 
     if deleted:
@@ -456,7 +473,7 @@ def build_changelog_html(result: dict, title: str,
             f'{_esc(version_old or "de oude versie")}, niet meer in '
             f'{_esc(version_new or "de nieuwe versie")}</th></tr>')
         for di, drow in enumerate(deleted):
-            tds = "".join(f"<td>{_esc(drow[i])}</td>" for i in vis)
+            tds = "".join(f"<td>{_cl_val(headers, i, drow[i])}</td>" for i in vis)
             for col in extra:
                 cls = col.get("td_class")
                 dcells = col.get("deleted_cells") or []
