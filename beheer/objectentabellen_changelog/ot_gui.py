@@ -950,7 +950,14 @@ class IndexTab(ttk.Frame):
                 "(bijv. 5.2).")
             return None
 
-        data = ot_compare.scan_publication(root, version)
+        # Het overzicht dat we zelf genereren nooit in de lijst opnemen: sluit
+        # de basisnaam van het uitvoerbestand uit (naast de generieke
+        # 'publicatieoverzicht*'-filter in scan_publication).
+        out = self.app.loc["index_output"].get().strip()
+        if os.path.isdir(out) or out.endswith(("/", "\\")):
+            out = os.path.join(out, "index.html")
+        exclude = {os.path.basename(out)} if out else set()
+        data = ot_compare.scan_publication(root, version, exclude_names=exclude)
         self._last = data
         self.log.configure(state="normal")
         self.log.delete("1.0", "end")

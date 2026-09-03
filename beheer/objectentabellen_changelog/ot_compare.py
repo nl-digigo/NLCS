@@ -258,13 +258,20 @@ def nice_index_label(filename: str, group_code: str = "") -> str:
     return label or os.path.splitext(filename)[0]
 
 
-def scan_publication(root: str, version: str) -> dict:
+def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     """Doorzoek `root` (bijv. docs/changelog) recursief naar HTML-bestanden
     waarvan de bestandsnaam een versie-variant bevat (zowel '5.2' als '5-2').
 
     Groepeer op de eerste submap onder `root` (de hoofdgroep-code, bijv. 'AM');
     bestanden direct in `root` komen in de algemene groep ('voor alle
-    hoofdgroepen'). Geeft:
+    hoofdgroepen'). Twee uitzonderingen:
+      * `releasenotes.html` (waar dan ook onder `root`) komt ALTIJD in de
+        algemene groep, ook zonder versienummer in de naam.
+      * publicatie-overzichten (het bestand dat deze functie voedt) worden NOOIT
+        opgenomen: bestanden die met 'publicatieoverzicht' beginnen of waarvan de
+        naam in `exclude_names` staat, worden overgeslagen.
+
+    Geeft:
       {"groups": [(code, [entry, ...]), ...],   # gesorteerd op code
        "general": [entry, ...],
        "docs_root": <pad>, "count": <int>}
@@ -273,15 +280,22 @@ def scan_publication(root: str, version: str) -> dict:
     vooraan, dan de changelogs, elk alfabetisch op label."""
     variants = version_variants(version)
     docs_root = docs_root_of(root)
+    exclude = {n.strip().lower() for n in (exclude_names or ()) if n and n.strip()}
     groups: dict = {}
     general: list = []
     count = 0
     if variants and os.path.isdir(root):
         for dirpath, _dirs, files in os.walk(root):
             for name in sorted(files):
-                if not name.lower().endswith((".html", ".htm")):
+                low = name.lower()
+                if not low.endswith((".html", ".htm")):
                     continue
-                if not any(v in name for v in variants):
+                # Het overzicht zelf (deze pagina) nooit opnemen.
+                if low in exclude or low.startswith("publicatieoverzicht") \
+                        or low.startswith("publicatie-overzicht"):
+                    continue
+                is_releasenotes = low.startswith("releasenotes")
+                if not is_releasenotes and not any(v in name for v in variants):
                     continue
                 full = os.path.join(dirpath, name)
                 rel_parts = os.path.relpath(full, root).replace("\\", "/").split("/")
@@ -290,8 +304,10 @@ def scan_publication(root: str, version: str) -> dict:
                     "subpath": os.path.relpath(full, docs_root).replace("\\", "/"),
                     "kind": index_kind(name),
                 }
-                if len(rel_parts) == 1:
-                    entry["label"] = nice_index_label(name, "")
+                # releasenotes én bestanden direct in root -> algemene groep.
+                if is_releasenotes or len(rel_parts) == 1:
+                    entry["label"] = ("Release notes" if is_releasenotes
+                                      else nice_index_label(name, ""))
                     general.append(entry)
                 else:
                     code = rel_parts[0].strip().upper()
