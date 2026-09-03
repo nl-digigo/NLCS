@@ -983,6 +983,12 @@ class IndexTab(ttk.Frame):
                 "Geen uitvoerbestand",
                 "Vul bij 'Locaties' een uitvoerbestand voor het overzicht in.")
             return
+        # Is er een MAP ingevuld i.p.v. een bestand (of een pad dat op een
+        # separator eindigt)? Dan zou open(output,'w') een map openen ->
+        # '[Errno 13] Permission denied' op Windows. Vul 'index.html' aan.
+        if os.path.isdir(output) or output.endswith(("/", "\\")):
+            output = os.path.join(output, "index.html")
+            self._logmsg(f"Map ingevuld; overzicht wordt geschreven naar: {output}")
 
         version = self.app.version_new_var.get().strip()
         base_url = self.app.loc["base_url"].get().strip()
