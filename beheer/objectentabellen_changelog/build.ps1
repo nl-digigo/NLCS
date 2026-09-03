@@ -23,9 +23,11 @@ if ($LASTEXITCODE -ne 0) { Write-Error "pip install mislukte." }
 Remove-Item -Recurse -Force build, "NLCS-Objectchangelog.spec" -ErrorAction SilentlyContinue
 Remove-Item -Force "dist\NLCS-Objectchangelog.exe" -ErrorAction SilentlyContinue
 
-# Icoon (digiGO-badge); optioneel, alleen meenemen als het bestand bestaat
+# Icoon (rood vierkantje voor de changelog-tool); optioneel, alleen meenemen
+# als het bestand bestaat
 $iconArgs = @()
-if (Test-Path "digigo.ico") { $iconArgs = @("--icon", "digigo.ico") }
+if (Test-Path "icon-red.ico") { $iconArgs = @("--icon", "icon-red.ico") }
+elseif (Test-Path "digigo.ico") { $iconArgs = @("--icon", "digigo.ico") }
 
 # Bouwen: alles in 1 bestand, geen console-venster
 & $py -m PyInstaller `

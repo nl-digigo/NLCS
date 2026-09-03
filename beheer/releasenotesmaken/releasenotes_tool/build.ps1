@@ -23,9 +23,11 @@ if ($LASTEXITCODE -ne 0) { Write-Error "pip install mislukte." }
 Remove-Item -Recurse -Force build, "NLCS-Releasenotes.spec" -ErrorAction SilentlyContinue
 Remove-Item -Force "dist\NLCS-Releasenotes.exe" -ErrorAction SilentlyContinue
 
-# Icoon (digiGO-badge); optioneel, alleen meenemen als het bestand bestaat
+# Icoon (blauw vierkantje voor de issue-/release-notes-tool); optioneel,
+# alleen meenemen als het bestand bestaat
 $iconArgs = @()
-if (Test-Path "digigo.ico") { $iconArgs = @("--icon", "digigo.ico") }
+if (Test-Path "icon-blue.ico") { $iconArgs = @("--icon", "icon-blue.ico") }
+elseif (Test-Path "digigo.ico") { $iconArgs = @("--icon", "digigo.ico") }
 
 # Bouwen: alles in 1 bestand, geen console-venster
 & $py -m PyInstaller `

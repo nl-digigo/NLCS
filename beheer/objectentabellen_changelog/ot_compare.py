@@ -395,6 +395,19 @@ def column_values(path: str, column: str) -> list:
     return out
 
 
+def _match_stem(name: str) -> str:
+    """De symboolnaam vanaf de bibliotheekcode, zodat een variant-voorvoegsel
+    (bijv. 'V-', 'B-', 'N-', 'R-', 'T-') niet meetelt bij het zoekfilter-matchen.
+    De bibliotheekcode is het eerste naamsegment dat met 'S' begint:
+    'V-SGR-BOOM_17' -> 'SGR-BOOM_17', 'SGR-BOOM_17' -> 'SGR-BOOM_17'. Zit er geen
+    S-segment in, dan blijft de naam ongewijzigd."""
+    segs = name.split("-")
+    for i, s in enumerate(segs):
+        if s[:1].upper() == "S" and len(s) > 1:
+            return "-".join(segs[i:])
+    return name
+
+
 def zoekfilter_map(names, terms) -> dict:
     """Bepaal per symboolnaam de zoekfilter-term waarmee het symbool gevonden
     wordt: de langste `terms`-waarde die een voorvoegsel is van de symboolnaam.
@@ -404,7 +417,11 @@ def zoekfilter_map(names, terms) -> dict:
       terms : iterable van zoekfilter-termen (de `sobject`-kolom uit de
               objectentabel, bijv. 'SAM-AS', 'SAM-ASPUNTNUMMER')
 
-    Geeft {stem.lower(): term} (lege string als geen enkele term past).
+    Een eventueel variant-voorvoegsel ('V-', 'B-', 'N-', 'R-', 'T-', ...) telt
+    NIET mee: er wordt gematcht vanaf de bibliotheekcode, zodat bijv.
+    'V-SGR-BOOM_17' door de term 'SGR-BOOM' gevonden wordt.
+
+    Geeft {naam.lower(): term} (lege string als geen enkele term past).
     Bij meerdere passende termen wint de langste (meest specifieke)."""
     terms_sorted = sorted({t.strip() for t in terms if t and t.strip()},
                           key=len, reverse=True)
@@ -416,9 +433,10 @@ def zoekfilter_map(names, terms) -> dict:
         key = s.lower()
         if key in out:
             continue
+        stem = _match_stem(s)
         out[key] = ""
         for t in terms_sorted:
-            if s == t or s.startswith(t):
+            if stem == t or stem.startswith(t):
                 out[key] = t
                 break
     return out
