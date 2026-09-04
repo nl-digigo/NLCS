@@ -493,6 +493,118 @@ def read_table(path: str) -> tuple[list[str], list[list[str]]]:
     return headers, rows
 
 
+def _collect_id_records(folder: str, source: str,
+                        id_col: str = "id_nummer",
+                        uri_col: str = KEY) -> list[dict]:
+    """Lees uit alle CSV's in `folder` per objectrij het ID en de URI.
+
+    Geeft een lijst dicts terug:
+      {"uri": <objectURI>, "id": <id_nummer, ruwe string>,
+       "file": <bestandsnaam>, "row": <rijnummer in het bestand, 1-based
+                incl. kop>, "source": <source-label>}
+    Rijen zonder ID hebben "id": "" (nieuwe objecten die nog een nummer nodig
+    hebben). Bestaat de map niet, dan een lege lijst."""
+    out: list[dict] = []
+    if not folder or not os.path.isdir(folder):
+        return out
+    for path in sorted(glob.glob(os.path.join(folder, "*.csv"))):
+        headers, rows = read_table(path)
+        if id_col not in headers:
+            continue
+        ci = headers.index(id_col)
+        ui = headers.index(uri_col) if uri_col in headers else -1
+        name = os.path.basename(path)
+        for n, r in enumerate(rows, start=2):   # +1 kop, +1 want 1-based
+            idv = r[ci].strip() if ci < len(r) else ""
+            uri = r[ui].strip() if 0 <= ui < len(r) else ""
+            out.append({"uri": uri, "id": idv, "file": name,
+                        "row": n, "source": source})
+    return out
+
+
+def _is_int_id(value: str) -> bool:
+    """True als `value` een geheel getal is (evt. met min-teken)."""
+    return bool(value) and value.lstrip("-").isdigit()
+
+
+def analyze_ids(new_dir: str, old_dir: str,
+                id_col: str = "id_nummer", uri_col: str = KEY) -> dict:
+    """Analyseer de ID's (`id_nummer`) van de objecten uit de nieuwe en de vorige
+    publicatie (beide mappen met CSV's per hoofdgroep).
+
+    Geeft een dict terug met:
+      new / old         : lijst records per publicatie (zie _collect_id_records)
+      highest           : hoogste gehele ID over beide publicaties (0 als geen)
+      next_free         : eerstvolgende vrije ID (highest + 1), altijd hoger dan
+                          elk bestaand geheel ID
+      duplicates        : lijst {"id", "uris":[...], "records":[...]} waar één ID
+                          aan meer dan één verschillende URI hangt (over beide
+                          publicaties heen) — dubbel gebruikte ID's
+      mismatches        : lijst {"uri", "new_id", "old_id", ...} waar dezelfde URI
+                          in de vorige én nieuwe publicatie een ander ID heeft
+      blanks_new / blanks_old : records zonder ID (nieuwe objecten zonder nummer)
+      noninteger        : records met een niet-geheel ID (uitgesloten van 'highest')
+    """
+    new_recs = _collect_id_records(new_dir, "nieuw", id_col, uri_col)
+    old_recs = _collect_id_records(old_dir, "vorig", id_col, uri_col)
+    all_recs = new_recs + old_recs
+
+    # Hoogste gehele ID -> eerstvolgende vrije nummer.
+    ints = [int(rec["id"]) for rec in all_recs if _is_int_id(rec["id"])]
+    highest = max(ints) if ints else 0
+
+    # Dubbele ID's: één ID gekoppeld aan >1 verschillende URI (over beide
+    # publicaties heen). Dezelfde URI met hetzelfde ID in oud én nieuw telt
+    # NIET als dubbel (dat is juist correct).
+    id_to_uris: dict[str, set] = {}
+    id_to_recs: dict[str, list] = {}
+    for rec in all_recs:
+        if not rec["id"]:
+            continue
+        id_to_uris.setdefault(rec["id"], set()).add(rec["uri"])
+        id_to_recs.setdefault(rec["id"], []).append(rec)
+    duplicates = [
+        {"id": idv, "uris": sorted(uris), "records": id_to_recs[idv]}
+        for idv, uris in id_to_uris.items() if len(uris) > 1
+    ]
+    duplicates.sort(key=lambda d: (not _is_int_id(d["id"]),
+                                   int(d["id"]) if _is_int_id(d["id"]) else 0,
+                                   d["id"]))
+
+    # URI-mismatch: dezelfde URI in oud én nieuw, maar met een ander ID.
+    def uri_ids(recs):
+        m: dict[str, set] = {}
+        for rec in recs:
+            if rec["uri"] and rec["id"]:
+                m.setdefault(rec["uri"], set()).add(rec["id"])
+        return m
+    new_uri_ids = uri_ids(new_recs)
+    old_uri_ids = uri_ids(old_recs)
+    mismatches = []
+    for uri in sorted(set(new_uri_ids) & set(old_uri_ids)):
+        n_ids = new_uri_ids[uri]
+        o_ids = old_uri_ids[uri]
+        if n_ids != o_ids:
+            mismatches.append({
+                "uri": uri,
+                "new_id": ", ".join(sorted(n_ids)),
+                "old_id": ", ".join(sorted(o_ids)),
+            })
+
+    return {
+        "new": new_recs,
+        "old": old_recs,
+        "highest": highest,
+        "next_free": highest + 1,
+        "duplicates": duplicates,
+        "mismatches": mismatches,
+        "blanks_new": [r for r in new_recs if not r["id"]],
+        "blanks_old": [r for r in old_recs if not r["id"]],
+        "noninteger": [r for r in all_recs
+                       if r["id"] and not _is_int_id(r["id"])],
+    }
+
+
 def _sort_key(row: list[str]) -> str:
     return (row[SORT_COLUMN] if len(row) > SORT_COLUMN else "").casefold()
 

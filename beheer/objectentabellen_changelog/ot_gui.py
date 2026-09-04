@@ -1109,6 +1109,161 @@ class IndexTab(ttk.Frame):
 
 
 # ---------------------------------------------------------------------------
+# Tabblad 'ID's': eerstvolgende vrije id_nummer + controles
+# ---------------------------------------------------------------------------
+class IdTab(ttk.Frame):
+    """Leest de id_nummer's van alle objecten uit de nieuwe én de vorige
+    publicatie (de twee objectentabellen-mappen bij 'Locaties') en geeft het
+    eerstvolgende vrije ID-nummer terug. Controleert bovendien op dubbel
+    gebruikte ID's en op URI's die in beide publicaties een ander ID hebben."""
+
+    def __init__(self, master, app: "App"):
+        super().__init__(master, padding=10)
+        self.app = app
+        self._build()
+
+    def _build(self) -> None:
+        ttk.Label(
+            self, foreground="#555",
+            text="Verzamelt alle id_nummer's uit de objectentabellen (nieuw én "
+                 "vorig; die mappen staan op het tabblad 'Locaties') en bepaalt "
+                 "het eerstvolgende vrije nummer. Controleert ook op dubbel "
+                 "gebruikte ID's en op URI's met een verschillend ID in beide "
+                 "publicaties.").pack(anchor="w")
+
+        top = ttk.Frame(self)
+        top.pack(fill="x", pady=8)
+        ttk.Button(top, text="Analyseer id_nummers", command=self.on_analyze
+                   ).pack(side="left", padx=(0, 12))
+        ttk.Label(top, text="Eerstvolgende vrije ID:").pack(side="left")
+        self.next_var = tk.StringVar(value="—")
+        ttk.Entry(top, textvariable=self.next_var, width=10, state="readonly",
+                  font=("Consolas", 11, "bold")).pack(side="left", padx=(4, 4))
+        self.copy_btn = ttk.Button(top, text="Kopieer", command=self._copy,
+                                   state="disabled")
+        self.copy_btn.pack(side="left")
+
+        logframe = ttk.LabelFrame(self, text="Resultaat", padding=8)
+        logframe.pack(fill="both", expand=True, pady=(8, 0))
+        self.log = tk.Text(logframe, height=16, wrap="word", state="disabled",
+                           font=("Consolas", 9), background="#fbfbfb")
+        scroll = ttk.Scrollbar(logframe, orient="vertical", command=self.log.yview)
+        self.log.configure(yscrollcommand=scroll.set)
+        self.log.pack(side="left", fill="both", expand=True)
+        scroll.pack(side="right", fill="y")
+
+    # -- helpers -----------------------------------------------------------
+    def _logmsg(self, msg: str = "") -> None:
+        self.log.configure(state="normal")
+        self.log.insert("end", msg + "\n")
+        self.log.see("end")
+        self.log.configure(state="disabled")
+
+    def _clearlog(self) -> None:
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+
+    def _copy(self) -> None:
+        val = self.next_var.get().strip()
+        if val and val != "—":
+            self.clipboard_clear()
+            self.clipboard_append(val)
+
+    # -- analyse -----------------------------------------------------------
+    def on_analyze(self) -> None:
+        new_dir = self.app.loc["obj_new"].get().strip()
+        old_dir = self.app.loc["obj_old"].get().strip()
+        self._clearlog()
+        if not os.path.isdir(new_dir) and not os.path.isdir(old_dir):
+            messagebox.showwarning(
+                "Geen mappen", "Vul bij 'Locaties' onder 'Objectentabellen' de "
+                "map van de nieuwe en/of de vorige versie in.")
+            return
+        for label, d in (("nieuwe", new_dir), ("vorige", old_dir)):
+            if d and not os.path.isdir(d):
+                self._logmsg(f"Let op: de {label} map bestaat niet: {d}")
+            elif not d:
+                self._logmsg(f"Let op: geen map voor de {label} versie ingevuld.")
+
+        res = ot_compare.analyze_ids(new_dir, old_dir)
+        self.next_var.set(str(res["next_free"]))
+        self.copy_btn.configure(state="normal")
+
+        self._logmsg(f"Objecten ingelezen: {len(res['new'])} (nieuw) + "
+                     f"{len(res['old'])} (vorig) = "
+                     f"{len(res['new']) + len(res['old'])}.")
+        self._logmsg(f"Hoogste bestaande ID: {res['highest']}")
+        self._logmsg(f"EERSTVOLGENDE VRIJE ID: {res['next_free']}")
+        self._logmsg()
+
+        # Objecten zonder id_nummer (beide publicaties).
+        blanks_new = res["blanks_new"]
+        blanks_old = res["blanks_old"]
+        total_blanks = len(blanks_new) + len(blanks_old)
+        if total_blanks == 0:
+            self._logmsg("OBJECTEN ZONDER id_nummer: geen.")
+            self._logmsg()
+        else:
+            self._logmsg(f"OBJECTEN ZONDER id_nummer: {total_blanks} "
+                         f"({len(blanks_new)} nieuw, {len(blanks_old)} vorig).")
+            # Nieuwe objecten zonder ID krijgen een voorgesteld opeenvolgend nummer.
+            if blanks_new:
+                self._logmsg(f"  Nieuwe publicatie ({len(blanks_new)}) — voorstel: "
+                             f"ken achtereenvolgens {res['next_free']} t/m "
+                             f"{res['next_free'] + len(blanks_new) - 1} toe:")
+                for i, rec in enumerate(blanks_new):
+                    self._logmsg(f"   {res['next_free'] + i:>6}  "
+                                 f"{rec['uri'] or '(geen URI)'}  [{rec['file']}]")
+            if blanks_old:
+                self._logmsg(f"  Vorige publicatie ({len(blanks_old)}):")
+                for rec in blanks_old:
+                    self._logmsg(f"          {rec['uri'] or '(geen URI)'}  "
+                                 f"[{rec['file']} r{rec['row']}]")
+            self._logmsg()
+
+        # Controle 1: dubbel gebruikte ID's.
+        dups = res["duplicates"]
+        if dups:
+            self._logmsg(f"⚠ DUBBELE ID'S: {len(dups)} ID('s) worden door meer "
+                         f"dan één URI gebruikt:")
+            for d in dups:
+                self._logmsg(f"   ID {d['id']} -> {len(d['uris'])} URI's:")
+                for rec in d["records"]:
+                    self._logmsg(f"        {rec['source']}: {rec['uri']}  "
+                                 f"[{rec['file']} r{rec['row']}]")
+        else:
+            self._logmsg("✓ Geen dubbel gebruikte ID's gevonden.")
+        self._logmsg()
+
+        # Controle 2: zelfde URI, ander ID in oud vs. nieuw.
+        mism = res["mismatches"]
+        if mism:
+            self._logmsg(f"⚠ URI MET VERSCHILLEND ID: {len(mism)} URI('s) hebben "
+                         f"in de vorige en nieuwe publicatie een ander ID:")
+            for m in mism:
+                self._logmsg(f"   {m['uri']}: nieuw={m['new_id']}  "
+                             f"vorig={m['old_id']}")
+        else:
+            self._logmsg("✓ Elke URI die in beide publicaties voorkomt heeft "
+                         "hetzelfde ID.")
+
+        # Niet-gehele ID's (uitgesloten van de 'hoogste'-berekening).
+        nonint = res["noninteger"]
+        if nonint:
+            self._logmsg()
+            self._logmsg(f"Let op: {len(nonint)} niet-geheel ID('s) genegeerd bij "
+                         f"het bepalen van het hoogste nummer:")
+            for rec in nonint[:20]:
+                self._logmsg(f"   '{rec['id']}'  {rec['uri']}  "
+                             f"[{rec['source']}: {rec['file']} r{rec['row']}]")
+            if len(nonint) > 20:
+                self._logmsg(f"   … en nog {len(nonint) - 20}.")
+
+        self.app.save_config()
+
+
+# ---------------------------------------------------------------------------
 # Tabblad 'Locaties': alle mappen/bestanden die de tabbladen delen, één keer
 # ---------------------------------------------------------------------------
 # Velden in het Locaties-tabblad, gegroepeerd. Elke regel:
@@ -1266,6 +1421,10 @@ class App(ttk.Frame):
         # gepubliceerde HTML's. Geen vergelijking, dus een eigen tabblad-klasse.
         self.index_tab = IndexTab(nb, self)
         nb.add(self.index_tab, text="Overzicht")
+
+        # Tabblad 'ID's': eerstvolgende vrije id_nummer + ID-controles.
+        self.id_tab = IdTab(nb, self)
+        nb.add(self.id_tab, text="ID's")
 
         master.protocol("WM_DELETE_WINDOW", self._on_close)
 
