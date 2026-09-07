@@ -691,6 +691,9 @@ class TableTab(ttk.Frame):
                 # en de bijbehorende bibliotheek-voorvoegsels (bijv. SAM, SAL).
                 all_symbols: set = set()
                 processed_bibs: set = set()
+                # Andere kant op: regels waarvoor GEEN .dwg-bestand bestaat.
+                # (naam, hoofdgroepcode), run-breed verzameld.
+                missing_dwg: list = []
                 for code, new_path, old_path in selected:
                     orig_base = os.path.splitext(os.path.basename(new_path))[0]
                     full_result = ot_compare.compare(
@@ -841,6 +844,15 @@ class TableTab(ttk.Frame):
                                             this_bibs.add(sb)
                                 all_symbols |= this_symbols
                                 processed_bibs |= this_bibs
+                                # Andere kant op: regels van DEZE hoofdgroep
+                                # waarvoor geen <symbool>.dwg in de map staat.
+                                # Alleen zinvol als er een .dwg-map gekozen is.
+                                if dwg_map:
+                                    for nm in row_names:
+                                        disp = (nm or "").strip()
+                                        if disp and disp.lower() not in dwg_map:
+                                            missing_dwg.append(
+                                                (disp, gcode or code))
 
                             # Wezen van DEZE hoofdgroep (bibliotheek) voor de
                             # changelog: .dwg's van dezelfde bib(s) zonder regel.
@@ -944,6 +956,20 @@ class TableTab(ttk.Frame):
                         msg += (f" [{len(skipped_bibs)} andere groep(en) "
                                 f"overgeslagen: {', '.join(sorted(skipped_bibs))}]")
                     self._queue.put(("log", msg))
+
+                    # Andere kant op: verzamelde pagina met regels zonder .dwg.
+                    miss = sorted(set(missing_dwg),
+                                  key=lambda t: (t[1], t[0].lower()))
+                    missing_html = ot_html.build_missing_dwg_html(
+                        miss, title="regels zonder .dwg-bestand",
+                        symbols_dir=symbols_dir, version_new=version_new)
+                    missing_path = os.path.join(out_dir, "regel-zonder-dwg.html")
+                    with open(missing_path, "w", encoding="utf-8") as f:
+                        f.write(missing_html)
+                    files += 1
+                    self._queue.put(("log",
+                        f"{len(miss)} regel(s) in de symbolentabellen zonder "
+                        f".dwg-bestand -> regel-zonder-dwg.html"))
 
                 self._queue.put(("done", (made, files, first, open_after)))
             except Exception as exc:  # noqa: BLE001 - tonen in de GUI

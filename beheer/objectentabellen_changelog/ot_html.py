@@ -682,3 +682,37 @@ def build_orphans_html(orphans, title: str, symbols_dir: str = "",
         + "</div>\n"
         + _FOOTER
     )
+
+
+def build_missing_dwg_html(missing, title: str, symbols_dir: str = "",
+                           version_new: str = "") -> str:
+    """Pagina met de regels in de symbolentabellen waarvoor GEEN .dwg-bestand in
+    de map gevonden is — de omgekeerde controle van build_orphans_html
+    (bestand zonder regel <-> regel zonder bestand).
+
+    missing : lijst (symboolnaam, hoofdgroepcode), gesorteerd op hoofdgroep+naam."""
+    src = (f" &middot; map: {_esc(symbols_dir)}" if symbols_dir else "")
+    ver = (f" &middot; versie {_esc(version_new)}" if version_new else "")
+    info = (f"{len(missing)} regel(s) in de symbolentabellen zonder "
+            f".dwg-bestand{ver}{src}")
+
+    if missing:
+        head = ("<tr><th>#</th><th>symbool (regel)</th><th>hoofdgroep</th>"
+                "<th>verwacht bestand</th></tr>")
+        body = "\n".join(
+            f"<tr><td>{i}</td><td>{_esc(naam)}</td><td>{_esc(code)}</td>"
+            f"<td>{_esc(naam)}.dwg</td></tr>"
+            for i, (naam, code) in enumerate(missing, start=1))
+        table = ('<div class="tablescroll">\n<table class="otab">\n<thead>\n'
+                 f"{head}\n</thead>\n<tbody>\n{body}\n</tbody>\n</table>\n</div>\n")
+    else:
+        table = ('<p class="leeg">Bij elke regel in de symbolentabellen is een '
+                 '.dwg-bestand gevonden.</p>\n')
+
+    return (
+        _shell_head(title, extra_style=_ORPHAN_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n'
+        + table
+        + "</div>\n"
+        + _FOOTER
+    )
