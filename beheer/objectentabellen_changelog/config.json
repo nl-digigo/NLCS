@@ -1,13 +1,13 @@
 {
   "version_new": "",
   "version_old": "",
-  "open_after": true,
+  "open_after": false,
   "locations": {
     "obj_new": "C:\\Users\\100289\\OneDrive - CROW\\Documents\\GitHub\\NLCSdev\\tabellen\\publicatie\\objectentabellen\\5-2",
     "obj_old": "C:\\Users\\100289\\OneDrive - CROW\\Documents\\GitHub\\NLCSdev\\tabellen\\publicatie\\objectentabellen\\5-0",
     "sym_new": "C:\\Users\\100289\\OneDrive - CROW\\Documents\\GitHub\\NLCSdev\\tabellen\\publicatie\\symbolentabellen\\5-2",
     "sym_old": "C:\\Users\\100289\\OneDrive - CROW\\Documents\\GitHub\\NLCSdev\\tabellen\\publicatie\\symbolentabellen\\5-0\\symbolen-5-0.csv",
-    "dwg_new": "",
+    "dwg_new": "C:\\Users\\100289\\OneDrive - CROW\\Documents\\GitHub\\NLCSacc\\symbolen\\autocad",
     "dwg_old": "",
     "lijn_new": "C:\\Users\\100289\\OneDrive - CROW\\Documents\\GitHub\\NLCSdev\\tabellen\\publicatie\\lijntypes\\5-2",
     "lijn_old": "C:\\Users\\100289\\OneDrive - CROW\\Documents\\GitHub\\NLCSdev\\tabellen\\publicatie\\lijntypes\\5-0\\lijntypes-5-0.csv",
@@ -16,7 +16,7 @@
     "index_root": "",
     "base_url": "https://nl-digigo.github.io/NLCS/",
     "index_output": "",
-    "output_dir": ""
+    "output_dir": "C:\\Users\\100289\\AppData\\Local\\Temp\\symtest_44ln0p55"
   },
   "codes": {
     "obj": [
@@ -43,7 +43,9 @@
       "BV",
       "CO",
       "GR",
-      "GW"
+      "GW",
+      "IE",
+      "IS"
     ],
     "lijn": [
       "AL",
