@@ -493,21 +493,31 @@ def read_table(path: str) -> tuple[list[str], list[list[str]]]:
     return headers, rows
 
 
-def _collect_id_records(folder: str, source: str,
+def _collect_id_records(source_path: str, source: str,
                         id_col: str = "id_nummer",
                         uri_col: str = KEY) -> list[dict]:
-    """Lees uit alle CSV's in `folder` per objectrij het ID en de URI.
+    """Lees per rij het ID en de URI uit `source_path`.
+
+    `source_path` mag een MAP zijn (dan worden alle *.csv erin gelezen, bijv. de
+    per-hoofdgroep objectentabellen/symbolentabellen) OF één CSV-BESTAND (bijv. de
+    ene grote oude symbolen-/arceringen-/lijntypes-CSV).
 
     Geeft een lijst dicts terug:
-      {"uri": <objectURI>, "id": <id_nummer, ruwe string>,
+      {"uri": <URI>, "id": <ID, ruwe string>,
        "file": <bestandsnaam>, "row": <rijnummer in het bestand, 1-based
                 incl. kop>, "source": <source-label>}
     Rijen zonder ID hebben "id": "" (nieuwe objecten die nog een nummer nodig
-    hebben). Bestaat de map niet, dan een lege lijst."""
+    hebben). Bestaat de bron niet, dan een lege lijst."""
     out: list[dict] = []
-    if not folder or not os.path.isdir(folder):
+    if not source_path:
         return out
-    for path in sorted(glob.glob(os.path.join(folder, "*.csv"))):
+    if os.path.isdir(source_path):
+        paths = sorted(glob.glob(os.path.join(source_path, "*.csv")))
+    elif os.path.isfile(source_path):
+        paths = [source_path]
+    else:
+        return out
+    for path in paths:
         headers, rows = read_table(path)
         if id_col not in headers:
             continue
@@ -527,10 +537,14 @@ def _is_int_id(value: str) -> bool:
     return bool(value) and value.lstrip("-").isdigit()
 
 
-def analyze_ids(new_dir: str, old_dir: str,
+def analyze_ids(new_src: str, old_src: str,
                 id_col: str = "id_nummer", uri_col: str = KEY) -> dict:
-    """Analyseer de ID's (`id_nummer`) van de objecten uit de nieuwe en de vorige
-    publicatie (beide mappen met CSV's per hoofdgroep).
+    """Analyseer de ID's (kolom `id_col`) uit de nieuwe en de vorige publicatie.
+
+    `new_src`/`old_src` mogen een MAP (CSV's per hoofdgroep) of één CSV-BESTAND
+    zijn (de oude symbolen-/arceringen-/lijntypes-CSV is één groot bestand).
+    Voor objecten is `id_col="id_nummer"`, `uri_col="objectURI"`; voor symbolen/
+    arceringen/lijntypes `id_col="id"` met de bijbehorende URI-kolom.
 
     Geeft een dict terug met:
       new / old         : lijst records per publicatie (zie _collect_id_records)
@@ -545,8 +559,8 @@ def analyze_ids(new_dir: str, old_dir: str,
       blanks_new / blanks_old : records zonder ID (nieuwe objecten zonder nummer)
       noninteger        : records met een niet-geheel ID (uitgesloten van 'highest')
     """
-    new_recs = _collect_id_records(new_dir, "nieuw", id_col, uri_col)
-    old_recs = _collect_id_records(old_dir, "vorig", id_col, uri_col)
+    new_recs = _collect_id_records(new_src, "nieuw", id_col, uri_col)
+    old_recs = _collect_id_records(old_src, "vorig", id_col, uri_col)
     all_recs = new_recs + old_recs
 
     # Hoogste gehele ID -> eerstvolgende vrije nummer.

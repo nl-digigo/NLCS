@@ -1109,39 +1109,60 @@ class IndexTab(ttk.Frame):
 
 
 # ---------------------------------------------------------------------------
-# Tabblad 'ID's': eerstvolgende vrije id_nummer + controles
+# Tabblad 'ID's': eerstvolgende vrije ID per soort + controles
 # ---------------------------------------------------------------------------
+# Elke soort heeft zijn EIGEN ID-reeks (gehele getallen, beginnend bij 1). Per
+# soort: (sleutel, label, loc-key nieuw, loc-key vorig, ID-kolom, URI-kolom, het
+# woord voor de rij-eenheid in de log).
+_ID_PROFILES = [
+    ("obj",  "Objecten",   "obj_new",  "obj_old",  "id_nummer", "objectURI",   "objecten"),
+    ("sym",  "Symbolen",   "sym_new",  "sym_old",  "id",        "symboolURI",  "symbolen"),
+    ("arc",  "Arceringen", "arc_new",  "arc_old",  "id",        "arceringURI", "arceringen"),
+    ("lijn", "Lijntypes",  "lijn_new", "lijn_old", "id",        "lijntypeURI", "lijntypes"),
+]
+
+
 class IdTab(ttk.Frame):
-    """Leest de id_nummer's van alle objecten uit de nieuwe én de vorige
-    publicatie (de twee objectentabellen-mappen bij 'Locaties') en geeft het
-    eerstvolgende vrije ID-nummer terug. Controleert bovendien op dubbel
-    gebruikte ID's en op URI's die in beide publicaties een ander ID hebben."""
+    """Bepaalt PER soort (objecten, symbolen, arceringen, lijntypes) — elk met
+    een eigen ID-reeks van gehele getallen vanaf 1 — het eerstvolgende vrije ID
+    op basis van de nieuwe én de vorige publicatie. Toont ook de rijen zonder ID
+    en controleert op dubbel gebruikte ID's en op URI's met een verschillend ID
+    in beide publicaties. Mappen/bestanden komen van het tabblad 'Locaties'."""
 
     def __init__(self, master, app: "App"):
         super().__init__(master, padding=10)
         self.app = app
+        self.next_vars: dict[str, tk.StringVar] = {}
         self._build()
 
     def _build(self) -> None:
         ttk.Label(
             self, foreground="#555",
-            text="Verzamelt alle id_nummer's uit de objectentabellen (nieuw én "
-                 "vorig; die mappen staan op het tabblad 'Locaties') en bepaalt "
-                 "het eerstvolgende vrije nummer. Controleert ook op dubbel "
-                 "gebruikte ID's en op URI's met een verschillend ID in beide "
-                 "publicaties.").pack(anchor="w")
+            text="Bepaalt per soort (objecten, symbolen, arceringen, lijntypes) "
+                 "het eerstvolgende vrije ID-nummer — elke soort heeft een eigen "
+                 "reeks gehele getallen vanaf 1. Gebaseerd op de nieuwe én vorige "
+                 "publicatie (mappen/bestanden op 'Locaties'). Controleert ook op "
+                 "dubbel gebruikte ID's en op URI's met een verschillend ID.").pack(
+            anchor="w")
 
-        top = ttk.Frame(self)
-        top.pack(fill="x", pady=8)
-        ttk.Button(top, text="Analyseer id_nummers", command=self.on_analyze
-                   ).pack(side="left", padx=(0, 12))
-        ttk.Label(top, text="Eerstvolgende vrije ID:").pack(side="left")
-        self.next_var = tk.StringVar(value="—")
-        ttk.Entry(top, textvariable=self.next_var, width=10, state="readonly",
-                  font=("Consolas", 11, "bold")).pack(side="left", padx=(4, 4))
-        self.copy_btn = ttk.Button(top, text="Kopieer", command=self._copy,
-                                   state="disabled")
-        self.copy_btn.pack(side="left")
+        # Bovenaan per soort een readonly 'eerstvolgende vrije ID' + kopieer-knop.
+        summary = ttk.LabelFrame(self, text="Eerstvolgende vrije ID per soort",
+                                 padding=8)
+        summary.pack(fill="x", pady=8)
+        for row, (key, label, *_rest) in enumerate(_ID_PROFILES):
+            ttk.Label(summary, text=f"{label}:").grid(
+                row=row, column=0, sticky="w", pady=1)
+            var = tk.StringVar(value="—")
+            self.next_vars[key] = var
+            ttk.Entry(summary, textvariable=var, width=10, state="readonly",
+                      font=("Consolas", 11, "bold")).grid(
+                row=row, column=1, sticky="w", padx=(8, 4), pady=1)
+            ttk.Button(summary, text="Kopieer",
+                       command=lambda k=key: self._copy(k)).grid(
+                row=row, column=2, padx=2)
+
+        ttk.Button(self, text="Analyseer ID's", command=self.on_analyze
+                   ).pack(anchor="w")
 
         logframe = ttk.LabelFrame(self, text="Resultaat", padding=8)
         logframe.pack(fill="both", expand=True, pady=(8, 0))
@@ -1164,50 +1185,61 @@ class IdTab(ttk.Frame):
         self.log.delete("1.0", "end")
         self.log.configure(state="disabled")
 
-    def _copy(self) -> None:
-        val = self.next_var.get().strip()
+    def _copy(self, key: str) -> None:
+        val = self.next_vars[key].get().strip()
         if val and val != "—":
             self.clipboard_clear()
             self.clipboard_append(val)
 
+    @staticmethod
+    def _valid(path: str) -> bool:
+        return bool(path) and (os.path.isdir(path) or os.path.isfile(path))
+
     # -- analyse -----------------------------------------------------------
     def on_analyze(self) -> None:
-        new_dir = self.app.loc["obj_new"].get().strip()
-        old_dir = self.app.loc["obj_old"].get().strip()
         self._clearlog()
-        if not os.path.isdir(new_dir) and not os.path.isdir(old_dir):
+        any_source = False
+        for key, label, new_key, old_key, id_col, uri_col, woord in _ID_PROFILES:
+            new_src = self.app.loc[new_key].get().strip()
+            old_src = self.app.loc[old_key].get().strip()
+            if not self._valid(new_src) and not self._valid(old_src):
+                self._logmsg(f"══ {label} ══")
+                self._logmsg("  Overgeslagen: geen geldige map/bestand ingevuld "
+                             "bij 'Locaties'.")
+                self._logmsg()
+                self.next_vars[key].set("—")
+                continue
+            any_source = True
+            res = ot_compare.analyze_ids(new_src, old_src, id_col, uri_col)
+            self.next_vars[key].set(str(res["next_free"]))
+            self._report(label, id_col, woord, res)
+
+        if not any_source:
             messagebox.showwarning(
-                "Geen mappen", "Vul bij 'Locaties' onder 'Objectentabellen' de "
-                "map van de nieuwe en/of de vorige versie in.")
+                "Geen bronnen", "Vul bij 'Locaties' minstens één map/bestand in "
+                "voor objecten, symbolen, arceringen of lijntypes.")
             return
-        for label, d in (("nieuwe", new_dir), ("vorige", old_dir)):
-            if d and not os.path.isdir(d):
-                self._logmsg(f"Let op: de {label} map bestaat niet: {d}")
-            elif not d:
-                self._logmsg(f"Let op: geen map voor de {label} versie ingevuld.")
+        self.app.save_config()
 
-        res = ot_compare.analyze_ids(new_dir, old_dir)
-        self.next_var.set(str(res["next_free"]))
-        self.copy_btn.configure(state="normal")
-
-        self._logmsg(f"Objecten ingelezen: {len(res['new'])} (nieuw) + "
+    def _report(self, label: str, id_col: str, woord: str, res: dict) -> None:
+        self._logmsg(f"══ {label} ══")
+        self._logmsg(f"{label} ingelezen: {len(res['new'])} (nieuw) + "
                      f"{len(res['old'])} (vorig) = "
                      f"{len(res['new']) + len(res['old'])}.")
         self._logmsg(f"Hoogste bestaande ID: {res['highest']}")
         self._logmsg(f"EERSTVOLGENDE VRIJE ID: {res['next_free']}")
         self._logmsg()
 
-        # Objecten zonder id_nummer (beide publicaties).
+        # Rijen zonder ID (beide publicaties).
         blanks_new = res["blanks_new"]
         blanks_old = res["blanks_old"]
         total_blanks = len(blanks_new) + len(blanks_old)
         if total_blanks == 0:
-            self._logmsg("OBJECTEN ZONDER id_nummer: geen.")
+            self._logmsg(f"{woord.upper()} ZONDER {id_col}: geen.")
             self._logmsg()
         else:
-            self._logmsg(f"OBJECTEN ZONDER id_nummer: {total_blanks} "
+            self._logmsg(f"{woord.upper()} ZONDER {id_col}: {total_blanks} "
                          f"({len(blanks_new)} nieuw, {len(blanks_old)} vorig).")
-            # Nieuwe objecten zonder ID krijgen een voorgesteld opeenvolgend nummer.
             if blanks_new:
                 self._logmsg(f"  Nieuwe publicatie ({len(blanks_new)}) — voorstel: "
                              f"ken achtereenvolgens {res['next_free']} t/m "
@@ -1259,8 +1291,7 @@ class IdTab(ttk.Frame):
                              f"[{rec['source']}: {rec['file']} r{rec['row']}]")
             if len(nonint) > 20:
                 self._logmsg(f"   … en nog {len(nonint) - 20}.")
-
-        self.app.save_config()
+        self._logmsg()
 
 
 # ---------------------------------------------------------------------------

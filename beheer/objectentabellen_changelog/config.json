@@ -5,14 +5,14 @@
   "locations": {
     "obj_new": "C:\\Users\\100289\\OneDrive - CROW\\Documents\\GitHub\\NLCSdev\\tabellen\\publicatie\\objectentabellen\\5-2",
     "obj_old": "C:\\Users\\100289\\OneDrive - CROW\\Documents\\GitHub\\NLCSdev\\tabellen\\publicatie\\objectentabellen\\5-0",
-    "sym_new": "",
-    "sym_old": "",
+    "sym_new": "C:\\Users\\100289\\OneDrive - CROW\\Documents\\GitHub\\NLCSdev\\tabellen\\publicatie\\symbolentabellen\\5-2",
+    "sym_old": "C:\\Users\\100289\\OneDrive - CROW\\Documents\\GitHub\\NLCSdev\\tabellen\\publicatie\\symbolentabellen\\5-0\\symbolen-5-0.csv",
     "dwg_new": "",
     "dwg_old": "",
-    "lijn_new": "",
-    "lijn_old": "",
-    "arc_new": "",
-    "arc_old": "",
+    "lijn_new": "C:\\Users\\100289\\OneDrive - CROW\\Documents\\GitHub\\NLCSdev\\tabellen\\publicatie\\lijntypes\\5-2",
+    "lijn_old": "C:\\Users\\100289\\OneDrive - CROW\\Documents\\GitHub\\NLCSdev\\tabellen\\publicatie\\lijntypes\\5-0\\lijntypes-5-0.csv",
+    "arc_new": "C:\\Users\\100289\\OneDrive - CROW\\Documents\\GitHub\\NLCSdev\\tabellen\\publicatie\\arceringen\\5.2",
+    "arc_old": "C:\\Users\\100289\\OneDrive - CROW\\Documents\\GitHub\\NLCSdev\\tabellen\\publicatie\\arceringen\\5.0\\arceringen-5-0.csv",
     "index_root": "",
     "base_url": "https://nl-digigo.github.io/NLCS/",
     "index_output": "",
@@ -37,8 +37,28 @@
       "MC",
       "SC"
     ],
-    "sym": [],
-    "lijn": [],
-    "arc": []
+    "sym": [
+      "AL",
+      "AM",
+      "BV",
+      "CO",
+      "GR",
+      "GW"
+    ],
+    "lijn": [
+      "AL",
+      "AM",
+      "BV",
+      "CO",
+      "ES",
+      "FV",
+      "GR",
+      "GW"
+    ],
+    "arc": [
+      "CO",
+      "GR",
+      "GW"
+    ]
   }
 }
