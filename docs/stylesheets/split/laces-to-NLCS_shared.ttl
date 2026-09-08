@@ -483,7 +483,7 @@ ex:ConvertGroupForQualifications a sh:NodeShape ;
 					GROUP BY ?this ?qualification ?tgtElementName ?tgtElementDescription
 				} .
 				?this otl:attr-Group-name ?tgtEnumerationName .
-				BIND (COALESCE(ex:getOriginalUri(?this), URI(STR(?this))) AS ?tgtThis) .
+				BIND (ex:createURI(MD5(CONCAT("QualificationGroup",?tgtEnumerationName))) AS ?tgtThis) .
 				BIND (COALESCE(ex:getOriginalUri(?qualification), URI(STR(?qualification))) AS ?tgtElementUri) .
 				BIND (CONCAT(str(?tgtThis), "-list-") AS ?listBase) .
 				BIND (IRI(CONCAT(?listBase, "0")) AS ?tgtListFirst) .
