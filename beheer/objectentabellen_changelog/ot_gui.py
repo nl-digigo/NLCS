@@ -73,6 +73,9 @@ PROFILES = [
         "zoekfilter_name_col": "symbool",
         "zoekfilter_scope": "per_code",
         "front_svg": True,
+        # rijen groeperen per zoekfilter (sobject-term) en binnen die groep
+        # alfabetisch op symboolnaam, zowel in de volledige tabel als de changelog
+        "group_by_zoekfilter": True,
         # oude versie = één grote CSV; scope per bibliotheek zodat 'vervallen'
         # beperkt blijft tot dezelfde hoofdgroep
         "old_is_file": True,
@@ -85,12 +88,13 @@ PROFILES = [
         "label": "Lijntypes",
         "match_key": "lijntypeURI",
         "locations": {"new": "lijn_new", "old": "lijn_old"},
-        # toon de informatieve kolommen (in CSV-volgorde); id + finalCleanName weg
+        # toon de informatieve kolommen (in CSV-volgorde); finalCleanName weg.
+        # id blijft zichtbaar (elke tabel toont het ID-nummer).
         "visible": lambda headers: ot_html.show_names_indices(
-            headers, ["lijntypeURI", "hoofdgroep", "omschrijving", "fase",
+            headers, ["lijntypeURI", "id", "hoofdgroep", "omschrijving", "fase",
                       "optie", "autocaddef"]),
-        # vrij zoekveld voor URI, omschrijving en autocaddef; rest = keuzelijst
-        "text_search": lambda h: h in ("omschrijving", "autocaddef")
+        # vrij zoekveld voor URI, id, omschrijving en autocaddef; rest = keuzelijst
+        "text_search": lambda h: h in ("omschrijving", "autocaddef", "id")
         or "uri" in h.lower(),
         # oude versie = één grote CSV met alle lijntypes; scope op hoofdgroep zodat
         # 'vervallen' beperkt blijft tot de vergeleken hoofdgroep
@@ -107,6 +111,12 @@ PROFILES = [
             "match_col": "omschrijving",
             "values": {"CONTINUOUS", "V-CONTINUOUS-SO"},
             "columns": ["fase", "optie", "autocaddef"],
+        },
+        # In de changelog helemaal GEEN wijzigingen tonen voor deze generieke
+        # lijnen (geen gewijzigde cellen, niet groen 'nieuw', niet 'vervallen').
+        "suppress_change": {
+            "match_col": "omschrijving",
+            "values": {"CONTINUOUS", "V-CONTINUOUS-SO"},
         },
         # Verzamelbestand (CO): de generieke lijntypes (lege hoofdgroep) vallen
         # bij het splitsen buiten de hoofdgroep-bestanden. Draai ze dan toch uit
@@ -606,12 +616,14 @@ class TableTab(ttk.Frame):
         scope_col = self.profile.get("scope_col", "")
         scope_strip_s = self.profile.get("scope_strip_s", True)
         blank_spec = self.profile.get("blank_spec")
+        suppress_change = self.profile.get("suppress_change")
         generic_fallback = self.profile.get("generic_fallback", False)
         needs_objecten = self.profile.get("needs_objecten", False)
         objecten_col = self.profile.get("objecten_col", "")
         zf_name_col = self.profile.get("zoekfilter_name_col", "")
         zf_scope = self.profile.get("zoekfilter_scope", "per_code")
         front_svg = self.profile.get("front_svg", False)
+        group_by_zf = self.profile.get("group_by_zoekfilter", False)
         objecten_dir = self._loc("objecten")
         symbols_dir = self._loc("dwg_new")
         symbols_old_dir = self._loc("dwg_old")
@@ -698,7 +710,7 @@ class TableTab(ttk.Frame):
                     orig_base = os.path.splitext(os.path.basename(new_path))[0]
                     full_result = ot_compare.compare(
                         new_path, old_path, key=match_key, scope_col=scope_col,
-                        blank_spec=blank_spec)
+                        blank_spec=blank_spec, suppress_change=suppress_change)
 
                     # Verzamelbestand (CO) uiteen laten vallen in aparte
                     # hoofdgroepen; gewone bestanden blijven één geheel.
@@ -804,6 +816,32 @@ class TableTab(ttk.Frame):
                             zoekfilters = ot_compare.zoekfilter_map(
                                 zf_names, terms)
 
+                        # Rijen groeperen per zoekfilter en binnen die groep
+                        # alfabetisch op symboolnaam. Eén keer op result['rows']
+                        # (en de vervallen rijen) sorteren, VÓÓR de front-/extra-
+                        # kolommen worden gebouwd, zodat alle afgeleide cellen
+                        # (die positioneel met de rijen meelopen) mee sorteren.
+                        # Zelfde volgorde als DataTables in de volledige tabel
+                        # (tekstsortering op de zoekfilter-kolom): een lege
+                        # zoekfilter sorteert vooraan.
+                        gname_col = zf_name_col or symbol_name_col
+                        if (group_by_zf and zoekfilters is not None
+                                and gname_col in result["headers"]):
+                            gni = result["headers"].index(gname_col)
+
+                            def _grp_key_row(r, _i=gni):
+                                nm = (r["cells"][_i]["value"] or "").strip()
+                                term = zoekfilters.get(nm.lower(), "")
+                                return (term.casefold(), nm.casefold())
+
+                            def _grp_key_del(d, _i=gni):
+                                nm = (d[_i] if _i < len(d) else "" or "").strip()
+                                term = zoekfilters.get(nm.lower(), "")
+                                return (term.casefold(), nm.casefold())
+
+                            result["rows"].sort(key=_grp_key_row)
+                            result["deleted"].sort(key=_grp_key_del)
+
                         # Front-kolommen (zoekfilter [+ svg]) voor de basis-tabel.
                         if needs_objecten or front_svg:
                             front_cols = _front_columns(
@@ -879,10 +917,22 @@ class TableTab(ttk.Frame):
                                 result, symbol_name_col, dwg_map, hash_status,
                                 zoekfilters)
 
+                        # Groeperen in de volledige tabel: DataTables sorteert op
+                        # de zoekfilter-kolom (front[0]) en, binnen die groep, op
+                        # de symboolnaam-kolom (DOM-index = #front + positie in
+                        # de zichtbare kolommen).
+                        full_order = None
+                        if (group_by_zf and zoekfilters is not None
+                                and front_cols and gname_col in result["headers"]):
+                            gidx = result["headers"].index(gname_col)
+                            if gidx in vis:
+                                symb_dom = len(front_cols) + vis.index(gidx)
+                                full_order = [[0, "asc"], [symb_dom, "asc"]]
+
                         full_html = ot_html.build_full_html(
                             result, title=base, version_new=version_new,
                             visible_indices=vis, text_columns=text_cols,
-                            front_columns=front_cols)
+                            front_columns=front_cols, order=full_order)
 
                         full_path = os.path.join(out_dir, f"{base}.html")
                         with open(full_path, "w", encoding="utf-8") as f:
@@ -1139,12 +1189,17 @@ class IndexTab(ttk.Frame):
 # ---------------------------------------------------------------------------
 # Elke soort heeft zijn EIGEN ID-reeks (gehele getallen, beginnend bij 1). Per
 # soort: (sleutel, label, loc-key nieuw, loc-key vorig, ID-kolom, URI-kolom, het
-# woord voor de rij-eenheid in de log).
+# woord voor de rij-eenheid in de log, exclude-dict of None, naamkolom). De naam-
+# kolom (omschrijving/symbool/arcering) toont een mensleesbare naam i.p.v. alleen
+# de URI. De generieke lijntypes CONTINUOUS/V-CONTINUOUS-SO komen uit een andere
+# publicatie en horen niet bij de eigen ID-reeks -> buiten de ID-analyse laten.
+_LIJN_ID_EXCLUDE = {"match_col": "omschrijving",
+                    "values": {"CONTINUOUS", "V-CONTINUOUS-SO"}}
 _ID_PROFILES = [
-    ("obj",  "Objecten",   "obj_new",  "obj_old",  "id_nummer", "objectURI",   "objecten"),
-    ("sym",  "Symbolen",   "sym_new",  "sym_old",  "id",        "symboolURI",  "symbolen"),
-    ("arc",  "Arceringen", "arc_new",  "arc_old",  "id",        "arceringURI", "arceringen"),
-    ("lijn", "Lijntypes",  "lijn_new", "lijn_old", "id",        "lijntypeURI", "lijntypes"),
+    ("obj",  "Objecten",   "obj_new",  "obj_old",  "id_nummer", "objectURI",   "objecten",  None,            "omschrijving"),
+    ("sym",  "Symbolen",   "sym_new",  "sym_old",  "id",        "symboolURI",  "symbolen",  None,            "symbool"),
+    ("arc",  "Arceringen", "arc_new",  "arc_old",  "id",        "arceringURI", "arceringen", None,            "arcering"),
+    ("lijn", "Lijntypes",  "lijn_new", "lijn_old", "id",        "lijntypeURI", "lijntypes", _LIJN_ID_EXCLUDE, "omschrijving"),
 ]
 
 
@@ -1187,8 +1242,12 @@ class IdTab(ttk.Frame):
                        command=lambda k=key: self._copy(k)).grid(
                 row=row, column=2, padx=2)
 
-        ttk.Button(self, text="Analyseer ID's", command=self.on_analyze
-                   ).pack(anchor="w")
+        btns = ttk.Frame(self)
+        btns.pack(anchor="w")
+        ttk.Button(btns, text="Analyseer ID's", command=self.on_analyze
+                   ).pack(side="left")
+        ttk.Button(btns, text="Bewaar als HTML", command=self.on_save_html
+                   ).pack(side="left", padx=(8, 0))
 
         logframe = ttk.LabelFrame(self, text="Resultaat", padding=8)
         logframe.pack(fill="both", expand=True, pady=(8, 0))
@@ -1222,30 +1281,71 @@ class IdTab(ttk.Frame):
         return bool(path) and (os.path.isdir(path) or os.path.isfile(path))
 
     # -- analyse -----------------------------------------------------------
-    def on_analyze(self) -> None:
-        self._clearlog()
+    def _run(self) -> tuple[list, bool]:
+        """Voer de analyse per soort uit. Geeft (sections, any_source) terug;
+        elke section = {key,label,id_col,woord,skipped,res}. Zet ook de
+        'eerstvolgende vrije ID'-velden."""
+        sections = []
         any_source = False
-        for key, label, new_key, old_key, id_col, uri_col, woord in _ID_PROFILES:
+        for (key, label, new_key, old_key, id_col, uri_col, woord, exclude,
+             name_col) in _ID_PROFILES:
             new_src = self.app.loc[new_key].get().strip()
             old_src = self.app.loc[old_key].get().strip()
             if not self._valid(new_src) and not self._valid(old_src):
-                self._logmsg(f"══ {label} ══")
-                self._logmsg("  Overgeslagen: geen geldige map/bestand ingevuld "
-                             "bij 'Locaties'.")
-                self._logmsg()
                 self.next_vars[key].set("—")
+                sections.append({"key": key, "label": label, "id_col": id_col,
+                                 "woord": woord, "skipped": True, "res": None})
                 continue
             any_source = True
-            res = ot_compare.analyze_ids(new_src, old_src, id_col, uri_col)
+            res = ot_compare.analyze_ids(new_src, old_src, id_col, uri_col,
+                                         exclude=exclude, name_col=name_col)
             self.next_vars[key].set(str(res["next_free"]))
-            self._report(label, id_col, woord, res)
+            sections.append({"key": key, "label": label, "id_col": id_col,
+                             "woord": woord, "skipped": False, "res": res})
+        return sections, any_source
 
+    def on_analyze(self) -> None:
+        self._clearlog()
+        sections, any_source = self._run()
         if not any_source:
             messagebox.showwarning(
                 "Geen bronnen", "Vul bij 'Locaties' minstens één map/bestand in "
                 "voor objecten, symbolen, arceringen of lijntypes.")
             return
+        for s in sections:
+            if s["skipped"]:
+                self._logmsg(f"══ {s['label']} ══")
+                self._logmsg("  Overgeslagen: geen geldige map/bestand ingevuld "
+                             "bij 'Locaties'.")
+                self._logmsg()
+                continue
+            self._report(s["label"], s["id_col"], s["woord"], s["res"])
         self.app.save_config()
+
+    def on_save_html(self) -> None:
+        out_dir = self.app.loc["output_dir"].get().strip()
+        if not out_dir or not os.path.isdir(out_dir):
+            messagebox.showwarning(
+                "Geen uitvoermap", "Vul bij 'Locaties' een geldige uitvoermap in "
+                "om de HTML op te slaan.")
+            return
+        sections, any_source = self._run()
+        if not any_source:
+            messagebox.showwarning(
+                "Geen bronnen", "Vul bij 'Locaties' minstens één map/bestand in "
+                "voor objecten, symbolen, arceringen of lijntypes.")
+            return
+        html = ot_html.build_id_report_html(
+            sections, title="ID-controle",
+            version_new=self.app.version_new_var.get().strip(),
+            version_old=self.app.version_old_var.get().strip())
+        path = os.path.join(out_dir, "id-controle.html")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(html)
+        self._logmsg(f"HTML opgeslagen: {path}")
+        self.app.save_config()
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(path))
 
     def _report(self, label: str, id_col: str, woord: str, res: dict) -> None:
         self._logmsg(f"══ {label} ══")
@@ -1272,11 +1372,12 @@ class IdTab(ttk.Frame):
                              f"{res['next_free'] + len(blanks_new) - 1} toe:")
                 for i, rec in enumerate(blanks_new):
                     self._logmsg(f"   {res['next_free'] + i:>6}  "
-                                 f"{rec['uri'] or '(geen URI)'}  [{rec['file']}]")
+                                 f"{self._name_of(rec)}  "
+                                 f"[{rec['file']} r{rec['row']}]")
             if blanks_old:
                 self._logmsg(f"  Vorige publicatie ({len(blanks_old)}):")
                 for rec in blanks_old:
-                    self._logmsg(f"          {rec['uri'] or '(geen URI)'}  "
+                    self._logmsg(f"          {self._name_of(rec)}  "
                                  f"[{rec['file']} r{rec['row']}]")
             self._logmsg()
 
@@ -1284,11 +1385,12 @@ class IdTab(ttk.Frame):
         dups = res["duplicates"]
         if dups:
             self._logmsg(f"⚠ DUBBELE ID'S: {len(dups)} ID('s) worden door meer "
-                         f"dan één URI gebruikt:")
+                         f"dan één {woord[:-1] if woord.endswith('en') else woord}"
+                         f" gebruikt:")
             for d in dups:
-                self._logmsg(f"   ID {d['id']} -> {len(d['uris'])} URI's:")
+                self._logmsg(f"   ID {d['id']} -> {len(d['uris'])} stuks:")
                 for rec in d["records"]:
-                    self._logmsg(f"        {rec['source']}: {rec['uri']}  "
+                    self._logmsg(f"        {rec['source']}: {self._name_of(rec)}  "
                                  f"[{rec['file']} r{rec['row']}]")
         else:
             self._logmsg("✓ Geen dubbel gebruikte ID's gevonden.")
@@ -1297,10 +1399,11 @@ class IdTab(ttk.Frame):
         # Controle 2: zelfde URI, ander ID in oud vs. nieuw.
         mism = res["mismatches"]
         if mism:
-            self._logmsg(f"⚠ URI MET VERSCHILLEND ID: {len(mism)} URI('s) hebben "
+            self._logmsg(f"⚠ VERSCHILLEND ID: {len(mism)} met dezelfde URI hebben "
                          f"in de vorige en nieuwe publicatie een ander ID:")
             for m in mism:
-                self._logmsg(f"   {m['uri']}: nieuw={m['new_id']}  "
+                naam = m.get("name") or m["uri"] or "(geen naam)"
+                self._logmsg(f"   {naam}: nieuw={m['new_id']}  "
                              f"vorig={m['old_id']}")
         else:
             self._logmsg("✓ Elke URI die in beide publicaties voorkomt heeft "
@@ -1313,10 +1416,166 @@ class IdTab(ttk.Frame):
             self._logmsg(f"Let op: {len(nonint)} niet-geheel ID('s) genegeerd bij "
                          f"het bepalen van het hoogste nummer:")
             for rec in nonint[:20]:
-                self._logmsg(f"   '{rec['id']}'  {rec['uri']}  "
+                self._logmsg(f"   '{rec['id']}'  {self._name_of(rec)}  "
                              f"[{rec['source']}: {rec['file']} r{rec['row']}]")
             if len(nonint) > 20:
                 self._logmsg(f"   … en nog {len(nonint) - 20}.")
+        self._logmsg()
+
+    @staticmethod
+    def _name_of(rec: dict) -> str:
+        """Mensleesbare naam voor een ID-record; valt terug op de URI."""
+        return rec.get("name") or rec.get("uri") or "(geen naam)"
+
+
+# ---------------------------------------------------------------------------
+# Tabblad 'Optie-fase-check': fase/optie consistent met de gecodeerde naam
+# ---------------------------------------------------------------------------
+# Per soort: (sleutel, label, loc-key nieuw, naamkolom, over te slaan namen).
+# Alleen symbolen, lijntypes en arceringen (NIET de objectentabellen). De
+# generieke lijntypes CONTINUOUS/V-CONTINUOUS-SO komen uit een andere publicatie
+# met bewust lege fase/optie -> overslaan.
+_NAME_PROFILES = [
+    ("sym",  "Symbolen",   "sym_new",  "symbool",      ()),
+    ("lijn", "Lijntypes",  "lijn_new", "omschrijving", ("CONTINUOUS", "V-CONTINUOUS-SO")),
+    ("arc",  "Arceringen", "arc_new",  "arcering",     ()),
+]
+
+
+class OptieFaseCheckTab(ttk.Frame):
+    """Controleert voor symbolen, lijntypes en arceringen of de kolommen 'fase'
+    en 'optie' kloppen met de gecodeerde naam. Voorvoegsel V-/B-/… hoort als
+    die letter in 'fase' te staan; een achtervoegsel -SO/-SOMM/-SOD/-SODMM/-D/
+    -MM/-DMM hoort (zonder '-') in 'optie' te staan. Leest de nieuwe publicatie
+    uit het tabblad 'Locaties'."""
+
+    def __init__(self, master, app: "App"):
+        super().__init__(master, padding=10)
+        self.app = app
+        self._build()
+
+    def _build(self) -> None:
+        ttk.Label(
+            self, foreground="#555", justify="left",
+            text="Controleert symbolen, lijntypes en arceringen op een 'fase' en "
+                 "'optie' die klopt met de naam. Voorvoegsel V-/B-/… → die letter "
+                 "hoort in 'fase'; achtervoegsel -S/-SO/-SOMM/-SOD/-SODMM/-D/-MM/"
+                 "-DMM → dat (zonder '-') hoort in 'optie'. Gebaseerd op de nieuwe "
+                 "publicatie (mappen op 'Locaties').").pack(anchor="w")
+
+        btns = ttk.Frame(self)
+        btns.pack(anchor="w", pady=(8, 0))
+        ttk.Button(btns, text="Analyseer optie/fase", command=self.on_analyze
+                   ).pack(side="left")
+        ttk.Button(btns, text="Bewaar als HTML", command=self.on_save_html
+                   ).pack(side="left", padx=(8, 0))
+
+        logframe = ttk.LabelFrame(self, text="Resultaat", padding=8)
+        logframe.pack(fill="both", expand=True, pady=(8, 0))
+        self.log = tk.Text(logframe, height=18, wrap="word", state="disabled",
+                           font=("Consolas", 9), background="#fbfbfb")
+        scroll = ttk.Scrollbar(logframe, orient="vertical", command=self.log.yview)
+        self.log.configure(yscrollcommand=scroll.set)
+        self.log.pack(side="left", fill="both", expand=True)
+        scroll.pack(side="right", fill="y")
+
+    def _logmsg(self, msg: str = "") -> None:
+        self.log.configure(state="normal")
+        self.log.insert("end", msg + "\n")
+        self.log.see("end")
+        self.log.configure(state="disabled")
+
+    def _clearlog(self) -> None:
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+
+    @staticmethod
+    def _valid(path: str) -> bool:
+        return bool(path) and (os.path.isdir(path) or os.path.isfile(path))
+
+    def _run(self) -> tuple[list, bool]:
+        """Voer de optie/fase-controle per soort uit. Geeft (sections,
+        any_source) terug; elke section = {label, skipped, violations}."""
+        sections = []
+        any_source = False
+        for key, label, new_key, name_col, excl in _NAME_PROFILES:
+            src = self.app.loc[new_key].get().strip()
+            if not self._valid(src):
+                sections.append({"label": label, "skipped": True,
+                                 "violations": []})
+                continue
+            any_source = True
+            viol = ot_compare.check_fase_optie(src, name_col, exclude_names=excl)
+            sections.append({"label": label, "skipped": False, "violations": viol})
+        return sections, any_source
+
+    def on_analyze(self) -> None:
+        self._clearlog()
+        sections, any_source = self._run()
+        if not any_source:
+            messagebox.showwarning(
+                "Geen bronnen", "Vul bij 'Locaties' minstens één map in voor "
+                "symbolen, lijntypes of arceringen.")
+            return
+        total = 0
+        for s in sections:
+            self._logmsg(f"══ {s['label']} ══")
+            if s["skipped"]:
+                self._logmsg("  Overgeslagen: geen geldige map/bestand ingevuld "
+                             "bij 'Locaties'.")
+                self._logmsg()
+                continue
+            total += len(s["violations"])
+            self._report(s["violations"])
+        if total == 0:
+            self._logmsg("Geen afwijkingen gevonden — alle 'fase' en 'optie' "
+                         "kloppen met de naam.")
+
+    def on_save_html(self) -> None:
+        out_dir = self.app.loc["output_dir"].get().strip()
+        if not out_dir or not os.path.isdir(out_dir):
+            messagebox.showwarning(
+                "Geen uitvoermap", "Vul bij 'Locaties' een geldige uitvoermap in "
+                "om de HTML op te slaan.")
+            return
+        sections, any_source = self._run()
+        if not any_source:
+            messagebox.showwarning(
+                "Geen bronnen", "Vul bij 'Locaties' minstens één map in voor "
+                "symbolen, lijntypes of arceringen.")
+            return
+        html = ot_html.build_fase_optie_html(
+            sections, title="Optie-fase-check",
+            version_new=self.app.version_new_var.get().strip())
+        path = os.path.join(out_dir, "optie-fase-check.html")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(html)
+        self._logmsg(f"HTML opgeslagen: {path}")
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(path))
+
+    def _report(self, viol: list) -> None:
+        if not viol:
+            self._logmsg("  ✓ Alle 'fase' en 'optie' kloppen met de naam.")
+            self._logmsg()
+            return
+        fase = [v for v in viol if v["kind"] == "fase"]
+        optie = [v for v in viol if v["kind"] == "optie"]
+
+        def dump(titel: str, items: list, col: str) -> None:
+            if not items:
+                return
+            self._logmsg(f"  {titel}: {len(items)}")
+            for v in items:
+                got = v["got"] or "(leeg)"
+                exp = v["expected"] or "(leeg)"
+                self._logmsg(f"     {v['name']}")
+                self._logmsg(f"        {col}: is '{got}'  →  verwacht '{exp}'  "
+                             f"[{v['file']} r{v['row']}]")
+
+        dump("FASE-afwijkingen", fase, "fase")
+        dump("OPTIE-afwijkingen", optie, "optie")
         self._logmsg()
 
 
@@ -1482,6 +1741,11 @@ class App(ttk.Frame):
         # Tabblad 'ID's': eerstvolgende vrije id_nummer + ID-controles.
         self.id_tab = IdTab(nb, self)
         nb.add(self.id_tab, text="ID's")
+
+        # Tabblad 'Optie-fase-check': fase/optie consistent met de gecodeerde naam
+        # (alleen symbolen/lijntypes/arceringen).
+        self.optiefase_tab = OptieFaseCheckTab(nb, self)
+        nb.add(self.optiefase_tab, text="Optie-fase-check")
 
         master.protocol("WM_DELETE_WINDOW", self._on_close)
 

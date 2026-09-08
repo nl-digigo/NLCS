@@ -495,15 +495,26 @@ def read_table(path: str) -> tuple[list[str], list[list[str]]]:
 
 def _collect_id_records(source_path: str, source: str,
                         id_col: str = "id_nummer",
-                        uri_col: str = KEY) -> list[dict]:
+                        uri_col: str = KEY, exclude: dict = None,
+                        name_col: str = "") -> list[dict]:
     """Lees per rij het ID en de URI uit `source_path`.
 
     `source_path` mag een MAP zijn (dan worden alle *.csv erin gelezen, bijv. de
     per-hoofdgroep objectentabellen/symbolentabellen) OF één CSV-BESTAND (bijv. de
     ene grote oude symbolen-/arceringen-/lijntypes-CSV).
 
+    `exclude` : optioneel {"match_col": <kolom>, "values": {<waarde>, ...}}. Rijen
+                waarvan `match_col` (hoofdletterongevoelig) in `values` zit worden
+                helemaal overgeslagen — bijv. de generieke lijntypes CONTINUOUS/
+                V-CONTINUOUS-SO die uit een andere publicatie komen en geen eigen
+                ID-reeks hebben.
+
+    `name_col` : optionele kolom met een mensleesbare naam (bijv. 'omschrijving',
+                 'symbool', 'arcering'); komt als "name" in elk record (leeg als
+                 de kolom ontbreekt). Handig omdat de URI slecht leesbaar is.
+
     Geeft een lijst dicts terug:
-      {"uri": <URI>, "id": <ID, ruwe string>,
+      {"uri": <URI>, "id": <ID, ruwe string>, "name": <mensleesbare naam>,
        "file": <bestandsnaam>, "row": <rijnummer in het bestand, 1-based
                 incl. kop>, "source": <source-label>}
     Rijen zonder ID hebben "id": "" (nieuwe objecten die nog een nummer nodig
@@ -517,17 +528,24 @@ def _collect_id_records(source_path: str, source: str,
         paths = [source_path]
     else:
         return out
+    ex_col = (exclude or {}).get("match_col", "")
+    ex_vals = {(v or "").strip().upper() for v in (exclude or {}).get("values", [])}
     for path in paths:
         headers, rows = read_table(path)
         if id_col not in headers:
             continue
         ci = headers.index(id_col)
         ui = headers.index(uri_col) if uri_col in headers else -1
+        xi = headers.index(ex_col) if ex_col and ex_col in headers else -1
+        mi = headers.index(name_col) if name_col and name_col in headers else -1
         name = os.path.basename(path)
         for n, r in enumerate(rows, start=2):   # +1 kop, +1 want 1-based
+            if 0 <= xi < len(r) and r[xi].strip().upper() in ex_vals:
+                continue
             idv = r[ci].strip() if ci < len(r) else ""
             uri = r[ui].strip() if 0 <= ui < len(r) else ""
-            out.append({"uri": uri, "id": idv, "file": name,
+            nm = r[mi].strip() if 0 <= mi < len(r) else ""
+            out.append({"uri": uri, "id": idv, "name": nm, "file": name,
                         "row": n, "source": source})
     return out
 
@@ -538,13 +556,18 @@ def _is_int_id(value: str) -> bool:
 
 
 def analyze_ids(new_src: str, old_src: str,
-                id_col: str = "id_nummer", uri_col: str = KEY) -> dict:
+                id_col: str = "id_nummer", uri_col: str = KEY,
+                exclude: dict = None, name_col: str = "") -> dict:
     """Analyseer de ID's (kolom `id_col`) uit de nieuwe en de vorige publicatie.
 
     `new_src`/`old_src` mogen een MAP (CSV's per hoofdgroep) of één CSV-BESTAND
     zijn (de oude symbolen-/arceringen-/lijntypes-CSV is één groot bestand).
     Voor objecten is `id_col="id_nummer"`, `uri_col="objectURI"`; voor symbolen/
     arceringen/lijntypes `id_col="id"` met de bijbehorende URI-kolom.
+
+    `exclude` : optioneel {"match_col", "values"} — rijen die hierop matchen
+    worden volledig buiten de analyse gehouden (bijv. de generieke lijntypes
+    CONTINUOUS/V-CONTINUOUS-SO, die uit een andere publicatie komen).
 
     Geeft een dict terug met:
       new / old         : lijst records per publicatie (zie _collect_id_records)
@@ -559,8 +582,8 @@ def analyze_ids(new_src: str, old_src: str,
       blanks_new / blanks_old : records zonder ID (nieuwe objecten zonder nummer)
       noninteger        : records met een niet-geheel ID (uitgesloten van 'highest')
     """
-    new_recs = _collect_id_records(new_src, "nieuw", id_col, uri_col)
-    old_recs = _collect_id_records(old_src, "vorig", id_col, uri_col)
+    new_recs = _collect_id_records(new_src, "nieuw", id_col, uri_col, exclude, name_col)
+    old_recs = _collect_id_records(old_src, "vorig", id_col, uri_col, exclude, name_col)
     all_recs = new_recs + old_recs
 
     # Hoogste gehele ID -> eerstvolgende vrije nummer.
@@ -569,11 +592,15 @@ def analyze_ids(new_src: str, old_src: str,
 
     # Dubbele ID's: één ID gekoppeld aan >1 verschillende URI (over beide
     # publicaties heen). Dezelfde URI met hetzelfde ID in oud én nieuw telt
-    # NIET als dubbel (dat is juist correct).
+    # NIET als dubbel (dat is juist correct). Rijen ZONDER URI worden hierbij
+    # genegeerd: een lege URI is geen echte identiteit en mag geen dubbele-ID-
+    # melding veroorzaken (anders zou bijv. eenzelfde symbool met dezelfde URI
+    # in 5.0 en 5.2 tóch als dubbel gemeld worden zodra ergens een regel met dat
+    # ID maar zonder URI staat).
     id_to_uris: dict[str, set] = {}
     id_to_recs: dict[str, list] = {}
     for rec in all_recs:
-        if not rec["id"]:
+        if not rec["id"] or not rec["uri"]:
             continue
         id_to_uris.setdefault(rec["id"], set()).add(rec["uri"])
         id_to_recs.setdefault(rec["id"], []).append(rec)
@@ -592,6 +619,11 @@ def analyze_ids(new_src: str, old_src: str,
             if rec["uri"] and rec["id"]:
                 m.setdefault(rec["uri"], set()).add(rec["id"])
         return m
+    # mensleesbare naam per URI (nieuwe publicatie eerst, anders de oude).
+    uri_name: dict[str, str] = {}
+    for rec in old_recs + new_recs:
+        if rec["uri"] and rec.get("name"):
+            uri_name[rec["uri"]] = rec["name"]
     new_uri_ids = uri_ids(new_recs)
     old_uri_ids = uri_ids(old_recs)
     mismatches = []
@@ -601,6 +633,7 @@ def analyze_ids(new_src: str, old_src: str,
         if n_ids != o_ids:
             mismatches.append({
                 "uri": uri,
+                "name": uri_name.get(uri, ""),
                 "new_id": ", ".join(sorted(n_ids)),
                 "old_id": ", ".join(sorted(o_ids)),
             })
@@ -619,12 +652,86 @@ def analyze_ids(new_src: str, old_src: str,
     }
 
 
+# Geldige optie-codes: het achtervoegsel achteraan de naam (zonder '-'). Staat er
+# achteraan iets uit deze set, dan hoort dat in de kolom 'optie'; staat er niets
+# uit deze set, dan hoort 'optie' leeg te zijn.
+FASE_OPTIE_CODES = ("S", "SO", "SOMM", "SOD", "SODMM", "D", "MM", "DMM")
+
+
+def _expected_fase_optie(name: str) -> tuple[str, str]:
+    """Leidt uit een gecodeerde naam af wat er in 'fase' en 'optie' hoort te staan.
+
+    Voorvoegsel: het eerste '-'-segment als dat één letter is (V, B, …) — dat
+    hoort de fase te zijn (bibliotheek-/hoofdgroepcodes zijn altijd ≥2 tekens:
+    SAL, SFC, AL, AM, ACO, …). Geen zo'n voorvoegsel → fase hoort leeg te zijn.
+    Achtervoegsel: het laatste '-'-segment als dat een geldige optie-code is
+    (FASE_OPTIE_CODES) — dat hoort de optie te zijn, zónder '-'. Anders → optie
+    hoort leeg te zijn."""
+    segs = name.split("-")
+    pref = ""
+    if len(segs) > 1 and len(segs[0]) == 1 and segs[0].isalpha():
+        pref = segs[0].upper()
+    suf = ""
+    if len(segs) > 1 and segs[-1].strip().upper() in FASE_OPTIE_CODES:
+        suf = segs[-1].strip().upper()
+    return pref, suf
+
+
+def check_fase_optie(src: str, name_col: str, exclude_names=()) -> list[dict]:
+    """Controleer per rij of de kolommen 'fase' en 'optie' kloppen met de naam.
+
+    `src` mag een MAP (CSV's per hoofdgroep) of één CSV-BESTAND zijn. `name_col`
+    is de kolom met de gecodeerde naam: 'symbool' (symbolen), 'omschrijving'
+    (lijntypes) of 'arcering' (arceringen). `exclude_names` : namen die worden
+    overgeslagen (bijv. de generieke lijntypes CONTINUOUS/V-CONTINUOUS-SO uit een
+    andere publicatie, met bewust lege fase/optie).
+
+    Geeft een lijst afwijkingen terug — dicts {"kind": 'fase'|'optie', "name",
+    "got", "expected", "file", "row"} — één per verkeerd gevulde kolom. Rijen
+    zonder naam of zonder de betreffende kolom leveren niets op."""
+    out: list[dict] = []
+    if not src:
+        return out
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return out
+    skip = {(n or "").strip().upper() for n in exclude_names}
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        fi = headers.index("fase") if "fase" in headers else -1
+        oi = headers.index("optie") if "optie" in headers else -1
+        name = os.path.basename(path)
+        for n, r in enumerate(rows, start=2):   # +1 kop, +1 want 1-based
+            nm = (r[ni] if ni < len(r) else "").strip()
+            if not nm or nm.upper() in skip:
+                continue
+            ef, eo = _expected_fase_optie(nm)
+            if fi >= 0:
+                fa = (r[fi] if fi < len(r) else "").strip()
+                if fa.upper() != ef:
+                    out.append({"kind": "fase", "name": nm, "got": fa,
+                                "expected": ef, "file": name, "row": n})
+            if oi >= 0:
+                op = (r[oi] if oi < len(r) else "").strip()
+                if op.upper() != eo:
+                    out.append({"kind": "optie", "name": nm, "got": op,
+                                "expected": eo, "file": name, "row": n})
+    return out
+
+
 def _sort_key(row: list[str]) -> str:
     return (row[SORT_COLUMN] if len(row) > SORT_COLUMN else "").casefold()
 
 
 def compare(new_path: str, old_path: str, key: str = KEY,
-            scope_col: str = "", blank_spec: dict = None) -> dict:
+            scope_col: str = "", blank_spec: dict = None,
+            suppress_change: dict = None) -> dict:
     """Vergelijk twee CSV-versies en geef een resultaat-dict terug.
 
     Parameters:
@@ -642,6 +749,13 @@ def compare(new_path: str, old_path: str, key: str = KEY,
                     "columns": [<kolom>, ...]}. Voor lijntypes: de generieke lijnen
                    'CONTINUOUS' en 'V-CONTINUOUS-SO' (uit een andere publicatie)
                    met blanco fase/optie/autocaddef.
+      suppress_change : optioneel {"match_col": <kolom>, "values": {<waarde>, ...}}.
+                   Rijen waarvan `match_col` in `values` zit tonen in de changelog
+                   NOOIT wijzigingen: geen enkele cel wordt als gewijzigd
+                   gemarkeerd, de rij krijgt status 'same' (nooit 'nieuw'/groen) en
+                   ze verschijnen niet in de vervallen-lijst. Voor lijntypes: de
+                   generieke lijnen 'CONTINUOUS'/'V-CONTINUOUS-SO' — die willen we
+                   in de changelog helemaal niet als wijziging zien.
 
     Keys in het resultaat:
       headers       : koppen van de nieuwe versie (bepalen de kolomindeling)
@@ -702,6 +816,14 @@ def compare(new_path: str, old_path: str, key: str = KEY,
                     if r[oidx[scope_col]].strip() in allowed
                     or (allow_empty and not r[oidx[scope_col]].strip())]
 
+    # Rijen waarvoor GEEN wijzigingen getoond mogen worden (changelog): match op
+    # een kolomwaarde (bijv. omschrijving = CONTINUOUS/V-CONTINUOUS-SO).
+    sup = suppress_change or {}
+    sup_col = sup.get("match_col", "")
+    sup_vals = {(v or "").strip().upper() for v in sup.get("values", [])}
+    sup_ni = nidx.get(sup_col, -1) if sup_col and sup_col in nidx else -1
+    sup_oi = oidx.get(sup_col, -1) if sup_col and sup_col in oidx else -1
+
     # Oude rijen op id (eerste voorkomen wint).
     old_by_id: dict[str, list[str]] = {}
     for r in old_rows:
@@ -720,13 +842,17 @@ def compare(new_path: str, old_path: str, key: str = KEY,
         if not is_new:
             matched.add(rid)
 
+        # Onderdruk wijzigingen voor deze rij? (generieke lijntypes)
+        suppressed = (sup_ni >= 0 and sup_ni < len(r)
+                      and r[sup_ni].strip().upper() in sup_vals)
+
         cells = []
         changed_any = False
         for h in new_headers:
             value = r[nidx[h]]
             changed = False
             old_value = None
-            if not is_new and h != key and h in oidx:
+            if not is_new and not suppressed and h != key and h in oidx:
                 ov = old[oidx[h]]
                 if value.strip() != ov.strip():
                     changed = True
@@ -734,12 +860,18 @@ def compare(new_path: str, old_path: str, key: str = KEY,
                     old_value = ov
             cells.append({"value": value, "changed": changed, "old": old_value})
 
-        status = "new" if is_new else ("changed" if changed_any else "same")
+        if suppressed:
+            status = "same"
+        else:
+            status = "new" if is_new else ("changed" if changed_any else "same")
         rows_out.append({"status": status, "id": rid, "cells": cells})
 
     # Vervallen rijen: id wel in oud, niet gematcht. In nieuwe-kolomindeling zetten.
+    # Onderdrukte rijen (generieke lijntypes) tellen nooit als vervallen.
     deleted_rows = [r for r in old_rows
-                    if r[oidx[key]].strip() and r[oidx[key]].strip() not in matched]
+                    if r[oidx[key]].strip() and r[oidx[key]].strip() not in matched
+                    and not (sup_oi >= 0 and sup_oi < len(r)
+                             and r[sup_oi].strip().upper() in sup_vals)]
     deleted_rows.sort(key=_sort_key)
     deleted_out = []
     for r in deleted_rows:

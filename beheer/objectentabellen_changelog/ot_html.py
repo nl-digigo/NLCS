@@ -181,20 +181,22 @@ _FULL_STYLE = """
         color: #000 !important; }
 """
 
-def _full_script(no_sort_indices=None) -> str:
+def _full_script(no_sort_indices=None, order=None) -> str:
     """Het DataTables-init-script. `no_sort_indices` = kolommen die niet
-    sorteerbaar mogen zijn (bijv. de svg-afbeeldingskolom)."""
+    sorteerbaar mogen zijn (bijv. de svg-afbeeldingskolom). `order` = de
+    standaardsortering ([[kolomindex, 'asc'|'desc'], ...]); None -> [[0,'asc']]."""
     coldefs = ""
     if no_sort_indices:
         coldefs = ("\n        columnDefs: [{ orderable: false, targets: "
                    + _json.dumps(list(no_sort_indices)) + " }],")
+    order_js = _json.dumps(order if order else [[0, "asc"]])
     return """
 <script>
 $(document).ready(function () {
     var table = $('#otab').DataTable({
         pageLength: 25,
         lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Alle"]],""" + coldefs + """
-        order: [[0, 'asc']],
+        order: """ + order_js + """,
         orderCellsTop: true
     });
     // Filters via event-delegatie op de wrapper: blijft werken ongeacht hoe
@@ -269,7 +271,7 @@ def _extra_filter_cell(col: dict) -> str:
 
 def build_full_html(result: dict, title: str, version_new: str = "",
                     visible_indices=None, text_columns=None,
-                    extra_columns=None, front_columns=None) -> str:
+                    extra_columns=None, front_columns=None, order=None) -> str:
     """Volledige nieuwe tabel als sorteerbare/filterbare DataTables-pagina.
 
     text_columns  : kolomnamen die een vrij zoekveld krijgen; alle andere
@@ -285,7 +287,10 @@ def build_full_html(result: dict, title: str, version_new: str = "",
                       orderable     : bool (svg-kolom = False)
                       td_class      : optionele class op de <td>
     front_columns : idem, maar VOORAAN (bijv. symbolen: 'zoekfilter' + 'svg').
-                    De eerste front-kolom moet sorteerbaar zijn (order [[0]])."""
+                    De eerste front-kolom moet sorteerbaar zijn (order [[0]]).
+    order         : DataTables-standaardsortering ([[kolomindex, richting], ...]);
+                    None -> [[0, 'asc']]. Symbolen groeperen zo op de zoekfilter-
+                    kolom (0) met de symboolnaam-kolom als secundaire sortering."""
     headers = result["headers"]
     rows = result["rows"]
     front = front_columns or []
@@ -339,7 +344,7 @@ def build_full_html(result: dict, title: str, version_new: str = "",
         + "</thead>\n<tbody>\n"
         + "\n".join(body)
         + "\n</tbody>\n</table>\n"
-        + _full_script(no_sort)
+        + _full_script(no_sort, order)
         + "</div>\n"
         + _FOOTER
     )
@@ -714,5 +719,216 @@ def build_missing_dwg_html(missing, title: str, symbols_dir: str = "",
         + f'<div class="wrap">\n<p class="info">{info}</p>\n'
         + table
         + "</div>\n"
+        + _FOOTER
+    )
+
+
+# ---------------------------------------------------------------------------
+# 6. Controle-rapporten (ID-controle en Optie-fase-check) als HTML
+# ---------------------------------------------------------------------------
+_CHECK_STYLE = """
+    .wrap { max-width: 1100px; }
+    .card { background:#fff; border:1px solid var(--dg-grey); border-radius:8px;
+            padding:16px 18px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+    .card h2 { margin:0 0 8px; font-size:1.2rem; border-bottom:3px solid var(--dg-yellow);
+               padding-bottom:6px; }
+    .card h3 { margin:16px 0 6px; font-size:.98rem; color:var(--dg-ink); }
+    .kpi { display:flex; gap:14px; flex-wrap:wrap; margin:10px 0 4px; }
+    .kpi .box { background:#fafafa; border:1px solid var(--dg-grey); border-radius:6px;
+                padding:6px 14px; font-size:.85rem; color:var(--dg-grey2); }
+    .kpi .box b { display:block; font-size:1.3rem; font-weight:700; color:var(--dg-ink); }
+    .kpi .box.free { border-color:var(--dg-green); background:#f0f8ef; }
+    .kpi .box.free b { color:var(--dg-green); }
+    p.ok { color:var(--dg-green); font-weight:600; margin:8px 0; }
+    p.warn { color:var(--dg-red); font-weight:700; margin:14px 0 4px; }
+    p.skip { color:var(--dg-grey2); font-style:italic; }
+    table.otab { width:100%; margin:4px 0 10px; }
+    table.otab tbody td { white-space:normal; }
+    table.otab tbody tr:nth-child(even) td { background:#fafafa; }
+    td.num { text-align:right; font-family:Consolas,"Courier New",monospace;
+             white-space:nowrap; }
+    td.loc { color:var(--dg-grey2); white-space:nowrap; font-size:.8rem; }
+    .is-was { font-family:Consolas,"Courier New",monospace; }
+    .is-was .is { color:var(--dg-red); }
+    .is-was .exp { color:var(--dg-green); font-weight:600; }
+"""
+
+
+def _name_of(rec) -> str:
+    """Mensleesbare naam voor een ID-record; valt terug op de URI."""
+    return rec.get("name") or rec.get("uri") or "(geen naam)"
+
+
+def _otab(head_cells: str, rows: list[str]) -> str:
+    return ('<table class="otab"><thead><tr>' + head_cells
+            + '</tr></thead><tbody>\n' + "\n".join(rows) + '\n</tbody></table>')
+
+
+def build_id_report_html(sections, title: str = "ID-controle",
+                         version_new: str = "", version_old: str = "") -> str:
+    """Rapportpagina voor de ID-controle (tabblad 'ID's').
+
+    sections : lijst dicts per soort met
+        {"label", "id_col", "woord", "skipped"(bool), "res"(analyze_ids-dict|None)}.
+    """
+    cards = []
+    for s in sections:
+        label = s["label"]
+        if s.get("skipped") or not s.get("res"):
+            cards.append(
+                f'<div class="card"><h2>{_esc(label)}</h2>'
+                '<p class="skip">Overgeslagen: geen geldige map/bestand ingevuld '
+                'bij ‘Locaties’.</p></div>')
+            continue
+        res = s["res"]
+        id_col = s["id_col"]
+        parts = [f'<div class="card"><h2>{_esc(label)}</h2>']
+        ing = len(res["new"]) + len(res["old"])
+        parts.append(
+            '<div class="kpi">'
+            f'<div class="box"><b>{ing}</b>ingelezen '
+            f'({len(res["new"])} nieuw / {len(res["old"])} vorig)</div>'
+            f'<div class="box"><b>{res["highest"]}</b>hoogste ID</div>'
+            f'<div class="box free"><b>{res["next_free"]}</b>'
+            'eerstvolgende vrije ID</div></div>')
+
+        # Rijen zonder ID.
+        bn = res["blanks_new"]
+        bo = res["blanks_old"]
+        if bn or bo:
+            parts.append(f'<h3>Zonder {_esc(id_col)}: {len(bn) + len(bo)} '
+                         f'({len(bn)} nieuw, {len(bo)} vorig)</h3>')
+            rows = []
+            for i, rec in enumerate(bn):
+                rows.append(
+                    f'<tr><td class="num">{res["next_free"] + i}</td>'
+                    f'<td>{_esc(_name_of(rec))}</td><td>nieuw</td>'
+                    f'<td class="loc">{_esc(rec["file"])} r{rec["row"]}</td></tr>')
+            for rec in bo:
+                rows.append(
+                    '<tr><td class="num">—</td>'
+                    f'<td>{_esc(_name_of(rec))}</td><td>vorig</td>'
+                    f'<td class="loc">{_esc(rec["file"])} r{rec["row"]}</td></tr>')
+            parts.append(_otab(
+                '<th>voorgesteld ID</th><th>naam</th><th>publicatie</th>'
+                '<th>bestand (rij)</th>', rows))
+        else:
+            parts.append(f'<p class="ok">✓ Elke rij heeft een {_esc(id_col)}.</p>')
+
+        # Dubbele ID's.
+        dups = res["duplicates"]
+        if dups:
+            parts.append(f'<p class="warn">⚠ {len(dups)} dubbel gebruikte '
+                         'ID(’s)</p>')
+            rows = []
+            for d in dups:
+                for rec in d["records"]:
+                    rows.append(
+                        f'<tr><td class="num">{_esc(d["id"])}</td>'
+                        f'<td>{_esc(_name_of(rec))}</td>'
+                        f'<td>{_esc(rec["source"])}</td>'
+                        f'<td class="loc">{_esc(rec["file"])} r{rec["row"]}</td></tr>')
+            parts.append(_otab(
+                '<th>ID</th><th>naam</th><th>publicatie</th><th>bestand (rij)</th>',
+                rows))
+        else:
+            parts.append('<p class="ok">✓ Geen dubbel gebruikte ID’s.</p>')
+
+        # Verschillend ID voor dezelfde URI.
+        mism = res["mismatches"]
+        if mism:
+            parts.append(f'<p class="warn">⚠ {len(mism)} met een verschillend '
+                         'ID in de vorige en nieuwe publicatie</p>')
+            rows = []
+            for m in mism:
+                naam = m.get("name") or m.get("uri") or "(geen naam)"
+                rows.append(
+                    f'<tr><td>{_esc(naam)}</td>'
+                    f'<td class="num">{_esc(m["new_id"])}</td>'
+                    f'<td class="num">{_esc(m["old_id"])}</td></tr>')
+            parts.append(_otab('<th>naam</th><th>nieuw ID</th><th>vorig ID</th>', rows))
+        else:
+            parts.append('<p class="ok">✓ Elke URI heeft in beide publicaties '
+                         'hetzelfde ID.</p>')
+
+        # Niet-gehele ID's.
+        nonint = res["noninteger"]
+        if nonint:
+            parts.append(f'<h3>Niet-gehele ID’s genegeerd: {len(nonint)}</h3>')
+            rows = [
+                f'<tr><td class="num">{_esc(rec["id"])}</td>'
+                f'<td>{_esc(_name_of(rec))}</td><td>{_esc(rec["source"])}</td>'
+                f'<td class="loc">{_esc(rec["file"])} r{rec["row"]}</td></tr>'
+                for rec in nonint]
+            parts.append(_otab(
+                '<th>ID</th><th>naam</th><th>publicatie</th><th>bestand (rij)</th>',
+                rows))
+        parts.append('</div>')
+        cards.append("\n".join(parts))
+
+    ver = ""
+    if version_new or version_old:
+        ver = f" &middot; {_esc(version_old or '?')} &rarr; {_esc(version_new or '?')}"
+    info = f"Controle van de ID-nummers per soort{ver}"
+    body = "\n".join(cards) if cards else '<p class="info">Geen bronnen.</p>'
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n{body}\n</div>\n'
+        + _FOOTER
+    )
+
+
+def build_fase_optie_html(sections, title: str = "Optie-fase-check",
+                          version_new: str = "") -> str:
+    """Rapportpagina voor de optie-fase-check (tabblad 'Optie-fase-check').
+
+    sections : lijst dicts per soort met
+        {"label", "skipped"(bool), "violations"(lijst check_fase_optie-dicts)}.
+    """
+    cards = []
+    total = 0
+    for s in sections:
+        label = s["label"]
+        if s.get("skipped"):
+            cards.append(
+                f'<div class="card"><h2>{_esc(label)}</h2>'
+                '<p class="skip">Overgeslagen: geen geldige map/bestand ingevuld '
+                'bij ‘Locaties’.</p></div>')
+            continue
+        viol = s.get("violations") or []
+        total += len(viol)
+        parts = [f'<div class="card"><h2>{_esc(label)}</h2>']
+        if not viol:
+            parts.append('<p class="ok">✓ Alle ‘fase’ en '
+                         '‘optie’ kloppen met de naam.</p>')
+        else:
+            fase = [v for v in viol if v["kind"] == "fase"]
+            optie = [v for v in viol if v["kind"] == "optie"]
+            for titel, items, col in (("FASE-afwijkingen", fase, "fase"),
+                                      ("OPTIE-afwijkingen", optie, "optie")):
+                if not items:
+                    continue
+                parts.append(f'<p class="warn">⚠ {titel}: {len(items)}</p>')
+                rows = []
+                for v in items:
+                    got = v["got"] or "(leeg)"
+                    exp = v["expected"] or "(leeg)"
+                    rows.append(
+                        f'<tr><td>{_esc(v["name"])}</td>'
+                        f'<td class="is-was"><span class="is">{_esc(got)}</span> '
+                        f'&rarr; <span class="exp">{_esc(exp)}</span></td>'
+                        f'<td class="loc">{_esc(v["file"])} r{v["row"]}</td></tr>')
+                parts.append(_otab(
+                    f'<th>naam</th><th>{_esc(col)} (is &rarr; verwacht)</th>'
+                    '<th>bestand (rij)</th>', rows))
+        parts.append('</div>')
+        cards.append("\n".join(parts))
+
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    info = f"{total} afwijking(en) in totaal{ver}"
+    body = "\n".join(cards) if cards else '<p class="info">Geen bronnen.</p>'
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n{body}\n</div>\n'
         + _FOOTER
     )
