@@ -91,8 +91,8 @@ RUN_HOOFDGROEPEN =  None
 # Set to True to also export shared concepts (lijnkleuren, statussen, etc.)
 RUN_SHARED = False
 
-SOURCE_NAME_SHARED = "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes"
-SOURCE_URL_SHARED = "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes"
+SOURCE_NAME_SHARED = "NLCS-basis"  # "NLCS Aspects Lijnkleur Lijnweight and Shared Lijntypes"
+SOURCE_URL_SHARED = "http://hub.laces.tech/digitalbuildingdata/nlcs/live/nlcs-basis/versions/v5_0"  # "https://hub.laces.tech/digitalbuildingdata/nlcs/test/nlcs-aspects-lijnkleur-lijnweight-and-shared-lijntypes"
 
 # ---------------------------------------------------------------------------
 # Logging
