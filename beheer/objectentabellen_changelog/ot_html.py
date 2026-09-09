@@ -830,6 +830,10 @@ _CHECK_STYLE = """
     .is-was { font-family:Consolas,"Courier New",monospace; }
     .is-was .is { color:var(--dg-red); }
     .is-was .exp { color:var(--dg-green); font-weight:600; }
+    ul.charlist { margin:6px 0 2px; padding-left:20px; columns:2; column-gap:28px; }
+    ul.charlist li { margin:2px 0; font-size:.88rem; color:var(--dg-grey2);
+                     break-inside:avoid; }
+    ul.charlist li code { font-size:.9rem; }
 """
 
 
@@ -1284,6 +1288,61 @@ def build_searchterm_html(sections: list, title: str = "Zoekterm-controle",
     )
 
 
+def _searchterm_min_card(section: dict) -> str:
+    """Eén kaart voor een soort: zoektermen die géén symbool/arcering vinden."""
+    label = section.get("label", "")
+    obj_col = section.get("obj_col", "")
+    total = section.get("total", 0)
+    name_count = section.get("name_count", 0)
+    ok = section.get("ok", 0)
+    empty = section.get("empty", [])
+
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{total}</b>zoektermen ({_esc(obj_col)})</div>'
+        f'<div class="box"><b>{ok}</b>met &ge;1 {_esc(label[:-1] if label.endswith("en") else label)}</div>'
+        f'<div class="box {"bad" if empty else "free"}"><b>{len(empty)}</b>'
+        'zonder treffer</div>'
+        '</div>')
+
+    c = [f'<div class="card"><h2>Zoektermen zonder {_esc(label)}-treffer</h2>',
+         f'<p class="info">Zoekterm = <code>{_esc(obj_col)}</code>-waarde uit de '
+         f'objectentabel; elke zoekterm moet minstens één {_esc(label)} vinden '
+         f'({name_count} {_esc(label)} doorzocht). Een {_esc(label)} telt als '
+         '“gevonden” als de zoekterm als tekst in de naam voorkomt.</p>',
+         kpi]
+    if not empty:
+        c.append(f'<p class="ok">✓ Elke zoekterm vindt minstens één '
+                 f'{_esc(label)}.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(empty)} zoekterm(en) vinden geen enkele '
+                 f'{_esc(label)}:</p>')
+        rows = [
+            f'<tr><td><code>{_esc(d["term"])}</code></td>'
+            f'<td class="loc">{_esc(", ".join(d.get("files", [])))}</td></tr>'
+            for d in empty]
+        c.append(_otab('<th>zoekterm</th><th>objectbestand(en)</th>', rows))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def build_searchterm_min_html(sections: list, title: str = "Zoekterm-treffers",
+                              version_new: str = "") -> str:
+    """Rapportpagina: vindt elke zoekterm (sobject/aobject uit de objectentabel)
+    minstens één symbool/arcering? (minimaal 1 vereist).
+
+    `sections` is een lijst dicts uit ot_compare.check_searchterm_min, aangevuld
+    met label/obj_col."""
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    body = "\n".join(_searchterm_min_card(s) for s in sections)
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Zoekterm-treffers (min. 1){ver}</p>\n'
+        + body + '\n</div>\n'
+        + _FOOTER
+    )
+
+
 def build_fase_visualisatie_html(result: dict,
                                  title: str = "Fase-visualisatie",
                                  version_new: str = "") -> str:
@@ -1356,5 +1415,288 @@ def build_fase_visualisatie_html(result: dict,
         _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
         + f'<div class="wrap">\n<p class="info">Fase-visualisatie-controle{ver}</p>\n'
         + body + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+def _duplicate_names_card(section: dict) -> str:
+    """Eén kaart voor een soort (objecten/symbolen/lijntypes/arceringen)."""
+    label = section.get("label", "")
+    name_col = section.get("name_col", "")
+    total = section.get("total", 0)
+    unique = section.get("unique", 0)
+    duplicates = section.get("duplicates", [])
+
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{total}</b>{_esc(label)}</div>'
+        f'<div class="box"><b>{unique}</b>unieke namen per hoofdgroep</div>'
+        f'<div class="box {"bad" if duplicates else "free"}"><b>{len(duplicates)}</b>'
+        'dubbele namen</div>'
+        '</div>')
+
+    c = [f'<div class="card"><h2>{_esc(label.capitalize())} met een dubbele naam</h2>',
+         f'<p class="info">Naam = <code>{_esc(name_col)}</code>-kolom. Een dubbele '
+         'naam is dezelfde naam die binnen één hoofdgroep (één bestand) meer dan '
+         'eens voorkomt. Dezelfde naam in verschillende hoofdgroepen telt niet als '
+         'dubbel.</p>',
+         kpi]
+    if not duplicates:
+        c.append('<p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(duplicates)} naam/namen komen binnen '
+                 'dezelfde hoofdgroep meer dan eens voor:</p>')
+        rows = [
+            f'<tr><td>{_esc(d["name"])}</td>'
+            f'<td class="loc">{_esc(d.get("file", ""))}</td>'
+            f'<td>{d.get("count", 0)}&times;</td>'
+            f'<td class="loc">{_esc(", ".join(str(r) for r in d.get("rows", [])))}</td>'
+            '</tr>'
+            for d in duplicates]
+        c.append(_otab('<th>naam</th><th>bestand</th><th>aantal</th>'
+                       '<th>rij(en)</th>', rows))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def build_duplicate_names_html(sections: list, title: str = "Dubbele namen",
+                               version_new: str = "") -> str:
+    """Rapportpagina voor de dubbele-namen-controle (identieke namen binnen een
+    hoofdgroep) van objecten, symbolen, lijntypes en arceringen.
+
+    `sections` is een lijst dicts uit ot_compare.check_duplicate_names, aangevuld
+    met label/name_col."""
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    body = "\n".join(_duplicate_names_card(s) for s in sections)
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Dubbele-namen-controle{ver}</p>\n'
+        + body + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+def _special_chars_card(section: dict) -> str:
+    """Eén kaart voor een soort (objecten/symbolen/lijntypes/arceringen)."""
+    label = section.get("label", "")
+    name_col = section.get("name_col", "")
+    total = section.get("total", 0)
+    ok = section.get("ok", 0)
+    violations = section.get("violations", [])
+    lowercase = section.get("lowercase", [])
+
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{total}</b>{_esc(label)}</div>'
+        f'<div class="box {"free" if ok == total else ""}"><b>{ok}</b>zonder verboden teken</div>'
+        f'<div class="box {"bad" if violations else "free"}"><b>{len(violations)}</b>'
+        'met verboden teken</div>'
+        '</div>')
+
+    c = [f'<div class="card"><h2>{_esc(label.capitalize())} met een niet-toegestaan teken</h2>',
+         f'<p class="info">Naam = <code>{_esc(name_col)}</code>-kolom. Spaties, de '
+         'punt (decimaalteken), <code>-</code> en <code>_</code> zijn toegestaan; '
+         'de tekens hieronder niet.</p>',
+         kpi]
+    if not violations:
+        c.append('<p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(violations)} naam/namen bevatten een '
+                 'niet-toegestaan teken:</p>')
+        rows = []
+        for d in violations:
+            chars = " ".join(f'<code>{_esc(ch)}</code>' for ch in d.get("chars", []))
+            rows.append(
+                f'<tr><td>{_esc(d["name"])}</td>'
+                f'<td>{chars}</td>'
+                f'<td class="loc">{_esc(d.get("file", ""))} r{d.get("row", "")}</td>'
+                '</tr>')
+        c.append(_otab('<th>naam</th><th>verboden teken(s)</th><th>bestand</th>',
+                       rows))
+    # informatief: namen met kleine letters (geen fout)
+    if lowercase:
+        c.append(f'<p class="info">Ter info: {len(lowercase)} naam/namen bevatten '
+                 'een kleine letter. Dat is toegestaan voor eenheden '
+                 '(<code>mm</code>/<code>Mm</code>) en elementsymbolen '
+                 '(<code>Cu</code>) — controleer of het hier bewust is:</p>')
+        rows = [
+            f'<tr><td>{_esc(d["name"])}</td>'
+            f'<td class="loc">{_esc(d.get("file", ""))} r{d.get("row", "")}</td></tr>'
+            for d in lowercase]
+        c.append(_otab('<th>naam</th><th>bestand</th>', rows))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def build_special_chars_html(sections: list, title: str = "Speciale tekens",
+                             forbidden: dict = None, version_new: str = "") -> str:
+    """Rapportpagina voor de controle op niet-toegestane tekens in namen van
+    objecten, symbolen, lijntypes en arceringen.
+
+    `sections` = lijst dicts uit ot_compare.check_special_chars, aangevuld met
+    label/name_col. `forbidden` = de tekenset-met-reden (FORBIDDEN_NAME_CHARS)
+    voor de legenda bovenaan."""
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    legend = ""
+    if forbidden:
+        items = "".join(
+            f'<li><code>{_esc(ch)}</code> — {_esc(reason)}</li>'
+            for ch, reason in forbidden.items())
+        legend = ('<div class="card"><h2>Niet-toegestane tekens</h2>'
+                  '<p class="info">Deze tekens werken technisch niet in CAD-laag- '
+                  'of symboolnamen (AutoCAD, MicroStation) of breken LISP-tools. '
+                  'De lijst is mogelijk niet volledig — check bij twijfel bij de '
+                  'NLCS-expertcommissie.</p>'
+                  f'<ul class="charlist">{items}</ul></div>')
+    body = "\n".join(_special_chars_card(s) for s in sections)
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Controle speciale tekens{ver}</p>\n'
+        + legend + "\n" + body + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+def build_element_link_html(result: dict, title: str = "Element-koppeling",
+                            version_new: str = "") -> str:
+    """Rapportpagina voor de element ↔ sobject/aobject-koppelingscontrole.
+
+    `result` is de dict van ot_compare.check_element_object_link. Toont de
+    objecten waarbij het `element`-token (S/A) niet overeenkomt met de aan- of
+    afwezigheid van `sobject`/`aobject`."""
+    total = result.get("total", 0)
+    ok = result.get("ok", 0)
+    violations = result.get("violations", [])
+
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{total}</b>objecten</div>'
+        f'<div class="box {"free" if ok == total else ""}"><b>{ok}</b>correct</div>'
+        f'<div class="box {"bad" if violations else "free"}"><b>{len(violations)}</b>'
+        'afwijkend</div>'
+        '</div>')
+
+    c = ['<div class="card"><h2>Element ↔ sobject/aobject</h2>',
+         '<p class="info">De kolom <code>element</code> bevat de tokens '
+         '<code>S</code> (symbool) en/of <code>A</code> (arcering). Bevat '
+         '<code>element</code> een <code>S</code>, dan moet <code>sobject</code> '
+         'gevuld zijn — en omgekeerd; hetzelfde geldt voor <code>A</code> en '
+         '<code>aobject</code>.</p>',
+         kpi]
+    if not violations:
+        c.append('<p class="ok">✓ Elk object heeft een consistente '
+                 'element-koppeling.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(violations)} object(en) met een '
+                 'afwijkende koppeling:</p>')
+        rows = [
+            f'<tr><td>{_esc(v["name"])}</td>'
+            f'<td>{_esc(v.get("element", ""))}</td>'
+            f'<td>{_esc("; ".join(v.get("problems", [])))}</td>'
+            f'<td class="loc">{_esc(v.get("file", ""))} r{v.get("row", "")}</td>'
+            '</tr>'
+            for v in violations]
+        c.append(_otab('<th>object</th><th>element</th><th>probleem</th>'
+                       '<th>bestand</th>', rows))
+    c.append('</div>')
+
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Element-koppelingscontrole{ver}</p>\n'
+        + "\n".join(c) + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+def build_arcering_verklaring_html(result: dict, title: str = "Verklaring",
+                                   version_new: str = "") -> str:
+    """Rapportpagina voor de arcering-verklaringcontrole.
+
+    `result` is de dict van ot_compare.check_arcering_verklaring. Toont de
+    arceringen zonder gevulde `vrkl_lang` (verklaring lang)."""
+    total = result.get("total", 0)
+    ok = result.get("ok", 0)
+    missing = result.get("missing", [])
+
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{total}</b>arceringen</div>'
+        f'<div class="box {"free" if ok == total else ""}"><b>{ok}</b>'
+        'met verklaring</div>'
+        f'<div class="box {"bad" if missing else "free"}"><b>{len(missing)}</b>'
+        'zonder verklaring</div>'
+        '</div>')
+
+    c = ['<div class="card"><h2>Arceringen zonder verklaring</h2>',
+         '<p class="info">Elke arcering moet een (lange) verklaring hebben in de '
+         'kolom <code>vrkl_lang</code>; deze tekst verschijnt in de legenda/'
+         'verklaring.</p>',
+         kpi]
+    if not missing:
+        c.append('<p class="ok">✓ Elke arcering heeft een verklaring.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(missing)} arcering(en) zonder '
+                 'verklaring:</p>')
+        rows = [
+            f'<tr><td>{_esc(m["name"])}</td>'
+            f'<td class="loc">{_esc(m.get("file", ""))} r{m.get("row", "")}</td>'
+            '</tr>'
+            for m in missing]
+        c.append(_otab('<th>arcering</th><th>bestand</th>', rows))
+    c.append('</div>')
+
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Verklaringcontrole arceringen{ver}</p>\n'
+        + "\n".join(c) + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+def build_lijntype_autocaddef_html(result: dict, title: str = "AutoCAD-definitie",
+                                   version_new: str = "") -> str:
+    """Rapportpagina voor de lijntype-autocaddef-controle.
+
+    `result` is de dict van ot_compare.check_lijntype_autocaddef. Toont de
+    lijntypes zonder gevulde `autocaddef` (AutoCAD-definitiestring)."""
+    total = result.get("total", 0)
+    ok = result.get("ok", 0)
+    missing = result.get("missing", [])
+
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{total}</b>lijntypes</div>'
+        f'<div class="box {"free" if ok == total else ""}"><b>{ok}</b>'
+        'met definitie</div>'
+        f'<div class="box {"bad" if missing else "free"}"><b>{len(missing)}</b>'
+        'zonder definitie</div>'
+        '</div>')
+
+    c = ['<div class="card"><h2>Lijntypes zonder AutoCAD-definitie</h2>',
+         '<p class="info">Elk lijntype moet een AutoCAD-definitie hebben in de '
+         'kolom <code>autocaddef</code> (bijv. <code>A,4,-.8,.8,-.8</code>). De '
+         'generieke lijnen <code>CONTINUOUS</code> en <code>V-CONTINUOUS-SO</code> '
+         'worden overgeslagen — die hebben bewust geen definitiestring.</p>',
+         kpi]
+    if not missing:
+        c.append('<p class="ok">✓ Elk lijntype heeft een AutoCAD-definitie.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(missing)} lijntype(s) zonder '
+                 'definitie:</p>')
+        rows = [
+            f'<tr><td>{_esc(m["name"])}</td>'
+            f'<td class="loc">{_esc(m.get("file", ""))} r{m.get("row", "")}</td>'
+            '</tr>'
+            for m in missing]
+        c.append(_otab('<th>lijntype</th><th>bestand</th>', rows))
+    c.append('</div>')
+
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">AutoCAD-definitiecontrole lijntypes{ver}</p>\n'
+        + "\n".join(c) + '\n</div>\n'
         + _FOOTER
     )

@@ -1078,6 +1078,162 @@ def check_searchterm_coverage(name_src: str, obj_src: str,
     }
 
 
+def check_searchterm_min(obj_src: str, name_src: str,
+                         obj_col: str, name_col: str) -> dict:
+    """Controleer of elke zoekterm uit de objectentabel minstens één symbool/
+    arcering vindt (minimaal 1 vereist).
+
+    De zoekterm is een `obj_col`-waarde (sobject voor symbolen, aobject voor
+    arceringen) uit de objectentabel. Een symbool/arcering wordt GEVONDEN als de
+    zoekterm als string (substring) in de naam (`name_col`: 'symbool' resp.
+    'arcering') voorkomt. Dit is de omgekeerde richting van
+    `check_searchterm_coverage`: dáár moet elke naam een term hebben, hier moet
+    elke term een naam vinden. `obj_src` en `name_src` mogen elk een MAP met
+    CSV's of één CSV-bestand zijn.
+
+    Geeft terug:
+      {
+        "total":      aantal unieke zoektermen (obj_col-waarden),
+        "name_count": aantal namen (symbolen/arceringen),
+        "ok":         aantal zoektermen met >=1 treffer,
+        "empty":      [ {term, files} ]  (zoektermen zonder treffer, gesorteerd;
+                       'files' = objectbestanden waarin de term voorkomt),
+      }
+    """
+    def _paths(src):
+        if not src:
+            return []
+        if os.path.isdir(src):
+            return sorted(glob.glob(os.path.join(src, "*.csv")))
+        if os.path.isfile(src):
+            return [src]
+        return []
+
+    # zoektermen verzamelen uit de objectentabel (met bronbestanden)
+    term_files: dict[str, set] = {}
+    for path in _paths(obj_src):
+        headers, rows = read_table(path)
+        if obj_col not in headers:
+            continue
+        ci = headers.index(obj_col)
+        fn = os.path.basename(path)
+        for r in rows:
+            v = (r[ci] if ci < len(r) else "").strip()
+            if v:
+                term_files.setdefault(v, set()).add(fn)
+
+    # alle namen (symbolen/arceringen) verzamelen
+    names: list[str] = []
+    for path in _paths(name_src):
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        for r in rows:
+            nm = (r[ni] if ni < len(r) else "").strip()
+            if nm:
+                names.append(nm)
+
+    ok = 0
+    empty: list[dict] = []
+    for term in term_files:
+        if any(term in nm for nm in names):
+            ok += 1
+        else:
+            empty.append({
+                "term": term,
+                "files": sorted(term_files[term]),
+            })
+    empty.sort(key=lambda d: d["term"].casefold())
+    return {
+        "total": len(term_files), "name_count": len(names),
+        "ok": ok, "empty": empty,
+    }
+
+
+# Tekens die in CAD-laag-/symboolnamen niet zijn toegestaan, met de reden.
+# Samengesteld uit de restricties van AutoCAD (symboolnaam / EXTNAMES / snvalid),
+# MicroStation (level names) en AutoLISP. Spatie, punt (decimaalteken), '-' en
+# '_' zijn WEL toegestaan (die worden in NLCS-namen bewust gebruikt).
+FORBIDDEN_NAME_CHARS = {
+    "\\": "backslash — tekenscheiding, niet toegestaan (AutoCAD, MicroStation)",
+    "/": "schuine streep — tekenscheiding, niet toegestaan (AutoCAD, MicroStation)",
+    ",": "komma — niet toegestaan (AutoCAD, MicroStation); gebruik een punt als decimaalteken",
+    "[": "blokhaak openen — niet toegestaan",
+    "]": "blokhaak sluiten — niet toegestaan",
+    "<": "kleiner-dan — niet toegestaan (AutoCAD, MicroStation)",
+    ">": "groter-dan — niet toegestaan (AutoCAD, MicroStation)",
+    '"': "dubbele aanhalingstekens — niet toegestaan (AutoCAD, MicroStation, LISP)",
+    "'": "apostrof — niet toegestaan (MicroStation, LISP)",
+    ":": "dubbele punt — niet toegestaan (AutoCAD)",
+    ";": "puntkomma — niet toegestaan (AutoCAD; commentaarteken in LISP)",
+    "?": "vraagteken — jokerteken, niet toegestaan (AutoCAD, MicroStation)",
+    "*": "asterisk — jokerteken, niet toegestaan (AutoCAD)",
+    "|": "verticale streep — xref-scheiding, niet toegestaan (AutoCAD)",
+    "=": "is-gelijkteken — niet toegestaan (AutoCAD, MicroStation)",
+    "`": "accent grave — niet toegestaan (AutoCAD)",
+    "(": "haakje openen — breekt LISP-expressies",
+    ")": "haakje sluiten — breekt LISP-expressies",
+}
+
+
+def check_special_chars(src: str, name_col: str,
+                        forbidden: dict = None) -> dict:
+    """Controleer namen op tekens die in CAD-laag-/symboolnamen niet zijn
+    toegestaan (zie FORBIDDEN_NAME_CHARS). Spaties, de punt (decimaalteken), '-'
+    en '_' zijn WEL toegestaan. `src` mag een MAP met CSV's of één CSV zijn.
+
+    Geeft terug:
+      {
+        "total":      aantal gecontroleerde namen,
+        "ok":         aantal namen zonder verboden teken,
+        "violations": [ {name, file, row, chars:[verboden tekens, uniek]} ]
+                      (gesorteerd op (file, name)),
+        "lowercase":  [ {name, file, row} ]  (namen met een kleine letter;
+                      INFORMATIEF — kleine letters zijn toegestaan voor bv.
+                      eenheden (mm/Mm) en elementsymbolen (Cu), dus geen fout),
+      }
+    """
+    fb = forbidden if forbidden is not None else FORBIDDEN_NAME_CHARS
+    empty = {"total": 0, "ok": 0, "violations": [], "lowercase": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    total = 0
+    ok = 0
+    violations: list[dict] = []
+    lowercase: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name:
+                continue
+            total += 1
+            found = [ch for ch in fb if ch in name]
+            if found:
+                violations.append({"name": name, "file": fn, "row": i + 2,
+                                   "chars": found})
+            else:
+                ok += 1
+            if any(c.islower() for c in name):
+                lowercase.append({"name": name, "file": fn, "row": i + 2})
+    violations.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    lowercase.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "violations": violations,
+            "lowercase": lowercase}
+
+
 def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
                             hoofdgroep_col: str = "hoofdgroep",
                             only_b_codes=FASE_ALLEEN_B_CODES) -> dict:
@@ -1168,6 +1324,250 @@ def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
     unexpected.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
     return {"total": total, "ok": ok,
             "missing": missing, "unexpected": unexpected}
+
+
+def check_duplicate_names(src: str, name_col: str) -> dict:
+    """Zoek namen die binnen één hoofdgroep meer dan één keer voorkomen.
+
+    Verzamelt alle waarden van `name_col` over alle CSV's in de map `src` (of het
+    losse CSV-bestand) en rapporteert de namen die binnen HETZELFDE bestand
+    (= één hoofdgroep) in meer dan één rij voorkomen. Exacte vergelijking (alleen
+    omringende spaties worden gestript). Komt overeen met de SPARQL-controle
+    `identiekenamen`, die per naam telt hoeveel URI's er binnen dezelfde
+    hoofdgroep zijn (GROUP BY ?name ?hoofdNames, HAVING > 1). Dezelfde naam in
+    verschillende hoofdgroepen is dus GEEN dubbele naam (bijv. objecten die in
+    meerdere constructie-hoofdgroepen voorkomen, of de generieke lijn CONTINUOUS
+    die in elk hoofdgroepbestand staat).
+
+    Naamkolom per soort: objecten/lijntypes 'omschrijving', symbolen 'symbool',
+    arceringen 'arcering'.
+
+    Geeft terug:
+      {
+        "total":      aantal (niet-lege) namen,
+        "unique":     aantal unieke (bestand, naam)-combinaties,
+        "duplicates": [ {name, file, count, rows:[rijnummers]} ]
+                      (op bestand + naam gesorteerd),
+      }
+    """
+    def _paths(s):
+        if not s:
+            return []
+        if os.path.isdir(s):
+            return sorted(glob.glob(os.path.join(s, "*.csv")))
+        if os.path.isfile(s):
+            return [s]
+        return []
+
+    # (bestand, naam) -> lijst rijnummers
+    occ: dict[tuple, list[int]] = {}
+    total = 0
+    for path in _paths(src):
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name:
+                continue
+            total += 1
+            # rij-nummer in het bestand: kopregel = 1, eerste datarij = 2
+            occ.setdefault((fn, name), []).append(i + 2)
+
+    duplicates = [
+        {"name": name, "file": fn, "count": len(rws), "rows": rws}
+        for (fn, name), rws in occ.items() if len(rws) > 1
+    ]
+    duplicates.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "unique": len(occ), "duplicates": duplicates}
+
+
+def check_element_object_link(src: str, name_col: str = "omschrijving",
+                              element_col: str = "element",
+                              sobject_col: str = "sobject",
+                              aobject_col: str = "aobject") -> dict:
+    """Controleer de koppeling tussen de `element`-kolom en sobject/aobject.
+
+    De `element`-kolom van de objectentabel bevat `/`-gescheiden tokens
+    (G=geometrie, S=symbool, A=arcering). De regel is tweezijdig:
+      * bevat `element` het token S, dan moet `sobject` gevuld zijn (en omgekeerd);
+      * bevat `element` het token A, dan moet `aobject` gevuld zijn (en omgekeerd).
+
+    `src` mag een MAP met CSV's of één CSV-bestand zijn.
+
+    Geeft een dict terug:
+      {
+        "total":      aantal gecontroleerde objecten,
+        "ok":         aantal objecten zonder afwijking,
+        "violations": [ {name, element, file, row, problems:[labels]} ],
+      }
+    """
+    empty = {"total": 0, "ok": 0, "violations": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    total = 0
+    ok = 0
+    violations: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers or element_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        ei = headers.index(element_col)
+        si = headers.index(sobject_col) if sobject_col in headers else -1
+        ai = headers.index(aobject_col) if aobject_col in headers else -1
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name:
+                continue
+            total += 1
+            element = (r[ei] if ei < len(r) else "").strip()
+            tokens = {t.strip().upper() for t in element.split("/") if t.strip()}
+            has_s = "S" in tokens
+            has_a = "A" in tokens
+            so = (r[si] if 0 <= si < len(r) else "").strip()
+            ao = (r[ai] if 0 <= ai < len(r) else "").strip()
+
+            problems = []
+            if has_s and not so:
+                problems.append("element bevat S maar sobject is leeg")
+            if not has_s and so:
+                problems.append("sobject is ingevuld maar element bevat geen S")
+            if has_a and not ao:
+                problems.append("element bevat A maar aobject is leeg")
+            if not has_a and ao:
+                problems.append("aobject is ingevuld maar element bevat geen A")
+
+            if problems:
+                violations.append({
+                    "name": name, "element": element, "file": fn,
+                    "row": i + 2, "problems": problems,
+                })
+            else:
+                ok += 1
+
+    violations.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "violations": violations}
+
+
+def check_arcering_verklaring(src: str, name_col: str = "arcering",
+                              verklaring_col: str = "vrkl_lang") -> dict:
+    """Controleer of elke arcering een (lange) verklaring heeft.
+
+    De arceringentabel bevat een kolom `vrkl_lang` (verklaring lang) die de
+    tekst voor de legenda/verklaring bevat. Elke arcering moet die gevuld
+    hebben; regels met een lege `vrkl_lang` worden gemeld.
+
+    `src` mag een MAP met CSV's of één CSV-bestand zijn.
+
+    Geeft een dict terug:
+      {
+        "total":   aantal gecontroleerde arceringen,
+        "ok":      aantal met een gevulde verklaring,
+        "missing": [ {name, file, row} ],   # zonder verklaring
+      }
+    """
+    empty = {"total": 0, "ok": 0, "missing": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    total = 0
+    ok = 0
+    missing: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers or verklaring_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        vi = headers.index(verklaring_col)
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name:
+                continue
+            total += 1
+            vl = (r[vi] if vi < len(r) else "").strip()
+            if vl:
+                ok += 1
+            else:
+                missing.append({"name": name, "file": fn, "row": i + 2})
+
+    missing.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "missing": missing}
+
+
+def check_lijntype_autocaddef(src: str, name_col: str = "omschrijving",
+                              def_col: str = "autocaddef",
+                              exclude_names=()) -> dict:
+    """Controleer of elk lijntype een AutoCAD-definitie heeft.
+
+    De lijntypetabel bevat een kolom `autocaddef` met de AutoCAD-definitiestring
+    (bijv. `A,4,-.8,.8,-.8`). Elk lijntype moet die gevuld hebben; regels met
+    een lege `autocaddef` worden gemeld.
+
+    `exclude_names` : namen die worden overgeslagen — de generieke lijnen
+    CONTINUOUS/V-CONTINUOUS-SO komen uit een andere publicatie en hebben bewust
+    geen definitiestring (CONTINUOUS is een ingebouwde AutoCAD-lijn).
+
+    `src` mag een MAP met CSV's of één CSV-bestand zijn.
+
+    Geeft een dict terug:
+      {
+        "total":   aantal gecontroleerde lijntypes (exclusief overgeslagen),
+        "ok":      aantal met een gevulde autocaddef,
+        "missing": [ {name, file, row} ],   # zonder autocaddef
+      }
+    """
+    empty = {"total": 0, "ok": 0, "missing": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    skip = {(n or "").strip().upper() for n in exclude_names}
+    total = 0
+    ok = 0
+    missing: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers or def_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        di = headers.index(def_col)
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name or name.upper() in skip:
+                continue
+            total += 1
+            ad = (r[di] if di < len(r) else "").strip()
+            if ad:
+                ok += 1
+            else:
+                missing.append({"name": name, "file": fn, "row": i + 2})
+
+    missing.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "missing": missing}
 
 
 def _sort_key(row: list[str]) -> str:
