@@ -377,6 +377,12 @@ _CHANGELOG_STYLE = """
     .sw-changed { background-color: #e0f3fb; }
     .sw-deleted { background-color: #ffe0e2; }
 
+    /* Badge bij een vervallen object met een naamgenoot in de nieuwe release */
+    span.naamgenoot { display: inline-block; background-color: var(--dg-green);
+                    color: #fff; font-size: .72rem; font-weight: 700;
+                    padding: 1px 7px; border-radius: 10px; white-space: nowrap;
+                    vertical-align: middle; }
+
     /* Extra symbolen-kolommen (alleen in de changelog) */
     td.svgcell { text-align: center; }
     td.svgcell img { max-height: 46px; max-width: 90px; vertical-align: middle; }
@@ -445,7 +451,7 @@ def _changelog_row(row: dict, version_new: str, version_old: str,
 def build_changelog_html(result: dict, title: str,
                          version_new: str = "", version_old: str = "",
                          visible_indices=None, extra_columns=None,
-                         orphans=None) -> str:
+                         orphans=None, deleted_notes=None) -> str:
     """Changelog-pagina: gewijzigde cellen blauw (oud + nieuw), nieuwe rijen
     groen, vervallen rijen onderaan rood.
 
@@ -455,13 +461,19 @@ def build_changelog_html(result: dict, title: str,
                     result['deleted']) en optioneel td_class.
     orphans       : optionele lijst (bestandsnaam, relatief pad) van .dwg-
                     bestanden die bij GEEN regel in deze symbolentabel horen;
-                    onderaan getoond in een aparte 'wees'-sectie."""
+                    onderaan getoond in een aparte 'wees'-sectie.
+    deleted_notes : optionele lijst (op volgorde van result['deleted']) met per
+                    vervallen rij een korte notitie of None. Is er een notitie,
+                    dan verschijnt die als groene badge in de eerste kolom van
+                    die vervallen rij (objecten: 'naamgenoot in de nieuwe
+                    release')."""
     headers = result["headers"]
     rows = result["rows"]
     deleted = result["deleted"]
     stats = result["stats"]
     extra = extra_columns or []
     orphans = orphans or []
+    deleted_notes = deleted_notes or []
     vis = _visible_indices(headers) if visible_indices is None else visible_indices
 
     head_cells = "".join(f"<th>{_esc(headers[i])}</th>" for i in vis)
@@ -478,7 +490,13 @@ def build_changelog_html(result: dict, title: str,
             f'{_esc(version_old or "de oude versie")}, niet meer in '
             f'{_esc(version_new or "de nieuwe versie")}</th></tr>')
         for di, drow in enumerate(deleted):
-            tds = "".join(f"<td>{_cl_val(headers, i, drow[i])}</td>" for i in vis)
+            note = deleted_notes[di] if di < len(deleted_notes) else None
+            note_html = (f' <span class="naamgenoot">{_esc(note)}</span>'
+                         if note else "")
+            tds = "".join(
+                f"<td>{_cl_val(headers, i, drow[i])}"
+                f"{note_html if pos == 0 else ''}</td>"
+                for pos, i in enumerate(vis))
             for col in extra:
                 cls = col.get("td_class")
                 dcells = col.get("deleted_cells") or []
@@ -516,6 +534,9 @@ def build_changelog_html(result: dict, title: str,
         '<span><span class="swatch sw-deleted"></span> vervallen rij</span>'
         + ('<span><span class="swatch sw-wees"></span> wees-.dwg '
            '(geen tabelregel)</span>' if orphans else "")
+        + ('<span><span class="naamgenoot">naamgenoot</span> vervallen object '
+           'met dezelfde naam in de nieuwe release</span>'
+           if any(deleted_notes) else "")
         + '</div>')
 
     # Melding bovenaan wanneer er niets aan de tabel is veranderd (geen nieuwe,
@@ -648,6 +669,62 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
     )
 
 
+def build_index_markdown(groups, general,
+                         title: str = "NLCS publicatie-overzicht",
+                         version: str = "", base_url: str = "") -> str:
+    """Zelfde overzicht als build_index_html, maar als Markdown voor gebruik in
+    GitHub-issues: één kop (##) per hoofdgroep met daaronder de links,
+    gesplitst in Tabellen en Changelogs. base_url wordt aan het subpad geplakt
+    (leeg -> alleen het relatieve subpad, wat in een issue niet klikbaar is)."""
+    base = (base_url or "").strip()
+    if base and not base.endswith("/"):
+        base += "/"
+
+    def _mdesc(text: str) -> str:
+        # markdown-linktekst veilig maken: [] en backslash escapen
+        return (str(text).replace("\\", "\\\\")
+                .replace("[", "\\[").replace("]", "\\]"))
+
+    def _link(entry: dict) -> str:
+        url = (base + entry["subpath"]) if base else entry["subpath"]
+        return f'- [{_mdesc(entry["label"])}]({url})'
+
+    def _section(heading: str, entries: list) -> list:
+        out = [f"## {heading}", ""]
+        tabellen = [e for e in entries if e.get("kind") != "changelog"]
+        changelogs = [e for e in entries if e.get("kind") == "changelog"]
+        if tabellen:
+            out.append("**Tabellen**")
+            out += [_link(e) for e in tabellen]
+            out.append("")
+        if changelogs:
+            out.append("**Changelogs**")
+            out += [_link(e) for e in changelogs]
+            out.append("")
+        if not entries:
+            out += ["_geen bestanden_", ""]
+        return out
+
+    total = sum(len(e) for _c, e in groups) + len(general)
+    lines = [f"# {title}".rstrip(), ""]
+    meta = f"{len(groups)} hoofdgroep(en) · {total} bestand(en)"
+    if version:
+        meta += f" · versie {version}"
+    lines += [meta, ""]
+    if base:
+        lines += [f"Basis-URL: {base}", ""]
+
+    if general:
+        lines += _section("Voor alle hoofdgroepen", general)
+    for code, entries in groups:
+        lines += _section(code, entries)
+
+    if not groups and not general:
+        lines += ["_Geen gepubliceerde bestanden gevonden voor deze versie._", ""]
+
+    return "\n".join(lines).rstrip() + "\n"
+
+
 # ---------------------------------------------------------------------------
 # 4. Wees-.dwg's: bestanden zonder een regel in de symbolentabel
 # ---------------------------------------------------------------------------
@@ -739,6 +816,8 @@ _CHECK_STYLE = """
     .kpi .box b { display:block; font-size:1.3rem; font-weight:700; color:var(--dg-ink); }
     .kpi .box.free { border-color:var(--dg-green); background:#f0f8ef; }
     .kpi .box.free b { color:var(--dg-green); }
+    .kpi .box.bad { border-color:var(--dg-red); background:#fdeff0; }
+    .kpi .box.bad b { color:var(--dg-red); }
     p.ok { color:var(--dg-green); font-weight:600; margin:8px 0; }
     p.warn { color:var(--dg-red); font-weight:700; margin:14px 0 4px; }
     p.skip { color:var(--dg-grey2); font-style:italic; }
@@ -930,5 +1009,352 @@ def build_fase_optie_html(sections, title: str = "Optie-fase-check",
     return (
         _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
         + f'<div class="wrap">\n<p class="info">{info}</p>\n{body}\n</div>\n'
+        + _FOOTER
+    )
+
+
+# ---------------------------------------------------------------------------
+# 7. Objectenboom (hiërarchie-controle)
+# ---------------------------------------------------------------------------
+
+# Kleuren per diepte-laag (root = laag 0). Herhaalt zich cyclisch bij >8 lagen.
+_TREE_LAYER_COLORS = [
+    "#009DDB", "#3FA534", "#E8A200", "#9B59B6",
+    "#E67E22", "#16A085", "#C0392B", "#2C3E50",
+]
+
+_TREE_STYLE = """
+    .wrap { max-width: 1100px; }
+    .card { background:#fff; border:1px solid var(--dg-grey); border-radius:8px;
+            padding:16px 18px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+    .card h2 { margin:0 0 8px; font-size:1.2rem; border-bottom:3px solid var(--dg-yellow);
+               padding-bottom:6px; }
+    .kpi { display:flex; gap:14px; flex-wrap:wrap; margin:10px 0 4px; }
+    .kpi .box { background:#fafafa; border:1px solid var(--dg-grey); border-radius:6px;
+                padding:6px 14px; font-size:.85rem; color:var(--dg-grey2); }
+    .kpi .box b { display:block; font-size:1.3rem; font-weight:700; color:var(--dg-ink); }
+    .kpi .box.bad { border-color:var(--dg-red); background:#fdeff0; }
+    .kpi .box.bad b { color:var(--dg-red); }
+    p.ok { color:var(--dg-green); font-weight:600; margin:8px 0; }
+    p.warn { color:var(--dg-red); font-weight:700; margin:14px 0 6px; }
+    .legend { display:flex; gap:10px; flex-wrap:wrap; margin:8px 0 4px;
+              font-size:.8rem; color:var(--dg-grey2); }
+    .legend span { display:inline-flex; align-items:center; gap:5px; }
+    .legend i { width:14px; height:14px; border-radius:3px; display:inline-block; }
+    table.errtab { width:100%; margin:6px 0 10px; }
+    table.errtab tbody td { white-space:normal; }
+    table.errtab tbody tr:nth-child(even) td { background:#fafafa; }
+    td.tid { font-family:Consolas,"Courier New",monospace; white-space:nowrap;
+             color:var(--dg-grey2); }
+    .badge { display:inline-block; font-size:.72rem; font-weight:700;
+             padding:1px 7px; border-radius:10px; color:#fff; white-space:nowrap; }
+    .badge.count { background:var(--dg-red); }
+    .badge.prefix { background:#9B59B6; }
+    .badge.separator { background:#2980B9; }
+    .badge.orphan { background:var(--dg-grey2); }
+    .badge.root_multi { background:#E67E22; }
+    .badge.subobjecten { background:#C0392B; }
+    ul.tree, ul.tree ul { list-style:none; margin:0; padding-left:20px; }
+    ul.tree { padding-left:2px; }
+    ul.tree li { margin:2px 0; position:relative; }
+    .node { display:inline-flex; align-items:center; gap:8px; padding:2px 10px;
+            border-radius:4px; border-left:4px solid var(--dg-grey);
+            background:#fff; font-size:.9rem; }
+    .node .nm { font-weight:600; }
+    .node .cnt { font-size:.72rem; color:var(--dg-grey2);
+                 font-family:Consolas,"Courier New",monospace; }
+    .node.err { outline:2px solid var(--dg-red); background:#fdeff0; }
+    details > summary { cursor:pointer; list-style:none; }
+    details > summary::-webkit-details-marker { display:none; }
+    details > summary .node::before { content:"▸ "; color:var(--dg-grey2); }
+    details[open] > summary .node::before { content:"▾ "; }
+    li.leaf .node { margin-left:0; }
+"""
+
+
+def _tree_node_html(nid: str, nodes: dict, err_ids: dict) -> str:
+    """Render één knoop (recursief). `err_ids` : id -> lijst fouttypes."""
+    nd = nodes[nid]
+    color = _TREE_LAYER_COLORS[nd["depth"] % len(_TREE_LAYER_COLORS)]
+    errs = err_ids.get(nid, [])
+    cls = "node err" if errs else "node"
+    badges = "".join(
+        f'<span class="badge {t}">{_esc(t)}</span>' for t in errs)
+    label = (f'<span class="{cls}" style="border-left-color:{color}">'
+             f'<span class="nm">{_esc(nd["name"])}</span>'
+             f'<span class="cnt">#{_esc(nd["id"])}</span>{badges}</span>')
+    kids = nd["children"]
+    if not kids:
+        return f'<li class="leaf">{label}</li>'
+    inner = "\n".join(_tree_node_html(c, nodes, err_ids) for c in kids)
+    return (f'<li><details open><summary>{label}</summary>\n'
+            f'<ul>{inner}</ul></details></li>')
+
+
+def build_object_tree_html(result: dict, title: str = "Objectenboom",
+                           version_new: str = "") -> str:
+    """Rapportpagina voor de boomstructuur-controle van de objecten.
+
+    `result` is de dict van ot_compare.check_object_tree. De boom wordt getoond
+    met elke laag in een eigen kleur; foute knopen worden rood omrand met een
+    label per fouttype. Boven de boom staat een samenvatting van de fouten (of
+    de melding dat er geen fouten zijn)."""
+    nodes = result.get("nodes", {})
+    roots = result.get("roots", [])
+    errors = result.get("errors", [])
+    max_depth = result.get("max_depth", 0)
+
+    err_ids: dict[str, list[str]] = {}
+    for e in errors:
+        err_ids.setdefault(e["id"], []).append(e["type"])
+
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{result.get("count", 0)}</b>objecten</div>'
+        f'<div class="box"><b>{len(roots)}</b>hoofdobjecten (roots)</div>'
+        f'<div class="box"><b>{max_depth + 1 if nodes else 0}</b>lagen</div>'
+        f'<div class="box {"bad" if errors else ""}"><b>{len(errors)}</b>'
+        'fout(en)</div>'
+        '</div>')
+
+    # foutmelding / -tabel
+    parts = [f'<div class="card"><h2>Controle</h2>{kpi}']
+    _LABELS = {
+        "count": "verkeerd aantal segmenten (geen +1 t.o.v. ouder)",
+        "prefix": "naam is geen uitbreiding van de oudernaam",
+        "separator": "scheidingsteken klopt niet (oudernaam niet exact vooraan)",
+        "orphan": "bovenliggend id onbekend",
+        "root_multi": "hoofdobject met meer dan één segment",
+        "subobjecten": "meer dan 5 subobjecten in de laagnaam",
+    }
+    if not errors:
+        parts.append('<p class="ok">✓ Geen fouten gevonden: elk onderliggend '
+                     'object heeft precies één segment meer dan zijn '
+                     'bovenliggende object.</p>')
+    else:
+        parts.append(f'<p class="warn">⚠ {len(errors)} fout(en) gevonden:</p>')
+        rows = []
+        for e in errors:
+            det = _esc(e.get("detail", ""))
+            par = (f'{_esc(e["parent_name"])} <span class="tid">#{_esc(e["parent"])}</span>'
+                   if e.get("parent") else '<span class="tid">—</span>')
+            rows.append(
+                f'<tr><td><span class="badge {e["type"]}">{_esc(e["type"])}</span></td>'
+                f'<td>{_esc(e["name"])} <span class="tid">#{_esc(e["id"])}</span></td>'
+                f'<td>{par}</td><td>{det}</td></tr>')
+        parts.append('<table class="errtab"><thead><tr><th>type</th>'
+                     '<th>object</th><th>bovenliggend</th><th>toelichting</th>'
+                     '</tr></thead><tbody>\n' + "\n".join(rows)
+                     + '\n</tbody></table>')
+        # legenda fouttypes
+        parts.append('<div class="legend">' + "".join(
+            f'<span><i style="background:'
+            + {"count": "var(--dg-red)", "prefix": "#9B59B6",
+               "separator": "#2980B9",
+               "orphan": "var(--dg-grey2)", "root_multi": "#E67E22",
+               "subobjecten": "#C0392B"}[t]
+            + f'"></i>{_esc(t)} — {_esc(lbl)}</span>'
+            for t, lbl in _LABELS.items()) + '</div>')
+    parts.append('</div>')
+
+    # kleurlegenda per laag
+    n_layers = (max_depth + 1) if nodes else 0
+    legend_layers = "".join(
+        f'<span><i style="background:{_TREE_LAYER_COLORS[d % len(_TREE_LAYER_COLORS)]}">'
+        f'</i>laag {d}</span>' for d in range(n_layers))
+
+    # de boom zelf
+    tree_items = "\n".join(_tree_node_html(r, nodes, err_ids) for r in roots)
+    tree = (f'<div class="card"><h2>Boomstructuur</h2>'
+            f'<div class="legend">{legend_layers}</div>'
+            f'<ul class="tree">\n{tree_items}\n</ul></div>')
+
+    body = "\n".join(parts) + "\n" + tree
+    return (
+        _shell_head(title, extra_style=_TREE_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Boomstructuur-controle{ver}</p>\n'
+        + body + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+# ---------------------------------------------------------------------------
+# 8. Lijntype-gebruik (worden bestaande lijntypes in de objecten gebruikt?)
+# ---------------------------------------------------------------------------
+
+def build_lijntype_usage_html(result: dict, title: str = "Lijntype-gebruik",
+                              version_new: str = "") -> str:
+    """Rapportpagina voor de lijntype-gebruik-controle.
+
+    `result` is de dict van ot_compare.check_lijntype_usage. Toont welke
+    bestaande lijntypes NIET in de objectentabel worden gebruikt (hoofdvraag) en,
+    als tweede controle, objecten die naar een niet-bestaand lijntype verwijzen."""
+    lijn_total = result.get("lijn_total", 0)
+    used = result.get("used", [])
+    unused = result.get("unused", [])
+
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{lijn_total}</b>lijntypes</div>'
+        f'<div class="box"><b>{len(used)}</b>gebruikt in objecten</div>'
+        f'<div class="box {"bad" if unused else "free"}"><b>{len(unused)}</b>'
+        'niet gebruikt</div>'
+        '</div>')
+
+    # ongebruikte lijntypes (de hoofdvraag)
+    c1 = ['<div class="card"><h2>Lijntypes niet gebruikt in de objectentabel</h2>',
+          kpi]
+    if not unused:
+        c1.append('<p class="ok">✓ Elk lijntype wordt in de objectentabel '
+                  'gebruikt (verwijzing op naam via lt_b/lt_n/lt_v/lt_t).</p>')
+    else:
+        c1.append(f'<p class="warn">⚠ {len(unused)} lijntype(s) bestaan wel maar '
+                  'worden nergens in de objecten gebruikt:</p>')
+        rows = [
+            f'<tr><td>{_esc(u["name"])}</td>'
+            f'<td>{_esc(u.get("hoofdgroep", ""))}</td>'
+            f'<td class="loc">{_esc(u.get("file", ""))}</td></tr>'
+            for u in unused]
+        c1.append(_otab('<th>lijntype</th><th>hoofdgroep</th><th>bestand</th>',
+                        rows))
+    c1.append('</div>')
+
+    body = "\n".join(c1)
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Lijntype-gebruik-controle{ver}</p>\n'
+        + body + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+def _searchterm_card(section: dict) -> str:
+    """Eén kaart voor een soort (symbolen of arceringen)."""
+    label = section.get("label", "")
+    obj_col = section.get("obj_col", "")
+    total = section.get("total", 0)
+    found = section.get("found", 0)
+    term_count = section.get("term_count", 0)
+    not_found = section.get("not_found", [])
+
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{total}</b>{_esc(label)}</div>'
+        f'<div class="box"><b>{found}</b>gevonden via zoekterm</div>'
+        f'<div class="box {"bad" if not_found else "free"}"><b>{len(not_found)}</b>'
+        'niet gevonden</div>'
+        '</div>')
+
+    c = [f'<div class="card"><h2>{_esc(label.capitalize())} zonder zoekterm-treffer</h2>',
+         f'<p class="info">Zoekterm = <code>{_esc(obj_col)}</code>-waarde uit de '
+         f'objectentabel ({term_count} unieke termen); een naam telt als '
+         '“gevonden” als zo’n term als tekst in de naam voorkomt.</p>',
+         kpi]
+    if not not_found:
+        c.append('<p class="ok">✓ Elke naam bevat een zoekterm uit de '
+                 'objectentabel.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(not_found)} naam/namen worden via geen '
+                 'enkele zoekterm gevonden:</p>')
+        rows = [
+            f'<tr><td>{_esc(d["name"])}</td>'
+            f'<td class="loc">{_esc(d.get("file", ""))}</td></tr>'
+            for d in not_found]
+        c.append(_otab('<th>naam</th><th>bestand</th>', rows))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def build_searchterm_html(sections: list, title: str = "Zoekterm-controle",
+                          version_new: str = "") -> str:
+    """Rapportpagina voor de zoekterm-controle van symbolen en arceringen.
+
+    `sections` is een lijst dicts met o.a. label, obj_col, total, found,
+    term_count, not_found (uit ot_compare.check_searchterm_coverage, aangevuld
+    met label/obj_col)."""
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    body = "\n".join(_searchterm_card(s) for s in sections)
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Zoekterm-controle{ver}</p>\n'
+        + body + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+def build_fase_visualisatie_html(result: dict,
+                                 title: str = "Fase-visualisatie",
+                                 version_new: str = "") -> str:
+    """Rapportpagina voor de fase-visualisatie-controle.
+
+    `result` is de dict van ot_compare.check_fase_visualisatie. Toont welke
+    objecten voor een verwachte fase (Bestaand/Nieuw/Vervallen/Tijdelijk) geen
+    visualisatie hebben, en — als tweede controle — de alleen-B-hoofdgroepen
+    (AL/ZZ) die tóch een N/V/T-visualisatie hebben."""
+    total = result.get("total", 0)
+    ok = result.get("ok", 0)
+    missing = result.get("missing", [])
+    unexpected = result.get("unexpected", [])
+
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{total}</b>objecten</div>'
+        f'<div class="box {"free" if ok == total else ""}"><b>{ok}</b>volledig</div>'
+        f'<div class="box {"bad" if missing else "free"}"><b>{len(missing)}</b>'
+        'fase ontbreekt</div>'
+        '</div>')
+
+    # hoofdvraag: objecten met een ontbrekende verwachte fase
+    c1 = ['<div class="card"><h2>Objecten zonder visualisatie voor een fase</h2>',
+          '<p class="info">Verwacht zijn de fasen Bestaand, Nieuw, Vervallen en '
+          'Tijdelijk; de hoofdgroepen AL en ZZ hebben alleen een visualisatie voor '
+          'de bestaande situatie (fase B). Een object heeft een visualisatie voor '
+          'een fase als minstens één van de bijbehorende velden '
+          '(lw/kl*/lt) gevuld is.</p>',
+          kpi]
+    if not missing:
+        c1.append('<p class="ok">✓ Elk object heeft voor alle verwachte fasen '
+                  'een visualisatie.</p>')
+    else:
+        c1.append(f'<p class="warn">⚠ {len(missing)} object(en) missen een '
+                  'visualisatie voor een verwachte fase:</p>')
+        rows = [
+            f'<tr><td>{_esc(m["name"])}</td>'
+            f'<td>{_esc(m.get("hoofdgroep", ""))}</td>'
+            f'<td>{_esc(", ".join(m.get("missing", [])))}</td>'
+            f'<td class="loc">{_esc(m.get("file", ""))}</td></tr>'
+            for m in missing]
+        c1.append(_otab('<th>object</th><th>hoofdgroep</th>'
+                        '<th>ontbrekende fase(n)</th><th>bestand</th>', rows))
+    c1.append('</div>')
+
+    # tweede controle: alleen-B-hoofdgroep met onverwachte N/V/T-visualisatie
+    c2 = ['<div class="card"><h2>Onverwachte fase-visualisatie (AL/ZZ)</h2>',
+          '<p class="info">AL en ZZ horen alleen een bestaande-situatie-'
+          'visualisatie te hebben. Deze objecten hebben tóch een N/V/T-'
+          'visualisatie.</p>']
+    if not unexpected:
+        c2.append('<p class="ok">✓ Geen onverwachte fase-visualisaties.</p>')
+    else:
+        c2.append(f'<p class="warn">⚠ {len(unexpected)} object(en) met een '
+                  'onverwachte fase-visualisatie:</p>')
+        rows = [
+            f'<tr><td>{_esc(u["name"])}</td>'
+            f'<td>{_esc(u.get("hoofdgroep", ""))}</td>'
+            f'<td>{_esc(", ".join(u.get("extra", [])))}</td>'
+            f'<td class="loc">{_esc(u.get("file", ""))}</td></tr>'
+            for u in unexpected]
+        c2.append(_otab('<th>object</th><th>hoofdgroep</th>'
+                        '<th>onverwachte fase(n)</th><th>bestand</th>', rows))
+    c2.append('</div>')
+
+    body = "\n".join(c1) + "\n" + "\n".join(c2)
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Fase-visualisatie-controle{ver}</p>\n'
+        + body + '\n</div>\n'
         + _FOOTER
     )

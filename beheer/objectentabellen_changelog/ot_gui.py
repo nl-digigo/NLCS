@@ -47,6 +47,10 @@ PROFILES = [
         # vrij zoekveld voor omschrijving, laagnaam en URI's; rest = keuzelijst
         "text_search": lambda h: h in ("omschrijving", "laagnaam")
         or "uri" in h.lower(),
+        # markeer in de changelog elk vervallen object waarvan de naam
+        # (deze kolom) ook voorkomt in de nieuwe release (waarschijnlijk
+        # hernoemd/vervangen: nieuwe URI + ID)
+        "deleted_name_check": "omschrijving",
     },
     {
         "key": "sym",
@@ -942,12 +946,34 @@ class TableTab(ttk.Frame):
                         # hoofdgroep-specifieke rijen) krijgt geen changelog.
                         skip_changelog = (generic_fallback
                                           and _is_generic_only(result, scope_col))
+                        # Vervallen objecten met een naamgenoot in de nieuwe
+                        # release markeren (waarschijnlijk hernoemd/vervangen:
+                        # nieuwe URI + ID). Naamvergelijking hoofdletter-ongevoelig.
+                        deleted_notes = None
+                        dnc = self.profile.get("deleted_name_check")
+                        if dnc and dnc in result["headers"] and result["deleted"]:
+                            ncol = result["headers"].index(dnc)
+                            new_names = {
+                                row["cells"][ncol]["value"].strip().casefold()
+                                for row in result["rows"]
+                                if ncol < len(row["cells"])
+                                and row["cells"][ncol]["value"].strip()}
+                            label = (f"naamgenoot in {version_new}"
+                                     if version_new
+                                     else "naamgenoot in de nieuwe release")
+                            deleted_notes = [
+                                label if (ncol < len(drow) and drow[ncol].strip()
+                                          and drow[ncol].strip().casefold()
+                                          in new_names)
+                                else None
+                                for drow in result["deleted"]]
+
                         if not skip_changelog:
                             changelog_html = ot_html.build_changelog_html(
                                 result, title=f"Changelog {base}",
                                 version_new=version_new, version_old=version_old,
                                 visible_indices=vis, extra_columns=extra_cols,
-                                orphans=orphans_this)
+                                orphans=orphans_this, deleted_notes=deleted_notes)
                             changelog_path = os.path.join(
                                 out_dir, f"changelog-{base}.html")
                             with open(changelog_path, "w", encoding="utf-8") as f:
@@ -957,6 +983,9 @@ class TableTab(ttk.Frame):
                             first = full_path
                         wees_txt = (f", {len(orphans_this)} wees-.dwg"
                                     if orphans_this else "")
+                        ngn = sum(1 for n in (deleted_notes or []) if n)
+                        naamgenoot_txt = (f", {ngn} met naamgenoot" if ngn
+                                          else "")
                         if skip_changelog:
                             self._queue.put(("log",
                                 f"[{gcode or code}] {base}: alleen generieke "
@@ -968,8 +997,8 @@ class TableTab(ttk.Frame):
                             self._queue.put(("log",
                                 f"[{gcode or code}] {base}: {s['new']} nieuw, "
                                 f"{s['changed']} gewijzigd, {s['deleted']} vervallen"
-                                f"{hash_summary}{wees_txt} -> {base}.html + "
-                                f"changelog-{base}.html"))
+                                f"{naamgenoot_txt}{hash_summary}{wees_txt} -> "
+                                f"{base}.html + changelog-{base}.html"))
                             files += 2
                         made += 1
 
@@ -1179,6 +1208,21 @@ class IndexTab(ttk.Frame):
             return
 
         self._logmsg(f"Overzicht geschreven: {output}")
+
+        # Naast de HTML ook een Markdown-versie (kop per hoofdgroep + links)
+        # voor gebruik in GitHub-issues; zelfde basisnaam, extensie .md.
+        md_path = os.path.splitext(output)[0] + ".md"
+        md_txt = ot_html.build_index_markdown(
+            data["groups"], data["general"],
+            title=f"NLCS publicatie-overzicht {version}".strip(),
+            version=version, base_url=base_url)
+        try:
+            with open(md_path, "w", encoding="utf-8") as f:
+                f.write(md_txt)
+            self._logmsg(f"Markdown geschreven: {md_path}")
+        except OSError as exc:
+            self._logmsg("FOUT bij Markdown: " + str(exc))
+
         self.app.save_config()
         if self.app.open_after_var.get():
             webbrowser.open(os.path.abspath(output))
@@ -1580,6 +1624,477 @@ class OptieFaseCheckTab(ttk.Frame):
 
 
 # ---------------------------------------------------------------------------
+# Tabblad 'Objectenboom': controleert de hiërarchie van de objecten
+# ---------------------------------------------------------------------------
+_TREE_ERR_LABELS = {
+    "count": "verkeerd aantal segmenten (geen +1 t.o.v. ouder)",
+    "prefix": "naam is geen uitbreiding van de oudernaam",
+    "separator": "scheidingsteken klopt niet (oudernaam niet exact vooraan)",
+    "orphan": "bovenliggend id onbekend",
+    "root_multi": "hoofdobject met meer dan één segment",
+    "subobjecten": "meer dan 5 subobjecten in de laagnaam",
+}
+
+
+class ObjectTreeTab(ttk.Frame):
+    """Controleert de boomstructuur van de objecten. De objecten vormen een boom
+    via 'kind_van' (= id_nummer van het bovenliggende object; leeg = bovenaan).
+    Regel: een onderliggend object heeft precies één segment (gescheiden door
+    '-'/'_') méér dan zijn ouder, en de oudernaam is het begin van de kindnaam.
+    Leest de nieuwe objectenmap uit het tabblad 'Locaties'."""
+
+    def __init__(self, master, app: "App"):
+        super().__init__(master, padding=10)
+        self.app = app
+        self._build()
+
+    def _build(self) -> None:
+        ttk.Label(
+            self, foreground="#555", justify="left",
+            text="Controleert de boomstructuur van de objecten. De boom volgt "
+                 "uit 'kind_van' (het id_nummer van het bovenliggende object; "
+                 "leeg = bovenaan). Een onderliggend object hoort precies één "
+                 "segment méér te hebben dan zijn ouder — niet meer, niet "
+                 "minder — en de oudernaam hoort het begin van de kindnaam te "
+                 "zijn. Ook wordt gecontroleerd of een laagnaam niet meer dan "
+                 "5 subobjecten bevat. Gebaseerd op de nieuwe objectenmap "
+                 "(tabblad 'Locaties').").pack(anchor="w")
+
+        btns = ttk.Frame(self)
+        btns.pack(anchor="w", pady=(8, 0))
+        ttk.Button(btns, text="Controleer boomstructuur", command=self.on_analyze
+                   ).pack(side="left")
+        ttk.Button(btns, text="Bewaar als HTML", command=self.on_save_html
+                   ).pack(side="left", padx=(8, 0))
+
+        logframe = ttk.LabelFrame(self, text="Resultaat", padding=8)
+        logframe.pack(fill="both", expand=True, pady=(8, 0))
+        self.log = tk.Text(logframe, height=18, wrap="word", state="disabled",
+                           font=("Consolas", 9), background="#fbfbfb")
+        scroll = ttk.Scrollbar(logframe, orient="vertical", command=self.log.yview)
+        self.log.configure(yscrollcommand=scroll.set)
+        self.log.pack(side="left", fill="both", expand=True)
+        scroll.pack(side="right", fill="y")
+
+    def _logmsg(self, msg: str = "") -> None:
+        self.log.configure(state="normal")
+        self.log.insert("end", msg + "\n")
+        self.log.see("end")
+        self.log.configure(state="disabled")
+
+    def _clearlog(self) -> None:
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+
+    @staticmethod
+    def _valid(path: str) -> bool:
+        return bool(path) and (os.path.isdir(path) or os.path.isfile(path))
+
+    def _run(self) -> dict | None:
+        src = self.app.loc["obj_new"].get().strip()
+        if not self._valid(src):
+            return None
+        return ot_compare.check_object_tree(src)
+
+    def on_analyze(self) -> None:
+        self._clearlog()
+        res = self._run()
+        if res is None:
+            messagebox.showwarning(
+                "Geen bron", "Vul bij 'Locaties' een geldige map voor de nieuwe "
+                "objectentabellen in.")
+            return
+        n_layers = (res["max_depth"] + 1) if res["nodes"] else 0
+        self._logmsg(f"Objecten ingelezen: {res['count']}")
+        self._logmsg(f"Hoofdobjecten (roots): {len(res['roots'])}")
+        self._logmsg(f"Aantal lagen: {n_layers}")
+        self._logmsg()
+        errors = res["errors"]
+        if not errors:
+            self._logmsg("✓ Geen fouten gevonden — elk onderliggend object heeft "
+                         "precies één segment meer dan zijn bovenliggende object.")
+            return
+        self._logmsg(f"⚠ {len(errors)} fout(en) gevonden:")
+        self._logmsg()
+        # groeperen per type voor een leesbaar rapport
+        by_type: dict[str, list] = {}
+        for e in errors:
+            by_type.setdefault(e["type"], []).append(e)
+        for t, items in by_type.items():
+            self._logmsg(f"── {t}: {_TREE_ERR_LABELS.get(t, t)} ({len(items)}) ──")
+            for e in items:
+                par = (f"ouder '{e['parent_name']}' (#{e['parent']})"
+                       if e.get("parent") else "geen ouder")
+                self._logmsg(f"   {e['name']} (#{e['id']}) — {par}")
+                self._logmsg(f"      {e['detail']}")
+            self._logmsg()
+
+    def on_save_html(self) -> None:
+        out_dir = self.app.loc["output_dir"].get().strip()
+        if not out_dir or not os.path.isdir(out_dir):
+            messagebox.showwarning(
+                "Geen uitvoermap", "Vul bij 'Locaties' een geldige uitvoermap in "
+                "om de HTML op te slaan.")
+            return
+        res = self._run()
+        if res is None:
+            messagebox.showwarning(
+                "Geen bron", "Vul bij 'Locaties' een geldige map voor de nieuwe "
+                "objectentabellen in.")
+            return
+        html = ot_html.build_object_tree_html(
+            res, title="Objectenboom",
+            version_new=self.app.version_new_var.get().strip())
+        path = os.path.join(out_dir, "objectenboom.html")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(html)
+        self._logmsg(f"HTML opgeslagen: {path}")
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(path))
+
+
+# ---------------------------------------------------------------------------
+# Tabblad 'Lijntype-gebruik': wordt elk lijntype ook in de objecten gebruikt?
+# ---------------------------------------------------------------------------
+class LijntypeUsageTab(ttk.Frame):
+    """Controleert of elk bestaand lijntype ook in de objectentabel wordt
+    gebruikt. Detectie op NAAM: de objecten verwijzen in de kolommen
+    lt_b/lt_n/lt_v/lt_t naar de naam ('omschrijving') van een lijntype. Leest de
+    nieuwe lijntypes- én objectenmap uit het tabblad 'Locaties'."""
+
+    def __init__(self, master, app: "App"):
+        super().__init__(master, padding=10)
+        self.app = app
+        self._build()
+
+    def _build(self) -> None:
+        ttk.Label(
+            self, foreground="#555", justify="left",
+            text="Controleert of elk lijntype ook in de objectentabel wordt "
+                 "gebruikt. De objecten verwijzen op naam (kolommen "
+                 "lt_b/lt_n/lt_v/lt_t) naar een lijntype. Welke lijntypes "
+                 "bestaan wel maar worden nergens gebruikt? Gebaseerd op de "
+                 "nieuwe lijntypes- en objectenmap (tabblad "
+                 "'Locaties').").pack(anchor="w")
+
+        btns = ttk.Frame(self)
+        btns.pack(anchor="w", pady=(8, 0))
+        ttk.Button(btns, text="Controleer lijntype-gebruik", command=self.on_analyze
+                   ).pack(side="left")
+        ttk.Button(btns, text="Bewaar als HTML", command=self.on_save_html
+                   ).pack(side="left", padx=(8, 0))
+
+        logframe = ttk.LabelFrame(self, text="Resultaat", padding=8)
+        logframe.pack(fill="both", expand=True, pady=(8, 0))
+        self.log = tk.Text(logframe, height=18, wrap="word", state="disabled",
+                           font=("Consolas", 9), background="#fbfbfb")
+        scroll = ttk.Scrollbar(logframe, orient="vertical", command=self.log.yview)
+        self.log.configure(yscrollcommand=scroll.set)
+        self.log.pack(side="left", fill="both", expand=True)
+        scroll.pack(side="right", fill="y")
+
+    def _logmsg(self, msg: str = "") -> None:
+        self.log.configure(state="normal")
+        self.log.insert("end", msg + "\n")
+        self.log.see("end")
+        self.log.configure(state="disabled")
+
+    def _clearlog(self) -> None:
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+
+    @staticmethod
+    def _valid(path: str) -> bool:
+        return bool(path) and (os.path.isdir(path) or os.path.isfile(path))
+
+    def _run(self) -> dict | None:
+        lijn = self.app.loc["lijn_new"].get().strip()
+        obj = self.app.loc["obj_new"].get().strip()
+        if not self._valid(lijn) or not self._valid(obj):
+            return None
+        return ot_compare.check_lijntype_usage(lijn, obj)
+
+    def on_analyze(self) -> None:
+        self._clearlog()
+        res = self._run()
+        if res is None:
+            messagebox.showwarning(
+                "Geen bronnen", "Vul bij 'Locaties' een geldige map in voor "
+                "zowel de nieuwe lijntypes als de nieuwe objectentabellen.")
+            return
+        self._logmsg(f"Lijntypes: {res['lijn_total']}  "
+                     f"(gebruikt: {len(res['used'])}, "
+                     f"niet gebruikt: {len(res['unused'])})")
+        self._logmsg()
+        unused = res["unused"]
+        if not unused:
+            self._logmsg("✓ Elk lijntype wordt in de objectentabel gebruikt.")
+        else:
+            self._logmsg(f"⚠ {len(unused)} lijntype(s) niet gebruikt in de "
+                         "objecten:")
+            for u in unused:
+                self._logmsg(f"   {u['name']}   [hoofdgroep {u['hoofdgroep']}, "
+                             f"{u['file']}]")
+
+    def on_save_html(self) -> None:
+        out_dir = self.app.loc["output_dir"].get().strip()
+        if not out_dir or not os.path.isdir(out_dir):
+            messagebox.showwarning(
+                "Geen uitvoermap", "Vul bij 'Locaties' een geldige uitvoermap in "
+                "om de HTML op te slaan.")
+            return
+        res = self._run()
+        if res is None:
+            messagebox.showwarning(
+                "Geen bronnen", "Vul bij 'Locaties' een geldige map in voor "
+                "zowel de nieuwe lijntypes als de nieuwe objectentabellen.")
+            return
+        html = ot_html.build_lijntype_usage_html(
+            res, title="Lijntype-gebruik",
+            version_new=self.app.version_new_var.get().strip())
+        path = os.path.join(out_dir, "lijntype-gebruik.html")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(html)
+        self._logmsg(f"HTML opgeslagen: {path}")
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(path))
+
+
+class SearchtermTab(ttk.Frame):
+    """Controleert of elk symbool/elke arcering via een zoekterm in de
+    objectentabel gevonden wordt. De zoekterm is de sobject-waarde (symbolen)
+    resp. aobject-waarde (arceringen) uit de objecten; een naam is 'gevonden' als
+    zo'n waarde als tekst in de symbool-/arceringnaam voorkomt. Leest de nieuwe
+    symbolen-, arceringen- en objectenmap uit het tabblad 'Locaties'."""
+
+    # (naam-map-sleutel, naam-kolom, objecten-kolom, label)
+    _SOORTEN = [
+        ("sym_new", "symbool", "sobject", "symbolen"),
+        ("arc_new", "arcering", "aobject", "arceringen"),
+    ]
+
+    def __init__(self, master, app: "App"):
+        super().__init__(master, padding=10)
+        self.app = app
+        self._build()
+
+    def _build(self) -> None:
+        ttk.Label(
+            self, foreground="#555", justify="left",
+            text="Controleert of elk symbool/elke arcering via een zoekterm in "
+                 "de objectentabel wordt gevonden. De zoekterm is de sobject- "
+                 "(symbolen) resp. aobject-waarde (arceringen) uit de objecten; "
+                 "een naam telt als 'gevonden' als zo'n waarde als tekst in de "
+                 "naam voorkomt. Gebaseerd op de nieuwe symbolen-, arceringen- en "
+                 "objectenmap (tabblad 'Locaties').").pack(anchor="w")
+
+        btns = ttk.Frame(self)
+        btns.pack(anchor="w", pady=(8, 0))
+        ttk.Button(btns, text="Controleer zoektermen", command=self.on_analyze
+                   ).pack(side="left")
+        ttk.Button(btns, text="Bewaar als HTML", command=self.on_save_html
+                   ).pack(side="left", padx=(8, 0))
+
+        logframe = ttk.LabelFrame(self, text="Resultaat", padding=8)
+        logframe.pack(fill="both", expand=True, pady=(8, 0))
+        self.log = tk.Text(logframe, height=18, wrap="word", state="disabled",
+                           font=("Consolas", 9), background="#fbfbfb")
+        scroll = ttk.Scrollbar(logframe, orient="vertical", command=self.log.yview)
+        self.log.configure(yscrollcommand=scroll.set)
+        self.log.pack(side="left", fill="both", expand=True)
+        scroll.pack(side="right", fill="y")
+
+    def _logmsg(self, msg: str = "") -> None:
+        self.log.configure(state="normal")
+        self.log.insert("end", msg + "\n")
+        self.log.see("end")
+        self.log.configure(state="disabled")
+
+    def _clearlog(self) -> None:
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+
+    @staticmethod
+    def _valid(path: str) -> bool:
+        return bool(path) and (os.path.isdir(path) or os.path.isfile(path))
+
+    def _run(self) -> list | None:
+        obj = self.app.loc["obj_new"].get().strip()
+        if not self._valid(obj):
+            return None
+        sections = []
+        for name_key, name_col, obj_col, label in self._SOORTEN:
+            src = self.app.loc[name_key].get().strip()
+            if not self._valid(src):
+                continue
+            res = ot_compare.check_searchterm_coverage(src, obj, name_col, obj_col)
+            res["label"] = label
+            res["obj_col"] = obj_col
+            sections.append(res)
+        return sections or None
+
+    def on_analyze(self) -> None:
+        self._clearlog()
+        sections = self._run()
+        if sections is None:
+            messagebox.showwarning(
+                "Geen bronnen", "Vul bij 'Locaties' een geldige objectenmap in "
+                "en minstens één van de symbolen- of arceringenmap.")
+            return
+        for s in sections:
+            self._logmsg(f"{s['label'].capitalize()}: {s['total']}  "
+                         f"(gevonden: {s['found']}, "
+                         f"niet gevonden: {len(s['not_found'])}; "
+                         f"{s['term_count']} zoektermen)")
+            nf = s["not_found"]
+            if not nf:
+                self._logmsg("   ✓ Elke naam bevat een zoekterm.")
+            else:
+                for d in nf:
+                    self._logmsg(f"   {d['name']}   [{d['file']}]")
+            self._logmsg()
+
+    def on_save_html(self) -> None:
+        out_dir = self.app.loc["output_dir"].get().strip()
+        if not out_dir or not os.path.isdir(out_dir):
+            messagebox.showwarning(
+                "Geen uitvoermap", "Vul bij 'Locaties' een geldige uitvoermap in "
+                "om de HTML op te slaan.")
+            return
+        sections = self._run()
+        if sections is None:
+            messagebox.showwarning(
+                "Geen bronnen", "Vul bij 'Locaties' een geldige objectenmap in "
+                "en minstens één van de symbolen- of arceringenmap.")
+            return
+        html = ot_html.build_searchterm_html(
+            sections, title="Zoekterm-controle",
+            version_new=self.app.version_new_var.get().strip())
+        path = os.path.join(out_dir, "zoekterm-controle.html")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(html)
+        self._logmsg(f"HTML opgeslagen: {path}")
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(path))
+
+
+class FaseVisualisatieTab(ttk.Frame):
+    """Controleert of elk object voor alle fasen (Bestaand/Nieuw/Vervallen/
+    Tijdelijk) een visualisatie heeft. De hoofdgroepen AL en ZZ hebben alleen
+    een bestaande-situatie-visualisatie (fase B). Leest de nieuwe objectenmap
+    uit het tabblad 'Locaties'."""
+
+    def __init__(self, master, app: "App"):
+        super().__init__(master, padding=10)
+        self.app = app
+        self._build()
+
+    def _build(self) -> None:
+        ttk.Label(
+            self, foreground="#555", justify="left",
+            text="Controleert of elk object voor alle fasen een visualisatie "
+                 "heeft: Bestaand, Nieuw, Vervallen en Tijdelijk (velden "
+                 "lw/kl*/lt per fase). De hoofdgroepen AL en ZZ hebben alleen "
+                 "een visualisatie voor de bestaande situatie (fase B). "
+                 "Gebaseerd op de nieuwe objectenmap (tabblad "
+                 "'Locaties').").pack(anchor="w")
+
+        btns = ttk.Frame(self)
+        btns.pack(anchor="w", pady=(8, 0))
+        ttk.Button(btns, text="Controleer fase-visualisatie",
+                   command=self.on_analyze).pack(side="left")
+        ttk.Button(btns, text="Bewaar als HTML", command=self.on_save_html
+                   ).pack(side="left", padx=(8, 0))
+
+        logframe = ttk.LabelFrame(self, text="Resultaat", padding=8)
+        logframe.pack(fill="both", expand=True, pady=(8, 0))
+        self.log = tk.Text(logframe, height=18, wrap="word", state="disabled",
+                           font=("Consolas", 9), background="#fbfbfb")
+        scroll = ttk.Scrollbar(logframe, orient="vertical", command=self.log.yview)
+        self.log.configure(yscrollcommand=scroll.set)
+        self.log.pack(side="left", fill="both", expand=True)
+        scroll.pack(side="right", fill="y")
+
+    def _logmsg(self, msg: str = "") -> None:
+        self.log.configure(state="normal")
+        self.log.insert("end", msg + "\n")
+        self.log.see("end")
+        self.log.configure(state="disabled")
+
+    def _clearlog(self) -> None:
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+
+    @staticmethod
+    def _valid(path: str) -> bool:
+        return bool(path) and (os.path.isdir(path) or os.path.isfile(path))
+
+    def _run(self) -> dict | None:
+        obj = self.app.loc["obj_new"].get().strip()
+        if not self._valid(obj):
+            return None
+        return ot_compare.check_fase_visualisatie(obj)
+
+    def on_analyze(self) -> None:
+        self._clearlog()
+        res = self._run()
+        if res is None:
+            messagebox.showwarning(
+                "Geen bron", "Vul bij 'Locaties' een geldige map in voor de "
+                "nieuwe objectentabellen.")
+            return
+        self._logmsg(f"Objecten: {res['total']}  "
+                     f"(volledig: {res['ok']}, "
+                     f"fase ontbreekt: {len(res['missing'])})")
+        self._logmsg()
+        missing = res["missing"]
+        if not missing:
+            self._logmsg("✓ Elk object heeft voor alle verwachte fasen een "
+                         "visualisatie.")
+        else:
+            self._logmsg(f"⚠ {len(missing)} object(en) missen een fase-"
+                         "visualisatie:")
+            for m in missing:
+                self._logmsg(f"   {m['name']}   [hoofdgroep {m['hoofdgroep']}] "
+                             f"ontbreekt: {', '.join(m['missing'])}")
+        unexpected = res["unexpected"]
+        if unexpected:
+            self._logmsg()
+            self._logmsg(f"⚠ {len(unexpected)} object(en) in AL/ZZ met een "
+                         "onverwachte fase-visualisatie:")
+            for u in unexpected:
+                self._logmsg(f"   {u['name']}   [hoofdgroep {u['hoofdgroep']}] "
+                             f"onverwacht: {', '.join(u['extra'])}")
+
+    def on_save_html(self) -> None:
+        out_dir = self.app.loc["output_dir"].get().strip()
+        if not out_dir or not os.path.isdir(out_dir):
+            messagebox.showwarning(
+                "Geen uitvoermap", "Vul bij 'Locaties' een geldige uitvoermap in "
+                "om de HTML op te slaan.")
+            return
+        res = self._run()
+        if res is None:
+            messagebox.showwarning(
+                "Geen bron", "Vul bij 'Locaties' een geldige map in voor de "
+                "nieuwe objectentabellen.")
+            return
+        html = ot_html.build_fase_visualisatie_html(
+            res, title="Fase-visualisatie",
+            version_new=self.app.version_new_var.get().strip())
+        path = os.path.join(out_dir, "fase-visualisatie.html")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(html)
+        self._logmsg(f"HTML opgeslagen: {path}")
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(path))
+
+
+# ---------------------------------------------------------------------------
 # Tabblad 'Locaties': alle mappen/bestanden die de tabbladen delen, één keer
 # ---------------------------------------------------------------------------
 # Velden in het Locaties-tabblad, gegroepeerd. Elke regel:
@@ -1746,6 +2261,25 @@ class App(ttk.Frame):
         # (alleen symbolen/lijntypes/arceringen).
         self.optiefase_tab = OptieFaseCheckTab(nb, self)
         nb.add(self.optiefase_tab, text="Optie-fase-check")
+
+        # Tabblad 'Objectenboom': hiërarchie-controle van de objecten
+        # (één segment meer dan de ouder + naam is uitbreiding van de ouder).
+        self.objecttree_tab = ObjectTreeTab(nb, self)
+        nb.add(self.objecttree_tab, text="Objectenboom")
+
+        # Tabblad 'Lijntype-gebruik': wordt elk lijntype ook in de objecten
+        # gebruikt (verwijzing op naam via lt_b/lt_n/lt_v/lt_t)?
+        self.lijnusage_tab = LijntypeUsageTab(nb, self)
+        nb.add(self.lijnusage_tab, text="Lijntype-gebruik")
+
+        # Tabblad 'Zoekterm-controle': wordt elk symbool/elke arcering via een
+        # zoekterm (sobject/aobject) in de objectentabel gevonden?
+        self.searchterm_tab = SearchtermTab(nb, self)
+        nb.add(self.searchterm_tab, text="Zoekterm-controle")
+
+        # heeft elk object voor alle fasen (B/N/V/T) een visualisatie?
+        self.fasevis_tab = FaseVisualisatieTab(nb, self)
+        nb.add(self.fasevis_tab, text="Fase-visualisatie")
 
         master.protocol("WM_DELETE_WINDOW", self._on_close)
 

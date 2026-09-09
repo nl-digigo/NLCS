@@ -725,6 +725,451 @@ def check_fase_optie(src: str, name_col: str, exclude_names=()) -> list[dict]:
     return out
 
 
+def _name_segments(name: str) -> list[str]:
+    """Splits een objectnaam in segmenten op de scheidingstekens '-' en '_'.
+    Lege segmenten (dubbele scheidingstekens) worden weggelaten."""
+    return [s for s in re.split(r"[-_]", (name or "").strip()) if s]
+
+
+def check_object_tree(src: str, name_col: str = "omschrijving",
+                      id_col: str = "id_nummer",
+                      parent_col: str = "kind_van") -> dict:
+    """Controleer de boomstructuur van de objecten.
+
+    De objecten vormen een boom: `parent_col` (standaard 'kind_van') bevat het
+    `id_col` (standaard 'id_nummer') van het bovenliggende object; is dat leeg,
+    dan staat het object bovenaan (root). De naam (`name_col`, standaard
+    'omschrijving') bestaat uit segmenten gescheiden door '-' en '_'. Regel: een
+    onderliggend object heeft *precies één* segment meer dan zijn ouder — niet
+    meer en niet minder — en de naam van de ouder is exact het begin van de naam
+    van het kind (het kind = ouder + één toevoeging).
+
+    `src` mag een MAP met CSV's per hoofdgroep of één CSV-bestand zijn.
+
+    Geeft een dict terug:
+      {
+        "count":   totaal aantal objecten,
+        "roots":   [id, ...]  (op naam gesorteerd),
+        "nodes":   {id: {"id","name","parent","children":[...],"depth","segs"}},
+        "max_depth": grootste diepte,
+        "errors":  [ {"type","id","name","parent","parent_name","got",
+                      "expected","detail"} , ... ],
+      }
+    Fouttypes: 'orphan' (ouder-id onbekend), 'count' (geen +1 segment),
+    'prefix' (naam is geen uitbreiding van de oudernaam),
+    'separator' (segmenten kloppen wel, maar de oudernaam staat niet exact
+    vooraan mét hetzelfde scheidingsteken '-'/'_'),
+    'root_multi' (root met meer dan één segment: mogelijk ontbrekende ouder),
+    'subobjecten' (het deel vóór het eerste koppelteken '-' — de laagnaam
+    zonder fase/optie-achtervoegsel — bevat meer dan 5 subobjecten, d.w.z.
+    meer dan 5 scheidingstekens '_'; komt overeen met de SPARQL-controle
+    controle_nlcs-objecten_te_veel_subobjecten)."""
+    empty = {"count": 0, "roots": [], "nodes": {}, "max_depth": 0, "errors": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    nodes: dict[str, dict] = {}
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers or id_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        ii = headers.index(id_col)
+        pi = headers.index(parent_col) if parent_col in headers else -1
+        fn = os.path.basename(path)
+        for r in rows:
+            idn = (r[ii] if ii < len(r) else "").strip()
+            if not idn:
+                continue
+            name = (r[ni] if ni < len(r) else "").strip()
+            parent = (r[pi] if pi >= 0 and pi < len(r) else "").strip()
+            # eerste voorkomen wint (zoals elders in de tool)
+            nodes.setdefault(idn, {
+                "id": idn, "name": name, "parent": parent,
+                "children": [], "segs": _name_segments(name),
+                "depth": 0, "file": fn,
+            })
+
+    # kinderen koppelen + diepte bepalen
+    errors: list[dict] = []
+    roots: list[str] = []
+    for idn, nd in nodes.items():
+        p = nd["parent"]
+        if not p:
+            roots.append(idn)
+        elif p in nodes:
+            nodes[p]["children"].append(idn)
+        else:
+            roots.append(idn)   # wees: behandel als top zodat hij zichtbaar blijft
+            errors.append({
+                "type": "orphan", "id": idn, "name": nd["name"],
+                "parent": p, "parent_name": "",
+                "got": "", "expected": "",
+                "detail": f"bovenliggend id '{p}' niet gevonden",
+            })
+
+    # diepte via iteratieve afdaling vanaf de roots (cyclus-veilig)
+    max_depth = 0
+    for rid in roots:
+        stack = [(rid, 0)]
+        seen = set()
+        while stack:
+            cur, depth = stack.pop()
+            if cur in seen:
+                continue
+            seen.add(cur)
+            nodes[cur]["depth"] = depth
+            max_depth = max(max_depth, depth)
+            for ch in nodes[cur]["children"]:
+                stack.append((ch, depth + 1))
+
+    # naamregels controleren
+    for idn, nd in nodes.items():
+        # te veel subobjecten: neem het deel van de naam vóór het eerste
+        # koppelteken '-' (de laagnaam zonder fase/optie-achtervoegsel) en tel
+        # de scheidingstekens '_'. Meer dan 5 subobjecten (= meer dan 5 '_')
+        # mag niet in een laagnaam staan. Gelijk aan de SPARQL-controle
+        # controle_nlcs-objecten_te_veel_subobjecten.
+        clean = nd["name"].split("-", 1)[0]
+        n_sub = clean.count("_")
+        if n_sub > 5:
+            errors.append({
+                "type": "subobjecten", "id": idn, "name": nd["name"],
+                "parent": nd["parent"], "parent_name": "",
+                "got": n_sub, "expected": 5,
+                "detail": f"{n_sub} subobjecten in de laagnaam '{clean}' "
+                          f"(meer dan 5 mag niet)",
+            })
+        p = nd["parent"]
+        if not p:
+            if len(nd["segs"]) > 1:
+                errors.append({
+                    "type": "root_multi", "id": idn, "name": nd["name"],
+                    "parent": "", "parent_name": "",
+                    "got": len(nd["segs"]), "expected": 1,
+                    "detail": "object zonder bovenliggend id heeft meer dan "
+                              "één segment",
+                })
+            continue
+        if p not in nodes:
+            continue   # al als wees gemeld
+        par = nodes[p]
+        ps, cs = par["segs"], nd["segs"]
+        count_ok = len(cs) == len(ps) + 1
+        prefix_ok = cs[:len(ps)] == ps
+        if not count_ok:
+            errors.append({
+                "type": "count", "id": idn, "name": nd["name"],
+                "parent": p, "parent_name": par["name"],
+                "got": len(cs), "expected": len(ps) + 1,
+                "detail": f"{len(cs)} segmenten; ouder heeft er {len(ps)} "
+                          f"(verwacht {len(ps) + 1})",
+            })
+        if not prefix_ok:
+            errors.append({
+                "type": "prefix", "id": idn, "name": nd["name"],
+                "parent": p, "parent_name": par["name"],
+                "got": nd["name"], "expected": par["name"] + "_…",
+                "detail": "naam is geen uitbreiding van de oudernaam",
+            })
+        # scheidingsteken: de oudernaam moet LETTERLIJK (mét eigen '-'/'_')
+        # vooraan in de kindnaam staan, gevolgd door precies één scheidingsteken
+        # en de toevoeging. Alleen zinvol als segment-inhoud + aantal al kloppen;
+        # anders is 'count'/'prefix' de relevante melding.
+        elif count_ok and par["name"]:
+            pn = par["name"]
+            ok = (nd["name"].startswith(pn)
+                  and len(nd["name"]) > len(pn)
+                  and nd["name"][len(pn)] in "-_")
+            if not ok:
+                errors.append({
+                    "type": "separator", "id": idn, "name": nd["name"],
+                    "parent": p, "parent_name": pn,
+                    "got": nd["name"], "expected": f"{pn}- / {pn}_",
+                    "detail": "scheidingsteken klopt niet: de oudernaam moet "
+                              "exact vooraan staan, gevolgd door '-' of '_'",
+                })
+
+    roots.sort(key=lambda i: nodes[i]["name"].casefold())
+    for nd in nodes.values():
+        nd["children"].sort(key=lambda i: nodes[i]["name"].casefold())
+    return {
+        "count": len(nodes), "roots": roots, "nodes": nodes,
+        "max_depth": max_depth, "errors": errors,
+    }
+
+
+# Kolommen in de objectentabel die naar een lijntype-naam verwijzen
+# (per variant: bestaand/nieuw/vervallen/tijdelijk).
+LIJNTYPE_REF_COLS = ("lt_b", "lt_n", "lt_v", "lt_t")
+
+# Visualisatie-velden per fase in de objectentabel: lijngewicht (lw), de kleuren
+# (kl*) en het lijntype (lt). Een object "heeft een visualisatie" voor een fase
+# als minstens één van deze velden gevuld is.
+FASE_VELDEN = {
+    "B": ("lw_b", "kl_b", "kl_b_a", "kl_b_gd", "kl_b_gn", "kl_b_v", "lt_b"),
+    "N": ("lw_n", "kl_n", "kl_n_a", "kl_n_gd", "kl_n_gn", "kl_n_v", "lt_n"),
+    "V": ("lw_v", "kl_v", "kl_v_a", "kl_v_gd", "kl_v_gn", "kl_v_v", "lt_v"),
+    "T": ("lw_t", "kl_t", "kl_t_a", "kl_t_gd", "kl_t_gn", "kl_t_v", "lt_t"),
+}
+FASE_LABELS = {"B": "Bestaand", "N": "Nieuw", "V": "Vervallen", "T": "Tijdelijk"}
+FASE_VOLGORDE = ("B", "N", "V", "T")
+# Hoofdgroepen die alleen een visualisatie voor de bestaande situatie (fase B)
+# hebben; voor deze codes worden N/V/T niet verwacht.
+FASE_ALLEEN_B_CODES = ("AL", "ZZ")
+
+
+def check_lijntype_usage(lijn_src: str, obj_src: str,
+                         name_col: str = "omschrijving",
+                         obj_name_col: str = "omschrijving",
+                         ref_cols=LIJNTYPE_REF_COLS,
+                         exclude_names=()) -> dict:
+    """Controleer of elk lijntype ook in de objectentabel wordt gebruikt.
+
+    Detectie op NAAM: de objectentabel verwijst in de kolommen `ref_cols`
+    (standaard lt_b/lt_n/lt_v/lt_t) naar de naam van een lijntype (kolom
+    `name_col`, standaard 'omschrijving'). `lijn_src` en `obj_src` mogen elk een
+    MAP met CSV's of één CSV-bestand zijn. `exclude_names` : lijntype-namen die
+    buiten beschouwing blijven (bijv. generieke lijnen uit een andere publicatie).
+
+    Geeft een dict terug:
+      {
+        "lijn_total":     aantal unieke lijntypes,
+        "used":           [naam, ...]  (lijntypes die in objecten voorkomen),
+        "unused":         [ {name, hoofdgroep, file} ]  (bestaat wel, niet gebruikt),
+        "obj_refs_total": aantal unieke verwezen namen in de objecten,
+        "missing":        [ {name, count, objects[]} ]  (objecten verwijzen naar
+                          een naam die geen bestaand lijntype is),
+      }
+    """
+    def _paths(src):
+        if not src:
+            return []
+        if os.path.isdir(src):
+            return sorted(glob.glob(os.path.join(src, "*.csv")))
+        if os.path.isfile(src):
+            return [src]
+        return []
+
+    skip = {(n or "").strip().upper() for n in exclude_names}
+
+    # bestaande lijntypes: naam -> (hoofdgroep, bestand) — eerste voorkomen wint
+    lijn: dict[str, dict] = {}
+    for path in _paths(lijn_src):
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        hi = headers.index("hoofdgroep") if "hoofdgroep" in headers else -1
+        fn = os.path.basename(path)
+        for r in rows:
+            nm = (r[ni] if ni < len(r) else "").strip()
+            if not nm or nm.upper() in skip:
+                continue
+            lijn.setdefault(nm, {
+                "name": nm,
+                "hoofdgroep": (r[hi] if hi >= 0 and hi < len(r) else "").strip(),
+                "file": fn,
+            })
+
+    # verwijzingen vanuit de objecten: naam -> lijst object-omschrijvingen
+    refs: dict[str, list[str]] = {}
+    for path in _paths(obj_src):
+        headers, rows = read_table(path)
+        idxs = [headers.index(c) for c in ref_cols if c in headers]
+        oi = headers.index(obj_name_col) if obj_name_col in headers else -1
+        for r in rows:
+            oname = (r[oi] if oi >= 0 and oi < len(r) else "").strip()
+            for i in idxs:
+                v = (r[i] if i < len(r) else "").strip()
+                if not v or v.upper() in skip:
+                    continue
+                refs.setdefault(v, [])
+                if oname and oname not in refs[v]:
+                    refs[v].append(oname)
+
+    used = sorted((n for n in lijn if n in refs), key=str.casefold)
+    unused = [lijn[n] for n in sorted(lijn, key=str.casefold) if n not in refs]
+    missing = [
+        {"name": n, "count": len(refs[n]), "objects": sorted(refs[n], key=str.casefold)}
+        for n in sorted(refs, key=str.casefold) if n not in lijn
+    ]
+    return {
+        "lijn_total": len(lijn),
+        "used": used,
+        "unused": unused,
+        "obj_refs_total": len(refs),
+        "missing": missing,
+    }
+
+
+def check_searchterm_coverage(name_src: str, obj_src: str,
+                              name_col: str, obj_col: str) -> dict:
+    """Controleer of elk symbool/elke arcering via een zoekterm in de
+    objectentabel gevonden wordt.
+
+    De zoekterm is een `obj_col`-waarde (sobject voor symbolen, aobject voor
+    arceringen) uit de objectentabel. Een symbool/arcering wordt GEVONDEN als
+    zo'n zoekterm als string (substring) in de naam (`name_col`: 'symbool' resp.
+    'arcering') voorkomt. `name_src` en `obj_src` mogen elk een MAP met CSV's of
+    één CSV-bestand zijn.
+
+    Geeft terug:
+      {
+        "total":       aantal namen,
+        "term_count":  aantal unieke zoektermen (obj_col-waarden),
+        "found":       aantal gevonden,
+        "not_found":   [ {name, file} ]  (op naam gesorteerd, uniek),
+      }
+    """
+    def _paths(src):
+        if not src:
+            return []
+        if os.path.isdir(src):
+            return sorted(glob.glob(os.path.join(src, "*.csv")))
+        if os.path.isfile(src):
+            return [src]
+        return []
+
+    # zoektermen verzamelen uit de objectentabel
+    terms: set[str] = set()
+    for path in _paths(obj_src):
+        headers, rows = read_table(path)
+        if obj_col not in headers:
+            continue
+        ci = headers.index(obj_col)
+        for r in rows:
+            v = (r[ci] if ci < len(r) else "").strip()
+            if v:
+                terms.add(v)
+    # langste eerst zodat een 'gevonden'-treffer de meest specifieke term is
+    terms_sorted = sorted(terms, key=len, reverse=True)
+
+    total = 0
+    found = 0
+    not_found: list[dict] = []
+    seen: set[str] = set()
+    for path in _paths(name_src):
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        fn = os.path.basename(path)
+        for r in rows:
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name or name in seen:
+                continue
+            seen.add(name)
+            total += 1
+            if any(t in name for t in terms_sorted):
+                found += 1
+            else:
+                not_found.append({"name": name, "file": fn})
+    not_found.sort(key=lambda d: d["name"].casefold())
+    return {
+        "total": total, "term_count": len(terms),
+        "found": found, "not_found": not_found,
+    }
+
+
+def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
+                            hoofdgroep_col: str = "hoofdgroep",
+                            only_b_codes=FASE_ALLEEN_B_CODES) -> dict:
+    """Controleer of elk object voor alle fasen een visualisatie heeft.
+
+    Elke fase (B=bestaand, N=nieuw, V=vervallen, T=tijdelijk) heeft in de
+    objectentabel een groep velden (lijngewicht `lw`, kleuren `kl*`, lijntype
+    `lt`, zie `FASE_VELDEN`). Een object "heeft een visualisatie" voor een fase
+    als minstens één van die velden gevuld is. Verwacht worden alle vier de
+    fasen, BEHALVE voor de hoofdgroepen in `only_b_codes` (standaard AL en ZZ):
+    die hebben alleen een visualisatie voor de bestaande situatie (fase B).
+
+    De hoofdgroep wordt per rij uit kolom `hoofdgroep_col` gelezen (valt terug op
+    de code in de bestandsnaam). `src` mag een MAP met CSV's of één CSV-bestand
+    zijn.
+
+    Geeft een dict terug:
+      {
+        "total":      aantal gecontroleerde objecten,
+        "ok":         aantal objecten zonder afwijking,
+        "missing":    [ {name, hoofdgroep, file, missing:[fase-labels],
+                         expected:[fase-labels]} ]  (verwachte fase ontbreekt),
+        "unexpected": [ {name, hoofdgroep, file, extra:[fase-labels]} ]
+                      (alleen-B-hoofdgroep met N/V/T gevuld),
+      }
+    """
+    empty = {"total": 0, "ok": 0, "missing": [], "unexpected": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    only_b = {(c or "").strip().upper() for c in only_b_codes}
+    total = 0
+    ok = 0
+    missing: list[dict] = []
+    unexpected: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        hi = headers.index(hoofdgroep_col) if hoofdgroep_col in headers else -1
+        # kolomindex per fase-veld (alleen bestaande kolommen)
+        fase_idx = {
+            fase: [headers.index(c) for c in cols if c in headers]
+            for fase, cols in FASE_VELDEN.items()
+        }
+        code_fn = hoofdgroep_code(path)
+        fn = os.path.basename(path)
+        for r in rows:
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name:
+                continue
+            total += 1
+            code = ((r[hi] if hi >= 0 and hi < len(r) else "").strip()
+                    or code_fn).upper()
+            expected = ("B",) if code in only_b else FASE_VOLGORDE
+
+            def _has(fase: str) -> bool:
+                return any((r[i] if i < len(r) else "").strip()
+                           for i in fase_idx.get(fase, ()))
+
+            miss = [f for f in expected if not _has(f)]
+            # onverwachte fasen: alleen-B-hoofdgroep met N/V/T ingevuld
+            extra = ([f for f in FASE_VOLGORDE
+                      if f not in expected and _has(f)]
+                     if code in only_b else [])
+            if miss:
+                missing.append({
+                    "name": name, "hoofdgroep": code, "file": fn,
+                    "missing": [FASE_LABELS[f] for f in miss],
+                    "expected": [FASE_LABELS[f] for f in expected],
+                })
+            if extra:
+                unexpected.append({
+                    "name": name, "hoofdgroep": code, "file": fn,
+                    "extra": [FASE_LABELS[f] for f in extra],
+                })
+            if not miss and not extra:
+                ok += 1
+
+    missing.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    unexpected.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    return {"total": total, "ok": ok,
+            "missing": missing, "unexpected": unexpected}
+
+
 def _sort_key(row: list[str]) -> str:
     return (row[SORT_COLUMN] if len(row) > SORT_COLUMN else "").casefold()
 
