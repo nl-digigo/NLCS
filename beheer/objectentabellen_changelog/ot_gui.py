@@ -2762,6 +2762,106 @@ class LijntypeDefTab(ttk.Frame):
 
 
 # ---------------------------------------------------------------------------
+# Tabblad 'Controles': draait ALLE kwaliteitscontroles in één keer en schrijft
+# één gecombineerd rapport (controles.html), ingedeeld per tabel in de volgorde
+# van docs/managementmanual/2.md. Vervangt de losse controle-tabbladen.
+# ---------------------------------------------------------------------------
+class ControlesTab(ttk.Frame):
+    """Eén knop die alle kwaliteitscontroles draait op de mappen uit 'Locaties'
+    en het resultaat in één HTML zet (controles.html), per tabel in de volgorde
+    van de managementhandleiding. Elke findings-tabel heeft een sorteerbare
+    kolom 'hoofdgroep'. Hergebruikt de _run()-logica van de controle-tabs."""
+
+    def __init__(self, master, app: "App"):
+        super().__init__(master, padding=10)
+        self.app = app
+        self._build()
+
+    def _build(self) -> None:
+        ttk.Label(
+            self, foreground="#555", justify="left",
+            text="Draait in één keer alle kwaliteitscontroles (objecten, "
+                 "symbolen, arceringen, lijntypes) op de mappen uit het tabblad "
+                 "'Locaties' en schrijft het resultaat in één HTML-rapport "
+                 "(controles.html), ingedeeld per tabel in de volgorde van de "
+                 "managementhandleiding. Elke findings-tabel heeft een "
+                 "sorteerbare kolom 'hoofdgroep' — klik op een kolomkop om te "
+                 "sorteren.").pack(anchor="w")
+
+        btns = ttk.Frame(self)
+        btns.pack(anchor="w", pady=(8, 0))
+        ttk.Button(btns, text="Draai alle controles → HTML",
+                   command=self.on_generate).pack(side="left")
+
+        logframe = ttk.LabelFrame(self, text="Resultaat", padding=8)
+        logframe.pack(fill="both", expand=True, pady=(8, 0))
+        self.log = tk.Text(logframe, height=18, wrap="word", state="disabled",
+                           font=("Consolas", 9), background="#fbfbfb")
+        scroll = ttk.Scrollbar(logframe, orient="vertical", command=self.log.yview)
+        self.log.configure(yscrollcommand=scroll.set)
+        self.log.pack(side="left", fill="both", expand=True)
+        scroll.pack(side="right", fill="y")
+
+    def _logmsg(self, msg: str = "") -> None:
+        self.log.configure(state="normal")
+        self.log.insert("end", msg + "\n")
+        self.log.see("end")
+        self.log.configure(state="disabled")
+
+    def _clearlog(self) -> None:
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+
+    def _gather(self) -> dict:
+        """Verzamel de ruwe resultaten van alle controles via hun _run()."""
+        app = self.app
+        id_sections, _ = app.id_tab._run()
+        opt_sections, _ = app.optiefase_tab._run()
+
+        def by_label(lst) -> dict:
+            return {s["label"].lower(): s for s in (lst or [])}
+
+        return {
+            "tree": app.objecttree_tab._run(),
+            "fasevis": app.fasevis_tab._run(),
+            "elemlink": app.elemlink_tab._run(),
+            "lijnusage": app.lijnusage_tab._run(),
+            "arcverkl": app.arceringverklaring_tab._run(),
+            "lijndef": app.lijntypedef_tab._run(),
+            "dwg": ot_compare.check_dwg_symbols(
+                app.loc["sym_new"].get().strip(),
+                app.loc["dwg_new"].get().strip()),
+            "id": {s["key"]: s for s in id_sections},
+            "optie": {s["label"].lower(): s for s in opt_sections},
+            "searchcov": by_label(app.searchterm_tab._run()),
+            "searchmin": by_label(app.searchtermmin_tab._run()),
+            "dup": by_label(app.dupnames_tab._run()),
+            "special": by_label(app.specialchars_tab._run()),
+        }
+
+    def on_generate(self) -> None:
+        self._clearlog()
+        out_dir = self.app.loc["output_dir"].get().strip()
+        if not out_dir or not os.path.isdir(out_dir):
+            messagebox.showwarning(
+                "Geen uitvoermap", "Vul bij 'Locaties' een geldige uitvoermap in "
+                "om het rapport op te slaan.")
+            return
+        self._logmsg("Controles draaien…")
+        data = self._gather()
+        html = ot_html.build_all_checks_html(
+            data, version_new=self.app.version_new_var.get().strip())
+        path = os.path.join(out_dir, "controles.html")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(html)
+        self._logmsg(f"Rapport opgeslagen: {path}")
+        self.app.save_config()
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(path))
+
+
+# ---------------------------------------------------------------------------
 # Tabblad 'Locaties': alle mappen/bestanden die de tabbladen delen, één keer
 # ---------------------------------------------------------------------------
 # Velden in het Locaties-tabblad, gegroepeerd. Elke regel:
@@ -2907,6 +3007,12 @@ class App(ttk.Frame):
         self.locations_tab = LocationsTab(nb, self)
         nb.add(self.locations_tab, text="Locaties")
 
+        # Tabblad 'Controles': draait alle kwaliteitscontroles in één keer en
+        # schrijft één gecombineerd rapport (controles.html), per tabel in de
+        # volgorde van de managementhandleiding.
+        self.controles_tab = ControlesTab(nb, self)
+        nb.add(self.controles_tab, text="Controles")
+
         # Per tabelsoort een vergelijk-tabblad; die lezen de mappen uit app.loc.
         self.tabs: dict[str, TableTab] = {}
         for prof in PROFILES:
@@ -2920,56 +3026,21 @@ class App(ttk.Frame):
         self.index_tab = IndexTab(nb, self)
         nb.add(self.index_tab, text="Overzicht")
 
-        # Tabblad 'ID's': eerstvolgende vrije id_nummer + ID-controles.
+        # De losse controle-tabbladen worden niet meer als tab getoond; de
+        # instanties blijven bestaan zodat ControlesTab hun _run()-logica kan
+        # hergebruiken voor het gecombineerde rapport.
         self.id_tab = IdTab(nb, self)
-        nb.add(self.id_tab, text="ID's")
-
-        # Tabblad 'Optie-fase-check': fase/optie consistent met de gecodeerde naam
-        # (alleen symbolen/lijntypes/arceringen).
         self.optiefase_tab = OptieFaseCheckTab(nb, self)
-        nb.add(self.optiefase_tab, text="Optie-fase-check")
-
-        # Tabblad 'Objectenboom': hiërarchie-controle van de objecten
-        # (één segment meer dan de ouder + naam is uitbreiding van de ouder).
         self.objecttree_tab = ObjectTreeTab(nb, self)
-        nb.add(self.objecttree_tab, text="Objectenboom")
-
-        # Tabblad 'Lijntype-gebruik': wordt elk lijntype ook in de objecten
-        # gebruikt (verwijzing op naam via lt_b/lt_n/lt_v/lt_t)?
         self.lijnusage_tab = LijntypeUsageTab(nb, self)
-        nb.add(self.lijnusage_tab, text="Lijntype-gebruik")
-
-        # Tabblad 'Zoekterm-controle': wordt elk symbool/elke arcering via een
-        # zoekterm (sobject/aobject) in de objectentabel gevonden?
         self.searchterm_tab = SearchtermTab(nb, self)
-        nb.add(self.searchterm_tab, text="Zoekterm-controle")
-
-        # omgekeerde richting: vindt elke zoekterm (sobject/aobject) minstens
-        # één symbool/arcering? (minimaal 1 vereist)
         self.searchtermmin_tab = SearchtermMinTab(nb, self)
-        nb.add(self.searchtermmin_tab, text="Zoekterm-treffers")
-
-        # heeft elk object voor alle fasen (B/N/V/T) een visualisatie?
         self.fasevis_tab = FaseVisualisatieTab(nb, self)
-        nb.add(self.fasevis_tab, text="Fase-visualisatie")
-
-        # komen er binnen één hoofdgroep dubbele namen voor?
         self.dupnames_tab = DuplicateNamesTab(nb, self)
-        nb.add(self.dupnames_tab, text="Dubbele namen")
-
-        # klopt de element-token (S/A) met sobject/aobject?
         self.elemlink_tab = ElementLinkTab(nb, self)
-        nb.add(self.elemlink_tab, text="Element-koppeling")
-
-        # bevatten namen tekens die in CAD/LISP niet zijn toegestaan?
         self.specialchars_tab = SpecialCharsTab(nb, self)
-        nb.add(self.specialchars_tab, text="Speciale tekens")
-
         self.arceringverklaring_tab = ArceringVerklaringTab(nb, self)
-        nb.add(self.arceringverklaring_tab, text="Verklaring")
-
         self.lijntypedef_tab = LijntypeDefTab(nb, self)
-        nb.add(self.lijntypedef_tab, text="AutoCAD-definitie")
 
         master.protocol("WM_DELETE_WINDOW", self._on_close)
 

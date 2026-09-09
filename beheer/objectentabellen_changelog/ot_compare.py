@@ -1570,6 +1570,105 @@ def check_lijntype_autocaddef(src: str, name_col: str = "omschrijving",
     return {"total": total, "ok": ok, "missing": missing}
 
 
+def bib_of_stem(stem: str, known_bibs) -> str:
+    """De bibliotheek-code die als los hyphen-segment in een bestands-/symboolnaam
+    staat. Symboolnamen kunnen een prefix hebben (bijv. 'V-SFC-PAAL...', 'B-SGC-…'),
+    dus het EERSTE naam-segment is geen betrouwbare bibliotheek. We zoeken welke
+    bekende bibliotheek (uit de `sbibliotheek`-kolom, bijv. SFC/SGC/SAM) als segment
+    in de naam voorkomt; het eerste passende segment wint. Geeft "" als geen enkele
+    bekende bibliotheek in de naam zit (dan hoort het .dwg-bestand niet bij een
+    verwerkte hoofdgroep)."""
+    if not stem or not known_bibs:
+        return ""
+    known = {b.upper() for b in known_bibs if b}
+    for seg in stem.upper().split("-"):
+        if seg in known:
+            return seg
+    return ""
+
+
+def check_dwg_symbols(sym_src: str, dwg_dir: str, name_col: str = "symbool",
+                      bib_col: str = "sbibliotheek") -> dict:
+    """Controleer de koppeling tussen symbooltabelregels en .dwg-bestanden, TWEE
+    kanten op:
+      - regel zonder bestand: elke symbooltabelregel moet een <symbool>.dwg in de
+        .dwg-map hebben (recursief);
+      - bestand zonder regel (wees): elk .dwg-bestand van een VERWERKTE bibliotheek
+        moet een tabelregel hebben.
+
+    De wees-detectie is gescoped op de bibliotheken die daadwerkelijk in de
+    symbolentabellen voorkomen (kolom `sbibliotheek`): de .dwg-map bevat álle
+    bibliotheken, dus een .dwg van een niet-verwerkte bibliotheek is géén wees.
+    Bib per .dwg wordt prefix-proof bepaald via `bib_of_stem` (V-/B-voorvoegsels).
+
+    `sym_src` mag een MAP met symbolen-CSV's of één CSV zijn; `dwg_dir` is de map
+    met .dwg-bestanden (recursief doorzocht).
+
+    Geeft een dict terug:
+      {
+        "total":    aantal gecontroleerde tabelregels,
+        "ok":       aantal regels met een .dwg-bestand,
+        "missing":  [ {name, file, hoofdgroep} ],  # regel zonder .dwg
+        "orphans":  [ {name, file, hoofdgroep} ],  # .dwg zonder regel
+        "dwg_count": aantal .dwg-bestanden in de map,
+        "bibs":     gesorteerde lijst verwerkte bibliotheken,
+      }
+    Als er geen symbolenbron of geen .dwg-map is, wordt None teruggegeven (de
+    controle is dan niet van toepassing/overgeslagen)."""
+    if not sym_src or not dwg_dir or not os.path.isdir(dwg_dir):
+        return None
+    if os.path.isdir(sym_src):
+        paths = sorted(glob.glob(os.path.join(sym_src, "*.csv")))
+    elif os.path.isfile(sym_src):
+        paths = [sym_src]
+    else:
+        return None
+
+    dwg_map = dwg_index(dwg_dir)          # {stem.lower(): relpad}
+    all_symbols: set = set()
+    processed_bibs: set = set()
+    missing: list[dict] = []
+    total = 0
+    ok = 0
+    have_names = False
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        have_names = True
+        ni = headers.index(name_col)
+        bi = headers.index(bib_col) if bib_col in headers else -1
+        fn = os.path.basename(path)
+        code = hoofdgroep_code(path)
+        for r in rows:
+            nm = (r[ni] if ni < len(r) else "").strip()
+            if not nm:
+                continue
+            total += 1
+            all_symbols.add(nm.lower())
+            if bi >= 0:
+                sb = (r[bi] if bi < len(r) else "").strip().upper()
+                if sb:
+                    processed_bibs.add(sb)
+            if nm.lower() in dwg_map:
+                ok += 1
+            else:
+                missing.append({"name": nm, "file": fn, "hoofdgroep": code})
+    if not have_names:
+        return None
+
+    orphans = [
+        {"name": stem, "file": dwg_map[stem],
+         "hoofdgroep": sbib_to_code(bib_of_stem(stem, processed_bibs))}
+        for stem in dwg_map
+        if bib_of_stem(stem, processed_bibs) and stem not in all_symbols
+    ]
+    missing.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    orphans.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "missing": missing, "orphans": orphans,
+            "dwg_count": len(dwg_map), "bibs": sorted(processed_bibs)}
+
+
 def _sort_key(row: list[str]) -> str:
     return (row[SORT_COLUMN] if len(row) > SORT_COLUMN else "").casefold()
 
