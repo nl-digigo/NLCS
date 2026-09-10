@@ -1038,53 +1038,11 @@ class TableTab(ttk.Frame):
                             files += 2
                         made += 1
 
-                # Wees-.dwg's: bestanden zonder een regel in de verwerkte
-                # symbolentabellen. Alleen .dwg's van de bibliotheken die in deze
-                # run zijn verwerkt tellen mee (bijv. SAM, SAL); .dwg's van andere
-                # groepen worden overgeslagen (anders wordt bijv. heel SAL als wees
-                # gemeld terwijl die groep niet is vergeleken).
-                if needs_files and dwg_map:
-                    orphans = []
-                    skipped_bibs: set = set()
-                    for stem in sorted(dwg_map):
-                        # Bib per .dwg via segment-match (prefix-proof: V-SFC-...).
-                        bib = _bib_of_stem(stem, processed_bibs)
-                        if processed_bibs and not bib:
-                            first_seg = (stem.split("-", 1)[0].upper()
-                                         if "-" in stem else "?")
-                            skipped_bibs.add(first_seg or "?")
-                            continue  # andere groep, niet in deze run verwerkt
-                        if stem not in all_symbols:
-                            orphans.append((stem, dwg_map[stem]))
-                    orphan_html = ot_html.build_orphans_html(
-                        orphans, title="dwg zonder regel in de symbolentabel",
-                        symbols_dir=symbols_dir, version_new=version_new)
-                    orphan_path = os.path.join(out_dir, "dwg-zonder-tabelregel.html")
-                    with open(orphan_path, "w", encoding="utf-8") as f:
-                        f.write(orphan_html)
-                    files += 1
-                    bibs_txt = ", ".join(sorted(processed_bibs)) or "?"
-                    msg = (f"{len(orphans)} .dwg-bestand(en) zonder regel in de "
-                           f"tabel (bibliotheken: {bibs_txt}) "
-                           f"-> dwg-zonder-tabelregel.html")
-                    if skipped_bibs:
-                        msg += (f" [{len(skipped_bibs)} andere groep(en) "
-                                f"overgeslagen: {', '.join(sorted(skipped_bibs))}]")
-                    self._queue.put(("log", msg))
-
-                    # Andere kant op: verzamelde pagina met regels zonder .dwg.
-                    miss = sorted(set(missing_dwg),
-                                  key=lambda t: (t[1], t[0].lower()))
-                    missing_html = ot_html.build_missing_dwg_html(
-                        miss, title="regels zonder .dwg-bestand",
-                        symbols_dir=symbols_dir, version_new=version_new)
-                    missing_path = os.path.join(out_dir, "regel-zonder-dwg.html")
-                    with open(missing_path, "w", encoding="utf-8") as f:
-                        f.write(missing_html)
-                    files += 1
-                    self._queue.put(("log",
-                        f"{len(miss)} regel(s) in de symbolentabellen zonder "
-                        f".dwg-bestand -> regel-zonder-dwg.html"))
+                # De losse run-brede pagina's 'dwg-zonder-tabelregel.html' en
+                # 'regel-zonder-dwg.html' worden NIET meer geschreven: die twee
+                # controles staan al in het gecombineerde kwaliteitscontroles-
+                # rapport (tabblad 'Controles'). De wees-.dwg-sectie ONDERAAN elke
+                # hoofdgroep-changelog (orphans_this) blijft wel bestaan.
 
                 self._queue.put(("done", (made, files, first, open_after)))
             except Exception as exc:  # noqa: BLE001 - tonen in de GUI

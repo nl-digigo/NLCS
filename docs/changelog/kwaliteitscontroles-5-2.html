@@ -144,22 +144,8 @@
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — dezelfde naam mag binnen een hoofdgroep niet aan meerdere URI’s hangen; dit betrapt (over de nieuwe én de vorige publicatie heen) ook namen die in de vorige versie aan een andere URI hingen.</p><div class="kpi"><div class="box "><b>5992</b>namen</div><div class="box "><b>4345</b>uniek per hoofdgroep</div><div class="box bad"><b>4</b>naam met meerdere URI’s</div></div>
-<p class="warn">⚠ 4 naam/namen hangen binnen dezelfde hoofdgroep aan meerdere URI’s (dubbele naam, ook tussen versies):</p>
-<table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>URI</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg">GW</td><td>DIJK_KNIKLIJN</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/49649bee-1d92-4f4b-ae25-73201fb93f6f</td><td>nieuw</td><td class="loc">r27</td></tr>
-<tr><td class="hg">GW</td><td>DIJK_KNIKLIJN</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/49649bee-1d92-4f4b-ae25-73201fb93f6f</td><td>vorig</td><td class="loc">r19</td></tr>
-<tr><td class="hg">GW</td><td>DIJK_KNIKLIJN</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/e78be225-ac18-494e-9b54-376c306d542b</td><td>vorig</td><td class="loc">r42</td></tr>
-<tr><td class="hg">GW</td><td>DIJK_TALUD</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/efeb8611-6301-46cb-9e6a-f3c172cc46fa</td><td>nieuw</td><td class="loc">r46</td></tr>
-<tr><td class="hg">GW</td><td>DIJK_TALUD</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/f2c1c978-a349-4366-a923-708aabcdf409</td><td>vorig</td><td class="loc">r22</td></tr>
-<tr><td class="hg">GW</td><td>DIJK_TALUD</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/efeb8611-6301-46cb-9e6a-f3c172cc46fa</td><td>vorig</td><td class="loc">r44</td></tr>
-<tr><td class="hg">GW</td><td>WATERGANG_KNIKLIJN</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/e0d090e1-b4c9-476e-a4d6-340b23e9b729</td><td>nieuw</td><td class="loc">r54</td></tr>
-<tr><td class="hg">GW</td><td>WATERGANG_KNIKLIJN</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/4cd45bf4-2a99-45be-bbac-ee1a55464d1d</td><td>vorig</td><td class="loc">r46</td></tr>
-<tr><td class="hg">GW</td><td>WATERGANG_KNIKLIJN</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/e0d090e1-b4c9-476e-a4d6-340b23e9b729</td><td>vorig</td><td class="loc">r56</td></tr>
-<tr><td class="hg">GW</td><td>WATERGANG_TALUD</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/47067959-3042-411b-854a-c471788956f0</td><td>nieuw</td><td class="loc">r51</td></tr>
-<tr><td class="hg">GW</td><td>WATERGANG_TALUD</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/47067959-3042-411b-854a-c471788956f0</td><td>vorig</td><td class="loc">r51</td></tr>
-<tr><td class="hg">GW</td><td>WATERGANG_TALUD</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/c771146f-f994-4c61-9e94-ea37faa0ba73</td><td>vorig</td><td class="loc">r53</td></tr>
-</tbody></table>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>5992</b>namen</div><div class="box "><b>4345</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Element-koppeling (S/A ↔ sobject/aobject)</h2>
 <p class="ctrldesc">Element-koppeling: als de kolom <code>element</code> een S (symbool) of A (arcering) bevat, moet er ook een <code>sobject</code> resp. <code>aobject</code> zijn ingevuld — en omgekeerd.</p><div class="kpi"><div class="box "><b>2241</b>objecten</div><div class="box "><b>2231</b>correct</div><div class="box bad"><b>10</b>afwijkend</div></div>
@@ -178,7 +164,7 @@
 </tbody></table>
 </div>
 <div class="card"><h2>Zoekterm-treffers → symbolen</h2>
-<p class="ctrldesc">Zoekterm-dekking: elke <code>sobject</code>-/<code>aobject</code>-waarde in een object moet minstens één symbool resp. arcering vinden (de zoekterm moet als tekst in de symbool-/arceringnaam voorkomen).</p><div class="kpi"><div class="box "><b>261</b>zoektermen (sobject)</div><div class="box "><b>261</b>met treffer</div><div class="box free"><b>0</b>zonder treffer</div></div>
+<p class="ctrldesc">Zoekterm-dekking: elke <code>sobject</code>-/<code>aobject</code>-waarde in een object moet minstens één symbool resp. arcering vinden (de zoekterm moet als tekst in de symbool-/arceringnaam voorkomen).</p><div class="kpi"><div class="box "><b>263</b>zoektermen (sobject)</div><div class="box "><b>263</b>met treffer</div><div class="box free"><b>0</b>zonder treffer</div></div>
 <p class="ok">✓ Elke zoekterm vindt minstens één symbolen.</p>
 </div>
 <div class="card"><h2>Zoekterm-treffers → arceringen</h2>
@@ -202,55 +188,15 @@
 <h1 class="sect" id="symbolen">Symbolen</h1>
 <p class="sectnote">Controle symbolentabel.</p>
 <div class="card"><h2>Zoekterm-controle (<code>sobject</code>)</h2>
-<p class="ctrldesc"><code>controle_arceringsymbool_zonder_objectRelatie</code> — symbolen die via geen enkele zoekterm (<code>sobject</code>) in de objectentabel gevonden worden.</p><div class="kpi"><div class="box "><b>1542</b>namen</div><div class="box "><b>1504</b>via zoekterm gevonden</div><div class="box bad"><b>38</b>niet gevonden</div></div>
-<p class="warn">⚠ 38 naam/namen via geen enkele zoekterm gevonden:</p>
-<table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th></tr></thead><tbody>
-<tr><td class="hg">IS</td><td>SIS-LICHT_3LAMP_01</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_3LAMP_02</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_4LAMP_01</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_ABSOLUUT</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_MATRIX</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_MATRIX_FOF1</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_OPRIJD</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_PERMISSIEF</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_PERRON</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_RIJWEG_LINKSLEIDEND</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_RIJWEG_RECHTDOOR</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_RIJWEG_RECHTSLEIDEND</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_RIJWEG_STOP</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_TUNNELVERBOD</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_WISSELSEIN_LINKSLEIDEND</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_WISSELSEIN_RECHTDOOR</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_WISSELSEIN_RECHTSLEIDEND</td></tr>
-<tr><td class="hg">IS</td><td>SIS-LICHT_WIT ROOD</td></tr>
-<tr><td class="hg">IS</td><td>SIS-VERWARMINGSELEMENT</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_3LAMP_01</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_3LAMP_02</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_4LAMP_01</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_ABSOLUUT</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_MATRIX</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_MATRIX_FOF1</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_OPRIJD</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_PERMISSIEF</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_PERRON</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_RIJWEG_LINKSLEIDEND</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_RIJWEG_RECHTDOOR</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_RIJWEG_RECHTSLEIDEND</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_RIJWEG_STOP</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_TUNNELVERBOD</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_WISSELSEIN_LINKSLEIDEND</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_WISSELSEIN_RECHTDOOR</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_WISSELSEIN_RECHTSLEIDEND</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-LICHT_WIT ROOD</td></tr>
-<tr><td class="hg">IS</td><td>V-SIS-VERWARMINGSELEMENT</td></tr>
-</tbody></table>
+<p class="ctrldesc"><code>controle_arceringsymbool_zonder_objectRelatie</code> — symbolen die via geen enkele zoekterm (<code>sobject</code>) in de objectentabel gevonden worden.</p><div class="kpi"><div class="box "><b>1540</b>namen</div><div class="box "><b>1540</b>via zoekterm gevonden</div><div class="box free"><b>0</b>niet gevonden</div></div>
+<p class="ok">✓ Elke naam bevat een zoekterm uit de objectentabel.</p>
 </div>
 <div class="card"><h2>Optie-fase-check</h2>
 <p class="ctrldesc">Consistentie fase/optie t.o.v. de gecodeerde naam (voorvoegsel V-/B- → fase, achtervoegsel -SO/-S/… → optie).</p><div class="kpi"><div class="box free"><b>0</b>afwijking(en)</div></div>
 <p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>5418</b>ingelezen</div><div class="box "><b>7500</b>hoogste ID</div><div class="box free"><b>7501</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>5416</b>ingelezen</div><div class="box "><b>7500</b>hoogste ID</div><div class="box free"><b>7501</b>eerstvolgende vrij</div></div>
 <p class="warn">⚠ 3 zonder id:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>SIW-VRI_DETECTIE</td><td>nieuw</td><td class="loc">r2</td></tr>
@@ -261,11 +207,11 @@
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
-<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>1542</b>namen</div><div class="box "><b>1542</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>1540</b>namen</div><div class="box "><b>1540</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — dezelfde naam mag binnen een hoofdgroep niet aan meerdere URI’s hangen; dit betrapt (over de nieuwe én de vorige publicatie heen) ook namen die in de vorige versie aan een andere URI hingen.</p><div class="kpi"><div class="box "><b>5418</b>namen</div><div class="box "><b>4188</b>uniek per hoofdgroep</div><div class="box bad"><b>3</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>5416</b>namen</div><div class="box "><b>4189</b>uniek per hoofdgroep</div><div class="box bad"><b>3</b>naam met meerdere URI’s</div></div>
 <p class="warn">⚠ 3 naam/namen hangen binnen dezelfde hoofdgroep aan meerdere URI’s (dubbele naam, ook tussen versies):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>URI</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">IE</td><td>SIE-MEUBILAIR_BAK-SO</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/1d74f63f-2704-4bd0-a577-5b0c8ce0feb0</td><td>nieuw</td><td class="loc">r186</td></tr>
@@ -277,7 +223,7 @@
 </tbody></table>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
-<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>1542</b>namen</div><div class="box free"><b>1542</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>1540</b>namen</div><div class="box free"><b>1540</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 <p class="info">Ter info: 4 naam/namen met een kleine letter (toegestaan voor eenheden mm/Mm en elementsymbool Cu — controleer of bewust):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>rij</th></tr></thead><tbody>
@@ -288,18 +234,16 @@
 </tbody></table>
 </div>
 <div class="card"><h2>Symbool ↔ .dwg</h2>
-<p class="ctrldesc">Controleer of alle symbolen in de database ook als bestand (.dwg) beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).</p><div class="kpi"><div class="box "><b>1542</b>tabelregels</div><div class="box "><b>1537</b>met .dwg</div><div class="box bad"><b>5</b>regel zonder .dwg</div><div class="box "><b>5637</b>.dwg-bestanden</div><div class="box bad"><b>669</b>.dwg zonder regel</div></div>
-<p class="warn">⚠ 5 symboolregel(s) zonder .dwg-bestand:</p>
+<p class="ctrldesc">Controleer of alle symbolen in de database ook als bestand (.dwg) beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).</p><div class="kpi"><div class="box "><b>1540</b>tabelregels</div><div class="box "><b>1536</b>met .dwg</div><div class="box bad"><b>4</b>regel zonder .dwg</div><div class="box "><b>5635</b>.dwg-bestanden</div><div class="box bad"><b>668</b>.dwg zonder regel</div></div>
+<p class="warn">⚠ 4 symboolregel(s) zonder .dwg-bestand:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>symbool (regel)</th><th>verwacht bestand</th></tr></thead><tbody>
-<tr><td class="hg">IS</td><td>SIS-RAILAANSLUITBAK_01</td><td class="loc">SIS-RAILAANSLUITBAK_01.dwg</td></tr>
 <tr><td class="hg">IW</td><td>SIW-VRI_DETECTIE</td><td class="loc">SIW-VRI_DETECTIE.dwg</td></tr>
 <tr><td class="hg">IW</td><td>SIW-VRI_DRAAGCONSTRUCTIE_PORTAAL</td><td class="loc">SIW-VRI_DRAAGCONSTRUCTIE_PORTAAL.dwg</td></tr>
 <tr><td class="hg">IW</td><td>SIW-VRI_LANTAARN</td><td class="loc">SIW-VRI_LANTAARN.dwg</td></tr>
 <tr><td class="hg">IW</td><td>V-SIW-VRI_AUTOMAAT-SO</td><td class="loc">V-SIW-VRI_AUTOMAAT-SO.dwg</td></tr>
 </tbody></table>
-<p class="warn">⚠ 669 .dwg-bestand(en) zonder tabelregel:</p>
+<p class="warn">⚠ 668 .dwg-bestand(en) zonder tabelregel:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>.dwg (bestand)</th><th>pad</th></tr></thead><tbody>
-<tr><td class="hg">IS</td><td>sis-railaansluitbak_02</td><td class="loc">SIS\SIS-RAILAANSLUITBAK_02.dwg</td></tr>
 <tr><td class="hg">IW</td><td>b-siw-vri_automaat_hoofd-so</td><td class="loc">SIW\B-SIW-VRI_AUTOMAAT_HOOFD-SO.dwg</td></tr>
 <tr><td class="hg">IW</td><td>b-siw-vri_automaat_sectiekast-so</td><td class="loc">SIW\B-SIW-VRI_AUTOMAAT_SECTIEKAST-SO.dwg</td></tr>
 <tr><td class="hg">IW</td><td>b-siw-vri_bekabeling_loopbuffer-so</td><td class="loc">SIW\B-SIW-VRI_BEKABELING_LOOPBUFFER-SO.dwg</td></tr>
@@ -991,7 +935,7 @@
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — dezelfde naam mag binnen een hoofdgroep niet aan meerdere URI’s hangen; dit betrapt (over de nieuwe én de vorige publicatie heen) ook namen die in de vorige versie aan een andere URI hingen.</p><div class="kpi"><div class="box "><b>557</b>namen</div><div class="box "><b>450</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>557</b>namen</div><div class="box "><b>450</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
@@ -1039,14 +983,8 @@
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — dezelfde naam mag binnen een hoofdgroep niet aan meerdere URI’s hangen; dit betrapt (over de nieuwe én de vorige publicatie heen) ook namen die in de vorige versie aan een andere URI hingen.</p><div class="kpi"><div class="box "><b>860</b>namen</div><div class="box "><b>623</b>uniek per hoofdgroep</div><div class="box bad"><b>2</b>naam met meerdere URI’s</div></div>
-<p class="warn">⚠ 2 naam/namen hangen binnen dezelfde hoofdgroep aan meerdere URI’s (dubbele naam, ook tussen versies):</p>
-<table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>URI</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg">RI</td><td>RI-AANSLUITLEIDING-SO</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/61bdb891-8b7f-48e7-b694-198f1209bfe6</td><td>vorig</td><td class="loc">r232</td></tr>
-<tr><td class="hg">RI</td><td>RI-AANSLUITLEIDING-SO</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/798e931a-1724-4873-bb90-15a8e21597f3</td><td>vorig</td><td class="loc">r248</td></tr>
-<tr><td class="hg">RI</td><td>V-RI-AANSLUITLEIDING-SO</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/3d456ee6-27ed-441f-b79c-01b5f529172a</td><td>vorig</td><td class="loc">r234</td></tr>
-<tr><td class="hg">RI</td><td>V-RI-AANSLUITLEIDING-SO</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/675b7430-1dc2-4491-b8b3-7482e753efb9</td><td>vorig</td><td class="loc">r249</td></tr>
-</tbody></table>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>860</b>namen</div><div class="box "><b>623</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
 <p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>312</b>namen</div><div class="box free"><b>312</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>

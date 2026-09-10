@@ -43,7 +43,10 @@
                    color: #cfcfcf; padding: 14px 28px; font-size: .85rem; }
     .site-footer strong { color: var(--dg-yellow); }
 
-    .tablescroll { overflow-x: auto; }
+    /* Excel-achtig: kop bevriezen, de rest van de tabel scrollt in het venster
+       (zowel horizontaal als verticaal). */
+    .tablescroll { overflow: auto; max-height: 78vh; }
+    table.otab thead th { position: sticky; top: 0; z-index: 3; }
     table.otab { width: auto; }
     table.otab tbody tr.new-row td { background-color: #e5f5e0; }   /* groen: nieuw */
     table.otab tbody tr.deleted td { background-color: #ffe0e2; }   /* rood: vervallen */
@@ -66,6 +69,12 @@
     .sw-changed { background-color: #e0f3fb; }
     .sw-deleted { background-color: #ffe0e2; }
 
+    /* Badge bij een vervallen object met een naamgenoot in de nieuwe release */
+    span.naamgenoot { display: inline-block; background-color: var(--dg-green);
+                    color: #fff; font-size: .72rem; font-weight: 700;
+                    padding: 1px 7px; border-radius: 10px; white-space: nowrap;
+                    vertical-align: middle; }
+
     /* Extra symbolen-kolommen (alleen in de changelog) */
     td.svgcell { text-align: center; }
     td.svgcell img { max-height: 46px; max-width: 90px; vertical-align: middle; }
@@ -83,6 +92,11 @@
     table.otab tbody tr.orphan td.weespad { color: var(--dg-grey2);
                     white-space: normal; }
     .sw-wees { background-color: #f0f0f0; }
+
+    /* Melding bovenaan als er geen wijzigingen zijn */
+    p.geen-wijzigingen { margin: 0 0 14px; padding: 12px 16px;
+                    background-color: #eef7ee; border-left: 6px solid var(--dg-green);
+                    font-size: 1.05em; font-weight: 600; color: #1f6b23; }
 </style>
 </head>
 <body>

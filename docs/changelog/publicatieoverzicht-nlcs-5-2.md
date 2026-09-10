@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 181 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 192 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -70,6 +70,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/CO/arceringen-5-2-CO.html)
+- [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/CO/lijntypes-5-2-CO.html)
 
 **Changelogs**
 - [Changelog arceringen](https://nl-digigo.github.io/NLCS/changelog/CO/changelog-arceringen-5-2-CO.html)
@@ -109,11 +110,13 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 
 **Tabellen**
 - [Lijntypes CO](https://nl-digigo.github.io/NLCS/changelog/GC/lijntypes-5-2-CO.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/GC/objecten-5-2-GC.html)
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/GC/objecten-concept-5.2-GC.html)
 - [Query Symbolen concept](https://nl-digigo.github.io/NLCS/changelog/GC/NLCS_Query_Symbolen-concept-5.2-SGC.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/GC/symbolen-5-2-GC.html)
 
 **Changelogs**
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/GC/changelog-objecten-5-2-GC.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/GC/changelog-symbolen-5-2-GC.html)
 - [Vergelijking](https://nl-digigo.github.io/NLCS/changelog/GC/vergelijking_SGC_5.0_vs_5.2.html)
 - [Vergelijking symbolen](https://nl-digigo.github.io/NLCS/changelog/GC/vergelijking_symbolen_5.1_vs_5.2_SGC.html)
@@ -172,7 +175,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/HU/changelog-objecten-5-2-HU.html)
 
-## IE ✅
+## IE ❌ (6 fout(en))
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/IE/arceringen-5-2-IE.html)
@@ -186,7 +189,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/IE/changelog-objecten-5-2-IE.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/IE/changelog-symbolen-5-2-IE.html)
 
-## IS ❌ (40 fout(en))
+## IS ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/IS/lijntypes-5-2-IS.html)
@@ -242,13 +245,17 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/KG/changelog-objecten-5-2-KG.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/KG/changelog-symbolen-5-2-KG.html)
 
-## KL ❌ (69 fout(en))
+## KL ❌ (20 fout(en))
 
 **Tabellen**
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/KL/objecten-5-2-KL.html)
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/KL/objecten-concept-5.2-KL.html)
 - [Query Symbolen concept](https://nl-digigo.github.io/NLCS/changelog/KL/NLCS_Query_Symbolen-concept-5.2-SKL.html)
+- [Symbolen](https://nl-digigo.github.io/NLCS/changelog/KL/symbolen-5-2-KL.html)
 
 **Changelogs**
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/KL/changelog-objecten-5-2-KL.html)
+- [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/KL/changelog-symbolen-5-2-KL.html)
 - [Vergelijking](https://nl-digigo.github.io/NLCS/changelog/KL/vergelijking_SKL_5.0_vs_5.2.html)
 - [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/KL/vergelijking_lijntypes_KL_5.0_vs_5.2.html)
 - [Vergelijking symbolen](https://nl-digigo.github.io/NLCS/changelog/KL/vergelijking_symbolen_5.1_vs_5.2_SKL.html)
@@ -266,10 +273,12 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/MC/lijntypes-5-2-MC.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/MC/objecten-5-2-MC.html)
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/MC/objecten-concept-5.2-MC.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/MC/changelog-lijntypes-5-2-MC.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/MC/changelog-objecten-5-2-MC.html)
 - [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/MC/vergelijking_lijntypes_MC_5.0_vs_5.2.html)
 
 ## MO
@@ -349,7 +358,11 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 ## SC ✅
 
 **Tabellen**
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/SC/objecten-5-2-SC.html)
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/SC/objecten-concept-5.2-SC.html)
+
+**Changelogs**
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/SC/changelog-objecten-5-2-SC.html)
 
 ## VH
 

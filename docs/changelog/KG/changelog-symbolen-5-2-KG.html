@@ -43,7 +43,10 @@
                    color: #cfcfcf; padding: 14px 28px; font-size: .85rem; }
     .site-footer strong { color: var(--dg-yellow); }
 
-    .tablescroll { overflow-x: auto; }
+    /* Excel-achtig: kop bevriezen, de rest van de tabel scrollt in het venster
+       (zowel horizontaal als verticaal). */
+    .tablescroll { overflow: auto; max-height: 78vh; }
+    table.otab thead th { position: sticky; top: 0; z-index: 3; }
     table.otab { width: auto; }
     table.otab tbody tr.new-row td { background-color: #e5f5e0; }   /* groen: nieuw */
     table.otab tbody tr.deleted td { background-color: #ffe0e2; }   /* rood: vervallen */

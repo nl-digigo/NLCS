@@ -46,8 +46,10 @@
                    color: #cfcfcf; padding: 14px 28px; font-size: .85rem; }
     .site-footer strong { color: var(--dg-yellow); }
 
-    /* Horizontale scroll voor de brede tabel */
-    div.dataTables_wrapper { overflow-x: auto; }
+    /* Bevroren kop + scroll: DataTables levert via scrollX/scrollY een eigen
+       scrollvenster, zodat de kop (incl. filterrij) blijft staan tijdens
+       verticaal scrollen en de kolommen uitgelijnd blijven. */
+    div.dataTables_scrollBody { border-bottom: 1px solid var(--dg-grey); }
     table.dataTable thead th { background-color: var(--dg-black); color: #fff;
                     border-bottom: 3px solid var(--dg-yellow); }
     table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
@@ -85,25 +87,31 @@
 <tr class="filters"><th><select><option value="">Alle</option><option value="SAM-AS_GENERIEK">SAM-AS_GENERIEK</option><option value="SAM-AS_SPOOR">SAM-AS_SPOOR</option><option value="SAM-ASPUNTNUMMER">SAM-ASPUNTNUMMER</option></select></th><th></th><th><select><option value="">Alle</option><option value="SAM">SAM</option></select></th><th><select><option value="">Alle</option></select></th><th><input type="text" placeholder="Zoek id" /></th><th><input type="text" placeholder="Zoek symbool" /></th><th><select><option value="">Alle</option><option value="D">D</option><option value="SO">SO</option></select></th><th><input type="text" placeholder="Zoek symboolURI" /></th></tr>
 </thead>
 <tbody>
-<tr><td><span class="zf-term">SAM-AS_SPOOR</span></td><td class="svgcell"><a href="./SAM/SAM-AS_SPOOR_NUMMER_1-SO.svg" target="_blank"><img src="./SAM/SAM-AS_SPOOR_NUMMER_1-SO.svg" alt="SAM-AS_SPOOR_NUMMER_1-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td><td>SAM</td><td></td><td>4181</td><td>SAM-AS_SPOOR_NUMMER_1-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/0c45de09-0a47-43c8-b462-78ac89401b4f</td></tr>
-<tr><td><span class="zf-term">SAM-AS_SPOOR</span></td><td class="svgcell"><a href="./SAM/SAM-AS_SPOOR_RIJRICHTING_LINKS-SO.svg" target="_blank"><img src="./SAM/SAM-AS_SPOOR_RIJRICHTING_LINKS-SO.svg" alt="SAM-AS_SPOOR_RIJRICHTING_LINKS-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td><td>SAM</td><td></td><td>4184</td><td>SAM-AS_SPOOR_RIJRICHTING_LINKS-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/0fcae234-5a6c-4a49-b009-4f53c2b6ea43</td></tr>
-<tr><td><span class="zf-term">SAM-AS_SPOOR</span></td><td class="svgcell"><a href="./SAM/SAM-AS_SPOOR_NUMMER_3-SO.svg" target="_blank"><img src="./SAM/SAM-AS_SPOOR_NUMMER_3-SO.svg" alt="SAM-AS_SPOOR_NUMMER_3-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td><td>SAM</td><td></td><td>4183</td><td>SAM-AS_SPOOR_NUMMER_3-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/4a910a2e-9dbd-4cff-99cb-46ef955a7bf1</td></tr>
-<tr><td><span class="zf-term">SAM-AS_SPOOR</span></td><td class="svgcell"><a href="./SAM/SAM-AS_SPOOR_NUMMER_2-SO.svg" target="_blank"><img src="./SAM/SAM-AS_SPOOR_NUMMER_2-SO.svg" alt="SAM-AS_SPOOR_NUMMER_2-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td><td>SAM</td><td></td><td>4182</td><td>SAM-AS_SPOOR_NUMMER_2-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/6d3ed039-b8fb-4153-b3b4-df435d2f1c86</td></tr>
-<tr><td><span class="zf-term">SAM-ASPUNTNUMMER</span></td><td class="svgcell"><a href="./SAM/SAM-ASPUNTNUMMER-SO.svg" target="_blank"><img src="./SAM/SAM-ASPUNTNUMMER-SO.svg" alt="SAM-ASPUNTNUMMER-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td><td>SAM</td><td></td><td>135</td><td>SAM-ASPUNTNUMMER-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/73fb4392-9f4f-4377-a17a-71e8d64f544b</td></tr>
 <tr><td><span class="zf-term">SAM-AS_GENERIEK</span></td><td class="svgcell"><a href="./SAM/SAM-AS_GENERIEK-D.svg" target="_blank"><img src="./SAM/SAM-AS_GENERIEK-D.svg" alt="SAM-AS_GENERIEK-D" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td><td>SAM</td><td></td><td>136</td><td>SAM-AS_GENERIEK-D</td><td>D</td><td>http://digitalbuildingdata.tech/nlcs/def/74c63676-f42d-40e3-9f6c-9e3a3e3bd972</td></tr>
+<tr><td><span class="zf-term">SAM-AS_SPOOR</span></td><td class="svgcell"><a href="./SAM/SAM-AS_SPOOR_NUMMER_1-SO.svg" target="_blank"><img src="./SAM/SAM-AS_SPOOR_NUMMER_1-SO.svg" alt="SAM-AS_SPOOR_NUMMER_1-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td><td>SAM</td><td></td><td>4181</td><td>SAM-AS_SPOOR_NUMMER_1-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/0c45de09-0a47-43c8-b462-78ac89401b4f</td></tr>
+<tr><td><span class="zf-term">SAM-AS_SPOOR</span></td><td class="svgcell"><a href="./SAM/SAM-AS_SPOOR_NUMMER_2-SO.svg" target="_blank"><img src="./SAM/SAM-AS_SPOOR_NUMMER_2-SO.svg" alt="SAM-AS_SPOOR_NUMMER_2-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td><td>SAM</td><td></td><td>4182</td><td>SAM-AS_SPOOR_NUMMER_2-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/6d3ed039-b8fb-4153-b3b4-df435d2f1c86</td></tr>
+<tr><td><span class="zf-term">SAM-AS_SPOOR</span></td><td class="svgcell"><a href="./SAM/SAM-AS_SPOOR_NUMMER_3-SO.svg" target="_blank"><img src="./SAM/SAM-AS_SPOOR_NUMMER_3-SO.svg" alt="SAM-AS_SPOOR_NUMMER_3-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td><td>SAM</td><td></td><td>4183</td><td>SAM-AS_SPOOR_NUMMER_3-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/4a910a2e-9dbd-4cff-99cb-46ef955a7bf1</td></tr>
+<tr><td><span class="zf-term">SAM-AS_SPOOR</span></td><td class="svgcell"><a href="./SAM/SAM-AS_SPOOR_RIJRICHTING_LINKS-SO.svg" target="_blank"><img src="./SAM/SAM-AS_SPOOR_RIJRICHTING_LINKS-SO.svg" alt="SAM-AS_SPOOR_RIJRICHTING_LINKS-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td><td>SAM</td><td></td><td>4184</td><td>SAM-AS_SPOOR_RIJRICHTING_LINKS-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/0fcae234-5a6c-4a49-b009-4f53c2b6ea43</td></tr>
 <tr><td><span class="zf-term">SAM-AS_SPOOR</span></td><td class="svgcell"><a href="./SAM/SAM-AS_SPOOR_RIJRICHTING_RECHTS-SO.svg" target="_blank"><img src="./SAM/SAM-AS_SPOOR_RIJRICHTING_RECHTS-SO.svg" alt="SAM-AS_SPOOR_RIJRICHTING_RECHTS-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td><td>SAM</td><td></td><td>4185</td><td>SAM-AS_SPOOR_RIJRICHTING_RECHTS-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/d9291573-69d1-4b54-8c21-4d26643c53b0</td></tr>
+<tr><td><span class="zf-term">SAM-ASPUNTNUMMER</span></td><td class="svgcell"><a href="./SAM/SAM-ASPUNTNUMMER-SO.svg" target="_blank"><img src="./SAM/SAM-ASPUNTNUMMER-SO.svg" alt="SAM-ASPUNTNUMMER-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td><td>SAM</td><td></td><td>135</td><td>SAM-ASPUNTNUMMER-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/73fb4392-9f4f-4377-a17a-71e8d64f544b</td></tr>
 </tbody>
 </table>
 
 <script>
 $(document).ready(function () {
     var table = $('#otab').DataTable({
-        pageLength: 25,
-        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Alle"]],
+        paging: false,
+        scrollX: true,
+        scrollY: '65vh',
+        scrollCollapse: true,
         columnDefs: [{ orderable: false, targets: [1] }],
-        order: [[0, 'asc']],
+        order: [[0, "asc"], [5, "asc"]],
         orderCellsTop: true
     });
+    // Kolombreedtes opnieuw uitlijnen na laden en bij venstergrootte-wijziging
+    // (scrollX kan bij het initieel tekenen minimaal afwijken).
+    table.columns.adjust();
+    $(window).on('resize', function () { table.columns.adjust(); });
     // Filters via event-delegatie op de wrapper: blijft werken ongeacht hoe
     // DataTables de kop opnieuw opbouwt. De kolomindex volgt uit de positie
     // van de <th> in de filterrij.

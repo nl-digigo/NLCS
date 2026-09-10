@@ -258,6 +258,20 @@ def nice_index_label(filename: str, group_code: str = "") -> str:
     return label or os.path.splitext(filename)[0]
 
 
+def _canon_group_code(code: str, all_codes: set) -> str:
+    """Vouw een arcering-/symbool-bibliotheekmap (A/S + hoofdgroep) samen in de
+    gewone hoofdgroep, zodat het overzicht ze niet als aparte groep toont:
+    'AGW' -> 'GW', 'AIE' -> 'IE', 'AKG' -> 'KG', 'AGR' -> 'GR', 'ACO' -> 'CO'.
+
+    Alleen samenvouwen wanneer de gewone hoofdgroep óók echt als groep voorkomt
+    (`all_codes`), zodat hoofdgroepen die toevallig met A/S beginnen (AL, AM, SB,
+    SC, ...) ongemoeid blijven: 'AL' -> 'L' bestaat niet, dus 'AL' blijft 'AL'."""
+    c = (code or "").strip().upper()
+    if len(c) >= 3 and c[0] in ("A", "S") and c[1:] in all_codes:
+        return c[1:]
+    return c
+
+
 def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     """Doorzoek `root` (bijv. docs/changelog) recursief naar HTML-bestanden
     waarvan de bestandsnaam een versie-variant bevat (zowel '5.2' als '5-2').
@@ -281,7 +295,7 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     variants = version_variants(version)
     docs_root = docs_root_of(root)
     exclude = {n.strip().lower() for n in (exclude_names or ()) if n and n.strip()}
-    groups: dict = {}
+    grouped: list = []      # [(raw_code, entry), ...] — code na de walk canoniek maken
     general: list = []
     count = 0
     if variants and os.path.isdir(root):
@@ -310,17 +324,41 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
                                       else nice_index_label(name, ""))
                     general.append(entry)
                 else:
-                    code = rel_parts[0].strip().upper()
-                    entry["label"] = nice_index_label(name, code)
-                    groups.setdefault(code, []).append(entry)
+                    grouped.append((rel_parts[0].strip().upper(), entry))
                 count += 1
+
+    # Arcering-/symbool-bibliotheekmappen (AGW, AIE, ...) samenvouwen in de gewone
+    # hoofdgroep, behalve ACO. Het label krijgt dan de CANONIEKE code mee, zodat de
+    # groepscode ('GW') netjes uit de knoptekst wordt weggelaten.
+    all_codes = {rc for rc, _ in grouped}
+    groups: dict = {}
+    for rc, entry in grouped:
+        code = _canon_group_code(rc, all_codes)
+        entry["label"] = nice_index_label(entry["filename"], code)
+        groups.setdefault(code, []).append(entry)
 
     def _sortkey(e: dict) -> tuple:
         return (0 if e["kind"] == "tabel" else 1, e["label"].casefold())
 
-    for lst in groups.values():
-        lst.sort(key=_sortkey)
+    def _dedupe(code: str, entries: list) -> list:
+        # Zelfde bestandsnaam kan na het samenvouwen uit twee mappen komen (bijv.
+        # docs/changelog/GW/ én docs/changelog/AGW/). Houd er één; geef voorrang aan
+        # het exemplaar dat al direct in de canonieke hoofdgroep-map staat.
+        best: dict = {}
+        for e in entries:
+            key = e["filename"].lower()
+            parts = e["subpath"].split("/")
+            parent = parts[-2].upper() if len(parts) >= 2 else ""
+            prefer = parent == code
+            cur = best.get(key)
+            if cur is None or (prefer and not cur[0]):
+                best[key] = (prefer, e)
+        return [v[1] for v in best.values()]
+
+    for code in list(groups):
+        groups[code] = sorted(_dedupe(code, groups[code]), key=_sortkey)
     general.sort(key=_sortkey)
+    count = sum(len(v) for v in groups.values()) + len(general)
     return {
         "groups": sorted(groups.items()),
         "general": general,
