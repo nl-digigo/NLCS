@@ -1721,6 +1721,9 @@ _ALL_STYLE = """
     .card h2 { margin:0 0 8px; font-size:1.12rem; border-bottom:3px solid var(--dg-yellow);
                padding-bottom:6px; }
     .card h3 { margin:14px 0 6px; font-size:.95rem; color:var(--dg-ink); }
+    p.ctrldesc { margin:0 0 10px; font-size:.9rem; color:var(--dg-grey2);
+                 border-left:3px solid var(--dg-grey); padding-left:10px; }
+    p.ctrldesc code { background:#f3f3f3; padding:0 3px; border-radius:3px; }
     table.otab thead th { cursor:pointer; user-select:none; }
     table.otab thead th:hover { background:#333; }
     td.hg { font-family:Consolas,"Courier New",monospace; font-weight:700;
@@ -1937,6 +1940,34 @@ def _c_missing(result, title, kpi_labels, warn, name_head) -> str:
         c.append(_hg_table(
             f'{name_head}<th>rij</th>', missing,
             [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_arc_length(result) -> str:
+    """Kaart voor de maximale-naamlengte-controle van arceringen:
+    result met total/ok/max_len/toolong[{name,file,row,length}]."""
+    title = "Naamlengte"
+    if not result:
+        return _skip_card(title)
+    toolong = result.get("toolong", [])
+    total, ok = result.get("total", 0), result.get("ok", 0)
+    mx = result.get("max_len", 31)
+    kpi = _kpi_boxes(
+        (total, "arceringen", ""),
+        (ok, f"max {mx} tekens", "free" if ok == total else ""),
+        (len(toolong), "te lang", "bad" if toolong else "free"))
+    c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
+    if not toolong:
+        c.append(f'<p class="ok">✓ Elke arceringnaam is maximaal {mx} '
+                 f'tekens lang.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(toolong)} langer dan {mx} tekens:</p>')
+        c.append(_hg_table(
+            '<th>arcering</th><th>lengte</th><th>rij</th>', toolong,
+            [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td class="loc">{_esc(m.get("length",""))}</td>',
              lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>']))
     c.append('</div>')
     return "\n".join(c)
@@ -2172,13 +2203,77 @@ def _kpi_boxes(*boxes) -> str:
     return f'<div class="kpi">{inner}</div>'
 
 
+# Beschrijvende teksten per controle, overgenomen uit de eerste kolom van de
+# kwaliteitscontroletabellen in docs/managementmanual/2.md, zodat in het rapport
+# duidelijk is WELKE controle wordt uitgevoerd. Inline <code> mag; geen block-
+# elementen (nested <p>) want de tekst rendert binnen een <p class="ctrldesc">.
+_D_OBJECTENBOOM = (
+    "Naam-/laagnaamhiërarchie: elk onderliggend object heeft precies één segment "
+    "meer dan zijn ouder, de oudernaam staat exact vooraan (prefix) en het "
+    "scheidingsteken (- of _) klopt. Ook: niet meer dan 5 subobjecten in een "
+    "laagnaam (<code>controle_nlcs-objecten_te_veel_subobjecten</code>).")
+_D_FASEVIS = (
+    "Controleer of elk object voor alle NLCS-statussen (Bestaand, Nieuw, "
+    "Vervallen, Tijdelijk) een visualisatie heeft; AL en ZZ hebben alleen een "
+    "visualisatie voor de bestaande situatie.")
+_D_ID = ("Controleer (in de outputtabellen) of alles een ID heeft &amp; geen "
+         "dubbele ID.")
+_D_DUP = ("<code>identiekenamen</code> — controleer of er dubbele namen "
+          "voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.")
+_D_ELEMLINK = (
+    "Element-koppeling: als de kolom <code>element</code> een S (symbool) of A "
+    "(arcering) bevat, moet er ook een <code>sobject</code> resp. "
+    "<code>aobject</code> zijn ingevuld — en omgekeerd.")
+_D_SPECIAL = (
+    "Speciale tekens in de naam: geen niet-toegestane tekens; spaties en "
+    "<code>.</code> als decimaalteken zijn wel toegestaan.")
+_D_ZOEKTERM_MIN = (
+    "Zoekterm-dekking: elke <code>sobject</code>-/<code>aobject</code>-waarde in "
+    "een object moet minstens één symbool resp. arcering vinden (de zoekterm moet "
+    "als tekst in de symbool-/arceringnaam voorkomen).")
+_D_SEARCHCOV_SYM = (
+    "<code>controle_arceringsymbool_zonder_objectRelatie</code> — symbolen die "
+    "via geen enkele zoekterm (<code>sobject</code>) in de objectentabel gevonden "
+    "worden.")
+_D_SEARCHCOV_ARC = (
+    "<code>controle_arceringsymbool_zonder_objectRelatie</code> — arceringen die "
+    "via geen enkele zoekterm (<code>aobject</code>) in de objectentabel gevonden "
+    "worden.")
+_D_OPTIEFASE = (
+    "Consistentie fase/optie t.o.v. de gecodeerde naam (voorvoegsel V-/B- → fase, "
+    "achtervoegsel -SO/-S/… → optie).")
+_D_DWG = ("Controleer of alle symbolen in de database ook als bestand (.dwg) "
+          "beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).")
+_D_VERKLARING = (
+    "Verklaring: elke arcering heeft een (lange) verklaring in de kolom "
+    "<code>vrkl_lang</code> (de tekst voor de legenda/verklaring).")
+_D_NAAMLENGTE = ("Naamlengte: de arceringnaam (kolom <code>arcering</code>) is "
+                 "maximaal 31 tekens lang.")
+_D_LIJNUSAGE = (
+    "<code>controle_lijntypes_zonder_objectRelatie</code> — lijntypes die bestaan "
+    "maar in geen enkel object (lt_b/lt_n/lt_v/lt_t) gebruikt worden.")
+_D_AUTOCADDEF = (
+    "AutoCAD-definitie: elk lijntype heeft een definitiestring in de kolom "
+    "<code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO "
+    "worden overgeslagen).")
+
+
+def _desc(card_html: str, text: str) -> str:
+    """Voeg de beschrijvende tekst (uit 2.md) toe als <p class="ctrldesc"> direct
+    onder de <h2> van een controle-kaart. Werkt ook op _skip_card."""
+    if not text or "</h2>" not in card_html:
+        return card_html
+    return card_html.replace(
+        "</h2>", f'</h2>\n<p class="ctrldesc">{text}</p>', 1)
+
+
 def build_all_checks_html(data: dict, version_new: str = "") -> str:
     """Eén gecombineerd controle-rapport met alle kwaliteitscontroles, ingedeeld
     per tabel in de volgorde van docs/managementmanual/2.md. Elke findings-tabel
     heeft een sorteerbare kolom 'hoofdgroep' vooraan.
 
     `data` bevat de ruwe controle-resultaten (zie ot_gui.ControlesTab._gather):
-      tree, fasevis, elemlink, lijnusage, arcverkl, lijndef, dwg  -> dict|None
+      tree, fasevis, elemlink, lijnusage, arcverkl, arclen, lijndef, dwg  -> dict|None
       id       -> {soort: id-section|None}
       optie    -> {soort: optie-section|None}
       searchcov, searchmin, dup, special -> {soort: section|None}
@@ -2196,57 +2291,58 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
     obj = ['<h1 class="sect" id="objecten">Objecten</h1>',
            '<p class="sectnote">Controle objectentabel — in de volgorde van de '
            'managementhandleiding.</p>',
-           _c_object_tree(data.get("tree")),
-           _c_fasevis(data.get("fasevis")),
-           _c_id(idd.get("obj")),
-           _c_duplicate(dup.get("objecten")),
-           _c_element_link(data.get("elemlink"))]
+           _desc(_c_object_tree(data.get("tree")), _D_OBJECTENBOOM),
+           _desc(_c_fasevis(data.get("fasevis")), _D_FASEVIS),
+           _desc(_c_id(idd.get("obj")), _D_ID),
+           _desc(_c_duplicate(dup.get("objecten")), _D_DUP),
+           _desc(_c_element_link(data.get("elemlink")), _D_ELEMLINK)]
     if smin.get("symbolen") or smin.get("arceringen"):
-        obj.append(_c_searchmin(smin.get("symbolen")))
-        obj.append(_c_searchmin(smin.get("arceringen")))
+        obj.append(_desc(_c_searchmin(smin.get("symbolen")), _D_ZOEKTERM_MIN))
+        obj.append(_desc(_c_searchmin(smin.get("arceringen")), _D_ZOEKTERM_MIN))
     else:
-        obj.append(_skip_card("Zoekterm-treffers"))
-    obj.append(_c_special(spec.get("objecten")))
+        obj.append(_desc(_skip_card("Zoekterm-treffers"), _D_ZOEKTERM_MIN))
+    obj.append(_desc(_c_special(spec.get("objecten")), _D_SPECIAL))
     sections.append("\n".join(obj))
 
     # -- SYMBOLEN (Controle symbolentabel) ---------------------------------
     sym = ['<h1 class="sect" id="symbolen">Symbolen</h1>',
            '<p class="sectnote">Controle symbolentabel.</p>',
-           _c_searchcov(cov.get("symbolen")),
-           _c_optie_fase(opt.get("symbolen")),
-           _c_id(idd.get("sym")),
-           _c_duplicate(dup.get("symbolen")),
-           _c_special(spec.get("symbolen")),
-           _c_dwg(data.get("dwg"))]
+           _desc(_c_searchcov(cov.get("symbolen")), _D_SEARCHCOV_SYM),
+           _desc(_c_optie_fase(opt.get("symbolen")), _D_OPTIEFASE),
+           _desc(_c_id(idd.get("sym")), _D_ID),
+           _desc(_c_duplicate(dup.get("symbolen")), _D_DUP),
+           _desc(_c_special(spec.get("symbolen")), _D_SPECIAL),
+           _desc(_c_dwg(data.get("dwg")), _D_DWG)]
     sections.append("\n".join(sym))
 
     # -- ARCERINGEN (Controle arceringentabel) -----------------------------
     arc = ['<h1 class="sect" id="arceringen">Arceringen</h1>',
            '<p class="sectnote">Controle arceringentabel.</p>',
-           _c_searchcov(cov.get("arceringen")),
-           _c_optie_fase(opt.get("arceringen")),
-           _c_id(idd.get("arc")),
-           _c_duplicate(dup.get("arceringen")),
-           _c_special(spec.get("arceringen")),
-           _c_missing(data.get("arcverkl"), "Verklaring",
-                      ("arceringen", "met verklaring", "zonder verklaring"),
-                      "Elke arcering heeft een verklaring (vrkl_lang).",
-                      "<th>arcering</th>")]
+           _desc(_c_searchcov(cov.get("arceringen")), _D_SEARCHCOV_ARC),
+           _desc(_c_optie_fase(opt.get("arceringen")), _D_OPTIEFASE),
+           _desc(_c_id(idd.get("arc")), _D_ID),
+           _desc(_c_duplicate(dup.get("arceringen")), _D_DUP),
+           _desc(_c_special(spec.get("arceringen")), _D_SPECIAL),
+           _desc(_c_missing(data.get("arcverkl"), "Verklaring",
+                            ("arceringen", "met verklaring", "zonder verklaring"),
+                            "Elke arcering heeft een verklaring (vrkl_lang).",
+                            "<th>arcering</th>"), _D_VERKLARING),
+           _desc(_c_arc_length(data.get("arclen")), _D_NAAMLENGTE)]
     sections.append("\n".join(arc))
 
     # -- LIJNTYPES (Controle lijntypetabel) --------------------------------
     lijn = ['<h1 class="sect" id="lijntypes">Lijntypes</h1>',
             '<p class="sectnote">Controle lijntypetabel.</p>',
-            _c_lijntype_usage(data.get("lijnusage")),
-            _c_optie_fase(opt.get("lijntypes")),
-            _c_id(idd.get("lijn")),
-            _c_duplicate(dup.get("lijntypes")),
-            _c_special(spec.get("lijntypes")),
-            _c_missing(data.get("lijndef"), "AutoCAD-definitie",
-                       ("lijntypes", "met definitie", "zonder definitie"),
-                       "Elk lijntype heeft een AutoCAD-definitie (autocaddef); "
-                       "CONTINUOUS/V-CONTINUOUS-SO overgeslagen.",
-                       "<th>lijntype</th>")]
+            _desc(_c_lijntype_usage(data.get("lijnusage")), _D_LIJNUSAGE),
+            _desc(_c_optie_fase(opt.get("lijntypes")), _D_OPTIEFASE),
+            _desc(_c_id(idd.get("lijn")), _D_ID),
+            _desc(_c_duplicate(dup.get("lijntypes")), _D_DUP),
+            _desc(_c_special(spec.get("lijntypes")), _D_SPECIAL),
+            _desc(_c_missing(data.get("lijndef"), "AutoCAD-definitie",
+                             ("lijntypes", "met definitie", "zonder definitie"),
+                             "Elk lijntype heeft een AutoCAD-definitie (autocaddef); "
+                             "CONTINUOUS/V-CONTINUOUS-SO overgeslagen.",
+                             "<th>lijntype</th>"), _D_AUTOCADDEF)]
     sections.append("\n".join(lijn))
 
     ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
