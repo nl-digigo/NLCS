@@ -329,6 +329,42 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     }
 
 
+def findings_by_hoofdgroep(report_html: str) -> dict:
+    """Tel per hoofdgroep-code het aantal foutregels in een gegenereerd
+    kwaliteitsrapport (ot_html.build_all_checks_html).
+
+    Elke foutregel met een hoofdgroep rendert daar als
+    ``<td class="hg">CODE</td>`` (via ot_html._hg_table); die tellen we per
+    code. Foutregels zonder hoofdgroep (lege cel, bijv. ID-mismatches en
+    zoekterm-treffers) tellen niet mee — die zijn niet aan één hoofdgroep toe
+    te wijzen. Lege/ontbrekende invoer -> lege dict."""
+    counts: dict = {}
+    for m in re.finditer(r'<td class="hg">([^<]*)</td>', report_html or ""):
+        code = m.group(1).strip().upper()
+        if code:
+            counts[code] = counts.get(code, 0) + 1
+    return counts
+
+
+def quality_checkmarks(report_html, obj_dir: str, codes) -> dict:
+    """Combineer het kwaliteitsrapport met de beschikbare objectentabellen tot
+    een 'vinkje' per hoofdgroep, voor het publicatie-overzicht.
+
+    Voor elke hoofdgroep-code uit `codes` waarvan een objecten-CSV in
+    `obj_dir` staat (find_csv_by_code): ``{code: {"errors": <aantal
+    foutregels in het rapport>}}``. 0 fouten -> groen vinkje in het overzicht,
+    >0 -> rood kruis met aantal. Codes zonder objecten-CSV komen NIET in de
+    dict (geen vinkje). `report_html` leeg/None -> errors telt als 0 voor elke
+    beschikbare objectentabel."""
+    counts = findings_by_hoofdgroep(report_html)
+    marks: dict = {}
+    for code in (codes or []):
+        c = (code or "").strip().upper()
+        if c and find_csv_by_code(obj_dir, c):
+            marks[c] = {"errors": counts.get(c, 0)}
+    return marks
+
+
 def sbib_to_code(sbib: str) -> str:
     """Hoofdgroep-code bij een `sbibliotheek`-waarde: de leidende 'S' eraf.
 

@@ -18,7 +18,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Query Statussen concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Statussen-concept-5.2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/releasenotes/releasenotes-5-2.html)
 
-## AL
+## AL ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/AL/lijntypes-5-2-AL.html)
@@ -30,7 +30,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/AL/changelog-objecten-5-2-AL.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/AL/changelog-symbolen-5-2-AL.html)
 
-## AM
+## AM ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/AM/lijntypes-5-2-AM.html)
@@ -42,7 +42,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/AM/changelog-objecten-5-2-AM.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/AM/changelog-symbolen-5-2-AM.html)
 
-## BC
+## BC ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/BC/lijntypes-5-2-BC.html)
@@ -54,7 +54,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/BC/changelog-objecten-5-2-BC.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/BC/changelog-symbolen-5-2-BC.html)
 
-## BV
+## BV ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/BV/lijntypes-5-2-BV.html)
@@ -74,7 +74,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Changelogs**
 - [Changelog arceringen](https://nl-digigo.github.io/NLCS/changelog/CO/changelog-arceringen-5-2-CO.html)
 
-## ES
+## ES ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/ES/lijntypes-5-2-ES.html)
@@ -84,7 +84,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/ES/changelog-lijntypes-5-2-ES.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/ES/changelog-objecten-5-2-ES.html)
 
-## FC
+## FC ✅
 
 **Tabellen**
 - [Lijntypes CO](https://nl-digigo.github.io/NLCS/changelog/FC/lijntypes-5-2-CO.html)
@@ -95,7 +95,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/FC/changelog-objecten-5-2-FC.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/FC/changelog-symbolen-5-2-FC.html)
 
-## FV
+## FV ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/FV/lijntypes-5-2-FV.html)
@@ -105,7 +105,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/FV/changelog-lijntypes-5-2-FV.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/FV/changelog-objecten-5-2-FV.html)
 
-## GC
+## GC ✅
 
 **Tabellen**
 - [Lijntypes CO](https://nl-digigo.github.io/NLCS/changelog/GC/lijntypes-5-2-CO.html)
@@ -119,7 +119,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Vergelijking symbolen](https://nl-digigo.github.io/NLCS/changelog/GC/vergelijking_symbolen_5.1_vs_5.2_SGC.html)
 - [Vergelijking symbolen hernoemd](https://nl-digigo.github.io/NLCS/changelog/GC/vergelijking_symbolen_5.1_vs_5.2_SGC_hernoemd.html)
 
-## GK
+## GK ✅
 
 **Tabellen**
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/GK/objecten-5-2-GK.html)
@@ -128,7 +128,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/GK/changelog-objecten-5-2-GK.html)
 - [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/GK/vergelijking_lijntypes_GK_5.0_vs_5.2.html)
 
-## GR
+## GR ❌ (1 fout(en))
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/GR/arceringen-5-2-GR.html)
@@ -142,7 +142,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/GR/changelog-objecten-5-2-GR.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/GR/changelog-symbolen-5-2-GR.html)
 
-## GW
+## GW ❌ (6 fout(en))
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/GW/arceringen-5-2-GW.html)
@@ -156,7 +156,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/GW/changelog-objecten-5-2-GW.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/GW/changelog-symbolen-5-2-GW.html)
 
-## HC
+## HC ✅
 
 **Tabellen**
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/HC/objecten-5-2-HC.html)
@@ -164,7 +164,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/HC/changelog-objecten-5-2-HC.html)
 
-## HU
+## HU ✅
 
 **Tabellen**
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/HU/objecten-5-2-HU.html)
@@ -172,7 +172,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/HU/changelog-objecten-5-2-HU.html)
 
-## IE
+## IE ❌ (10 fout(en))
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/IE/arceringen-5-2-IE.html)
@@ -186,7 +186,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/IE/changelog-objecten-5-2-IE.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/IE/changelog-symbolen-5-2-IE.html)
 
-## IS
+## IS ❌ (40 fout(en))
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/IS/lijntypes-5-2-IS.html)
@@ -198,7 +198,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/IS/changelog-objecten-5-2-IS.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/IS/changelog-symbolen-5-2-IS.html)
 
-## IV
+## IV ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/IV/lijntypes-5-2-IV.html)
@@ -207,7 +207,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/IV/changelog-objecten-5-2-IV.html)
 
-## IW
+## IW ❌ (684 fout(en))
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/IW/lijntypes-5-2-IW.html)
@@ -220,7 +220,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/IW/changelog-objecten-5-2-IW.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/IW/changelog-symbolen-5-2-IW.html)
 
-## KC
+## KC ✅
 
 **Tabellen**
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/KC/objecten-5-2-KC.html)
@@ -228,7 +228,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/KC/changelog-objecten-5-2-KC.html)
 
-## KG
+## KG ✅
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/KG/arceringen-5-2-KG.html)
@@ -242,7 +242,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/KG/changelog-objecten-5-2-KG.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/KG/changelog-symbolen-5-2-KG.html)
 
-## KL
+## KL ❌ (69 fout(en))
 
 **Tabellen**
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/KL/objecten-concept-5.2-KL.html)
@@ -262,7 +262,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Changelogs**
 - [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/KW/vergelijking_lijntypes_KW_5.0_vs_5.2.html)
 
-## MC
+## MC ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/MC/lijntypes-5-2-MC.html)
@@ -346,7 +346,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Vergelijking](https://nl-digigo.github.io/NLCS/changelog/SB/vergelijking_SSB_5.0_vs_5.2.html)
 - [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/SB/vergelijking_lijntypes_SB_5.0_vs_5.2.html)
 
-## SC
+## SC ✅
 
 **Tabellen**
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/SC/objecten-concept-5.2-SC.html)

@@ -84,6 +84,9 @@
     .card h2 { margin:0 0 8px; font-size:1.12rem; border-bottom:3px solid var(--dg-yellow);
                padding-bottom:6px; }
     .card h3 { margin:14px 0 6px; font-size:.95rem; color:var(--dg-ink); }
+    p.ctrldesc { margin:0 0 10px; font-size:.9rem; color:var(--dg-grey2);
+                 border-left:3px solid var(--dg-grey); padding-left:10px; }
+    p.ctrldesc code { background:#f3f3f3; padding:0 3px; border-radius:3px; }
     table.otab thead th { cursor:pointer; user-select:none; }
     table.otab thead th:hover { background:#333; }
     td.hg { font-family:Consolas,"Courier New",monospace; font-weight:700;
@@ -112,17 +115,20 @@
 <div class="toc"><a href="#objecten">Objecten</a><a href="#symbolen">Symbolen</a><a href="#arceringen">Arceringen</a><a href="#lijntypes">Lijntypes</a></div>
 <h1 class="sect" id="objecten">Objecten</h1>
 <p class="sectnote">Controle objectentabel — in de volgorde van de managementhandleiding.</p>
-<div class="card"><h2>Objectenboom (hiërarchie)</h2><div class="kpi"><div class="box "><b>2242</b>objecten</div><div class="box "><b>243</b>hoofdobjecten</div><div class="box bad"><b>1</b>fout(en)</div></div>
+<div class="card"><h2>Objectenboom (hiërarchie)</h2>
+<p class="ctrldesc">Naam-/laagnaamhiërarchie: elk onderliggend object heeft precies één segment meer dan zijn ouder, de oudernaam staat exact vooraan (prefix) en het scheidingsteken (- of _) klopt. Ook: niet meer dan 5 subobjecten in een laagnaam (<code>controle_nlcs-objecten_te_veel_subobjecten</code>).</p><div class="kpi"><div class="box "><b>2242</b>objecten</div><div class="box "><b>243</b>hoofdobjecten</div><div class="box bad"><b>1</b>fout(en)</div></div>
 <p class="warn">⚠ 1 fout(en):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>type</th><th>object</th><th>bovenliggend</th><th>toelichting</th></tr></thead><tbody>
 <tr><td class="hg">KL</td><td><span class="badge count">count</span></td><td>WARMTENET_AANVOER_SPP_HAS #5474</td><td>WARMTENET_AANVOER #5455</td><td>4 segmenten; ouder heeft er 2 (verwacht 3)</td></tr>
 </tbody></table>
 <div class="legend" style="font-size:.78rem;color:var(--dg-grey2)">count: verkeerd aantal segmenten (geen +1 t.o.v. ouder) · prefix: naam is geen uitbreiding van de oudernaam · separator: scheidingsteken klopt niet (oudernaam niet exact vooraan) · orphan: bovenliggend id onbekend · root_multi: hoofdobject met meer dan één segment · subobjecten: meer dan 5 subobjecten in de laagnaam</div>
 </div>
-<div class="card"><h2>Fase-visualisatie</h2><div class="kpi"><div class="box "><b>2243</b>objecten</div><div class="box free"><b>2243</b>volledig</div><div class="box free"><b>0</b>fase ontbreekt</div></div>
+<div class="card"><h2>Fase-visualisatie</h2>
+<p class="ctrldesc">Controleer of elk object voor alle NLCS-statussen (Bestaand, Nieuw, Vervallen, Tijdelijk) een visualisatie heeft; AL en ZZ hebben alleen een visualisatie voor de bestaande situatie.</p><div class="kpi"><div class="box "><b>2243</b>objecten</div><div class="box free"><b>2243</b>volledig</div><div class="box free"><b>0</b>fase ontbreekt</div></div>
 <p class="ok">✓ Elk object heeft voor alle verwachte fasen een visualisatie.</p>
 </div>
-<div class="card"><h2>ID-controle</h2><div class="kpi"><div class="box "><b>5994</b>ingelezen</div><div class="box "><b>6123</b>hoogste ID</div><div class="box free"><b>6124</b>eerstvolgende vrij</div></div>
+<div class="card"><h2>ID-controle</h2>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>5994</b>ingelezen</div><div class="box "><b>6123</b>hoogste ID</div><div class="box free"><b>6124</b>eerstvolgende vrij</div></div>
 <p class="warn">⚠ 1 zonder id_nummer:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">KL</td><td>TRACE_HARTLIJN</td><td>nieuw</td><td class="loc">r789</td></tr>
@@ -130,14 +136,16 @@
 <p class="ok">✓ Geen dubbel gebruikte ID’s.</p>
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
-<div class="card"><h2>Dubbele namen</h2><div class="kpi"><div class="box "><b>2243</b>namen</div><div class="box "><b>2241</b>uniek per hoofdgroep</div><div class="box bad"><b>2</b>dubbel</div></div>
+<div class="card"><h2>Dubbele namen</h2>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>2243</b>namen</div><div class="box "><b>2241</b>uniek per hoofdgroep</div><div class="box bad"><b>2</b>dubbel</div></div>
 <p class="warn">⚠ 2 naam/namen komen binnen dezelfde hoofdgroep meer dan eens voor:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>aantal</th><th>rij(en)</th></tr></thead><tbody>
 <tr><td class="hg">GW</td><td>WATERGANG_KNIKLIJN</td><td>2&times;</td><td class="loc">48, 56</td></tr>
 <tr><td class="hg">GW</td><td>WATERGANG_TALUD</td><td>2&times;</td><td class="loc">52, 53</td></tr>
 </tbody></table>
 </div>
-<div class="card"><h2>Element-koppeling (S/A ↔ sobject/aobject)</h2><div class="kpi"><div class="box "><b>2243</b>objecten</div><div class="box "><b>2227</b>correct</div><div class="box bad"><b>16</b>afwijkend</div></div>
+<div class="card"><h2>Element-koppeling (S/A ↔ sobject/aobject)</h2>
+<p class="ctrldesc">Element-koppeling: als de kolom <code>element</code> een S (symbool) of A (arcering) bevat, moet er ook een <code>sobject</code> resp. <code>aobject</code> zijn ingevuld — en omgekeerd.</p><div class="kpi"><div class="box "><b>2243</b>objecten</div><div class="box "><b>2227</b>correct</div><div class="box bad"><b>16</b>afwijkend</div></div>
 <p class="warn">⚠ 16 object(en) met een afwijkende koppeling:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>object</th><th>element</th><th>probleem</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">GW</td><td>GROND_BOMENGROND</td><td>G/A/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r22</td></tr>
@@ -158,7 +166,8 @@
 <tr><td class="hg">KL</td><td>DATA_WAN_HULPSTUK_AANSLUITPUNT</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r314</td></tr>
 </tbody></table>
 </div>
-<div class="card"><h2>Zoekterm-treffers → symbolen</h2><div class="kpi"><div class="box "><b>258</b>zoektermen (sobject)</div><div class="box "><b>251</b>met treffer</div><div class="box bad"><b>7</b>zonder treffer</div></div>
+<div class="card"><h2>Zoekterm-treffers → symbolen</h2>
+<p class="ctrldesc">Zoekterm-dekking: elke <code>sobject</code>-/<code>aobject</code>-waarde in een object moet minstens één symbool resp. arcering vinden (de zoekterm moet als tekst in de symbool-/arceringnaam voorkomen).</p><div class="kpi"><div class="box "><b>258</b>zoektermen (sobject)</div><div class="box "><b>251</b>met treffer</div><div class="box bad"><b>7</b>zonder treffer</div></div>
 <p class="warn">⚠ 7 zoekterm(en) zonder treffer:</p>
 <table class="otab"><thead><tr><th>zoekterm</th><th>objectbestand(en)</th></tr></thead><tbody>
 <tr><td><code>SGW-GRONDSOORTEN_BOMENGROND</code></td><td class="loc">objecten-5-2-GW.csv</td></tr>
@@ -170,10 +179,12 @@
 <tr><td><code>SIE-MEUBILAIR_WATERPOMP</code></td><td class="loc">objecten-5-2-IE.csv</td></tr>
 </tbody></table>
 </div>
-<div class="card"><h2>Zoekterm-treffers → arceringen</h2><div class="kpi"><div class="box "><b>56</b>zoektermen (aobject)</div><div class="box "><b>56</b>met treffer</div><div class="box free"><b>0</b>zonder treffer</div></div>
+<div class="card"><h2>Zoekterm-treffers → arceringen</h2>
+<p class="ctrldesc">Zoekterm-dekking: elke <code>sobject</code>-/<code>aobject</code>-waarde in een object moet minstens één symbool resp. arcering vinden (de zoekterm moet als tekst in de symbool-/arceringnaam voorkomen).</p><div class="kpi"><div class="box "><b>56</b>zoektermen (aobject)</div><div class="box "><b>56</b>met treffer</div><div class="box free"><b>0</b>zonder treffer</div></div>
 <p class="ok">✓ Elke zoekterm vindt minstens één arceringen.</p>
 </div>
-<div class="card"><h2>Speciale tekens</h2><div class="kpi"><div class="box "><b>2243</b>namen</div><div class="box free"><b>2243</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<div class="card"><h2>Speciale tekens</h2>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>2243</b>namen</div><div class="box free"><b>2243</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 <p class="info">Ter info: 7 naam/namen met een kleine letter (toegestaan voor eenheden mm/Mm en elementsymbool Cu — controleer of bewust):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>rij</th></tr></thead><tbody>
@@ -188,7 +199,8 @@
 </div>
 <h1 class="sect" id="symbolen">Symbolen</h1>
 <p class="sectnote">Controle symbolentabel.</p>
-<div class="card"><h2>Zoekterm-controle (<code>sobject</code>)</h2><div class="kpi"><div class="box "><b>1524</b>namen</div><div class="box "><b>1484</b>via zoekterm gevonden</div><div class="box bad"><b>40</b>niet gevonden</div></div>
+<div class="card"><h2>Zoekterm-controle (<code>sobject</code>)</h2>
+<p class="ctrldesc"><code>controle_arceringsymbool_zonder_objectRelatie</code> — symbolen die via geen enkele zoekterm (<code>sobject</code>) in de objectentabel gevonden worden.</p><div class="kpi"><div class="box "><b>1524</b>namen</div><div class="box "><b>1484</b>via zoekterm gevonden</div><div class="box bad"><b>40</b>niet gevonden</div></div>
 <p class="warn">⚠ 40 naam/namen via geen enkele zoekterm gevonden:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th></tr></thead><tbody>
 <tr><td class="hg">IE</td><td>MEUBILAIR_WATERPOMP-SO</td></tr>
@@ -233,13 +245,15 @@
 <tr><td class="hg">IS</td><td>V-SIS-VERWARMINGSELEMENT</td></tr>
 </tbody></table>
 </div>
-<div class="card"><h2>Optie-fase-check</h2><div class="kpi"><div class="box bad"><b>1</b>afwijking(en)</div></div>
+<div class="card"><h2>Optie-fase-check</h2>
+<p class="ctrldesc">Consistentie fase/optie t.o.v. de gecodeerde naam (voorvoegsel V-/B- → fase, achtervoegsel -SO/-S/… → optie).</p><div class="kpi"><div class="box bad"><b>1</b>afwijking(en)</div></div>
 <p class="warn">⚠ FASE-afwijkingen: 1</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>fase (is → verwacht)</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">IE</td><td>SIE-MEUBILAIR_GELEIDECONSTRUCTIE-SO</td><td class="is-was"><span class="is">V</span> → <span class="exp">(leeg)</span></td><td class="loc">r208</td></tr>
 </tbody></table>
 </div>
-<div class="card"><h2>ID-controle</h2><div class="kpi"><div class="box "><b>5444</b>ingelezen</div><div class="box "><b>6861</b>hoogste ID</div><div class="box free"><b>6862</b>eerstvolgende vrij</div></div>
+<div class="card"><h2>ID-controle</h2>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>5444</b>ingelezen</div><div class="box "><b>6861</b>hoogste ID</div><div class="box free"><b>6862</b>eerstvolgende vrij</div></div>
 <p class="warn">⚠ 3 zonder id:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>SIW-VRI_DETECTIE</td><td>nieuw</td><td class="loc">r2</td></tr>
@@ -249,10 +263,12 @@
 <p class="ok">✓ Geen dubbel gebruikte ID’s.</p>
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
-<div class="card"><h2>Dubbele namen</h2><div class="kpi"><div class="box "><b>1524</b>namen</div><div class="box "><b>1524</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<div class="card"><h2>Dubbele namen</h2>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>1524</b>namen</div><div class="box "><b>1524</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
-<div class="card"><h2>Speciale tekens</h2><div class="kpi"><div class="box "><b>1524</b>namen</div><div class="box free"><b>1524</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<div class="card"><h2>Speciale tekens</h2>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>1524</b>namen</div><div class="box free"><b>1524</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 <p class="info">Ter info: 4 naam/namen met een kleine letter (toegestaan voor eenheden mm/Mm en elementsymbool Cu — controleer of bewust):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>rij</th></tr></thead><tbody>
@@ -262,7 +278,8 @@
 <tr><td class="hg">IW</td><td>SIW-VRI_3LICHTVERKEERSLANTAARN_ROND_3X80mm-SO</td><td class="loc">r20</td></tr>
 </tbody></table>
 </div>
-<div class="card"><h2>Symbool ↔ .dwg</h2><div class="kpi"><div class="box "><b>1524</b>tabelregels</div><div class="box "><b>1517</b>met .dwg</div><div class="box bad"><b>7</b>regel zonder .dwg</div><div class="box "><b>5686</b>.dwg-bestanden</div><div class="box bad"><b>720</b>.dwg zonder regel</div></div>
+<div class="card"><h2>Symbool ↔ .dwg</h2>
+<p class="ctrldesc">Controleer of alle symbolen in de database ook als bestand (.dwg) beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).</p><div class="kpi"><div class="box "><b>1524</b>tabelregels</div><div class="box "><b>1517</b>met .dwg</div><div class="box bad"><b>7</b>regel zonder .dwg</div><div class="box "><b>5686</b>.dwg-bestanden</div><div class="box bad"><b>720</b>.dwg zonder regel</div></div>
 <p class="warn">⚠ 7 symboolregel(s) zonder .dwg-bestand:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>symbool (regel)</th><th>verwacht bestand</th></tr></thead><tbody>
 <tr><td class="hg">IE</td><td>MEUBILAIR_WATERPOMP-SO</td><td class="loc">MEUBILAIR_WATERPOMP-SO.dwg</td></tr>
@@ -999,41 +1016,57 @@
 </div>
 <h1 class="sect" id="arceringen">Arceringen</h1>
 <p class="sectnote">Controle arceringentabel.</p>
-<div class="card"><h2>Zoekterm-controle (<code>aobject</code>)</h2><div class="kpi"><div class="box "><b>122</b>namen</div><div class="box "><b>121</b>via zoekterm gevonden</div><div class="box bad"><b>1</b>niet gevonden</div></div>
+<div class="card"><h2>Zoekterm-controle (<code>aobject</code>)</h2>
+<p class="ctrldesc"><code>controle_arceringsymbool_zonder_objectRelatie</code> — arceringen die via geen enkele zoekterm (<code>aobject</code>) in de objectentabel gevonden worden.</p><div class="kpi"><div class="box "><b>122</b>namen</div><div class="box "><b>121</b>via zoekterm gevonden</div><div class="box bad"><b>1</b>niet gevonden</div></div>
 <p class="warn">⚠ 1 naam/namen via geen enkele zoekterm gevonden:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th></tr></thead><tbody>
 <tr><td class="hg">GR</td><td>AGR-SIERPLANTSOEN-SO</td></tr>
 </tbody></table>
 </div>
-<div class="card"><h2>Optie-fase-check</h2><div class="kpi"><div class="box free"><b>0</b>afwijking(en)</div></div>
+<div class="card"><h2>Optie-fase-check</h2>
+<p class="ctrldesc">Consistentie fase/optie t.o.v. de gecodeerde naam (voorvoegsel V-/B- → fase, achtervoegsel -SO/-S/… → optie).</p><div class="kpi"><div class="box free"><b>0</b>afwijking(en)</div></div>
 <p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
-<div class="card"><h2>ID-controle</h2><div class="kpi"><div class="box "><b>557</b>ingelezen</div><div class="box "><b>450</b>hoogste ID</div><div class="box free"><b>451</b>eerstvolgende vrij</div></div>
+<div class="card"><h2>ID-controle</h2>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>557</b>ingelezen</div><div class="box "><b>450</b>hoogste ID</div><div class="box free"><b>451</b>eerstvolgende vrij</div></div>
 <p class="ok">✓ Elke rij heeft een id.</p>
 <p class="ok">✓ Geen dubbel gebruikte ID’s.</p>
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
-<div class="card"><h2>Dubbele namen</h2><div class="kpi"><div class="box "><b>122</b>namen</div><div class="box "><b>122</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<div class="card"><h2>Dubbele namen</h2>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>122</b>namen</div><div class="box "><b>122</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
-<div class="card"><h2>Speciale tekens</h2><div class="kpi"><div class="box "><b>122</b>namen</div><div class="box free"><b>122</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<div class="card"><h2>Speciale tekens</h2>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>122</b>namen</div><div class="box free"><b>122</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 </div>
-<div class="card"><h2>Verklaring</h2><div class="kpi"><div class="box "><b>122</b>arceringen</div><div class="box free"><b>122</b>met verklaring</div><div class="box free"><b>0</b>zonder verklaring</div></div>
+<div class="card"><h2>Verklaring</h2>
+<p class="ctrldesc">Verklaring: elke arcering heeft een (lange) verklaring in de kolom <code>vrkl_lang</code> (de tekst voor de legenda/verklaring).</p><div class="kpi"><div class="box "><b>122</b>arceringen</div><div class="box free"><b>122</b>met verklaring</div><div class="box free"><b>0</b>zonder verklaring</div></div>
 <p class="ok">✓ Elke arcering heeft een verklaring (vrkl_lang).</p>
+</div>
+<div class="card"><h2>Naamlengte</h2>
+<p class="ctrldesc">Naamlengte: de arceringnaam (kolom <code>arcering</code>) is maximaal 31 tekens lang.</p><div class="kpi"><div class="box "><b>122</b>arceringen</div><div class="box "><b>121</b>max 31 tekens</div><div class="box bad"><b>1</b>te lang</div></div>
+<p class="warn">⚠ 1 langer dan 31 tekens:</p>
+<table class="otab"><thead><tr><th>hoofdgroep</th><th>arcering</th><th>lengte</th><th>rij</th></tr></thead><tbody>
+<tr><td class="hg">GW</td><td>AGW-WERK_ONTGRAVEN_AANVULLEN-SOD</td><td class="loc">32</td><td class="loc">r19</td></tr>
+</tbody></table>
 </div>
 <h1 class="sect" id="lijntypes">Lijntypes</h1>
 <p class="sectnote">Controle lijntypetabel.</p>
-<div class="card"><h2>Lijntype-gebruik</h2><div class="kpi"><div class="box "><b>290</b>lijntypes</div><div class="box "><b>289</b>gebruikt</div><div class="box bad"><b>1</b>niet gebruikt</div></div>
+<div class="card"><h2>Lijntype-gebruik</h2>
+<p class="ctrldesc"><code>controle_lijntypes_zonder_objectRelatie</code> — lijntypes die bestaan maar in geen enkel object (lt_b/lt_n/lt_v/lt_t) gebruikt worden.</p><div class="kpi"><div class="box "><b>290</b>lijntypes</div><div class="box "><b>289</b>gebruikt</div><div class="box bad"><b>1</b>niet gebruikt</div></div>
 <p class="warn">⚠ 1 lijntype(s) worden nergens in de objecten gebruikt:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>lijntype</th></tr></thead><tbody>
 <tr><td class="hg">KL</td><td>V-KL-BUNDEL-SO</td></tr>
 </tbody></table>
 </div>
-<div class="card"><h2>Optie-fase-check</h2><div class="kpi"><div class="box free"><b>0</b>afwijking(en)</div></div>
+<div class="card"><h2>Optie-fase-check</h2>
+<p class="ctrldesc">Consistentie fase/optie t.o.v. de gecodeerde naam (voorvoegsel V-/B- → fase, achtervoegsel -SO/-S/… → optie).</p><div class="kpi"><div class="box free"><b>0</b>afwijking(en)</div></div>
 <p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
-<div class="card"><h2>ID-controle</h2><div class="kpi"><div class="box "><b>914</b>ingelezen</div><div class="box "><b>4174</b>hoogste ID</div><div class="box free"><b>4175</b>eerstvolgende vrij</div></div>
+<div class="card"><h2>ID-controle</h2>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>914</b>ingelezen</div><div class="box "><b>4174</b>hoogste ID</div><div class="box free"><b>4175</b>eerstvolgende vrij</div></div>
 <p class="warn">⚠ 3 zonder id:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>(geen naam)</td><td>nieuw</td><td class="loc">r2</td></tr>
@@ -1047,13 +1080,16 @@
 </tbody></table>
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
-<div class="card"><h2>Dubbele namen</h2><div class="kpi"><div class="box "><b>312</b>namen</div><div class="box "><b>312</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<div class="card"><h2>Dubbele namen</h2>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>312</b>namen</div><div class="box "><b>312</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
-<div class="card"><h2>Speciale tekens</h2><div class="kpi"><div class="box "><b>312</b>namen</div><div class="box free"><b>312</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<div class="card"><h2>Speciale tekens</h2>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>312</b>namen</div><div class="box free"><b>312</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 </div>
-<div class="card"><h2>AutoCAD-definitie</h2><div class="kpi"><div class="box "><b>288</b>lijntypes</div><div class="box free"><b>288</b>met definitie</div><div class="box free"><b>0</b>zonder definitie</div></div>
+<div class="card"><h2>AutoCAD-definitie</h2>
+<p class="ctrldesc">AutoCAD-definitie: elk lijntype heeft een definitiestring in de kolom <code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO worden overgeslagen).</p><div class="kpi"><div class="box "><b>288</b>lijntypes</div><div class="box free"><b>288</b>met definitie</div><div class="box free"><b>0</b>zonder definitie</div></div>
 <p class="ok">✓ Elk lijntype heeft een AutoCAD-definitie (autocaddef); CONTINUOUS/V-CONTINUOUS-SO overgeslagen.</p>
 </div>
 </div>

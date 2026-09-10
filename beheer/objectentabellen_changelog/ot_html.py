@@ -577,6 +577,15 @@ _INDEX_STYLE = """
             min-height:210px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
     .card.general { border-top-color: var(--dg-blue); }
     .card h2 { margin:0; font-size:1.2rem; color:var(--dg-ink); }
+    .card h2 .hg-check { float:right; font-size:.9rem; font-weight:700;
+            padding:1px 9px; border-radius:12px; line-height:1.5; }
+    .card h2 .hg-check.ok  { color:#fff; background:var(--dg-green); }
+    .card h2 .hg-check.err { color:#fff; background:#C0392B; }
+    p.legend-check { color:var(--dg-grey2); font-size:.8rem; margin:0 0 12px; }
+    p.legend-check .sw { display:inline-block; color:#fff; font-weight:700;
+            border-radius:10px; padding:0 7px; margin-right:3px; }
+    p.legend-check .sw.ok  { background:var(--dg-green); }
+    p.legend-check .sw.err { background:#C0392B; }
     .card .subtitle { color:var(--dg-grey2); font-size:.8rem; margin:2px 0 10px; }
     .card .section-lbl { font-size:.7rem; text-transform:uppercase; letter-spacing:.5px;
             color:var(--dg-grey2); font-weight:700; margin:10px 0 5px; }
@@ -597,7 +606,8 @@ _INDEX_STYLE = """
 
 
 def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
-                     version: str = "", base_url: str = "") -> str:
+                     version: str = "", base_url: str = "",
+                     checkmarks=None) -> str:
     """Overzichtspagina ('kaart') met één blok per hoofdgroep en knoppen naar de
     gepubliceerde tabellen en changelogs.
 
@@ -605,10 +615,15 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
     general : lijst entries voor het algemene blok ('voor alle hoofdgroepen').
     base_url: online basis (bijv. 'https://nl-digigo.github.io/NLCS/'); het
               entry-subpad wordt eraan geplakt. Leeg -> relatieve links.
+    checkmarks : optioneel {code: {"errors": n}} (ot_compare.quality_checkmarks)
+              voor hoofdgroepen met een objectentabel-CSV; 0 fouten -> groen
+              vinkje in de kop, >0 -> rood kruis met aantal. None/leeg -> geen
+              vinkjes.
     Elke entry heeft: filename, subpath, kind ('tabel'|'changelog'), label."""
     base = (base_url or "").strip()
     if base and not base.endswith("/"):
         base += "/"
+    marks = checkmarks or {}
 
     def _btn(entry: dict) -> str:
         url = (base + entry["subpath"]) if base else entry["subpath"]
@@ -616,11 +631,22 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
         return (f'<a class="btn {cls}" href="{_esc(url)}" target="_blank" '
                 f'title="{_esc(entry["filename"])}">{_esc(entry["label"])}</a>')
 
-    def _card(heading: str, subtitle: str, entries: list, general: bool) -> str:
+    def _check_badge(mark) -> str:
+        if mark is None:
+            return ""
+        errs = mark.get("errors", 0)
+        if errs:
+            return (f'<span class="hg-check err" title="{errs} foutmelding(en) '
+                    f'in het kwaliteitsrapport">&#10007; {errs}</span>')
+        return ('<span class="hg-check ok" title="geen foutmeldingen in het '
+                'kwaliteitsrapport">&#10003;</span>')
+
+    def _card(heading: str, subtitle: str, entries: list, general: bool,
+              mark=None) -> str:
         tabellen = [e for e in entries if e.get("kind") != "changelog"]
         changelogs = [e for e in entries if e.get("kind") == "changelog"]
         parts = [f'<div class="card{" general" if general else ""}">',
-                 f"<h2>{_esc(heading)}</h2>",
+                 f"<h2>{_esc(heading)}{_check_badge(mark)}</h2>",
                  f'<p class="subtitle">{_esc(subtitle)}</p>']
         if tabellen:
             parts.append('<div class="section-lbl">Tabellen</div>')
@@ -649,13 +675,23 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
                            f"{len(general)} algemeen bestand(en)", general, True))
     for code, entries in groups:
         cards.append(_card(code, f"hoofdgroep {code} &middot; "
-                           f"{len(entries)} bestand(en)", entries, False))
+                           f"{len(entries)} bestand(en)", entries, False,
+                           mark=marks.get(code)))
 
     total = sum(len(e) for _c, e in groups) + len(general)
     info = (f"{len(groups)} hoofdgroep(en) &middot; {total} bestand(en)"
             + (f" &middot; versie {_esc(version)}" if version else "")
             + (f' &middot; <a href="{_esc(base)}" target="_blank">{_esc(base)}</a>'
                if base else ""))
+
+    # Legenda voor de vinkjes (alleen als er een kwaliteitsrapport gebruikt is).
+    legend = ""
+    if marks:
+        legend = ('<p class="legend-check">'
+                  '<span class="sw ok">&#10003;</span> objectentabel zonder '
+                  'foutmeldingen in het kwaliteitsrapport &nbsp;&middot;&nbsp; '
+                  '<span class="sw err">&#10007;</span> objectentabel mét '
+                  'foutmeldingen (aantal erbij).</p>')
 
     body = ('<p class="empty">Geen gepubliceerde bestanden gevonden voor deze '
             'versie.</p>' if not cards else
@@ -664,6 +700,7 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
     return (
         _shell_head(title, extra_style=_INDEX_STYLE, cdn=False)
         + f'<div class="wrap">\n<p class="info">{info}</p>\n'
+        + legend + ("\n" if legend else "")
         + body + "\n"
         + "</div>\n"
         + _FOOTER
@@ -672,14 +709,19 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
 
 def build_index_markdown(groups, general,
                          title: str = "NLCS publicatie-overzicht",
-                         version: str = "", base_url: str = "") -> str:
+                         version: str = "", base_url: str = "",
+                         checkmarks=None) -> str:
     """Zelfde overzicht als build_index_html, maar als Markdown voor gebruik in
     GitHub-issues: één kop (##) per hoofdgroep met daaronder de links,
     gesplitst in Tabellen en Changelogs. base_url wordt aan het subpad geplakt
-    (leeg -> alleen het relatieve subpad, wat in een issue niet klikbaar is)."""
+    (leeg -> alleen het relatieve subpad, wat in een issue niet klikbaar is).
+
+    checkmarks : optioneel {code: {"errors": n}} — hoofdgroepen met een
+    objectentabel-CSV krijgen ✅ (0 fouten) of ❌ (N fouten) achter de kop."""
     base = (base_url or "").strip()
     if base and not base.endswith("/"):
         base += "/"
+    marks = checkmarks or {}
 
     def _mdesc(text: str) -> str:
         # markdown-linktekst veilig maken: [] en backslash escapen
@@ -690,8 +732,12 @@ def build_index_markdown(groups, general,
         url = (base + entry["subpath"]) if base else entry["subpath"]
         return f'- [{_mdesc(entry["label"])}]({url})'
 
-    def _section(heading: str, entries: list) -> list:
-        out = [f"## {heading}", ""]
+    def _section(heading: str, entries: list, mark=None) -> list:
+        suffix = ""
+        if mark is not None:
+            errs = mark.get("errors", 0)
+            suffix = " ✅" if not errs else f" ❌ ({errs} fout(en))"
+        out = [f"## {heading}{suffix}", ""]
         tabellen = [e for e in entries if e.get("kind") != "changelog"]
         changelogs = [e for e in entries if e.get("kind") == "changelog"]
         if tabellen:
@@ -718,7 +764,7 @@ def build_index_markdown(groups, general,
     if general:
         lines += _section("Voor alle hoofdgroepen", general)
     for code, entries in groups:
-        lines += _section(code, entries)
+        lines += _section(code, entries, mark=marks.get(code))
 
     if not groups and not general:
         lines += ["_Geen gepubliceerde bestanden gevonden voor deze versie._", ""]

@@ -1169,6 +1169,44 @@ class IndexTab(ttk.Frame):
                          "gevonden. Controleer map en versie.")
         return data
 
+    def _quality_checkmarks(self, version: str, groups):
+        """Lees het kwaliteitsrapport uit de changelog-map en bepaal per
+        hoofdgroep (met objectentabel-CSV) het aantal foutregels. Retourneert
+        de dict voor build_index_html/-markdown, of None als er geen rapport
+        is (dan geen vinkjes; niet-blokkerend)."""
+        root = self.app.loc["index_root"].get().strip()
+        vdash = version.replace(".", "-")
+        rep_name = (f"kwaliteitscontroles-{vdash}.html" if vdash
+                    else "kwaliteitscontroles.html")
+        rep_path = os.path.join(root, rep_name)
+        if not os.path.isfile(rep_path):
+            self._logmsg(
+                f"Geen kwaliteitsrapport ({rep_name}) in de map — overzicht "
+                "zonder vinkjes. Genereer het eerst via het tabblad 'Controles'.")
+            return None
+        try:
+            with open(rep_path, encoding="utf-8") as f:
+                report_html = f.read()
+        except OSError as exc:
+            self._logmsg("Kon kwaliteitsrapport niet lezen: " + str(exc)
+                         + " — overzicht zonder vinkjes.")
+            return None
+        codes = [code for code, _entries in groups]
+        marks = ot_compare.quality_checkmarks(
+            report_html, self.app.loc["obj_new"].get().strip(), codes)
+        if not marks:
+            self._logmsg(
+                f"Kwaliteitsrapport gevonden ({rep_name}), maar geen enkele "
+                "hoofdgroep in het overzicht heeft een objectentabel-CSV in de "
+                "map bij 'Locaties' — geen vinkjes.")
+            return marks
+        n_ok = sum(1 for m in marks.values() if not m["errors"])
+        n_err = len(marks) - n_ok
+        self._logmsg(
+            f"Kwaliteitsrapport gebruikt ({rep_name}): {n_ok} hoofdgroep(en) "
+            f"zonder fouten (groen vinkje), {n_err} met foutmeldingen (rood kruis).")
+        return marks
+
     def on_generate(self) -> None:
         data = self._last or self.on_scan()
         if not data:
@@ -1193,10 +1231,16 @@ class IndexTab(ttk.Frame):
 
         version = self.app.version_new_var.get().strip()
         base_url = self.app.loc["base_url"].get().strip()
+
+        # Het kwaliteitsrapport (Controles-tab) als input: hoofdgroepen met een
+        # objectentabel-CSV krijgen een vinkje op basis van de foutregels in het
+        # rapport. Het rapport staat in dezelfde docs/changelog-map (index_root).
+        checkmarks = self._quality_checkmarks(version, data["groups"])
+
         html_txt = ot_html.build_index_html(
             data["groups"], data["general"],
             title=f"NLCS publicatie-overzicht {version}".strip(),
-            version=version, base_url=base_url)
+            version=version, base_url=base_url, checkmarks=checkmarks)
         try:
             parent = os.path.dirname(os.path.abspath(output))
             os.makedirs(parent, exist_ok=True)
@@ -1215,7 +1259,7 @@ class IndexTab(ttk.Frame):
         md_txt = ot_html.build_index_markdown(
             data["groups"], data["general"],
             title=f"NLCS publicatie-overzicht {version}".strip(),
-            version=version, base_url=base_url)
+            version=version, base_url=base_url, checkmarks=checkmarks)
         try:
             with open(md_path, "w", encoding="utf-8") as f:
                 f.write(md_txt)
