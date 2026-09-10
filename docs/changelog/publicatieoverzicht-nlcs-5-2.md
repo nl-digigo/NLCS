@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 192 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 193 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -175,7 +175,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/HU/changelog-objecten-5-2-HU.html)
 
-## IE ❌ (6 fout(en))
+## IE ✅
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/IE/arceringen-5-2-IE.html)
@@ -281,18 +281,19 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/MC/changelog-objecten-5-2-MC.html)
 - [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/MC/vergelijking_lijntypes_MC_5.0_vs_5.2.html)
 
-## MO
+## MO ✅
 
 **Tabellen**
-- [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/MO/objecten-concept-5.2-MO.html)
-- [Query Arceringen concept](https://nl-digigo.github.io/NLCS/changelog/MO/NLCS_Query_Arceringen-concept-5.2-AMO.html)
-- [Query Symbolen concept](https://nl-digigo.github.io/NLCS/changelog/MO/NLCS_Query_Symbolen-concept-5.2-SMO.html)
+- [Arceringen](https://nl-digigo.github.io/NLCS/changelog/MO/arceringen-5-2-MO.html)
+- [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/MO/lijntypes-5-2-MO.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/MO/objecten-5-2-MO.html)
+- [Symbolen](https://nl-digigo.github.io/NLCS/changelog/MO/symbolen-5-2-MO.html)
 
 **Changelogs**
-- [Vergelijking](https://nl-digigo.github.io/NLCS/changelog/MO/vergelijking_SMO_5.0_vs_5.2.html)
-- [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/MO/vergelijking_lijntypes_MO_5.0_vs_5.2.html)
-- [Vergelijking symbolen](https://nl-digigo.github.io/NLCS/changelog/MO/vergelijking_symbolen_5.1_vs_5.2_SMO.html)
-- [Vergelijking symbolen hernoemd](https://nl-digigo.github.io/NLCS/changelog/MO/vergelijking_symbolen_5.1_vs_5.2_SMO_hernoemd.html)
+- [Changelog arceringen](https://nl-digigo.github.io/NLCS/changelog/MO/changelog-arceringen-5-2-MO.html)
+- [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/MO/changelog-lijntypes-5-2-MO.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/MO/changelog-objecten-5-2-MO.html)
+- [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/MO/changelog-symbolen-5-2-MO.html)
 
 ## MW
 
