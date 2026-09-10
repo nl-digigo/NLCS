@@ -1512,6 +1512,55 @@ def check_arcering_verklaring(src: str, name_col: str = "arcering",
     return {"total": total, "ok": ok, "missing": missing}
 
 
+def check_arcering_name_length(src: str, name_col: str = "arcering",
+                               max_len: int = 31) -> dict:
+    """Controleer of arceringnamen niet langer zijn dan `max_len` tekens.
+
+    Arceringnamen mogen maximaal 31 tekens hebben. Namen die langer zijn worden
+    gemeld met hun lengte. `src` mag een MAP met CSV's of één CSV-bestand zijn.
+
+    Geeft een dict terug:
+      {
+        "total":   aantal gecontroleerde arceringen,
+        "ok":      aantal met een toegestane lengte,
+        "max_len": de gehanteerde maximale lengte,
+        "toolong": [ {name, file, row, length} ],   # te lang
+      }
+    """
+    empty = {"total": 0, "ok": 0, "max_len": max_len, "toolong": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    total = 0
+    ok = 0
+    toolong: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name:
+                continue
+            total += 1
+            if len(name) <= max_len:
+                ok += 1
+            else:
+                toolong.append({"name": name, "file": fn, "row": i + 2,
+                                "length": len(name)})
+
+    toolong.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "max_len": max_len, "toolong": toolong}
+
+
 def check_lijntype_autocaddef(src: str, name_col: str = "omschrijving",
                               def_col: str = "autocaddef",
                               exclude_names=()) -> dict:

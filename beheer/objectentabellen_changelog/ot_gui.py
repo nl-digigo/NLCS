@@ -2783,7 +2783,8 @@ class ControlesTab(ttk.Frame):
             text="Draait in één keer alle kwaliteitscontroles (objecten, "
                  "symbolen, arceringen, lijntypes) op de mappen uit het tabblad "
                  "'Locaties' en schrijft het resultaat in één HTML-rapport "
-                 "(controles.html), ingedeeld per tabel in de volgorde van de "
+                 "(kwaliteitscontroles-<versie>.html) direct in de changelog-map "
+                 "(docs/changelog), ingedeeld per tabel in de volgorde van de "
                  "managementhandleiding. Elke findings-tabel heeft een "
                  "sorteerbare kolom 'hoofdgroep' — klik op een kolomkop om te "
                  "sorteren.").pack(anchor="w")
@@ -2842,17 +2843,24 @@ class ControlesTab(ttk.Frame):
 
     def on_generate(self) -> None:
         self._clearlog()
-        out_dir = self.app.loc["output_dir"].get().strip()
+        # Het rapport wordt direct in de changelog-map (docs/changelog) geplaatst,
+        # zodat het meelift met de publicatie; die map staat bij 'Locaties' als
+        # 'Map om te doorzoeken (docs/changelog)' (index_root).
+        out_dir = self.app.loc["index_root"].get().strip()
         if not out_dir or not os.path.isdir(out_dir):
             messagebox.showwarning(
-                "Geen uitvoermap", "Vul bij 'Locaties' een geldige uitvoermap in "
-                "om het rapport op te slaan.")
+                "Geen changelog-map", "Vul bij 'Locaties' een geldige map "
+                "'docs/changelog' (Overzicht) in om het rapport op te slaan.")
             return
         self._logmsg("Controles draaien…")
+        version = self.app.version_new_var.get().strip()
         data = self._gather()
-        html = ot_html.build_all_checks_html(
-            data, version_new=self.app.version_new_var.get().strip())
-        path = os.path.join(out_dir, "controles.html")
+        html = ot_html.build_all_checks_html(data, version_new=version)
+        # Bestandsnaam met versienummer in koppelteken-vorm (5.2 -> 5-2);
+        # zonder versie een nette terugval.
+        vdash = version.replace(".", "-")
+        fname = f"kwaliteitscontroles-{vdash}.html" if vdash else "kwaliteitscontroles.html"
+        path = os.path.join(out_dir, fname)
         with open(path, "w", encoding="utf-8") as f:
             f.write(html)
         self._logmsg(f"Rapport opgeslagen: {path}")

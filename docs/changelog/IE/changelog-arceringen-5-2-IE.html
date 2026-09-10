@@ -66,6 +66,12 @@
     .sw-changed { background-color: #e0f3fb; }
     .sw-deleted { background-color: #ffe0e2; }
 
+    /* Badge bij een vervallen object met een naamgenoot in de nieuwe release */
+    span.naamgenoot { display: inline-block; background-color: var(--dg-green);
+                    color: #fff; font-size: .72rem; font-weight: 700;
+                    padding: 1px 7px; border-radius: 10px; white-space: nowrap;
+                    vertical-align: middle; }
+
     /* Extra symbolen-kolommen (alleen in de changelog) */
     td.svgcell { text-align: center; }
     td.svgcell img { max-height: 46px; max-width: 90px; vertical-align: middle; }
