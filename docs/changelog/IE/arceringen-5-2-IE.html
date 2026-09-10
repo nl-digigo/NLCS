@@ -46,8 +46,10 @@
                    color: #cfcfcf; padding: 14px 28px; font-size: .85rem; }
     .site-footer strong { color: var(--dg-yellow); }
 
-    /* Horizontale scroll voor de brede tabel */
-    div.dataTables_wrapper { overflow-x: auto; }
+    /* Bevroren kop + scroll: DataTables levert via scrollX/scrollY een eigen
+       scrollvenster, zodat de kop (incl. filterrij) blijft staan tijdens
+       verticaal scrollen en de kolommen uitgelijnd blijven. */
+    div.dataTables_scrollBody { border-bottom: 1px solid var(--dg-grey); }
     table.dataTable thead th { background-color: var(--dg-black); color: #fff;
                     border-bottom: 3px solid var(--dg-yellow); }
     table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
@@ -82,21 +84,27 @@
 <table id="otab" class="otab display" style="width:100%">
 <thead>
 <tr><th>zoekfilter (aobject)</th><th>arceringURI</th><th>id</th><th>abibliotheek</th><th>fase</th><th>arcering</th><th>optie</th><th>schaal</th><th>vrkl_kort</th><th>vrkl_lang</th><th>fileURL</th></tr>
-<tr class="filters"><th><select><option value="">Alle</option></select></th><th><input type="text" placeholder="Zoek arceringURI" /></th><th><input type="text" placeholder="Zoek id" /></th><th><select><option value="">Alle</option><option value="AIE">AIE</option></select></th><th><select><option value="">Alle</option></select></th><th><input type="text" placeholder="Zoek arcering" /></th><th><select><option value="">Alle</option><option value="SO">SO</option></select></th><th><select><option value="">Alle</option><option value="1">1</option></select></th><th><input type="text" placeholder="Zoek vrkl_kort" /></th><th><input type="text" placeholder="Zoek vrkl_lang" /></th><th><input type="text" placeholder="Zoek fileURL" /></th></tr>
+<tr class="filters"><th><select><option value="">Alle</option><option value="AIE-SPEELTOESTEL_VALZONE-SO">AIE-SPEELTOESTEL_VALZONE-SO</option></select></th><th><input type="text" placeholder="Zoek arceringURI" /></th><th><input type="text" placeholder="Zoek id" /></th><th><select><option value="">Alle</option><option value="AIE">AIE</option></select></th><th><select><option value="">Alle</option></select></th><th><input type="text" placeholder="Zoek arcering" /></th><th><select><option value="">Alle</option><option value="SO">SO</option></select></th><th><select><option value="">Alle</option><option value="1">1</option></select></th><th><input type="text" placeholder="Zoek vrkl_kort" /></th><th><input type="text" placeholder="Zoek vrkl_lang" /></th><th><input type="text" placeholder="Zoek fileURL" /></th></tr>
 </thead>
 <tbody>
-<tr><td><span class="zf-geen">(geen)</span></td><td>http://digitalbuildingdata.tech/nlcs/def/c136cb51-6f81-4abc-9b10-f764348b7230</td><td>271</td><td>AIE</td><td></td><td>AIE-SPEELTOESTEL_VALZONE-SO</td><td>SO</td><td>1</td><td>speeltoestelvalzone</td><td>45,0,0,.42426407,.42425407,.14142136,-.28284271 135,0,0,.42426407,.42426407,.14142136,-.28284271</td><td>https://github.com/nl-digigo/NLCS/tree/main/arceringen/concept/5.1/AIE-SPEELTOESTEL_VALZONE-SO.pat</td></tr>
+<tr><td><span class="zf-term">AIE-SPEELTOESTEL_VALZONE-SO</span></td><td>http://digitalbuildingdata.tech/nlcs/def/c136cb51-6f81-4abc-9b10-f764348b7230</td><td>271</td><td>AIE</td><td></td><td>AIE-SPEELTOESTEL_VALZONE-SO</td><td>SO</td><td>1</td><td>speeltoestelvalzone</td><td>45,0,0,.42426407,.42425407,.14142136,-.28284271 135,0,0,.42426407,.42426407,.14142136,-.28284271</td><td>https://github.com/nl-digigo/NLCS/tree/main/arceringen/concept/5.1/AIE-SPEELTOESTEL_VALZONE-SO.pat</td></tr>
 </tbody>
 </table>
 
 <script>
 $(document).ready(function () {
     var table = $('#otab').DataTable({
-        pageLength: 25,
-        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Alle"]],
-        order: [[0, "asc"]],
+        paging: false,
+        scrollX: true,
+        scrollY: '65vh',
+        scrollCollapse: true,
+        order: [[0, "asc"], [5, "asc"]],
         orderCellsTop: true
     });
+    // Kolombreedtes opnieuw uitlijnen na laden en bij venstergrootte-wijziging
+    // (scrollX kan bij het initieel tekenen minimaal afwijken).
+    table.columns.adjust();
+    $(window).on('resize', function () { table.columns.adjust(); });
     // Filters via event-delegatie op de wrapper: blijft werken ongeacht hoe
     // DataTables de kop opnieuw opbouwt. De kolomindex volgt uit de positie
     // van de <th> in de filterrij.

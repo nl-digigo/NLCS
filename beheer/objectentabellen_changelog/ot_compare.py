@@ -459,31 +459,21 @@ def column_values(path: str, column: str) -> list:
     return out
 
 
-def _match_stem(name: str) -> str:
-    """De symboolnaam vanaf de bibliotheekcode, zodat een variant-voorvoegsel
-    (bijv. 'V-', 'B-', 'N-', 'R-', 'T-') niet meetelt bij het zoekfilter-matchen.
-    De bibliotheekcode is het eerste naamsegment dat met 'S' begint:
-    'V-SGR-BOOM_17' -> 'SGR-BOOM_17', 'SGR-BOOM_17' -> 'SGR-BOOM_17'. Zit er geen
-    S-segment in, dan blijft de naam ongewijzigd."""
-    segs = name.split("-")
-    for i, s in enumerate(segs):
-        if s[:1].upper() == "S" and len(s) > 1:
-            return "-".join(segs[i:])
-    return name
-
-
 def zoekfilter_map(names, terms) -> dict:
-    """Bepaal per symboolnaam de zoekfilter-term waarmee het symbool gevonden
-    wordt: de langste `terms`-waarde die een voorvoegsel is van de symboolnaam.
+    """Bepaal per symbool-/arceringnaam de zoekfilter-term waarmee het gevonden
+    wordt: de langste `terms`-waarde die als SUBSTRING in de naam voorkomt.
 
     Parameters:
-      names : iterable van symboolnamen (bijv. 'SAM-ASPUNTNUMMER-SO')
-      terms : iterable van zoekfilter-termen (de `sobject`-kolom uit de
-              objectentabel, bijv. 'SAM-AS', 'SAM-ASPUNTNUMMER')
+      names : iterable van symbool-/arceringnamen (bijv. 'SAM-ASPUNTNUMMER-SO'
+              of 'AGR-SPORTVELD_GRAS_NATUUR-SO')
+      terms : iterable van zoekfilter-termen — de `sobject`-kolom (symbolen) of
+              `aobject`-kolom (arceringen) uit de objectentabel. Zo'n term is een
+              STUK van de naam (bijv. 'SAM-ASPUNTNUMMER', 'AGR-SPORTVELD').
 
-    Een eventueel variant-voorvoegsel ('V-', 'B-', 'N-', 'R-', 'T-', ...) telt
-    NIET mee: er wordt gematcht vanaf de bibliotheekcode, zodat bijv.
-    'V-SGR-BOOM_17' door de term 'SGR-BOOM' gevonden wordt.
+    De term moet als substring in de naam voorkomen (niet per se vooraan), dus
+    een variant-voorvoegsel ('V-', 'B-', ...) telt vanzelf niet mee:
+    'AGR-SPORTVELD' zit in 'AGR-SPORTVELD_GRAS_NATUUR-SO', en 'SGR-BOOM' in
+    'V-SGR-BOOM_17'. Dit spiegelt de zoekterm-controle (check_searchterm_coverage).
 
     Geeft {naam.lower(): term} (lege string als geen enkele term past).
     Bij meerdere passende termen wint de langste (meest specifieke)."""
@@ -497,10 +487,9 @@ def zoekfilter_map(names, terms) -> dict:
         key = s.lower()
         if key in out:
             continue
-        stem = _match_stem(s)
         out[key] = ""
         for t in terms_sorted:
-            if stem == t or stem.startswith(t):
+            if t in s:
                 out[key] = t
                 break
     return out
@@ -698,6 +687,137 @@ def analyze_ids(new_src: str, old_src: str,
         "noninteger": [r for r in all_recs
                        if r["id"] and not _is_int_id(r["id"])],
     }
+
+
+def analyze_name_uri(new_src: str, old_src: str, name_col: str, uri_col: str,
+                     hoofd_col: str = "", exclude: dict = None) -> dict:
+    """Zoek namen die — BINNEN één hoofdgroep — aan meer dan één verschillende URI
+    hangen, over de nieuwe én de vorige publicatie heen.
+
+    Dit is de naam-tegenhanger van de dubbele-ID-controle in `analyze_ids`, maar
+    gericht op de VERANDERING tussen twee versies. Een naam is een probleem als:
+      (a) de NIEUWE versie hem zélf aan >1 verschillende URI hangt, of
+      (b) de naam ook in de VORIGE versie voorkwam én de nieuwe versie hem aan
+          een URI hangt die de vorige versie voor die naam niet had.
+    Een naam die alléén in de vorige versie dubbel stond (en waarvan de nieuwe
+    versie een van die bestaande naam+URI-combinaties overneemt) is GEEN probleem
+    en wordt niet gemeld. Zo blijven alleen echte 'verhuizingen' over: dezelfde
+    naam die nu aan een andere URI hangt dan voorheen.
+
+    Alleen binnen dezelfde hoofdgroep: dezelfde naam in verschillende hoofdgroepen
+    is GEEN dubbele naam. De hoofdgroep komt uit de bestandsnaam (nieuw én — voor
+    objecten — oud staan per hoofdgroep). Is de bron één gecombineerd bestand (de
+    oude symbolen-/arceringen-/lijntypes-CSV), dan komt de hoofdgroep uit
+    `hoofd_col`; bibliotheek-codes (S.. / A..) worden op de nieuwe hoofdgroep-codes
+    teruggebracht (SGW/AGW/GW -> GW).
+
+    Rijen zonder naam of zonder URI worden genegeerd (net als bij `analyze_ids`).
+    `exclude` : optioneel {"match_col", "values"} — rijen die hierop matchen worden
+    overgeslagen (bijv. de generieke lijntypes CONTINUOUS/V-CONTINUOUS-SO).
+
+    Geeft terug:
+      total      : aantal meegetelde (niet-lege) naam-voorkomens
+      unique     : aantal unieke (hoofdgroep, naam)-combinaties
+      duplicates : [ {name, hoofdgroep, uris:[...], records:[...]} ], gesorteerd op
+                   (hoofdgroep, naam). Elk record = {name, uri, file, row, source,
+                   hoofdgroep}.
+    """
+    ex_col = (exclude or {}).get("match_col", "")
+    ex_vals = {(v or "").strip().upper() for v in (exclude or {}).get("values", [])}
+
+    def collect(source_path: str, source_label: str) -> list[dict]:
+        recs: list[dict] = []
+        if not source_path:
+            return recs
+        if os.path.isdir(source_path):
+            paths = sorted(glob.glob(os.path.join(source_path, "*.csv")))
+            per_file = True
+        elif os.path.isfile(source_path):
+            paths = [source_path]
+            per_file = False
+        else:
+            return recs
+        for path in paths:
+            headers, rows = read_table(path)
+            if name_col not in headers or uri_col not in headers:
+                continue
+            ni = headers.index(name_col)
+            ui = headers.index(uri_col)
+            xi = headers.index(ex_col) if ex_col and ex_col in headers else -1
+            hi = headers.index(hoofd_col) if hoofd_col and hoofd_col in headers else -1
+            fn = os.path.basename(path)
+            file_code = hoofdgroep_code(path)
+            for n, r in enumerate(rows, start=2):   # +1 kop, +1 want 1-based
+                if 0 <= xi < len(r) and r[xi].strip().upper() in ex_vals:
+                    continue
+                nm = r[ni].strip() if ni < len(r) else ""
+                uri = r[ui].strip() if ui < len(r) else ""
+                raw_hg = file_code if per_file else (
+                    r[hi].strip() if 0 <= hi < len(r) else "")
+                recs.append({"name": nm, "uri": uri, "file": fn, "row": n,
+                             "source": source_label, "_raw_hg": raw_hg,
+                             "_per_file": per_file})
+        return recs
+
+    new_recs = collect(new_src, "nieuw")
+    old_recs = collect(old_src, "vorig")
+
+    # Canonieke hoofdgroep-codes uit de NIEUWE publicatie (die staat per
+    # hoofdgroep). Ruwe (bibliotheek)codes uit een gecombineerd bestand worden
+    # hierop teruggebracht: 'AGW'/'SGW'/'GW' -> 'GW'.
+    new_codes = {r["_raw_hg"].upper() for r in new_recs
+                 if r["_per_file"] and r["_raw_hg"]}
+
+    def canon(raw: str) -> str:
+        u = (raw or "").strip().upper()
+        if not u or u in new_codes:
+            return u
+        cands = [c for c in new_codes if u.endswith(c)]
+        return max(cands, key=len) if cands else u
+
+    for rec in new_recs + old_recs:
+        rec["hoofdgroep"] = (rec["_raw_hg"].upper() if rec["_per_file"]
+                             else canon(rec["_raw_hg"]))
+        del rec["_raw_hg"], rec["_per_file"]
+
+    # Groepeer per (hoofdgroep, naam) over beide publicaties heen; rijen zonder
+    # naam of zonder URI tellen niet mee (een lege URI is geen echte identiteit).
+    # De URI's worden per publicatie apart bijgehouden, want een naam is alléén
+    # een probleem wanneer de NIEUWE versie hem aan een andere URI hangt dan de
+    # vorige — niet wanneer hij enkel in de vorige versie al dubbel stond.
+    key_to_uris: dict[tuple, set] = {}
+    key_to_new_uris: dict[tuple, set] = {}
+    key_to_old_uris: dict[tuple, set] = {}
+    key_to_recs: dict[tuple, list] = {}
+    total = 0
+    for rec in new_recs + old_recs:
+        if not rec["name"] or not rec["uri"]:
+            continue
+        total += 1
+        k = (rec["hoofdgroep"], rec["name"])
+        key_to_uris.setdefault(k, set()).add(rec["uri"])
+        (key_to_new_uris if rec["source"] == "nieuw"
+         else key_to_old_uris).setdefault(k, set()).add(rec["uri"])
+        key_to_recs.setdefault(k, []).append(rec)
+
+    def is_problem(k: tuple) -> bool:
+        new_uris = key_to_new_uris.get(k, set())
+        old_uris = key_to_old_uris.get(k, set())
+        # (a) de naam hangt binnen de NIEUWE versie zélf al aan >1 URI, of
+        # (b) de naam bestond in de vorige versie én de nieuwe versie hangt hem
+        #     aan een URI die de vorige versie voor die naam niet kende. Komt de
+        #     nieuwe URI wél overeen met een van de vorige naam+URI-combinaties,
+        #     dan is er geen probleem (ook niet als de naam vroeger dubbel stond).
+        return len(new_uris) > 1 or (
+            bool(old_uris) and bool(new_uris) and bool(new_uris - old_uris))
+
+    duplicates = [
+        {"name": nm, "hoofdgroep": hg, "uris": sorted(key_to_uris[(hg, nm)]),
+         "records": key_to_recs[(hg, nm)]}
+        for (hg, nm) in key_to_uris if is_problem((hg, nm))
+    ]
+    duplicates.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    return {"total": total, "unique": len(key_to_uris), "duplicates": duplicates}
 
 
 # Geldige optie-codes: het achtervoegsel achteraan de naam (zonder '-'). Staat er

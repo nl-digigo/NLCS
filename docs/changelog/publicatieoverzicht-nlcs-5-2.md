@@ -128,7 +128,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/GK/changelog-objecten-5-2-GK.html)
 - [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/GK/vergelijking_lijntypes_GK_5.0_vs_5.2.html)
 
-## GR ❌ (1 fout(en))
+## GR ✅
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/GR/arceringen-5-2-GR.html)
@@ -142,7 +142,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/GR/changelog-objecten-5-2-GR.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/GR/changelog-symbolen-5-2-GR.html)
 
-## GW ❌ (6 fout(en))
+## GW ✅
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/GW/arceringen-5-2-GW.html)

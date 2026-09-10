@@ -158,8 +158,10 @@ def _shell_head(title: str, extra_style: str = "", cdn: bool = False) -> str:
 # 1. Volledige tabel (sorteer + filter op alle kolommen)
 # ---------------------------------------------------------------------------
 _FULL_STYLE = """
-    /* Horizontale scroll voor de brede tabel */
-    div.dataTables_wrapper { overflow-x: auto; }
+    /* Bevroren kop + scroll: DataTables levert via scrollX/scrollY een eigen
+       scrollvenster, zodat de kop (incl. filterrij) blijft staan tijdens
+       verticaal scrollen en de kolommen uitgelijnd blijven. */
+    div.dataTables_scrollBody { border-bottom: 1px solid var(--dg-grey); }
     table.dataTable thead th { background-color: var(--dg-black); color: #fff;
                     border-bottom: 3px solid var(--dg-yellow); }
     table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
@@ -182,24 +184,39 @@ _FULL_STYLE = """
         color: #000 !important; }
 """
 
-def _full_script(no_sort_indices=None, order=None) -> str:
+def _full_script(no_sort_indices=None, order=None, paginate: bool = True) -> str:
     """Het DataTables-init-script. `no_sort_indices` = kolommen die niet
     sorteerbaar mogen zijn (bijv. de svg-afbeeldingskolom). `order` = de
-    standaardsortering ([[kolomindex, 'asc'|'desc'], ...]); None -> [[0,'asc']]."""
+    standaardsortering ([[kolomindex, 'asc'|'desc'], ...]); None -> [[0,'asc']].
+    `paginate=False` toont alle rijen op één pagina (geen 25-rij-limiet), binnen
+    het scrollY-venster met bevroren kop."""
     coldefs = ""
     if no_sort_indices:
         coldefs = ("\n        columnDefs: [{ orderable: false, targets: "
                    + _json.dumps(list(no_sort_indices)) + " }],")
     order_js = _json.dumps(order if order else [[0, "asc"]])
+    if paginate:
+        paging_js = """
+        pageLength: 25,
+        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Alle"]],"""
+    else:
+        # Alle rijen op één pagina; paginering + lengtekeuze verbergen.
+        paging_js = """
+        paging: false,"""
     return """
 <script>
 $(document).ready(function () {
-    var table = $('#otab').DataTable({
-        pageLength: 25,
-        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Alle"]],""" + coldefs + """
+    var table = $('#otab').DataTable({""" + paging_js + """
+        scrollX: true,
+        scrollY: '65vh',
+        scrollCollapse: true,""" + coldefs + """
         order: """ + order_js + """,
         orderCellsTop: true
     });
+    // Kolombreedtes opnieuw uitlijnen na laden en bij venstergrootte-wijziging
+    // (scrollX kan bij het initieel tekenen minimaal afwijken).
+    table.columns.adjust();
+    $(window).on('resize', function () { table.columns.adjust(); });
     // Filters via event-delegatie op de wrapper: blijft werken ongeacht hoe
     // DataTables de kop opnieuw opbouwt. De kolomindex volgt uit de positie
     // van de <th> in de filterrij.
@@ -272,7 +289,8 @@ def _extra_filter_cell(col: dict) -> str:
 
 def build_full_html(result: dict, title: str, version_new: str = "",
                     visible_indices=None, text_columns=None,
-                    extra_columns=None, front_columns=None, order=None) -> str:
+                    extra_columns=None, front_columns=None, order=None,
+                    paginate: bool = True) -> str:
     """Volledige nieuwe tabel als sorteerbare/filterbare DataTables-pagina.
 
     text_columns  : kolomnamen die een vrij zoekveld krijgen; alle andere
@@ -345,7 +363,7 @@ def build_full_html(result: dict, title: str, version_new: str = "",
         + "</thead>\n<tbody>\n"
         + "\n".join(body)
         + "\n</tbody>\n</table>\n"
-        + _full_script(no_sort, order)
+        + _full_script(no_sort, order, paginate=paginate)
         + "</div>\n"
         + _FOOTER
     )
@@ -355,7 +373,10 @@ def build_full_html(result: dict, title: str, version_new: str = "",
 # 2. Changelog (statisch, gekleurd)
 # ---------------------------------------------------------------------------
 _CHANGELOG_STYLE = """
-    .tablescroll { overflow-x: auto; }
+    /* Excel-achtig: kop bevriezen, de rest van de tabel scrollt in het venster
+       (zowel horizontaal als verticaal). */
+    .tablescroll { overflow: auto; max-height: 78vh; }
+    table.otab thead th { position: sticky; top: 0; z-index: 3; }
     table.otab { width: auto; }
     table.otab tbody tr.new-row td { background-color: #e5f5e0; }   /* groen: nieuw */
     table.otab tbody tr.deleted td { background-color: #ffe0e2; }   /* rood: vervallen */
@@ -776,6 +797,7 @@ def build_index_markdown(groups, general,
 # 4. Wees-.dwg's: bestanden zonder een regel in de symbolentabel
 # ---------------------------------------------------------------------------
 _ORPHAN_STYLE = """
+    table.otab thead th { position: sticky; top: 0; z-index: 3; }
     table.otab tbody td { white-space: normal; }
     table.otab tbody tr:nth-child(even) td { background-color: #fafafa; }
     p.leeg { color: var(--dg-green); font-weight: 600; }
@@ -869,6 +891,8 @@ _CHECK_STYLE = """
     p.warn { color:var(--dg-red); font-weight:700; margin:14px 0 4px; }
     p.skip { color:var(--dg-grey2); font-style:italic; }
     table.otab { width:100%; margin:4px 0 10px; }
+    /* Bevroren kolomkoppen: blijven bovenaan staan bij verticaal scrollen. */
+    table.otab thead th { position:sticky; top:0; z-index:3; }
     table.otab tbody td { white-space:normal; }
     table.otab tbody tr:nth-child(even) td { background:#fafafa; }
     td.num { text-align:right; font-family:Consolas,"Courier New",monospace;
@@ -1770,7 +1794,8 @@ _ALL_STYLE = """
     p.ctrldesc { margin:0 0 10px; font-size:.9rem; color:var(--dg-grey2);
                  border-left:3px solid var(--dg-grey); padding-left:10px; }
     p.ctrldesc code { background:#f3f3f3; padding:0 3px; border-radius:3px; }
-    table.otab thead th { cursor:pointer; user-select:none; }
+    table.otab thead th { cursor:pointer; user-select:none;
+                          position:sticky; top:0; z-index:3; }
     table.otab thead th:hover { background:#333; }
     td.hg { font-family:Consolas,"Courier New",monospace; font-weight:700;
             white-space:nowrap; color:var(--dg-ink); }
@@ -2167,6 +2192,38 @@ def _c_duplicate(section) -> str:
     return "\n".join(c)
 
 
+def _c_name_uri(section) -> str:
+    """Naam ↔ URI: een naam die — binnen een hoofdgroep — in de nieuwe versie zélf
+    aan >1 URI hangt, óf die in de vorige versie voorkwam en nu aan een andere URI
+    hangt dan toen. Namen die enkel in de vorige versie al dubbel stonden (en waar
+    de nieuwe versie een bestaande naam+URI-combinatie van overneemt) tellen niet
+    mee. Naam-tegenhanger van de dubbele-ID-controle."""
+    if not section:
+        return _skip_card("Naam ↔ URI")
+    dups = section.get("duplicates", [])
+    kpi = _kpi_boxes(
+        (section.get("total", 0), "namen", ""),
+        (section.get("unique", 0), "uniek per hoofdgroep", ""),
+        (len(dups), "naam met meerdere URI’s", "bad" if dups else "free"))
+    c = [f'<div class="card"><h2>Naam ↔ URI</h2>{kpi}']
+    if not dups:
+        c.append('<p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan '
+                 'meerdere URI’s (ook niet tussen versies).</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(dups)} naam/namen hangen binnen dezelfde '
+                 'hoofdgroep aan meerdere URI’s (dubbele naam, ook tussen '
+                 'versies):</p>')
+        recs = [rec for d in dups for rec in d["records"]]
+        c.append(_hg_table(
+            '<th>naam</th><th>URI</th><th>publicatie</th><th>rij</th>', recs,
+            [lambda r: f'<td>{_esc(r.get("name",""))}</td>',
+             lambda r: f'<td class="loc">{_esc(r.get("uri",""))}</td>',
+             lambda r: f'<td>{_esc(r.get("source",""))}</td>',
+             lambda r: f'<td class="loc">r{_esc(r.get("row",""))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
 def _c_special(section) -> str:
     if not section:
         return _skip_card("Speciale tekens")
@@ -2266,6 +2323,12 @@ _D_ID = ("Controleer (in de outputtabellen) of alles een ID heeft &amp; geen "
          "dubbele ID.")
 _D_DUP = ("<code>identiekenamen</code> — controleer of er dubbele namen "
           "voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.")
+_D_NAMEURI = (
+    "Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe "
+    "versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu "
+    "aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al "
+    "dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande "
+    "naam+URI-combinaties overneemt.")
 _D_ELEMLINK = (
     "Element-koppeling: als de kolom <code>element</code> een S (symbool) of A "
     "(arcering) bevat, moet er ook een <code>sobject</code> resp. "
@@ -2322,6 +2385,7 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
       tree, fasevis, elemlink, lijnusage, arcverkl, arclen, lijndef, dwg  -> dict|None
       id       -> {soort: id-section|None}
       optie    -> {soort: optie-section|None}
+      nameuri  -> {soort: analyze_name_uri-dict|None}
       searchcov, searchmin, dup, special -> {soort: section|None}
     Soort ∈ {objecten, symbolen, arceringen, lijntypes}."""
     idd = data.get("id", {})
@@ -2329,6 +2393,7 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
     cov = data.get("searchcov", {})
     smin = data.get("searchmin", {})
     dup = data.get("dup", {})
+    nu = data.get("nameuri", {})
     spec = data.get("special", {})
 
     sections = []
@@ -2341,6 +2406,7 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
            _desc(_c_fasevis(data.get("fasevis")), _D_FASEVIS),
            _desc(_c_id(idd.get("obj")), _D_ID),
            _desc(_c_duplicate(dup.get("objecten")), _D_DUP),
+           _desc(_c_name_uri(nu.get("obj")), _D_NAMEURI),
            _desc(_c_element_link(data.get("elemlink")), _D_ELEMLINK)]
     if smin.get("symbolen") or smin.get("arceringen"):
         obj.append(_desc(_c_searchmin(smin.get("symbolen")), _D_ZOEKTERM_MIN))
@@ -2357,6 +2423,7 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
            _desc(_c_optie_fase(opt.get("symbolen")), _D_OPTIEFASE),
            _desc(_c_id(idd.get("sym")), _D_ID),
            _desc(_c_duplicate(dup.get("symbolen")), _D_DUP),
+           _desc(_c_name_uri(nu.get("sym")), _D_NAMEURI),
            _desc(_c_special(spec.get("symbolen")), _D_SPECIAL),
            _desc(_c_dwg(data.get("dwg")), _D_DWG)]
     sections.append("\n".join(sym))
@@ -2368,6 +2435,7 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
            _desc(_c_optie_fase(opt.get("arceringen")), _D_OPTIEFASE),
            _desc(_c_id(idd.get("arc")), _D_ID),
            _desc(_c_duplicate(dup.get("arceringen")), _D_DUP),
+           _desc(_c_name_uri(nu.get("arc")), _D_NAMEURI),
            _desc(_c_special(spec.get("arceringen")), _D_SPECIAL),
            _desc(_c_missing(data.get("arcverkl"), "Verklaring",
                             ("arceringen", "met verklaring", "zonder verklaring"),
@@ -2383,6 +2451,7 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
             _desc(_c_optie_fase(opt.get("lijntypes")), _D_OPTIEFASE),
             _desc(_c_id(idd.get("lijn")), _D_ID),
             _desc(_c_duplicate(dup.get("lijntypes")), _D_DUP),
+            _desc(_c_name_uri(nu.get("lijn")), _D_NAMEURI),
             _desc(_c_special(spec.get("lijntypes")), _D_SPECIAL),
             _desc(_c_missing(data.get("lijndef"), "AutoCAD-definitie",
                              ("lijntypes", "met definitie", "zonder definitie"),

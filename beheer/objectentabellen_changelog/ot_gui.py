@@ -51,6 +51,9 @@ PROFILES = [
         # (deze kolom) ook voorkomt in de nieuwe release (waarschijnlijk
         # hernoemd/vervangen: nieuwe URI + ID)
         "deleted_name_check": "omschrijving",
+        # volledige tabel op één pagina tonen (geen paginering van 25 rijen);
+        # alle rijen scrollen in het venster met bevroren kop
+        "single_page": True,
     },
     {
         "key": "sym",
@@ -86,6 +89,8 @@ PROFILES = [
         "scope_col": "sbibliotheek",
         # sbibliotheek = 'S' + hoofdgroepcode: 'S' eraf bij het splitsen van CO
         "scope_strip_s": True,
+        # volledige tabel op één pagina tonen (geen paginering van 25 rijen)
+        "single_page": True,
     },
     {
         "key": "lijn",
@@ -127,6 +132,8 @@ PROFILES = [
         # als eigen bestand onder de bestandscode (bijv. lijntypes-5-2-CO), en
         # sla voor een uitdraai met alleen generieke lijntypes de changelog over.
         "generic_fallback": True,
+        # volledige tabel op één pagina tonen (geen paginering van 25 rijen)
+        "single_page": True,
     },
     {
         "key": "arc",
@@ -151,6 +158,9 @@ PROFILES = [
         "zoekfilter_name_col": "arcering",
         "zoekfilter_scope": "all",
         "front_svg": False,
+        # rijen groeperen per zoekfilter (aobject-term) en binnen die groep
+        # alfabetisch op arceringnaam; DataTables sorteert op de zoekfilter-kolom
+        "group_by_zoekfilter": True,
         # oude versie = één grote CSV met alle arceringen; scope op abibliotheek
         # zodat 'vervallen' beperkt blijft tot de vergeleken groep
         "old_is_file": True,
@@ -158,6 +168,8 @@ PROFILES = [
         # abibliotheek bevat de groepscode al letterlijk (ACO, ...); NIET strippen.
         # CO werkt als één hoofdgroep met groep 'ACO', dus geen split.
         "scope_strip_s": False,
+        # volledige tabel op één pagina tonen (geen paginering van 25 rijen)
+        "single_page": True,
     },
 ]
 
@@ -632,6 +644,12 @@ class TableTab(ttk.Frame):
         symbols_dir = self._loc("dwg_new")
         symbols_old_dir = self._loc("dwg_old")
         new_dir = self._loc("new")
+        # Publicatie-overzichtmap (docs/changelog). Staat die ingevuld, dan komt
+        # elk hoofdgroep-bestand in de bijbehorende hoofdgroep-submap daarvan
+        # (docs/changelog/<HG>) — dezelfde plek waar het overzicht de bestanden
+        # vindt en waar de svg-submappen (S<HG>/A<HG>) al staan. Anders vallen ze
+        # in de platte uitvoermap.
+        pub_root = self.app.loc["index_root"].get().strip()
         selected = [(code, self.pairs[code][0], self.pairs[code][1])
                     for code in chosen if code in self.pairs]
 
@@ -640,8 +658,24 @@ class TableTab(ttk.Frame):
         self.log.delete("1.0", "end")
         self.log.configure(state="disabled")
 
+        def dest_dir_for(hg: str) -> str:
+            """Doelmap voor de HTML van hoofdgroep `hg`. Is er een publicatie-
+            overzichtmap ingevuld, dan de hoofdgroep-submap daarvan
+            (docs/changelog/<HG>, aangemaakt als die nog niet bestaat); anders de
+            platte uitvoermap."""
+            hgu = (hg or "").strip().upper()
+            if pub_root and os.path.isdir(pub_root) and hgu:
+                d = os.path.join(pub_root, hgu)
+                os.makedirs(d, exist_ok=True)
+                return d
+            return out_dir
+
         def worker():
             try:
+                if pub_root and os.path.isdir(pub_root):
+                    self._queue.put(("log",
+                        f"Bestanden gaan naar de hoofdgroep-submappen van "
+                        f"{pub_root}."))
                 self._queue.put(("log", f"{len(selected)} hoofdgroep(en) verwerken: "
                                  + ", ".join(c for c, _, _ in selected)))
                 # Symbolen-.dwg's uit twee aparte mappen (elk recursief). De nieuwe
@@ -936,9 +970,11 @@ class TableTab(ttk.Frame):
                         full_html = ot_html.build_full_html(
                             result, title=base, version_new=version_new,
                             visible_indices=vis, text_columns=text_cols,
-                            front_columns=front_cols, order=full_order)
+                            front_columns=front_cols, order=full_order,
+                            paginate=not self.profile.get("single_page", False))
 
-                        full_path = os.path.join(out_dir, f"{base}.html")
+                        dest_dir = dest_dir_for(gcode or code)
+                        full_path = os.path.join(dest_dir, f"{base}.html")
                         with open(full_path, "w", encoding="utf-8") as f:
                             f.write(full_html)
 
@@ -975,7 +1011,7 @@ class TableTab(ttk.Frame):
                                 visible_indices=vis, extra_columns=extra_cols,
                                 orphans=orphans_this, deleted_notes=deleted_notes)
                             changelog_path = os.path.join(
-                                out_dir, f"changelog-{base}.html")
+                                dest_dir, f"changelog-{base}.html")
                             with open(changelog_path, "w", encoding="utf-8") as f:
                                 f.write(changelog_html)
 
@@ -1288,6 +1324,18 @@ _ID_PROFILES = [
     ("sym",  "Symbolen",   "sym_new",  "sym_old",  "id",        "symboolURI",  "symbolen",  None,            "symbool"),
     ("arc",  "Arceringen", "arc_new",  "arc_old",  "id",        "arceringURI", "arceringen", None,            "arcering"),
     ("lijn", "Lijntypes",  "lijn_new", "lijn_old", "id",        "lijntypeURI", "lijntypes", _LIJN_ID_EXCLUDE, "omschrijving"),
+]
+
+# Naam ↔ URI-controle: dubbele namen (binnen een hoofdgroep) die aan >1 URI hangen,
+# over beide publicaties heen. Per soort: (key, new_key, old_key, name_col, uri_col,
+# hoofd_col, exclude). hoofd_col wordt gebruikt om de hoofdgroep te bepalen wanneer
+# de oude bron één gecombineerd bestand is (symbolen/arceringen/lijntypes); voor
+# objecten staat oud per hoofdgroep en komt de hoofdgroep uit de bestandsnaam.
+_NAME_URI_PROFILES = [
+    ("obj",  "obj_new",  "obj_old",  "omschrijving", "objectURI",   "",             None),
+    ("sym",  "sym_new",  "sym_old",  "symbool",      "symboolURI",  "sbibliotheek", None),
+    ("arc",  "arc_new",  "arc_old",  "arcering",     "arceringURI", "abibliotheek", None),
+    ("lijn", "lijn_new", "lijn_old", "omschrijving", "lijntypeURI", "hoofdgroep",   _LIJN_ID_EXCLUDE),
 ]
 
 
@@ -2867,6 +2915,17 @@ class ControlesTab(ttk.Frame):
         def by_label(lst) -> dict:
             return {s["label"].lower(): s for s in (lst or [])}
 
+        def valid_src(p: str) -> bool:
+            return bool(p) and (os.path.isdir(p) or os.path.isfile(p))
+
+        def name_uri(nk, ok, name_col, uri_col, hcol, exc):
+            ns = app.loc[nk].get().strip()
+            os_ = app.loc[ok].get().strip()
+            if not valid_src(ns) and not valid_src(os_):
+                return None
+            return ot_compare.analyze_name_uri(ns, os_, name_col, uri_col,
+                                               hoofd_col=hcol, exclude=exc)
+
         return {
             "tree": app.objecttree_tab._run(),
             "fasevis": app.fasevis_tab._run(),
@@ -2881,6 +2940,9 @@ class ControlesTab(ttk.Frame):
                 app.loc["dwg_new"].get().strip()),
             "id": {s["key"]: s for s in id_sections},
             "optie": {s["label"].lower(): s for s in opt_sections},
+            "nameuri": {key: name_uri(nk, ok, name_col, uri_col, hcol, exc)
+                        for (key, nk, ok, name_col, uri_col, hcol, exc)
+                        in _NAME_URI_PROFILES},
             "searchcov": by_label(app.searchterm_tab._run()),
             "searchmin": by_label(app.searchtermmin_tab._run()),
             "dup": by_label(app.dupnames_tab._run()),
