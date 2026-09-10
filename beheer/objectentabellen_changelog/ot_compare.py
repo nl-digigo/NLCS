@@ -355,12 +355,24 @@ def quality_checkmarks(report_html, obj_dir: str, codes) -> dict:
     foutregels in het rapport>}}``. 0 fouten -> groen vinkje in het overzicht,
     >0 -> rood kruis met aantal. Codes zonder objecten-CSV komen NIET in de
     dict (geen vinkje). `report_html` leeg/None -> errors telt als 0 voor elke
-    beschikbare objectentabel."""
+    beschikbare objectentabel.
+
+    Uitzondering CO: CO is een verzameling hoofdgroepen en heeft zelf geen
+    objecten-CSV. De CO-arceringen worden gedekt door zoektermen in de
+    hoofdgroepen BC, FC, GC, HC, MC en SC; eventuele foutregels die aan CO/ACO
+    hangen zijn daardoor false positives. Staat CO in `codes`, dan krijgt CO
+    altijd een groen vinkje (errors=0)."""
     counts = findings_by_hoofdgroep(report_html)
     marks: dict = {}
     for code in (codes or []):
         c = (code or "").strip().upper()
-        if c and find_csv_by_code(obj_dir, c):
+        if not c:
+            continue
+        if c == "CO":
+            # CO-arceringen zijn gedekt via zoektermen in BC/FC/GC/HC/MC/SC;
+            # forceer groen, ook zonder eigen objecten-CSV.
+            marks[c] = {"errors": 0}
+        elif find_csv_by_code(obj_dir, c):
             marks[c] = {"errors": counts.get(c, 0)}
     return marks
 

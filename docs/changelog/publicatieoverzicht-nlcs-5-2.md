@@ -66,7 +66,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/BV/changelog-objecten-5-2-BV.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/BV/changelog-symbolen-5-2-BV.html)
 
-## CO
+## CO ✅
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/CO/arceringen-5-2-CO.html)
@@ -172,7 +172,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/HU/changelog-objecten-5-2-HU.html)
 
-## IE ❌ (10 fout(en))
+## IE ✅
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/IE/arceringen-5-2-IE.html)
