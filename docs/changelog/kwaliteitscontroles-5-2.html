@@ -119,33 +119,37 @@
 <h1 class="sect" id="objecten">Objecten</h1>
 <p class="sectnote">Controle objectentabel — in de volgorde van de managementhandleiding.</p>
 <div class="card"><h2>Objectenboom (hiërarchie)</h2>
-<p class="ctrldesc">Naam-/laagnaamhiërarchie: elk onderliggend object heeft precies één segment meer dan zijn ouder, de oudernaam staat exact vooraan (prefix) en het scheidingsteken (- of _) klopt. Ook: niet meer dan 5 subobjecten in een laagnaam (<code>controle_nlcs-objecten_te_veel_subobjecten</code>).</p><div class="kpi"><div class="box "><b>2361</b>objecten</div><div class="box "><b>259</b>hoofdobjecten</div><div class="box free"><b>0</b>fout(en)</div></div>
+<p class="ctrldesc">Naam-/laagnaamhiërarchie: elk onderliggend object heeft precies één segment meer dan zijn ouder, de oudernaam staat exact vooraan (prefix) en het scheidingsteken (- of _) klopt. Ook: niet meer dan 5 subobjecten in een laagnaam (<code>controle_nlcs-objecten_te_veel_subobjecten</code>).</p><div class="kpi"><div class="box "><b>2439</b>objecten</div><div class="box "><b>268</b>hoofdobjecten</div><div class="box free"><b>0</b>fout(en)</div></div>
 <p class="ok">✓ Elk onderliggend object heeft precies één segment meer dan zijn bovenliggende object.</p>
 </div>
 <div class="card"><h2>Fase-visualisatie</h2>
-<p class="ctrldesc">Controleer of elk object voor alle NLCS-statussen (Bestaand, Nieuw, Vervallen, Tijdelijk) een visualisatie heeft; AL en ZZ hebben alleen een visualisatie voor de bestaande situatie.</p><div class="kpi"><div class="box "><b>2361</b>objecten</div><div class="box free"><b>2361</b>volledig</div><div class="box free"><b>0</b>fase ontbreekt</div></div>
+<p class="ctrldesc">Controleer of elk object voor alle NLCS-statussen (Bestaand, Nieuw, Vervallen, Tijdelijk) een visualisatie heeft; AL en ZZ hebben alleen een visualisatie voor de bestaande situatie.</p><div class="kpi"><div class="box "><b>2439</b>objecten</div><div class="box free"><b>2439</b>volledig</div><div class="box free"><b>0</b>fase ontbreekt</div></div>
 <p class="ok">✓ Elk object heeft voor alle verwachte fasen een visualisatie.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>6112</b>ingelezen</div><div class="box "><b>6123</b>hoogste ID</div><div class="box free"><b>6124</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>6190</b>ingelezen</div><div class="box "><b>6123</b>hoogste ID</div><div class="box free"><b>6124</b>eerstvolgende vrij</div></div>
 <p class="ok">✓ Elke rij heeft een id_nummer.</p>
 <p class="ok">✓ Geen dubbel gebruikte ID’s.</p>
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
-<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>2361</b>namen</div><div class="box "><b>2361</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>2439</b>namen</div><div class="box "><b>2439</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>6112</b>namen</div><div class="box "><b>4345</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>6190</b>namen</div><div class="box "><b>4348</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Element-koppeling (S/A ↔ sobject/aobject)</h2>
-<p class="ctrldesc">Element-koppeling: als de kolom <code>element</code> een S (symbool) of A (arcering) bevat, moet er ook een <code>sobject</code> resp. <code>aobject</code> zijn ingevuld — en omgekeerd.</p><div class="kpi"><div class="box "><b>2361</b>objecten</div><div class="box "><b>2359</b>correct</div><div class="box bad"><b>2</b>afwijkend</div></div>
-<p class="warn">⚠ 2 object(en) met een afwijkende koppeling:</p>
+<p class="ctrldesc">Element-koppeling: als de kolom <code>element</code> een S (symbool) of A (arcering) bevat, moet er ook een <code>sobject</code> resp. <code>aobject</code> zijn ingevuld — en omgekeerd.</p><div class="kpi"><div class="box "><b>2439</b>objecten</div><div class="box "><b>2433</b>correct</div><div class="box bad"><b>6</b>afwijkend</div></div>
+<p class="warn">⚠ 6 object(en) met een afwijkende koppeling:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>object</th><th>element</th><th>probleem</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>VRI_CAMERA</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r19</td></tr>
 <tr><td class="hg">IW</td><td>VRI_DRAAGCONSTRUCTIE_PAAL</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r3</td></tr>
+<tr><td class="hg">MW</td><td>AANGRENZENDECONSTRUCTIE_BETON</td><td>G/A</td><td>element bevat A maar aobject is leeg</td><td class="loc">r8</td></tr>
+<tr><td class="hg">MW</td><td>AANGRENZENDECONSTRUCTIE_HOUT</td><td>G/A</td><td>element bevat A maar aobject is leeg</td><td class="loc">r9</td></tr>
+<tr><td class="hg">MW</td><td>AANGRENZENDECONSTRUCTIE_STAAL</td><td>G/A</td><td>element bevat A maar aobject is leeg</td><td class="loc">r7</td></tr>
+<tr><td class="hg">MW</td><td>OVERIGMATERIAAL</td><td>G/A</td><td>element bevat A maar aobject is leeg</td><td class="loc">r17</td></tr>
 </tbody></table>
 </div>
 <div class="card"><h2>Zoekterm-treffers → symbolen</h2>
@@ -153,21 +157,21 @@
 <p class="ok">✓ Elke zoekterm vindt minstens één symbolen.</p>
 </div>
 <div class="card"><h2>Zoekterm-treffers → arceringen</h2>
-<p class="ctrldesc">Zoekterm-dekking: elke <code>sobject</code>-/<code>aobject</code>-waarde in een object moet minstens één symbool resp. arcering vinden (de zoekterm moet als tekst in de symbool-/arceringnaam voorkomen).</p><div class="kpi"><div class="box "><b>59</b>zoektermen (aobject)</div><div class="box "><b>59</b>met treffer</div><div class="box free"><b>0</b>zonder treffer</div></div>
+<p class="ctrldesc">Zoekterm-dekking: elke <code>sobject</code>-/<code>aobject</code>-waarde in een object moet minstens één symbool resp. arcering vinden (de zoekterm moet als tekst in de symbool-/arceringnaam voorkomen).</p><div class="kpi"><div class="box "><b>60</b>zoektermen (aobject)</div><div class="box "><b>60</b>met treffer</div><div class="box free"><b>0</b>zonder treffer</div></div>
 <p class="ok">✓ Elke zoekterm vindt minstens één arceringen.</p>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
-<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>2361</b>namen</div><div class="box free"><b>2361</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>2439</b>namen</div><div class="box free"><b>2439</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 <p class="info">Ter info: 7 naam/namen met een kleine letter (toegestaan voor eenheden mm/Mm en elementsymbool Cu — controleer of bewust):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg">KL</td><td>ET_HS_220 kV</td><td class="loc">r630</td></tr>
-<tr><td class="hg">KL</td><td>ET_HS_36 kV</td><td class="loc">r609</td></tr>
-<tr><td class="hg">KL</td><td>ET_MS_04 kV</td><td class="loc">r579</td></tr>
-<tr><td class="hg">KL</td><td>ET_MS_10 kV</td><td class="loc">r577</td></tr>
-<tr><td class="hg">KL</td><td>ET_MS_30 kV</td><td class="loc">r581</td></tr>
-<tr><td class="hg">KL</td><td>ET_ZHS_110 kV</td><td class="loc">r635</td></tr>
-<tr><td class="hg">KL</td><td>ET_ZHS_380 kV</td><td class="loc">r621</td></tr>
+<tr><td class="hg info">KL</td><td>ET_HS_220 kV</td><td class="loc">r630</td></tr>
+<tr><td class="hg info">KL</td><td>ET_HS_36 kV</td><td class="loc">r609</td></tr>
+<tr><td class="hg info">KL</td><td>ET_MS_04 kV</td><td class="loc">r579</td></tr>
+<tr><td class="hg info">KL</td><td>ET_MS_10 kV</td><td class="loc">r577</td></tr>
+<tr><td class="hg info">KL</td><td>ET_MS_30 kV</td><td class="loc">r581</td></tr>
+<tr><td class="hg info">KL</td><td>ET_ZHS_110 kV</td><td class="loc">r635</td></tr>
+<tr><td class="hg info">KL</td><td>ET_ZHS_380 kV</td><td class="loc">r621</td></tr>
 </tbody></table>
 </div>
 <h1 class="sect" id="symbolen">Symbolen</h1>
@@ -204,10 +208,10 @@
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 <p class="info">Ter info: 4 naam/namen met een kleine letter (toegestaan voor eenheden mm/Mm en elementsymbool Cu — controleer of bewust):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg">IW</td><td>SIW-VRI_2LICHTVERKEERSLANTAARN_ROND_2X200mm-SO</td><td class="loc">r17</td></tr>
-<tr><td class="hg">IW</td><td>SIW-VRI_3LICHTVERKEERSLANTAARN_ROND_3X200mm-SO</td><td class="loc">r18</td></tr>
-<tr><td class="hg">IW</td><td>SIW-VRI_3LICHTVERKEERSLANTAARN_ROND_3X300mm-SO</td><td class="loc">r19</td></tr>
-<tr><td class="hg">IW</td><td>SIW-VRI_3LICHTVERKEERSLANTAARN_ROND_3X80mm-SO</td><td class="loc">r20</td></tr>
+<tr><td class="hg info">IW</td><td>SIW-VRI_2LICHTVERKEERSLANTAARN_ROND_2X200mm-SO</td><td class="loc">r17</td></tr>
+<tr><td class="hg info">IW</td><td>SIW-VRI_3LICHTVERKEERSLANTAARN_ROND_3X200mm-SO</td><td class="loc">r18</td></tr>
+<tr><td class="hg info">IW</td><td>SIW-VRI_3LICHTVERKEERSLANTAARN_ROND_3X300mm-SO</td><td class="loc">r19</td></tr>
+<tr><td class="hg info">IW</td><td>SIW-VRI_3LICHTVERKEERSLANTAARN_ROND_3X80mm-SO</td><td class="loc">r20</td></tr>
 </tbody></table>
 </div>
 <div class="card"><h2>Symbool ↔ .dwg</h2>
@@ -894,7 +898,7 @@
 <h1 class="sect" id="arceringen">Arceringen</h1>
 <p class="sectnote">Controle arceringentabel.</p>
 <div class="card"><h2>Zoekterm-controle (<code>aobject</code>)</h2>
-<p class="ctrldesc"><code>controle_arceringsymbool_zonder_objectRelatie</code> — arceringen die via geen enkele zoekterm (<code>aobject</code>) in de objectentabel gevonden worden.</p><div class="kpi"><div class="box "><b>131</b>namen</div><div class="box "><b>131</b>via zoekterm gevonden</div><div class="box free"><b>0</b>niet gevonden</div></div>
+<p class="ctrldesc"><code>controle_arceringsymbool_zonder_objectRelatie</code> — arceringen die via geen enkele zoekterm (<code>aobject</code>) in de objectentabel gevonden worden.</p><div class="kpi"><div class="box "><b>132</b>namen</div><div class="box "><b>132</b>via zoekterm gevonden</div><div class="box free"><b>0</b>niet gevonden</div></div>
 <p class="ok">✓ Elke naam bevat een zoekterm uit de objectentabel.</p>
 </div>
 <div class="card"><h2>Optie-fase-check</h2>
@@ -902,35 +906,35 @@
 <p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>566</b>ingelezen</div><div class="box "><b>450</b>hoogste ID</div><div class="box free"><b>451</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>567</b>ingelezen</div><div class="box "><b>450</b>hoogste ID</div><div class="box free"><b>451</b>eerstvolgende vrij</div></div>
 <p class="ok">✓ Elke rij heeft een id.</p>
 <p class="ok">✓ Geen dubbel gebruikte ID’s.</p>
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
-<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>131</b>namen</div><div class="box "><b>131</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>132</b>namen</div><div class="box "><b>132</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>566</b>namen</div><div class="box "><b>450</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>567</b>namen</div><div class="box "><b>450</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
-<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>131</b>namen</div><div class="box free"><b>131</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>132</b>namen</div><div class="box free"><b>132</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 </div>
 <div class="card"><h2>Verklaring</h2>
-<p class="ctrldesc">Verklaring: elke arcering heeft een (lange) verklaring in de kolom <code>vrkl_lang</code> (de tekst voor de legenda/verklaring).</p><div class="kpi"><div class="box "><b>131</b>arceringen</div><div class="box free"><b>131</b>met verklaring</div><div class="box free"><b>0</b>zonder verklaring</div></div>
+<p class="ctrldesc">Verklaring: elke arcering heeft een (lange) verklaring in de kolom <code>vrkl_lang</code> (de tekst voor de legenda/verklaring).</p><div class="kpi"><div class="box "><b>132</b>arceringen</div><div class="box free"><b>132</b>met verklaring</div><div class="box free"><b>0</b>zonder verklaring</div></div>
 <p class="ok">✓ Elke arcering heeft een verklaring (vrkl_lang).</p>
 </div>
 <div class="card"><h2>Naamlengte</h2>
-<p class="ctrldesc">Naamlengte: de arceringnaam (kolom <code>arcering</code>) is maximaal 31 tekens lang.</p><div class="kpi"><div class="box "><b>131</b>arceringen</div><div class="box free"><b>131</b>max 31 tekens</div><div class="box free"><b>0</b>te lang</div></div>
+<p class="ctrldesc">Naamlengte: de arceringnaam (kolom <code>arcering</code>) is maximaal 31 tekens lang.</p><div class="kpi"><div class="box "><b>132</b>arceringen</div><div class="box free"><b>132</b>max 31 tekens</div><div class="box free"><b>0</b>te lang</div></div>
 <p class="ok">✓ Elke arceringnaam is maximaal 31 tekens lang.</p>
 </div>
 <h1 class="sect" id="lijntypes">Lijntypes</h1>
 <p class="sectnote">Controle lijntypetabel.</p>
 <div class="card"><h2>Lijntype-gebruik</h2>
-<p class="ctrldesc"><code>controle_lijntypes_zonder_objectRelatie</code> — lijntypes die bestaan maar in geen enkel object (lt_b/lt_n/lt_v/lt_t) gebruikt worden.</p><div class="kpi"><div class="box "><b>368</b>lijntypes</div><div class="box "><b>365</b>gebruikt</div><div class="box bad"><b>3</b>niet gebruikt</div></div>
+<p class="ctrldesc"><code>controle_lijntypes_zonder_objectRelatie</code> — lijntypes die bestaan maar in geen enkel object (lt_b/lt_n/lt_v/lt_t) gebruikt worden.</p><div class="kpi"><div class="box "><b>372</b>lijntypes</div><div class="box "><b>369</b>gebruikt</div><div class="box bad"><b>3</b>niet gebruikt</div></div>
 <p class="warn">⚠ 3 lijntype(s) worden nergens in de objecten gebruikt:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>lijntype</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>IW-DRIP-SO</td></tr>
@@ -943,7 +947,7 @@
 <p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>938</b>ingelezen</div><div class="box "><b>4175</b>hoogste ID</div><div class="box free"><b>4176</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>942</b>ingelezen</div><div class="box "><b>4175</b>hoogste ID</div><div class="box free"><b>4176</b>eerstvolgende vrij</div></div>
 <p class="ok">✓ Elke rij heeft een id.</p>
 <p class="warn">⚠ 1 dubbel gebruikte ID(’s):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>ID</th><th>naam</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
@@ -953,19 +957,19 @@
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
-<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>394</b>namen</div><div class="box "><b>394</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>402</b>namen</div><div class="box "><b>402</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>938</b>namen</div><div class="box "><b>647</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>942</b>namen</div><div class="box "><b>647</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
-<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>394</b>namen</div><div class="box free"><b>394</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>402</b>namen</div><div class="box free"><b>402</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 </div>
 <div class="card"><h2>AutoCAD-definitie</h2>
-<p class="ctrldesc">AutoCAD-definitie: elk lijntype heeft een definitiestring in de kolom <code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO worden overgeslagen).</p><div class="kpi"><div class="box "><b>366</b>lijntypes</div><div class="box free"><b>366</b>met definitie</div><div class="box free"><b>0</b>zonder definitie</div></div>
+<p class="ctrldesc">AutoCAD-definitie: elk lijntype heeft een definitiestring in de kolom <code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO worden overgeslagen).</p><div class="kpi"><div class="box "><b>370</b>lijntypes</div><div class="box free"><b>370</b>met definitie</div><div class="box free"><b>0</b>zonder definitie</div></div>
 <p class="ok">✓ Elk lijntype heeft een AutoCAD-definitie (autocaddef); CONTINUOUS/V-CONTINUOUS-SO overgeslagen.</p>
 </div>
 </div>

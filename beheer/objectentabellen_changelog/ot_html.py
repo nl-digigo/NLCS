@@ -1872,15 +1872,22 @@ def _hgval(it: dict) -> str:
     return it.get("hoofdgroep") or _hg(it.get("file", ""))
 
 
-def _hg_table(head_inner: str, items: list, tdfns: list) -> str:
+def _hg_table(head_inner: str, items: list, tdfns: list,
+              hg_class: str = "hg") -> str:
     """Findings-tabel met een sorteerbare kolom 'hoofdgroep' vooraan.
 
     head_inner : de <th>-cellen NA de hoofdgroep-kolom.
-    tdfns      : lijst functies item -> volledige <td>…</td>-cel."""
+    tdfns      : lijst functies item -> volledige <td>…</td>-cel.
+    hg_class   : class op de hoofdgroep-cel. Standaard 'hg' (die telt mee als
+                 foutregel in findings_by_hoofdgroep → publicatie-vinkje). Geef
+                 'hg info' voor INFORMATIEVE tabellen (bijv. kleine-letter-
+                 waarschuwingen) die géén fout zijn: de telling-regex matcht
+                 alleen exact class=\"hg\", dus die regels tellen niet mee, terwijl
+                 de CSS-opmaak (td.hg) én het sorteren behouden blijven."""
     rows = []
     for it in items:
         tds = "".join(fn(it) for fn in tdfns)
-        rows.append(f'<tr><td class="hg">{_esc(_hgval(it))}</td>{tds}</tr>')
+        rows.append(f'<tr><td class="{hg_class}">{_esc(_hgval(it))}</td>{tds}</tr>')
     return _otab('<th>hoofdgroep</th>' + head_inner, rows)
 
 
@@ -2265,9 +2272,12 @@ def _c_special(section) -> str:
         c.append(f'<p class="info">Ter info: {len(lowercase)} naam/namen met een '
                  'kleine letter (toegestaan voor eenheden mm/Mm en elementsymbool '
                  'Cu — controleer of bewust):</p>')
+        # INFORMATIEF (geen fout): 'hg info' zodat deze regels NIET meetellen als
+        # foutregel in het publicatie-overzicht (findings_by_hoofdgroep).
         c.append(_hg_table('<th>naam</th><th>rij</th>', lowercase,
                            [lambda d: f'<td>{_esc(d.get("name",""))}</td>',
-                            lambda d: f'<td class="loc">r{_esc(d.get("row",""))}</td>']))
+                            lambda d: f'<td class="loc">r{_esc(d.get("row",""))}</td>'],
+                           hg_class="hg info"))
     c.append('</div>')
     return "\n".join(c)
 
