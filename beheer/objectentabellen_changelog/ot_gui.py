@@ -980,7 +980,13 @@ class TableTab(ttk.Frame):
                             paginate=not self.profile.get("single_page", False),
                             header_labels=self.profile.get("header_labels"))
 
-                        dest_dir = dest_dir_for(gcode or code)
+                        # Doelmap = de gewone hoofdgroep. Alleen bij een ECHTE
+                        # split (verzamelbestand CO -> BC/FC/GC, multi) is `gcode`
+                        # de hoofdgroep; anders is `gcode` de scope-waarde uit het
+                        # bestand zelf (arceringen: abibliotheek 'AGW'/'ACO',
+                        # strip_s=False) en dat mag GEEN eigen mapje worden. Val
+                        # dan terug op de bestandscode (arceringen-5-2-GW -> 'GW').
+                        dest_dir = dest_dir_for(gcode if multi else code)
                         full_path = os.path.join(dest_dir, f"{base}.html")
                         with open(full_path, "w", encoding="utf-8") as f:
                             f.write(full_html)

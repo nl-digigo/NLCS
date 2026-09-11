@@ -261,13 +261,19 @@ def nice_index_label(filename: str, group_code: str = "") -> str:
 def _canon_group_code(code: str, all_codes: set) -> str:
     """Vouw een arcering-/symbool-bibliotheekmap (A/S + hoofdgroep) samen in de
     gewone hoofdgroep, zodat het overzicht ze niet als aparte groep toont:
-    'AGW' -> 'GW', 'AIE' -> 'IE', 'AKG' -> 'KG', 'AGR' -> 'GR', 'ACO' -> 'CO'.
+    'AGW' -> 'GW', 'AIE' -> 'IE', 'AKG' -> 'KG', 'AGR' -> 'GR', 'ACO' -> 'CO',
+    'AMO' -> 'MO', 'AMW' -> 'MW' (idem 'S<HG>' voor symbolen).
 
-    Alleen samenvouwen wanneer de gewone hoofdgroep óók echt als groep voorkomt
-    (`all_codes`), zodat hoofdgroepen die toevallig met A/S beginnen (AL, AM, SB,
-    SC, ...) ongemoeid blijven: 'AL' -> 'L' bestaat niet, dus 'AL' blijft 'AL'."""
+    REGEL (gebruiker): een DRIEletterige code die met A/S begint is ALTIJD de
+    arcering-/symboolbibliotheek van de hoofdgroep gevormd door de laatste twee
+    letters. Hoofdgroepen zijn zelf tweeletterig, dus de tweeletterige codes die
+    met A/S beginnen (AL, AM, SB, SC, ...) zijn ECHTE hoofdgroepen en blijven
+    ongemoeid (len==2 -> geen samenvouw). Voor eventuele langere A/S-mappen geldt
+    de terughoudende regel: alleen vouwen als de hoofdgroep echt voorkomt."""
     c = (code or "").strip().upper()
-    if len(c) >= 3 and c[0] in ("A", "S") and c[1:] in all_codes:
+    if len(c) == 3 and c[0] in ("A", "S"):
+        return c[1:]
+    if len(c) > 3 and c[0] in ("A", "S") and c[1:] in all_codes:
         return c[1:]
     return c
 
