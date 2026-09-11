@@ -43,7 +43,10 @@
                    color: #cfcfcf; padding: 14px 28px; font-size: .85rem; }
     .site-footer strong { color: var(--dg-yellow); }
 
-    .tablescroll { overflow-x: auto; }
+    /* Excel-achtig: kop bevriezen, de rest van de tabel scrollt in het venster
+       (zowel horizontaal als verticaal). */
+    .tablescroll { overflow: auto; max-height: 78vh; }
+    table.otab thead th { position: sticky; top: 0; z-index: 3; }
     table.otab { width: auto; }
     table.otab tbody tr.new-row td { background-color: #e5f5e0; }   /* groen: nieuw */
     table.otab tbody tr.deleted td { background-color: #ffe0e2; }   /* rood: vervallen */
@@ -109,7 +112,7 @@
 <div class="tablescroll">
 <table class="otab">
 <thead>
-<tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>fase</th><th>optie</th><th>autocaddef</th></tr>
+<tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>status</th><th>optie</th><th>autocaddef</th></tr>
 </thead>
 <tbody>
 <tr><td>http://digitalbuildingdata.tech/nlcs/def/015af5dd-f933-4f59-88a6-4dbc19b265a0</td><td>133</td><td>KG</td><td>KG-BGWATERSCHAP-SO</td><td></td><td>SO</td><td>A,5.5,-2,[\&quot;W\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1.8],-2,5.5,-2,[DRIEHOEK,NLCS.SHX,s=1],-2</td></tr>

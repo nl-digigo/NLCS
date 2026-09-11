@@ -290,7 +290,7 @@ def _extra_filter_cell(col: dict) -> str:
 def build_full_html(result: dict, title: str, version_new: str = "",
                     visible_indices=None, text_columns=None,
                     extra_columns=None, front_columns=None, order=None,
-                    paginate: bool = True) -> str:
+                    paginate: bool = True, header_labels=None) -> str:
     """Volledige nieuwe tabel als sorteerbare/filterbare DataTables-pagina.
 
     text_columns  : kolomnamen die een vrij zoekveld krijgen; alle andere
@@ -309,12 +309,20 @@ def build_full_html(result: dict, title: str, version_new: str = "",
                     De eerste front-kolom moet sorteerbaar zijn (order [[0]]).
     order         : DataTables-standaardsortering ([[kolomindex, richting], ...]);
                     None -> [[0, 'asc']]. Symbolen groeperen zo op de zoekfilter-
-                    kolom (0) met de symboolnaam-kolom als secundaire sortering."""
+                    kolom (0) met de symboolnaam-kolom als secundaire sortering.
+    header_labels : optionele {kolomnaam: weergavenaam} om ALLEEN de getoonde
+                    koptekst (en het zoekveld-label) te hernoemen; de kolomnaam
+                    zelf (matching/filtering) blijft ongewijzigd. Bijv. sym/lijn/
+                    arc tonen 'fase' als 'status'."""
     headers = result["headers"]
     rows = result["rows"]
     front = front_columns or []
     extra = extra_columns or []
+    hlabels = header_labels or {}
     vis = _visible_indices(headers) if visible_indices is None else visible_indices
+
+    def _hlabel(name: str) -> str:
+        return hlabels.get(name, name)
 
     if text_columns is None:
         text_set = {headers[i] for i in vis if _default_is_text(headers[i])}
@@ -324,11 +332,12 @@ def build_full_html(result: dict, title: str, version_new: str = "",
     # Volgorde overal gelijk: front -> zichtbaar -> extra (de filter-JS koppelt op
     # de DOM-index van de <th>).
     head_cells = "".join(f"<th>{_esc(col['header'])}</th>" for col in front)
-    head_cells += "".join(f"<th>{_esc(headers[i])}</th>" for i in vis)
+    head_cells += "".join(f"<th>{_esc(_hlabel(headers[i]))}</th>" for i in vis)
     head_cells += "".join(f"<th>{_esc(col['header'])}</th>" for col in extra)
     filter_cells = "".join(_extra_filter_cell(col) for col in front)
     filter_cells += "".join(
-        _filter_cell(i, headers[i], headers[i] in text_set, rows) for i in vis)
+        _filter_cell(i, _hlabel(headers[i]), headers[i] in text_set, rows)
+        for i in vis)
     filter_cells += "".join(_extra_filter_cell(col) for col in extra)
 
     def _cell_td(col, ri):
@@ -473,7 +482,8 @@ def _changelog_row(row: dict, version_new: str, version_old: str,
 def build_changelog_html(result: dict, title: str,
                          version_new: str = "", version_old: str = "",
                          visible_indices=None, extra_columns=None,
-                         orphans=None, deleted_notes=None) -> str:
+                         orphans=None, deleted_notes=None,
+                         header_labels=None) -> str:
     """Changelog-pagina: gewijzigde cellen blauw (oud + nieuw), nieuwe rijen
     groen, vervallen rijen onderaan rood.
 
@@ -488,7 +498,10 @@ def build_changelog_html(result: dict, title: str,
                     vervallen rij een korte notitie of None. Is er een notitie,
                     dan verschijnt die als groene badge in de eerste kolom van
                     die vervallen rij (objecten: 'naamgenoot in de nieuwe
-                    release')."""
+                    release').
+    header_labels : optionele {kolomnaam: weergavenaam} om ALLEEN de getoonde
+                    koptekst te hernoemen (bijv. sym/lijn/arc: 'fase' -> 'status');
+                    de kolomnaam zelf blijft ongewijzigd."""
     headers = result["headers"]
     rows = result["rows"]
     deleted = result["deleted"]
@@ -496,9 +509,11 @@ def build_changelog_html(result: dict, title: str,
     extra = extra_columns or []
     orphans = orphans or []
     deleted_notes = deleted_notes or []
+    hlabels = header_labels or {}
     vis = _visible_indices(headers) if visible_indices is None else visible_indices
 
-    head_cells = "".join(f"<th>{_esc(headers[i])}</th>" for i in vis)
+    head_cells = "".join(
+        f"<th>{_esc(hlabels.get(headers[i], headers[i]))}</th>" for i in vis)
     head_cells += "".join(f"<th>{_esc(col['header'])}</th>" for col in extra)
     ncols = len(vis) + len(extra)
 

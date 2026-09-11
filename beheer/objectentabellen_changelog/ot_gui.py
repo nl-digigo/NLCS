@@ -89,6 +89,8 @@ PROFILES = [
         "scope_col": "sbibliotheek",
         # sbibliotheek = 'S' + hoofdgroepcode: 'S' eraf bij het splitsen van CO
         "scope_strip_s": True,
+        # in de HTML-tabellen de kolomkop 'fase' tonen als 'status'
+        "header_labels": {"fase": "status"},
         # volledige tabel op één pagina tonen (geen paginering van 25 rijen)
         "single_page": True,
     },
@@ -132,6 +134,8 @@ PROFILES = [
         # als eigen bestand onder de bestandscode (bijv. lijntypes-5-2-CO), en
         # sla voor een uitdraai met alleen generieke lijntypes de changelog over.
         "generic_fallback": True,
+        # in de HTML-tabellen de kolomkop 'fase' tonen als 'status'
+        "header_labels": {"fase": "status"},
         # volledige tabel op één pagina tonen (geen paginering van 25 rijen)
         "single_page": True,
     },
@@ -168,6 +172,8 @@ PROFILES = [
         # abibliotheek bevat de groepscode al letterlijk (ACO, ...); NIET strippen.
         # CO werkt als één hoofdgroep met groep 'ACO', dus geen split.
         "scope_strip_s": False,
+        # in de HTML-tabellen de kolomkop 'fase' tonen als 'status'
+        "header_labels": {"fase": "status"},
         # volledige tabel op één pagina tonen (geen paginering van 25 rijen)
         "single_page": True,
     },
@@ -971,7 +977,8 @@ class TableTab(ttk.Frame):
                             result, title=base, version_new=version_new,
                             visible_indices=vis, text_columns=text_cols,
                             front_columns=front_cols, order=full_order,
-                            paginate=not self.profile.get("single_page", False))
+                            paginate=not self.profile.get("single_page", False),
+                            header_labels=self.profile.get("header_labels"))
 
                         dest_dir = dest_dir_for(gcode or code)
                         full_path = os.path.join(dest_dir, f"{base}.html")
@@ -1009,7 +1016,8 @@ class TableTab(ttk.Frame):
                                 result, title=f"Changelog {base}",
                                 version_new=version_new, version_old=version_old,
                                 visible_indices=vis, extra_columns=extra_cols,
-                                orphans=orphans_this, deleted_notes=deleted_notes)
+                                orphans=orphans_this, deleted_notes=deleted_notes,
+                                header_labels=self.profile.get("header_labels"))
                             changelog_path = os.path.join(
                                 dest_dir, f"changelog-{base}.html")
                             with open(changelog_path, "w", encoding="utf-8") as f:

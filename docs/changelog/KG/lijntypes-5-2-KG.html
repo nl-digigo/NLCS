@@ -46,8 +46,10 @@
                    color: #cfcfcf; padding: 14px 28px; font-size: .85rem; }
     .site-footer strong { color: var(--dg-yellow); }
 
-    /* Horizontale scroll voor de brede tabel */
-    div.dataTables_wrapper { overflow-x: auto; }
+    /* Bevroren kop + scroll: DataTables levert via scrollX/scrollY een eigen
+       scrollvenster, zodat de kop (incl. filterrij) blijft staan tijdens
+       verticaal scrollen en de kolommen uitgelijnd blijven. */
+    div.dataTables_scrollBody { border-bottom: 1px solid var(--dg-grey); }
     table.dataTable thead th { background-color: var(--dg-black); color: #fff;
                     border-bottom: 3px solid var(--dg-yellow); }
     table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
@@ -81,7 +83,7 @@
 <p class="info">73 rijen &middot; 7 van 8 kolommen &middot; versie 5.2 &middot; 4 kolommen met vrij zoekveld, de rest met keuzelijst</p>
 <table id="otab" class="otab display" style="width:100%">
 <thead>
-<tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>fase</th><th>optie</th><th>autocaddef</th></tr>
+<tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>status</th><th>optie</th><th>autocaddef</th></tr>
 <tr class="filters"><th><input type="text" placeholder="Zoek lijntypeURI" /></th><th><input type="text" placeholder="Zoek id" /></th><th><select><option value="">Alle</option><option value="KG">KG</option></select></th><th><input type="text" placeholder="Zoek omschrijving" /></th><th><select><option value="">Alle</option><option value="V">V</option></select></th><th><select><option value="">Alle</option><option value="SO">SO</option></select></th><th><input type="text" placeholder="Zoek autocaddef" /></th></tr>
 </thead>
 <tbody>
@@ -164,11 +166,17 @@
 <script>
 $(document).ready(function () {
     var table = $('#otab').DataTable({
-        pageLength: 25,
-        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Alle"]],
+        paging: false,
+        scrollX: true,
+        scrollY: '65vh',
+        scrollCollapse: true,
         order: [[0, "asc"]],
         orderCellsTop: true
     });
+    // Kolombreedtes opnieuw uitlijnen na laden en bij venstergrootte-wijziging
+    // (scrollX kan bij het initieel tekenen minimaal afwijken).
+    table.columns.adjust();
+    $(window).on('resize', function () { table.columns.adjust(); });
     // Filters via event-delegatie op de wrapper: blijft werken ongeacht hoe
     // DataTables de kop opnieuw opbouwt. De kolomindex volgt uit de positie
     // van de <th> in de filterrij.

@@ -119,12 +119,8 @@
 <h1 class="sect" id="objecten">Objecten</h1>
 <p class="sectnote">Controle objectentabel — in de volgorde van de managementhandleiding.</p>
 <div class="card"><h2>Objectenboom (hiërarchie)</h2>
-<p class="ctrldesc">Naam-/laagnaamhiërarchie: elk onderliggend object heeft precies één segment meer dan zijn ouder, de oudernaam staat exact vooraan (prefix) en het scheidingsteken (- of _) klopt. Ook: niet meer dan 5 subobjecten in een laagnaam (<code>controle_nlcs-objecten_te_veel_subobjecten</code>).</p><div class="kpi"><div class="box "><b>2360</b>objecten</div><div class="box "><b>259</b>hoofdobjecten</div><div class="box bad"><b>1</b>fout(en)</div></div>
-<p class="warn">⚠ 1 fout(en):</p>
-<table class="otab"><thead><tr><th>hoofdgroep</th><th>type</th><th>object</th><th>bovenliggend</th><th>toelichting</th></tr></thead><tbody>
-<tr><td class="hg">KL</td><td><span class="badge count">count</span></td><td>WARMTENET_AANVOER_SPP_HAS #5474</td><td>WARMTENET_AANVOER #5455</td><td>4 segmenten; ouder heeft er 2 (verwacht 3)</td></tr>
-</tbody></table>
-<div class="legend" style="font-size:.78rem;color:var(--dg-grey2)">count: verkeerd aantal segmenten (geen +1 t.o.v. ouder) · prefix: naam is geen uitbreiding van de oudernaam · separator: scheidingsteken klopt niet (oudernaam niet exact vooraan) · orphan: bovenliggend id onbekend · root_multi: hoofdobject met meer dan één segment · subobjecten: meer dan 5 subobjecten in de laagnaam</div>
+<p class="ctrldesc">Naam-/laagnaamhiërarchie: elk onderliggend object heeft precies één segment meer dan zijn ouder, de oudernaam staat exact vooraan (prefix) en het scheidingsteken (- of _) klopt. Ook: niet meer dan 5 subobjecten in een laagnaam (<code>controle_nlcs-objecten_te_veel_subobjecten</code>).</p><div class="kpi"><div class="box "><b>2361</b>objecten</div><div class="box "><b>259</b>hoofdobjecten</div><div class="box free"><b>0</b>fout(en)</div></div>
+<p class="ok">✓ Elk onderliggend object heeft precies één segment meer dan zijn bovenliggende object.</p>
 </div>
 <div class="card"><h2>Fase-visualisatie</h2>
 <p class="ctrldesc">Controleer of elk object voor alle NLCS-statussen (Bestaand, Nieuw, Vervallen, Tijdelijk) een visualisatie heeft; AL en ZZ hebben alleen een visualisatie voor de bestaande situatie.</p><div class="kpi"><div class="box "><b>2361</b>objecten</div><div class="box free"><b>2361</b>volledig</div><div class="box free"><b>0</b>fase ontbreekt</div></div>
@@ -132,10 +128,7 @@
 </div>
 <div class="card"><h2>ID-controle</h2>
 <p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>6112</b>ingelezen</div><div class="box "><b>6123</b>hoogste ID</div><div class="box free"><b>6124</b>eerstvolgende vrij</div></div>
-<p class="warn">⚠ 1 zonder id_nummer:</p>
-<table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg">KL</td><td>TRACE_HARTLIJN</td><td>nieuw</td><td class="loc">r789</td></tr>
-</tbody></table>
+<p class="ok">✓ Elke rij heeft een id_nummer.</p>
 <p class="ok">✓ Geen dubbel gebruikte ID’s.</p>
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
@@ -148,19 +141,11 @@
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Element-koppeling (S/A ↔ sobject/aobject)</h2>
-<p class="ctrldesc">Element-koppeling: als de kolom <code>element</code> een S (symbool) of A (arcering) bevat, moet er ook een <code>sobject</code> resp. <code>aobject</code> zijn ingevuld — en omgekeerd.</p><div class="kpi"><div class="box "><b>2361</b>objecten</div><div class="box "><b>2351</b>correct</div><div class="box bad"><b>10</b>afwijkend</div></div>
-<p class="warn">⚠ 10 object(en) met een afwijkende koppeling:</p>
+<p class="ctrldesc">Element-koppeling: als de kolom <code>element</code> een S (symbool) of A (arcering) bevat, moet er ook een <code>sobject</code> resp. <code>aobject</code> zijn ingevuld — en omgekeerd.</p><div class="kpi"><div class="box "><b>2361</b>objecten</div><div class="box "><b>2359</b>correct</div><div class="box bad"><b>2</b>afwijkend</div></div>
+<p class="warn">⚠ 2 object(en) met een afwijkende koppeling:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>object</th><th>element</th><th>probleem</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>VRI_CAMERA</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r19</td></tr>
 <tr><td class="hg">IW</td><td>VRI_DRAAGCONSTRUCTIE_PAAL</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r3</td></tr>
-<tr><td class="hg">KL</td><td>DATA_CAI_HULPSTUK_AANSLUITPUNT</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r373</td></tr>
-<tr><td class="hg">KL</td><td>DATA_DEFENSIE_HULPSTUK_AANSLUITPUNT</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r352</td></tr>
-<tr><td class="hg">KL</td><td>DATA_HULPSTUK_AANSLUITPUNT</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r643</td></tr>
-<tr><td class="hg">KL</td><td>DATA_INTERCOM_HULPSTUK_AANSLUITPUNT</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r249</td></tr>
-<tr><td class="hg">KL</td><td>DATA_SIGNAALKABEL_HULPSTUK_AANSLUITPUNT</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r386</td></tr>
-<tr><td class="hg">KL</td><td>DATA_STUURKABEL_HULPSTUK_AANSLUITPUNT</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r376</td></tr>
-<tr><td class="hg">KL</td><td>DATA_TELECOM_HULPSTUK_AANSLUITPUNT</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r283</td></tr>
-<tr><td class="hg">KL</td><td>DATA_WAN_HULPSTUK_AANSLUITPUNT</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r314</td></tr>
 </tbody></table>
 </div>
 <div class="card"><h2>Zoekterm-treffers → symbolen</h2>
@@ -176,13 +161,13 @@
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 <p class="info">Ter info: 7 naam/namen met een kleine letter (toegestaan voor eenheden mm/Mm en elementsymbool Cu — controleer of bewust):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg">KL</td><td>ET_HS_220 kV</td><td class="loc">r629</td></tr>
-<tr><td class="hg">KL</td><td>ET_HS_36 kV</td><td class="loc">r608</td></tr>
-<tr><td class="hg">KL</td><td>ET_MS_04 kV</td><td class="loc">r578</td></tr>
-<tr><td class="hg">KL</td><td>ET_MS_10 kV</td><td class="loc">r576</td></tr>
-<tr><td class="hg">KL</td><td>ET_MS_30 kV</td><td class="loc">r580</td></tr>
-<tr><td class="hg">KL</td><td>ET_ZHS_110 kV</td><td class="loc">r634</td></tr>
-<tr><td class="hg">KL</td><td>ET_ZHS_380 kV</td><td class="loc">r620</td></tr>
+<tr><td class="hg">KL</td><td>ET_HS_220 kV</td><td class="loc">r630</td></tr>
+<tr><td class="hg">KL</td><td>ET_HS_36 kV</td><td class="loc">r609</td></tr>
+<tr><td class="hg">KL</td><td>ET_MS_04 kV</td><td class="loc">r579</td></tr>
+<tr><td class="hg">KL</td><td>ET_MS_10 kV</td><td class="loc">r577</td></tr>
+<tr><td class="hg">KL</td><td>ET_MS_30 kV</td><td class="loc">r581</td></tr>
+<tr><td class="hg">KL</td><td>ET_ZHS_110 kV</td><td class="loc">r635</td></tr>
+<tr><td class="hg">KL</td><td>ET_ZHS_380 kV</td><td class="loc">r621</td></tr>
 </tbody></table>
 </div>
 <h1 class="sect" id="symbolen">Symbolen</h1>
@@ -192,8 +177,12 @@
 <p class="ok">✓ Elke naam bevat een zoekterm uit de objectentabel.</p>
 </div>
 <div class="card"><h2>Optie-fase-check</h2>
-<p class="ctrldesc">Consistentie fase/optie t.o.v. de gecodeerde naam (voorvoegsel V-/B- → fase, achtervoegsel -SO/-S/… → optie).</p><div class="kpi"><div class="box free"><b>0</b>afwijking(en)</div></div>
-<p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
+<p class="ctrldesc">Consistentie fase/optie t.o.v. de gecodeerde naam (voorvoegsel V-/B- → fase, achtervoegsel -SO/-S/… → optie).</p><div class="kpi"><div class="box bad"><b>2</b>afwijking(en)</div></div>
+<p class="warn">⚠ OPTIE-afwijkingen: 2</p>
+<table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>optie (is → verwacht)</th><th>rij</th></tr></thead><tbody>
+<tr><td class="hg">AL</td><td>SAL-AANKLEDING_TRAM_AVENIO_BOVENAANZICHT-S</td><td class="is-was"><span class="is">(leeg)</span> → <span class="exp">S</span></td><td class="loc">r89</td></tr>
+<tr><td class="hg">AL</td><td>SAL-AANKLEDING_TRAM_REGIOCITADIS_BOVENAANZICHT-S</td><td class="is-was"><span class="is">(leeg)</span> → <span class="exp">S</span></td><td class="loc">r91</td></tr>
+</tbody></table>
 </div>
 <div class="card"><h2>ID-controle</h2>
 <p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>5498</b>ingelezen</div><div class="box "><b>7500</b>hoogste ID</div><div class="box free"><b>7501</b>eerstvolgende vrij</div></div>
@@ -226,16 +215,20 @@
 </tbody></table>
 </div>
 <div class="card"><h2>Symbool ↔ .dwg</h2>
-<p class="ctrldesc">Controleer of alle symbolen in de database ook als bestand (.dwg) beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).</p><div class="kpi"><div class="box "><b>1622</b>tabelregels</div><div class="box "><b>1618</b>met .dwg</div><div class="box bad"><b>4</b>regel zonder .dwg</div><div class="box "><b>5635</b>.dwg-bestanden</div><div class="box bad"><b>668</b>.dwg zonder regel</div></div>
-<p class="warn">⚠ 4 symboolregel(s) zonder .dwg-bestand:</p>
+<p class="ctrldesc">Controleer of alle symbolen in de database ook als bestand (.dwg) beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).</p><div class="kpi"><div class="box "><b>1622</b>tabelregels</div><div class="box "><b>1616</b>met .dwg</div><div class="box bad"><b>6</b>regel zonder .dwg</div><div class="box "><b>5635</b>.dwg-bestanden</div><div class="box bad"><b>670</b>.dwg zonder regel</div></div>
+<p class="warn">⚠ 6 symboolregel(s) zonder .dwg-bestand:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>symbool (regel)</th><th>verwacht bestand</th></tr></thead><tbody>
+<tr><td class="hg">AL</td><td>SAL-AANKLEDING_TRAM_AVENIO_BOVENAANZICHT-S</td><td class="loc">SAL-AANKLEDING_TRAM_AVENIO_BOVENAANZICHT-S.dwg</td></tr>
+<tr><td class="hg">AL</td><td>SAL-AANKLEDING_TRAM_REGIOCITADIS_BOVENAANZICHT-S</td><td class="loc">SAL-AANKLEDING_TRAM_REGIOCITADIS_BOVENAANZICHT-S.dwg</td></tr>
 <tr><td class="hg">IW</td><td>SIW-VRI_DETECTIE</td><td class="loc">SIW-VRI_DETECTIE.dwg</td></tr>
 <tr><td class="hg">IW</td><td>SIW-VRI_DRAAGCONSTRUCTIE_PORTAAL</td><td class="loc">SIW-VRI_DRAAGCONSTRUCTIE_PORTAAL.dwg</td></tr>
 <tr><td class="hg">IW</td><td>SIW-VRI_LANTAARN</td><td class="loc">SIW-VRI_LANTAARN.dwg</td></tr>
 <tr><td class="hg">IW</td><td>V-SIW-VRI_AUTOMAAT-SO</td><td class="loc">V-SIW-VRI_AUTOMAAT-SO.dwg</td></tr>
 </tbody></table>
-<p class="warn">⚠ 668 .dwg-bestand(en) zonder tabelregel:</p>
+<p class="warn">⚠ 670 .dwg-bestand(en) zonder tabelregel:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>.dwg (bestand)</th><th>pad</th></tr></thead><tbody>
+<tr><td class="hg">AL</td><td>sal-aankleding_tram_avenio_bovenaanzicht</td><td class="loc">SAL\SAL-AANKLEDING_TRAM_AVENIO_BOVENAANZICHT.dwg</td></tr>
+<tr><td class="hg">AL</td><td>sal-aankleding_tram_regiocitadis_bovenaanzicht</td><td class="loc">SAL\SAL-AANKLEDING_TRAM_REGIOCITADIS_BOVENAANZICHT.dwg</td></tr>
 <tr><td class="hg">IW</td><td>b-siw-vri_automaat_hoofd-so</td><td class="loc">SIW\B-SIW-VRI_AUTOMAAT_HOOFD-SO.dwg</td></tr>
 <tr><td class="hg">IW</td><td>b-siw-vri_automaat_sectiekast-so</td><td class="loc">SIW\B-SIW-VRI_AUTOMAAT_SECTIEKAST-SO.dwg</td></tr>
 <tr><td class="hg">IW</td><td>b-siw-vri_bekabeling_loopbuffer-so</td><td class="loc">SIW\B-SIW-VRI_BEKABELING_LOOPBUFFER-SO.dwg</td></tr>
@@ -956,18 +949,14 @@
 <p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>968</b>ingelezen</div><div class="box "><b>4174</b>hoogste ID</div><div class="box free"><b>4175</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>968</b>ingelezen</div><div class="box "><b>4175</b>hoogste ID</div><div class="box free"><b>4176</b>eerstvolgende vrij</div></div>
 <p class="warn">⚠ 3 zonder id:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>(geen naam)</td><td>nieuw</td><td class="loc">r2</td></tr>
 <tr><td class="hg">IW</td><td>(geen naam)</td><td>nieuw</td><td class="loc">r3</td></tr>
 <tr><td class="hg">IW</td><td>(geen naam)</td><td>nieuw</td><td class="loc">r4</td></tr>
 </tbody></table>
-<p class="warn">⚠ 1 dubbel gebruikte ID(’s):</p>
-<table class="otab"><thead><tr><th>hoofdgroep</th><th>ID</th><th>naam</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg">KL</td><td class="num">815</td><td>V-KL-HARTLIJN TRACE-SO</td><td>nieuw</td><td class="loc">r81</td></tr>
-<tr><td class="hg">KL</td><td class="num">815</td><td>V-KL-TRACE-SO</td><td>nieuw</td><td class="loc">r82</td></tr>
-</tbody></table>
+<p class="ok">✓ Geen dubbel gebruikte ID’s.</p>
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
