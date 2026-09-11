@@ -297,20 +297,22 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/MW/arceringen-5-2-MW.html)
+- [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/MW/lijntypes-5-2-MW.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/MW/objecten-5-2-MW.html)
-
 
 **Changelogs**
 - [Changelog arceringen](https://nl-digigo.github.io/NLCS/changelog/MW/changelog-arceringen-5-2-MW.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/MW/changelog-objecten-5-2-MW.html)
 
-## OB
+## OB ✅
 
 **Tabellen**
-- [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/OB/objecten-concept-5.2-OB.html)
+- [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/OB/lijntypes-5-2-OB.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/OB/objecten-5-2-OB.html)
 
 **Changelogs**
-- [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/OB/vergelijking_lijntypes_OB_5.0_vs_5.2.html)
+- [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/OB/changelog-lijntypes-5-2-OB.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/OB/changelog-objecten-5-2-OB.html)
 
 ## OG
 
