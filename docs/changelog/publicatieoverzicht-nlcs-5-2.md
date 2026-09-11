@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 196 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 197 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -171,7 +171,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/HU/changelog-objecten-5-2-HU.html)
 
-## IE ❌ (1 fout(en))
+## IE ✅
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/IE/arceringen-5-2-IE.html)
@@ -263,6 +263,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/KW/lijntypes-5-2-KW.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/KW/objecten-5-2-KW.html)
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/KW/objecten-concept-5.2-KW.html)
 
 **Changelogs**
@@ -314,7 +315,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/OB/changelog-lijntypes-5-2-OB.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/OB/changelog-objecten-5-2-OB.html)
 
-## OG
+## OG ❌ (25 fout(en))
 
 **Tabellen**
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/OG/objecten-concept-5.2-OG.html)
