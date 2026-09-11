@@ -177,12 +177,8 @@
 <p class="ok">✓ Elke naam bevat een zoekterm uit de objectentabel.</p>
 </div>
 <div class="card"><h2>Optie-fase-check</h2>
-<p class="ctrldesc">Consistentie fase/optie t.o.v. de gecodeerde naam (voorvoegsel V-/B- → fase, achtervoegsel -SO/-S/… → optie).</p><div class="kpi"><div class="box bad"><b>2</b>afwijking(en)</div></div>
-<p class="warn">⚠ OPTIE-afwijkingen: 2</p>
-<table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>optie (is → verwacht)</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg">AL</td><td>SAL-AANKLEDING_TRAM_AVENIO_BOVENAANZICHT-S</td><td class="is-was"><span class="is">(leeg)</span> → <span class="exp">S</span></td><td class="loc">r89</td></tr>
-<tr><td class="hg">AL</td><td>SAL-AANKLEDING_TRAM_REGIOCITADIS_BOVENAANZICHT-S</td><td class="is-was"><span class="is">(leeg)</span> → <span class="exp">S</span></td><td class="loc">r91</td></tr>
-</tbody></table>
+<p class="ctrldesc">Consistentie fase/optie t.o.v. de gecodeerde naam (voorvoegsel V-/B- → fase, achtervoegsel -SO/-S/… → optie).</p><div class="kpi"><div class="box free"><b>0</b>afwijking(en)</div></div>
+<p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
 <p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>5498</b>ingelezen</div><div class="box "><b>7500</b>hoogste ID</div><div class="box free"><b>7501</b>eerstvolgende vrij</div></div>
@@ -215,20 +211,16 @@
 </tbody></table>
 </div>
 <div class="card"><h2>Symbool ↔ .dwg</h2>
-<p class="ctrldesc">Controleer of alle symbolen in de database ook als bestand (.dwg) beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).</p><div class="kpi"><div class="box "><b>1622</b>tabelregels</div><div class="box "><b>1616</b>met .dwg</div><div class="box bad"><b>6</b>regel zonder .dwg</div><div class="box "><b>5635</b>.dwg-bestanden</div><div class="box bad"><b>670</b>.dwg zonder regel</div></div>
-<p class="warn">⚠ 6 symboolregel(s) zonder .dwg-bestand:</p>
+<p class="ctrldesc">Controleer of alle symbolen in de database ook als bestand (.dwg) beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).</p><div class="kpi"><div class="box "><b>1622</b>tabelregels</div><div class="box "><b>1618</b>met .dwg</div><div class="box bad"><b>4</b>regel zonder .dwg</div><div class="box "><b>5635</b>.dwg-bestanden</div><div class="box bad"><b>668</b>.dwg zonder regel</div></div>
+<p class="warn">⚠ 4 symboolregel(s) zonder .dwg-bestand:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>symbool (regel)</th><th>verwacht bestand</th></tr></thead><tbody>
-<tr><td class="hg">AL</td><td>SAL-AANKLEDING_TRAM_AVENIO_BOVENAANZICHT-S</td><td class="loc">SAL-AANKLEDING_TRAM_AVENIO_BOVENAANZICHT-S.dwg</td></tr>
-<tr><td class="hg">AL</td><td>SAL-AANKLEDING_TRAM_REGIOCITADIS_BOVENAANZICHT-S</td><td class="loc">SAL-AANKLEDING_TRAM_REGIOCITADIS_BOVENAANZICHT-S.dwg</td></tr>
 <tr><td class="hg">IW</td><td>SIW-VRI_DETECTIE</td><td class="loc">SIW-VRI_DETECTIE.dwg</td></tr>
 <tr><td class="hg">IW</td><td>SIW-VRI_DRAAGCONSTRUCTIE_PORTAAL</td><td class="loc">SIW-VRI_DRAAGCONSTRUCTIE_PORTAAL.dwg</td></tr>
 <tr><td class="hg">IW</td><td>SIW-VRI_LANTAARN</td><td class="loc">SIW-VRI_LANTAARN.dwg</td></tr>
 <tr><td class="hg">IW</td><td>V-SIW-VRI_AUTOMAAT-SO</td><td class="loc">V-SIW-VRI_AUTOMAAT-SO.dwg</td></tr>
 </tbody></table>
-<p class="warn">⚠ 670 .dwg-bestand(en) zonder tabelregel:</p>
+<p class="warn">⚠ 668 .dwg-bestand(en) zonder tabelregel:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>.dwg (bestand)</th><th>pad</th></tr></thead><tbody>
-<tr><td class="hg">AL</td><td>sal-aankleding_tram_avenio_bovenaanzicht</td><td class="loc">SAL\SAL-AANKLEDING_TRAM_AVENIO_BOVENAANZICHT.dwg</td></tr>
-<tr><td class="hg">AL</td><td>sal-aankleding_tram_regiocitadis_bovenaanzicht</td><td class="loc">SAL\SAL-AANKLEDING_TRAM_REGIOCITADIS_BOVENAANZICHT.dwg</td></tr>
 <tr><td class="hg">IW</td><td>b-siw-vri_automaat_hoofd-so</td><td class="loc">SIW\B-SIW-VRI_AUTOMAAT_HOOFD-SO.dwg</td></tr>
 <tr><td class="hg">IW</td><td>b-siw-vri_automaat_sectiekast-so</td><td class="loc">SIW\B-SIW-VRI_AUTOMAAT_SECTIEKAST-SO.dwg</td></tr>
 <tr><td class="hg">IW</td><td>b-siw-vri_bekabeling_loopbuffer-so</td><td class="loc">SIW\B-SIW-VRI_BEKABELING_LOOPBUFFER-SO.dwg</td></tr>
@@ -938,9 +930,11 @@
 <h1 class="sect" id="lijntypes">Lijntypes</h1>
 <p class="sectnote">Controle lijntypetabel.</p>
 <div class="card"><h2>Lijntype-gebruik</h2>
-<p class="ctrldesc"><code>controle_lijntypes_zonder_objectRelatie</code> — lijntypes die bestaan maar in geen enkel object (lt_b/lt_n/lt_v/lt_t) gebruikt worden.</p><div class="kpi"><div class="box "><b>344</b>lijntypes</div><div class="box "><b>343</b>gebruikt</div><div class="box bad"><b>1</b>niet gebruikt</div></div>
-<p class="warn">⚠ 1 lijntype(s) worden nergens in de objecten gebruikt:</p>
+<p class="ctrldesc"><code>controle_lijntypes_zonder_objectRelatie</code> — lijntypes die bestaan maar in geen enkel object (lt_b/lt_n/lt_v/lt_t) gebruikt worden.</p><div class="kpi"><div class="box "><b>368</b>lijntypes</div><div class="box "><b>365</b>gebruikt</div><div class="box bad"><b>3</b>niet gebruikt</div></div>
+<p class="warn">⚠ 3 lijntype(s) worden nergens in de objecten gebruikt:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>lijntype</th></tr></thead><tbody>
+<tr><td class="hg">IW</td><td>IW-DRIP-SO</td></tr>
+<tr><td class="hg">IW</td><td>V-IW-DRIP-SO</td></tr>
 <tr><td class="hg">KL</td><td>V-KL-BUNDEL-SO</td></tr>
 </tbody></table>
 </div>
@@ -949,30 +943,29 @@
 <p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>968</b>ingelezen</div><div class="box "><b>4175</b>hoogste ID</div><div class="box free"><b>4176</b>eerstvolgende vrij</div></div>
-<p class="warn">⚠ 3 zonder id:</p>
-<table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg">IW</td><td>(geen naam)</td><td>nieuw</td><td class="loc">r2</td></tr>
-<tr><td class="hg">IW</td><td>(geen naam)</td><td>nieuw</td><td class="loc">r3</td></tr>
-<tr><td class="hg">IW</td><td>(geen naam)</td><td>nieuw</td><td class="loc">r4</td></tr>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>938</b>ingelezen</div><div class="box "><b>4175</b>hoogste ID</div><div class="box free"><b>4176</b>eerstvolgende vrij</div></div>
+<p class="ok">✓ Elke rij heeft een id.</p>
+<p class="warn">⚠ 1 dubbel gebruikte ID(’s):</p>
+<table class="otab"><thead><tr><th>hoofdgroep</th><th>ID</th><th>naam</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
+<tr><td class="hg">IW</td><td class="num">884</td><td>V-IW-VRI_DATAKABEL</td><td>nieuw</td><td class="loc">r24</td></tr>
+<tr><td class="hg">IW</td><td class="num">884</td><td>IW-DRIP-SO</td><td>nieuw</td><td class="loc">r25</td></tr>
 </tbody></table>
-<p class="ok">✓ Geen dubbel gebruikte ID’s.</p>
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
-<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>368</b>namen</div><div class="box "><b>368</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>394</b>namen</div><div class="box "><b>394</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>914</b>namen</div><div class="box "><b>623</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>938</b>namen</div><div class="box "><b>647</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
-<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>368</b>namen</div><div class="box free"><b>368</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>394</b>namen</div><div class="box free"><b>394</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 </div>
 <div class="card"><h2>AutoCAD-definitie</h2>
-<p class="ctrldesc">AutoCAD-definitie: elk lijntype heeft een definitiestring in de kolom <code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO worden overgeslagen).</p><div class="kpi"><div class="box "><b>342</b>lijntypes</div><div class="box free"><b>342</b>met definitie</div><div class="box free"><b>0</b>zonder definitie</div></div>
+<p class="ctrldesc">AutoCAD-definitie: elk lijntype heeft een definitiestring in de kolom <code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO worden overgeslagen).</p><div class="kpi"><div class="box "><b>366</b>lijntypes</div><div class="box free"><b>366</b>met definitie</div><div class="box free"><b>0</b>zonder definitie</div></div>
 <p class="ok">✓ Elk lijntype heeft een AutoCAD-definitie (autocaddef); CONTINUOUS/V-CONTINUOUS-SO overgeslagen.</p>
 </div>
 </div>

@@ -18,7 +18,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Query Statussen concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Statussen-concept-5.2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/releasenotes/releasenotes-5-2.html)
 
-## AL ❌ (6 fout(en))
+## AL ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/AL/lijntypes-5-2-AL.html)
@@ -210,7 +210,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/IV/changelog-objecten-5-2-IV.html)
 
-## IW ❌ (684 fout(en))
+## IW ❌ (685 fout(en))
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/IW/lijntypes-5-2-IW.html)
