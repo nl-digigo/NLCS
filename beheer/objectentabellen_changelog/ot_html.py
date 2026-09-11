@@ -2358,6 +2358,9 @@ _D_ELEMLINK = (
     "Element-koppeling: als de kolom <code>element</code> een S (symbool) of A "
     "(arcering) bevat, moet er ook een <code>sobject</code> resp. "
     "<code>aobject</code> zijn ingevuld — en omgekeerd.")
+_D_ELEMFILL = (
+    "Element gevuld: de kolom <code>element</code> van elk object bevat minimaal "
+    "één waarde (G=geometrie, A=arcering, S=symbool en/of T=tekst).")
 _D_SPECIAL = (
     "Speciale tekens in de naam: geen niet-toegestane tekens; spaties en "
     "<code>.</code> als decimaalteken zijn wel toegestaan.")
@@ -2407,7 +2410,7 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
     heeft een sorteerbare kolom 'hoofdgroep' vooraan.
 
     `data` bevat de ruwe controle-resultaten (zie ot_gui.ControlesTab._gather):
-      tree, fasevis, elemlink, lijnusage, arcverkl, arclen, lijndef, dwg  -> dict|None
+      tree, fasevis, elemlink, elemfill, lijnusage, arcverkl, arclen, lijndef, dwg  -> dict|None
       id       -> {soort: id-section|None}
       optie    -> {soort: optie-section|None}
       nameuri  -> {soort: analyze_name_uri-dict|None}
@@ -2432,7 +2435,11 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
            _desc(_c_id(idd.get("obj")), _D_ID),
            _desc(_c_duplicate(dup.get("objecten")), _D_DUP),
            _desc(_c_name_uri(nu.get("obj")), _D_NAMEURI),
-           _desc(_c_element_link(data.get("elemlink")), _D_ELEMLINK)]
+           _desc(_c_element_link(data.get("elemlink")), _D_ELEMLINK),
+           _desc(_c_missing(data.get("elemfill"), "Element gevuld",
+                            ("objecten", "gevuld", "leeg"),
+                            "Elk object heeft minimaal één waarde in de kolom "
+                            "element.", "<th>object</th>"), _D_ELEMFILL)]
     if smin.get("symbolen") or smin.get("arceringen"):
         obj.append(_desc(_c_searchmin(smin.get("symbolen")), _D_ZOEKTERM_MIN))
         obj.append(_desc(_c_searchmin(smin.get("arceringen")), _D_ZOEKTERM_MIN))

@@ -1672,6 +1672,61 @@ def check_element_object_link(src: str, name_col: str = "omschrijving",
     return {"total": total, "ok": ok, "violations": violations}
 
 
+def check_element_filled(src: str, name_col: str = "omschrijving",
+                         element_col: str = "element") -> dict:
+    """Controleer of de `element`-kolom van de objectentabel gevuld is.
+
+    Elke objectregel moet in `element` minimaal één waarde bevatten. De kolom
+    bevat `/`-gescheiden tokens (G=geometrie, A=arcering, S=symbool, T=tekst);
+    voor deze controle telt alleen dát er minstens één (niet-lege) waarde staat,
+    niet welke. Regels met een lege `element`-kolom worden gemeld.
+
+    `src` mag een MAP met CSV's of één CSV-bestand zijn.
+
+    Geeft een dict terug (zelfde vorm als de andere 'X zonder Y'-controles, zodat
+    ot_html._c_missing hem kan renderen):
+      {
+        "total":   aantal gecontroleerde objecten,
+        "ok":      aantal met een gevulde element-kolom,
+        "missing": [ {name, file, row} ],
+      }
+    """
+    empty = {"total": 0, "ok": 0, "missing": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    total = 0
+    ok = 0
+    missing: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers or element_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        ei = headers.index(element_col)
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name:
+                continue
+            total += 1
+            element = (r[ei] if ei < len(r) else "").strip()
+            tokens = [t.strip() for t in element.split("/") if t.strip()]
+            if tokens:
+                ok += 1
+            else:
+                missing.append({"name": name, "file": fn, "row": i + 2})
+
+    missing.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "missing": missing}
+
+
 def check_arcering_verklaring(src: str, name_col: str = "arcering",
                               verklaring_col: str = "vrkl_lang") -> dict:
     """Controleer of elke arcering een (lange) verklaring heeft.
@@ -1934,6 +1989,20 @@ def _sort_key(row: list[str]) -> str:
     return (row[SORT_COLUMN] if len(row) > SORT_COLUMN else "").casefold()
 
 
+# In sommige 5.0-objectentabellen staan kleurwaarden (kl_*-kolommen) met een
+# 'file:///'-prefix vóór de RGB-waarde, bijv. 'file:///140,135,45'. In 5.2 staat
+# daar alleen '140,135,45'. Voor het VERGELIJKEN telt alleen de RGB-waarde: strip
+# de prefix (incl. eventuele 'file:' / 'file://' varianten) aan beide kanten.
+_RE_FILE_PREFIX = re.compile(r"^\s*file:/{0,3}", re.IGNORECASE)
+
+
+def _norm_cell(value: str) -> str:
+    """Normaliseer een celwaarde voor changedetectie: strip omringende witruimte
+    en een leidende 'file:///'-prefix (die alleen in oude versies vóór een
+    RGB-waarde staat)."""
+    return _RE_FILE_PREFIX.sub("", (value or "").strip()).strip()
+
+
 def compare(new_path: str, old_path: str, key: str = KEY,
             scope_col: str = "", blank_spec: dict = None,
             suppress_change: dict = None) -> dict:
@@ -2059,7 +2128,7 @@ def compare(new_path: str, old_path: str, key: str = KEY,
             old_value = None
             if not is_new and not suppressed and h != key and h in oidx:
                 ov = old[oidx[h]]
-                if value.strip() != ov.strip():
+                if _norm_cell(value) != _norm_cell(ov):
                     changed = True
                     changed_any = True
                     old_value = ov

@@ -2902,6 +2902,8 @@ class ControlesTab(ttk.Frame):
             "tree": app.objecttree_tab._run(),
             "fasevis": app.fasevis_tab._run(),
             "elemlink": app.elemlink_tab._run(),
+            "elemfill": ot_compare.check_element_filled(
+                app.loc["obj_new"].get().strip()),
             "lijnusage": app.lijnusage_tab._run(),
             "arcverkl": app.arceringverklaring_tab._run(),
             "arclen": ot_compare.check_arcering_name_length(
