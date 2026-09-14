@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 205 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 204 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -294,7 +294,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/MO/changelog-objecten-5-2-MO.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/MO/changelog-symbolen-5-2-MO.html)
 
-## MW ❌ (4 fout(en))
+## MW ❌ (5 fout(en))
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/MW/arceringen-5-2-MW.html)
@@ -321,9 +321,6 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/OG/arceringen-5-2-OG.html)
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/OG/lijntypes-5-2-OG.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/OG/objecten-5-2-OG.html)
-- [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/OG/objecten-concept-5.2-OG.html)
-- [Query Arceringen concept](https://nl-digigo.github.io/NLCS/changelog/OG/NLCS_Query_Arceringen-concept-5.2-AOG.html)
-- [Query Symbolen concept](https://nl-digigo.github.io/NLCS/changelog/OG/NLCS_Query_Symbolen-concept-5.2-SOG.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/OG/symbolen-5-2-OG.html)
 
 **Changelogs**
@@ -331,18 +328,20 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/OG/changelog-lijntypes-5-2-OG.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/OG/changelog-objecten-5-2-OG.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/OG/changelog-symbolen-5-2-OG.html)
-- [Vergelijking](https://nl-digigo.github.io/NLCS/changelog/OG/vergelijking_SOG_5.0_vs_5.2.html)
-- [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/OG/vergelijking_lijntypes_OG_5.0_vs_5.2.html)
-- [Vergelijking symbolen](https://nl-digigo.github.io/NLCS/changelog/OG/vergelijking_symbolen_5.1_vs_5.2_SOG.html)
-- [Vergelijking symbolen hernoemd](https://nl-digigo.github.io/NLCS/changelog/OG/vergelijking_symbolen_5.1_vs_5.2_SOG_hernoemd.html)
 
-## OV ❌ (4 fout(en))
+## OV ✅
 
 **Tabellen**
+- [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/OV/lijntypes-5-2-OV.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/OV/objecten-5-2-OV.html)
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/OV/objecten-concept-5.2-OV.html)
 - [Query Symbolen concept](https://nl-digigo.github.io/NLCS/changelog/OV/NLCS_Query_Symbolen-concept-5.2-SOV.html)
+- [Symbolen](https://nl-digigo.github.io/NLCS/changelog/OV/symbolen-5-2-OV.html)
 
 **Changelogs**
+- [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/OV/changelog-lijntypes-5-2-OV.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/OV/changelog-objecten-5-2-OV.html)
+- [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/OV/changelog-symbolen-5-2-OV.html)
 - [Vergelijking](https://nl-digigo.github.io/NLCS/changelog/OV/vergelijking_SOV_5.0_vs_5.2.html)
 - [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/OV/vergelijking_lijntypes_OV_5.0_vs_5.2.html)
 - [Vergelijking symbolen](https://nl-digigo.github.io/NLCS/changelog/OV/vergelijking_symbolen_5.1_vs_5.2_SOV.html)

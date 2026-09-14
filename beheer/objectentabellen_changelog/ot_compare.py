@@ -2005,7 +2005,7 @@ def _norm_cell(value: str) -> str:
 
 def compare(new_path: str, old_path: str, key: str = KEY,
             scope_col: str = "", blank_spec: dict = None,
-            suppress_change: dict = None) -> dict:
+            suppress_change: dict = None, multilink_cols=None) -> dict:
     """Vergelijk twee CSV-versies en geef een resultaat-dict terug.
 
     Parameters:
@@ -2030,6 +2030,13 @@ def compare(new_path: str, old_path: str, key: str = KEY,
                    ze verschijnen niet in de vervallen-lijst. Voor lijntypes: de
                    generieke lijnen 'CONTINUOUS'/'V-CONTINUOUS-SO' — die willen we
                    in de changelog helemaal niet als wijziging zien.
+      multilink_cols : optioneel, verzameling kolomnamen (objecten: sobject/aobject)
+                   waarvan de OUDE waarde een lange puntkomma-lijst kon zijn (in de
+                   changelog getoond als 'multiple links'). Die lijst kan niet zinvol
+                   met de vereenvoudigde nieuwe waarde vergeleken worden; stond er in
+                   de oude versie zo'n meervoudige lijst, dan nemen we AAN dat de
+                   waarde gelijk is gebleven: de cel telt niet als wijziging en toont
+                   alleen de nieuwe (5.2-)waarde.
 
     Keys in het resultaat:
       headers       : koppen van de nieuwe versie (bepalen de kolomindeling)
@@ -2098,6 +2105,10 @@ def compare(new_path: str, old_path: str, key: str = KEY,
     sup_ni = nidx.get(sup_col, -1) if sup_col and sup_col in nidx else -1
     sup_oi = oidx.get(sup_col, -1) if sup_col and sup_col in oidx else -1
 
+    # Multilink-kolommen (sobject/aobject): oude 'multiple links'-lijst = aanname
+    # ongewijzigd.
+    mlink = set(multilink_cols or ())
+
     # Oude rijen op id (eerste voorkomen wint).
     old_by_id: dict[str, list[str]] = {}
     for r in old_rows:
@@ -2129,9 +2140,16 @@ def compare(new_path: str, old_path: str, key: str = KEY,
             if not is_new and not suppressed and h != key and h in oidx:
                 ov = old[oidx[h]]
                 if _norm_cell(value) != _norm_cell(ov):
-                    changed = True
-                    changed_any = True
-                    old_value = ov
+                    # Aanname bij multilink-kolommen (sobject/aobject): stond er in
+                    # de oude versie een lange puntkomma-lijst ('multiple links'),
+                    # dan is die niet zinvol te vergelijken met de vereenvoudigde
+                    # nieuwe waarde -> neem aan dat hij gelijk is gebleven en toon
+                    # alleen de nieuwe waarde (geen wijziging).
+                    if not (mlink and h in mlink
+                            and len([p for p in ov.split(";") if p.strip()]) > 1):
+                        changed = True
+                        changed_any = True
+                        old_value = ov
             cells.append({"value": value, "changed": changed, "old": old_value})
 
         if suppressed:

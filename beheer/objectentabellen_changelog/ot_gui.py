@@ -51,6 +51,11 @@ PROFILES = [
         # (deze kolom) ook voorkomt in de nieuwe release (waarschijnlijk
         # hernoemd/vervangen: nieuwe URI + ID)
         "deleted_name_check": "omschrijving",
+        # sobject/aobject: als de OUDE (5.0) waarde een lange puntkomma-lijst was
+        # ('multiple links'), neem dan aan dat de waarde gelijk is gebleven en toon
+        # alleen de nieuwe (5.2) waarde i.p.v. een schijnwijziging. Zelfde kolommen
+        # als de 'multiple links'-weergave in ot_html.
+        "multilink_cols": ot_html._MULTI_LINK_COLS,
         # volledige tabel op één pagina tonen (geen paginering van 25 rijen);
         # alle rijen scrollen in het venster met bevroren kop
         "single_page": True,
@@ -639,6 +644,7 @@ class TableTab(ttk.Frame):
         scope_strip_s = self.profile.get("scope_strip_s", True)
         blank_spec = self.profile.get("blank_spec")
         suppress_change = self.profile.get("suppress_change")
+        multilink_cols = self.profile.get("multilink_cols")
         generic_fallback = self.profile.get("generic_fallback", False)
         needs_objecten = self.profile.get("needs_objecten", False)
         objecten_col = self.profile.get("objecten_col", "")
@@ -754,7 +760,8 @@ class TableTab(ttk.Frame):
                     orig_base = os.path.splitext(os.path.basename(new_path))[0]
                     full_result = ot_compare.compare(
                         new_path, old_path, key=match_key, scope_col=scope_col,
-                        blank_spec=blank_spec, suppress_change=suppress_change)
+                        blank_spec=blank_spec, suppress_change=suppress_change,
+                        multilink_cols=multilink_cols)
 
                     # Verzamelbestand (CO) uiteen laten vallen in aparte
                     # hoofdgroepen; gewone bestanden blijven één geheel.
