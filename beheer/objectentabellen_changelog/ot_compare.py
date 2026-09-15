@@ -1886,6 +1886,89 @@ def check_lijntype_autocaddef(src: str, name_col: str = "omschrijving",
     return {"total": total, "ok": ok, "missing": missing}
 
 
+# Vervallen lijntypes (fase = 'V', naam begint met 'V-') kregen bij de transitie
+# een 'scrap' met een VERWIJDEREN2-shape uit NLCS.shx op schaal 0.5. In de
+# autocaddef staat dan een segment als '[VERWIJDEREN2,NLCS.SHX,s=0.5]' (soms met
+# extra x=-offset). De juiste schaal is s=0.5.
+_RE_VERWIJDEREN2 = re.compile(r"\[\s*VERWIJDEREN2\b([^\]]*)\]", re.IGNORECASE)
+_RE_SCALE = re.compile(r"\bs\s*=\s*([0-9]*\.?[0-9]+)", re.IGNORECASE)
+
+
+def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
+                            def_col: str = "autocaddef", fase_col: str = "fase",
+                            expected: float = 0.5) -> dict:
+    """Controleer of alle VERVALLEN lijntypes hun VERWIJDEREN2-scrap op de juiste
+    schaal (s=0.5) hebben staan.
+
+    Bij de transitie kregen alle vervallen lijntypes (kolom `fase` = 'V', naam
+    begint met 'V-') een VERWIJDEREN2-shape uit NLCS.shx toegevoegd aan hun
+    AutoCAD-definitie, met dezelfde afmetingen: de juiste eigenschap is
+    `[VERWIJDEREN2,NLCS.shx,s=0.5]`. Deze controle leest per vervallen lijntype de
+    `autocaddef`, zoekt het `[VERWIJDEREN2,…]`-segment en controleert of de
+    `s=`-waarde daarin gelijk is aan 0.5. Alleen de schaal telt; een eventuele
+    `x=`-offset blijft ongemoeid.
+
+    `src` mag een MAP met CSV's of één CSV-bestand zijn.
+
+    Geeft een dict terug (zelfde vorm als de andere 'X zonder Y'-controles, plus
+    per melding het gevonden schaalwaarde-veld, zodat ot_html het kan tonen):
+      {
+        "total":    aantal vervallen lijntypes (fase = 'V'),
+        "ok":        aantal met VERWIJDEREN2 op s=0.5,
+        "expected":  de verwachte schaal (0.5),
+        "missing":  [ {name, file, row, found} ],  # verkeerde/ontbrekende s=
+      }
+      `found` = de gevonden s-waarde als tekst ('0.6', '1', …), of
+      '(geen VERWIJDEREN2)' / '(geen s=)' als die ontbreekt.
+    """
+    empty = {"total": 0, "ok": 0, "expected": expected, "missing": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    total = 0
+    ok = 0
+    missing: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if def_col not in headers or fase_col not in headers:
+            continue
+        di = headers.index(def_col)
+        fi = headers.index(fase_col)
+        ni = headers.index(name_col) if name_col in headers else -1
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            fase = (r[fi] if fi < len(r) else "").strip().upper()
+            if fase != "V":
+                continue
+            total += 1
+            name = (r[ni] if 0 <= ni < len(r) else "").strip()
+            ad = (r[di] if di < len(r) else "")
+            m = _RE_VERWIJDEREN2.search(ad)
+            if not m:
+                missing.append({"name": name, "file": fn, "row": i + 2,
+                                "found": "(geen VERWIJDEREN2)"})
+                continue
+            sm = _RE_SCALE.search(m.group(1))
+            if not sm:
+                missing.append({"name": name, "file": fn, "row": i + 2,
+                                "found": "(geen s=)"})
+                continue
+            if float(sm.group(1)) == expected:
+                ok += 1
+            else:
+                missing.append({"name": name, "file": fn, "row": i + 2,
+                                "found": f"s={sm.group(1)}"})
+
+    missing.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "expected": expected, "missing": missing}
+
+
 def bib_of_stem(stem: str, known_bibs) -> str:
     """De bibliotheek-code die als los hyphen-segment in een bestands-/symboolnaam
     staat. Symboolnamen kunnen een prefix hebben (bijv. 'V-SFC-PAAL...', 'B-SGC-…'),

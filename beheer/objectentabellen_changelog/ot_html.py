@@ -2038,6 +2038,35 @@ def _c_missing(result, title, kpi_labels, warn, name_head) -> str:
     return "\n".join(c)
 
 
+def _c_verwijderen_scale(result) -> str:
+    """Kaart voor de VERWIJDEREN2-schaalcontrole op vervallen lijntypes:
+    result met total/ok/expected/missing[{name,file,row,found}]."""
+    title = "VERWIJDEREN2-schaal"
+    if not result:
+        return _skip_card(title)
+    missing = result.get("missing", [])
+    total, ok = result.get("total", 0), result.get("ok", 0)
+    exp = result.get("expected", 0.5)
+    kpi = _kpi_boxes(
+        (total, "vervallen lijntypes", ""),
+        (ok, f"s={exp}", "free" if ok == total else ""),
+        (len(missing), "verkeerde schaal", "bad" if missing else "free"))
+    c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
+    if not missing:
+        c.append(f'<p class="ok">✓ Elk vervallen lijntype heeft de VERWIJDEREN2-'
+                 f'scrap op schaal s={exp}.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(missing)} met een afwijkende (of '
+                 f'ontbrekende) schaal:</p>')
+        c.append(_hg_table(
+            '<th>lijntype</th><th>gevonden</th><th>rij</th>', missing,
+            [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td class="loc">{_esc(m.get("found",""))}</td>',
+             lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
 def _c_arc_length(result) -> str:
     """Kaart voor de maximale-naamlengte-controle van arceringen:
     result met total/ok/max_len/toolong[{name,file,row,length}]."""
@@ -2394,6 +2423,14 @@ _D_AUTOCADDEF = (
     "<code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO "
     "worden overgeslagen).")
 
+_D_VERWSCALE = (
+    "VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) "
+    "kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit "
+    "<code>NLCS.shx</code> op schaal 0.5. Gecontroleerd wordt of de "
+    "<code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-segment van de "
+    "<code>autocaddef</code> daadwerkelijk 0.5 is (een eventuele "
+    "<code>x=</code>-offset blijft ongemoeid).")
+
 
 def _desc(card_html: str, text: str) -> str:
     """Voeg de beschrijvende tekst (uit 2.md) toe als <p class="ctrldesc"> direct
@@ -2410,7 +2447,7 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
     heeft een sorteerbare kolom 'hoofdgroep' vooraan.
 
     `data` bevat de ruwe controle-resultaten (zie ot_gui.ControlesTab._gather):
-      tree, fasevis, elemlink, elemfill, lijnusage, arcverkl, arclen, lijndef, dwg  -> dict|None
+      tree, fasevis, elemlink, elemfill, lijnusage, arcverkl, arclen, lijndef, verwscale, dwg  -> dict|None
       id       -> {soort: id-section|None}
       optie    -> {soort: optie-section|None}
       nameuri  -> {soort: analyze_name_uri-dict|None}
@@ -2489,7 +2526,8 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
                              ("lijntypes", "met definitie", "zonder definitie"),
                              "Elk lijntype heeft een AutoCAD-definitie (autocaddef); "
                              "CONTINUOUS/V-CONTINUOUS-SO overgeslagen.",
-                             "<th>lijntype</th>"), _D_AUTOCADDEF)]
+                             "<th>lijntype</th>"), _D_AUTOCADDEF),
+            _desc(_c_verwijderen_scale(data.get("verwscale")), _D_VERWSCALE)]
     sections.append("\n".join(lijn))
 
     ver = f" &middot; versie {_esc(version_new)}" if version_new else ""

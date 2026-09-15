@@ -2916,6 +2916,8 @@ class ControlesTab(ttk.Frame):
             "arclen": ot_compare.check_arcering_name_length(
                 app.loc["arc_new"].get().strip()),
             "lijndef": app.lijntypedef_tab._run(),
+            "verwscale": ot_compare.check_verwijderen_scale(
+                app.loc["lijn_new"].get().strip()),
             "dwg": ot_compare.check_dwg_symbols(
                 app.loc["sym_new"].get().strip(),
                 app.loc["dwg_new"].get().strip()),

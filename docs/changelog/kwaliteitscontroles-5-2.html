@@ -1190,6 +1190,83 @@
 <p class="ctrldesc">AutoCAD-definitie: elk lijntype heeft een definitiestring in de kolom <code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO worden overgeslagen).</p><div class="kpi"><div class="box "><b>413</b>lijntypes</div><div class="box free"><b>413</b>met definitie</div><div class="box free"><b>0</b>zonder definitie</div></div>
 <p class="ok">✓ Elk lijntype heeft een AutoCAD-definitie (autocaddef); CONTINUOUS/V-CONTINUOUS-SO overgeslagen.</p>
 </div>
+<div class="card"><h2>VERWIJDEREN2-schaal</h2>
+<p class="ctrldesc">VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit <code>NLCS.shx</code> op schaal 0.5. Gecontroleerd wordt of de <code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-segment van de <code>autocaddef</code> daadwerkelijk 0.5 is (een eventuele <code>x=</code>-offset blijft ongemoeid).</p><div class="kpi"><div class="box "><b>193</b>vervallen lijntypes</div><div class="box "><b>122</b>s=0.5</div><div class="box bad"><b>71</b>verkeerde schaal</div></div>
+<p class="warn">⚠ 71 met een afwijkende (of ontbrekende) schaal:</p>
+<table class="otab"><thead><tr><th>hoofdgroep</th><th>lijntype</th><th>gevonden</th><th>rij</th></tr></thead><tbody>
+<tr><td class="hg">AM</td><td>V-AM-AS-SO</td><td class="loc">s=1</td><td class="loc">r5</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-A1-SO</td><td class="loc">s=0.6</td><td class="loc">r26</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-ANTIVERBLINDINGSSCHERM-SO</td><td class="loc">s=0.6</td><td class="loc">r63</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-BEVER-SO</td><td class="loc">s=0.6</td><td class="loc">r28</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-F2DL40080-SO</td><td class="loc">s=0.6</td><td class="loc">r51</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-F2M40080-SO</td><td class="loc">s=0.6</td><td class="loc">r35</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-GELEIDERAIL-SO</td><td class="loc">s=0.6</td><td class="loc">r31</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-GELEIDERAIL_A-SO</td><td class="loc">s=0.6</td><td class="loc">r33</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-STEPBARRIER_B-SO</td><td class="loc">s=0.6</td><td class="loc">r11</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-STEPBARRIER_BG-SO</td><td class="loc">s=0.6</td><td class="loc">r15</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-STEPBARRIER_BV-SO</td><td class="loc">s=0.6</td><td class="loc">r13</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-STEPBARRIER_S-SO</td><td class="loc">s=0.6</td><td class="loc">r9</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-VLP1DL13360-SO</td><td class="loc">s=0.6</td><td class="loc">r57</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-VLP1LV13360-SO</td><td class="loc">s=0.6</td><td class="loc">r59</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-VLP1R13360-SO</td><td class="loc">s=0.6</td><td class="loc">r61</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-VLP1Z13360-SO</td><td class="loc">s=0.6</td><td class="loc">r45</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-VLP1Z26760-SO</td><td class="loc">s=0.6</td><td class="loc">r43</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-VLP1ZC13360-SO</td><td class="loc">s=0.6</td><td class="loc">r47</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-VLP2DL13380-SO</td><td class="loc">s=0.6</td><td class="loc">r53</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-VLP2R13380-SO</td><td class="loc">s=0.6</td><td class="loc">r55</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-VLP2Z13380-SO</td><td class="loc">s=0.6</td><td class="loc">r39</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-VLP2Z26780-SO</td><td class="loc">s=0.6</td><td class="loc">r37</td></tr>
+<tr><td class="hg">BV</td><td>V-BV-VLP2ZC13380-SO</td><td class="loc">s=0.6</td><td class="loc">r41</td></tr>
+<tr><td class="hg">GR</td><td>V-GR-HAAG_DRAAD-SO</td><td class="loc">s=0.6</td><td class="loc">r14</td></tr>
+<tr><td class="hg">GR</td><td>V-GR-HAAG_RASTER-SO</td><td class="loc">s=0.6</td><td class="loc">r7</td></tr>
+<tr><td class="hg">IE</td><td>V-IE-CONSTRUCTIEVE AFSCHEIDING-SO</td><td class="loc">s=0.6</td><td class="loc">r6</td></tr>
+<tr><td class="hg">IE</td><td>V-IE-CONSTRUCTIEVE AFSCHEIDING_SCHUTTING-SO</td><td class="loc">s=0.6</td><td class="loc">r4</td></tr>
+<tr><td class="hg">IW</td><td>V-IW-DATA_GLASVEZEL</td><td class="loc">s=.25</td><td class="loc">r18</td></tr>
+<tr><td class="hg">IW</td><td>V-IW-DATA_KOPER</td><td class="loc">s=.25</td><td class="loc">r19</td></tr>
+<tr><td class="hg">IW</td><td>V-IW-DETECTIE</td><td class="loc">s=.25</td><td class="loc">r20</td></tr>
+<tr><td class="hg">IW</td><td>V-IW-KABELTRACE</td><td class="loc">s=0.25</td><td class="loc">r13</td></tr>
+<tr><td class="hg">IW</td><td>V-IW-KOPPELKABEL</td><td class="loc">s=.25</td><td class="loc">r21</td></tr>
+<tr><td class="hg">IW</td><td>V-IW-SIGNAAL_230V</td><td class="loc">s=.25</td><td class="loc">r14</td></tr>
+<tr><td class="hg">IW</td><td>V-IW-SIGNAAL_42V</td><td class="loc">s=.25</td><td class="loc">r15</td></tr>
+<tr><td class="hg">IW</td><td>V-IW-SIGNAALKABEL</td><td class="loc">s=.25</td><td class="loc">r16</td></tr>
+<tr><td class="hg">IW</td><td>V-IW-VRI_DATAKABEL</td><td class="loc">s=.25</td><td class="loc">r24</td></tr>
+<tr><td class="hg">IW</td><td>V-IW-VRI_MANTELBUIS</td><td class="loc">s=.25</td><td class="loc">r17</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-BENOG-SO</td><td class="loc">s=0.6</td><td class="loc">r50</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-BENOGGEMEENTE-SO</td><td class="loc">s=0.6</td><td class="loc">r54</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-BENOGPRORAIL-SO</td><td class="loc">s=0.6</td><td class="loc">r56</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-BENOGPROVINCIE-SO</td><td class="loc">s=0.6</td><td class="loc">r52</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-BENOGRIJK-SO</td><td class="loc">s=0.6</td><td class="loc">r60</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-BENOGRIJKRWS-SO</td><td class="loc">s=0.6</td><td class="loc">r62</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-BENOGWATERSCHAP-SO</td><td class="loc">s=0.6</td><td class="loc">r58</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-BG-SO</td><td class="loc">s=0.6</td><td class="loc">r22</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-BGGEMEENTE-SO</td><td class="loc">s=0.6</td><td class="loc">r26</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-BGPRORAIL-SO</td><td class="loc">s=0.6</td><td class="loc">r28</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-BGPROVINCIE-SO</td><td class="loc">s=0.6</td><td class="loc">r24</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-BGRIJK-SO</td><td class="loc">s=0.6</td><td class="loc">r32</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-BGRIJKRWS-SO</td><td class="loc">s=0.6</td><td class="loc">r34</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-BGWATERSCHAP-SO</td><td class="loc">s=0.6</td><td class="loc">r30</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-GV-SO</td><td class="loc">s=0.6</td><td class="loc">r64</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-GVAANKOOP-SO</td><td class="loc">s=0.6</td><td class="loc">r66</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-GVVERKOOP-SO</td><td class="loc">s=0.6</td><td class="loc">r68</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-GWBG-SO</td><td class="loc">s=0.6</td><td class="loc">r10</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-KADASTRALEPERCEELGRENS-SO</td><td class="loc">s=0.6</td><td class="loc">r14</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-OG-SO</td><td class="loc">s=0.6</td><td class="loc">r36</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-OGGEMEENTE-SO</td><td class="loc">s=0.6</td><td class="loc">r40</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-OGPRORAIL-SO</td><td class="loc">s=0.6</td><td class="loc">r42</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-OGPROVINCIE-SO</td><td class="loc">s=0.6</td><td class="loc">r38</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-OGRIJK-SO</td><td class="loc">s=0.6</td><td class="loc">r46</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-OGRIJKRWS-SO</td><td class="loc">s=0.6</td><td class="loc">r48</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-OGWATERSCHAP-SO</td><td class="loc">s=0.6</td><td class="loc">r44</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-OPNAME-SO</td><td class="loc">s=0.6</td><td class="loc">r20</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-PACHT-SO</td><td class="loc">s=0.6</td><td class="loc">r12</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-RAMING-SO</td><td class="loc">s=0.6</td><td class="loc">r72</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-RIJKSEIGENDOM-SO</td><td class="loc">s=0.6</td><td class="loc">r18</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-SECTIE-SO</td><td class="loc">s=0.6</td><td class="loc">r16</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-UITGEEFBAARGEBIED-SO</td><td class="loc">s=0.6</td><td class="loc">r73</td></tr>
+<tr><td class="hg">KG</td><td>V-KG-VERKOOP-SO</td><td class="loc">s=0.6</td><td class="loc">r74</td></tr>
+<tr><td class="hg">KL</td><td>V-KL-BUNDEL-SO</td><td class="loc">s=1</td><td class="loc">r78</td></tr>
+</tbody></table>
+</div>
 </div>
 
 <script>
