@@ -16,20 +16,28 @@
     "index_root": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/docs/changelog",
     "base_url": "https://nl-digigo.github.io/NLCS/",
     "index_output": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/docs/changelog/publicatieoverzicht-nlcs-5-2.html",
-    "output_dir": "C:/Users/100289/Downloads"
+    "output_dir": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/docs/changelog"
   },
   "codes": {
     "obj": [
+      "GC",
       "GK"
     ],
     "sym": [
-      "GW"
-    ],
-    "lijn": [
       "CO"
     ],
+    "lijn": [
+      "GK"
+    ],
     "arc": [
-      "GW"
+      "CO",
+      "GR",
+      "GW",
+      "IE",
+      "KG",
+      "MO",
+      "MW",
+      "OG"
     ]
   }
 }

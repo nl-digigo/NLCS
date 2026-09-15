@@ -258,6 +258,26 @@ def nice_index_label(filename: str, group_code: str = "") -> str:
     return label or os.path.splitext(filename)[0]
 
 
+def _canon_group_code(code: str, all_codes: set) -> str:
+    """Vouw een arcering-/symbool-bibliotheekmap (A/S + hoofdgroep) samen in de
+    gewone hoofdgroep, zodat het overzicht ze niet als aparte groep toont:
+    'AGW' -> 'GW', 'AIE' -> 'IE', 'AKG' -> 'KG', 'AGR' -> 'GR', 'ACO' -> 'CO',
+    'AMO' -> 'MO', 'AMW' -> 'MW' (idem 'S<HG>' voor symbolen).
+
+    REGEL (gebruiker): een DRIEletterige code die met A/S begint is ALTIJD de
+    arcering-/symboolbibliotheek van de hoofdgroep gevormd door de laatste twee
+    letters. Hoofdgroepen zijn zelf tweeletterig, dus de tweeletterige codes die
+    met A/S beginnen (AL, AM, SB, SC, ...) zijn ECHTE hoofdgroepen en blijven
+    ongemoeid (len==2 -> geen samenvouw). Voor eventuele langere A/S-mappen geldt
+    de terughoudende regel: alleen vouwen als de hoofdgroep echt voorkomt."""
+    c = (code or "").strip().upper()
+    if len(c) == 3 and c[0] in ("A", "S"):
+        return c[1:]
+    if len(c) > 3 and c[0] in ("A", "S") and c[1:] in all_codes:
+        return c[1:]
+    return c
+
+
 def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     """Doorzoek `root` (bijv. docs/changelog) recursief naar HTML-bestanden
     waarvan de bestandsnaam een versie-variant bevat (zowel '5.2' als '5-2').
@@ -281,7 +301,7 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     variants = version_variants(version)
     docs_root = docs_root_of(root)
     exclude = {n.strip().lower() for n in (exclude_names or ()) if n and n.strip()}
-    groups: dict = {}
+    grouped: list = []      # [(raw_code, entry), ...] — code na de walk canoniek maken
     general: list = []
     count = 0
     if variants and os.path.isdir(root):
@@ -310,23 +330,95 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
                                       else nice_index_label(name, ""))
                     general.append(entry)
                 else:
-                    code = rel_parts[0].strip().upper()
-                    entry["label"] = nice_index_label(name, code)
-                    groups.setdefault(code, []).append(entry)
+                    grouped.append((rel_parts[0].strip().upper(), entry))
                 count += 1
+
+    # Arcering-/symbool-bibliotheekmappen (AGW, AIE, ...) samenvouwen in de gewone
+    # hoofdgroep, behalve ACO. Het label krijgt dan de CANONIEKE code mee, zodat de
+    # groepscode ('GW') netjes uit de knoptekst wordt weggelaten.
+    all_codes = {rc for rc, _ in grouped}
+    groups: dict = {}
+    for rc, entry in grouped:
+        code = _canon_group_code(rc, all_codes)
+        entry["label"] = nice_index_label(entry["filename"], code)
+        groups.setdefault(code, []).append(entry)
 
     def _sortkey(e: dict) -> tuple:
         return (0 if e["kind"] == "tabel" else 1, e["label"].casefold())
 
-    for lst in groups.values():
-        lst.sort(key=_sortkey)
+    def _dedupe(code: str, entries: list) -> list:
+        # Zelfde bestandsnaam kan na het samenvouwen uit twee mappen komen (bijv.
+        # docs/changelog/GW/ én docs/changelog/AGW/). Houd er één; geef voorrang aan
+        # het exemplaar dat al direct in de canonieke hoofdgroep-map staat.
+        best: dict = {}
+        for e in entries:
+            key = e["filename"].lower()
+            parts = e["subpath"].split("/")
+            parent = parts[-2].upper() if len(parts) >= 2 else ""
+            prefer = parent == code
+            cur = best.get(key)
+            if cur is None or (prefer and not cur[0]):
+                best[key] = (prefer, e)
+        return [v[1] for v in best.values()]
+
+    for code in list(groups):
+        groups[code] = sorted(_dedupe(code, groups[code]), key=_sortkey)
     general.sort(key=_sortkey)
+    count = sum(len(v) for v in groups.values()) + len(general)
     return {
         "groups": sorted(groups.items()),
         "general": general,
         "docs_root": docs_root,
         "count": count,
     }
+
+
+def findings_by_hoofdgroep(report_html: str) -> dict:
+    """Tel per hoofdgroep-code het aantal foutregels in een gegenereerd
+    kwaliteitsrapport (ot_html.build_all_checks_html).
+
+    Elke foutregel met een hoofdgroep rendert daar als
+    ``<td class="hg">CODE</td>`` (via ot_html._hg_table); die tellen we per
+    code. Foutregels zonder hoofdgroep (lege cel, bijv. ID-mismatches en
+    zoekterm-treffers) tellen niet mee — die zijn niet aan één hoofdgroep toe
+    te wijzen. Lege/ontbrekende invoer -> lege dict."""
+    counts: dict = {}
+    for m in re.finditer(r'<td class="hg">([^<]*)</td>', report_html or ""):
+        code = m.group(1).strip().upper()
+        if code:
+            counts[code] = counts.get(code, 0) + 1
+    return counts
+
+
+def quality_checkmarks(report_html, obj_dir: str, codes) -> dict:
+    """Combineer het kwaliteitsrapport met de beschikbare objectentabellen tot
+    een 'vinkje' per hoofdgroep, voor het publicatie-overzicht.
+
+    Voor elke hoofdgroep-code uit `codes` waarvan een objecten-CSV in
+    `obj_dir` staat (find_csv_by_code): ``{code: {"errors": <aantal
+    foutregels in het rapport>}}``. 0 fouten -> groen vinkje in het overzicht,
+    >0 -> rood kruis met aantal. Codes zonder objecten-CSV komen NIET in de
+    dict (geen vinkje). `report_html` leeg/None -> errors telt als 0 voor elke
+    beschikbare objectentabel.
+
+    Uitzondering CO: CO is een verzameling hoofdgroepen en heeft zelf geen
+    objecten-CSV. De CO-arceringen worden gedekt door zoektermen in de
+    hoofdgroepen BC, FC, GC, HC, MC en SC; eventuele foutregels die aan CO/ACO
+    hangen zijn daardoor false positives. Staat CO in `codes`, dan krijgt CO
+    altijd een groen vinkje (errors=0)."""
+    counts = findings_by_hoofdgroep(report_html)
+    marks: dict = {}
+    for code in (codes or []):
+        c = (code or "").strip().upper()
+        if not c:
+            continue
+        if c == "CO":
+            # CO-arceringen zijn gedekt via zoektermen in BC/FC/GC/HC/MC/SC;
+            # forceer groen, ook zonder eigen objecten-CSV.
+            marks[c] = {"errors": 0}
+        elif find_csv_by_code(obj_dir, c):
+            marks[c] = {"errors": counts.get(c, 0)}
+    return marks
 
 
 def sbib_to_code(sbib: str) -> str:
@@ -411,31 +503,21 @@ def column_values(path: str, column: str) -> list:
     return out
 
 
-def _match_stem(name: str) -> str:
-    """De symboolnaam vanaf de bibliotheekcode, zodat een variant-voorvoegsel
-    (bijv. 'V-', 'B-', 'N-', 'R-', 'T-') niet meetelt bij het zoekfilter-matchen.
-    De bibliotheekcode is het eerste naamsegment dat met 'S' begint:
-    'V-SGR-BOOM_17' -> 'SGR-BOOM_17', 'SGR-BOOM_17' -> 'SGR-BOOM_17'. Zit er geen
-    S-segment in, dan blijft de naam ongewijzigd."""
-    segs = name.split("-")
-    for i, s in enumerate(segs):
-        if s[:1].upper() == "S" and len(s) > 1:
-            return "-".join(segs[i:])
-    return name
-
-
 def zoekfilter_map(names, terms) -> dict:
-    """Bepaal per symboolnaam de zoekfilter-term waarmee het symbool gevonden
-    wordt: de langste `terms`-waarde die een voorvoegsel is van de symboolnaam.
+    """Bepaal per symbool-/arceringnaam de zoekfilter-term waarmee het gevonden
+    wordt: de langste `terms`-waarde die als SUBSTRING in de naam voorkomt.
 
     Parameters:
-      names : iterable van symboolnamen (bijv. 'SAM-ASPUNTNUMMER-SO')
-      terms : iterable van zoekfilter-termen (de `sobject`-kolom uit de
-              objectentabel, bijv. 'SAM-AS', 'SAM-ASPUNTNUMMER')
+      names : iterable van symbool-/arceringnamen (bijv. 'SAM-ASPUNTNUMMER-SO'
+              of 'AGR-SPORTVELD_GRAS_NATUUR-SO')
+      terms : iterable van zoekfilter-termen — de `sobject`-kolom (symbolen) of
+              `aobject`-kolom (arceringen) uit de objectentabel. Zo'n term is een
+              STUK van de naam (bijv. 'SAM-ASPUNTNUMMER', 'AGR-SPORTVELD').
 
-    Een eventueel variant-voorvoegsel ('V-', 'B-', 'N-', 'R-', 'T-', ...) telt
-    NIET mee: er wordt gematcht vanaf de bibliotheekcode, zodat bijv.
-    'V-SGR-BOOM_17' door de term 'SGR-BOOM' gevonden wordt.
+    De term moet als substring in de naam voorkomen (niet per se vooraan), dus
+    een variant-voorvoegsel ('V-', 'B-', ...) telt vanzelf niet mee:
+    'AGR-SPORTVELD' zit in 'AGR-SPORTVELD_GRAS_NATUUR-SO', en 'SGR-BOOM' in
+    'V-SGR-BOOM_17'. Dit spiegelt de zoekterm-controle (check_searchterm_coverage).
 
     Geeft {naam.lower(): term} (lege string als geen enkele term past).
     Bij meerdere passende termen wint de langste (meest specifieke)."""
@@ -449,10 +531,9 @@ def zoekfilter_map(names, terms) -> dict:
         key = s.lower()
         if key in out:
             continue
-        stem = _match_stem(s)
         out[key] = ""
         for t in terms_sorted:
-            if stem == t or stem.startswith(t):
+            if t in s:
                 out[key] = t
                 break
     return out
@@ -493,31 +574,59 @@ def read_table(path: str) -> tuple[list[str], list[list[str]]]:
     return headers, rows
 
 
-def _collect_id_records(folder: str, source: str,
+def _collect_id_records(source_path: str, source: str,
                         id_col: str = "id_nummer",
-                        uri_col: str = KEY) -> list[dict]:
-    """Lees uit alle CSV's in `folder` per objectrij het ID en de URI.
+                        uri_col: str = KEY, exclude: dict = None,
+                        name_col: str = "") -> list[dict]:
+    """Lees per rij het ID en de URI uit `source_path`.
+
+    `source_path` mag een MAP zijn (dan worden alle *.csv erin gelezen, bijv. de
+    per-hoofdgroep objectentabellen/symbolentabellen) OF één CSV-BESTAND (bijv. de
+    ene grote oude symbolen-/arceringen-/lijntypes-CSV).
+
+    `exclude` : optioneel {"match_col": <kolom>, "values": {<waarde>, ...}}. Rijen
+                waarvan `match_col` (hoofdletterongevoelig) in `values` zit worden
+                helemaal overgeslagen — bijv. de generieke lijntypes CONTINUOUS/
+                V-CONTINUOUS-SO die uit een andere publicatie komen en geen eigen
+                ID-reeks hebben.
+
+    `name_col` : optionele kolom met een mensleesbare naam (bijv. 'omschrijving',
+                 'symbool', 'arcering'); komt als "name" in elk record (leeg als
+                 de kolom ontbreekt). Handig omdat de URI slecht leesbaar is.
 
     Geeft een lijst dicts terug:
-      {"uri": <objectURI>, "id": <id_nummer, ruwe string>,
+      {"uri": <URI>, "id": <ID, ruwe string>, "name": <mensleesbare naam>,
        "file": <bestandsnaam>, "row": <rijnummer in het bestand, 1-based
                 incl. kop>, "source": <source-label>}
     Rijen zonder ID hebben "id": "" (nieuwe objecten die nog een nummer nodig
-    hebben). Bestaat de map niet, dan een lege lijst."""
+    hebben). Bestaat de bron niet, dan een lege lijst."""
     out: list[dict] = []
-    if not folder or not os.path.isdir(folder):
+    if not source_path:
         return out
-    for path in sorted(glob.glob(os.path.join(folder, "*.csv"))):
+    if os.path.isdir(source_path):
+        paths = sorted(glob.glob(os.path.join(source_path, "*.csv")))
+    elif os.path.isfile(source_path):
+        paths = [source_path]
+    else:
+        return out
+    ex_col = (exclude or {}).get("match_col", "")
+    ex_vals = {(v or "").strip().upper() for v in (exclude or {}).get("values", [])}
+    for path in paths:
         headers, rows = read_table(path)
         if id_col not in headers:
             continue
         ci = headers.index(id_col)
         ui = headers.index(uri_col) if uri_col in headers else -1
+        xi = headers.index(ex_col) if ex_col and ex_col in headers else -1
+        mi = headers.index(name_col) if name_col and name_col in headers else -1
         name = os.path.basename(path)
         for n, r in enumerate(rows, start=2):   # +1 kop, +1 want 1-based
+            if 0 <= xi < len(r) and r[xi].strip().upper() in ex_vals:
+                continue
             idv = r[ci].strip() if ci < len(r) else ""
             uri = r[ui].strip() if 0 <= ui < len(r) else ""
-            out.append({"uri": uri, "id": idv, "file": name,
+            nm = r[mi].strip() if 0 <= mi < len(r) else ""
+            out.append({"uri": uri, "id": idv, "name": nm, "file": name,
                         "row": n, "source": source})
     return out
 
@@ -527,10 +636,19 @@ def _is_int_id(value: str) -> bool:
     return bool(value) and value.lstrip("-").isdigit()
 
 
-def analyze_ids(new_dir: str, old_dir: str,
-                id_col: str = "id_nummer", uri_col: str = KEY) -> dict:
-    """Analyseer de ID's (`id_nummer`) van de objecten uit de nieuwe en de vorige
-    publicatie (beide mappen met CSV's per hoofdgroep).
+def analyze_ids(new_src: str, old_src: str,
+                id_col: str = "id_nummer", uri_col: str = KEY,
+                exclude: dict = None, name_col: str = "") -> dict:
+    """Analyseer de ID's (kolom `id_col`) uit de nieuwe en de vorige publicatie.
+
+    `new_src`/`old_src` mogen een MAP (CSV's per hoofdgroep) of één CSV-BESTAND
+    zijn (de oude symbolen-/arceringen-/lijntypes-CSV is één groot bestand).
+    Voor objecten is `id_col="id_nummer"`, `uri_col="objectURI"`; voor symbolen/
+    arceringen/lijntypes `id_col="id"` met de bijbehorende URI-kolom.
+
+    `exclude` : optioneel {"match_col", "values"} — rijen die hierop matchen
+    worden volledig buiten de analyse gehouden (bijv. de generieke lijntypes
+    CONTINUOUS/V-CONTINUOUS-SO, die uit een andere publicatie komen).
 
     Geeft een dict terug met:
       new / old         : lijst records per publicatie (zie _collect_id_records)
@@ -545,8 +663,8 @@ def analyze_ids(new_dir: str, old_dir: str,
       blanks_new / blanks_old : records zonder ID (nieuwe objecten zonder nummer)
       noninteger        : records met een niet-geheel ID (uitgesloten van 'highest')
     """
-    new_recs = _collect_id_records(new_dir, "nieuw", id_col, uri_col)
-    old_recs = _collect_id_records(old_dir, "vorig", id_col, uri_col)
+    new_recs = _collect_id_records(new_src, "nieuw", id_col, uri_col, exclude, name_col)
+    old_recs = _collect_id_records(old_src, "vorig", id_col, uri_col, exclude, name_col)
     all_recs = new_recs + old_recs
 
     # Hoogste gehele ID -> eerstvolgende vrije nummer.
@@ -555,11 +673,15 @@ def analyze_ids(new_dir: str, old_dir: str,
 
     # Dubbele ID's: één ID gekoppeld aan >1 verschillende URI (over beide
     # publicaties heen). Dezelfde URI met hetzelfde ID in oud én nieuw telt
-    # NIET als dubbel (dat is juist correct).
+    # NIET als dubbel (dat is juist correct). Rijen ZONDER URI worden hierbij
+    # genegeerd: een lege URI is geen echte identiteit en mag geen dubbele-ID-
+    # melding veroorzaken (anders zou bijv. eenzelfde symbool met dezelfde URI
+    # in 5.0 en 5.2 tóch als dubbel gemeld worden zodra ergens een regel met dat
+    # ID maar zonder URI staat).
     id_to_uris: dict[str, set] = {}
     id_to_recs: dict[str, list] = {}
     for rec in all_recs:
-        if not rec["id"]:
+        if not rec["id"] or not rec["uri"]:
             continue
         id_to_uris.setdefault(rec["id"], set()).add(rec["uri"])
         id_to_recs.setdefault(rec["id"], []).append(rec)
@@ -578,6 +700,11 @@ def analyze_ids(new_dir: str, old_dir: str,
             if rec["uri"] and rec["id"]:
                 m.setdefault(rec["uri"], set()).add(rec["id"])
         return m
+    # mensleesbare naam per URI (nieuwe publicatie eerst, anders de oude).
+    uri_name: dict[str, str] = {}
+    for rec in old_recs + new_recs:
+        if rec["uri"] and rec.get("name"):
+            uri_name[rec["uri"]] = rec["name"]
     new_uri_ids = uri_ids(new_recs)
     old_uri_ids = uri_ids(old_recs)
     mismatches = []
@@ -587,6 +714,7 @@ def analyze_ids(new_dir: str, old_dir: str,
         if n_ids != o_ids:
             mismatches.append({
                 "uri": uri,
+                "name": uri_name.get(uri, ""),
                 "new_id": ", ".join(sorted(n_ids)),
                 "old_id": ", ".join(sorted(o_ids)),
             })
@@ -605,12 +733,1377 @@ def analyze_ids(new_dir: str, old_dir: str,
     }
 
 
+def analyze_name_uri(new_src: str, old_src: str, name_col: str, uri_col: str,
+                     hoofd_col: str = "", exclude: dict = None) -> dict:
+    """Zoek namen die — BINNEN één hoofdgroep — aan meer dan één verschillende URI
+    hangen, over de nieuwe én de vorige publicatie heen.
+
+    Dit is de naam-tegenhanger van de dubbele-ID-controle in `analyze_ids`, maar
+    gericht op de VERANDERING tussen twee versies. Een naam is een probleem als:
+      (a) de NIEUWE versie hem zélf aan >1 verschillende URI hangt, of
+      (b) de naam ook in de VORIGE versie voorkwam én de nieuwe versie hem aan
+          een URI hangt die de vorige versie voor die naam niet had.
+    Een naam die alléén in de vorige versie dubbel stond (en waarvan de nieuwe
+    versie een van die bestaande naam+URI-combinaties overneemt) is GEEN probleem
+    en wordt niet gemeld. Zo blijven alleen echte 'verhuizingen' over: dezelfde
+    naam die nu aan een andere URI hangt dan voorheen.
+
+    Alleen binnen dezelfde hoofdgroep: dezelfde naam in verschillende hoofdgroepen
+    is GEEN dubbele naam. De hoofdgroep komt uit de bestandsnaam (nieuw én — voor
+    objecten — oud staan per hoofdgroep). Is de bron één gecombineerd bestand (de
+    oude symbolen-/arceringen-/lijntypes-CSV), dan komt de hoofdgroep uit
+    `hoofd_col`; bibliotheek-codes (S.. / A..) worden op de nieuwe hoofdgroep-codes
+    teruggebracht (SGW/AGW/GW -> GW).
+
+    Rijen zonder naam of zonder URI worden genegeerd (net als bij `analyze_ids`).
+    `exclude` : optioneel {"match_col", "values"} — rijen die hierop matchen worden
+    overgeslagen (bijv. de generieke lijntypes CONTINUOUS/V-CONTINUOUS-SO).
+
+    Geeft terug:
+      total      : aantal meegetelde (niet-lege) naam-voorkomens
+      unique     : aantal unieke (hoofdgroep, naam)-combinaties
+      duplicates : [ {name, hoofdgroep, uris:[...], records:[...]} ], gesorteerd op
+                   (hoofdgroep, naam). Elk record = {name, uri, file, row, source,
+                   hoofdgroep}.
+    """
+    ex_col = (exclude or {}).get("match_col", "")
+    ex_vals = {(v or "").strip().upper() for v in (exclude or {}).get("values", [])}
+
+    def collect(source_path: str, source_label: str) -> list[dict]:
+        recs: list[dict] = []
+        if not source_path:
+            return recs
+        if os.path.isdir(source_path):
+            paths = sorted(glob.glob(os.path.join(source_path, "*.csv")))
+            per_file = True
+        elif os.path.isfile(source_path):
+            paths = [source_path]
+            per_file = False
+        else:
+            return recs
+        for path in paths:
+            headers, rows = read_table(path)
+            if name_col not in headers or uri_col not in headers:
+                continue
+            ni = headers.index(name_col)
+            ui = headers.index(uri_col)
+            xi = headers.index(ex_col) if ex_col and ex_col in headers else -1
+            hi = headers.index(hoofd_col) if hoofd_col and hoofd_col in headers else -1
+            fn = os.path.basename(path)
+            file_code = hoofdgroep_code(path)
+            for n, r in enumerate(rows, start=2):   # +1 kop, +1 want 1-based
+                if 0 <= xi < len(r) and r[xi].strip().upper() in ex_vals:
+                    continue
+                nm = r[ni].strip() if ni < len(r) else ""
+                uri = r[ui].strip() if ui < len(r) else ""
+                raw_hg = file_code if per_file else (
+                    r[hi].strip() if 0 <= hi < len(r) else "")
+                recs.append({"name": nm, "uri": uri, "file": fn, "row": n,
+                             "source": source_label, "_raw_hg": raw_hg,
+                             "_per_file": per_file})
+        return recs
+
+    new_recs = collect(new_src, "nieuw")
+    old_recs = collect(old_src, "vorig")
+
+    # Canonieke hoofdgroep-codes uit de NIEUWE publicatie (die staat per
+    # hoofdgroep). Ruwe (bibliotheek)codes uit een gecombineerd bestand worden
+    # hierop teruggebracht: 'AGW'/'SGW'/'GW' -> 'GW'.
+    new_codes = {r["_raw_hg"].upper() for r in new_recs
+                 if r["_per_file"] and r["_raw_hg"]}
+
+    def canon(raw: str) -> str:
+        u = (raw or "").strip().upper()
+        if not u or u in new_codes:
+            return u
+        cands = [c for c in new_codes if u.endswith(c)]
+        return max(cands, key=len) if cands else u
+
+    for rec in new_recs + old_recs:
+        rec["hoofdgroep"] = (rec["_raw_hg"].upper() if rec["_per_file"]
+                             else canon(rec["_raw_hg"]))
+        del rec["_raw_hg"], rec["_per_file"]
+
+    # Groepeer per (hoofdgroep, naam) over beide publicaties heen; rijen zonder
+    # naam of zonder URI tellen niet mee (een lege URI is geen echte identiteit).
+    # De URI's worden per publicatie apart bijgehouden, want een naam is alléén
+    # een probleem wanneer de NIEUWE versie hem aan een andere URI hangt dan de
+    # vorige — niet wanneer hij enkel in de vorige versie al dubbel stond.
+    key_to_uris: dict[tuple, set] = {}
+    key_to_new_uris: dict[tuple, set] = {}
+    key_to_old_uris: dict[tuple, set] = {}
+    key_to_recs: dict[tuple, list] = {}
+    total = 0
+    for rec in new_recs + old_recs:
+        if not rec["name"] or not rec["uri"]:
+            continue
+        total += 1
+        k = (rec["hoofdgroep"], rec["name"])
+        key_to_uris.setdefault(k, set()).add(rec["uri"])
+        (key_to_new_uris if rec["source"] == "nieuw"
+         else key_to_old_uris).setdefault(k, set()).add(rec["uri"])
+        key_to_recs.setdefault(k, []).append(rec)
+
+    def is_problem(k: tuple) -> bool:
+        new_uris = key_to_new_uris.get(k, set())
+        old_uris = key_to_old_uris.get(k, set())
+        # (a) de naam hangt binnen de NIEUWE versie zélf al aan >1 URI, of
+        # (b) de naam bestond in de vorige versie én de nieuwe versie hangt hem
+        #     aan een URI die de vorige versie voor die naam niet kende. Komt de
+        #     nieuwe URI wél overeen met een van de vorige naam+URI-combinaties,
+        #     dan is er geen probleem (ook niet als de naam vroeger dubbel stond).
+        return len(new_uris) > 1 or (
+            bool(old_uris) and bool(new_uris) and bool(new_uris - old_uris))
+
+    duplicates = [
+        {"name": nm, "hoofdgroep": hg, "uris": sorted(key_to_uris[(hg, nm)]),
+         "records": key_to_recs[(hg, nm)]}
+        for (hg, nm) in key_to_uris if is_problem((hg, nm))
+    ]
+    duplicates.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    return {"total": total, "unique": len(key_to_uris), "duplicates": duplicates}
+
+
+# Geldige optie-codes: het achtervoegsel achteraan de naam (zonder '-'). Staat er
+# achteraan iets uit deze set, dan hoort dat in de kolom 'optie'; staat er niets
+# uit deze set, dan hoort 'optie' leeg te zijn.
+FASE_OPTIE_CODES = ("S", "SO", "SOMM", "SOD", "SODMM", "D", "MM", "DMM")
+
+
+def _expected_fase_optie(name: str) -> tuple[str, str]:
+    """Leidt uit een gecodeerde naam af wat er in 'fase' en 'optie' hoort te staan.
+
+    Voorvoegsel: het eerste '-'-segment als dat één letter is (V, B, …) — dat
+    hoort de fase te zijn (bibliotheek-/hoofdgroepcodes zijn altijd ≥2 tekens:
+    SAL, SFC, AL, AM, ACO, …). Geen zo'n voorvoegsel → fase hoort leeg te zijn.
+    Achtervoegsel: het laatste '-'-segment als dat een geldige optie-code is
+    (FASE_OPTIE_CODES) — dat hoort de optie te zijn, zónder '-'. Anders → optie
+    hoort leeg te zijn."""
+    segs = name.split("-")
+    pref = ""
+    if len(segs) > 1 and len(segs[0]) == 1 and segs[0].isalpha():
+        pref = segs[0].upper()
+    suf = ""
+    if len(segs) > 1 and segs[-1].strip().upper() in FASE_OPTIE_CODES:
+        suf = segs[-1].strip().upper()
+    return pref, suf
+
+
+def check_fase_optie(src: str, name_col: str, exclude_names=()) -> list[dict]:
+    """Controleer per rij of de kolommen 'fase' en 'optie' kloppen met de naam.
+
+    `src` mag een MAP (CSV's per hoofdgroep) of één CSV-BESTAND zijn. `name_col`
+    is de kolom met de gecodeerde naam: 'symbool' (symbolen), 'omschrijving'
+    (lijntypes) of 'arcering' (arceringen). `exclude_names` : namen die worden
+    overgeslagen (bijv. de generieke lijntypes CONTINUOUS/V-CONTINUOUS-SO uit een
+    andere publicatie, met bewust lege fase/optie).
+
+    Geeft een lijst afwijkingen terug — dicts {"kind": 'fase'|'optie', "name",
+    "got", "expected", "file", "row"} — één per verkeerd gevulde kolom. Rijen
+    zonder naam of zonder de betreffende kolom leveren niets op."""
+    out: list[dict] = []
+    if not src:
+        return out
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return out
+    skip = {(n or "").strip().upper() for n in exclude_names}
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        fi = headers.index("fase") if "fase" in headers else -1
+        oi = headers.index("optie") if "optie" in headers else -1
+        name = os.path.basename(path)
+        for n, r in enumerate(rows, start=2):   # +1 kop, +1 want 1-based
+            nm = (r[ni] if ni < len(r) else "").strip()
+            if not nm or nm.upper() in skip:
+                continue
+            ef, eo = _expected_fase_optie(nm)
+            if fi >= 0:
+                fa = (r[fi] if fi < len(r) else "").strip()
+                if fa.upper() != ef:
+                    out.append({"kind": "fase", "name": nm, "got": fa,
+                                "expected": ef, "file": name, "row": n})
+            if oi >= 0:
+                op = (r[oi] if oi < len(r) else "").strip()
+                if op.upper() != eo:
+                    out.append({"kind": "optie", "name": nm, "got": op,
+                                "expected": eo, "file": name, "row": n})
+    return out
+
+
+def _name_segments(name: str) -> list[str]:
+    """Splits een objectnaam in segmenten op de scheidingstekens '-' en '_'.
+    Lege segmenten (dubbele scheidingstekens) worden weggelaten."""
+    return [s for s in re.split(r"[-_]", (name or "").strip()) if s]
+
+
+def check_object_tree(src: str, name_col: str = "omschrijving",
+                      id_col: str = "id_nummer",
+                      parent_col: str = "kind_van") -> dict:
+    """Controleer de boomstructuur van de objecten.
+
+    De objecten vormen een boom: `parent_col` (standaard 'kind_van') bevat het
+    `id_col` (standaard 'id_nummer') van het bovenliggende object; is dat leeg,
+    dan staat het object bovenaan (root). De naam (`name_col`, standaard
+    'omschrijving') bestaat uit segmenten gescheiden door '-' en '_'. Regel: een
+    onderliggend object heeft *precies één* segment meer dan zijn ouder — niet
+    meer en niet minder — en de naam van de ouder is exact het begin van de naam
+    van het kind (het kind = ouder + één toevoeging).
+
+    `src` mag een MAP met CSV's per hoofdgroep of één CSV-bestand zijn.
+
+    Geeft een dict terug:
+      {
+        "count":   totaal aantal objecten,
+        "roots":   [id, ...]  (op naam gesorteerd),
+        "nodes":   {id: {"id","name","parent","children":[...],"depth","segs"}},
+        "max_depth": grootste diepte,
+        "errors":  [ {"type","id","name","parent","parent_name","got",
+                      "expected","detail"} , ... ],
+      }
+    Fouttypes: 'orphan' (ouder-id onbekend), 'count' (geen +1 segment),
+    'prefix' (naam is geen uitbreiding van de oudernaam),
+    'separator' (segmenten kloppen wel, maar de oudernaam staat niet exact
+    vooraan mét hetzelfde scheidingsteken '-'/'_'),
+    'root_multi' (root met meer dan één segment: mogelijk ontbrekende ouder),
+    'subobjecten' (het deel vóór het eerste koppelteken '-' — de laagnaam
+    zonder fase/optie-achtervoegsel — bevat meer dan 5 subobjecten, d.w.z.
+    meer dan 5 scheidingstekens '_'; komt overeen met de SPARQL-controle
+    controle_nlcs-objecten_te_veel_subobjecten)."""
+    empty = {"count": 0, "roots": [], "nodes": {}, "max_depth": 0, "errors": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    nodes: dict[str, dict] = {}
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers or id_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        ii = headers.index(id_col)
+        pi = headers.index(parent_col) if parent_col in headers else -1
+        fn = os.path.basename(path)
+        for r in rows:
+            idn = (r[ii] if ii < len(r) else "").strip()
+            if not idn:
+                continue
+            name = (r[ni] if ni < len(r) else "").strip()
+            parent = (r[pi] if pi >= 0 and pi < len(r) else "").strip()
+            # eerste voorkomen wint (zoals elders in de tool)
+            nodes.setdefault(idn, {
+                "id": idn, "name": name, "parent": parent,
+                "children": [], "segs": _name_segments(name),
+                "depth": 0, "file": fn,
+            })
+
+    # kinderen koppelen + diepte bepalen
+    errors: list[dict] = []
+    roots: list[str] = []
+    for idn, nd in nodes.items():
+        p = nd["parent"]
+        if not p:
+            roots.append(idn)
+        elif p in nodes:
+            nodes[p]["children"].append(idn)
+        else:
+            roots.append(idn)   # wees: behandel als top zodat hij zichtbaar blijft
+            errors.append({
+                "type": "orphan", "id": idn, "name": nd["name"],
+                "parent": p, "parent_name": "",
+                "got": "", "expected": "",
+                "detail": f"bovenliggend id '{p}' niet gevonden",
+            })
+
+    # diepte via iteratieve afdaling vanaf de roots (cyclus-veilig)
+    max_depth = 0
+    for rid in roots:
+        stack = [(rid, 0)]
+        seen = set()
+        while stack:
+            cur, depth = stack.pop()
+            if cur in seen:
+                continue
+            seen.add(cur)
+            nodes[cur]["depth"] = depth
+            max_depth = max(max_depth, depth)
+            for ch in nodes[cur]["children"]:
+                stack.append((ch, depth + 1))
+
+    # naamregels controleren
+    for idn, nd in nodes.items():
+        # te veel subobjecten: neem het deel van de naam vóór het eerste
+        # koppelteken '-' (de laagnaam zonder fase/optie-achtervoegsel) en tel
+        # de scheidingstekens '_'. Meer dan 5 subobjecten (= meer dan 5 '_')
+        # mag niet in een laagnaam staan. Gelijk aan de SPARQL-controle
+        # controle_nlcs-objecten_te_veel_subobjecten.
+        clean = nd["name"].split("-", 1)[0]
+        n_sub = clean.count("_")
+        if n_sub > 5:
+            errors.append({
+                "type": "subobjecten", "id": idn, "name": nd["name"],
+                "parent": nd["parent"], "parent_name": "",
+                "got": n_sub, "expected": 5,
+                "detail": f"{n_sub} subobjecten in de laagnaam '{clean}' "
+                          f"(meer dan 5 mag niet)",
+            })
+        p = nd["parent"]
+        if not p:
+            if len(nd["segs"]) > 1:
+                errors.append({
+                    "type": "root_multi", "id": idn, "name": nd["name"],
+                    "parent": "", "parent_name": "",
+                    "got": len(nd["segs"]), "expected": 1,
+                    "detail": "object zonder bovenliggend id heeft meer dan "
+                              "één segment",
+                })
+            continue
+        if p not in nodes:
+            continue   # al als wees gemeld
+        par = nodes[p]
+        ps, cs = par["segs"], nd["segs"]
+        count_ok = len(cs) == len(ps) + 1
+        prefix_ok = cs[:len(ps)] == ps
+        if not count_ok:
+            errors.append({
+                "type": "count", "id": idn, "name": nd["name"],
+                "parent": p, "parent_name": par["name"],
+                "got": len(cs), "expected": len(ps) + 1,
+                "detail": f"{len(cs)} segmenten; ouder heeft er {len(ps)} "
+                          f"(verwacht {len(ps) + 1})",
+            })
+        if not prefix_ok:
+            errors.append({
+                "type": "prefix", "id": idn, "name": nd["name"],
+                "parent": p, "parent_name": par["name"],
+                "got": nd["name"], "expected": par["name"] + "_…",
+                "detail": "naam is geen uitbreiding van de oudernaam",
+            })
+        # scheidingsteken: de oudernaam moet LETTERLIJK (mét eigen '-'/'_')
+        # vooraan in de kindnaam staan, gevolgd door precies één scheidingsteken
+        # en de toevoeging. Alleen zinvol als segment-inhoud + aantal al kloppen;
+        # anders is 'count'/'prefix' de relevante melding.
+        elif count_ok and par["name"]:
+            pn = par["name"]
+            ok = (nd["name"].startswith(pn)
+                  and len(nd["name"]) > len(pn)
+                  and nd["name"][len(pn)] in "-_")
+            if not ok:
+                errors.append({
+                    "type": "separator", "id": idn, "name": nd["name"],
+                    "parent": p, "parent_name": pn,
+                    "got": nd["name"], "expected": f"{pn}- / {pn}_",
+                    "detail": "scheidingsteken klopt niet: de oudernaam moet "
+                              "exact vooraan staan, gevolgd door '-' of '_'",
+                })
+
+    roots.sort(key=lambda i: nodes[i]["name"].casefold())
+    for nd in nodes.values():
+        nd["children"].sort(key=lambda i: nodes[i]["name"].casefold())
+    return {
+        "count": len(nodes), "roots": roots, "nodes": nodes,
+        "max_depth": max_depth, "errors": errors,
+    }
+
+
+# Kolommen in de objectentabel die naar een lijntype-naam verwijzen
+# (per variant: bestaand/nieuw/vervallen/tijdelijk).
+LIJNTYPE_REF_COLS = ("lt_b", "lt_n", "lt_v", "lt_t")
+
+# Visualisatie-velden per fase in de objectentabel: lijngewicht (lw), de kleuren
+# (kl*) en het lijntype (lt). Een object "heeft een visualisatie" voor een fase
+# als minstens één van deze velden gevuld is.
+FASE_VELDEN = {
+    "B": ("lw_b", "kl_b", "kl_b_a", "kl_b_gd", "kl_b_gn", "kl_b_v", "lt_b"),
+    "N": ("lw_n", "kl_n", "kl_n_a", "kl_n_gd", "kl_n_gn", "kl_n_v", "lt_n"),
+    "V": ("lw_v", "kl_v", "kl_v_a", "kl_v_gd", "kl_v_gn", "kl_v_v", "lt_v"),
+    "T": ("lw_t", "kl_t", "kl_t_a", "kl_t_gd", "kl_t_gn", "kl_t_v", "lt_t"),
+}
+FASE_LABELS = {"B": "Bestaand", "N": "Nieuw", "V": "Vervallen", "T": "Tijdelijk"}
+FASE_VOLGORDE = ("B", "N", "V", "T")
+# Hoofdgroepen die alleen een visualisatie voor de bestaande situatie (fase B)
+# hebben; voor deze codes worden N/V/T niet verwacht.
+FASE_ALLEEN_B_CODES = ("AL", "ZZ")
+
+
+def check_lijntype_usage(lijn_src: str, obj_src: str,
+                         name_col: str = "omschrijving",
+                         obj_name_col: str = "omschrijving",
+                         ref_cols=LIJNTYPE_REF_COLS,
+                         exclude_names=()) -> dict:
+    """Controleer of elk lijntype ook in de objectentabel wordt gebruikt.
+
+    Detectie op NAAM: de objectentabel verwijst in de kolommen `ref_cols`
+    (standaard lt_b/lt_n/lt_v/lt_t) naar de naam van een lijntype (kolom
+    `name_col`, standaard 'omschrijving'). `lijn_src` en `obj_src` mogen elk een
+    MAP met CSV's of één CSV-bestand zijn. `exclude_names` : lijntype-namen die
+    buiten beschouwing blijven (bijv. generieke lijnen uit een andere publicatie).
+
+    Geeft een dict terug:
+      {
+        "lijn_total":     aantal unieke lijntypes,
+        "used":           [naam, ...]  (lijntypes die in objecten voorkomen),
+        "unused":         [ {name, hoofdgroep, file} ]  (bestaat wel, niet gebruikt),
+        "obj_refs_total": aantal unieke verwezen namen in de objecten,
+        "missing":        [ {name, count, objects[]} ]  (objecten verwijzen naar
+                          een naam die geen bestaand lijntype is),
+      }
+    """
+    def _paths(src):
+        if not src:
+            return []
+        if os.path.isdir(src):
+            return sorted(glob.glob(os.path.join(src, "*.csv")))
+        if os.path.isfile(src):
+            return [src]
+        return []
+
+    skip = {(n or "").strip().upper() for n in exclude_names}
+
+    # bestaande lijntypes: naam -> (hoofdgroep, bestand) — eerste voorkomen wint
+    lijn: dict[str, dict] = {}
+    for path in _paths(lijn_src):
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        hi = headers.index("hoofdgroep") if "hoofdgroep" in headers else -1
+        fn = os.path.basename(path)
+        for r in rows:
+            nm = (r[ni] if ni < len(r) else "").strip()
+            if not nm or nm.upper() in skip:
+                continue
+            lijn.setdefault(nm, {
+                "name": nm,
+                "hoofdgroep": (r[hi] if hi >= 0 and hi < len(r) else "").strip(),
+                "file": fn,
+            })
+
+    # verwijzingen vanuit de objecten: naam -> lijst object-omschrijvingen
+    refs: dict[str, list[str]] = {}
+    for path in _paths(obj_src):
+        headers, rows = read_table(path)
+        idxs = [headers.index(c) for c in ref_cols if c in headers]
+        oi = headers.index(obj_name_col) if obj_name_col in headers else -1
+        for r in rows:
+            oname = (r[oi] if oi >= 0 and oi < len(r) else "").strip()
+            for i in idxs:
+                v = (r[i] if i < len(r) else "").strip()
+                if not v or v.upper() in skip:
+                    continue
+                refs.setdefault(v, [])
+                if oname and oname not in refs[v]:
+                    refs[v].append(oname)
+
+    used = sorted((n for n in lijn if n in refs), key=str.casefold)
+    unused = [lijn[n] for n in sorted(lijn, key=str.casefold) if n not in refs]
+    missing = [
+        {"name": n, "count": len(refs[n]), "objects": sorted(refs[n], key=str.casefold)}
+        for n in sorted(refs, key=str.casefold) if n not in lijn
+    ]
+    return {
+        "lijn_total": len(lijn),
+        "used": used,
+        "unused": unused,
+        "obj_refs_total": len(refs),
+        "missing": missing,
+    }
+
+
+def check_searchterm_coverage(name_src: str, obj_src: str,
+                              name_col: str, obj_col: str) -> dict:
+    """Controleer of elk symbool/elke arcering via een zoekterm in de
+    objectentabel gevonden wordt.
+
+    De zoekterm is een `obj_col`-waarde (sobject voor symbolen, aobject voor
+    arceringen) uit de objectentabel. Een symbool/arcering wordt GEVONDEN als
+    zo'n zoekterm als string (substring) in de naam (`name_col`: 'symbool' resp.
+    'arcering') voorkomt. `name_src` en `obj_src` mogen elk een MAP met CSV's of
+    één CSV-bestand zijn.
+
+    Geeft terug:
+      {
+        "total":       aantal namen,
+        "term_count":  aantal unieke zoektermen (obj_col-waarden),
+        "found":       aantal gevonden,
+        "not_found":   [ {name, file} ]  (op naam gesorteerd, uniek),
+      }
+    """
+    def _paths(src):
+        if not src:
+            return []
+        if os.path.isdir(src):
+            return sorted(glob.glob(os.path.join(src, "*.csv")))
+        if os.path.isfile(src):
+            return [src]
+        return []
+
+    # zoektermen verzamelen uit de objectentabel
+    terms: set[str] = set()
+    for path in _paths(obj_src):
+        headers, rows = read_table(path)
+        if obj_col not in headers:
+            continue
+        ci = headers.index(obj_col)
+        for r in rows:
+            v = (r[ci] if ci < len(r) else "").strip()
+            if v:
+                terms.add(v)
+    # langste eerst zodat een 'gevonden'-treffer de meest specifieke term is
+    terms_sorted = sorted(terms, key=len, reverse=True)
+
+    total = 0
+    found = 0
+    not_found: list[dict] = []
+    seen: set[str] = set()
+    for path in _paths(name_src):
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        fn = os.path.basename(path)
+        for r in rows:
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name or name in seen:
+                continue
+            seen.add(name)
+            total += 1
+            if any(t in name for t in terms_sorted):
+                found += 1
+            else:
+                not_found.append({"name": name, "file": fn})
+    not_found.sort(key=lambda d: d["name"].casefold())
+    return {
+        "total": total, "term_count": len(terms),
+        "found": found, "not_found": not_found,
+    }
+
+
+def check_searchterm_min(obj_src: str, name_src: str,
+                         obj_col: str, name_col: str) -> dict:
+    """Controleer of elke zoekterm uit de objectentabel minstens één symbool/
+    arcering vindt (minimaal 1 vereist).
+
+    De zoekterm is een `obj_col`-waarde (sobject voor symbolen, aobject voor
+    arceringen) uit de objectentabel. Een symbool/arcering wordt GEVONDEN als de
+    zoekterm als string (substring) in de naam (`name_col`: 'symbool' resp.
+    'arcering') voorkomt. Dit is de omgekeerde richting van
+    `check_searchterm_coverage`: dáár moet elke naam een term hebben, hier moet
+    elke term een naam vinden. `obj_src` en `name_src` mogen elk een MAP met
+    CSV's of één CSV-bestand zijn.
+
+    Geeft terug:
+      {
+        "total":      aantal unieke zoektermen (obj_col-waarden),
+        "name_count": aantal namen (symbolen/arceringen),
+        "ok":         aantal zoektermen met >=1 treffer,
+        "empty":      [ {term, files} ]  (zoektermen zonder treffer, gesorteerd;
+                       'files' = objectbestanden waarin de term voorkomt),
+      }
+    """
+    def _paths(src):
+        if not src:
+            return []
+        if os.path.isdir(src):
+            return sorted(glob.glob(os.path.join(src, "*.csv")))
+        if os.path.isfile(src):
+            return [src]
+        return []
+
+    # zoektermen verzamelen uit de objectentabel (met bronbestanden)
+    term_files: dict[str, set] = {}
+    for path in _paths(obj_src):
+        headers, rows = read_table(path)
+        if obj_col not in headers:
+            continue
+        ci = headers.index(obj_col)
+        fn = os.path.basename(path)
+        for r in rows:
+            v = (r[ci] if ci < len(r) else "").strip()
+            if v:
+                term_files.setdefault(v, set()).add(fn)
+
+    # alle namen (symbolen/arceringen) verzamelen
+    names: list[str] = []
+    for path in _paths(name_src):
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        for r in rows:
+            nm = (r[ni] if ni < len(r) else "").strip()
+            if nm:
+                names.append(nm)
+
+    ok = 0
+    empty: list[dict] = []
+    for term in term_files:
+        if any(term in nm for nm in names):
+            ok += 1
+        else:
+            empty.append({
+                "term": term,
+                "files": sorted(term_files[term]),
+            })
+    empty.sort(key=lambda d: d["term"].casefold())
+    return {
+        "total": len(term_files), "name_count": len(names),
+        "ok": ok, "empty": empty,
+    }
+
+
+# Tekens die in CAD-laag-/symboolnamen niet zijn toegestaan, met de reden.
+# Samengesteld uit de restricties van AutoCAD (symboolnaam / EXTNAMES / snvalid),
+# MicroStation (level names) en AutoLISP. Spatie, punt (decimaalteken), '-' en
+# '_' zijn WEL toegestaan (die worden in NLCS-namen bewust gebruikt).
+FORBIDDEN_NAME_CHARS = {
+    "\\": "backslash — tekenscheiding, niet toegestaan (AutoCAD, MicroStation)",
+    "/": "schuine streep — tekenscheiding, niet toegestaan (AutoCAD, MicroStation)",
+    ",": "komma — niet toegestaan (AutoCAD, MicroStation); gebruik een punt als decimaalteken",
+    "[": "blokhaak openen — niet toegestaan",
+    "]": "blokhaak sluiten — niet toegestaan",
+    "<": "kleiner-dan — niet toegestaan (AutoCAD, MicroStation)",
+    ">": "groter-dan — niet toegestaan (AutoCAD, MicroStation)",
+    '"': "dubbele aanhalingstekens — niet toegestaan (AutoCAD, MicroStation, LISP)",
+    "'": "apostrof — niet toegestaan (MicroStation, LISP)",
+    ":": "dubbele punt — niet toegestaan (AutoCAD)",
+    ";": "puntkomma — niet toegestaan (AutoCAD; commentaarteken in LISP)",
+    "?": "vraagteken — jokerteken, niet toegestaan (AutoCAD, MicroStation)",
+    "*": "asterisk — jokerteken, niet toegestaan (AutoCAD)",
+    "|": "verticale streep — xref-scheiding, niet toegestaan (AutoCAD)",
+    "=": "is-gelijkteken — niet toegestaan (AutoCAD, MicroStation)",
+    "`": "accent grave — niet toegestaan (AutoCAD)",
+    "(": "haakje openen — breekt LISP-expressies",
+    ")": "haakje sluiten — breekt LISP-expressies",
+}
+
+
+def check_special_chars(src: str, name_col: str,
+                        forbidden: dict = None) -> dict:
+    """Controleer namen op tekens die in CAD-laag-/symboolnamen niet zijn
+    toegestaan (zie FORBIDDEN_NAME_CHARS). Spaties, de punt (decimaalteken), '-'
+    en '_' zijn WEL toegestaan. `src` mag een MAP met CSV's of één CSV zijn.
+
+    Geeft terug:
+      {
+        "total":      aantal gecontroleerde namen,
+        "ok":         aantal namen zonder verboden teken,
+        "violations": [ {name, file, row, chars:[verboden tekens, uniek]} ]
+                      (gesorteerd op (file, name)),
+        "lowercase":  [ {name, file, row} ]  (namen met een kleine letter;
+                      INFORMATIEF — kleine letters zijn toegestaan voor bv.
+                      eenheden (mm/Mm) en elementsymbolen (Cu), dus geen fout),
+      }
+    """
+    fb = forbidden if forbidden is not None else FORBIDDEN_NAME_CHARS
+    empty = {"total": 0, "ok": 0, "violations": [], "lowercase": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    total = 0
+    ok = 0
+    violations: list[dict] = []
+    lowercase: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name:
+                continue
+            total += 1
+            found = [ch for ch in fb if ch in name]
+            if found:
+                violations.append({"name": name, "file": fn, "row": i + 2,
+                                   "chars": found})
+            else:
+                ok += 1
+            if any(c.islower() for c in name):
+                lowercase.append({"name": name, "file": fn, "row": i + 2})
+    violations.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    lowercase.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "violations": violations,
+            "lowercase": lowercase}
+
+
+def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
+                            hoofdgroep_col: str = "hoofdgroep",
+                            only_b_codes=FASE_ALLEEN_B_CODES) -> dict:
+    """Controleer of elk object voor alle fasen een visualisatie heeft.
+
+    Elke fase (B=bestaand, N=nieuw, V=vervallen, T=tijdelijk) heeft in de
+    objectentabel een groep velden (lijngewicht `lw`, kleuren `kl*`, lijntype
+    `lt`, zie `FASE_VELDEN`). Een object "heeft een visualisatie" voor een fase
+    als minstens één van die velden gevuld is. Verwacht worden alle vier de
+    fasen, BEHALVE voor de hoofdgroepen in `only_b_codes` (standaard AL en ZZ):
+    die hebben alleen een visualisatie voor de bestaande situatie (fase B).
+
+    De hoofdgroep wordt per rij uit kolom `hoofdgroep_col` gelezen (valt terug op
+    de code in de bestandsnaam). `src` mag een MAP met CSV's of één CSV-bestand
+    zijn.
+
+    Geeft een dict terug:
+      {
+        "total":      aantal gecontroleerde objecten,
+        "ok":         aantal objecten zonder afwijking,
+        "missing":    [ {name, hoofdgroep, file, missing:[fase-labels],
+                         expected:[fase-labels]} ]  (verwachte fase ontbreekt),
+        "unexpected": [ {name, hoofdgroep, file, extra:[fase-labels]} ]
+                      (alleen-B-hoofdgroep met N/V/T gevuld),
+      }
+    """
+    empty = {"total": 0, "ok": 0, "missing": [], "unexpected": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    only_b = {(c or "").strip().upper() for c in only_b_codes}
+    total = 0
+    ok = 0
+    missing: list[dict] = []
+    unexpected: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        hi = headers.index(hoofdgroep_col) if hoofdgroep_col in headers else -1
+        # kolomindex per fase-veld (alleen bestaande kolommen)
+        fase_idx = {
+            fase: [headers.index(c) for c in cols if c in headers]
+            for fase, cols in FASE_VELDEN.items()
+        }
+        code_fn = hoofdgroep_code(path)
+        fn = os.path.basename(path)
+        for r in rows:
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name:
+                continue
+            total += 1
+            code = ((r[hi] if hi >= 0 and hi < len(r) else "").strip()
+                    or code_fn).upper()
+            expected = ("B",) if code in only_b else FASE_VOLGORDE
+
+            def _has(fase: str) -> bool:
+                return any((r[i] if i < len(r) else "").strip()
+                           for i in fase_idx.get(fase, ()))
+
+            miss = [f for f in expected if not _has(f)]
+            # onverwachte fasen: alleen-B-hoofdgroep met N/V/T ingevuld
+            extra = ([f for f in FASE_VOLGORDE
+                      if f not in expected and _has(f)]
+                     if code in only_b else [])
+            if miss:
+                missing.append({
+                    "name": name, "hoofdgroep": code, "file": fn,
+                    "missing": [FASE_LABELS[f] for f in miss],
+                    "expected": [FASE_LABELS[f] for f in expected],
+                })
+            if extra:
+                unexpected.append({
+                    "name": name, "hoofdgroep": code, "file": fn,
+                    "extra": [FASE_LABELS[f] for f in extra],
+                })
+            if not miss and not extra:
+                ok += 1
+
+    missing.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    unexpected.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    return {"total": total, "ok": ok,
+            "missing": missing, "unexpected": unexpected}
+
+
+def check_duplicate_names(src: str, name_col: str) -> dict:
+    """Zoek namen die binnen één hoofdgroep meer dan één keer voorkomen.
+
+    Verzamelt alle waarden van `name_col` over alle CSV's in de map `src` (of het
+    losse CSV-bestand) en rapporteert de namen die binnen HETZELFDE bestand
+    (= één hoofdgroep) in meer dan één rij voorkomen. Exacte vergelijking (alleen
+    omringende spaties worden gestript). Komt overeen met de SPARQL-controle
+    `identiekenamen`, die per naam telt hoeveel URI's er binnen dezelfde
+    hoofdgroep zijn (GROUP BY ?name ?hoofdNames, HAVING > 1). Dezelfde naam in
+    verschillende hoofdgroepen is dus GEEN dubbele naam (bijv. objecten die in
+    meerdere constructie-hoofdgroepen voorkomen, of de generieke lijn CONTINUOUS
+    die in elk hoofdgroepbestand staat).
+
+    Naamkolom per soort: objecten/lijntypes 'omschrijving', symbolen 'symbool',
+    arceringen 'arcering'.
+
+    Geeft terug:
+      {
+        "total":      aantal (niet-lege) namen,
+        "unique":     aantal unieke (bestand, naam)-combinaties,
+        "duplicates": [ {name, file, count, rows:[rijnummers]} ]
+                      (op bestand + naam gesorteerd),
+      }
+    """
+    def _paths(s):
+        if not s:
+            return []
+        if os.path.isdir(s):
+            return sorted(glob.glob(os.path.join(s, "*.csv")))
+        if os.path.isfile(s):
+            return [s]
+        return []
+
+    # (bestand, naam) -> lijst rijnummers
+    occ: dict[tuple, list[int]] = {}
+    total = 0
+    for path in _paths(src):
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name:
+                continue
+            total += 1
+            # rij-nummer in het bestand: kopregel = 1, eerste datarij = 2
+            occ.setdefault((fn, name), []).append(i + 2)
+
+    duplicates = [
+        {"name": name, "file": fn, "count": len(rws), "rows": rws}
+        for (fn, name), rws in occ.items() if len(rws) > 1
+    ]
+    duplicates.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "unique": len(occ), "duplicates": duplicates}
+
+
+def check_element_object_link(src: str, name_col: str = "omschrijving",
+                              element_col: str = "element",
+                              sobject_col: str = "sobject",
+                              aobject_col: str = "aobject",
+                              hoofd_col: str = "hoofdgroep",
+                              aobject_exempt=("MW",)) -> dict:
+    """Controleer de koppeling tussen de `element`-kolom en sobject/aobject.
+
+    De `element`-kolom van de objectentabel bevat `/`-gescheiden tokens
+    (G=geometrie, S=symbool, A=arcering). De regel is tweezijdig:
+      * bevat `element` het token S, dan moet `sobject` gevuld zijn (en omgekeerd);
+      * bevat `element` het token A, dan moet `aobject` gevuld zijn (en omgekeerd).
+
+    Uitzondering (`aobject_exempt`, standaard MW): voor objecten van deze
+    hoofdgroep(en) is 'element bevat A maar aobject is leeg' GEEN afwijking. De
+    MW-objecten 'AANGRENZENDECONSTRUCTIE_*' e.d. worden gearceerd met de gedeelde
+    ACO-arceringen (arceringen van constructies, hoofdgroep CO); die arcering
+    wordt via een zoekterm gevonden en hoort daarom niet in de eigen `aobject`.
+    De andere drie regels (S-token, en 'aobject gevuld zonder A') blijven ook
+    voor deze hoofdgroepen gewoon van kracht.
+
+    `src` mag een MAP met CSV's of één CSV-bestand zijn.
+
+    Geeft een dict terug:
+      {
+        "total":      aantal gecontroleerde objecten,
+        "ok":         aantal objecten zonder afwijking,
+        "violations": [ {name, element, file, row, problems:[labels]} ],
+      }
+    """
+    exempt = {(c or "").strip().upper() for c in (aobject_exempt or ())}
+    empty = {"total": 0, "ok": 0, "violations": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    total = 0
+    ok = 0
+    violations: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers or element_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        ei = headers.index(element_col)
+        si = headers.index(sobject_col) if sobject_col in headers else -1
+        ai = headers.index(aobject_col) if aobject_col in headers else -1
+        hi = headers.index(hoofd_col) if hoofd_col in headers else -1
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name:
+                continue
+            total += 1
+            element = (r[ei] if ei < len(r) else "").strip()
+            tokens = {t.strip().upper() for t in element.split("/") if t.strip()}
+            has_s = "S" in tokens
+            has_a = "A" in tokens
+            so = (r[si] if 0 <= si < len(r) else "").strip()
+            ao = (r[ai] if 0 <= ai < len(r) else "").strip()
+            hg = (r[hi] if 0 <= hi < len(r) else "").strip().upper()
+
+            problems = []
+            if has_s and not so:
+                problems.append("element bevat S maar sobject is leeg")
+            if not has_s and so:
+                problems.append("sobject is ingevuld maar element bevat geen S")
+            if has_a and not ao and hg not in exempt:
+                # Uitzondering (bijv. MW): gearceerd met gedeelde ACO-arceringen,
+                # die via een zoekterm worden gevonden i.p.v. via eigen aobject.
+                problems.append("element bevat A maar aobject is leeg")
+            if not has_a and ao:
+                problems.append("aobject is ingevuld maar element bevat geen A")
+
+            if problems:
+                violations.append({
+                    "name": name, "element": element, "file": fn,
+                    "row": i + 2, "problems": problems,
+                })
+            else:
+                ok += 1
+
+    violations.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "violations": violations}
+
+
+def check_element_filled(src: str, name_col: str = "omschrijving",
+                         element_col: str = "element") -> dict:
+    """Controleer of de `element`-kolom van de objectentabel gevuld is.
+
+    Elke objectregel moet in `element` minimaal één waarde bevatten. De kolom
+    bevat `/`-gescheiden tokens (G=geometrie, A=arcering, S=symbool, T=tekst);
+    voor deze controle telt alleen dát er minstens één (niet-lege) waarde staat,
+    niet welke. Regels met een lege `element`-kolom worden gemeld.
+
+    `src` mag een MAP met CSV's of één CSV-bestand zijn.
+
+    Geeft een dict terug (zelfde vorm als de andere 'X zonder Y'-controles, zodat
+    ot_html._c_missing hem kan renderen):
+      {
+        "total":   aantal gecontroleerde objecten,
+        "ok":      aantal met een gevulde element-kolom,
+        "missing": [ {name, file, row} ],
+      }
+    """
+    empty = {"total": 0, "ok": 0, "missing": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    total = 0
+    ok = 0
+    missing: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers or element_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        ei = headers.index(element_col)
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name:
+                continue
+            total += 1
+            element = (r[ei] if ei < len(r) else "").strip()
+            tokens = [t.strip() for t in element.split("/") if t.strip()]
+            if tokens:
+                ok += 1
+            else:
+                missing.append({"name": name, "file": fn, "row": i + 2})
+
+    missing.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "missing": missing}
+
+
+def check_arcering_verklaring(src: str, name_col: str = "arcering",
+                              verklaring_col: str = "vrkl_lang") -> dict:
+    """Controleer of elke arcering een (lange) verklaring heeft.
+
+    De arceringentabel bevat een kolom `vrkl_lang` (verklaring lang) die de
+    tekst voor de legenda/verklaring bevat. Elke arcering moet die gevuld
+    hebben; regels met een lege `vrkl_lang` worden gemeld.
+
+    `src` mag een MAP met CSV's of één CSV-bestand zijn.
+
+    Geeft een dict terug:
+      {
+        "total":   aantal gecontroleerde arceringen,
+        "ok":      aantal met een gevulde verklaring,
+        "missing": [ {name, file, row} ],   # zonder verklaring
+      }
+    """
+    empty = {"total": 0, "ok": 0, "missing": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    total = 0
+    ok = 0
+    missing: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers or verklaring_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        vi = headers.index(verklaring_col)
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name:
+                continue
+            total += 1
+            vl = (r[vi] if vi < len(r) else "").strip()
+            if vl:
+                ok += 1
+            else:
+                missing.append({"name": name, "file": fn, "row": i + 2})
+
+    missing.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "missing": missing}
+
+
+def check_arcering_name_length(src: str, name_col: str = "arcering",
+                               max_len: int = 31) -> dict:
+    """Controleer of arceringnamen niet langer zijn dan `max_len` tekens.
+
+    Arceringnamen mogen maximaal 31 tekens hebben. Namen die langer zijn worden
+    gemeld met hun lengte. `src` mag een MAP met CSV's of één CSV-bestand zijn.
+
+    Geeft een dict terug:
+      {
+        "total":   aantal gecontroleerde arceringen,
+        "ok":      aantal met een toegestane lengte,
+        "max_len": de gehanteerde maximale lengte,
+        "toolong": [ {name, file, row, length} ],   # te lang
+      }
+    """
+    empty = {"total": 0, "ok": 0, "max_len": max_len, "toolong": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    total = 0
+    ok = 0
+    toolong: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name:
+                continue
+            total += 1
+            if len(name) <= max_len:
+                ok += 1
+            else:
+                toolong.append({"name": name, "file": fn, "row": i + 2,
+                                "length": len(name)})
+
+    toolong.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "max_len": max_len, "toolong": toolong}
+
+
+def check_lijntype_autocaddef(src: str, name_col: str = "omschrijving",
+                              def_col: str = "autocaddef",
+                              exclude_names=()) -> dict:
+    """Controleer of elk lijntype een AutoCAD-definitie heeft.
+
+    De lijntypetabel bevat een kolom `autocaddef` met de AutoCAD-definitiestring
+    (bijv. `A,4,-.8,.8,-.8`). Elk lijntype moet die gevuld hebben; regels met
+    een lege `autocaddef` worden gemeld.
+
+    `exclude_names` : namen die worden overgeslagen — de generieke lijnen
+    CONTINUOUS/V-CONTINUOUS-SO komen uit een andere publicatie en hebben bewust
+    geen definitiestring (CONTINUOUS is een ingebouwde AutoCAD-lijn).
+
+    `src` mag een MAP met CSV's of één CSV-bestand zijn.
+
+    Geeft een dict terug:
+      {
+        "total":   aantal gecontroleerde lijntypes (exclusief overgeslagen),
+        "ok":      aantal met een gevulde autocaddef,
+        "missing": [ {name, file, row} ],   # zonder autocaddef
+      }
+    """
+    empty = {"total": 0, "ok": 0, "missing": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    skip = {(n or "").strip().upper() for n in exclude_names}
+    total = 0
+    ok = 0
+    missing: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers or def_col not in headers:
+            continue
+        ni = headers.index(name_col)
+        di = headers.index(def_col)
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if ni < len(r) else "").strip()
+            if not name or name.upper() in skip:
+                continue
+            total += 1
+            ad = (r[di] if di < len(r) else "").strip()
+            if ad:
+                ok += 1
+            else:
+                missing.append({"name": name, "file": fn, "row": i + 2})
+
+    missing.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "missing": missing}
+
+
+# Vervallen lijntypes (fase = 'V', naam begint met 'V-') kregen bij de transitie
+# een 'scrap' met een VERWIJDEREN2-shape uit NLCS.shx op schaal 0.5. In de
+# autocaddef staat dan een segment als '[VERWIJDEREN2,NLCS.SHX,s=0.5]' (soms met
+# extra x=-offset). De juiste schaal is s=0.5.
+_RE_VERWIJDEREN2 = re.compile(r"\[\s*VERWIJDEREN2\b([^\]]*)\]", re.IGNORECASE)
+_RE_SCALE = re.compile(r"\bs\s*=\s*([0-9]*\.?[0-9]+)", re.IGNORECASE)
+
+
+def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
+                            def_col: str = "autocaddef", fase_col: str = "fase",
+                            expected: float = 0.5) -> dict:
+    """Controleer of alle VERVALLEN lijntypes hun VERWIJDEREN2-scrap op de juiste
+    schaal (s=0.5) hebben staan.
+
+    Bij de transitie kregen alle vervallen lijntypes (kolom `fase` = 'V', naam
+    begint met 'V-') een VERWIJDEREN2-shape uit NLCS.shx toegevoegd aan hun
+    AutoCAD-definitie, met dezelfde afmetingen: de juiste eigenschap is
+    `[VERWIJDEREN2,NLCS.shx,s=0.5]`. Deze controle leest per vervallen lijntype de
+    `autocaddef`, zoekt het `[VERWIJDEREN2,…]`-segment en controleert of de
+    `s=`-waarde daarin gelijk is aan 0.5. Alleen de schaal telt; een eventuele
+    `x=`-offset blijft ongemoeid.
+
+    `src` mag een MAP met CSV's of één CSV-bestand zijn.
+
+    Geeft een dict terug (zelfde vorm als de andere 'X zonder Y'-controles, plus
+    per melding het gevonden schaalwaarde-veld, zodat ot_html het kan tonen):
+      {
+        "total":    aantal vervallen lijntypes (fase = 'V'),
+        "ok":        aantal met VERWIJDEREN2 op s=0.5,
+        "expected":  de verwachte schaal (0.5),
+        "missing":  [ {name, file, row, found} ],  # verkeerde/ontbrekende s=
+      }
+      `found` = de gevonden s-waarde als tekst ('0.6', '1', …), of
+      '(geen VERWIJDEREN2)' / '(geen s=)' als die ontbreekt.
+    """
+    empty = {"total": 0, "ok": 0, "expected": expected, "missing": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    total = 0
+    ok = 0
+    missing: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if def_col not in headers or fase_col not in headers:
+            continue
+        di = headers.index(def_col)
+        fi = headers.index(fase_col)
+        ni = headers.index(name_col) if name_col in headers else -1
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            fase = (r[fi] if fi < len(r) else "").strip().upper()
+            if fase != "V":
+                continue
+            total += 1
+            name = (r[ni] if 0 <= ni < len(r) else "").strip()
+            ad = (r[di] if di < len(r) else "")
+            m = _RE_VERWIJDEREN2.search(ad)
+            if not m:
+                missing.append({"name": name, "file": fn, "row": i + 2,
+                                "found": "(geen VERWIJDEREN2)"})
+                continue
+            sm = _RE_SCALE.search(m.group(1))
+            if not sm:
+                missing.append({"name": name, "file": fn, "row": i + 2,
+                                "found": "(geen s=)"})
+                continue
+            if float(sm.group(1)) == expected:
+                ok += 1
+            else:
+                missing.append({"name": name, "file": fn, "row": i + 2,
+                                "found": f"s={sm.group(1)}"})
+
+    missing.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "expected": expected, "missing": missing}
+
+
+def bib_of_stem(stem: str, known_bibs) -> str:
+    """De bibliotheek-code die als los hyphen-segment in een bestands-/symboolnaam
+    staat. Symboolnamen kunnen een prefix hebben (bijv. 'V-SFC-PAAL...', 'B-SGC-…'),
+    dus het EERSTE naam-segment is geen betrouwbare bibliotheek. We zoeken welke
+    bekende bibliotheek (uit de `sbibliotheek`-kolom, bijv. SFC/SGC/SAM) als segment
+    in de naam voorkomt; het eerste passende segment wint. Geeft "" als geen enkele
+    bekende bibliotheek in de naam zit (dan hoort het .dwg-bestand niet bij een
+    verwerkte hoofdgroep)."""
+    if not stem or not known_bibs:
+        return ""
+    known = {b.upper() for b in known_bibs if b}
+    for seg in stem.upper().split("-"):
+        if seg in known:
+            return seg
+    return ""
+
+
+def check_dwg_symbols(sym_src: str, dwg_dir: str, name_col: str = "symbool",
+                      bib_col: str = "sbibliotheek") -> dict:
+    """Controleer de koppeling tussen symbooltabelregels en .dwg-bestanden, TWEE
+    kanten op:
+      - regel zonder bestand: elke symbooltabelregel moet een <symbool>.dwg in de
+        .dwg-map hebben (recursief);
+      - bestand zonder regel (wees): elk .dwg-bestand van een VERWERKTE bibliotheek
+        moet een tabelregel hebben.
+
+    De wees-detectie is gescoped op de bibliotheken die daadwerkelijk in de
+    symbolentabellen voorkomen (kolom `sbibliotheek`): de .dwg-map bevat álle
+    bibliotheken, dus een .dwg van een niet-verwerkte bibliotheek is géén wees.
+    Bib per .dwg wordt prefix-proof bepaald via `bib_of_stem` (V-/B-voorvoegsels).
+
+    `sym_src` mag een MAP met symbolen-CSV's of één CSV zijn; `dwg_dir` is de map
+    met .dwg-bestanden (recursief doorzocht).
+
+    Geeft een dict terug:
+      {
+        "total":    aantal gecontroleerde tabelregels,
+        "ok":       aantal regels met een .dwg-bestand,
+        "missing":  [ {name, file, hoofdgroep} ],  # regel zonder .dwg
+        "orphans":  [ {name, file, hoofdgroep} ],  # .dwg zonder regel
+        "dwg_count": aantal .dwg-bestanden in de map,
+        "bibs":     gesorteerde lijst verwerkte bibliotheken,
+      }
+    Als er geen symbolenbron of geen .dwg-map is, wordt None teruggegeven (de
+    controle is dan niet van toepassing/overgeslagen)."""
+    if not sym_src or not dwg_dir or not os.path.isdir(dwg_dir):
+        return None
+    if os.path.isdir(sym_src):
+        paths = sorted(glob.glob(os.path.join(sym_src, "*.csv")))
+    elif os.path.isfile(sym_src):
+        paths = [sym_src]
+    else:
+        return None
+
+    dwg_map = dwg_index(dwg_dir)          # {stem.lower(): relpad}
+    all_symbols: set = set()
+    processed_bibs: set = set()
+    missing: list[dict] = []
+    total = 0
+    ok = 0
+    have_names = False
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        have_names = True
+        ni = headers.index(name_col)
+        bi = headers.index(bib_col) if bib_col in headers else -1
+        fn = os.path.basename(path)
+        code = hoofdgroep_code(path)
+        for r in rows:
+            nm = (r[ni] if ni < len(r) else "").strip()
+            if not nm:
+                continue
+            total += 1
+            all_symbols.add(nm.lower())
+            if bi >= 0:
+                sb = (r[bi] if bi < len(r) else "").strip().upper()
+                if sb:
+                    processed_bibs.add(sb)
+            if nm.lower() in dwg_map:
+                ok += 1
+            else:
+                missing.append({"name": nm, "file": fn, "hoofdgroep": code})
+    if not have_names:
+        return None
+
+    orphans = [
+        {"name": stem, "file": dwg_map[stem],
+         "hoofdgroep": sbib_to_code(bib_of_stem(stem, processed_bibs))}
+        for stem in dwg_map
+        if bib_of_stem(stem, processed_bibs) and stem not in all_symbols
+    ]
+    missing.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    orphans.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "missing": missing, "orphans": orphans,
+            "dwg_count": len(dwg_map), "bibs": sorted(processed_bibs)}
+
+
 def _sort_key(row: list[str]) -> str:
     return (row[SORT_COLUMN] if len(row) > SORT_COLUMN else "").casefold()
 
 
+# In sommige 5.0-objectentabellen staan kleurwaarden (kl_*-kolommen) met een
+# 'file:///'-prefix vóór de RGB-waarde, bijv. 'file:///140,135,45'. In 5.2 staat
+# daar alleen '140,135,45'. Voor het VERGELIJKEN telt alleen de RGB-waarde: strip
+# de prefix (incl. eventuele 'file:' / 'file://' varianten) aan beide kanten.
+_RE_FILE_PREFIX = re.compile(r"^\s*file:/{0,3}", re.IGNORECASE)
+
+
+def _norm_cell(value: str) -> str:
+    """Normaliseer een celwaarde voor changedetectie: strip omringende witruimte
+    en een leidende 'file:///'-prefix (die alleen in oude versies vóór een
+    RGB-waarde staat)."""
+    return _RE_FILE_PREFIX.sub("", (value or "").strip()).strip()
+
+
 def compare(new_path: str, old_path: str, key: str = KEY,
-            scope_col: str = "", blank_spec: dict = None) -> dict:
+            scope_col: str = "", blank_spec: dict = None,
+            suppress_change: dict = None, multilink_cols=None) -> dict:
     """Vergelijk twee CSV-versies en geef een resultaat-dict terug.
 
     Parameters:
@@ -628,6 +2121,20 @@ def compare(new_path: str, old_path: str, key: str = KEY,
                     "columns": [<kolom>, ...]}. Voor lijntypes: de generieke lijnen
                    'CONTINUOUS' en 'V-CONTINUOUS-SO' (uit een andere publicatie)
                    met blanco fase/optie/autocaddef.
+      suppress_change : optioneel {"match_col": <kolom>, "values": {<waarde>, ...}}.
+                   Rijen waarvan `match_col` in `values` zit tonen in de changelog
+                   NOOIT wijzigingen: geen enkele cel wordt als gewijzigd
+                   gemarkeerd, de rij krijgt status 'same' (nooit 'nieuw'/groen) en
+                   ze verschijnen niet in de vervallen-lijst. Voor lijntypes: de
+                   generieke lijnen 'CONTINUOUS'/'V-CONTINUOUS-SO' — die willen we
+                   in de changelog helemaal niet als wijziging zien.
+      multilink_cols : optioneel, verzameling kolomnamen (objecten: sobject/aobject)
+                   waarvan de OUDE waarde een lange puntkomma-lijst kon zijn (in de
+                   changelog getoond als 'multiple links'). Die lijst kan niet zinvol
+                   met de vereenvoudigde nieuwe waarde vergeleken worden; stond er in
+                   de oude versie zo'n meervoudige lijst, dan nemen we AAN dat de
+                   waarde gelijk is gebleven: de cel telt niet als wijziging en toont
+                   alleen de nieuwe (5.2-)waarde.
 
     Keys in het resultaat:
       headers       : koppen van de nieuwe versie (bepalen de kolomindeling)
@@ -688,6 +2195,18 @@ def compare(new_path: str, old_path: str, key: str = KEY,
                     if r[oidx[scope_col]].strip() in allowed
                     or (allow_empty and not r[oidx[scope_col]].strip())]
 
+    # Rijen waarvoor GEEN wijzigingen getoond mogen worden (changelog): match op
+    # een kolomwaarde (bijv. omschrijving = CONTINUOUS/V-CONTINUOUS-SO).
+    sup = suppress_change or {}
+    sup_col = sup.get("match_col", "")
+    sup_vals = {(v or "").strip().upper() for v in sup.get("values", [])}
+    sup_ni = nidx.get(sup_col, -1) if sup_col and sup_col in nidx else -1
+    sup_oi = oidx.get(sup_col, -1) if sup_col and sup_col in oidx else -1
+
+    # Multilink-kolommen (sobject/aobject): oude 'multiple links'-lijst = aanname
+    # ongewijzigd.
+    mlink = set(multilink_cols or ())
+
     # Oude rijen op id (eerste voorkomen wint).
     old_by_id: dict[str, list[str]] = {}
     for r in old_rows:
@@ -706,26 +2225,43 @@ def compare(new_path: str, old_path: str, key: str = KEY,
         if not is_new:
             matched.add(rid)
 
+        # Onderdruk wijzigingen voor deze rij? (generieke lijntypes)
+        suppressed = (sup_ni >= 0 and sup_ni < len(r)
+                      and r[sup_ni].strip().upper() in sup_vals)
+
         cells = []
         changed_any = False
         for h in new_headers:
             value = r[nidx[h]]
             changed = False
             old_value = None
-            if not is_new and h != key and h in oidx:
+            if not is_new and not suppressed and h != key and h in oidx:
                 ov = old[oidx[h]]
-                if value.strip() != ov.strip():
-                    changed = True
-                    changed_any = True
-                    old_value = ov
+                if _norm_cell(value) != _norm_cell(ov):
+                    # Aanname bij multilink-kolommen (sobject/aobject): stond er in
+                    # de oude versie een lange puntkomma-lijst ('multiple links'),
+                    # dan is die niet zinvol te vergelijken met de vereenvoudigde
+                    # nieuwe waarde -> neem aan dat hij gelijk is gebleven en toon
+                    # alleen de nieuwe waarde (geen wijziging).
+                    if not (mlink and h in mlink
+                            and len([p for p in ov.split(";") if p.strip()]) > 1):
+                        changed = True
+                        changed_any = True
+                        old_value = ov
             cells.append({"value": value, "changed": changed, "old": old_value})
 
-        status = "new" if is_new else ("changed" if changed_any else "same")
+        if suppressed:
+            status = "same"
+        else:
+            status = "new" if is_new else ("changed" if changed_any else "same")
         rows_out.append({"status": status, "id": rid, "cells": cells})
 
     # Vervallen rijen: id wel in oud, niet gematcht. In nieuwe-kolomindeling zetten.
+    # Onderdrukte rijen (generieke lijntypes) tellen nooit als vervallen.
     deleted_rows = [r for r in old_rows
-                    if r[oidx[key]].strip() and r[oidx[key]].strip() not in matched]
+                    if r[oidx[key]].strip() and r[oidx[key]].strip() not in matched
+                    and not (sup_oi >= 0 and sup_oi < len(r)
+                             and r[sup_oi].strip().upper() in sup_vals)]
     deleted_rows.sort(key=_sort_key)
     deleted_out = []
     for r in deleted_rows:

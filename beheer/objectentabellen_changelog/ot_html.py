@@ -19,6 +19,7 @@ DataTables/jQuery via CDN (internet nodig voor de volledige tabel).
 
 import html as _html
 import json as _json
+import os as _os
 
 from ot_assets import LOGO_DATA_URI, BANNER_DATA_URI
 
@@ -157,8 +158,10 @@ def _shell_head(title: str, extra_style: str = "", cdn: bool = False) -> str:
 # 1. Volledige tabel (sorteer + filter op alle kolommen)
 # ---------------------------------------------------------------------------
 _FULL_STYLE = """
-    /* Horizontale scroll voor de brede tabel */
-    div.dataTables_wrapper { overflow-x: auto; }
+    /* Bevroren kop + scroll: DataTables levert via scrollX/scrollY een eigen
+       scrollvenster, zodat de kop (incl. filterrij) blijft staan tijdens
+       verticaal scrollen en de kolommen uitgelijnd blijven. */
+    div.dataTables_scrollBody { border-bottom: 1px solid var(--dg-grey); }
     table.dataTable thead th { background-color: var(--dg-black); color: #fff;
                     border-bottom: 3px solid var(--dg-yellow); }
     table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
@@ -181,22 +184,39 @@ _FULL_STYLE = """
         color: #000 !important; }
 """
 
-def _full_script(no_sort_indices=None) -> str:
+def _full_script(no_sort_indices=None, order=None, paginate: bool = True) -> str:
     """Het DataTables-init-script. `no_sort_indices` = kolommen die niet
-    sorteerbaar mogen zijn (bijv. de svg-afbeeldingskolom)."""
+    sorteerbaar mogen zijn (bijv. de svg-afbeeldingskolom). `order` = de
+    standaardsortering ([[kolomindex, 'asc'|'desc'], ...]); None -> [[0,'asc']].
+    `paginate=False` toont alle rijen op één pagina (geen 25-rij-limiet), binnen
+    het scrollY-venster met bevroren kop."""
     coldefs = ""
     if no_sort_indices:
         coldefs = ("\n        columnDefs: [{ orderable: false, targets: "
                    + _json.dumps(list(no_sort_indices)) + " }],")
+    order_js = _json.dumps(order if order else [[0, "asc"]])
+    if paginate:
+        paging_js = """
+        pageLength: 25,
+        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Alle"]],"""
+    else:
+        # Alle rijen op één pagina; paginering + lengtekeuze verbergen.
+        paging_js = """
+        paging: false,"""
     return """
 <script>
 $(document).ready(function () {
-    var table = $('#otab').DataTable({
-        pageLength: 25,
-        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Alle"]],""" + coldefs + """
-        order: [[0, 'asc']],
+    var table = $('#otab').DataTable({""" + paging_js + """
+        scrollX: true,
+        scrollY: '65vh',
+        scrollCollapse: true,""" + coldefs + """
+        order: """ + order_js + """,
         orderCellsTop: true
     });
+    // Kolombreedtes opnieuw uitlijnen na laden en bij venstergrootte-wijziging
+    // (scrollX kan bij het initieel tekenen minimaal afwijken).
+    table.columns.adjust();
+    $(window).on('resize', function () { table.columns.adjust(); });
     // Filters via event-delegatie op de wrapper: blijft werken ongeacht hoe
     // DataTables de kop opnieuw opbouwt. De kolomindex volgt uit de positie
     // van de <th> in de filterrij.
@@ -269,7 +289,8 @@ def _extra_filter_cell(col: dict) -> str:
 
 def build_full_html(result: dict, title: str, version_new: str = "",
                     visible_indices=None, text_columns=None,
-                    extra_columns=None, front_columns=None) -> str:
+                    extra_columns=None, front_columns=None, order=None,
+                    paginate: bool = True, header_labels=None) -> str:
     """Volledige nieuwe tabel als sorteerbare/filterbare DataTables-pagina.
 
     text_columns  : kolomnamen die een vrij zoekveld krijgen; alle andere
@@ -285,12 +306,23 @@ def build_full_html(result: dict, title: str, version_new: str = "",
                       orderable     : bool (svg-kolom = False)
                       td_class      : optionele class op de <td>
     front_columns : idem, maar VOORAAN (bijv. symbolen: 'zoekfilter' + 'svg').
-                    De eerste front-kolom moet sorteerbaar zijn (order [[0]])."""
+                    De eerste front-kolom moet sorteerbaar zijn (order [[0]]).
+    order         : DataTables-standaardsortering ([[kolomindex, richting], ...]);
+                    None -> [[0, 'asc']]. Symbolen groeperen zo op de zoekfilter-
+                    kolom (0) met de symboolnaam-kolom als secundaire sortering.
+    header_labels : optionele {kolomnaam: weergavenaam} om ALLEEN de getoonde
+                    koptekst (en het zoekveld-label) te hernoemen; de kolomnaam
+                    zelf (matching/filtering) blijft ongewijzigd. Bijv. sym/lijn/
+                    arc tonen 'fase' als 'status'."""
     headers = result["headers"]
     rows = result["rows"]
     front = front_columns or []
     extra = extra_columns or []
+    hlabels = header_labels or {}
     vis = _visible_indices(headers) if visible_indices is None else visible_indices
+
+    def _hlabel(name: str) -> str:
+        return hlabels.get(name, name)
 
     if text_columns is None:
         text_set = {headers[i] for i in vis if _default_is_text(headers[i])}
@@ -300,11 +332,12 @@ def build_full_html(result: dict, title: str, version_new: str = "",
     # Volgorde overal gelijk: front -> zichtbaar -> extra (de filter-JS koppelt op
     # de DOM-index van de <th>).
     head_cells = "".join(f"<th>{_esc(col['header'])}</th>" for col in front)
-    head_cells += "".join(f"<th>{_esc(headers[i])}</th>" for i in vis)
+    head_cells += "".join(f"<th>{_esc(_hlabel(headers[i]))}</th>" for i in vis)
     head_cells += "".join(f"<th>{_esc(col['header'])}</th>" for col in extra)
     filter_cells = "".join(_extra_filter_cell(col) for col in front)
     filter_cells += "".join(
-        _filter_cell(i, headers[i], headers[i] in text_set, rows) for i in vis)
+        _filter_cell(i, _hlabel(headers[i]), headers[i] in text_set, rows)
+        for i in vis)
     filter_cells += "".join(_extra_filter_cell(col) for col in extra)
 
     def _cell_td(col, ri):
@@ -339,7 +372,7 @@ def build_full_html(result: dict, title: str, version_new: str = "",
         + "</thead>\n<tbody>\n"
         + "\n".join(body)
         + "\n</tbody>\n</table>\n"
-        + _full_script(no_sort)
+        + _full_script(no_sort, order, paginate=paginate)
         + "</div>\n"
         + _FOOTER
     )
@@ -349,7 +382,10 @@ def build_full_html(result: dict, title: str, version_new: str = "",
 # 2. Changelog (statisch, gekleurd)
 # ---------------------------------------------------------------------------
 _CHANGELOG_STYLE = """
-    .tablescroll { overflow-x: auto; }
+    /* Excel-achtig: kop bevriezen, de rest van de tabel scrollt in het venster
+       (zowel horizontaal als verticaal). */
+    .tablescroll { overflow: auto; max-height: 78vh; }
+    table.otab thead th { position: sticky; top: 0; z-index: 3; }
     table.otab { width: auto; }
     table.otab tbody tr.new-row td { background-color: #e5f5e0; }   /* groen: nieuw */
     table.otab tbody tr.deleted td { background-color: #ffe0e2; }   /* rood: vervallen */
@@ -371,6 +407,12 @@ _CHANGELOG_STYLE = """
     .sw-new { background-color: #e5f5e0; }
     .sw-changed { background-color: #e0f3fb; }
     .sw-deleted { background-color: #ffe0e2; }
+
+    /* Badge bij een vervallen object met een naamgenoot in de nieuwe release */
+    span.naamgenoot { display: inline-block; background-color: var(--dg-green);
+                    color: #fff; font-size: .72rem; font-weight: 700;
+                    padding: 1px 7px; border-radius: 10px; white-space: nowrap;
+                    vertical-align: middle; }
 
     /* Extra symbolen-kolommen (alleen in de changelog) */
     td.svgcell { text-align: center; }
@@ -440,7 +482,8 @@ def _changelog_row(row: dict, version_new: str, version_old: str,
 def build_changelog_html(result: dict, title: str,
                          version_new: str = "", version_old: str = "",
                          visible_indices=None, extra_columns=None,
-                         orphans=None) -> str:
+                         orphans=None, deleted_notes=None,
+                         header_labels=None) -> str:
     """Changelog-pagina: gewijzigde cellen blauw (oud + nieuw), nieuwe rijen
     groen, vervallen rijen onderaan rood.
 
@@ -450,16 +493,27 @@ def build_changelog_html(result: dict, title: str,
                     result['deleted']) en optioneel td_class.
     orphans       : optionele lijst (bestandsnaam, relatief pad) van .dwg-
                     bestanden die bij GEEN regel in deze symbolentabel horen;
-                    onderaan getoond in een aparte 'wees'-sectie."""
+                    onderaan getoond in een aparte 'wees'-sectie.
+    deleted_notes : optionele lijst (op volgorde van result['deleted']) met per
+                    vervallen rij een korte notitie of None. Is er een notitie,
+                    dan verschijnt die als groene badge in de eerste kolom van
+                    die vervallen rij (objecten: 'naamgenoot in de nieuwe
+                    release').
+    header_labels : optionele {kolomnaam: weergavenaam} om ALLEEN de getoonde
+                    koptekst te hernoemen (bijv. sym/lijn/arc: 'fase' -> 'status');
+                    de kolomnaam zelf blijft ongewijzigd."""
     headers = result["headers"]
     rows = result["rows"]
     deleted = result["deleted"]
     stats = result["stats"]
     extra = extra_columns or []
     orphans = orphans or []
+    deleted_notes = deleted_notes or []
+    hlabels = header_labels or {}
     vis = _visible_indices(headers) if visible_indices is None else visible_indices
 
-    head_cells = "".join(f"<th>{_esc(headers[i])}</th>" for i in vis)
+    head_cells = "".join(
+        f"<th>{_esc(hlabels.get(headers[i], headers[i]))}</th>" for i in vis)
     head_cells += "".join(f"<th>{_esc(col['header'])}</th>" for col in extra)
     ncols = len(vis) + len(extra)
 
@@ -473,7 +527,13 @@ def build_changelog_html(result: dict, title: str,
             f'{_esc(version_old or "de oude versie")}, niet meer in '
             f'{_esc(version_new or "de nieuwe versie")}</th></tr>')
         for di, drow in enumerate(deleted):
-            tds = "".join(f"<td>{_cl_val(headers, i, drow[i])}</td>" for i in vis)
+            note = deleted_notes[di] if di < len(deleted_notes) else None
+            note_html = (f' <span class="naamgenoot">{_esc(note)}</span>'
+                         if note else "")
+            tds = "".join(
+                f"<td>{_cl_val(headers, i, drow[i])}"
+                f"{note_html if pos == 0 else ''}</td>"
+                for pos, i in enumerate(vis))
             for col in extra:
                 cls = col.get("td_class")
                 dcells = col.get("deleted_cells") or []
@@ -511,6 +571,9 @@ def build_changelog_html(result: dict, title: str,
         '<span><span class="swatch sw-deleted"></span> vervallen rij</span>'
         + ('<span><span class="swatch sw-wees"></span> wees-.dwg '
            '(geen tabelregel)</span>' if orphans else "")
+        + ('<span><span class="naamgenoot">naamgenoot</span> vervallen object '
+           'met dezelfde naam in de nieuwe release</span>'
+           if any(deleted_notes) else "")
         + '</div>')
 
     # Melding bovenaan wanneer er niets aan de tabel is veranderd (geen nieuwe,
@@ -550,6 +613,15 @@ _INDEX_STYLE = """
             min-height:210px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
     .card.general { border-top-color: var(--dg-blue); }
     .card h2 { margin:0; font-size:1.2rem; color:var(--dg-ink); }
+    .card h2 .hg-check { float:right; font-size:.9rem; font-weight:700;
+            padding:1px 9px; border-radius:12px; line-height:1.5; }
+    .card h2 .hg-check.ok  { color:#fff; background:var(--dg-green); }
+    .card h2 .hg-check.err { color:#fff; background:#C0392B; }
+    p.legend-check { color:var(--dg-grey2); font-size:.8rem; margin:0 0 12px; }
+    p.legend-check .sw { display:inline-block; color:#fff; font-weight:700;
+            border-radius:10px; padding:0 7px; margin-right:3px; }
+    p.legend-check .sw.ok  { background:var(--dg-green); }
+    p.legend-check .sw.err { background:#C0392B; }
     .card .subtitle { color:var(--dg-grey2); font-size:.8rem; margin:2px 0 10px; }
     .card .section-lbl { font-size:.7rem; text-transform:uppercase; letter-spacing:.5px;
             color:var(--dg-grey2); font-weight:700; margin:10px 0 5px; }
@@ -570,7 +642,8 @@ _INDEX_STYLE = """
 
 
 def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
-                     version: str = "", base_url: str = "") -> str:
+                     version: str = "", base_url: str = "",
+                     checkmarks=None) -> str:
     """Overzichtspagina ('kaart') met één blok per hoofdgroep en knoppen naar de
     gepubliceerde tabellen en changelogs.
 
@@ -578,10 +651,15 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
     general : lijst entries voor het algemene blok ('voor alle hoofdgroepen').
     base_url: online basis (bijv. 'https://nl-digigo.github.io/NLCS/'); het
               entry-subpad wordt eraan geplakt. Leeg -> relatieve links.
+    checkmarks : optioneel {code: {"errors": n}} (ot_compare.quality_checkmarks)
+              voor hoofdgroepen met een objectentabel-CSV; 0 fouten -> groen
+              vinkje in de kop, >0 -> rood kruis met aantal. None/leeg -> geen
+              vinkjes.
     Elke entry heeft: filename, subpath, kind ('tabel'|'changelog'), label."""
     base = (base_url or "").strip()
     if base and not base.endswith("/"):
         base += "/"
+    marks = checkmarks or {}
 
     def _btn(entry: dict) -> str:
         url = (base + entry["subpath"]) if base else entry["subpath"]
@@ -589,11 +667,22 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
         return (f'<a class="btn {cls}" href="{_esc(url)}" target="_blank" '
                 f'title="{_esc(entry["filename"])}">{_esc(entry["label"])}</a>')
 
-    def _card(heading: str, subtitle: str, entries: list, general: bool) -> str:
+    def _check_badge(mark) -> str:
+        if mark is None:
+            return ""
+        errs = mark.get("errors", 0)
+        if errs:
+            return (f'<span class="hg-check err" title="{errs} foutmelding(en) '
+                    f'in het kwaliteitsrapport">&#10007; {errs}</span>')
+        return ('<span class="hg-check ok" title="geen foutmeldingen in het '
+                'kwaliteitsrapport">&#10003;</span>')
+
+    def _card(heading: str, subtitle: str, entries: list, general: bool,
+              mark=None) -> str:
         tabellen = [e for e in entries if e.get("kind") != "changelog"]
         changelogs = [e for e in entries if e.get("kind") == "changelog"]
         parts = [f'<div class="card{" general" if general else ""}">',
-                 f"<h2>{_esc(heading)}</h2>",
+                 f"<h2>{_esc(heading)}{_check_badge(mark)}</h2>",
                  f'<p class="subtitle">{_esc(subtitle)}</p>']
         if tabellen:
             parts.append('<div class="section-lbl">Tabellen</div>')
@@ -622,13 +711,23 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
                            f"{len(general)} algemeen bestand(en)", general, True))
     for code, entries in groups:
         cards.append(_card(code, f"hoofdgroep {code} &middot; "
-                           f"{len(entries)} bestand(en)", entries, False))
+                           f"{len(entries)} bestand(en)", entries, False,
+                           mark=marks.get(code)))
 
     total = sum(len(e) for _c, e in groups) + len(general)
     info = (f"{len(groups)} hoofdgroep(en) &middot; {total} bestand(en)"
             + (f" &middot; versie {_esc(version)}" if version else "")
             + (f' &middot; <a href="{_esc(base)}" target="_blank">{_esc(base)}</a>'
                if base else ""))
+
+    # Legenda voor de vinkjes (alleen als er een kwaliteitsrapport gebruikt is).
+    legend = ""
+    if marks:
+        legend = ('<p class="legend-check">'
+                  '<span class="sw ok">&#10003;</span> objectentabel zonder '
+                  'foutmeldingen in het kwaliteitsrapport &nbsp;&middot;&nbsp; '
+                  '<span class="sw err">&#10007;</span> objectentabel mét '
+                  'foutmeldingen (aantal erbij).</p>')
 
     body = ('<p class="empty">Geen gepubliceerde bestanden gevonden voor deze '
             'versie.</p>' if not cards else
@@ -637,16 +736,83 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
     return (
         _shell_head(title, extra_style=_INDEX_STYLE, cdn=False)
         + f'<div class="wrap">\n<p class="info">{info}</p>\n'
+        + legend + ("\n" if legend else "")
         + body + "\n"
         + "</div>\n"
         + _FOOTER
     )
 
 
+def build_index_markdown(groups, general,
+                         title: str = "NLCS publicatie-overzicht",
+                         version: str = "", base_url: str = "",
+                         checkmarks=None) -> str:
+    """Zelfde overzicht als build_index_html, maar als Markdown voor gebruik in
+    GitHub-issues: één kop (##) per hoofdgroep met daaronder de links,
+    gesplitst in Tabellen en Changelogs. base_url wordt aan het subpad geplakt
+    (leeg -> alleen het relatieve subpad, wat in een issue niet klikbaar is).
+
+    checkmarks : optioneel {code: {"errors": n}} — hoofdgroepen met een
+    objectentabel-CSV krijgen ✅ (0 fouten) of ❌ (N fouten) achter de kop."""
+    base = (base_url or "").strip()
+    if base and not base.endswith("/"):
+        base += "/"
+    marks = checkmarks or {}
+
+    def _mdesc(text: str) -> str:
+        # markdown-linktekst veilig maken: [] en backslash escapen
+        return (str(text).replace("\\", "\\\\")
+                .replace("[", "\\[").replace("]", "\\]"))
+
+    def _link(entry: dict) -> str:
+        url = (base + entry["subpath"]) if base else entry["subpath"]
+        return f'- [{_mdesc(entry["label"])}]({url})'
+
+    def _section(heading: str, entries: list, mark=None) -> list:
+        suffix = ""
+        if mark is not None:
+            errs = mark.get("errors", 0)
+            suffix = " ✅" if not errs else f" ❌ ({errs} fout(en))"
+        out = [f"## {heading}{suffix}", ""]
+        tabellen = [e for e in entries if e.get("kind") != "changelog"]
+        changelogs = [e for e in entries if e.get("kind") == "changelog"]
+        if tabellen:
+            out.append("**Tabellen**")
+            out += [_link(e) for e in tabellen]
+            out.append("")
+        if changelogs:
+            out.append("**Changelogs**")
+            out += [_link(e) for e in changelogs]
+            out.append("")
+        if not entries:
+            out += ["_geen bestanden_", ""]
+        return out
+
+    total = sum(len(e) for _c, e in groups) + len(general)
+    lines = [f"# {title}".rstrip(), ""]
+    meta = f"{len(groups)} hoofdgroep(en) · {total} bestand(en)"
+    if version:
+        meta += f" · versie {version}"
+    lines += [meta, ""]
+    if base:
+        lines += [f"Basis-URL: {base}", ""]
+
+    if general:
+        lines += _section("Voor alle hoofdgroepen", general)
+    for code, entries in groups:
+        lines += _section(code, entries, mark=marks.get(code))
+
+    if not groups and not general:
+        lines += ["_Geen gepubliceerde bestanden gevonden voor deze versie._", ""]
+
+    return "\n".join(lines).rstrip() + "\n"
+
+
 # ---------------------------------------------------------------------------
 # 4. Wees-.dwg's: bestanden zonder een regel in de symbolentabel
 # ---------------------------------------------------------------------------
 _ORPHAN_STYLE = """
+    table.otab thead th { position: sticky; top: 0; z-index: 3; }
     table.otab tbody td { white-space: normal; }
     table.otab tbody tr:nth-child(even) td { background-color: #fafafa; }
     p.leeg { color: var(--dg-green); font-weight: 600; }
@@ -680,5 +846,1704 @@ def build_orphans_html(orphans, title: str, symbols_dir: str = "",
         + f'<div class="wrap">\n<p class="info">{info}</p>\n'
         + table
         + "</div>\n"
+        + _FOOTER
+    )
+
+
+def build_missing_dwg_html(missing, title: str, symbols_dir: str = "",
+                           version_new: str = "") -> str:
+    """Pagina met de regels in de symbolentabellen waarvoor GEEN .dwg-bestand in
+    de map gevonden is — de omgekeerde controle van build_orphans_html
+    (bestand zonder regel <-> regel zonder bestand).
+
+    missing : lijst (symboolnaam, hoofdgroepcode), gesorteerd op hoofdgroep+naam."""
+    src = (f" &middot; map: {_esc(symbols_dir)}" if symbols_dir else "")
+    ver = (f" &middot; versie {_esc(version_new)}" if version_new else "")
+    info = (f"{len(missing)} regel(s) in de symbolentabellen zonder "
+            f".dwg-bestand{ver}{src}")
+
+    if missing:
+        head = ("<tr><th>#</th><th>symbool (regel)</th><th>hoofdgroep</th>"
+                "<th>verwacht bestand</th></tr>")
+        body = "\n".join(
+            f"<tr><td>{i}</td><td>{_esc(naam)}</td><td>{_esc(code)}</td>"
+            f"<td>{_esc(naam)}.dwg</td></tr>"
+            for i, (naam, code) in enumerate(missing, start=1))
+        table = ('<div class="tablescroll">\n<table class="otab">\n<thead>\n'
+                 f"{head}\n</thead>\n<tbody>\n{body}\n</tbody>\n</table>\n</div>\n")
+    else:
+        table = ('<p class="leeg">Bij elke regel in de symbolentabellen is een '
+                 '.dwg-bestand gevonden.</p>\n')
+
+    return (
+        _shell_head(title, extra_style=_ORPHAN_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n'
+        + table
+        + "</div>\n"
+        + _FOOTER
+    )
+
+
+# ---------------------------------------------------------------------------
+# 6. Controle-rapporten (ID-controle en Optie-fase-check) als HTML
+# ---------------------------------------------------------------------------
+_CHECK_STYLE = """
+    .wrap { max-width: 1100px; }
+    .card { background:#fff; border:1px solid var(--dg-grey); border-radius:8px;
+            padding:16px 18px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+    .card h2 { margin:0 0 8px; font-size:1.2rem; border-bottom:3px solid var(--dg-yellow);
+               padding-bottom:6px; }
+    .card h3 { margin:16px 0 6px; font-size:.98rem; color:var(--dg-ink); }
+    .kpi { display:flex; gap:14px; flex-wrap:wrap; margin:10px 0 4px; }
+    .kpi .box { background:#fafafa; border:1px solid var(--dg-grey); border-radius:6px;
+                padding:6px 14px; font-size:.85rem; color:var(--dg-grey2); }
+    .kpi .box b { display:block; font-size:1.3rem; font-weight:700; color:var(--dg-ink); }
+    .kpi .box.free { border-color:var(--dg-green); background:#f0f8ef; }
+    .kpi .box.free b { color:var(--dg-green); }
+    .kpi .box.bad { border-color:var(--dg-red); background:#fdeff0; }
+    .kpi .box.bad b { color:var(--dg-red); }
+    p.ok { color:var(--dg-green); font-weight:600; margin:8px 0; }
+    p.warn { color:var(--dg-red); font-weight:700; margin:14px 0 4px; }
+    p.skip { color:var(--dg-grey2); font-style:italic; }
+    table.otab { width:100%; margin:4px 0 10px; }
+    /* Bevroren kolomkoppen: blijven bovenaan staan bij verticaal scrollen. */
+    table.otab thead th { position:sticky; top:0; z-index:3; }
+    table.otab tbody td { white-space:normal; }
+    table.otab tbody tr:nth-child(even) td { background:#fafafa; }
+    td.num { text-align:right; font-family:Consolas,"Courier New",monospace;
+             white-space:nowrap; }
+    td.loc { color:var(--dg-grey2); white-space:nowrap; font-size:.8rem; }
+    .is-was { font-family:Consolas,"Courier New",monospace; }
+    .is-was .is { color:var(--dg-red); }
+    .is-was .exp { color:var(--dg-green); font-weight:600; }
+    ul.charlist { margin:6px 0 2px; padding-left:20px; columns:2; column-gap:28px; }
+    ul.charlist li { margin:2px 0; font-size:.88rem; color:var(--dg-grey2);
+                     break-inside:avoid; }
+    ul.charlist li code { font-size:.9rem; }
+"""
+
+
+def _name_of(rec) -> str:
+    """Mensleesbare naam voor een ID-record; valt terug op de URI."""
+    return rec.get("name") or rec.get("uri") or "(geen naam)"
+
+
+def _otab(head_cells: str, rows: list[str]) -> str:
+    return ('<table class="otab"><thead><tr>' + head_cells
+            + '</tr></thead><tbody>\n' + "\n".join(rows) + '\n</tbody></table>')
+
+
+def build_id_report_html(sections, title: str = "ID-controle",
+                         version_new: str = "", version_old: str = "") -> str:
+    """Rapportpagina voor de ID-controle (tabblad 'ID's').
+
+    sections : lijst dicts per soort met
+        {"label", "id_col", "woord", "skipped"(bool), "res"(analyze_ids-dict|None)}.
+    """
+    cards = []
+    for s in sections:
+        label = s["label"]
+        if s.get("skipped") or not s.get("res"):
+            cards.append(
+                f'<div class="card"><h2>{_esc(label)}</h2>'
+                '<p class="skip">Overgeslagen: geen geldige map/bestand ingevuld '
+                'bij ‘Locaties’.</p></div>')
+            continue
+        res = s["res"]
+        id_col = s["id_col"]
+        parts = [f'<div class="card"><h2>{_esc(label)}</h2>']
+        ing = len(res["new"]) + len(res["old"])
+        parts.append(
+            '<div class="kpi">'
+            f'<div class="box"><b>{ing}</b>ingelezen '
+            f'({len(res["new"])} nieuw / {len(res["old"])} vorig)</div>'
+            f'<div class="box"><b>{res["highest"]}</b>hoogste ID</div>'
+            f'<div class="box free"><b>{res["next_free"]}</b>'
+            'eerstvolgende vrije ID</div></div>')
+
+        # Rijen zonder ID.
+        bn = res["blanks_new"]
+        bo = res["blanks_old"]
+        if bn or bo:
+            parts.append(f'<h3>Zonder {_esc(id_col)}: {len(bn) + len(bo)} '
+                         f'({len(bn)} nieuw, {len(bo)} vorig)</h3>')
+            rows = []
+            for i, rec in enumerate(bn):
+                rows.append(
+                    f'<tr><td class="num">{res["next_free"] + i}</td>'
+                    f'<td>{_esc(_name_of(rec))}</td><td>nieuw</td>'
+                    f'<td class="loc">{_esc(rec["file"])} r{rec["row"]}</td></tr>')
+            for rec in bo:
+                rows.append(
+                    '<tr><td class="num">—</td>'
+                    f'<td>{_esc(_name_of(rec))}</td><td>vorig</td>'
+                    f'<td class="loc">{_esc(rec["file"])} r{rec["row"]}</td></tr>')
+            parts.append(_otab(
+                '<th>voorgesteld ID</th><th>naam</th><th>publicatie</th>'
+                '<th>bestand (rij)</th>', rows))
+        else:
+            parts.append(f'<p class="ok">✓ Elke rij heeft een {_esc(id_col)}.</p>')
+
+        # Dubbele ID's.
+        dups = res["duplicates"]
+        if dups:
+            parts.append(f'<p class="warn">⚠ {len(dups)} dubbel gebruikte '
+                         'ID(’s)</p>')
+            rows = []
+            for d in dups:
+                for rec in d["records"]:
+                    rows.append(
+                        f'<tr><td class="num">{_esc(d["id"])}</td>'
+                        f'<td>{_esc(_name_of(rec))}</td>'
+                        f'<td>{_esc(rec["source"])}</td>'
+                        f'<td class="loc">{_esc(rec["file"])} r{rec["row"]}</td></tr>')
+            parts.append(_otab(
+                '<th>ID</th><th>naam</th><th>publicatie</th><th>bestand (rij)</th>',
+                rows))
+        else:
+            parts.append('<p class="ok">✓ Geen dubbel gebruikte ID’s.</p>')
+
+        # Verschillend ID voor dezelfde URI.
+        mism = res["mismatches"]
+        if mism:
+            parts.append(f'<p class="warn">⚠ {len(mism)} met een verschillend '
+                         'ID in de vorige en nieuwe publicatie</p>')
+            rows = []
+            for m in mism:
+                naam = m.get("name") or m.get("uri") or "(geen naam)"
+                rows.append(
+                    f'<tr><td>{_esc(naam)}</td>'
+                    f'<td class="num">{_esc(m["new_id"])}</td>'
+                    f'<td class="num">{_esc(m["old_id"])}</td></tr>')
+            parts.append(_otab('<th>naam</th><th>nieuw ID</th><th>vorig ID</th>', rows))
+        else:
+            parts.append('<p class="ok">✓ Elke URI heeft in beide publicaties '
+                         'hetzelfde ID.</p>')
+
+        # Niet-gehele ID's.
+        nonint = res["noninteger"]
+        if nonint:
+            parts.append(f'<h3>Niet-gehele ID’s genegeerd: {len(nonint)}</h3>')
+            rows = [
+                f'<tr><td class="num">{_esc(rec["id"])}</td>'
+                f'<td>{_esc(_name_of(rec))}</td><td>{_esc(rec["source"])}</td>'
+                f'<td class="loc">{_esc(rec["file"])} r{rec["row"]}</td></tr>'
+                for rec in nonint]
+            parts.append(_otab(
+                '<th>ID</th><th>naam</th><th>publicatie</th><th>bestand (rij)</th>',
+                rows))
+        parts.append('</div>')
+        cards.append("\n".join(parts))
+
+    ver = ""
+    if version_new or version_old:
+        ver = f" &middot; {_esc(version_old or '?')} &rarr; {_esc(version_new or '?')}"
+    info = f"Controle van de ID-nummers per soort{ver}"
+    body = "\n".join(cards) if cards else '<p class="info">Geen bronnen.</p>'
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n{body}\n</div>\n'
+        + _FOOTER
+    )
+
+
+def build_fase_optie_html(sections, title: str = "Optie-fase-check",
+                          version_new: str = "") -> str:
+    """Rapportpagina voor de optie-fase-check (tabblad 'Optie-fase-check').
+
+    sections : lijst dicts per soort met
+        {"label", "skipped"(bool), "violations"(lijst check_fase_optie-dicts)}.
+    """
+    cards = []
+    total = 0
+    for s in sections:
+        label = s["label"]
+        if s.get("skipped"):
+            cards.append(
+                f'<div class="card"><h2>{_esc(label)}</h2>'
+                '<p class="skip">Overgeslagen: geen geldige map/bestand ingevuld '
+                'bij ‘Locaties’.</p></div>')
+            continue
+        viol = s.get("violations") or []
+        total += len(viol)
+        parts = [f'<div class="card"><h2>{_esc(label)}</h2>']
+        if not viol:
+            parts.append('<p class="ok">✓ Alle ‘fase’ en '
+                         '‘optie’ kloppen met de naam.</p>')
+        else:
+            fase = [v for v in viol if v["kind"] == "fase"]
+            optie = [v for v in viol if v["kind"] == "optie"]
+            for titel, items, col in (("FASE-afwijkingen", fase, "fase"),
+                                      ("OPTIE-afwijkingen", optie, "optie")):
+                if not items:
+                    continue
+                parts.append(f'<p class="warn">⚠ {titel}: {len(items)}</p>')
+                rows = []
+                for v in items:
+                    got = v["got"] or "(leeg)"
+                    exp = v["expected"] or "(leeg)"
+                    rows.append(
+                        f'<tr><td>{_esc(v["name"])}</td>'
+                        f'<td class="is-was"><span class="is">{_esc(got)}</span> '
+                        f'&rarr; <span class="exp">{_esc(exp)}</span></td>'
+                        f'<td class="loc">{_esc(v["file"])} r{v["row"]}</td></tr>')
+                parts.append(_otab(
+                    f'<th>naam</th><th>{_esc(col)} (is &rarr; verwacht)</th>'
+                    '<th>bestand (rij)</th>', rows))
+        parts.append('</div>')
+        cards.append("\n".join(parts))
+
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    info = f"{total} afwijking(en) in totaal{ver}"
+    body = "\n".join(cards) if cards else '<p class="info">Geen bronnen.</p>'
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n{body}\n</div>\n'
+        + _FOOTER
+    )
+
+
+# ---------------------------------------------------------------------------
+# 7. Objectenboom (hiërarchie-controle)
+# ---------------------------------------------------------------------------
+
+# Kleuren per diepte-laag (root = laag 0). Herhaalt zich cyclisch bij >8 lagen.
+_TREE_LAYER_COLORS = [
+    "#009DDB", "#3FA534", "#E8A200", "#9B59B6",
+    "#E67E22", "#16A085", "#C0392B", "#2C3E50",
+]
+
+_TREE_STYLE = """
+    .wrap { max-width: 1100px; }
+    .card { background:#fff; border:1px solid var(--dg-grey); border-radius:8px;
+            padding:16px 18px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+    .card h2 { margin:0 0 8px; font-size:1.2rem; border-bottom:3px solid var(--dg-yellow);
+               padding-bottom:6px; }
+    .kpi { display:flex; gap:14px; flex-wrap:wrap; margin:10px 0 4px; }
+    .kpi .box { background:#fafafa; border:1px solid var(--dg-grey); border-radius:6px;
+                padding:6px 14px; font-size:.85rem; color:var(--dg-grey2); }
+    .kpi .box b { display:block; font-size:1.3rem; font-weight:700; color:var(--dg-ink); }
+    .kpi .box.bad { border-color:var(--dg-red); background:#fdeff0; }
+    .kpi .box.bad b { color:var(--dg-red); }
+    p.ok { color:var(--dg-green); font-weight:600; margin:8px 0; }
+    p.warn { color:var(--dg-red); font-weight:700; margin:14px 0 6px; }
+    .legend { display:flex; gap:10px; flex-wrap:wrap; margin:8px 0 4px;
+              font-size:.8rem; color:var(--dg-grey2); }
+    .legend span { display:inline-flex; align-items:center; gap:5px; }
+    .legend i { width:14px; height:14px; border-radius:3px; display:inline-block; }
+    table.errtab { width:100%; margin:6px 0 10px; }
+    table.errtab tbody td { white-space:normal; }
+    table.errtab tbody tr:nth-child(even) td { background:#fafafa; }
+    td.tid { font-family:Consolas,"Courier New",monospace; white-space:nowrap;
+             color:var(--dg-grey2); }
+    .badge { display:inline-block; font-size:.72rem; font-weight:700;
+             padding:1px 7px; border-radius:10px; color:#fff; white-space:nowrap; }
+    .badge.count { background:var(--dg-red); }
+    .badge.prefix { background:#9B59B6; }
+    .badge.separator { background:#2980B9; }
+    .badge.orphan { background:var(--dg-grey2); }
+    .badge.root_multi { background:#E67E22; }
+    .badge.subobjecten { background:#C0392B; }
+    ul.tree, ul.tree ul { list-style:none; margin:0; padding-left:20px; }
+    ul.tree { padding-left:2px; }
+    ul.tree li { margin:2px 0; position:relative; }
+    .node { display:inline-flex; align-items:center; gap:8px; padding:2px 10px;
+            border-radius:4px; border-left:4px solid var(--dg-grey);
+            background:#fff; font-size:.9rem; }
+    .node .nm { font-weight:600; }
+    .node .cnt { font-size:.72rem; color:var(--dg-grey2);
+                 font-family:Consolas,"Courier New",monospace; }
+    .node.err { outline:2px solid var(--dg-red); background:#fdeff0; }
+    details > summary { cursor:pointer; list-style:none; }
+    details > summary::-webkit-details-marker { display:none; }
+    details > summary .node::before { content:"▸ "; color:var(--dg-grey2); }
+    details[open] > summary .node::before { content:"▾ "; }
+    li.leaf .node { margin-left:0; }
+"""
+
+
+def _tree_node_html(nid: str, nodes: dict, err_ids: dict) -> str:
+    """Render één knoop (recursief). `err_ids` : id -> lijst fouttypes."""
+    nd = nodes[nid]
+    color = _TREE_LAYER_COLORS[nd["depth"] % len(_TREE_LAYER_COLORS)]
+    errs = err_ids.get(nid, [])
+    cls = "node err" if errs else "node"
+    badges = "".join(
+        f'<span class="badge {t}">{_esc(t)}</span>' for t in errs)
+    label = (f'<span class="{cls}" style="border-left-color:{color}">'
+             f'<span class="nm">{_esc(nd["name"])}</span>'
+             f'<span class="cnt">#{_esc(nd["id"])}</span>{badges}</span>')
+    kids = nd["children"]
+    if not kids:
+        return f'<li class="leaf">{label}</li>'
+    inner = "\n".join(_tree_node_html(c, nodes, err_ids) for c in kids)
+    return (f'<li><details open><summary>{label}</summary>\n'
+            f'<ul>{inner}</ul></details></li>')
+
+
+def build_object_tree_html(result: dict, title: str = "Objectenboom",
+                           version_new: str = "") -> str:
+    """Rapportpagina voor de boomstructuur-controle van de objecten.
+
+    `result` is de dict van ot_compare.check_object_tree. De boom wordt getoond
+    met elke laag in een eigen kleur; foute knopen worden rood omrand met een
+    label per fouttype. Boven de boom staat een samenvatting van de fouten (of
+    de melding dat er geen fouten zijn)."""
+    nodes = result.get("nodes", {})
+    roots = result.get("roots", [])
+    errors = result.get("errors", [])
+    max_depth = result.get("max_depth", 0)
+
+    err_ids: dict[str, list[str]] = {}
+    for e in errors:
+        err_ids.setdefault(e["id"], []).append(e["type"])
+
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{result.get("count", 0)}</b>objecten</div>'
+        f'<div class="box"><b>{len(roots)}</b>hoofdobjecten (roots)</div>'
+        f'<div class="box"><b>{max_depth + 1 if nodes else 0}</b>lagen</div>'
+        f'<div class="box {"bad" if errors else ""}"><b>{len(errors)}</b>'
+        'fout(en)</div>'
+        '</div>')
+
+    # foutmelding / -tabel
+    parts = [f'<div class="card"><h2>Controle</h2>{kpi}']
+    _LABELS = {
+        "count": "verkeerd aantal segmenten (geen +1 t.o.v. ouder)",
+        "prefix": "naam is geen uitbreiding van de oudernaam",
+        "separator": "scheidingsteken klopt niet (oudernaam niet exact vooraan)",
+        "orphan": "bovenliggend id onbekend",
+        "root_multi": "hoofdobject met meer dan één segment",
+        "subobjecten": "meer dan 5 subobjecten in de laagnaam",
+    }
+    if not errors:
+        parts.append('<p class="ok">✓ Geen fouten gevonden: elk onderliggend '
+                     'object heeft precies één segment meer dan zijn '
+                     'bovenliggende object.</p>')
+    else:
+        parts.append(f'<p class="warn">⚠ {len(errors)} fout(en) gevonden:</p>')
+        rows = []
+        for e in errors:
+            det = _esc(e.get("detail", ""))
+            par = (f'{_esc(e["parent_name"])} <span class="tid">#{_esc(e["parent"])}</span>'
+                   if e.get("parent") else '<span class="tid">—</span>')
+            rows.append(
+                f'<tr><td><span class="badge {e["type"]}">{_esc(e["type"])}</span></td>'
+                f'<td>{_esc(e["name"])} <span class="tid">#{_esc(e["id"])}</span></td>'
+                f'<td>{par}</td><td>{det}</td></tr>')
+        parts.append('<table class="errtab"><thead><tr><th>type</th>'
+                     '<th>object</th><th>bovenliggend</th><th>toelichting</th>'
+                     '</tr></thead><tbody>\n' + "\n".join(rows)
+                     + '\n</tbody></table>')
+        # legenda fouttypes
+        parts.append('<div class="legend">' + "".join(
+            f'<span><i style="background:'
+            + {"count": "var(--dg-red)", "prefix": "#9B59B6",
+               "separator": "#2980B9",
+               "orphan": "var(--dg-grey2)", "root_multi": "#E67E22",
+               "subobjecten": "#C0392B"}[t]
+            + f'"></i>{_esc(t)} — {_esc(lbl)}</span>'
+            for t, lbl in _LABELS.items()) + '</div>')
+    parts.append('</div>')
+
+    # kleurlegenda per laag
+    n_layers = (max_depth + 1) if nodes else 0
+    legend_layers = "".join(
+        f'<span><i style="background:{_TREE_LAYER_COLORS[d % len(_TREE_LAYER_COLORS)]}">'
+        f'</i>laag {d}</span>' for d in range(n_layers))
+
+    # de boom zelf
+    tree_items = "\n".join(_tree_node_html(r, nodes, err_ids) for r in roots)
+    tree = (f'<div class="card"><h2>Boomstructuur</h2>'
+            f'<div class="legend">{legend_layers}</div>'
+            f'<ul class="tree">\n{tree_items}\n</ul></div>')
+
+    body = "\n".join(parts) + "\n" + tree
+    return (
+        _shell_head(title, extra_style=_TREE_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Boomstructuur-controle{ver}</p>\n'
+        + body + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+# ---------------------------------------------------------------------------
+# 8. Lijntype-gebruik (worden bestaande lijntypes in de objecten gebruikt?)
+# ---------------------------------------------------------------------------
+
+def build_lijntype_usage_html(result: dict, title: str = "Lijntype-gebruik",
+                              version_new: str = "") -> str:
+    """Rapportpagina voor de lijntype-gebruik-controle.
+
+    `result` is de dict van ot_compare.check_lijntype_usage. Toont welke
+    bestaande lijntypes NIET in de objectentabel worden gebruikt (hoofdvraag) en,
+    als tweede controle, objecten die naar een niet-bestaand lijntype verwijzen."""
+    lijn_total = result.get("lijn_total", 0)
+    used = result.get("used", [])
+    unused = result.get("unused", [])
+
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{lijn_total}</b>lijntypes</div>'
+        f'<div class="box"><b>{len(used)}</b>gebruikt in objecten</div>'
+        f'<div class="box {"bad" if unused else "free"}"><b>{len(unused)}</b>'
+        'niet gebruikt</div>'
+        '</div>')
+
+    # ongebruikte lijntypes (de hoofdvraag)
+    c1 = ['<div class="card"><h2>Lijntypes niet gebruikt in de objectentabel</h2>',
+          kpi]
+    if not unused:
+        c1.append('<p class="ok">✓ Elk lijntype wordt in de objectentabel '
+                  'gebruikt (verwijzing op naam via lt_b/lt_n/lt_v/lt_t).</p>')
+    else:
+        c1.append(f'<p class="warn">⚠ {len(unused)} lijntype(s) bestaan wel maar '
+                  'worden nergens in de objecten gebruikt:</p>')
+        rows = [
+            f'<tr><td>{_esc(u["name"])}</td>'
+            f'<td>{_esc(u.get("hoofdgroep", ""))}</td>'
+            f'<td class="loc">{_esc(u.get("file", ""))}</td></tr>'
+            for u in unused]
+        c1.append(_otab('<th>lijntype</th><th>hoofdgroep</th><th>bestand</th>',
+                        rows))
+    c1.append('</div>')
+
+    body = "\n".join(c1)
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Lijntype-gebruik-controle{ver}</p>\n'
+        + body + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+def _searchterm_card(section: dict) -> str:
+    """Eén kaart voor een soort (symbolen of arceringen)."""
+    label = section.get("label", "")
+    obj_col = section.get("obj_col", "")
+    total = section.get("total", 0)
+    found = section.get("found", 0)
+    term_count = section.get("term_count", 0)
+    not_found = section.get("not_found", [])
+
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{total}</b>{_esc(label)}</div>'
+        f'<div class="box"><b>{found}</b>gevonden via zoekterm</div>'
+        f'<div class="box {"bad" if not_found else "free"}"><b>{len(not_found)}</b>'
+        'niet gevonden</div>'
+        '</div>')
+
+    c = [f'<div class="card"><h2>{_esc(label.capitalize())} zonder zoekterm-treffer</h2>',
+         f'<p class="info">Zoekterm = <code>{_esc(obj_col)}</code>-waarde uit de '
+         f'objectentabel ({term_count} unieke termen); een naam telt als '
+         '“gevonden” als zo’n term als tekst in de naam voorkomt.</p>',
+         kpi]
+    if not not_found:
+        c.append('<p class="ok">✓ Elke naam bevat een zoekterm uit de '
+                 'objectentabel.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(not_found)} naam/namen worden via geen '
+                 'enkele zoekterm gevonden:</p>')
+        rows = [
+            f'<tr><td>{_esc(d["name"])}</td>'
+            f'<td class="loc">{_esc(d.get("file", ""))}</td></tr>'
+            for d in not_found]
+        c.append(_otab('<th>naam</th><th>bestand</th>', rows))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def build_searchterm_html(sections: list, title: str = "Zoekterm-controle",
+                          version_new: str = "") -> str:
+    """Rapportpagina voor de zoekterm-controle van symbolen en arceringen.
+
+    `sections` is een lijst dicts met o.a. label, obj_col, total, found,
+    term_count, not_found (uit ot_compare.check_searchterm_coverage, aangevuld
+    met label/obj_col)."""
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    body = "\n".join(_searchterm_card(s) for s in sections)
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Zoekterm-controle{ver}</p>\n'
+        + body + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+def _searchterm_min_card(section: dict) -> str:
+    """Eén kaart voor een soort: zoektermen die géén symbool/arcering vinden."""
+    label = section.get("label", "")
+    obj_col = section.get("obj_col", "")
+    total = section.get("total", 0)
+    name_count = section.get("name_count", 0)
+    ok = section.get("ok", 0)
+    empty = section.get("empty", [])
+
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{total}</b>zoektermen ({_esc(obj_col)})</div>'
+        f'<div class="box"><b>{ok}</b>met &ge;1 {_esc(label[:-1] if label.endswith("en") else label)}</div>'
+        f'<div class="box {"bad" if empty else "free"}"><b>{len(empty)}</b>'
+        'zonder treffer</div>'
+        '</div>')
+
+    c = [f'<div class="card"><h2>Zoektermen zonder {_esc(label)}-treffer</h2>',
+         f'<p class="info">Zoekterm = <code>{_esc(obj_col)}</code>-waarde uit de '
+         f'objectentabel; elke zoekterm moet minstens één {_esc(label)} vinden '
+         f'({name_count} {_esc(label)} doorzocht). Een {_esc(label)} telt als '
+         '“gevonden” als de zoekterm als tekst in de naam voorkomt.</p>',
+         kpi]
+    if not empty:
+        c.append(f'<p class="ok">✓ Elke zoekterm vindt minstens één '
+                 f'{_esc(label)}.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(empty)} zoekterm(en) vinden geen enkele '
+                 f'{_esc(label)}:</p>')
+        rows = [
+            f'<tr><td><code>{_esc(d["term"])}</code></td>'
+            f'<td class="loc">{_esc(", ".join(d.get("files", [])))}</td></tr>'
+            for d in empty]
+        c.append(_otab('<th>zoekterm</th><th>objectbestand(en)</th>', rows))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def build_searchterm_min_html(sections: list, title: str = "Zoekterm-treffers",
+                              version_new: str = "") -> str:
+    """Rapportpagina: vindt elke zoekterm (sobject/aobject uit de objectentabel)
+    minstens één symbool/arcering? (minimaal 1 vereist).
+
+    `sections` is een lijst dicts uit ot_compare.check_searchterm_min, aangevuld
+    met label/obj_col."""
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    body = "\n".join(_searchterm_min_card(s) for s in sections)
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Zoekterm-treffers (min. 1){ver}</p>\n'
+        + body + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+def build_fase_visualisatie_html(result: dict,
+                                 title: str = "Fase-visualisatie",
+                                 version_new: str = "") -> str:
+    """Rapportpagina voor de fase-visualisatie-controle.
+
+    `result` is de dict van ot_compare.check_fase_visualisatie. Toont welke
+    objecten voor een verwachte fase (Bestaand/Nieuw/Vervallen/Tijdelijk) geen
+    visualisatie hebben, en — als tweede controle — de alleen-B-hoofdgroepen
+    (AL/ZZ) die tóch een N/V/T-visualisatie hebben."""
+    total = result.get("total", 0)
+    ok = result.get("ok", 0)
+    missing = result.get("missing", [])
+    unexpected = result.get("unexpected", [])
+
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{total}</b>objecten</div>'
+        f'<div class="box {"free" if ok == total else ""}"><b>{ok}</b>volledig</div>'
+        f'<div class="box {"bad" if missing else "free"}"><b>{len(missing)}</b>'
+        'fase ontbreekt</div>'
+        '</div>')
+
+    # hoofdvraag: objecten met een ontbrekende verwachte fase
+    c1 = ['<div class="card"><h2>Objecten zonder visualisatie voor een fase</h2>',
+          '<p class="info">Verwacht zijn de fasen Bestaand, Nieuw, Vervallen en '
+          'Tijdelijk; de hoofdgroepen AL en ZZ hebben alleen een visualisatie voor '
+          'de bestaande situatie (fase B). Een object heeft een visualisatie voor '
+          'een fase als minstens één van de bijbehorende velden '
+          '(lw/kl*/lt) gevuld is.</p>',
+          kpi]
+    if not missing:
+        c1.append('<p class="ok">✓ Elk object heeft voor alle verwachte fasen '
+                  'een visualisatie.</p>')
+    else:
+        c1.append(f'<p class="warn">⚠ {len(missing)} object(en) missen een '
+                  'visualisatie voor een verwachte fase:</p>')
+        rows = [
+            f'<tr><td>{_esc(m["name"])}</td>'
+            f'<td>{_esc(m.get("hoofdgroep", ""))}</td>'
+            f'<td>{_esc(", ".join(m.get("missing", [])))}</td>'
+            f'<td class="loc">{_esc(m.get("file", ""))}</td></tr>'
+            for m in missing]
+        c1.append(_otab('<th>object</th><th>hoofdgroep</th>'
+                        '<th>ontbrekende fase(n)</th><th>bestand</th>', rows))
+    c1.append('</div>')
+
+    # tweede controle: alleen-B-hoofdgroep met onverwachte N/V/T-visualisatie
+    c2 = ['<div class="card"><h2>Onverwachte fase-visualisatie (AL/ZZ)</h2>',
+          '<p class="info">AL en ZZ horen alleen een bestaande-situatie-'
+          'visualisatie te hebben. Deze objecten hebben tóch een N/V/T-'
+          'visualisatie.</p>']
+    if not unexpected:
+        c2.append('<p class="ok">✓ Geen onverwachte fase-visualisaties.</p>')
+    else:
+        c2.append(f'<p class="warn">⚠ {len(unexpected)} object(en) met een '
+                  'onverwachte fase-visualisatie:</p>')
+        rows = [
+            f'<tr><td>{_esc(u["name"])}</td>'
+            f'<td>{_esc(u.get("hoofdgroep", ""))}</td>'
+            f'<td>{_esc(", ".join(u.get("extra", [])))}</td>'
+            f'<td class="loc">{_esc(u.get("file", ""))}</td></tr>'
+            for u in unexpected]
+        c2.append(_otab('<th>object</th><th>hoofdgroep</th>'
+                        '<th>onverwachte fase(n)</th><th>bestand</th>', rows))
+    c2.append('</div>')
+
+    body = "\n".join(c1) + "\n" + "\n".join(c2)
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Fase-visualisatie-controle{ver}</p>\n'
+        + body + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+def _duplicate_names_card(section: dict) -> str:
+    """Eén kaart voor een soort (objecten/symbolen/lijntypes/arceringen)."""
+    label = section.get("label", "")
+    name_col = section.get("name_col", "")
+    total = section.get("total", 0)
+    unique = section.get("unique", 0)
+    duplicates = section.get("duplicates", [])
+
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{total}</b>{_esc(label)}</div>'
+        f'<div class="box"><b>{unique}</b>unieke namen per hoofdgroep</div>'
+        f'<div class="box {"bad" if duplicates else "free"}"><b>{len(duplicates)}</b>'
+        'dubbele namen</div>'
+        '</div>')
+
+    c = [f'<div class="card"><h2>{_esc(label.capitalize())} met een dubbele naam</h2>',
+         f'<p class="info">Naam = <code>{_esc(name_col)}</code>-kolom. Een dubbele '
+         'naam is dezelfde naam die binnen één hoofdgroep (één bestand) meer dan '
+         'eens voorkomt. Dezelfde naam in verschillende hoofdgroepen telt niet als '
+         'dubbel.</p>',
+         kpi]
+    if not duplicates:
+        c.append('<p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(duplicates)} naam/namen komen binnen '
+                 'dezelfde hoofdgroep meer dan eens voor:</p>')
+        rows = [
+            f'<tr><td>{_esc(d["name"])}</td>'
+            f'<td class="loc">{_esc(d.get("file", ""))}</td>'
+            f'<td>{d.get("count", 0)}&times;</td>'
+            f'<td class="loc">{_esc(", ".join(str(r) for r in d.get("rows", [])))}</td>'
+            '</tr>'
+            for d in duplicates]
+        c.append(_otab('<th>naam</th><th>bestand</th><th>aantal</th>'
+                       '<th>rij(en)</th>', rows))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def build_duplicate_names_html(sections: list, title: str = "Dubbele namen",
+                               version_new: str = "") -> str:
+    """Rapportpagina voor de dubbele-namen-controle (identieke namen binnen een
+    hoofdgroep) van objecten, symbolen, lijntypes en arceringen.
+
+    `sections` is een lijst dicts uit ot_compare.check_duplicate_names, aangevuld
+    met label/name_col."""
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    body = "\n".join(_duplicate_names_card(s) for s in sections)
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Dubbele-namen-controle{ver}</p>\n'
+        + body + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+def _special_chars_card(section: dict) -> str:
+    """Eén kaart voor een soort (objecten/symbolen/lijntypes/arceringen)."""
+    label = section.get("label", "")
+    name_col = section.get("name_col", "")
+    total = section.get("total", 0)
+    ok = section.get("ok", 0)
+    violations = section.get("violations", [])
+    lowercase = section.get("lowercase", [])
+
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{total}</b>{_esc(label)}</div>'
+        f'<div class="box {"free" if ok == total else ""}"><b>{ok}</b>zonder verboden teken</div>'
+        f'<div class="box {"bad" if violations else "free"}"><b>{len(violations)}</b>'
+        'met verboden teken</div>'
+        '</div>')
+
+    c = [f'<div class="card"><h2>{_esc(label.capitalize())} met een niet-toegestaan teken</h2>',
+         f'<p class="info">Naam = <code>{_esc(name_col)}</code>-kolom. Spaties, de '
+         'punt (decimaalteken), <code>-</code> en <code>_</code> zijn toegestaan; '
+         'de tekens hieronder niet.</p>',
+         kpi]
+    if not violations:
+        c.append('<p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(violations)} naam/namen bevatten een '
+                 'niet-toegestaan teken:</p>')
+        rows = []
+        for d in violations:
+            chars = " ".join(f'<code>{_esc(ch)}</code>' for ch in d.get("chars", []))
+            rows.append(
+                f'<tr><td>{_esc(d["name"])}</td>'
+                f'<td>{chars}</td>'
+                f'<td class="loc">{_esc(d.get("file", ""))} r{d.get("row", "")}</td>'
+                '</tr>')
+        c.append(_otab('<th>naam</th><th>verboden teken(s)</th><th>bestand</th>',
+                       rows))
+    # informatief: namen met kleine letters (geen fout)
+    if lowercase:
+        c.append(f'<p class="info">Ter info: {len(lowercase)} naam/namen bevatten '
+                 'een kleine letter. Dat is toegestaan voor eenheden '
+                 '(<code>mm</code>/<code>Mm</code>) en elementsymbolen '
+                 '(<code>Cu</code>) — controleer of het hier bewust is:</p>')
+        rows = [
+            f'<tr><td>{_esc(d["name"])}</td>'
+            f'<td class="loc">{_esc(d.get("file", ""))} r{d.get("row", "")}</td></tr>'
+            for d in lowercase]
+        c.append(_otab('<th>naam</th><th>bestand</th>', rows))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def build_special_chars_html(sections: list, title: str = "Speciale tekens",
+                             forbidden: dict = None, version_new: str = "") -> str:
+    """Rapportpagina voor de controle op niet-toegestane tekens in namen van
+    objecten, symbolen, lijntypes en arceringen.
+
+    `sections` = lijst dicts uit ot_compare.check_special_chars, aangevuld met
+    label/name_col. `forbidden` = de tekenset-met-reden (FORBIDDEN_NAME_CHARS)
+    voor de legenda bovenaan."""
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    legend = ""
+    if forbidden:
+        items = "".join(
+            f'<li><code>{_esc(ch)}</code> — {_esc(reason)}</li>'
+            for ch, reason in forbidden.items())
+        legend = ('<div class="card"><h2>Niet-toegestane tekens</h2>'
+                  '<p class="info">Deze tekens werken technisch niet in CAD-laag- '
+                  'of symboolnamen (AutoCAD, MicroStation) of breken LISP-tools. '
+                  'De lijst is mogelijk niet volledig — check bij twijfel bij de '
+                  'NLCS-expertcommissie.</p>'
+                  f'<ul class="charlist">{items}</ul></div>')
+    body = "\n".join(_special_chars_card(s) for s in sections)
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Controle speciale tekens{ver}</p>\n'
+        + legend + "\n" + body + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+def build_element_link_html(result: dict, title: str = "Element-koppeling",
+                            version_new: str = "") -> str:
+    """Rapportpagina voor de element ↔ sobject/aobject-koppelingscontrole.
+
+    `result` is de dict van ot_compare.check_element_object_link. Toont de
+    objecten waarbij het `element`-token (S/A) niet overeenkomt met de aan- of
+    afwezigheid van `sobject`/`aobject`."""
+    total = result.get("total", 0)
+    ok = result.get("ok", 0)
+    violations = result.get("violations", [])
+
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{total}</b>objecten</div>'
+        f'<div class="box {"free" if ok == total else ""}"><b>{ok}</b>correct</div>'
+        f'<div class="box {"bad" if violations else "free"}"><b>{len(violations)}</b>'
+        'afwijkend</div>'
+        '</div>')
+
+    c = ['<div class="card"><h2>Element ↔ sobject/aobject</h2>',
+         '<p class="info">De kolom <code>element</code> bevat de tokens '
+         '<code>S</code> (symbool) en/of <code>A</code> (arcering). Bevat '
+         '<code>element</code> een <code>S</code>, dan moet <code>sobject</code> '
+         'gevuld zijn — en omgekeerd; hetzelfde geldt voor <code>A</code> en '
+         '<code>aobject</code>.</p>',
+         kpi]
+    if not violations:
+        c.append('<p class="ok">✓ Elk object heeft een consistente '
+                 'element-koppeling.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(violations)} object(en) met een '
+                 'afwijkende koppeling:</p>')
+        rows = [
+            f'<tr><td>{_esc(v["name"])}</td>'
+            f'<td>{_esc(v.get("element", ""))}</td>'
+            f'<td>{_esc("; ".join(v.get("problems", [])))}</td>'
+            f'<td class="loc">{_esc(v.get("file", ""))} r{v.get("row", "")}</td>'
+            '</tr>'
+            for v in violations]
+        c.append(_otab('<th>object</th><th>element</th><th>probleem</th>'
+                       '<th>bestand</th>', rows))
+    c.append('</div>')
+
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Element-koppelingscontrole{ver}</p>\n'
+        + "\n".join(c) + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+def build_arcering_verklaring_html(result: dict, title: str = "Verklaring",
+                                   version_new: str = "") -> str:
+    """Rapportpagina voor de arcering-verklaringcontrole.
+
+    `result` is de dict van ot_compare.check_arcering_verklaring. Toont de
+    arceringen zonder gevulde `vrkl_lang` (verklaring lang)."""
+    total = result.get("total", 0)
+    ok = result.get("ok", 0)
+    missing = result.get("missing", [])
+
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{total}</b>arceringen</div>'
+        f'<div class="box {"free" if ok == total else ""}"><b>{ok}</b>'
+        'met verklaring</div>'
+        f'<div class="box {"bad" if missing else "free"}"><b>{len(missing)}</b>'
+        'zonder verklaring</div>'
+        '</div>')
+
+    c = ['<div class="card"><h2>Arceringen zonder verklaring</h2>',
+         '<p class="info">Elke arcering moet een (lange) verklaring hebben in de '
+         'kolom <code>vrkl_lang</code>; deze tekst verschijnt in de legenda/'
+         'verklaring.</p>',
+         kpi]
+    if not missing:
+        c.append('<p class="ok">✓ Elke arcering heeft een verklaring.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(missing)} arcering(en) zonder '
+                 'verklaring:</p>')
+        rows = [
+            f'<tr><td>{_esc(m["name"])}</td>'
+            f'<td class="loc">{_esc(m.get("file", ""))} r{m.get("row", "")}</td>'
+            '</tr>'
+            for m in missing]
+        c.append(_otab('<th>arcering</th><th>bestand</th>', rows))
+    c.append('</div>')
+
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Verklaringcontrole arceringen{ver}</p>\n'
+        + "\n".join(c) + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+def build_lijntype_autocaddef_html(result: dict, title: str = "AutoCAD-definitie",
+                                   version_new: str = "") -> str:
+    """Rapportpagina voor de lijntype-autocaddef-controle.
+
+    `result` is de dict van ot_compare.check_lijntype_autocaddef. Toont de
+    lijntypes zonder gevulde `autocaddef` (AutoCAD-definitiestring)."""
+    total = result.get("total", 0)
+    ok = result.get("ok", 0)
+    missing = result.get("missing", [])
+
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    kpi = (
+        '<div class="kpi">'
+        f'<div class="box"><b>{total}</b>lijntypes</div>'
+        f'<div class="box {"free" if ok == total else ""}"><b>{ok}</b>'
+        'met definitie</div>'
+        f'<div class="box {"bad" if missing else "free"}"><b>{len(missing)}</b>'
+        'zonder definitie</div>'
+        '</div>')
+
+    c = ['<div class="card"><h2>Lijntypes zonder AutoCAD-definitie</h2>',
+         '<p class="info">Elk lijntype moet een AutoCAD-definitie hebben in de '
+         'kolom <code>autocaddef</code> (bijv. <code>A,4,-.8,.8,-.8</code>). De '
+         'generieke lijnen <code>CONTINUOUS</code> en <code>V-CONTINUOUS-SO</code> '
+         'worden overgeslagen — die hebben bewust geen definitiestring.</p>',
+         kpi]
+    if not missing:
+        c.append('<p class="ok">✓ Elk lijntype heeft een AutoCAD-definitie.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(missing)} lijntype(s) zonder '
+                 'definitie:</p>')
+        rows = [
+            f'<tr><td>{_esc(m["name"])}</td>'
+            f'<td class="loc">{_esc(m.get("file", ""))} r{m.get("row", "")}</td>'
+            '</tr>'
+            for m in missing]
+        c.append(_otab('<th>lijntype</th><th>bestand</th>', rows))
+    c.append('</div>')
+
+    return (
+        _shell_head(title, extra_style=_CHECK_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">AutoCAD-definitiecontrole lijntypes{ver}</p>\n'
+        + "\n".join(c) + '\n</div>\n'
+        + _FOOTER
+    )
+
+
+# ---------------------------------------------------------------------------
+# Gecombineerd controle-rapport ('Controles'): alle kwaliteitscontroles in één
+# HTML, ingedeeld PER TABEL in de volgorde van docs/managementmanual/2.md
+# (Objecten -> Symbolen -> Arceringen -> Lijntypes). Elke findings-tabel krijgt
+# een sorteerbare kolom 'hoofdgroep' vooraan (afgeleid uit de bestandsnaam).
+# ---------------------------------------------------------------------------
+
+_ALL_STYLE = """
+    .wrap { max-width: 1180px; }
+    h1.sect { font-size:1.5rem; margin:34px 0 4px; padding-bottom:6px;
+              border-bottom:4px solid var(--dg-black); }
+    h1.sect:first-of-type { margin-top:8px; }
+    p.sectnote { color:var(--dg-grey2); margin:0 0 14px; font-size:.9rem; }
+    .card { background:#fff; border:1px solid var(--dg-grey); border-radius:8px;
+            padding:16px 18px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+    .card h2 { margin:0 0 8px; font-size:1.12rem; border-bottom:3px solid var(--dg-yellow);
+               padding-bottom:6px; }
+    .card h3 { margin:14px 0 6px; font-size:.95rem; color:var(--dg-ink); }
+    p.ctrldesc { margin:0 0 10px; font-size:.9rem; color:var(--dg-grey2);
+                 border-left:3px solid var(--dg-grey); padding-left:10px; }
+    p.ctrldesc code { background:#f3f3f3; padding:0 3px; border-radius:3px; }
+    table.otab thead th { cursor:pointer; user-select:none;
+                          position:sticky; top:0; z-index:3; }
+    table.otab thead th:hover { background:#333; }
+    td.hg { font-family:Consolas,"Courier New",monospace; font-weight:700;
+            white-space:nowrap; color:var(--dg-ink); }
+    .badge { display:inline-block; font-size:.72rem; font-weight:700;
+             padding:1px 7px; border-radius:10px; color:#fff; white-space:nowrap; }
+    .badge.count { background:var(--dg-red); } .badge.prefix { background:#9B59B6; }
+    .badge.separator { background:#2980B9; } .badge.orphan { background:var(--dg-grey2); }
+    .badge.root_multi { background:#E67E22; } .badge.subobjecten { background:#C0392B; }
+    .toc { background:#fff; border:1px solid var(--dg-grey); border-radius:8px;
+           padding:12px 18px; margin-bottom:18px; }
+    .toc a { color:var(--dg-blue); text-decoration:none; margin-right:16px;
+             font-weight:600; white-space:nowrap; }
+    .toc a:hover { text-decoration:underline; }
+"""
+
+# Klein sorteerscript: klik op een kolomkop om die kolom te sorteren (numeriek
+# waar mogelijk, anders alfabetisch NL). Werkt op elke table.otab, offline.
+_ALL_SORT_JS = """
+<script>
+document.querySelectorAll('table.otab').forEach(function(tb){
+  var body = tb.tBodies[0]; if(!body) return;
+  tb.querySelectorAll('thead th').forEach(function(th, idx){
+    th.addEventListener('click', function(){
+      var rows = Array.prototype.slice.call(body.rows);
+      var asc = th.getAttribute('data-asc') !== 'true';
+      th.setAttribute('data-asc', asc);
+      rows.sort(function(a, b){
+        var x = (a.cells[idx] ? a.cells[idx].innerText : '').trim();
+        var y = (b.cells[idx] ? b.cells[idx].innerText : '').trim();
+        var nx = parseFloat(x.replace(',', '.')), ny = parseFloat(y.replace(',', '.'));
+        if(!isNaN(nx) && !isNaN(ny)) return asc ? nx - ny : ny - nx;
+        return asc ? x.localeCompare(y, 'nl') : y.localeCompare(x, 'nl');
+      });
+      rows.forEach(function(r){ body.appendChild(r); });
+    });
+  });
+});
+</script>
+"""
+
+_TREE_ERR_LABELS = {
+    "count": "verkeerd aantal segmenten (geen +1 t.o.v. ouder)",
+    "prefix": "naam is geen uitbreiding van de oudernaam",
+    "separator": "scheidingsteken klopt niet (oudernaam niet exact vooraan)",
+    "orphan": "bovenliggend id onbekend",
+    "root_multi": "hoofdobject met meer dan één segment",
+    "subobjecten": "meer dan 5 subobjecten in de laagnaam",
+}
+
+
+def _hg(file) -> str:
+    """Hoofdgroep-code uit een bestandsnaam ('objecten-5-2-AL.csv' -> 'AL')."""
+    stem = _os.path.splitext(_os.path.basename(str(file or "")))[0]
+    return stem.split("-")[-1].strip().upper() if stem else ""
+
+
+def _hgval(it: dict) -> str:
+    """Hoofdgroep van een finding: het expliciete veld of afgeleid uit 'file'."""
+    return it.get("hoofdgroep") or _hg(it.get("file", ""))
+
+
+def _hg_table(head_inner: str, items: list, tdfns: list,
+              hg_class: str = "hg") -> str:
+    """Findings-tabel met een sorteerbare kolom 'hoofdgroep' vooraan.
+
+    head_inner : de <th>-cellen NA de hoofdgroep-kolom.
+    tdfns      : lijst functies item -> volledige <td>…</td>-cel.
+    hg_class   : class op de hoofdgroep-cel. Standaard 'hg' (die telt mee als
+                 foutregel in findings_by_hoofdgroep → publicatie-vinkje). Geef
+                 'hg info' voor INFORMATIEVE tabellen (bijv. kleine-letter-
+                 waarschuwingen) die géén fout zijn: de telling-regex matcht
+                 alleen exact class=\"hg\", dus die regels tellen niet mee, terwijl
+                 de CSS-opmaak (td.hg) én het sorteren behouden blijven."""
+    rows = []
+    for it in items:
+        tds = "".join(fn(it) for fn in tdfns)
+        rows.append(f'<tr><td class="{hg_class}">{_esc(_hgval(it))}</td>{tds}</tr>')
+    return _otab('<th>hoofdgroep</th>' + head_inner, rows)
+
+
+def _skip_card(title: str) -> str:
+    return (f'<div class="card"><h2>{_esc(title)}</h2>'
+            '<p class="skip">Overgeslagen: geen geldige map/bestand ingevuld '
+            'bij ‘Locaties’.</p></div>')
+
+
+# -- kaart per controle (compact, met hoofdgroep-kolom) ---------------------
+
+def _c_object_tree(result) -> str:
+    if not result:
+        return _skip_card("Objectenboom")
+    errors = result.get("errors", [])
+    kpi = _kpi_boxes(
+        (result.get("count", 0), "objecten", ""),
+        (len(result.get("roots", [])), "hoofdobjecten", ""),
+        (len(errors), "fout(en)", "bad" if errors else "free"))
+    nodes = result.get("nodes", {})
+    c = [f'<div class="card"><h2>Objectenboom (hiërarchie)</h2>{kpi}']
+    if not errors:
+        c.append('<p class="ok">✓ Elk onderliggend object heeft precies één '
+                 'segment meer dan zijn bovenliggende object.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(errors)} fout(en):</p>')
+        # De fout-dicts dragen zelf geen bestandsnaam; die zit op de knoop
+        # (nodes[id]["file"]) — zo krijgt ook deze tabel een hoofdgroep-kolom.
+        items = [dict(e, file=nodes.get(e.get("id"), {}).get("file", ""))
+                 for e in errors]
+
+        def _par(e):
+            return (f'{_esc(e.get("parent_name",""))} #{_esc(e.get("parent",""))}'
+                    if e.get("parent") else '—')
+
+        c.append(_hg_table(
+            '<th>type</th><th>object</th><th>bovenliggend</th>'
+            '<th>toelichting</th>', items,
+            [lambda e: f'<td><span class="badge {e["type"]}">{_esc(e["type"])}</span></td>',
+             lambda e: f'<td>{_esc(e.get("name",""))} #{_esc(e.get("id",""))}</td>',
+             lambda e: f'<td>{_par(e)}</td>',
+             lambda e: f'<td>{_esc(e.get("detail",""))}</td>']))
+        c.append('<div class="legend" style="font-size:.78rem;color:var(--dg-grey2)">'
+                 + " · ".join(f'{_esc(t)}: {_esc(lbl)}'
+                              for t, lbl in _TREE_ERR_LABELS.items()) + '</div>')
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_fasevis(result) -> str:
+    if not result:
+        return _skip_card("Fase-visualisatie")
+    missing = result.get("missing", [])
+    unexpected = result.get("unexpected", [])
+    kpi = _kpi_boxes(
+        (result.get("total", 0), "objecten", ""),
+        (result.get("ok", 0), "volledig", "free" if result.get("ok") == result.get("total") else ""),
+        (len(missing), "fase ontbreekt", "bad" if missing else "free"))
+    c = [f'<div class="card"><h2>Fase-visualisatie</h2>{kpi}']
+    if not missing:
+        c.append('<p class="ok">✓ Elk object heeft voor alle verwachte fasen een '
+                 'visualisatie.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(missing)} object(en) missen een fase-'
+                 'visualisatie:</p>')
+        c.append(_hg_table(
+            '<th>object</th><th>ontbrekende fase(n)</th>', missing,
+            [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td>{_esc(", ".join(m.get("missing", [])))}</td>']))
+    if unexpected:
+        c.append(f'<p class="warn">⚠ {len(unexpected)} object(en) met een '
+                 'onverwachte N/V/T-visualisatie (AL/ZZ):</p>')
+        c.append(_hg_table(
+            '<th>object</th><th>onverwachte fase(n)</th>', unexpected,
+            [lambda u: f'<td>{_esc(u.get("name",""))}</td>',
+             lambda u: f'<td>{_esc(", ".join(u.get("extra", [])))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_element_link(result) -> str:
+    if not result:
+        return _skip_card("Element-koppeling")
+    viol = result.get("violations", [])
+    kpi = _kpi_boxes(
+        (result.get("total", 0), "objecten", ""),
+        (result.get("ok", 0), "correct", "free" if result.get("ok") == result.get("total") else ""),
+        (len(viol), "afwijkend", "bad" if viol else "free"))
+    c = [f'<div class="card"><h2>Element-koppeling (S/A ↔ sobject/aobject)</h2>{kpi}']
+    if not viol:
+        c.append('<p class="ok">✓ Elk object heeft een consistente '
+                 'element-koppeling.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(viol)} object(en) met een afwijkende '
+                 'koppeling:</p>')
+        c.append(_hg_table(
+            '<th>object</th><th>element</th><th>probleem</th><th>rij</th>', viol,
+            [lambda v: f'<td>{_esc(v.get("name",""))}</td>',
+             lambda v: f'<td>{_esc(v.get("element",""))}</td>',
+             lambda v: f'<td>{_esc("; ".join(v.get("problems", [])))}</td>',
+             lambda v: f'<td class="loc">r{_esc(v.get("row",""))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_lijntype_usage(result) -> str:
+    if not result:
+        return _skip_card("Lijntype-gebruik")
+    unused = result.get("unused", [])
+    kpi = _kpi_boxes(
+        (result.get("lijn_total", 0), "lijntypes", ""),
+        (len(result.get("used", [])), "gebruikt", ""),
+        (len(unused), "niet gebruikt", "bad" if unused else "free"))
+    c = [f'<div class="card"><h2>Lijntype-gebruik</h2>{kpi}']
+    if not unused:
+        c.append('<p class="ok">✓ Elk lijntype wordt in de objectentabel '
+                 'gebruikt.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(unused)} lijntype(s) worden nergens in '
+                 'de objecten gebruikt:</p>')
+        c.append(_hg_table('<th>lijntype</th>', unused,
+                           [lambda u: f'<td>{_esc(u.get("name",""))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_missing(result, title, kpi_labels, warn, name_head) -> str:
+    """Generieke kaart voor een 'X zonder Y'-controle (arcering-verklaring,
+    lijntype-autocaddef): result met total/ok/missing[{name,file,row}]."""
+    if not result:
+        return _skip_card(title)
+    missing = result.get("missing", [])
+    total, ok = result.get("total", 0), result.get("ok", 0)
+    kpi = _kpi_boxes(
+        (total, kpi_labels[0], ""),
+        (ok, kpi_labels[1], "free" if ok == total else ""),
+        (len(missing), kpi_labels[2], "bad" if missing else "free"))
+    c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
+    if not missing:
+        c.append(f'<p class="ok">✓ {_esc(warn)}</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(missing)} zonder:</p>')
+        c.append(_hg_table(
+            f'{name_head}<th>rij</th>', missing,
+            [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_verwijderen_scale(result) -> str:
+    """Kaart voor de VERWIJDEREN2-schaalcontrole op vervallen lijntypes:
+    result met total/ok/expected/missing[{name,file,row,found}]."""
+    title = "VERWIJDEREN2-schaal"
+    if not result:
+        return _skip_card(title)
+    missing = result.get("missing", [])
+    total, ok = result.get("total", 0), result.get("ok", 0)
+    exp = result.get("expected", 0.5)
+    kpi = _kpi_boxes(
+        (total, "vervallen lijntypes", ""),
+        (ok, f"s={exp}", "free" if ok == total else ""),
+        (len(missing), "verkeerde schaal", "bad" if missing else "free"))
+    c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
+    if not missing:
+        c.append(f'<p class="ok">✓ Elk vervallen lijntype heeft de VERWIJDEREN2-'
+                 f'scrap op schaal s={exp}.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(missing)} met een afwijkende (of '
+                 f'ontbrekende) schaal:</p>')
+        c.append(_hg_table(
+            '<th>lijntype</th><th>gevonden</th><th>rij</th>', missing,
+            [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td class="loc">{_esc(m.get("found",""))}</td>',
+             lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_arc_length(result) -> str:
+    """Kaart voor de maximale-naamlengte-controle van arceringen:
+    result met total/ok/max_len/toolong[{name,file,row,length}]."""
+    title = "Naamlengte"
+    if not result:
+        return _skip_card(title)
+    toolong = result.get("toolong", [])
+    total, ok = result.get("total", 0), result.get("ok", 0)
+    mx = result.get("max_len", 31)
+    kpi = _kpi_boxes(
+        (total, "arceringen", ""),
+        (ok, f"max {mx} tekens", "free" if ok == total else ""),
+        (len(toolong), "te lang", "bad" if toolong else "free"))
+    c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
+    if not toolong:
+        c.append(f'<p class="ok">✓ Elke arceringnaam is maximaal {mx} '
+                 f'tekens lang.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(toolong)} langer dan {mx} tekens:</p>')
+        c.append(_hg_table(
+            '<th>arcering</th><th>lengte</th><th>rij</th>', toolong,
+            [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td class="loc">{_esc(m.get("length",""))}</td>',
+             lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_id(section) -> str:
+    if not section or section.get("skipped") or not section.get("res"):
+        return _skip_card("ID-controle")
+    res = section["res"]
+    id_col = section.get("id_col", "id")
+    blanks = ([dict(r, _pub="nieuw") for r in res.get("blanks_new", [])]
+              + [dict(r, _pub="vorig") for r in res.get("blanks_old", [])])
+    dups = res.get("duplicates", [])
+    mism = res.get("mismatches", [])
+    kpi = _kpi_boxes(
+        (len(res.get("new", [])) + len(res.get("old", [])), "ingelezen", ""),
+        (res.get("highest", 0), "hoogste ID", ""),
+        (res.get("next_free", 0), "eerstvolgende vrij", "free"))
+    c = [f'<div class="card"><h2>ID-controle</h2>{kpi}']
+    if blanks:
+        c.append(f'<p class="warn">⚠ {len(blanks)} zonder {_esc(id_col)}:</p>')
+        c.append(_hg_table(
+            '<th>naam</th><th>publicatie</th><th>rij</th>', blanks,
+            [lambda r: f'<td>{_esc(_name_of(r))}</td>',
+             lambda r: f'<td>{_esc(r.get("_pub",""))}</td>',
+             lambda r: f'<td class="loc">r{_esc(r.get("row",""))}</td>']))
+    else:
+        c.append(f'<p class="ok">✓ Elke rij heeft een {_esc(id_col)}.</p>')
+    if dups:
+        dup_recs = []
+        for d in dups:
+            for rec in d["records"]:
+                dup_recs.append(dict(rec, _id=d["id"]))
+        c.append(f'<p class="warn">⚠ {len(dups)} dubbel gebruikte ID(’s):</p>')
+        c.append(_hg_table(
+            '<th>ID</th><th>naam</th><th>publicatie</th><th>rij</th>', dup_recs,
+            [lambda r: f'<td class="num">{_esc(r.get("_id",""))}</td>',
+             lambda r: f'<td>{_esc(_name_of(r))}</td>',
+             lambda r: f'<td>{_esc(r.get("source",""))}</td>',
+             lambda r: f'<td class="loc">r{_esc(r.get("row",""))}</td>']))
+    else:
+        c.append('<p class="ok">✓ Geen dubbel gebruikte ID’s.</p>')
+    if mism:
+        c.append(f'<p class="warn">⚠ {len(mism)} URI’s met een verschillend ID in '
+                 'de vorige en nieuwe publicatie:</p>')
+        rows = [f'<tr><td>{_esc(m.get("name") or m.get("uri") or "(geen naam)")}</td>'
+                f'<td class="num">{_esc(m.get("new_id",""))}</td>'
+                f'<td class="num">{_esc(m.get("old_id",""))}</td></tr>' for m in mism]
+        c.append(_otab('<th>naam</th><th>nieuw ID</th><th>vorig ID</th>', rows))
+    else:
+        c.append('<p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde '
+                 'ID.</p>')
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_optie_fase(section) -> str:
+    if not section or section.get("skipped"):
+        return _skip_card("Optie-fase-check")
+    viol = section.get("violations", [])
+    kpi = _kpi_boxes((len(viol), "afwijking(en)", "bad" if viol else "free"))
+    c = [f'<div class="card"><h2>Optie-fase-check</h2>{kpi}']
+    if not viol:
+        c.append('<p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>')
+    else:
+        for titel, kind, col in (("FASE-afwijkingen", "fase", "fase"),
+                                 ("OPTIE-afwijkingen", "optie", "optie")):
+            items = [v for v in viol if v["kind"] == kind]
+            if not items:
+                continue
+            c.append(f'<p class="warn">⚠ {titel}: {len(items)}</p>')
+            c.append(_hg_table(
+                f'<th>naam</th><th>{_esc(col)} (is → verwacht)</th><th>rij</th>',
+                items,
+                [lambda v: f'<td>{_esc(v.get("name",""))}</td>',
+                 lambda v: ('<td class="is-was"><span class="is">'
+                            f'{_esc(v.get("got") or "(leeg)")}</span> → '
+                            f'<span class="exp">{_esc(v.get("expected") or "(leeg)")}'
+                            '</span></td>'),
+                 lambda v: f'<td class="loc">r{_esc(v.get("row",""))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_searchcov(section) -> str:
+    if not section:
+        return _skip_card("Zoekterm-controle")
+    nf = section.get("not_found", [])
+    kpi = _kpi_boxes(
+        (section.get("total", 0), "namen", ""),
+        (section.get("found", 0), "via zoekterm gevonden", ""),
+        (len(nf), "niet gevonden", "bad" if nf else "free"))
+    c = [f'<div class="card"><h2>Zoekterm-controle '
+         f'(<code>{_esc(section.get("obj_col",""))}</code>)</h2>{kpi}']
+    if not nf:
+        c.append('<p class="ok">✓ Elke naam bevat een zoekterm uit de '
+                 'objectentabel.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(nf)} naam/namen via geen enkele zoekterm '
+                 'gevonden:</p>')
+        c.append(_hg_table('<th>naam</th>', nf,
+                           [lambda d: f'<td>{_esc(d.get("name",""))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_searchmin(section) -> str:
+    if not section:
+        return _skip_card("Zoekterm-treffers")
+    empty = section.get("empty", [])
+    label = section.get("label", "")
+    kpi = _kpi_boxes(
+        (section.get("total", 0), f"zoektermen ({_esc(section.get('obj_col',''))})", ""),
+        (section.get("ok", 0), "met treffer", ""),
+        (len(empty), "zonder treffer", "bad" if empty else "free"))
+    c = [f'<div class="card"><h2>Zoekterm-treffers → {_esc(label)}</h2>{kpi}']
+    if not empty:
+        c.append(f'<p class="ok">✓ Elke zoekterm vindt minstens één '
+                 f'{_esc(label)}.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(empty)} zoekterm(en) zonder treffer:</p>')
+        rows = [f'<tr><td><code>{_esc(d.get("term",""))}</code></td>'
+                f'<td class="loc">{_esc(", ".join(d.get("files", [])))}</td></tr>'
+                for d in empty]
+        c.append(_otab('<th>zoekterm</th><th>objectbestand(en)</th>', rows))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_duplicate(section) -> str:
+    if not section:
+        return _skip_card("Dubbele namen")
+    dups = section.get("duplicates", [])
+    kpi = _kpi_boxes(
+        (section.get("total", 0), "namen", ""),
+        (section.get("unique", 0), "uniek per hoofdgroep", ""),
+        (len(dups), "dubbel", "bad" if dups else "free"))
+    c = [f'<div class="card"><h2>Dubbele namen</h2>{kpi}']
+    if not dups:
+        c.append('<p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(dups)} naam/namen komen binnen dezelfde '
+                 'hoofdgroep meer dan eens voor:</p>')
+        c.append(_hg_table(
+            '<th>naam</th><th>aantal</th><th>rij(en)</th>', dups,
+            [lambda d: f'<td>{_esc(d.get("name",""))}</td>',
+             lambda d: f'<td>{d.get("count", 0)}&times;</td>',
+             lambda d: ('<td class="loc">'
+                        f'{_esc(", ".join(str(r) for r in d.get("rows", [])))}</td>')]))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_name_uri(section) -> str:
+    """Naam ↔ URI: een naam die — binnen een hoofdgroep — in de nieuwe versie zélf
+    aan >1 URI hangt, óf die in de vorige versie voorkwam en nu aan een andere URI
+    hangt dan toen. Namen die enkel in de vorige versie al dubbel stonden (en waar
+    de nieuwe versie een bestaande naam+URI-combinatie van overneemt) tellen niet
+    mee. Naam-tegenhanger van de dubbele-ID-controle."""
+    if not section:
+        return _skip_card("Naam ↔ URI")
+    dups = section.get("duplicates", [])
+    kpi = _kpi_boxes(
+        (section.get("total", 0), "namen", ""),
+        (section.get("unique", 0), "uniek per hoofdgroep", ""),
+        (len(dups), "naam met meerdere URI’s", "bad" if dups else "free"))
+    c = [f'<div class="card"><h2>Naam ↔ URI</h2>{kpi}']
+    if not dups:
+        c.append('<p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan '
+                 'meerdere URI’s (ook niet tussen versies).</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(dups)} naam/namen hangen binnen dezelfde '
+                 'hoofdgroep aan meerdere URI’s (dubbele naam, ook tussen '
+                 'versies):</p>')
+        recs = [rec for d in dups for rec in d["records"]]
+        c.append(_hg_table(
+            '<th>naam</th><th>URI</th><th>publicatie</th><th>rij</th>', recs,
+            [lambda r: f'<td>{_esc(r.get("name",""))}</td>',
+             lambda r: f'<td class="loc">{_esc(r.get("uri",""))}</td>',
+             lambda r: f'<td>{_esc(r.get("source",""))}</td>',
+             lambda r: f'<td class="loc">r{_esc(r.get("row",""))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_special(section) -> str:
+    if not section:
+        return _skip_card("Speciale tekens")
+    viol = section.get("violations", [])
+    lowercase = section.get("lowercase", [])
+    total, ok = section.get("total", 0), section.get("ok", 0)
+    kpi = _kpi_boxes(
+        (total, "namen", ""),
+        (ok, "zonder verboden teken", "free" if ok == total else ""),
+        (len(viol), "met verboden teken", "bad" if viol else "free"))
+    c = [f'<div class="card"><h2>Speciale tekens</h2>{kpi}']
+    if not viol:
+        c.append('<p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(viol)} naam/namen met een niet-toegestaan '
+                 'teken:</p>')
+        c.append(_hg_table(
+            '<th>naam</th><th>verboden teken(s)</th><th>rij</th>', viol,
+            [lambda d: f'<td>{_esc(d.get("name",""))}</td>',
+             lambda d: ('<td>' + " ".join(f'<code>{_esc(ch)}</code>'
+                        for ch in d.get("chars", [])) + '</td>'),
+             lambda d: f'<td class="loc">r{_esc(d.get("row",""))}</td>']))
+    if lowercase:
+        c.append(f'<p class="info">Ter info: {len(lowercase)} naam/namen met een '
+                 'kleine letter (toegestaan voor eenheden mm/Mm en elementsymbool '
+                 'Cu — controleer of bewust):</p>')
+        # INFORMATIEF (geen fout): 'hg info' zodat deze regels NIET meetellen als
+        # foutregel in het publicatie-overzicht (findings_by_hoofdgroep).
+        c.append(_hg_table('<th>naam</th><th>rij</th>', lowercase,
+                           [lambda d: f'<td>{_esc(d.get("name",""))}</td>',
+                            lambda d: f'<td class="loc">r{_esc(d.get("row",""))}</td>'],
+                           hg_class="hg info"))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_dwg(result) -> str:
+    """Symbool ↔ .dwg, twee kanten op: regels zonder .dwg-bestand én .dwg-
+    bestanden zonder tabelregel (wees)."""
+    if not result:
+        return _skip_card("Symbool ↔ .dwg")
+    missing = result.get("missing", [])
+    orphans = result.get("orphans", [])
+    total, ok = result.get("total", 0), result.get("ok", 0)
+    kpi = _kpi_boxes(
+        (total, "tabelregels", ""),
+        (ok, "met .dwg", "free" if not missing else ""),
+        (len(missing), "regel zonder .dwg", "bad" if missing else "free"),
+        (result.get("dwg_count", 0), ".dwg-bestanden", ""),
+        (len(orphans), ".dwg zonder regel", "bad" if orphans else "free"))
+    c = [f'<div class="card"><h2>Symbool ↔ .dwg</h2>{kpi}']
+    # Richting 1: tabelregel zonder bestand.
+    if not missing:
+        c.append('<p class="ok">✓ Bij elke symboolregel is een .dwg-bestand '
+                 'gevonden.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(missing)} symboolregel(s) zonder '
+                 '.dwg-bestand:</p>')
+        c.append(_hg_table(
+            '<th>symbool (regel)</th><th>verwacht bestand</th>', missing,
+            [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td class="loc">{_esc(m.get("name",""))}.dwg</td>']))
+    # Richting 2: bestand zonder tabelregel (wees).
+    if not orphans:
+        c.append('<p class="ok">✓ Elk .dwg-bestand van een verwerkte bibliotheek '
+                 'heeft een tabelregel.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(orphans)} .dwg-bestand(en) zonder '
+                 'tabelregel:</p>')
+        c.append(_hg_table(
+            '<th>.dwg (bestand)</th><th>pad</th>', orphans,
+            [lambda o: f'<td>{_esc(o.get("name",""))}</td>',
+             lambda o: f'<td class="loc">{_esc(o.get("file",""))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _kpi_boxes(*boxes) -> str:
+    """boxes = (waarde, label, css-klasse) tuples."""
+    inner = "".join(
+        f'<div class="box {cls}"><b>{_esc(val)}</b>{label}</div>'
+        for val, label, cls in boxes)
+    return f'<div class="kpi">{inner}</div>'
+
+
+# Beschrijvende teksten per controle, overgenomen uit de eerste kolom van de
+# kwaliteitscontroletabellen in docs/managementmanual/2.md, zodat in het rapport
+# duidelijk is WELKE controle wordt uitgevoerd. Inline <code> mag; geen block-
+# elementen (nested <p>) want de tekst rendert binnen een <p class="ctrldesc">.
+_D_OBJECTENBOOM = (
+    "Naam-/laagnaamhiërarchie: elk onderliggend object heeft precies één segment "
+    "meer dan zijn ouder, de oudernaam staat exact vooraan (prefix) en het "
+    "scheidingsteken (- of _) klopt. Ook: niet meer dan 5 subobjecten in een "
+    "laagnaam (<code>controle_nlcs-objecten_te_veel_subobjecten</code>).")
+_D_FASEVIS = (
+    "Controleer of elk object voor alle NLCS-statussen (Bestaand, Nieuw, "
+    "Vervallen, Tijdelijk) een visualisatie heeft; AL en ZZ hebben alleen een "
+    "visualisatie voor de bestaande situatie.")
+_D_ID = ("Controleer (in de outputtabellen) of alles een ID heeft &amp; geen "
+         "dubbele ID.")
+_D_DUP = ("<code>identiekenamen</code> — controleer of er dubbele namen "
+          "voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.")
+_D_NAMEURI = (
+    "Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe "
+    "versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu "
+    "aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al "
+    "dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande "
+    "naam+URI-combinaties overneemt.")
+_D_ELEMLINK = (
+    "Element-koppeling: als de kolom <code>element</code> een S (symbool) of A "
+    "(arcering) bevat, moet er ook een <code>sobject</code> resp. "
+    "<code>aobject</code> zijn ingevuld — en omgekeerd. Uitzondering: MW-objecten "
+    "met A zonder <code>aobject</code> (o.a. <code>AANGRENZENDECONSTRUCTIE</code>) "
+    "worden gearceerd met de gedeelde ACO-arceringen (arceringen van constructies) "
+    "en gelden daarom als correct.")
+_D_ELEMFILL = (
+    "Element gevuld: de kolom <code>element</code> van elk object bevat minimaal "
+    "één waarde (G=geometrie, A=arcering, S=symbool en/of T=tekst).")
+_D_SPECIAL = (
+    "Speciale tekens in de naam: geen niet-toegestane tekens; spaties en "
+    "<code>.</code> als decimaalteken zijn wel toegestaan.")
+_D_ZOEKTERM_MIN = (
+    "Zoekterm-dekking: elke <code>sobject</code>-/<code>aobject</code>-waarde in "
+    "een object moet minstens één symbool resp. arcering vinden (de zoekterm moet "
+    "als tekst in de symbool-/arceringnaam voorkomen).")
+_D_SEARCHCOV_SYM = (
+    "<code>controle_arceringsymbool_zonder_objectRelatie</code> — symbolen die "
+    "via geen enkele zoekterm (<code>sobject</code>) in de objectentabel gevonden "
+    "worden.")
+_D_SEARCHCOV_ARC = (
+    "<code>controle_arceringsymbool_zonder_objectRelatie</code> — arceringen die "
+    "via geen enkele zoekterm (<code>aobject</code>) in de objectentabel gevonden "
+    "worden.")
+_D_OPTIEFASE = (
+    "Consistentie fase/optie t.o.v. de gecodeerde naam (voorvoegsel V-/B- → fase, "
+    "achtervoegsel -SO/-S/… → optie).")
+_D_DWG = ("Controleer of alle symbolen in de database ook als bestand (.dwg) "
+          "beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).")
+_D_VERKLARING = (
+    "Verklaring: elke arcering heeft een (lange) verklaring in de kolom "
+    "<code>vrkl_lang</code> (de tekst voor de legenda/verklaring).")
+_D_NAAMLENGTE = ("Naamlengte: de arceringnaam (kolom <code>arcering</code>) is "
+                 "maximaal 31 tekens lang.")
+_D_LIJNUSAGE = (
+    "<code>controle_lijntypes_zonder_objectRelatie</code> — lijntypes die bestaan "
+    "maar in geen enkel object (lt_b/lt_n/lt_v/lt_t) gebruikt worden.")
+_D_AUTOCADDEF = (
+    "AutoCAD-definitie: elk lijntype heeft een definitiestring in de kolom "
+    "<code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO "
+    "worden overgeslagen).")
+
+_D_VERWSCALE = (
+    "VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) "
+    "kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit "
+    "<code>NLCS.shx</code> op schaal 0.5. Gecontroleerd wordt of de "
+    "<code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-segment van de "
+    "<code>autocaddef</code> daadwerkelijk 0.5 is (een eventuele "
+    "<code>x=</code>-offset blijft ongemoeid).")
+
+
+def _desc(card_html: str, text: str) -> str:
+    """Voeg de beschrijvende tekst (uit 2.md) toe als <p class="ctrldesc"> direct
+    onder de <h2> van een controle-kaart. Werkt ook op _skip_card."""
+    if not text or "</h2>" not in card_html:
+        return card_html
+    return card_html.replace(
+        "</h2>", f'</h2>\n<p class="ctrldesc">{text}</p>', 1)
+
+
+def build_all_checks_html(data: dict, version_new: str = "") -> str:
+    """Eén gecombineerd controle-rapport met alle kwaliteitscontroles, ingedeeld
+    per tabel in de volgorde van docs/managementmanual/2.md. Elke findings-tabel
+    heeft een sorteerbare kolom 'hoofdgroep' vooraan.
+
+    `data` bevat de ruwe controle-resultaten (zie ot_gui.ControlesTab._gather):
+      tree, fasevis, elemlink, elemfill, lijnusage, arcverkl, arclen, lijndef, verwscale, dwg  -> dict|None
+      id       -> {soort: id-section|None}
+      optie    -> {soort: optie-section|None}
+      nameuri  -> {soort: analyze_name_uri-dict|None}
+      searchcov, searchmin, dup, special -> {soort: section|None}
+    Soort ∈ {objecten, symbolen, arceringen, lijntypes}."""
+    idd = data.get("id", {})
+    opt = data.get("optie", {})
+    cov = data.get("searchcov", {})
+    smin = data.get("searchmin", {})
+    dup = data.get("dup", {})
+    nu = data.get("nameuri", {})
+    spec = data.get("special", {})
+
+    sections = []
+
+    # -- OBJECTEN (Controle objectentabel) ---------------------------------
+    obj = ['<h1 class="sect" id="objecten">Objecten</h1>',
+           '<p class="sectnote">Controle objectentabel — in de volgorde van de '
+           'managementhandleiding.</p>',
+           _desc(_c_object_tree(data.get("tree")), _D_OBJECTENBOOM),
+           _desc(_c_fasevis(data.get("fasevis")), _D_FASEVIS),
+           _desc(_c_id(idd.get("obj")), _D_ID),
+           _desc(_c_duplicate(dup.get("objecten")), _D_DUP),
+           _desc(_c_name_uri(nu.get("obj")), _D_NAMEURI),
+           _desc(_c_element_link(data.get("elemlink")), _D_ELEMLINK),
+           _desc(_c_missing(data.get("elemfill"), "Element gevuld",
+                            ("objecten", "gevuld", "leeg"),
+                            "Elk object heeft minimaal één waarde in de kolom "
+                            "element.", "<th>object</th>"), _D_ELEMFILL)]
+    if smin.get("symbolen") or smin.get("arceringen"):
+        obj.append(_desc(_c_searchmin(smin.get("symbolen")), _D_ZOEKTERM_MIN))
+        obj.append(_desc(_c_searchmin(smin.get("arceringen")), _D_ZOEKTERM_MIN))
+    else:
+        obj.append(_desc(_skip_card("Zoekterm-treffers"), _D_ZOEKTERM_MIN))
+    obj.append(_desc(_c_special(spec.get("objecten")), _D_SPECIAL))
+    sections.append("\n".join(obj))
+
+    # -- SYMBOLEN (Controle symbolentabel) ---------------------------------
+    sym = ['<h1 class="sect" id="symbolen">Symbolen</h1>',
+           '<p class="sectnote">Controle symbolentabel.</p>',
+           _desc(_c_searchcov(cov.get("symbolen")), _D_SEARCHCOV_SYM),
+           _desc(_c_optie_fase(opt.get("symbolen")), _D_OPTIEFASE),
+           _desc(_c_id(idd.get("sym")), _D_ID),
+           _desc(_c_duplicate(dup.get("symbolen")), _D_DUP),
+           _desc(_c_name_uri(nu.get("sym")), _D_NAMEURI),
+           _desc(_c_special(spec.get("symbolen")), _D_SPECIAL),
+           _desc(_c_dwg(data.get("dwg")), _D_DWG)]
+    sections.append("\n".join(sym))
+
+    # -- ARCERINGEN (Controle arceringentabel) -----------------------------
+    arc = ['<h1 class="sect" id="arceringen">Arceringen</h1>',
+           '<p class="sectnote">Controle arceringentabel.</p>',
+           _desc(_c_searchcov(cov.get("arceringen")), _D_SEARCHCOV_ARC),
+           _desc(_c_optie_fase(opt.get("arceringen")), _D_OPTIEFASE),
+           _desc(_c_id(idd.get("arc")), _D_ID),
+           _desc(_c_duplicate(dup.get("arceringen")), _D_DUP),
+           _desc(_c_name_uri(nu.get("arc")), _D_NAMEURI),
+           _desc(_c_special(spec.get("arceringen")), _D_SPECIAL),
+           _desc(_c_missing(data.get("arcverkl"), "Verklaring",
+                            ("arceringen", "met verklaring", "zonder verklaring"),
+                            "Elke arcering heeft een verklaring (vrkl_lang).",
+                            "<th>arcering</th>"), _D_VERKLARING),
+           _desc(_c_arc_length(data.get("arclen")), _D_NAAMLENGTE)]
+    sections.append("\n".join(arc))
+
+    # -- LIJNTYPES (Controle lijntypetabel) --------------------------------
+    lijn = ['<h1 class="sect" id="lijntypes">Lijntypes</h1>',
+            '<p class="sectnote">Controle lijntypetabel.</p>',
+            _desc(_c_lijntype_usage(data.get("lijnusage")), _D_LIJNUSAGE),
+            _desc(_c_optie_fase(opt.get("lijntypes")), _D_OPTIEFASE),
+            _desc(_c_id(idd.get("lijn")), _D_ID),
+            _desc(_c_duplicate(dup.get("lijntypes")), _D_DUP),
+            _desc(_c_name_uri(nu.get("lijn")), _D_NAMEURI),
+            _desc(_c_special(spec.get("lijntypes")), _D_SPECIAL),
+            _desc(_c_missing(data.get("lijndef"), "AutoCAD-definitie",
+                             ("lijntypes", "met definitie", "zonder definitie"),
+                             "Elk lijntype heeft een AutoCAD-definitie (autocaddef); "
+                             "CONTINUOUS/V-CONTINUOUS-SO overgeslagen.",
+                             "<th>lijntype</th>"), _D_AUTOCADDEF),
+            _desc(_c_verwijderen_scale(data.get("verwscale")), _D_VERWSCALE)]
+    sections.append("\n".join(lijn))
+
+    ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
+    toc = ('<div class="toc"><a href="#objecten">Objecten</a>'
+           '<a href="#symbolen">Symbolen</a><a href="#arceringen">Arceringen</a>'
+           '<a href="#lijntypes">Lijntypes</a></div>')
+    body = "\n".join(sections)
+    return (
+        _shell_head("Controles", extra_style=_CHECK_STYLE + _ALL_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">Alle kwaliteitscontroles in de '
+          f'volgorde van de managementhandleiding{ver}. Klik op een kolomkop om '
+          f'te sorteren (bijv. op hoofdgroep).</p>\n'
+        + toc + "\n" + body + '\n</div>\n'
+        + _ALL_SORT_JS
         + _FOOTER
     )

@@ -8,6 +8,19 @@
   <title>Beheerhandleiding NLCS</title>
   <script src="config.js" class="remove"></script>
   <script src='https://cdn.jsdelivr.net/gh/stichting-crow/respec@latest/builds/respec-stichting-crow.js' async class='remove'></script>
+  <!-- Eigen opmaak voor de kwaliteitscontrole-tabellen (DigiGO-stijl). ReSpec verwijdert alleen elementen met class="remove", dus deze <style> blijft staan. -->
+  <style>
+    table[class^="kwaliteitscontrole"] { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    table[class^="kwaliteitscontrole"] th,
+    table[class^="kwaliteitscontrole"] td { border: 1px solid #DCDCDC; padding: 7px 10px; text-align: left; vertical-align: top; }
+    table[class^="kwaliteitscontrole"] thead th { background: #FFE103; }      /* DigiGO-geel */
+    table[class^="kwaliteitscontrole"] tbody tr:nth-child(even) { background: #fafafa; }
+    table[class^="kwaliteitscontrole"] th.jn,
+    table[class^="kwaliteitscontrole"] td.ja,
+    table[class^="kwaliteitscontrole"] td.nee { text-align: center; white-space: nowrap; }
+    table[class^="kwaliteitscontrole"] td.ja  { font-weight: 600; color: #2E7D32; }
+    table[class^="kwaliteitscontrole"] td.nee { color: #999; }
+  </style>
 </head>
 
 <body>
