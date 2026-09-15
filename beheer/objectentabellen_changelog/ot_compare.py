@@ -1599,13 +1599,23 @@ def check_duplicate_names(src: str, name_col: str) -> dict:
 def check_element_object_link(src: str, name_col: str = "omschrijving",
                               element_col: str = "element",
                               sobject_col: str = "sobject",
-                              aobject_col: str = "aobject") -> dict:
+                              aobject_col: str = "aobject",
+                              hoofd_col: str = "hoofdgroep",
+                              aobject_exempt=("MW",)) -> dict:
     """Controleer de koppeling tussen de `element`-kolom en sobject/aobject.
 
     De `element`-kolom van de objectentabel bevat `/`-gescheiden tokens
     (G=geometrie, S=symbool, A=arcering). De regel is tweezijdig:
       * bevat `element` het token S, dan moet `sobject` gevuld zijn (en omgekeerd);
       * bevat `element` het token A, dan moet `aobject` gevuld zijn (en omgekeerd).
+
+    Uitzondering (`aobject_exempt`, standaard MW): voor objecten van deze
+    hoofdgroep(en) is 'element bevat A maar aobject is leeg' GEEN afwijking. De
+    MW-objecten 'AANGRENZENDECONSTRUCTIE_*' e.d. worden gearceerd met de gedeelde
+    ACO-arceringen (arceringen van constructies, hoofdgroep CO); die arcering
+    wordt via een zoekterm gevonden en hoort daarom niet in de eigen `aobject`.
+    De andere drie regels (S-token, en 'aobject gevuld zonder A') blijven ook
+    voor deze hoofdgroepen gewoon van kracht.
 
     `src` mag een MAP met CSV's of één CSV-bestand zijn.
 
@@ -1616,6 +1626,7 @@ def check_element_object_link(src: str, name_col: str = "omschrijving",
         "violations": [ {name, element, file, row, problems:[labels]} ],
       }
     """
+    exempt = {(c or "").strip().upper() for c in (aobject_exempt or ())}
     empty = {"total": 0, "ok": 0, "violations": []}
     if not src:
         return empty
@@ -1637,6 +1648,7 @@ def check_element_object_link(src: str, name_col: str = "omschrijving",
         ei = headers.index(element_col)
         si = headers.index(sobject_col) if sobject_col in headers else -1
         ai = headers.index(aobject_col) if aobject_col in headers else -1
+        hi = headers.index(hoofd_col) if hoofd_col in headers else -1
         fn = os.path.basename(path)
         for i, r in enumerate(rows):
             name = (r[ni] if ni < len(r) else "").strip()
@@ -1649,13 +1661,16 @@ def check_element_object_link(src: str, name_col: str = "omschrijving",
             has_a = "A" in tokens
             so = (r[si] if 0 <= si < len(r) else "").strip()
             ao = (r[ai] if 0 <= ai < len(r) else "").strip()
+            hg = (r[hi] if 0 <= hi < len(r) else "").strip().upper()
 
             problems = []
             if has_s and not so:
                 problems.append("element bevat S maar sobject is leeg")
             if not has_s and so:
                 problems.append("sobject is ingevuld maar element bevat geen S")
-            if has_a and not ao:
+            if has_a and not ao and hg not in exempt:
+                # Uitzondering (bijv. MW): gearceerd met gedeelde ACO-arceringen,
+                # die via een zoekterm worden gevonden i.p.v. via eigen aobject.
                 problems.append("element bevat A maar aobject is leeg")
             if not has_a and ao:
                 problems.append("aobject is ingevuld maar element bevat geen A")

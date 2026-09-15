@@ -2386,7 +2386,10 @@ _D_NAMEURI = (
 _D_ELEMLINK = (
     "Element-koppeling: als de kolom <code>element</code> een S (symbool) of A "
     "(arcering) bevat, moet er ook een <code>sobject</code> resp. "
-    "<code>aobject</code> zijn ingevuld — en omgekeerd.")
+    "<code>aobject</code> zijn ingevuld — en omgekeerd. Uitzondering: MW-objecten "
+    "met A zonder <code>aobject</code> (o.a. <code>AANGRENZENDECONSTRUCTIE</code>) "
+    "worden gearceerd met de gedeelde ACO-arceringen (arceringen van constructies) "
+    "en gelden daarom als correct.")
 _D_ELEMFILL = (
     "Element gevuld: de kolom <code>element</code> van elk object bevat minimaal "
     "één waarde (G=geometrie, A=arcering, S=symbool en/of T=tekst).")
