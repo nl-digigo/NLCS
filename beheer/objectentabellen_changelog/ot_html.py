@@ -1851,6 +1851,8 @@ _ALL_STYLE = """
     .card.hgblock .toplink { margin-left:auto; font-size:.82rem; font-weight:600;
                              color:var(--dg-blue); text-decoration:none; }
     .card.hgblock .toplink:hover { text-decoration:underline; }
+    .card.hgblock.warnblock { border-left:4px solid #d9a400; }
+    .card.hgblock.warnblock .hgcount { color:#8a6d00; }
     td.loc { white-space:nowrap; color:var(--dg-grey2); }
 """
 
@@ -2500,7 +2502,9 @@ _D_LTV = (
     "heten in NLCS altijd <code>V-…</code>, dus een gevulde <code>lt_v</code> "
     "hoort met <code>V-</code> te beginnen. Een waarde die daar niet mee begint "
     "is verdacht (waarschijnlijk een bestaand/nieuw lijntype) — een waarschuwing, "
-    "geen fout.")
+    "geen fout. Uitzondering: de grenzen van gemeenten, provincies enzovoorts "
+    "zijn eigendomsgrenzen die buiten de scope van engineering liggen; daarom "
+    "hebben deze grenzen geen vervallen lijnstijl.")
 
 _D_VERWSCALE = (
     "VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) "
@@ -2527,6 +2531,8 @@ _RE_TR = _re.compile(r'<tr>(.*?)</tr>', _re.DOTALL)
 # Alléén exact class="hg" telt als foutregel (net als findings_by_hoofdgroep);
 # 'hg info'-regels (waarschuwingen) matchen dit patroon bewust niet.
 _RE_HG_CELL = _re.compile(r'<td class="hg">([^<]*)</td>')
+# 'hg info' → waarschuwingsregels (tellen niet als fout).
+_RE_HG_INFO_CELL = _re.compile(r'<td class="hg info">([^<]*)</td>')
 _RE_TD = _re.compile(r'<td[^>]*>(.*?)</td>', _re.DOTALL)
 _RE_TAGS = _re.compile(r'<[^>]+>')
 _RE_SECT = _re.compile(r'<h1 class="sect"[^>]*>(.*?)</h1>', _re.DOTALL)
@@ -2542,19 +2548,13 @@ def _plain(html: str) -> str:
     return " ".join(t.split())
 
 
-def _hoofdgroep_overview(sections: list) -> tuple:
-    """Bouw uit de al-gerenderde controle-secties een overzicht per hoofdgroep.
+def _collect_hg_groups(sections: list, cell_re) -> dict:
+    """Verzamel per hoofdgroep-code de regels uit de al-gerenderde secties.
 
-    Elke foutregel rendert als ``<tr>…<td class="hg">CODE</td>…</tr>`` (via
-    _hg_table met de standaard-class 'hg'); waarschuwingen ('hg info') tellen
-    NIET mee — precies dezelfde regel als findings_by_hoofdgroep, zodat de
-    aantallen hier en de vinkjes in het publicatie-overzicht overeenkomen.
-
-    Per foutregel bewaren we de sectie (Objecten/Symbolen/…), de controle (de
-    <h2> van de kaart) en de melding (de overige cellen als platte tekst).
-
-    Geeft terug: (overzicht_html, [(code, aantal), …] gesorteerd op code). Zonder
-    fouten: ("", [])."""
+    `cell_re` bepaalt welke rijen meetellen: exact ``class="hg"`` voor fouten,
+    ``class="hg info"`` voor waarschuwingen. Per regel bewaren we de sectie
+    (Objecten/Symbolen/…), de controle (de <h2> van de kaart) en de melding
+    (de overige cellen als platte tekst). Geeft {code: [{sect,check,msg}, …]}."""
     groups: dict = {}
     for sect_html in sections:
         ms = _RE_SECT.search(sect_html)
@@ -2568,7 +2568,7 @@ def _hoofdgroep_overview(sections: list) -> tuple:
             check = _plain(hm.group(1)) if hm else ""
             for tm in _RE_TR.finditer(card):
                 row = tm.group(1)
-                cell = _RE_HG_CELL.search(row)
+                cell = cell_re.search(row)
                 if not cell:
                     continue
                 code = cell.group(1).strip().upper()
@@ -2580,7 +2580,20 @@ def _hoofdgroep_overview(sections: list) -> tuple:
                 msg = " · ".join(p for p in parts if p)
                 groups.setdefault(code, []).append(
                     {"sect": sect, "check": check, "msg": msg})
+    return groups
 
+
+def _hoofdgroep_overview(sections: list) -> tuple:
+    """Bouw uit de al-gerenderde controle-secties een overzicht per hoofdgroep.
+
+    Elke foutregel rendert als ``<tr>…<td class="hg">CODE</td>…</tr>`` (via
+    _hg_table met de standaard-class 'hg'); waarschuwingen ('hg info') tellen
+    NIET mee — precies dezelfde regel als findings_by_hoofdgroep, zodat de
+    aantallen hier en de vinkjes in het publicatie-overzicht overeenkomen.
+
+    Geeft terug: (overzicht_html, [(code, aantal), …] gesorteerd op code). Zonder
+    fouten: ("", [])."""
+    groups = _collect_hg_groups(sections, _RE_HG_CELL)
     if not groups:
         return "", []
 
@@ -2603,6 +2616,42 @@ def _hoofdgroep_overview(sections: list) -> tuple:
             for it in items)
         out.append('<div class="tablescroll">\n<table class="otab">\n<thead>\n'
                    '<tr><th>tabel</th><th>controle</th><th>melding</th></tr>\n'
+                   '</thead>\n<tbody>\n' + rows + '\n</tbody>\n</table>\n</div>')
+        out.append('</div>')
+    return "\n".join(out), counts
+
+
+def _waarschuwing_overview(sections: list) -> tuple:
+    """Zoals _hoofdgroep_overview, maar voor waarschuwingsregels ('hg info').
+
+    Toont per hoofdgroep de controle + melding. De 'tabel'-kolom vervalt: alle
+    waarschuwingen staan in dezelfde sectie, dus die kolom zou niets toevoegen.
+
+    Geeft terug: (overzicht_html, [(code, aantal), …]). Zonder waarschuwingen:
+    ("", [])."""
+    groups = _collect_hg_groups(sections, _RE_HG_INFO_CELL)
+    if not groups:
+        return "", []
+
+    order = sorted(groups.items())
+    counts = [(code, len(items)) for code, items in order]
+
+    out = ['<h1 class="sect" id="overzicht-hg-warn">Waarschuwingen per '
+           'hoofdgroep</h1>',
+           '<p class="sectnote">Alle waarschuwingen gegroepeerd per hoofdgroep. '
+           'Dit zijn aandachtspunten die NIET als fout tellen in het '
+           'publicatie-overzicht.</p>']
+    for code, items in order:
+        out.append(f'<div class="card hgblock warnblock" id="hgw-{_esc(code)}">')
+        out.append(f'<h2>{_esc(code)} <span class="hgcount">{len(items)} '
+                   f'waarschuwing(en)</span> <a class="toplink" '
+                   f'href="#overzicht-hg-warn">&uarr; overzicht</a></h2>')
+        rows = "".join(
+            f'<tr><td class="loc">{_esc(it["check"])}</td>'
+            f'<td>{_esc(it["msg"])}</td></tr>'
+            for it in items)
+        out.append('<div class="tablescroll">\n<table class="otab">\n<thead>\n'
+                   '<tr><th>controle</th><th>melding</th></tr>\n'
                    '</thead>\n<tbody>\n' + rows + '\n</tbody>\n</table>\n</div>')
         out.append('</div>')
     return "\n".join(out), counts
@@ -2719,6 +2768,11 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
     if hg_counts:
         toc += '<a href="#overzicht-hg">Fouten per hoofdgroep</a>'
     toc += '<a href="#waarschuwingen" class="warn-link">Waarschuwingen</a>'
+    # Waarschuwingen per hoofdgroep (uit de aparte waarschuwingen-sectie).
+    warn_overview_html, warn_counts = _waarschuwing_overview([waarsch_html])
+    if warn_counts:
+        toc += ('<a href="#overzicht-hg-warn" class="warn-link">'
+                'Waarschuwingen per hoofdgroep</a>')
     toc += "</div>"
 
     # Klikbare balk met de hoofdgroepen die fouten hebben → spring naar het blok.
@@ -2736,6 +2790,9 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
         body += "\n" + overview_html
     # Waarschuwingen helemaal onderaan, ná het fouten-overzicht.
     body += "\n" + waarsch_html
+    # …en daaronder het waarschuwingen-per-hoofdgroep-overzicht.
+    if warn_overview_html:
+        body += "\n" + warn_overview_html
     return (
         _shell_head("Controles", extra_style=_CHECK_STYLE + _ALL_STYLE, cdn=False)
         + f'<div class="wrap">\n<p class="info">Alle kwaliteitscontroles in de '
