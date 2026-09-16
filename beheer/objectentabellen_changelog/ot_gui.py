@@ -2911,6 +2911,8 @@ class ControlesTab(ttk.Frame):
             "elemlink": app.elemlink_tab._run(),
             "elemfill": ot_compare.check_element_filled(
                 app.loc["obj_new"].get().strip()),
+            "ltv": ot_compare.check_lt_v_vervallen(
+                app.loc["obj_new"].get().strip()),
             "lijnusage": app.lijnusage_tab._run(),
             "arcverkl": app.arceringverklaring_tab._run(),
             "arclen": ot_compare.check_arcering_name_length(

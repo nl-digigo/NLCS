@@ -1829,6 +1829,7 @@ _ALL_STYLE = """
     .toc a { color:var(--dg-blue); text-decoration:none; margin-right:16px;
              font-weight:600; white-space:nowrap; }
     .toc a:hover { text-decoration:underline; }
+    .toc a.warn-link { color:#8a6d00; }
     .hgnav { background:#fff; border:1px solid var(--dg-grey); border-radius:8px;
              padding:12px 18px; margin-bottom:18px; display:flex; flex-wrap:wrap;
              gap:8px; align-items:center; }
@@ -2092,6 +2093,40 @@ def _c_verwijderen_scale(result) -> str:
         # fout-vinkje in het overzicht; dit is een waarschuwing (gebruikerskeuze).
         c.append(_hg_table(
             '<th>lijntype</th><th>gevonden</th><th>rij</th>', missing,
+            [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td class="loc">{_esc(m.get("found",""))}</td>',
+             lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>'],
+            hg_class="hg info"))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_lt_v_vervallen(result) -> str:
+    """Kaart voor de lt_v-controle (objectentabel): elke gevulde lt_v hoort naar
+    een vervallen lijntype (naam begint met 'V-') te wijzen. result met
+    total/ok/prefix/missing[{name,file,row,found}]. Waarschuwing, geen fout."""
+    title = "Vervallen lijntype (lt_v)"
+    if not result:
+        return _skip_card(title)
+    missing = result.get("missing", [])
+    total, ok = result.get("total", 0), result.get("ok", 0)
+    pref = result.get("prefix", "V-")
+    kpi = _kpi_boxes(
+        (total, "objecten met lt_v", ""),
+        (ok, f"begint met {pref}", "free" if ok == total else ""),
+        (len(missing), f"zonder {pref}", "warn" if missing else "free"))
+    c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
+    if not missing:
+        c.append(f'<p class="ok">✓ Elke gevulde lt_v verwijst naar een vervallen '
+                 f'lijntype (begint met {_esc(pref)}).</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(missing)} object(en) met een lt_v die '
+                 f'niet met {_esc(pref)} begint — <b>waarschuwing</b>, telt niet '
+                 f'als fout in het publicatie-overzicht:</p>')
+        # hg_class 'hg info' → uitgesloten van findings_by_hoofdgroep, dus geen
+        # fout-vinkje in het overzicht; dit is een waarschuwing (gebruikerskeuze).
+        c.append(_hg_table(
+            '<th>object</th><th>lt_v</th><th>rij</th>', missing,
             [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
              lambda m: f'<td class="loc">{_esc(m.get("found",""))}</td>',
              lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>'],
@@ -2459,6 +2494,14 @@ _D_AUTOCADDEF = (
     "<code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO "
     "worden overgeslagen).")
 
+_D_LTV = (
+    "Vervallen lijntype (lt_v): de kolom <code>lt_v</code> in de objectentabel "
+    "verwijst naar het lijntype voor de vervallen situatie. Vervallen lijntypes "
+    "heten in NLCS altijd <code>V-…</code>, dus een gevulde <code>lt_v</code> "
+    "hoort met <code>V-</code> te beginnen. Een waarde die daar niet mee begint "
+    "is verdacht (waarschijnlijk een bestaand/nieuw lijntype) — een waarschuwing, "
+    "geen fout.")
+
 _D_VERWSCALE = (
     "VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) "
     "kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit "
@@ -2650,19 +2693,32 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
                              ("lijntypes", "met definitie", "zonder definitie"),
                              "Elk lijntype heeft een AutoCAD-definitie (autocaddef); "
                              "CONTINUOUS/V-CONTINUOUS-SO overgeslagen.",
-                             "<th>lijntype</th>"), _D_AUTOCADDEF),
-            _desc(_c_verwijderen_scale(data.get("verwscale")), _D_VERWSCALE)]
+                             "<th>lijntype</th>"), _D_AUTOCADDEF)]
     sections.append("\n".join(lijn))
+
+    # -- WAARSCHUWINGEN (apart, helemaal onderaan) -------------------------
+    # Aandachtspunten die NIET als fout tellen (hg info): ze staan los onderaan
+    # zodat hun (vaak vele) meldingen de fout-controles hierboven niet overstemmen.
+    waarsch = ['<h1 class="sect" id="waarschuwingen">Waarschuwingen</h1>',
+               '<p class="sectnote">Aandachtspunten die NIET als fout tellen in het '
+               'publicatie-overzicht (geen fout-vinkje). Bewust apart onderaan gezet '
+               'zodat ze de controles hierboven niet overstemmen.</p>',
+               _desc(_c_lt_v_vervallen(data.get("ltv")), _D_LTV),
+               _desc(_c_verwijderen_scale(data.get("verwscale")), _D_VERWSCALE)]
+    waarsch_html = "\n".join(waarsch)
 
     ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
     toc = ('<div class="toc"><a href="#objecten">Objecten</a>'
            '<a href="#symbolen">Symbolen</a><a href="#arceringen">Arceringen</a>'
            '<a href="#lijntypes">Lijntypes</a>')
 
-    # Overzicht per hoofdgroep uit de al-gerenderde secties (alleen fouten).
+    # Overzicht per hoofdgroep uit de al-gerenderde secties (alleen fouten). De
+    # waarschuwingen-sectie zit bewust NIET in `sections`, dus die telt hier niet
+    # mee (en zou als 'hg info' sowieso al niet meetellen).
     overview_html, hg_counts = _hoofdgroep_overview(sections)
     if hg_counts:
         toc += '<a href="#overzicht-hg">Fouten per hoofdgroep</a>'
+    toc += '<a href="#waarschuwingen" class="warn-link">Waarschuwingen</a>'
     toc += "</div>"
 
     # Klikbare balk met de hoofdgroepen die fouten hebben → spring naar het blok.
@@ -2678,6 +2734,8 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
     body = "\n".join(sections)
     if overview_html:
         body += "\n" + overview_html
+    # Waarschuwingen helemaal onderaan, ná het fouten-overzicht.
+    body += "\n" + waarsch_html
     return (
         _shell_head("Controles", extra_style=_CHECK_STYLE + _ALL_STYLE, cdn=False)
         + f'<div class="wrap">\n<p class="info">Alle kwaliteitscontroles in de '

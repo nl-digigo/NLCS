@@ -2003,6 +2003,65 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
     return {"total": total, "ok": ok, "expected": expected, "missing": missing}
 
 
+def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",
+                         lt_col: str = "lt_v", prefix: str = "V-") -> dict:
+    """Controleer of de lijntype-verwijzing voor de VERVALLEN fase (kolom `lt_v`)
+    in de objectentabel naar een vervallen lijntype wijst.
+
+    Vervallen lijntypes heten in NLCS altijd met een 'V-'-prefix. In de
+    objectentabel hoort de kolom `lt_v` (het lijntype voor de vervallen situatie)
+    dus een naam te bevatten die met 'V-' begint. Een GEVULDE `lt_v`-waarde die
+    NIET met 'V-' begint is verdacht — waarschijnlijk staat er per ongeluk een
+    bestaand/nieuw lijntype in. Dit is een WAARSCHUWING, geen fout.
+
+    Lege `lt_v`-waarden worden overgeslagen (niet elk object heeft een vervallen
+    visualisatie). `src` mag een MAP met CSV's of één CSV-bestand zijn.
+
+    Geeft terug (zelfde vorm als de andere waarschuwings-controles):
+      {
+        "total":   aantal objecten met een gevulde lt_v,
+        "ok":      aantal waarvan lt_v met 'V-' begint,
+        "prefix":  de verwachte prefix ('V-'),
+        "missing": [ {name, file, row, found} ],  # lt_v-waarde zonder 'V-'
+      }
+    """
+    empty = {"total": 0, "ok": 0, "prefix": prefix, "missing": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    pref = prefix.upper()
+    total = 0
+    ok = 0
+    missing: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if lt_col not in headers:
+            continue
+        li = headers.index(lt_col)
+        ni = headers.index(name_col) if name_col in headers else -1
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            val = (r[li] if li < len(r) else "").strip()
+            if not val:
+                continue
+            total += 1
+            name = (r[ni] if 0 <= ni < len(r) else "").strip()
+            if val.upper().startswith(pref):
+                ok += 1
+            else:
+                missing.append({"name": name, "file": fn, "row": i + 2,
+                                "found": val})
+
+    missing.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "prefix": prefix, "missing": missing}
+
+
 def bib_of_stem(stem: str, known_bibs) -> str:
     """De bibliotheek-code die als los hyphen-segment in een bestands-/symboolnaam
     staat. Symboolnamen kunnen een prefix hebben (bijv. 'V-SFC-PAAL...', 'B-SGC-…'),
@@ -2267,6 +2326,13 @@ def compare(new_path: str, old_path: str, key: str = KEY,
                         changed = True
                         changed_any = True
                         old_value = ov
+                        # Kleuren in oude (5.0-)tabellen dragen soms een
+                        # 'file:///'-prefix vóór de RGB-waarde (xxx,xxx,xxx). Die
+                        # prefix is geen inhoud: toon in de changelog de kale
+                        # 5.0-RGB-waarde (drie komma-gescheiden getallen) als
+                        # 'oude' waarde.
+                        if _RE_FILE_PREFIX.match(old_value):
+                            old_value = _norm_cell(old_value)
             cells.append({"value": value, "changed": changed, "old": old_value})
 
         if suppressed:
