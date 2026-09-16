@@ -145,29 +145,29 @@
 <h1 class="sect" id="objecten">Objecten</h1>
 <p class="sectnote">Controle objectentabel — in de volgorde van de managementhandleiding.</p>
 <div class="card"><h2>Objectenboom (hiërarchie)</h2>
-<p class="ctrldesc">Naam-/laagnaamhiërarchie: elk onderliggend object heeft precies één segment meer dan zijn ouder, de oudernaam staat exact vooraan (prefix) en het scheidingsteken (- of _) klopt. Ook: niet meer dan 5 subobjecten in een laagnaam (<code>controle_nlcs-objecten_te_veel_subobjecten</code>).</p><div class="kpi"><div class="box "><b>2766</b>objecten</div><div class="box "><b>341</b>hoofdobjecten</div><div class="box free"><b>0</b>fout(en)</div></div>
+<p class="ctrldesc">Naam-/laagnaamhiërarchie: elk onderliggend object heeft precies één segment meer dan zijn ouder, de oudernaam staat exact vooraan (prefix) en het scheidingsteken (- of _) klopt. Ook: niet meer dan 5 subobjecten in een laagnaam (<code>controle_nlcs-objecten_te_veel_subobjecten</code>).</p><div class="kpi"><div class="box "><b>2762</b>objecten</div><div class="box "><b>338</b>hoofdobjecten</div><div class="box free"><b>0</b>fout(en)</div></div>
 <p class="ok">✓ Elk onderliggend object heeft precies één segment meer dan zijn bovenliggende object.</p>
 </div>
 <div class="card"><h2>Fase-visualisatie</h2>
-<p class="ctrldesc">Controleer of elk object voor alle NLCS-statussen (Bestaand, Nieuw, Vervallen, Tijdelijk) een visualisatie heeft; AL en ZZ hebben alleen een visualisatie voor de bestaande situatie.</p><div class="kpi"><div class="box "><b>2766</b>objecten</div><div class="box free"><b>2766</b>volledig</div><div class="box free"><b>0</b>fase ontbreekt</div></div>
+<p class="ctrldesc">Controleer of elk object voor alle NLCS-statussen (Bestaand, Nieuw, Vervallen, Tijdelijk) een visualisatie heeft; AL en ZZ hebben alleen een visualisatie voor de bestaande situatie.</p><div class="kpi"><div class="box "><b>2762</b>objecten</div><div class="box free"><b>2762</b>volledig</div><div class="box free"><b>0</b>fase ontbreekt</div></div>
 <p class="ok">✓ Elk object heeft voor alle verwachte fasen een visualisatie.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>6517</b>ingelezen</div><div class="box "><b>6131</b>hoogste ID</div><div class="box free"><b>6132</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>6513</b>ingelezen</div><div class="box "><b>6134</b>hoogste ID</div><div class="box free"><b>6135</b>eerstvolgende vrij</div></div>
 <p class="ok">✓ Elke rij heeft een id_nummer.</p>
 <p class="ok">✓ Geen dubbel gebruikte ID’s.</p>
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
-<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>2766</b>namen</div><div class="box "><b>2766</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>2762</b>namen</div><div class="box "><b>2762</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>6517</b>namen</div><div class="box "><b>4360</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>6513</b>namen</div><div class="box "><b>4357</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Element-koppeling (S/A ↔ sobject/aobject)</h2>
-<p class="ctrldesc">Element-koppeling: als de kolom <code>element</code> een S (symbool) of A (arcering) bevat, moet er ook een <code>sobject</code> resp. <code>aobject</code> zijn ingevuld — en omgekeerd. Uitzondering: MW-objecten met A zonder <code>aobject</code> (o.a. <code>AANGRENZENDECONSTRUCTIE</code>) worden gearceerd met de gedeelde ACO-arceringen (arceringen van constructies) en gelden daarom als correct.</p><div class="kpi"><div class="box "><b>2766</b>objecten</div><div class="box "><b>2764</b>correct</div><div class="box bad"><b>2</b>afwijkend</div></div>
+<p class="ctrldesc">Element-koppeling: als de kolom <code>element</code> een S (symbool) of A (arcering) bevat, moet er ook een <code>sobject</code> resp. <code>aobject</code> zijn ingevuld — en omgekeerd. Uitzondering: MW-objecten met A zonder <code>aobject</code> (o.a. <code>AANGRENZENDECONSTRUCTIE</code>) worden gearceerd met de gedeelde ACO-arceringen (arceringen van constructies) en gelden daarom als correct.</p><div class="kpi"><div class="box "><b>2762</b>objecten</div><div class="box "><b>2760</b>correct</div><div class="box bad"><b>2</b>afwijkend</div></div>
 <p class="warn">⚠ 2 object(en) met een afwijkende koppeling:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>object</th><th>element</th><th>probleem</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>VRI_CAMERA</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r19</td></tr>
@@ -175,7 +175,7 @@
 </tbody></table>
 </div>
 <div class="card"><h2>Element gevuld</h2>
-<p class="ctrldesc">Element gevuld: de kolom <code>element</code> van elk object bevat minimaal één waarde (G=geometrie, A=arcering, S=symbool en/of T=tekst).</p><div class="kpi"><div class="box "><b>2766</b>objecten</div><div class="box "><b>2765</b>gevuld</div><div class="box bad"><b>1</b>leeg</div></div>
+<p class="ctrldesc">Element gevuld: de kolom <code>element</code> van elk object bevat minimaal één waarde (G=geometrie, A=arcering, S=symbool en/of T=tekst).</p><div class="kpi"><div class="box "><b>2762</b>objecten</div><div class="box "><b>2761</b>gevuld</div><div class="box bad"><b>1</b>leeg</div></div>
 <p class="warn">⚠ 1 zonder:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>object</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>VRI_KABEL_DATA_KOPPEL</td><td class="loc">r28</td></tr>
@@ -190,7 +190,7 @@
 <p class="ok">✓ Elke zoekterm vindt minstens één arceringen.</p>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
-<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>2766</b>namen</div><div class="box free"><b>2766</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>2762</b>namen</div><div class="box free"><b>2762</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 <p class="info">Ter info: 7 naam/namen met een kleine letter (toegestaan voor eenheden mm/Mm en elementsymbool Cu — controleer of bewust):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>rij</th></tr></thead><tbody>
@@ -206,7 +206,7 @@
 <h1 class="sect" id="symbolen">Symbolen</h1>
 <p class="sectnote">Controle symbolentabel.</p>
 <div class="card"><h2>Zoekterm-controle (<code>sobject</code>)</h2>
-<p class="ctrldesc"><code>controle_arceringsymbool_zonder_objectRelatie</code> — symbolen die via geen enkele zoekterm (<code>sobject</code>) in de objectentabel gevonden worden.</p><div class="kpi"><div class="box "><b>1849</b>namen</div><div class="box "><b>1849</b>via zoekterm gevonden</div><div class="box free"><b>0</b>niet gevonden</div></div>
+<p class="ctrldesc"><code>controle_arceringsymbool_zonder_objectRelatie</code> — symbolen die via geen enkele zoekterm (<code>sobject</code>) in de objectentabel gevonden worden.</p><div class="kpi"><div class="box "><b>1841</b>namen</div><div class="box "><b>1841</b>via zoekterm gevonden</div><div class="box free"><b>0</b>niet gevonden</div></div>
 <p class="ok">✓ Elke naam bevat een zoekterm uit de objectentabel.</p>
 </div>
 <div class="card"><h2>Optie-fase-check</h2>
@@ -214,7 +214,7 @@
 <p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>5725</b>ingelezen</div><div class="box "><b>7512</b>hoogste ID</div><div class="box free"><b>7513</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>5717</b>ingelezen</div><div class="box "><b>7512</b>hoogste ID</div><div class="box free"><b>7513</b>eerstvolgende vrij</div></div>
 <p class="warn">⚠ 3 zonder id:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>SIW-VRI_DETECTIE</td><td>nieuw</td><td class="loc">r2</td></tr>
@@ -225,15 +225,15 @@
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
-<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>1849</b>namen</div><div class="box "><b>1849</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>1841</b>namen</div><div class="box "><b>1841</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>5725</b>namen</div><div class="box "><b>4201</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>5717</b>namen</div><div class="box "><b>4195</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
-<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>1849</b>namen</div><div class="box free"><b>1849</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>1841</b>namen</div><div class="box free"><b>1841</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 <p class="info">Ter info: 76 naam/namen met een kleine letter (toegestaan voor eenheden mm/Mm en elementsymbool Cu — controleer of bewust):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>rij</th></tr></thead><tbody>
@@ -316,7 +316,7 @@
 </tbody></table>
 </div>
 <div class="card"><h2>Symbool ↔ .dwg</h2>
-<p class="ctrldesc">Controleer of alle symbolen in de database ook als bestand (.dwg) beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).</p><div class="kpi"><div class="box "><b>1849</b>tabelregels</div><div class="box "><b>1845</b>met .dwg</div><div class="box bad"><b>4</b>regel zonder .dwg</div><div class="box "><b>5633</b>.dwg-bestanden</div><div class="box bad"><b>668</b>.dwg zonder regel</div></div>
+<p class="ctrldesc">Controleer of alle symbolen in de database ook als bestand (.dwg) beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).</p><div class="kpi"><div class="box "><b>1841</b>tabelregels</div><div class="box "><b>1837</b>met .dwg</div><div class="box bad"><b>4</b>regel zonder .dwg</div><div class="box "><b>5625</b>.dwg-bestanden</div><div class="box bad"><b>668</b>.dwg zonder regel</div></div>
 <p class="warn">⚠ 4 symboolregel(s) zonder .dwg-bestand:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>symbool (regel)</th><th>verwacht bestand</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>SIW-VRI_DETECTIE</td><td class="loc">SIW-VRI_DETECTIE.dwg</td></tr>
@@ -1090,8 +1090,8 @@
 <h1 class="sect" id="waarschuwingen">Waarschuwingen</h1>
 <p class="sectnote">Aandachtspunten die NIET als fout tellen in het publicatie-overzicht (geen fout-vinkje). Bewust apart onderaan gezet zodat ze de controles hierboven niet overstemmen.</p>
 <div class="card"><h2>Vervallen lijntype (lt_v)</h2>
-<p class="ctrldesc">Vervallen lijntype (lt_v): de kolom <code>lt_v</code> in de objectentabel verwijst naar het lijntype voor de vervallen situatie. Vervallen lijntypes heten in NLCS altijd <code>V-…</code>, dus een gevulde <code>lt_v</code> hoort met <code>V-</code> te beginnen. Een waarde die daar niet mee begint is verdacht (waarschijnlijk een bestaand/nieuw lijntype) — een waarschuwing, geen fout.</p><div class="kpi"><div class="box "><b>2730</b>objecten met lt_v</div><div class="box "><b>2216</b>begint met V-</div><div class="box warn"><b>514</b>zonder V-</div></div>
-<p class="warn">⚠ 514 object(en) met een lt_v die niet met V- begint — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
+<p class="ctrldesc">Vervallen lijntype (lt_v): de kolom <code>lt_v</code> in de objectentabel verwijst naar het lijntype voor de vervallen situatie. Vervallen lijntypes heten in NLCS altijd <code>V-…</code>, dus een gevulde <code>lt_v</code> hoort met <code>V-</code> te beginnen. Een waarde die daar niet mee begint is verdacht (waarschijnlijk een bestaand/nieuw lijntype) — een waarschuwing, geen fout.</p><div class="kpi"><div class="box "><b>2726</b>objecten met lt_v</div><div class="box "><b>2428</b>begint met V-</div><div class="box warn"><b>298</b>zonder V-</div></div>
+<p class="warn">⚠ 298 object(en) met een lt_v die niet met V- begint — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>object</th><th>lt_v</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg info">BC</td><td>SLOOPLIJN</td><td class="loc">BC-SLOOPLIJN-SO</td><td class="loc">r32</td></tr>
 <tr><td class="hg info">ES</td><td>AFSPANCONSTRUCTIE</td><td class="loc">CONTINUOUS</td><td class="loc">r184</td></tr>
@@ -1391,222 +1391,6 @@
 <tr><td class="hg info">MW</td><td>METSELWERKVORM_NATUURSTEEN</td><td class="loc">CONTINUOUS</td><td class="loc">r3</td></tr>
 <tr><td class="hg info">MW</td><td>OVERIGMATERIAAL</td><td class="loc">CONTINUOUS</td><td class="loc">r17</td></tr>
 <tr><td class="hg info">MW</td><td>VERANKERING</td><td class="loc">CONTINUOUS</td><td class="loc">r14</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_BASSIN</td><td class="loc">CONTINUOUS</td><td class="loc">r243</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_BEDRIJVEN</td><td class="loc">CONTINUOUS</td><td class="loc">r174</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_BEDRIJVEN_DETAILHANDEL</td><td class="loc">CONTINUOUS</td><td class="loc">r108</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_BEDRIJVEN_GROOTBEDRIJF</td><td class="loc">CONTINUOUS</td><td class="loc">r123</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_BEDRIJVEN_MKB</td><td class="loc">CONTINUOUS</td><td class="loc">r131</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_BEZINKTANK</td><td class="loc">CONTINUOUS</td><td class="loc">r247</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_BIJGEBOUW</td><td class="loc">CONTINUOUS</td><td class="loc">r185</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_BIJGEBOUW_OPTIE</td><td class="loc">CONTINUOUS</td><td class="loc">r113</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_BIJZONDERE DOELEINDEN</td><td class="loc">CONTINUOUS</td><td class="loc">r184</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_BORDES</td><td class="loc">CONTINUOUS</td><td class="loc">r50</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_BUNKER</td><td class="loc">CONTINUOUS</td><td class="loc">r248</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_CENTRUM</td><td class="loc">CONTINUOUS</td><td class="loc">r158</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_CULTUUR EN ONTSPANNING</td><td class="loc">CONTINUOUS</td><td class="loc">r140</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_DETAILHANDEL</td><td class="loc">CONTINUOUS</td><td class="loc">r170</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_DIENSTVERLENING</td><td class="loc">CONTINUOUS</td><td class="loc">r160</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_ENTREE</td><td class="loc">CONTINUOUS</td><td class="loc">r19</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_FIETSENSTALLING</td><td class="loc">CONTINUOUS</td><td class="loc">r168</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_GEMENGD</td><td class="loc">CONTINUOUS</td><td class="loc">r177</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_GEZONDHEIDSZORG</td><td class="loc">CONTINUOUS</td><td class="loc">r217</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_HOOFDGEBOUW</td><td class="loc">CONTINUOUS</td><td class="loc">r209</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_HOOGTESCHEIDING</td><td class="loc">CONTINUOUS</td><td class="loc">r46</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_HORECA</td><td class="loc">CONTINUOUS</td><td class="loc">r152</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_KANTOOR</td><td class="loc">CONTINUOUS</td><td class="loc">r178</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_KIOSK</td><td class="loc">CONTINUOUS</td><td class="loc">r206</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_KOLOM GEBOUW</td><td class="loc">CONTINUOUS</td><td class="loc">r53</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_LAGE TRAFO</td><td class="loc">CONTINUOUS</td><td class="loc">r58</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_LOODS</td><td class="loc">CONTINUOUS</td><td class="loc">r241</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_LUIFEL</td><td class="loc">CONTINUOUS</td><td class="loc">r54</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_MAATSCHAPPELIJK</td><td class="loc">CONTINUOUS</td><td class="loc">r154</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_MOLEN</td><td class="loc">CONTINUOUS</td><td class="loc">r49</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_NUTSGEBOUW</td><td class="loc">CONTINUOUS</td><td class="loc">r195</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_OPENBAAR TOILET</td><td class="loc">CONTINUOUS</td><td class="loc">r173</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_OPSLAGTANK</td><td class="loc">CONTINUOUS</td><td class="loc">r244</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_OPTIE</td><td class="loc">CONTINUOUS</td><td class="loc">r198</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_OVERBOUWING</td><td class="loc">CONTINUOUS</td><td class="loc">r51</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_OVERBOUWING_MET KOPPELBALKEN</td><td class="loc">CONTINUOUS</td><td class="loc">r2</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_PARKEERGARAGE</td><td class="loc">CONTINUOUS</td><td class="loc">r189</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_PIJLER VIADUCT</td><td class="loc">CONTINUOUS</td><td class="loc">r48</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_SCHUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r242</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_SILO</td><td class="loc">CONTINUOUS</td><td class="loc">r246</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_TE AMOVEREN</td><td class="loc">CONTINUOUS</td><td class="loc">r196</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_TE HANDHAVEN</td><td class="loc">CONTINUOUS</td><td class="loc">r213</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_TRAFOHUISJE</td><td class="loc">CONTINUOUS</td><td class="loc">r190</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_TRAP</td><td class="loc">CONTINUOUS</td><td class="loc">r95</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_TUSSENMUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r60</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_UITBOUW</td><td class="loc">CONTINUOUS</td><td class="loc">r197</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_UITBOUW_ZWEVEND</td><td class="loc">CONTINUOUS</td><td class="loc">r132</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WINDTURBINE</td><td class="loc">CONTINUOUS</td><td class="loc">r96</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW</td><td class="loc">CONTINUOUS</td><td class="loc">r151</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_EENGEZINSWONING</td><td class="loc">CONTINUOUS</td><td class="loc">r114</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_EENGEZINSWONING_DUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r37</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_EENGEZINSWONING_GOEDKOOP</td><td class="loc">CONTINUOUS</td><td class="loc">r34</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_EENGEZINSWONING_MIDDELDUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r43</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_GESTAPELD</td><td class="loc">CONTINUOUS</td><td class="loc">r127</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_HOOGBOUW</td><td class="loc">CONTINUOUS</td><td class="loc">r105</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_HOOGBOUW_DUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r32</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_HOOGBOUW_GOEDKOOP</td><td class="loc">CONTINUOUS</td><td class="loc">r28</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_HOOGBOUW_MIDDELDUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r42</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_HUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r101</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_HUUR_SOCIAAL</td><td class="loc">CONTINUOUS</td><td class="loc">r8</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_HUUR_VRIJE SECTOR</td><td class="loc">CONTINUOUS</td><td class="loc">r12</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_KOOP</td><td class="loc">CONTINUOUS</td><td class="loc">r112</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_KOOP_PARTICULIER OPDRACHTGEVERSCHAP</td><td class="loc">CONTINUOUS</td><td class="loc">r13</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_KOOP_SOCIAAL</td><td class="loc">CONTINUOUS</td><td class="loc">r11</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_LAAGBOUW</td><td class="loc">CONTINUOUS</td><td class="loc">r122</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_LAAGBOUW_DUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r30</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_LAAGBOUW_GOEDKOOP</td><td class="loc">CONTINUOUS</td><td class="loc">r29</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_LAAGBOUW_MIDDELDUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r25</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_STARTERSWONING</td><td class="loc">CONTINUOUS</td><td class="loc">r103</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_TWEE ONDER EEN KAP</td><td class="loc">CONTINUOUS</td><td class="loc">r107</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_TWEE ONDER EEN KAP_DUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r31</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_TWEE ONDER EEN KAP_GOEDKOOP</td><td class="loc">CONTINUOUS</td><td class="loc">r44</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_TWEE ONDER EEN KAP_MIDDELDUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r41</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_VRIJSTAAND</td><td class="loc">CONTINUOUS</td><td class="loc">r104</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_VRIJSTAAND_DUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r38</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_VRIJSTAAND_GOEDKOOP</td><td class="loc">CONTINUOUS</td><td class="loc">r40</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_VRIJSTAAND_MIDDELDUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r27</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WONINGBOUW_WONINGSCHEIDING</td><td class="loc">CONTINUOUS</td><td class="loc">r6</td></tr>
-<tr><td class="hg info">OG</td><td>BEBOUWING_WOONWAGENS</td><td class="loc">CONTINUOUS</td><td class="loc">r193</td></tr>
-<tr><td class="hg info">OG</td><td>FASE1</td><td class="loc">CONTINUOUS</td><td class="loc">r252</td></tr>
-<tr><td class="hg info">OG</td><td>FASE2</td><td class="loc">CONTINUOUS</td><td class="loc">r254</td></tr>
-<tr><td class="hg info">OG</td><td>FASE3</td><td class="loc">CONTINUOUS</td><td class="loc">r255</td></tr>
-<tr><td class="hg info">OG</td><td>FASE4</td><td class="loc">CONTINUOUS</td><td class="loc">r251</td></tr>
-<tr><td class="hg info">OG</td><td>FASE5</td><td class="loc">CONTINUOUS</td><td class="loc">r257</td></tr>
-<tr><td class="hg info">OG</td><td>FASE6</td><td class="loc">CONTINUOUS</td><td class="loc">r256</td></tr>
-<tr><td class="hg info">OG</td><td>FASE7</td><td class="loc">CONTINUOUS</td><td class="loc">r253</td></tr>
-<tr><td class="hg info">OG</td><td>GREPPEL</td><td class="loc">CONTINUOUS</td><td class="loc">r259</td></tr>
-<tr><td class="hg info">OG</td><td>HULPLIJN</td><td class="loc">CONTINUOUS</td><td class="loc">r228</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN</td><td class="loc">CONTINUOUS</td><td class="loc">r258</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_AGRARISCH</td><td class="loc">CONTINUOUS</td><td class="loc">r167</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_AGRARISCH_MET WAARDEN</td><td class="loc">CONTINUOUS</td><td class="loc">r82</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_BEDRIJVENTERREIN</td><td class="loc">CONTINUOUS</td><td class="loc">r150</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_BEGRAAFPLAATS</td><td class="loc">CONTINUOUS</td><td class="loc">r187</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_BEGRAAFPLAATS_GRAFVAK</td><td class="loc">CONTINUOUS</td><td class="loc">r102</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_BEGRAAFPLAATS_GRAFVAK_GRAF</td><td class="loc">CONTINUOUS</td><td class="loc">r35</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_BEGROEID</td><td class="loc">CONTINUOUS</td><td class="loc">r191</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_BEGROEID_BOS</td><td class="loc">CONTINUOUS</td><td class="loc">r72</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_BEGROEID_TUIN</td><td class="loc">CONTINUOUS</td><td class="loc">r78</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_BEGROEID_TUIN_ECOTUIN</td><td class="loc">CONTINUOUS</td><td class="loc">r26</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_BEGROEID_TUIN_TUINBOUW</td><td class="loc">CONTINUOUS</td><td class="loc">r36</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_BEGROEID_TUIN_VOLKSTUIN</td><td class="loc">CONTINUOUS</td><td class="loc">r33</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_ERF</td><td class="loc">CONTINUOUS</td><td class="loc">r207</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_GEVEL</td><td class="loc">CONTINUOUS</td><td class="loc">r148</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_HONDENUITLAATPLAATS</td><td class="loc">CONTINUOUS</td><td class="loc">r194</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_KOPPELING</td><td class="loc">CONTINUOUS</td><td class="loc">r45</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_KOPPELING_AGRARISCH GEBIED</td><td class="loc">CONTINUOUS</td><td class="loc">r75</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_KOPPELING_BOUWVERGUNNING</td><td class="loc">CONTINUOUS</td><td class="loc">r88</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_KOPPELING_BRUG</td><td class="loc">CONTINUOUS</td><td class="loc">r77</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_KOPPELING_INDUSTRIELAWAAI</td><td class="loc">CONTINUOUS</td><td class="loc">r68</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_KOPPELING_UITWERKINGSPLAN</td><td class="loc">CONTINUOUS</td><td class="loc">r79</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_KOPPELING_VERKEERSLAWAAI</td><td class="loc">CONTINUOUS</td><td class="loc">r74</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_KOPPELING_VERKEERSLAWAAI_AUTOSNELWEG</td><td class="loc">CONTINUOUS</td><td class="loc">r9</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_MILIEUBESCHERMINGSGEBIED</td><td class="loc">CONTINUOUS</td><td class="loc">r16</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_NATUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r144</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_NIET UITGEEFBAAR</td><td class="loc">CONTINUOUS</td><td class="loc">r146</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_NIET UITGEEFBAAR_KAVEL</td><td class="loc">CONTINUOUS</td><td class="loc">r73</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_OEVER</td><td class="loc">CONTINUOUS</td><td class="loc">r245</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_ONBEGROEID</td><td class="loc">CONTINUOUS</td><td class="loc">r188</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_ONBEGROEID_STRAND</td><td class="loc">CONTINUOUS</td><td class="loc">r117</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_ONBEGROEID_STRAND_STRANDVAK</td><td class="loc">CONTINUOUS</td><td class="loc">r39</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_ONBEGROEID_ZAND</td><td class="loc">CONTINUOUS</td><td class="loc">r179</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_ONBEGROEID_ZANDVERSTUIVING</td><td class="loc">CONTINUOUS</td><td class="loc">r135</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_ONVERHARD</td><td class="loc">CONTINUOUS</td><td class="loc">r208</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_OPENBAAR GEBIED</td><td class="loc">CONTINUOUS</td><td class="loc">r211</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_PARK</td><td class="loc">CONTINUOUS</td><td class="loc">r192</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_PARK_STADSPARK</td><td class="loc">CONTINUOUS</td><td class="loc">r119</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_PLANGEBIED</td><td class="loc">CONTINUOUS</td><td class="loc">r186</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_PLANGEBIED_BRUTO</td><td class="loc">CONTINUOUS</td><td class="loc">r121</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_PLANGEBIED_NETTO</td><td class="loc">CONTINUOUS</td><td class="loc">r125</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_RECREATIE</td><td class="loc">CONTINUOUS</td><td class="loc">r166</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_SPORT</td><td class="loc">CONTINUOUS</td><td class="loc">r159</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_TRANSACTIE</td><td class="loc">CONTINUOUS</td><td class="loc">r181</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_TRANSACTIE_AANKOOP</td><td class="loc">CONTINUOUS</td><td class="loc">r120</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_TRANSACTIE_ERFPACHT</td><td class="loc">CONTINUOUS</td><td class="loc">r130</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_TRANSACTIE_INGEBRUIKGAVE</td><td class="loc">CONTINUOUS</td><td class="loc">r128</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_TRANSACTIE_ONTEIGENING</td><td class="loc">CONTINUOUS</td><td class="loc">r116</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_TRANSACTIE_OPSTAL</td><td class="loc">CONTINUOUS</td><td class="loc">r109</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_TRANSACTIE_OVERDRACHT</td><td class="loc">CONTINUOUS</td><td class="loc">r133</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_TRANSACTIE_RUILING</td><td class="loc">CONTINUOUS</td><td class="loc">r118</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_TRANSACTIE_VERHUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r99</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_TRANSACTIE_VERKOOP</td><td class="loc">CONTINUOUS</td><td class="loc">r115</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_TRANSACTIE_VERKOOPGEGEVENS</td><td class="loc">CONTINUOUS</td><td class="loc">r134</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_TRANSACTIE_VERPACHTING</td><td class="loc">CONTINUOUS</td><td class="loc">r106</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_TRANSACTIE_VOORKEURSRECHT</td><td class="loc">CONTINUOUS</td><td class="loc">r110</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_UIT TE WERKEN</td><td class="loc">CONTINUOUS</td><td class="loc">r175</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_UITGEEFBAAR</td><td class="loc">CONTINUOUS</td><td class="loc">r141</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_UITGEEFBAAR_DETAILHANDEL</td><td class="loc">CONTINUOUS</td><td class="loc">r67</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_UITGEEFBAAR_HORECA</td><td class="loc">CONTINUOUS</td><td class="loc">r87</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_UITGEEFBAAR_HUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r70</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_UITGEEFBAAR_HUUR_SOCIAAL</td><td class="loc">CONTINUOUS</td><td class="loc">r14</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_UITGEEFBAAR_KANTOOR</td><td class="loc">CONTINUOUS</td><td class="loc">r91</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_UITGEEFBAAR_KAVEL</td><td class="loc">CONTINUOUS</td><td class="loc">r80</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_UITGEEFBAAR_KOOP</td><td class="loc">CONTINUOUS</td><td class="loc">r69</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_UITGEEFBAAR_KOOP_PARTICULIER OPDRACHTGEVERSCHAP</td><td class="loc">CONTINUOUS</td><td class="loc">r10</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_UITGEEFBAAR_KOOP_SOCIAAL</td><td class="loc">CONTINUOUS</td><td class="loc">r15</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_UITGEEFBAAR_MAATSCHAPPELIJKE VOORZIENING</td><td class="loc">CONTINUOUS</td><td class="loc">r89</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_UITGEEFBAAR_VRIJE SECTOR</td><td class="loc">CONTINUOUS</td><td class="loc">r71</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_UITGEEFBAAR_VRIJE SECTOR_PARTICULIER OPDRACHTGEVERSCHAP</td><td class="loc">CONTINUOUS</td><td class="loc">r7</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_VERHARD</td><td class="loc">CONTINUOUS</td><td class="loc">r199</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_VERHARD_TERRAS</td><td class="loc">CONTINUOUS</td><td class="loc">r124</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_WOONGEBIED</td><td class="loc">CONTINUOUS</td><td class="loc">r165</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_WOONWAGENLOCATIE</td><td class="loc">CONTINUOUS</td><td class="loc">r201</td></tr>
-<tr><td class="hg info">OG</td><td>TERREIN_WOONWAGENLOCATIE_STANDPLAATS</td><td class="loc">CONTINUOUS</td><td class="loc">r129</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_BEEK</td><td class="loc">CONTINUOUS</td><td class="loc">r142</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_BRON</td><td class="loc">CONTINUOUS</td><td class="loc">r200</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_GRACHT</td><td class="loc">CONTINUOUS</td><td class="loc">r145</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_GREPPEL</td><td class="loc">CONTINUOUS</td><td class="loc">r203</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_HAVEN</td><td class="loc">CONTINUOUS</td><td class="loc">r162</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_HAVEN_HAVENVAK</td><td class="loc">CONTINUOUS</td><td class="loc">r24</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_KANAAL</td><td class="loc">CONTINUOUS</td><td class="loc">r171</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_MEER</td><td class="loc">CONTINUOUS</td><td class="loc">r156</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_POEL</td><td class="loc">CONTINUOUS</td><td class="loc">r94</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_RIVIER</td><td class="loc">CONTINUOUS</td><td class="loc">r157</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_SLIK</td><td class="loc">CONTINUOUS</td><td class="loc">r147</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_SLOOT</td><td class="loc">CONTINUOUS</td><td class="loc">r205</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_VIJVER</td><td class="loc">CONTINUOUS</td><td class="loc">r98</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_WATERSPORT</td><td class="loc">CONTINUOUS</td><td class="loc">r164</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_WOONBOOTLOCATIE</td><td class="loc">CONTINUOUS</td><td class="loc">r149</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_WOONBOOTLOCATIE_LIGPLAATS</td><td class="loc">CONTINUOUS</td><td class="loc">r111</td></tr>
-<tr><td class="hg info">OG</td><td>WATER_ZEE</td><td class="loc">CONTINUOUS</td><td class="loc">r143</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_BUSBAAN</td><td class="loc">CONTINUOUS</td><td class="loc">r138</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_BUSBAAN_DYNAMISCH</td><td class="loc">CONTINUOUS</td><td class="loc">r76</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_FIETSENSTALLING</td><td class="loc">CONTINUOUS</td><td class="loc">r139</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_HOOFDSTRUCTUUR</td><td class="loc">CONTINUOUS</td><td class="loc">r161</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_ONVERHARD</td><td class="loc">CONTINUOUS</td><td class="loc">r155</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_PARKEERPLAATS</td><td class="loc">CONTINUOUS</td><td class="loc">r172</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_PARKEERPLAATS_BETAALD</td><td class="loc">CONTINUOUS</td><td class="loc">r86</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_PARKEERPLAATS_INDELING</td><td class="loc">CONTINUOUS</td><td class="loc">r81</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_PARKEERPLAATS_INVALIDE</td><td class="loc">CONTINUOUS</td><td class="loc">r83</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_PARKEERPLAATS_LAAD EN LOS</td><td class="loc">CONTINUOUS</td><td class="loc">r84</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_PARKEERPLAATS_PRIVE</td><td class="loc">CONTINUOUS</td><td class="loc">r90</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_PARKEERPLAATS_VERGUNNINGHOUDER</td><td class="loc">CONTINUOUS</td><td class="loc">r85</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_PARKEERSECTIE</td><td class="loc">CONTINUOUS</td><td class="loc">r153</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_PARKEERZONE</td><td class="loc">CONTINUOUS</td><td class="loc">r214</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_PLEIN</td><td class="loc">CONTINUOUS</td><td class="loc">r204</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_RIJRICHTING</td><td class="loc">CONTINUOUS</td><td class="loc">r23</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_RIJWEG</td><td class="loc">CONTINUOUS</td><td class="loc">r212</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_RIJWEG_RIJWEGVAK</td><td class="loc">CONTINUOUS</td><td class="loc">r136</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_RIJWIELPAD</td><td class="loc">CONTINUOUS</td><td class="loc">r216</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_SPOORBAAN</td><td class="loc">CONTINUOUS</td><td class="loc">r210</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_TAXISTANDPLAATS</td><td class="loc">CONTINUOUS</td><td class="loc">r20</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_TRAMBAAN</td><td class="loc">CONTINUOUS</td><td class="loc">r202</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_VERHARD</td><td class="loc">CONTINUOUS</td><td class="loc">r182</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_VOETPAD</td><td class="loc">CONTINUOUS</td><td class="loc">r215</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_VOETPAD_TRAP</td><td class="loc">CONTINUOUS</td><td class="loc">r137</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_VOETPAD_VOETPADVAK</td><td class="loc">CONTINUOUS</td><td class="loc">r100</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_WEGVAK</td><td class="loc">CONTINUOUS</td><td class="loc">r183</td></tr>
-<tr><td class="hg info">OG</td><td>WEG_WEGVAK_WEGVAKONDERDEEL</td><td class="loc">CONTINUOUS</td><td class="loc">r126</td></tr>
-<tr><td class="hg info">OG</td><td>ZONE_BELEMMERING</td><td class="loc">CONTINUOUS</td><td class="loc">r18</td></tr>
-<tr><td class="hg info">OG</td><td>ZONE_BELEMMERING_LEIDINGSTROOK</td><td class="loc">CONTINUOUS</td><td class="loc">r3</td></tr>
-<tr><td class="hg info">OG</td><td>ZONE_BELEMMERING_OBJECT</td><td class="loc">CONTINUOUS</td><td class="loc">r4</td></tr>
-<tr><td class="hg info">OG</td><td>ZONE_ECOGEBIED</td><td class="loc">CONTINUOUS</td><td class="loc">r169</td></tr>
-<tr><td class="hg info">OG</td><td>ZONE_GEVAARLIJKE STOFFEN</td><td class="loc">CONTINUOUS</td><td class="loc">r176</td></tr>
-<tr><td class="hg info">OG</td><td>ZONE_HOOGSPANNINGSTRACE</td><td class="loc">CONTINUOUS</td><td class="loc">r21</td></tr>
-<tr><td class="hg info">OG</td><td>ZONE_LEIDINGSTROOK</td><td class="loc">CONTINUOUS</td><td class="loc">r17</td></tr>
-<tr><td class="hg info">OG</td><td>ZONE_LPG</td><td class="loc">CONTINUOUS</td><td class="loc">r97</td></tr>
 </tbody></table>
 </div>
 <div class="card"><h2>VERWIJDEREN2-schaal</h2>
