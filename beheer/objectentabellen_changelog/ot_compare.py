@@ -1904,9 +1904,12 @@ def check_lijntype_autocaddef(src: str, name_col: str = "omschrijving",
 # Vervallen lijntypes (fase = 'V', naam begint met 'V-') kregen bij de transitie
 # een 'scrap' met een VERWIJDEREN2-shape uit NLCS.shx op schaal 0.5. In de
 # autocaddef staat dan een segment als '[VERWIJDEREN2,NLCS.SHX,s=0.5]' (soms met
-# extra x=-offset). De juiste schaal is s=0.5.
+# extra x=- en/of y=-offset). De juiste schaal is s=0.5. Een horizontale x=-offset
+# is prima (zorgt voor een fraaie uitlijning op de lijn); een verticale y=-offset
+# is ongewenst want dan staan de scraps niet meer gecentreerd op de lijn.
 _RE_VERWIJDEREN2 = re.compile(r"\[\s*VERWIJDEREN2\b([^\]]*)\]", re.IGNORECASE)
 _RE_SCALE = re.compile(r"\bs\s*=\s*([0-9]*\.?[0-9]+)", re.IGNORECASE)
+_RE_YOFFSET = re.compile(r"\by\s*=\s*(-?[0-9]*\.?[0-9]+)", re.IGNORECASE)
 
 
 def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
@@ -1920,21 +1923,24 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
     AutoCAD-definitie, met dezelfde afmetingen: de juiste eigenschap is
     `[VERWIJDEREN2,NLCS.shx,s=0.5]`. Deze controle leest per vervallen lijntype de
     `autocaddef`, zoekt het `[VERWIJDEREN2,…]`-segment en controleert of de
-    `s=`-waarde daarin gelijk is aan 0.5. Alleen de schaal telt; een eventuele
-    `x=`-offset blijft ongemoeid.
+    `s=`-waarde daarin gelijk is aan 0.5 én of er geen verticale `y=`-verschuiving
+    in staat. Een horizontale `x=`-offset is prima (zorgt voor een fraaie
+    uitlijning op de lijn) en blijft ongemoeid; een `y=`-offset ongelijk aan 0 is
+    ongewenst omdat de scraps dan niet meer gecentreerd op de lijn staan.
 
     `src` mag een MAP met CSV's of één CSV-bestand zijn.
 
     Geeft een dict terug (zelfde vorm als de andere 'X zonder Y'-controles, plus
-    per melding het gevonden schaalwaarde-veld, zodat ot_html het kan tonen):
+    per melding het gevonden probleem-veld, zodat ot_html het kan tonen):
       {
         "total":    aantal vervallen lijntypes (fase = 'V'),
-        "ok":        aantal met VERWIJDEREN2 op s=0.5,
+        "ok":        aantal met VERWIJDEREN2 op s=0.5 én zonder y=-offset,
         "expected":  de verwachte schaal (0.5),
-        "missing":  [ {name, file, row, found} ],  # verkeerde/ontbrekende s=
+        "missing":  [ {name, file, row, found} ],  # afwijkende s= en/of y=
       }
-      `found` = de gevonden s-waarde als tekst ('0.6', '1', …), of
-      '(geen VERWIJDEREN2)' / '(geen s=)' als die ontbreekt.
+      `found` beschrijft het probleem: de afwijkende schaal ('s=0.6'), een
+      verticale offset ('y=0.3'), beide samengevoegd met ' · ', of
+      '(geen VERWIJDEREN2)' / '(geen s=)' als die ontbreken.
     """
     empty = {"total": 0, "ok": 0, "expected": expected, "missing": []}
     if not src:
@@ -1969,16 +1975,29 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
                 missing.append({"name": name, "file": fn, "row": i + 2,
                                 "found": "(geen VERWIJDEREN2)"})
                 continue
-            sm = _RE_SCALE.search(m.group(1))
+            inner = m.group(1)
+            problems: list[str] = []
+            # (1) schaal: moet exact s=0.5 zijn
+            sm = _RE_SCALE.search(inner)
             if not sm:
+                problems.append("(geen s=)")
+            elif float(sm.group(1)) != expected:
+                problems.append(f"s={sm.group(1)}")
+            # (2) verticale y=-offset ongelijk aan 0 is ongewenst (niet gecentreerd);
+            #     een horizontale x=-offset is prima en negeren we bewust.
+            ym = _RE_YOFFSET.search(inner)
+            if ym:
+                try:
+                    yv = float(ym.group(1))
+                except ValueError:
+                    yv = 0.0
+                if yv != 0:
+                    problems.append(f"y={ym.group(1)}")
+            if problems:
                 missing.append({"name": name, "file": fn, "row": i + 2,
-                                "found": "(geen s=)"})
-                continue
-            if float(sm.group(1)) == expected:
-                ok += 1
+                                "found": " · ".join(problems)})
             else:
-                missing.append({"name": name, "file": fn, "row": i + 2,
-                                "found": f"s={sm.group(1)}"})
+                ok += 1
 
     missing.sort(key=lambda d: (d["file"], d["name"].casefold()))
     return {"total": total, "ok": ok, "expected": expected, "missing": missing}

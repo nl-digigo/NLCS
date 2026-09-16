@@ -20,6 +20,7 @@ DataTables/jQuery via CDN (internet nodig voor de volledige tabel).
 import html as _html
 import json as _json
 import os as _os
+import re as _re
 
 from ot_assets import LOGO_DATA_URI, BANNER_DATA_URI
 
@@ -902,6 +903,8 @@ _CHECK_STYLE = """
     .kpi .box.free b { color:var(--dg-green); }
     .kpi .box.bad { border-color:var(--dg-red); background:#fdeff0; }
     .kpi .box.bad b { color:var(--dg-red); }
+    .kpi .box.warn { border-color:#E0A800; background:#fff8e6; }
+    .kpi .box.warn b { color:#8a6d00; }
     p.ok { color:var(--dg-green); font-weight:600; margin:8px 0; }
     p.warn { color:var(--dg-red); font-weight:700; margin:14px 0 4px; }
     p.skip { color:var(--dg-grey2); font-style:italic; }
@@ -1125,6 +1128,8 @@ _TREE_STYLE = """
     .kpi .box b { display:block; font-size:1.3rem; font-weight:700; color:var(--dg-ink); }
     .kpi .box.bad { border-color:var(--dg-red); background:#fdeff0; }
     .kpi .box.bad b { color:var(--dg-red); }
+    .kpi .box.warn { border-color:#E0A800; background:#fff8e6; }
+    .kpi .box.warn b { color:#8a6d00; }
     p.ok { color:var(--dg-green); font-weight:600; margin:8px 0; }
     p.warn { color:var(--dg-red); font-weight:700; margin:14px 0 6px; }
     .legend { display:flex; gap:10px; flex-wrap:wrap; margin:8px 0 4px;
@@ -1824,6 +1829,28 @@ _ALL_STYLE = """
     .toc a { color:var(--dg-blue); text-decoration:none; margin-right:16px;
              font-weight:600; white-space:nowrap; }
     .toc a:hover { text-decoration:underline; }
+    .hgnav { background:#fff; border:1px solid var(--dg-grey); border-radius:8px;
+             padding:12px 18px; margin-bottom:18px; display:flex; flex-wrap:wrap;
+             gap:8px; align-items:center; }
+    .hgnav-lbl { font-weight:700; margin-right:6px; }
+    .hgnav a { display:inline-flex; align-items:center; gap:6px;
+               font-family:Consolas,"Courier New",monospace; font-weight:700;
+               text-decoration:none; color:var(--dg-ink);
+               background:#fff4f4; border:1px solid var(--dg-red);
+               border-radius:6px; padding:2px 8px; white-space:nowrap; }
+    .hgnav a:hover { background:var(--dg-red); color:#fff; }
+    .hgnav a .n { font-family:inherit; font-size:.78rem; font-weight:700;
+                  background:var(--dg-red); color:#fff; border-radius:9px;
+                  padding:0 6px; }
+    .hgnav a:hover .n { background:#fff; color:var(--dg-red); }
+    .card.hgblock h2 { display:flex; align-items:baseline; gap:10px;
+                       flex-wrap:wrap; }
+    .card.hgblock .hgcount { font-size:.85rem; font-weight:600;
+                             color:var(--dg-grey2); }
+    .card.hgblock .toplink { margin-left:auto; font-size:.82rem; font-weight:600;
+                             color:var(--dg-blue); text-decoration:none; }
+    .card.hgblock .toplink:hover { text-decoration:underline; }
+    td.loc { white-space:nowrap; color:var(--dg-grey2); }
 """
 
 # Klein sorteerscript: klik op een kolomkop om die kolom te sorteren (numeriek
@@ -2049,20 +2076,26 @@ def _c_verwijderen_scale(result) -> str:
     exp = result.get("expected", 0.5)
     kpi = _kpi_boxes(
         (total, "vervallen lijntypes", ""),
-        (ok, f"s={exp}", "free" if ok == total else ""),
-        (len(missing), "verkeerde schaal", "bad" if missing else "free"))
+        (ok, f"s={exp}, geen y-offset", "free" if ok == total else ""),
+        (len(missing), "afwijkende schaal / y-offset",
+         "warn" if missing else "free"))
     c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
     if not missing:
         c.append(f'<p class="ok">✓ Elk vervallen lijntype heeft de VERWIJDEREN2-'
-                 f'scrap op schaal s={exp}.</p>')
+                 f'scrap op schaal s={exp} zonder verticale y-verschuiving.</p>')
     else:
         c.append(f'<p class="warn">⚠ {len(missing)} met een afwijkende (of '
-                 f'ontbrekende) schaal:</p>')
+                 f'ontbrekende) schaal of een ongewenste verticale y-offset '
+                 f'(een horizontale x-offset is prima) — <b>waarschuwing</b>, '
+                 f'telt niet als fout in het publicatie-overzicht:</p>')
+        # hg_class 'hg info' → uitgesloten van findings_by_hoofdgroep, dus geen
+        # fout-vinkje in het overzicht; dit is een waarschuwing (gebruikerskeuze).
         c.append(_hg_table(
             '<th>lijntype</th><th>gevonden</th><th>rij</th>', missing,
             [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
              lambda m: f'<td class="loc">{_esc(m.get("found",""))}</td>',
-             lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>']))
+             lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>'],
+            hg_class="hg info"))
     c.append('</div>')
     return "\n".join(c)
 
@@ -2431,8 +2464,10 @@ _D_VERWSCALE = (
     "kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit "
     "<code>NLCS.shx</code> op schaal 0.5. Gecontroleerd wordt of de "
     "<code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-segment van de "
-    "<code>autocaddef</code> daadwerkelijk 0.5 is (een eventuele "
-    "<code>x=</code>-offset blijft ongemoeid).")
+    "<code>autocaddef</code> daadwerkelijk 0.5 is én of er geen verticale "
+    "<code>y=</code>-verschuiving in staat (dan staan de scraps niet meer "
+    "gecentreerd op de lijn). Een horizontale <code>x=</code>-offset is prima "
+    "(fraaie uitlijning op de lijn) en blijft ongemoeid.")
 
 
 def _desc(card_html: str, text: str) -> str:
@@ -2442,6 +2477,92 @@ def _desc(card_html: str, text: str) -> str:
         return card_html
     return card_html.replace(
         "</h2>", f'</h2>\n<p class="ctrldesc">{text}</p>', 1)
+
+
+_RE_H2 = _re.compile(r'<h2[^>]*>(.*?)</h2>', _re.DOTALL)
+_RE_TR = _re.compile(r'<tr>(.*?)</tr>', _re.DOTALL)
+# Alléén exact class="hg" telt als foutregel (net als findings_by_hoofdgroep);
+# 'hg info'-regels (waarschuwingen) matchen dit patroon bewust niet.
+_RE_HG_CELL = _re.compile(r'<td class="hg">([^<]*)</td>')
+_RE_TD = _re.compile(r'<td[^>]*>(.*?)</td>', _re.DOTALL)
+_RE_TAGS = _re.compile(r'<[^>]+>')
+_RE_SECT = _re.compile(r'<h1 class="sect"[^>]*>(.*?)</h1>', _re.DOTALL)
+
+
+def _plain(html: str) -> str:
+    """HTML-fragment → platte tekst (tags weg, entiteiten simpel terug, witruimte
+    genormaliseerd)."""
+    t = _RE_TAGS.sub("", html or "")
+    t = (t.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
+          .replace("&middot;", "·").replace("&nbsp;", " ").replace("&#39;", "'")
+          .replace("&quot;", '"'))
+    return " ".join(t.split())
+
+
+def _hoofdgroep_overview(sections: list) -> tuple:
+    """Bouw uit de al-gerenderde controle-secties een overzicht per hoofdgroep.
+
+    Elke foutregel rendert als ``<tr>…<td class="hg">CODE</td>…</tr>`` (via
+    _hg_table met de standaard-class 'hg'); waarschuwingen ('hg info') tellen
+    NIET mee — precies dezelfde regel als findings_by_hoofdgroep, zodat de
+    aantallen hier en de vinkjes in het publicatie-overzicht overeenkomen.
+
+    Per foutregel bewaren we de sectie (Objecten/Symbolen/…), de controle (de
+    <h2> van de kaart) en de melding (de overige cellen als platte tekst).
+
+    Geeft terug: (overzicht_html, [(code, aantal), …] gesorteerd op code). Zonder
+    fouten: ("", [])."""
+    groups: dict = {}
+    for sect_html in sections:
+        ms = _RE_SECT.search(sect_html)
+        sect = _plain(ms.group(1)) if ms else ""
+        # Kaarten bevatten geneste <div>'s (o.a. _kpi_boxes: <div class="kpi">
+        # <div class="box">…</div>…</div>), dus een non-greedy </div>-match zou
+        # de kaart vóór de findings-tabel afkappen. Splits daarom op de
+        # kaart-grens: elk stuk ná de eerste bevat precies één kaart.
+        for card in sect_html.split('<div class="card"')[1:]:
+            hm = _RE_H2.search(card)
+            check = _plain(hm.group(1)) if hm else ""
+            for tm in _RE_TR.finditer(card):
+                row = tm.group(1)
+                cell = _RE_HG_CELL.search(row)
+                if not cell:
+                    continue
+                code = cell.group(1).strip().upper()
+                if not code:
+                    continue
+                # melding = de overige cellen (de hg-cel eruit) als platte tekst
+                rest = row.replace(cell.group(0), "", 1)
+                parts = [_plain(td) for td in _RE_TD.findall(rest)]
+                msg = " · ".join(p for p in parts if p)
+                groups.setdefault(code, []).append(
+                    {"sect": sect, "check": check, "msg": msg})
+
+    if not groups:
+        return "", []
+
+    order = sorted(groups.items())
+    counts = [(code, len(items)) for code, items in order]
+
+    out = ['<h1 class="sect" id="overzicht-hg">Fouten per hoofdgroep</h1>',
+           '<p class="sectnote">Alle foutmeldingen gegroepeerd per hoofdgroep. '
+           'Waarschuwingen (zoals afwijkende VERWIJDEREN2-schaal of kleine '
+           'letters) tellen niet als fout en staan hier niet bij.</p>']
+    for code, items in order:
+        out.append(f'<div class="card hgblock" id="hg-{_esc(code)}">')
+        out.append(f'<h2>{_esc(code)} <span class="hgcount">{len(items)} '
+                   f'fout(en)</span> <a class="toplink" href="#overzicht-hg">'
+                   f'&uarr; overzicht</a></h2>')
+        rows = "".join(
+            f'<tr><td class="loc">{_esc(it["sect"])}</td>'
+            f'<td>{_esc(it["check"])}</td>'
+            f'<td>{_esc(it["msg"])}</td></tr>'
+            for it in items)
+        out.append('<div class="tablescroll">\n<table class="otab">\n<thead>\n'
+                   '<tr><th>tabel</th><th>controle</th><th>melding</th></tr>\n'
+                   '</thead>\n<tbody>\n' + rows + '\n</tbody>\n</table>\n</div>')
+        out.append('</div>')
+    return "\n".join(out), counts
 
 
 def build_all_checks_html(data: dict, version_new: str = "") -> str:
@@ -2536,14 +2657,33 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
     ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
     toc = ('<div class="toc"><a href="#objecten">Objecten</a>'
            '<a href="#symbolen">Symbolen</a><a href="#arceringen">Arceringen</a>'
-           '<a href="#lijntypes">Lijntypes</a></div>')
+           '<a href="#lijntypes">Lijntypes</a>')
+
+    # Overzicht per hoofdgroep uit de al-gerenderde secties (alleen fouten).
+    overview_html, hg_counts = _hoofdgroep_overview(sections)
+    if hg_counts:
+        toc += '<a href="#overzicht-hg">Fouten per hoofdgroep</a>'
+    toc += "</div>"
+
+    # Klikbare balk met de hoofdgroepen die fouten hebben → spring naar het blok.
+    hgnav = ""
+    if hg_counts:
+        links = "".join(
+            f'<a href="#hg-{_esc(code)}">{_esc(code)} '
+            f'<span class="n">{n}</span></a>'
+            for code, n in hg_counts)
+        hgnav = ('<div class="hgnav"><span class="hgnav-lbl">Hoofdgroepen met '
+                 'fouten:</span>' + links + '</div>\n')
+
     body = "\n".join(sections)
+    if overview_html:
+        body += "\n" + overview_html
     return (
         _shell_head("Controles", extra_style=_CHECK_STYLE + _ALL_STYLE, cdn=False)
         + f'<div class="wrap">\n<p class="info">Alle kwaliteitscontroles in de '
           f'volgorde van de managementhandleiding{ver}. Klik op een kolomkop om '
           f'te sorteren (bijv. op hoofdgroep).</p>\n'
-        + toc + "\n" + body + '\n</div>\n'
+        + toc + "\n" + hgnav + body + '\n</div>\n'
         + _ALL_SORT_JS
         + _FOOTER
     )

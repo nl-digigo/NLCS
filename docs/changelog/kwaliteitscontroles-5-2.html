@@ -57,6 +57,8 @@
     .kpi .box.free b { color:var(--dg-green); }
     .kpi .box.bad { border-color:var(--dg-red); background:#fdeff0; }
     .kpi .box.bad b { color:var(--dg-red); }
+    .kpi .box.warn { border-color:#E0A800; background:#fff8e6; }
+    .kpi .box.warn b { color:#8a6d00; }
     p.ok { color:var(--dg-green); font-weight:600; margin:8px 0; }
     p.warn { color:var(--dg-red); font-weight:700; margin:14px 0 4px; }
     p.skip { color:var(--dg-grey2); font-style:italic; }
@@ -104,6 +106,28 @@
     .toc a { color:var(--dg-blue); text-decoration:none; margin-right:16px;
              font-weight:600; white-space:nowrap; }
     .toc a:hover { text-decoration:underline; }
+    .hgnav { background:#fff; border:1px solid var(--dg-grey); border-radius:8px;
+             padding:12px 18px; margin-bottom:18px; display:flex; flex-wrap:wrap;
+             gap:8px; align-items:center; }
+    .hgnav-lbl { font-weight:700; margin-right:6px; }
+    .hgnav a { display:inline-flex; align-items:center; gap:6px;
+               font-family:Consolas,"Courier New",monospace; font-weight:700;
+               text-decoration:none; color:var(--dg-ink);
+               background:#fff4f4; border:1px solid var(--dg-red);
+               border-radius:6px; padding:2px 8px; white-space:nowrap; }
+    .hgnav a:hover { background:var(--dg-red); color:#fff; }
+    .hgnav a .n { font-family:inherit; font-size:.78rem; font-weight:700;
+                  background:var(--dg-red); color:#fff; border-radius:9px;
+                  padding:0 6px; }
+    .hgnav a:hover .n { background:#fff; color:var(--dg-red); }
+    .card.hgblock h2 { display:flex; align-items:baseline; gap:10px;
+                       flex-wrap:wrap; }
+    .card.hgblock .hgcount { font-size:.85rem; font-weight:600;
+                             color:var(--dg-grey2); }
+    .card.hgblock .toplink { margin-left:auto; font-size:.82rem; font-weight:600;
+                             color:var(--dg-blue); text-decoration:none; }
+    .card.hgblock .toplink:hover { text-decoration:underline; }
+    td.loc { white-space:nowrap; color:var(--dg-grey2); }
 </style>
 </head>
 <body>
@@ -119,29 +143,29 @@
 <h1 class="sect" id="objecten">Objecten</h1>
 <p class="sectnote">Controle objectentabel — in de volgorde van de managementhandleiding.</p>
 <div class="card"><h2>Objectenboom (hiërarchie)</h2>
-<p class="ctrldesc">Naam-/laagnaamhiërarchie: elk onderliggend object heeft precies één segment meer dan zijn ouder, de oudernaam staat exact vooraan (prefix) en het scheidingsteken (- of _) klopt. Ook: niet meer dan 5 subobjecten in een laagnaam (<code>controle_nlcs-objecten_te_veel_subobjecten</code>).</p><div class="kpi"><div class="box "><b>2768</b>objecten</div><div class="box "><b>341</b>hoofdobjecten</div><div class="box free"><b>0</b>fout(en)</div></div>
+<p class="ctrldesc">Naam-/laagnaamhiërarchie: elk onderliggend object heeft precies één segment meer dan zijn ouder, de oudernaam staat exact vooraan (prefix) en het scheidingsteken (- of _) klopt. Ook: niet meer dan 5 subobjecten in een laagnaam (<code>controle_nlcs-objecten_te_veel_subobjecten</code>).</p><div class="kpi"><div class="box "><b>2766</b>objecten</div><div class="box "><b>341</b>hoofdobjecten</div><div class="box free"><b>0</b>fout(en)</div></div>
 <p class="ok">✓ Elk onderliggend object heeft precies één segment meer dan zijn bovenliggende object.</p>
 </div>
 <div class="card"><h2>Fase-visualisatie</h2>
-<p class="ctrldesc">Controleer of elk object voor alle NLCS-statussen (Bestaand, Nieuw, Vervallen, Tijdelijk) een visualisatie heeft; AL en ZZ hebben alleen een visualisatie voor de bestaande situatie.</p><div class="kpi"><div class="box "><b>2768</b>objecten</div><div class="box free"><b>2768</b>volledig</div><div class="box free"><b>0</b>fase ontbreekt</div></div>
+<p class="ctrldesc">Controleer of elk object voor alle NLCS-statussen (Bestaand, Nieuw, Vervallen, Tijdelijk) een visualisatie heeft; AL en ZZ hebben alleen een visualisatie voor de bestaande situatie.</p><div class="kpi"><div class="box "><b>2766</b>objecten</div><div class="box free"><b>2766</b>volledig</div><div class="box free"><b>0</b>fase ontbreekt</div></div>
 <p class="ok">✓ Elk object heeft voor alle verwachte fasen een visualisatie.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>6519</b>ingelezen</div><div class="box "><b>6130</b>hoogste ID</div><div class="box free"><b>6131</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>6517</b>ingelezen</div><div class="box "><b>6131</b>hoogste ID</div><div class="box free"><b>6132</b>eerstvolgende vrij</div></div>
 <p class="ok">✓ Elke rij heeft een id_nummer.</p>
 <p class="ok">✓ Geen dubbel gebruikte ID’s.</p>
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
-<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>2768</b>namen</div><div class="box "><b>2768</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>2766</b>namen</div><div class="box "><b>2766</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>6519</b>namen</div><div class="box "><b>4359</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>6517</b>namen</div><div class="box "><b>4360</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Element-koppeling (S/A ↔ sobject/aobject)</h2>
-<p class="ctrldesc">Element-koppeling: als de kolom <code>element</code> een S (symbool) of A (arcering) bevat, moet er ook een <code>sobject</code> resp. <code>aobject</code> zijn ingevuld — en omgekeerd. Uitzondering: MW-objecten met A zonder <code>aobject</code> (o.a. <code>AANGRENZENDECONSTRUCTIE</code>) worden gearceerd met de gedeelde ACO-arceringen (arceringen van constructies) en gelden daarom als correct.</p><div class="kpi"><div class="box "><b>2768</b>objecten</div><div class="box "><b>2766</b>correct</div><div class="box bad"><b>2</b>afwijkend</div></div>
+<p class="ctrldesc">Element-koppeling: als de kolom <code>element</code> een S (symbool) of A (arcering) bevat, moet er ook een <code>sobject</code> resp. <code>aobject</code> zijn ingevuld — en omgekeerd. Uitzondering: MW-objecten met A zonder <code>aobject</code> (o.a. <code>AANGRENZENDECONSTRUCTIE</code>) worden gearceerd met de gedeelde ACO-arceringen (arceringen van constructies) en gelden daarom als correct.</p><div class="kpi"><div class="box "><b>2766</b>objecten</div><div class="box "><b>2764</b>correct</div><div class="box bad"><b>2</b>afwijkend</div></div>
 <p class="warn">⚠ 2 object(en) met een afwijkende koppeling:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>object</th><th>element</th><th>probleem</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>VRI_CAMERA</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r19</td></tr>
@@ -149,7 +173,7 @@
 </tbody></table>
 </div>
 <div class="card"><h2>Element gevuld</h2>
-<p class="ctrldesc">Element gevuld: de kolom <code>element</code> van elk object bevat minimaal één waarde (G=geometrie, A=arcering, S=symbool en/of T=tekst).</p><div class="kpi"><div class="box "><b>2768</b>objecten</div><div class="box "><b>2629</b>gevuld</div><div class="box bad"><b>139</b>leeg</div></div>
+<p class="ctrldesc">Element gevuld: de kolom <code>element</code> van elk object bevat minimaal één waarde (G=geometrie, A=arcering, S=symbool en/of T=tekst).</p><div class="kpi"><div class="box "><b>2766</b>objecten</div><div class="box "><b>2627</b>gevuld</div><div class="box bad"><b>139</b>leeg</div></div>
 <p class="warn">⚠ 139 zonder:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>object</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>VRI_KABEL_DATA_KOPPEL</td><td class="loc">r28</td></tr>
@@ -302,7 +326,7 @@
 <p class="ok">✓ Elke zoekterm vindt minstens één arceringen.</p>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
-<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>2768</b>namen</div><div class="box free"><b>2768</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>2766</b>namen</div><div class="box free"><b>2766</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 <p class="info">Ter info: 7 naam/namen met een kleine letter (toegestaan voor eenheden mm/Mm en elementsymbool Cu — controleer of bewust):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>rij</th></tr></thead><tbody>
@@ -1147,7 +1171,7 @@
 <h1 class="sect" id="lijntypes">Lijntypes</h1>
 <p class="sectnote">Controle lijntypetabel.</p>
 <div class="card"><h2>Lijntype-gebruik</h2>
-<p class="ctrldesc"><code>controle_lijntypes_zonder_objectRelatie</code> — lijntypes die bestaan maar in geen enkel object (lt_b/lt_n/lt_v/lt_t) gebruikt worden.</p><div class="kpi"><div class="box "><b>413</b>lijntypes</div><div class="box "><b>410</b>gebruikt</div><div class="box bad"><b>3</b>niet gebruikt</div></div>
+<p class="ctrldesc"><code>controle_lijntypes_zonder_objectRelatie</code> — lijntypes die bestaan maar in geen enkel object (lt_b/lt_n/lt_v/lt_t) gebruikt worden.</p><div class="kpi"><div class="box "><b>412</b>lijntypes</div><div class="box "><b>409</b>gebruikt</div><div class="box bad"><b>3</b>niet gebruikt</div></div>
 <p class="warn">⚠ 3 lijntype(s) worden nergens in de objecten gebruikt:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>lijntype</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>IW-DRIP-SO</td></tr>
@@ -1160,7 +1184,7 @@
 <p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>983</b>ingelezen</div><div class="box "><b>7603</b>hoogste ID</div><div class="box free"><b>7604</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>982</b>ingelezen</div><div class="box "><b>7604</b>hoogste ID</div><div class="box free"><b>7605</b>eerstvolgende vrij</div></div>
 <p class="ok">✓ Elke rij heeft een id.</p>
 <p class="warn">⚠ 1 dubbel gebruikte ID(’s):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>ID</th><th>naam</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
@@ -1170,96 +1194,96 @@
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
-<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>451</b>namen</div><div class="box "><b>451</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>450</b>namen</div><div class="box "><b>450</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>983</b>namen</div><div class="box "><b>655</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>982</b>namen</div><div class="box "><b>654</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
-<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>451</b>namen</div><div class="box free"><b>451</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>450</b>namen</div><div class="box free"><b>450</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 </div>
 <div class="card"><h2>AutoCAD-definitie</h2>
-<p class="ctrldesc">AutoCAD-definitie: elk lijntype heeft een definitiestring in de kolom <code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO worden overgeslagen).</p><div class="kpi"><div class="box "><b>411</b>lijntypes</div><div class="box free"><b>411</b>met definitie</div><div class="box free"><b>0</b>zonder definitie</div></div>
+<p class="ctrldesc">AutoCAD-definitie: elk lijntype heeft een definitiestring in de kolom <code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO worden overgeslagen).</p><div class="kpi"><div class="box "><b>410</b>lijntypes</div><div class="box free"><b>410</b>met definitie</div><div class="box free"><b>0</b>zonder definitie</div></div>
 <p class="ok">✓ Elk lijntype heeft een AutoCAD-definitie (autocaddef); CONTINUOUS/V-CONTINUOUS-SO overgeslagen.</p>
 </div>
 <div class="card"><h2>VERWIJDEREN2-schaal</h2>
-<p class="ctrldesc">VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit <code>NLCS.shx</code> op schaal 0.5. Gecontroleerd wordt of de <code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-segment van de <code>autocaddef</code> daadwerkelijk 0.5 is (een eventuele <code>x=</code>-offset blijft ongemoeid).</p><div class="kpi"><div class="box "><b>192</b>vervallen lijntypes</div><div class="box "><b>121</b>s=0.5</div><div class="box bad"><b>71</b>verkeerde schaal</div></div>
-<p class="warn">⚠ 71 met een afwijkende (of ontbrekende) schaal:</p>
+<p class="ctrldesc">VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit <code>NLCS.shx</code> op schaal 0.5. Gecontroleerd wordt of de <code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-segment van de <code>autocaddef</code> daadwerkelijk 0.5 is én of er geen verticale <code>y=</code>-verschuiving in staat (dan staan de scraps niet meer gecentreerd op de lijn). Een horizontale <code>x=</code>-offset is prima (fraaie uitlijning op de lijn) en blijft ongemoeid.</p><div class="kpi"><div class="box "><b>192</b>vervallen lijntypes</div><div class="box "><b>121</b>s=0.5, geen y-offset</div><div class="box warn"><b>71</b>afwijkende schaal / y-offset</div></div>
+<p class="warn">⚠ 71 met een afwijkende (of ontbrekende) schaal of een ongewenste verticale y-offset (een horizontale x-offset is prima) — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>lijntype</th><th>gevonden</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg">AM</td><td>V-AM-AS-SO</td><td class="loc">s=1</td><td class="loc">r5</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-A1-SO</td><td class="loc">s=0.6</td><td class="loc">r26</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-ANTIVERBLINDINGSSCHERM-SO</td><td class="loc">s=0.6</td><td class="loc">r63</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-BEVER-SO</td><td class="loc">s=0.6</td><td class="loc">r28</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-F2DL40080-SO</td><td class="loc">s=0.6</td><td class="loc">r51</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-F2M40080-SO</td><td class="loc">s=0.6</td><td class="loc">r35</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-GELEIDERAIL-SO</td><td class="loc">s=0.6</td><td class="loc">r31</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-GELEIDERAIL_A-SO</td><td class="loc">s=0.6</td><td class="loc">r33</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-STEPBARRIER_B-SO</td><td class="loc">s=0.6</td><td class="loc">r11</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-STEPBARRIER_BG-SO</td><td class="loc">s=0.6</td><td class="loc">r15</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-STEPBARRIER_BV-SO</td><td class="loc">s=0.6</td><td class="loc">r13</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-STEPBARRIER_S-SO</td><td class="loc">s=0.6</td><td class="loc">r9</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-VLP1DL13360-SO</td><td class="loc">s=0.6</td><td class="loc">r57</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-VLP1LV13360-SO</td><td class="loc">s=0.6</td><td class="loc">r59</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-VLP1R13360-SO</td><td class="loc">s=0.6</td><td class="loc">r61</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-VLP1Z13360-SO</td><td class="loc">s=0.6</td><td class="loc">r45</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-VLP1Z26760-SO</td><td class="loc">s=0.6</td><td class="loc">r43</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-VLP1ZC13360-SO</td><td class="loc">s=0.6</td><td class="loc">r47</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-VLP2DL13380-SO</td><td class="loc">s=0.6</td><td class="loc">r53</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-VLP2R13380-SO</td><td class="loc">s=0.6</td><td class="loc">r55</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-VLP2Z13380-SO</td><td class="loc">s=0.6</td><td class="loc">r39</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-VLP2Z26780-SO</td><td class="loc">s=0.6</td><td class="loc">r37</td></tr>
-<tr><td class="hg">BV</td><td>V-BV-VLP2ZC13380-SO</td><td class="loc">s=0.6</td><td class="loc">r41</td></tr>
-<tr><td class="hg">GR</td><td>V-GR-HAAG_DRAAD-SO</td><td class="loc">s=0.6</td><td class="loc">r14</td></tr>
-<tr><td class="hg">GR</td><td>V-GR-HAAG_RASTER-SO</td><td class="loc">s=0.6</td><td class="loc">r7</td></tr>
-<tr><td class="hg">IE</td><td>V-IE-CONSTRUCTIEVE AFSCHEIDING-SO</td><td class="loc">s=0.6</td><td class="loc">r6</td></tr>
-<tr><td class="hg">IE</td><td>V-IE-CONSTRUCTIEVE AFSCHEIDING_SCHUTTING-SO</td><td class="loc">s=0.6</td><td class="loc">r4</td></tr>
-<tr><td class="hg">IW</td><td>V-IW-DATA_GLASVEZEL</td><td class="loc">s=.25</td><td class="loc">r18</td></tr>
-<tr><td class="hg">IW</td><td>V-IW-DATA_KOPER</td><td class="loc">s=.25</td><td class="loc">r19</td></tr>
-<tr><td class="hg">IW</td><td>V-IW-DETECTIE</td><td class="loc">s=.25</td><td class="loc">r20</td></tr>
-<tr><td class="hg">IW</td><td>V-IW-KABELTRACE</td><td class="loc">s=0.25</td><td class="loc">r13</td></tr>
-<tr><td class="hg">IW</td><td>V-IW-KOPPELKABEL</td><td class="loc">s=.25</td><td class="loc">r21</td></tr>
-<tr><td class="hg">IW</td><td>V-IW-SIGNAAL_230V</td><td class="loc">s=.25</td><td class="loc">r14</td></tr>
-<tr><td class="hg">IW</td><td>V-IW-SIGNAAL_42V</td><td class="loc">s=.25</td><td class="loc">r15</td></tr>
-<tr><td class="hg">IW</td><td>V-IW-SIGNAALKABEL</td><td class="loc">s=.25</td><td class="loc">r16</td></tr>
-<tr><td class="hg">IW</td><td>V-IW-VRI_DATAKABEL</td><td class="loc">s=.25</td><td class="loc">r24</td></tr>
-<tr><td class="hg">IW</td><td>V-IW-VRI_MANTELBUIS</td><td class="loc">s=.25</td><td class="loc">r17</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-BENOG-SO</td><td class="loc">s=0.6</td><td class="loc">r50</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-BENOGGEMEENTE-SO</td><td class="loc">s=0.6</td><td class="loc">r54</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-BENOGPRORAIL-SO</td><td class="loc">s=0.6</td><td class="loc">r56</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-BENOGPROVINCIE-SO</td><td class="loc">s=0.6</td><td class="loc">r52</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-BENOGRIJK-SO</td><td class="loc">s=0.6</td><td class="loc">r60</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-BENOGRIJKRWS-SO</td><td class="loc">s=0.6</td><td class="loc">r62</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-BENOGWATERSCHAP-SO</td><td class="loc">s=0.6</td><td class="loc">r58</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-BG-SO</td><td class="loc">s=0.6</td><td class="loc">r22</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-BGGEMEENTE-SO</td><td class="loc">s=0.6</td><td class="loc">r26</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-BGPRORAIL-SO</td><td class="loc">s=0.6</td><td class="loc">r28</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-BGPROVINCIE-SO</td><td class="loc">s=0.6</td><td class="loc">r24</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-BGRIJK-SO</td><td class="loc">s=0.6</td><td class="loc">r32</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-BGRIJKRWS-SO</td><td class="loc">s=0.6</td><td class="loc">r34</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-BGWATERSCHAP-SO</td><td class="loc">s=0.6</td><td class="loc">r30</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-GV-SO</td><td class="loc">s=0.6</td><td class="loc">r64</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-GVAANKOOP-SO</td><td class="loc">s=0.6</td><td class="loc">r66</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-GVVERKOOP-SO</td><td class="loc">s=0.6</td><td class="loc">r68</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-GWBG-SO</td><td class="loc">s=0.6</td><td class="loc">r10</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-KADASTRALEPERCEELGRENS-SO</td><td class="loc">s=0.6</td><td class="loc">r14</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-OG-SO</td><td class="loc">s=0.6</td><td class="loc">r36</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-OGGEMEENTE-SO</td><td class="loc">s=0.6</td><td class="loc">r40</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-OGPRORAIL-SO</td><td class="loc">s=0.6</td><td class="loc">r42</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-OGPROVINCIE-SO</td><td class="loc">s=0.6</td><td class="loc">r38</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-OGRIJK-SO</td><td class="loc">s=0.6</td><td class="loc">r46</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-OGRIJKRWS-SO</td><td class="loc">s=0.6</td><td class="loc">r48</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-OGWATERSCHAP-SO</td><td class="loc">s=0.6</td><td class="loc">r44</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-OPNAME-SO</td><td class="loc">s=0.6</td><td class="loc">r20</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-PACHT-SO</td><td class="loc">s=0.6</td><td class="loc">r12</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-RAMING-SO</td><td class="loc">s=0.6</td><td class="loc">r72</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-RIJKSEIGENDOM-SO</td><td class="loc">s=0.6</td><td class="loc">r18</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-SECTIE-SO</td><td class="loc">s=0.6</td><td class="loc">r16</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-UITGEEFBAARGEBIED-SO</td><td class="loc">s=0.6</td><td class="loc">r73</td></tr>
-<tr><td class="hg">KG</td><td>V-KG-VERKOOP-SO</td><td class="loc">s=0.6</td><td class="loc">r74</td></tr>
-<tr><td class="hg">KL</td><td>V-KL-BUNDEL-SO</td><td class="loc">s=1</td><td class="loc">r78</td></tr>
+<tr><td class="hg info">AM</td><td>V-AM-AS-SO</td><td class="loc">s=1</td><td class="loc">r5</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-A1-SO</td><td class="loc">s=0.6</td><td class="loc">r26</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-ANTIVERBLINDINGSSCHERM-SO</td><td class="loc">s=0.6</td><td class="loc">r63</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-BEVER-SO</td><td class="loc">s=0.6</td><td class="loc">r28</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-F2DL40080-SO</td><td class="loc">s=0.6</td><td class="loc">r51</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-F2M40080-SO</td><td class="loc">s=0.6</td><td class="loc">r35</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-GELEIDERAIL-SO</td><td class="loc">s=0.6</td><td class="loc">r31</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-GELEIDERAIL_A-SO</td><td class="loc">s=0.6</td><td class="loc">r33</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-STEPBARRIER_B-SO</td><td class="loc">s=0.6</td><td class="loc">r11</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-STEPBARRIER_BG-SO</td><td class="loc">s=0.6</td><td class="loc">r15</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-STEPBARRIER_BV-SO</td><td class="loc">s=0.6</td><td class="loc">r13</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-STEPBARRIER_S-SO</td><td class="loc">s=0.6</td><td class="loc">r9</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-VLP1DL13360-SO</td><td class="loc">s=0.6</td><td class="loc">r57</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-VLP1LV13360-SO</td><td class="loc">s=0.6</td><td class="loc">r59</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-VLP1R13360-SO</td><td class="loc">s=0.6</td><td class="loc">r61</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-VLP1Z13360-SO</td><td class="loc">s=0.6</td><td class="loc">r45</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-VLP1Z26760-SO</td><td class="loc">s=0.6</td><td class="loc">r43</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-VLP1ZC13360-SO</td><td class="loc">s=0.6</td><td class="loc">r47</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-VLP2DL13380-SO</td><td class="loc">s=0.6</td><td class="loc">r53</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-VLP2R13380-SO</td><td class="loc">s=0.6</td><td class="loc">r55</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-VLP2Z13380-SO</td><td class="loc">s=0.6</td><td class="loc">r39</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-VLP2Z26780-SO</td><td class="loc">s=0.6</td><td class="loc">r37</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-VLP2ZC13380-SO</td><td class="loc">s=0.6</td><td class="loc">r41</td></tr>
+<tr><td class="hg info">GR</td><td>V-GR-HAAG_DRAAD-SO</td><td class="loc">s=0.6</td><td class="loc">r14</td></tr>
+<tr><td class="hg info">GR</td><td>V-GR-HAAG_RASTER-SO</td><td class="loc">s=0.6</td><td class="loc">r7</td></tr>
+<tr><td class="hg info">GR</td><td>V-GR-PLANTSOEN-SO</td><td class="loc">y=1</td><td class="loc">r4</td></tr>
+<tr><td class="hg info">IE</td><td>V-IE-CONSTRUCTIEVE AFSCHEIDING-SO</td><td class="loc">s=0.6</td><td class="loc">r6</td></tr>
+<tr><td class="hg info">IE</td><td>V-IE-CONSTRUCTIEVE AFSCHEIDING_SCHUTTING-SO</td><td class="loc">s=0.6</td><td class="loc">r4</td></tr>
+<tr><td class="hg info">IW</td><td>V-IW-DATA_GLASVEZEL</td><td class="loc">s=.25</td><td class="loc">r18</td></tr>
+<tr><td class="hg info">IW</td><td>V-IW-DATA_KOPER</td><td class="loc">s=.25</td><td class="loc">r19</td></tr>
+<tr><td class="hg info">IW</td><td>V-IW-DETECTIE</td><td class="loc">s=.25</td><td class="loc">r20</td></tr>
+<tr><td class="hg info">IW</td><td>V-IW-KABELTRACE</td><td class="loc">s=0.25</td><td class="loc">r13</td></tr>
+<tr><td class="hg info">IW</td><td>V-IW-KOPPELKABEL</td><td class="loc">s=.25</td><td class="loc">r21</td></tr>
+<tr><td class="hg info">IW</td><td>V-IW-SIGNAAL_230V</td><td class="loc">s=.25</td><td class="loc">r14</td></tr>
+<tr><td class="hg info">IW</td><td>V-IW-SIGNAAL_42V</td><td class="loc">s=.25</td><td class="loc">r15</td></tr>
+<tr><td class="hg info">IW</td><td>V-IW-SIGNAALKABEL</td><td class="loc">s=.25</td><td class="loc">r16</td></tr>
+<tr><td class="hg info">IW</td><td>V-IW-VRI_DATAKABEL</td><td class="loc">s=.25</td><td class="loc">r24</td></tr>
+<tr><td class="hg info">IW</td><td>V-IW-VRI_MANTELBUIS</td><td class="loc">s=.25</td><td class="loc">r17</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-BENOG-SO</td><td class="loc">s=0.6</td><td class="loc">r50</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-BENOGGEMEENTE-SO</td><td class="loc">s=0.6</td><td class="loc">r54</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-BENOGPRORAIL-SO</td><td class="loc">s=0.6</td><td class="loc">r56</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-BENOGPROVINCIE-SO</td><td class="loc">s=0.6</td><td class="loc">r52</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-BENOGRIJK-SO</td><td class="loc">s=0.6</td><td class="loc">r60</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-BENOGRIJKRWS-SO</td><td class="loc">s=0.6</td><td class="loc">r62</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-BENOGWATERSCHAP-SO</td><td class="loc">s=0.6</td><td class="loc">r58</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-BG-SO</td><td class="loc">s=0.6</td><td class="loc">r22</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-BGGEMEENTE-SO</td><td class="loc">s=0.6</td><td class="loc">r26</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-BGPRORAIL-SO</td><td class="loc">s=0.6</td><td class="loc">r28</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-BGPROVINCIE-SO</td><td class="loc">s=0.6</td><td class="loc">r24</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-BGRIJK-SO</td><td class="loc">s=0.6</td><td class="loc">r32</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-BGRIJKRWS-SO</td><td class="loc">s=0.6</td><td class="loc">r34</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-BGWATERSCHAP-SO</td><td class="loc">s=0.6</td><td class="loc">r30</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-GV-SO</td><td class="loc">s=0.6</td><td class="loc">r64</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-GVAANKOOP-SO</td><td class="loc">s=0.6</td><td class="loc">r66</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-GVVERKOOP-SO</td><td class="loc">s=0.6</td><td class="loc">r68</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-GWBG-SO</td><td class="loc">s=0.6</td><td class="loc">r10</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-OG-SO</td><td class="loc">s=0.6</td><td class="loc">r36</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-OGGEMEENTE-SO</td><td class="loc">s=0.6</td><td class="loc">r40</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-OGPRORAIL-SO</td><td class="loc">s=0.6</td><td class="loc">r42</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-OGPROVINCIE-SO</td><td class="loc">s=0.6</td><td class="loc">r38</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-OGRIJK-SO</td><td class="loc">s=0.6</td><td class="loc">r46</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-OGRIJKRWS-SO</td><td class="loc">s=0.6</td><td class="loc">r48</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-OGWATERSCHAP-SO</td><td class="loc">s=0.6</td><td class="loc">r44</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-OPNAME-SO</td><td class="loc">s=0.6</td><td class="loc">r20</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-PACHT-SO</td><td class="loc">s=0.6</td><td class="loc">r12</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-PERCEEL-SO</td><td class="loc">s=0.6</td><td class="loc">r14</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-RIJKSEIGENDOM-SO</td><td class="loc">s=0.6</td><td class="loc">r18</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-SECTIE-SO</td><td class="loc">s=0.6</td><td class="loc">r16</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-UITGEEFBAARGEBIED-SO</td><td class="loc">s=0.6</td><td class="loc">r71</td></tr>
+<tr><td class="hg info">KG</td><td>V-KG-VERKOOP-SO</td><td class="loc">s=0.6</td><td class="loc">r72</td></tr>
+<tr><td class="hg info">KL</td><td>V-KL-BUNDEL-SO</td><td class="loc">s=1</td><td class="loc">r78</td></tr>
 </tbody></table>
 </div>
 </div>
