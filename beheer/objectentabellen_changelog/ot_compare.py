@@ -1936,7 +1936,9 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
         VERWIJDEREN2-opzet. Standaard `{"V-GR-PLANTSOEN-SO"}` (eigen schaal/offset).
       - `hg_exceptions`: hele HOOFDGROEPEN (kolom `hg_col`, val terug op de
         code uit de bestandsnaam) die niet aan deze controle onderhevig zijn.
-        Standaard `{"IS", "ES", "SB"}`.
+        Standaard leeg — IS/ES/SB horen NIET hier thuis maar bij de
+        lt_v-controle (`check_lt_v_vervallen`); de schaalcontrole geldt voor al
+        hun vervallen lijntypes.
 
     `src` mag een MAP met CSV's of één CSV-bestand zijn.
 
@@ -1960,7 +1962,7 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
            (exceptions if exceptions is not None else ("V-GR-PLANTSOEN-SO",))
            if e and e.strip()}
     hgexc = {e.strip().upper() for e in
-             (hg_exceptions if hg_exceptions is not None else ("IS", "ES", "SB"))
+             (hg_exceptions if hg_exceptions is not None else ())
              if e and e.strip()}
     empty = {"total": 0, "ok": 0, "expected": expected, "exempt": 0,
              "exceptions": sorted(exc), "hg_exceptions": sorted(hgexc),
@@ -2039,9 +2041,37 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
             "missing": missing}
 
 
+# Objecten (kolom `object`) die BEWUST een vervallen lijntype CONTINUOUS
+# (zonder 'V-'-prefix) mogen hebben, inclusief al hun onderliggende objecten:
+# de kolom `object` staat bij elke onderliggende rij (subobject/element) op de
+# naam van het bovenliggende object, dus matchen op `object` dekt "… en
+# onderliggende objecten" automatisch. FASE1..FASE7 zijn de OG-fase-objecten;
+# WEG en ZONE zijn OG-objecten (incl. onderliggende) die bewust CONTINUOUS houden.
+LT_V_OBJECT_EXCEPTIONS = ("TERREIN", "BEBOUWING", "WATER", "GREPPEL", "BAGGERVAK",
+                          "FASE1", "FASE2", "FASE3", "FASE4", "FASE5", "FASE6",
+                          "FASE7", "WEG", "ZONE")
+
+# Objecten die BEWUST CONTINUOUS als vervallen lijntype mogen hebben maar die
+# alléén op naam (kolom `omschrijving`) te herkennen zijn — een subobject-tak,
+# niet een heel `object`. Een rij is uitgezonderd als zijn omschrijving exact
+# gelijk is aan zo'n waarde of ermee begint gevolgd door een scheidingsteken
+# ('_' of '-'), zodat de tak én al zijn onderliggende objecten worden gedekt.
+LT_V_NAME_PREFIX_EXCEPTIONS = ("HYDRAULIEKVORM_SCHEMA", "PNEUMATIEKVORM_SCHEMA")
+
+# Losse objecten die BEWUST geen vervallen lijntype hoeven te hebben, herkend op
+# hun EXACTE naam (kolom `omschrijving`) — nodig wanneer het `object` (bijv.
+# GRENS) gedeeld wordt met andere objecten die wél een 'V-'-lt_v horen te hebben,
+# zodat alleen deze specifieke objecten worden overgeslagen.
+LT_V_NAME_EXCEPTIONS = ("GRENS_VLAKAFSLUITER", "GRENS_WIJK")
+
+
 def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",
                          lt_col: str = "lt_v", prefix: str = "V-",
-                         exceptions=None) -> dict:
+                         exceptions=None, hg_exceptions=None,
+                         object_exceptions=None, name_prefix_exceptions=None,
+                         name_exceptions=None,
+                         hg_col: str = "hoofdgroep",
+                         object_col: str = "object") -> dict:
     """Controleer of de lijntype-verwijzing voor de VERVALLEN fase (kolom `lt_v`)
     in de objectentabel naar een vervallen lijntype wijst.
 
@@ -2051,10 +2081,30 @@ def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",
     NIET met 'V-' begint is verdacht — waarschijnlijk staat er per ongeluk een
     bestaand/nieuw lijntype in. Dit is een WAARSCHUWING, geen fout.
 
-    `exceptions` is een verzameling `lt_v`-waarden die BEWUST zijn toegestaan ook
-    al beginnen ze niet met 'V-' (bijv. een sloop-lijntype). Standaard
-    `{"BC-SLOOPLIJN-SO"}`. Hoofdletter-ongevoelig; deze waarden tellen niet als
-    waarschuwing en worden apart als `exempt` geteld.
+    Drie soorten uitzonderingen (alle hoofdletter-ongevoelig, volledig
+    overgeslagen — tellen niet als waarschuwing en worden samen als `exempt`
+    geteld):
+      - `exceptions`: `lt_v`-WAARDEN die bewust zijn toegestaan ook al beginnen ze
+        niet met 'V-' (bijv. een sloop-lijntype). Standaard `{"BC-SLOOPLIJN-SO"}`.
+      - `hg_exceptions`: hele HOOFDGROEPEN (kolom `hg_col`, val terug op de code
+        uit de bestandsnaam) waarvan de vervallen lijntypes geen 'V-'-naam hoeven
+        te hebben. Standaard `{"IS", "ES", "SB"}`.
+      - `object_exceptions`: OBJECTEN (kolom `object_col`, standaard `object`) die
+        bewust CONTINUOUS als vervallen lijntype mogen hebben — inclusief al hun
+        onderliggende objecten, want de `object`-kolom staat bij subobject-/
+        element-rijen op de naam van het bovenliggende object. Standaard
+        `LT_V_OBJECT_EXCEPTIONS` (terrein, bebouwing, water, greppel, baggervak en
+        de OG-fase-objecten Fase1 t/m Fase7). Spaties in de objectnaam worden
+        genegeerd bij het vergelijken ('FASE 1' == 'FASE1').
+      - `name_prefix_exceptions`: subobject-TAKKEN, herkend op de naam (kolom
+        `name_col`): een rij is uitgezonderd als zijn naam exact gelijk is aan de
+        waarde of ermee begint gevolgd door '_' of '-' (dus de tak én al zijn
+        onderliggende objecten). Standaard `LT_V_NAME_PREFIX_EXCEPTIONS`
+        (HYDRAULIEKVORM_SCHEMA en PNEUMATIEKVORM_SCHEMA).
+      - `name_exceptions`: losse OBJECTEN, herkend op hun EXACTE naam (kolom
+        `name_col`) — nodig wanneer het `object` gedeeld is met objecten die wél
+        een 'V-'-lt_v horen te hebben (bijv. object GRENS). Standaard
+        `LT_V_NAME_EXCEPTIONS` (GRENS_VLAKAFSLUITER en GRENS_WIJK).
 
     Lege `lt_v`-waarden worden overgeslagen (niet elk object heeft een vervallen
     visualisatie). `src` mag een MAP met CSV's of één CSV-bestand zijn.
@@ -2064,16 +2114,39 @@ def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",
         "total":      aantal objecten met een gevulde lt_v (excl. uitzonderingen),
         "ok":         aantal waarvan lt_v met 'V-' begint,
         "prefix":     de verwachte prefix ('V-'),
-        "exempt":     aantal overgeslagen uitzonderingen,
-        "exceptions": de gehanteerde uitzonderingen (gesorteerd),
+        "exempt":     aantal overgeslagen uitzonderingen (waarde + hoofdgroep +
+                      object + naam-tak),
+        "exceptions": de gehanteerde lt_v-waarde-uitzonderingen (gesorteerd),
+        "hg_exceptions": de gehanteerde hoofdgroep-uitzonderingen (gesorteerd),
+        "object_exceptions": de gehanteerde object-uitzonderingen (gesorteerd),
+        "name_prefix_exceptions": de gehanteerde naam-tak-uitzonderingen (gesorteerd),
+        "name_exceptions": de gehanteerde exacte-naam-uitzonderingen (gesorteerd),
         "missing":    [ {name, file, row, found} ],  # lt_v-waarde zonder 'V-'
       }
     """
     exc = {e.strip().upper() for e in
            (exceptions if exceptions is not None else ("BC-SLOOPLIJN-SO",))
            if e and e.strip()}
+    hgexc = {e.strip().upper() for e in
+             (hg_exceptions if hg_exceptions is not None else ("IS", "ES", "SB"))
+             if e and e.strip()}
+    objexc = {e.strip().upper().replace(" ", "") for e in
+              (object_exceptions if object_exceptions is not None
+               else LT_V_OBJECT_EXCEPTIONS)
+              if e and e.strip()}
+    npexc = {e.strip().upper() for e in
+             (name_prefix_exceptions if name_prefix_exceptions is not None
+              else LT_V_NAME_PREFIX_EXCEPTIONS)
+             if e and e.strip()}
+    nexc = {e.strip().upper() for e in
+            (name_exceptions if name_exceptions is not None
+             else LT_V_NAME_EXCEPTIONS)
+            if e and e.strip()}
     empty = {"total": 0, "ok": 0, "prefix": prefix, "exempt": 0,
-             "exceptions": sorted(exc), "missing": []}
+             "exceptions": sorted(exc), "hg_exceptions": sorted(hgexc),
+             "object_exceptions": sorted(objexc),
+             "name_prefix_exceptions": sorted(npexc),
+             "name_exceptions": sorted(nexc), "missing": []}
     if not src:
         return empty
     if os.path.isdir(src):
@@ -2094,18 +2167,35 @@ def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",
             continue
         li = headers.index(lt_col)
         ni = headers.index(name_col) if name_col in headers else -1
+        hi = headers.index(hg_col) if hg_col in headers else -1
+        oi = headers.index(object_col) if object_col in headers else -1
         fn = os.path.basename(path)
+        # Hoofdgroep uit de bestandsnaam ('objecten-5-2-IS.csv' -> 'IS') als
+        # terugval wanneer de hoofdgroep-kolom ontbreekt of leeg is.
+        fn_hg = os.path.splitext(fn)[0].split("-")[-1].strip().upper()
         for i, r in enumerate(rows):
             val = (r[li] if li < len(r) else "").strip()
             if not val:
                 continue
-            # Uitzondering: bewust toegestane lt_v-waarde (bijv. sloop-lijntype)
-            # → volledig overslaan, telt niet als waarschuwing.
-            if val.upper() in exc:
+            name = (r[ni] if 0 <= ni < len(r) else "").strip()
+            nu = name.upper()
+            row_hg = (r[hi] if 0 <= hi < len(r) else "").strip().upper() or fn_hg
+            row_obj = (r[oi] if 0 <= oi < len(r) else "").strip().upper().replace(" ", "")
+            # naam-tak: exact of gevolgd door een scheidingsteken ('_'/'-'), zodat
+            # de tak én al zijn onderliggende objecten meetellen.
+            name_hit = any(nu == p or nu.startswith(p + "_") or nu.startswith(p + "-")
+                           for p in npexc)
+            # Uitzondering: bewust toegestane lt_v-waarde (sloop-lijntype), hele
+            # hoofdgroep (IS/ES/SB), object dat CONTINUOUS mag hebben (terrein/
+            # bebouwing/water/greppel/baggervak/fase + onderliggende objecten),
+            # een naam-tak (HYDRAULIEKVORM_SCHEMA/PNEUMATIEKVORM_SCHEMA + onder-
+            # liggende) of een los object op exacte naam (GRENS_VLAKAFSLUITER/
+            # GRENS_WIJK) → volledig overslaan, telt niet als waarschuwing.
+            if (val.upper() in exc or row_hg in hgexc or row_obj in objexc
+                    or name_hit or nu in nexc):
                 exempt += 1
                 continue
             total += 1
-            name = (r[ni] if 0 <= ni < len(r) else "").strip()
             if val.upper().startswith(pref):
                 ok += 1
             else:
@@ -2114,7 +2204,10 @@ def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",
 
     missing.sort(key=lambda d: (d["file"], d["name"].casefold()))
     return {"total": total, "ok": ok, "prefix": prefix, "exempt": exempt,
-            "exceptions": sorted(exc), "missing": missing}
+            "exceptions": sorted(exc), "hg_exceptions": sorted(hgexc),
+            "object_exceptions": sorted(objexc),
+            "name_prefix_exceptions": sorted(npexc),
+            "name_exceptions": sorted(nexc), "missing": missing}
 
 
 def bib_of_stem(stem: str, known_bibs) -> str:

@@ -642,6 +642,62 @@ _INDEX_STYLE = """
 """
 
 
+# Stijl voor het objectenboom-overzicht: net als het publicatie-overzicht. De
+# kaarten tonen alleen de objecten op het EERSTE niveau als knop; een klik opent
+# een pop-up (<dialog>) met de objectenboom daaronder.
+_TREE_STYLE = """
+    .card .tree-count { font-size:.72rem; font-weight:400; color:var(--dg-grey2); }
+    a.btn.otbtn { border-left-color: var(--dg-green); cursor:pointer; }
+    a.btn.otbtn .kids { float:right; color:var(--dg-grey2); font-size:.78rem; }
+    span.btn.otleaf { color:var(--dg-ink); }
+
+    dialog.tree-dialog { border:none; border-radius:8px; padding:0;
+            width:min(560px, 92vw); max-height:82vh;
+            box-shadow:0 8px 30px rgba(0,0,0,.28); }
+    dialog.tree-dialog::backdrop { background:rgba(0,0,0,.42); }
+    .dlg-head { position:sticky; top:0; background:#fff;
+            border-bottom:2px solid var(--dg-yellow); padding:12px 16px;
+            display:flex; align-items:center; gap:10px; }
+    .dlg-head h3 { margin:0; font-size:1.05rem; color:var(--dg-ink); flex:1; }
+    .dlg-head .dlg-close { border:1px solid var(--dg-grey); background:#fbfbfb;
+            border-radius:6px; font-size:1.1rem; line-height:1; cursor:pointer;
+            padding:3px 9px; color:var(--dg-grey2); }
+    .dlg-head .dlg-close:hover { background:#FFF8CC; }
+    .dlg-body { padding:12px 16px 16px; overflow:auto; }
+
+    .otree, .otree ul { list-style:none; margin:0; padding:0; }
+    .otree ul { padding-left:15px; border-left:1px dotted var(--dg-grey); }
+    .otree li { margin:1px 0; }
+    .otree details > summary { list-style:none; cursor:pointer; padding:2px 5px;
+            border-radius:4px; font-size:.88rem; color:var(--dg-ink); }
+    .otree details > summary::-webkit-details-marker { display:none; }
+    .otree details > summary::before { content:"\\25B8"; display:inline-block;
+            width:1em; color:var(--dg-grey2); transition:transform .12s; }
+    .otree details[open] > summary::before { transform:rotate(90deg); }
+    .otree details > summary:hover { background:#FFF8CC; }
+    .otree li.leaf { padding:2px 5px 2px calc(1em + 5px); font-size:.88rem;
+            color:var(--dg-ink); }
+    .otree .empty { color:var(--dg-grey2); font-style:italic; font-size:.86rem; }
+"""
+
+# Kleine, zelfstandige JS voor de pop-ups: knop opent het bijbehorende <dialog>
+# (native modal); klik op de achtergrond sluit hem (Esc werkt al native).
+_TREE_SCRIPT = """
+<script>
+document.addEventListener('click', function (e) {
+  var btn = e.target.closest('[data-dlg]');
+  if (btn) {
+    var d = document.getElementById(btn.getAttribute('data-dlg'));
+    if (d && d.showModal) { d.showModal(); }
+    return;
+  }
+  var dlg = e.target.closest('dialog.tree-dialog');
+  if (dlg && e.target === dlg) { dlg.close(); }   // klik op de achtergrond
+});
+</script>
+"""
+
+
 def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
                      version: str = "", base_url: str = "",
                      checkmarks=None) -> str:
@@ -740,6 +796,109 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
         + legend + ("\n" if legend else "")
         + body + "\n"
         + "</div>\n"
+        + _FOOTER
+    )
+
+
+def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
+                                   version: str = "") -> str:
+    """Overzichtspagina in dezelfde stijl als build_index_html. Per hoofdgroep een
+    kaart met alleen de objecten op het EERSTE niveau (de roots) als knop; een klik
+    opent een pop-up (<dialog>) met de volledige objectenboom onder dat object.
+
+    tree : het resultaat van ot_compare.check_object_tree() met
+           {"count","roots","nodes","max_depth","errors"}. Elke node heeft
+           "id","name","children","file" (bron-CSV) en "depth".
+    """
+    from ot_compare import hoofdgroep_code
+
+    nodes = tree.get("nodes", {}) if tree else {}
+    roots = tree.get("roots", []) if tree else []
+
+    # Roots per hoofdgroep (op bron-CSV-basename). Roots en kinderen zijn in
+    # check_object_tree al op naam gesorteerd -> volgorde overnemen.
+    groups: dict[str, list] = {}
+    for idn in roots:
+        nd = nodes.get(idn)
+        if not nd:
+            continue
+        code = hoofdgroep_code(nd.get("file", "")) or "?"
+        groups.setdefault(code, []).append(idn)
+
+    def _count_in(idn: str) -> int:
+        nd = nodes.get(idn)
+        if not nd:
+            return 0
+        return 1 + sum(_count_in(c) for c in nd.get("children", []))
+
+    def _dlg_id(idn: str) -> str:
+        return "dlg-" + _re.sub(r"[^A-Za-z0-9_-]", "_", str(idn))
+
+    # De boom BINNEN de pop-up: alle takken open, elk los inklapbaar.
+    def _node_html(idn: str) -> str:
+        nd = nodes.get(idn)
+        if not nd:
+            return ""
+        name = _esc(nd.get("name", idn))
+        kids = nd.get("children", [])
+        if not kids:
+            return f'<li class="leaf">{name}</li>'
+        inner = "\n".join(_node_html(c) for c in kids)
+        return (f'<li><details class="tree" open><summary>{name}</summary>\n'
+                f'<ul>\n{inner}\n</ul></details></li>')
+
+    cards, dialogs = [], []
+    for code in sorted(groups):
+        root_ids = groups[code]
+        n_obj = sum(_count_in(r) for r in root_ids)
+        btns = []
+        for r in root_ids:
+            nd = nodes[r]
+            name = _esc(nd.get("name", r))
+            kids = nd.get("children", [])
+            if kids:
+                did = _dlg_id(r)
+                n_sub = _count_in(r) - 1
+                btns.append(
+                    f'<a class="btn otbtn" data-dlg="{did}" '
+                    f'title="{name} — {n_sub} onderliggend(e) object(en)">'
+                    f'{name}<span class="kids">{n_sub}</span></a>')
+                # bijbehorende pop-up met de boom onder deze root
+                subtree = "\n".join(_node_html(c) for c in kids)
+                dialogs.append(
+                    f'<dialog id="{did}" class="tree-dialog">'
+                    f'<div class="dlg-head"><h3>{name}</h3>'
+                    f'<button class="dlg-close" onclick="this.closest(\'dialog\')'
+                    f'.close()" aria-label="Sluiten">&times;</button></div>'
+                    f'<div class="dlg-body"><ul class="otree">\n{subtree}\n'
+                    f'</ul></div></dialog>')
+            else:
+                # geen onderliggende objecten -> geen pop-up, alleen een label
+                btns.append(f'<span class="btn otleaf" title="{name} — geen '
+                            f'onderliggende objecten">{name}</span>')
+        cards.append(
+            '<div class="card">'
+            f'<h2>{_esc(code)} '
+            f'<span class="tree-count">{n_obj} object(en)</span></h2>'
+            f'<p class="subtitle">hoofdgroep {_esc(code)} &middot; '
+            f'{len(root_ids)} object(en) op het eerste niveau</p>'
+            + "\n".join(btns)
+            + '</div>')
+
+    total = tree.get("count", 0) if tree else 0
+    info = (f"{len(groups)} hoofdgroep(en) &middot; {total} object(en)"
+            + (f" &middot; versie {_esc(version)}" if version else ""))
+
+    body = ('<p class="empty">Geen objecten gevonden.</p>' if not cards else
+            '<div class="card-grid">\n' + "\n".join(cards) + "\n</div>")
+
+    return (
+        _shell_head(title, extra_style=_INDEX_STYLE + _TREE_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n'
+        + body + "\n"
+        + "</div>\n"
+        + "\n".join(dialogs) + "\n"
+        + _TREE_SCRIPT
         + _FOOTER
     )
 
@@ -1844,6 +2003,11 @@ _ALL_STYLE = """
                   background:var(--dg-red); color:#fff; border-radius:9px;
                   padding:0 6px; }
     .hgnav a:hover .n { background:#fff; color:var(--dg-red); }
+    /* Waarschuwings-variant (amberkleurig, spiegelt de fouten-nav). */
+    .hgnav.warn a { background:#fff9e8; border-color:#d9a400; }
+    .hgnav.warn a:hover { background:#d9a400; color:#fff; }
+    .hgnav.warn a .n { background:#d9a400; color:#fff; }
+    .hgnav.warn a:hover .n { background:#fff; color:#8a6d00; }
     .card.hgblock h2 { display:flex; align-items:baseline; gap:10px;
                        flex-wrap:wrap; }
     .card.hgblock .hgcount { font-size:.85rem; font-weight:600;
@@ -2136,10 +2300,27 @@ def _c_lt_v_vervallen(result) -> str:
     c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
     exempt = result.get("exempt", 0)
     names = result.get("exceptions", [])
-    if exempt or names:
-        c.append(f'<p class="skip">Uitgezonderd (bewust toegestane lt_v-waarde(n)): '
-                 f'{", ".join(_esc(n) for n in names)} — {exempt} object(en) '
-                 f'overgeslagen.</p>')
+    hgs = result.get("hg_exceptions", [])
+    objs = result.get("object_exceptions", [])
+    npfx = result.get("name_prefix_exceptions", [])
+    nms = result.get("name_exceptions", [])
+    if exempt or names or hgs or objs or npfx or nms:
+        parts = []
+        if names:
+            parts.append("lt_v-waarde(n) " + ", ".join(_esc(n) for n in names))
+        if hgs:
+            parts.append("hoofdgroep(en) " + ", ".join(_esc(h) for h in hgs))
+        if objs:
+            parts.append("object(en) " + ", ".join(_esc(o) for o in objs)
+                         + " (incl. onderliggende objecten)")
+        if npfx:
+            parts.append("object-tak(ken) " + ", ".join(_esc(p) for p in npfx)
+                         + " (incl. onderliggende objecten)")
+        if nms:
+            parts.append("object(en) " + ", ".join(_esc(n) for n in nms))
+        c.append(f'<p class="skip">Uitgezonderd (bewust toegestaan zonder '
+                 f'{_esc(pref)}-prefix): {" en ".join(parts)} — {exempt} '
+                 f'object(en) overgeslagen.</p>')
     if not missing:
         c.append(f'<p class="ok">✓ Elke gevulde lt_v verwijst naar een vervallen '
                  f'lijntype (begint met {_esc(pref)}).</p>')
@@ -2528,7 +2709,18 @@ _D_LTV = (
     "zijn eigendomsgrenzen die buiten de scope van engineering liggen; daarom "
     "hebben deze grenzen geen vervallen lijnstijl. Daarnaast is de waarde "
     "<code>BC-SLOOPLIJN-SO</code> (een sloop-lijntype) bewust toegestaan en "
-    "wordt die niet gemeld.")
+    "wordt die niet gemeld. Verder zijn de hoofdgroepen <code>IS</code>, "
+    "<code>ES</code> en <code>SB</code> uitgezonderd, en mogen "
+    "<code>terrein</code>, <code>bebouwing</code>, <code>water</code>, "
+    "<code>greppel</code> en <code>baggervak</code> (inclusief hun "
+    "onderliggende objecten) én de OG-objecten <code>weg</code> en "
+    "<code>zone</code> (inclusief hun onderliggende objecten) én de "
+    "fase-objecten in OG (Fase1 t/m Fase7) "
+    "bewust het lijntype <code>CONTINUOUS</code> als vervallen lijntype "
+    "hebben — die worden niet gemeld. Hetzelfde geldt voor de takken "
+    "<code>HYDRAULIEKVORM_SCHEMA</code> en <code>PNEUMATIEKVORM_SCHEMA</code> "
+    "(inclusief hun onderliggende objecten) en voor de losse objecten "
+    "<code>GRENS_VLAKAFSLUITER</code> en <code>GRENS_WIJK</code>.")
 
 _D_VERWSCALE = (
     "VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) "
@@ -2540,8 +2732,7 @@ _D_VERWSCALE = (
     "gecentreerd op de lijn). Een horizontale <code>x=</code>-offset is prima "
     "(fraaie uitlijning op de lijn) en blijft ongemoeid. Uitgezonderd (bewust "
     "afwijkende opzet, volledig overgeslagen): het lijntype "
-    "<code>V-GR-PLANTSOEN-SO</code> en de hoofdgroepen <code>IS</code>, "
-    "<code>ES</code> en <code>SB</code>.")
+    "<code>V-GR-PLANTSOEN-SO</code>.")
 
 
 def _desc(card_html: str, text: str) -> str:
@@ -2811,6 +3002,14 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
             for code, n in hg_counts)
         hgnav = ('<div class="hgnav"><span class="hgnav-lbl">Hoofdgroepen met '
                  'fouten:</span>' + links + '</div>\n')
+    # Idem voor de waarschuwingen → spring naar het waarschuwings-blok (#hgw-…).
+    if warn_counts:
+        wlinks = "".join(
+            f'<a href="#hgw-{_esc(code)}">{_esc(code)} '
+            f'<span class="n">{n}</span></a>'
+            for code, n in warn_counts)
+        hgnav += ('<div class="hgnav warn"><span class="hgnav-lbl">Hoofdgroepen '
+                  'met waarschuwingen:</span>' + wlinks + '</div>\n')
 
     body = "\n".join(sections)
     if overview_html:

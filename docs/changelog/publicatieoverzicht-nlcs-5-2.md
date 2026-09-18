@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 204 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 205 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -8,6 +8,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 
 **Tabellen**
 - [Kwaliteitscontroles](https://nl-digigo.github.io/NLCS/changelog/kwaliteitscontroles-5-2.html)
+- [Objectenboom](https://nl-digigo.github.io/NLCS/changelog/objectenboom-5-2.html)
 - [Query Abibliotheken concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Abibliotheken-concept-5.2.html)
 - [Query Bewerkingen concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Bewerkingen-concept-5.2.html)
 - [Query Disciplines concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Disciplines-concept-5.2.html)

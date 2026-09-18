@@ -121,6 +121,11 @@
                   background:var(--dg-red); color:#fff; border-radius:9px;
                   padding:0 6px; }
     .hgnav a:hover .n { background:#fff; color:var(--dg-red); }
+    /* Waarschuwings-variant (amberkleurig, spiegelt de fouten-nav). */
+    .hgnav.warn a { background:#fff9e8; border-color:#d9a400; }
+    .hgnav.warn a:hover { background:#d9a400; color:#fff; }
+    .hgnav.warn a .n { background:#d9a400; color:#fff; }
+    .hgnav.warn a:hover .n { background:#fff; color:#8a6d00; }
     .card.hgblock h2 { display:flex; align-items:baseline; gap:10px;
                        flex-wrap:wrap; }
     .card.hgblock .hgcount { font-size:.85rem; font-weight:600;
@@ -144,6 +149,7 @@
 <p class="info">Alle kwaliteitscontroles in de volgorde van de managementhandleiding &middot; versie 5.2. Klik op een kolomkop om te sorteren (bijv. op hoofdgroep).</p>
 <div class="toc"><a href="#objecten">Objecten</a><a href="#symbolen">Symbolen</a><a href="#arceringen">Arceringen</a><a href="#lijntypes">Lijntypes</a><a href="#overzicht-hg">Fouten per hoofdgroep</a><a href="#waarschuwingen" class="warn-link">Waarschuwingen</a><a href="#overzicht-hg-warn" class="warn-link">Waarschuwingen per hoofdgroep</a></div>
 <div class="hgnav"><span class="hgnav-lbl">Hoofdgroepen met fouten:</span><a href="#hg-IW">IW <span class="n">682</span></a></div>
+<div class="hgnav warn"><span class="hgnav-lbl">Hoofdgroepen met waarschuwingen:</span><a href="#hgw-IW">IW <span class="n">10</span></a><a href="#hgw-KL">KL <span class="n">2</span></a><a href="#hgw-MW">MW <span class="n">14</span></a></div>
 <h1 class="sect" id="objecten">Objecten</h1>
 <p class="sectnote">Controle objectentabel — in de volgorde van de managementhandleiding.</p>
 <div class="card"><h2>Objectenboom (hiërarchie)</h2>
@@ -1037,7 +1043,7 @@
 <h1 class="sect" id="lijntypes">Lijntypes</h1>
 <p class="sectnote">Controle lijntypetabel.</p>
 <div class="card"><h2>Lijntype-gebruik</h2>
-<p class="ctrldesc"><code>controle_lijntypes_zonder_objectRelatie</code> — lijntypes die bestaan maar in geen enkel object (lt_b/lt_n/lt_v/lt_t) gebruikt worden.</p><div class="kpi"><div class="box "><b>413</b>lijntypes</div><div class="box "><b>411</b>gebruikt</div><div class="box bad"><b>2</b>niet gebruikt</div></div>
+<p class="ctrldesc"><code>controle_lijntypes_zonder_objectRelatie</code> — lijntypes die bestaan maar in geen enkel object (lt_b/lt_n/lt_v/lt_t) gebruikt worden.</p><div class="kpi"><div class="box "><b>411</b>lijntypes</div><div class="box "><b>409</b>gebruikt</div><div class="box bad"><b>2</b>niet gebruikt</div></div>
 <p class="warn">⚠ 2 lijntype(s) worden nergens in de objecten gebruikt:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>lijntype</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>IW-DRIP-SO</td></tr>
@@ -1049,7 +1055,7 @@
 <p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>983</b>ingelezen</div><div class="box "><b>7610</b>hoogste ID</div><div class="box free"><b>7611</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>981</b>ingelezen</div><div class="box "><b>7610</b>hoogste ID</div><div class="box free"><b>7611</b>eerstvolgende vrij</div></div>
 <p class="ok">✓ Elke rij heeft een id.</p>
 <p class="warn">⚠ 1 dubbel gebruikte ID(’s):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>ID</th><th>naam</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
@@ -1059,19 +1065,19 @@
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
-<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>451</b>namen</div><div class="box "><b>451</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>449</b>namen</div><div class="box "><b>449</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>983</b>namen</div><div class="box "><b>655</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>981</b>namen</div><div class="box "><b>653</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
-<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>451</b>namen</div><div class="box free"><b>451</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>449</b>namen</div><div class="box free"><b>449</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 </div>
 <div class="card"><h2>AutoCAD-definitie</h2>
-<p class="ctrldesc">AutoCAD-definitie: elk lijntype heeft een definitiestring in de kolom <code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO worden overgeslagen).</p><div class="kpi"><div class="box "><b>411</b>lijntypes</div><div class="box free"><b>411</b>met definitie</div><div class="box free"><b>0</b>zonder definitie</div></div>
+<p class="ctrldesc">AutoCAD-definitie: elk lijntype heeft een definitiestring in de kolom <code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO worden overgeslagen).</p><div class="kpi"><div class="box "><b>409</b>lijntypes</div><div class="box free"><b>409</b>met definitie</div><div class="box free"><b>0</b>zonder definitie</div></div>
 <p class="ok">✓ Elk lijntype heeft een AutoCAD-definitie (autocaddef); CONTINUOUS/V-CONTINUOUS-SO overgeslagen.</p>
 </div>
 <h1 class="sect" id="overzicht-hg">Fouten per hoofdgroep</h1>
@@ -1092,293 +1098,11 @@
 <h1 class="sect" id="waarschuwingen">Waarschuwingen</h1>
 <p class="sectnote">Aandachtspunten die NIET als fout tellen in het publicatie-overzicht (geen fout-vinkje). Bewust apart onderaan gezet zodat ze de controles hierboven niet overstemmen.</p>
 <div class="card"><h2>Vervallen lijntype (lt_v)</h2>
-<p class="ctrldesc">Vervallen lijntype (lt_v): de kolom <code>lt_v</code> in de objectentabel verwijst naar het lijntype voor de vervallen situatie. Vervallen lijntypes heten in NLCS altijd <code>V-…</code>, dus een gevulde <code>lt_v</code> hoort met <code>V-</code> te beginnen. Een waarde die daar niet mee begint is verdacht (waarschijnlijk een bestaand/nieuw lijntype) — een waarschuwing, geen fout. Uitzondering: de grenzen van gemeenten, provincies enzovoorts zijn eigendomsgrenzen die buiten de scope van engineering liggen; daarom hebben deze grenzen geen vervallen lijnstijl. Daarnaast is de waarde <code>BC-SLOOPLIJN-SO</code> (een sloop-lijntype) bewust toegestaan en wordt die niet gemeld.</p><div class="kpi"><div class="box "><b>2725</b>objecten met lt_v</div><div class="box "><b>2428</b>begint met V-</div><div class="box warn"><b>297</b>zonder V-</div></div>
-<p class="skip">Uitgezonderd (bewust toegestane lt_v-waarde(n)): BC-SLOOPLIJN-SO — 1 object(en) overgeslagen.</p>
-<p class="warn">⚠ 297 object(en) met een lt_v die niet met V- begint — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
+<p class="ctrldesc">Vervallen lijntype (lt_v): de kolom <code>lt_v</code> in de objectentabel verwijst naar het lijntype voor de vervallen situatie. Vervallen lijntypes heten in NLCS altijd <code>V-…</code>, dus een gevulde <code>lt_v</code> hoort met <code>V-</code> te beginnen. Een waarde die daar niet mee begint is verdacht (waarschijnlijk een bestaand/nieuw lijntype) — een waarschuwing, geen fout. Uitzondering: de grenzen van gemeenten, provincies enzovoorts zijn eigendomsgrenzen die buiten de scope van engineering liggen; daarom hebben deze grenzen geen vervallen lijnstijl. Daarnaast is de waarde <code>BC-SLOOPLIJN-SO</code> (een sloop-lijntype) bewust toegestaan en wordt die niet gemeld. Verder zijn de hoofdgroepen <code>IS</code>, <code>ES</code> en <code>SB</code> uitgezonderd, en mogen <code>terrein</code>, <code>bebouwing</code>, <code>water</code>, <code>greppel</code> en <code>baggervak</code> (inclusief hun onderliggende objecten) én de OG-objecten <code>weg</code> en <code>zone</code> (inclusief hun onderliggende objecten) én de fase-objecten in OG (Fase1 t/m Fase7) bewust het lijntype <code>CONTINUOUS</code> als vervallen lijntype hebben — die worden niet gemeld. Hetzelfde geldt voor de takken <code>HYDRAULIEKVORM_SCHEMA</code> en <code>PNEUMATIEKVORM_SCHEMA</code> (inclusief hun onderliggende objecten) en voor de losse objecten <code>GRENS_VLAKAFSLUITER</code> en <code>GRENS_WIJK</code>.</p><div class="kpi"><div class="box "><b>2082</b>objecten met lt_v</div><div class="box "><b>2067</b>begint met V-</div><div class="box warn"><b>15</b>zonder V-</div></div>
+<p class="skip">Uitgezonderd (bewust toegestaan zonder V--prefix): lt_v-waarde(n) BC-SLOOPLIJN-SO en hoofdgroep(en) ES, IS, SB en object(en) BAGGERVAK, BEBOUWING, FASE1, FASE2, FASE3, FASE4, FASE5, FASE6, FASE7, GREPPEL, TERREIN, WATER, WEG, ZONE (incl. onderliggende objecten) en object-tak(ken) HYDRAULIEKVORM_SCHEMA, PNEUMATIEKVORM_SCHEMA (incl. onderliggende objecten) en object(en) GRENS_VLAKAFSLUITER, GRENS_WIJK — 644 object(en) overgeslagen.</p>
+<p class="warn">⚠ 15 object(en) met een lt_v die niet met V- begint — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>object</th><th>lt_v</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg info">ES</td><td>AFSPANCONSTRUCTIE</td><td class="loc">CONTINUOUS</td><td class="loc">r184</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING</td><td class="loc">ES-AFSPANNING-SO</td><td class="loc">r185</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_ANKER</td><td class="loc">CONTINUOUS</td><td class="loc">r179</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_ANKER_DRAAGKABEL</td><td class="loc">CONTINUOUS</td><td class="loc">r85</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_ANKER_HULPDRAAGKABEL</td><td class="loc">CONTINUOUS</td><td class="loc">r83</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_ANKER_PROFIELDRAAD</td><td class="loc">CONTINUOUS</td><td class="loc">r82</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_ANKER_VERSTERKINGSLEIDING</td><td class="loc">CONTINUOUS</td><td class="loc">r84</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_BREEKPLAAT</td><td class="loc">CONTINUOUS</td><td class="loc">r97</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_MODEL A</td><td class="loc">CONTINUOUS</td><td class="loc">r132</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_MODEL B</td><td class="loc">CONTINUOUS</td><td class="loc">r160</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_MODEL C</td><td class="loc">CONTINUOUS</td><td class="loc">r137</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_MODEL D</td><td class="loc">CONTINUOUS</td><td class="loc">r96</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_MODEL E</td><td class="loc">CONTINUOUS</td><td class="loc">r164</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_MODEL F</td><td class="loc">CONTINUOUS</td><td class="loc">r158</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_VASTPUNT</td><td class="loc">ES-AFSPANNING-SO</td><td class="loc">r180</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_VEERBUS</td><td class="loc">CONTINUOUS</td><td class="loc">r92</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_VEERBUS_120M</td><td class="loc">CONTINUOUS</td><td class="loc">r36</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_VEERBUS_180M</td><td class="loc">CONTINUOUS</td><td class="loc">r48</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_VEERBUS_60M</td><td class="loc">CONTINUOUS</td><td class="loc">r24</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_VEERTROMMEL</td><td class="loc">CONTINUOUS</td><td class="loc">r101</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_VEERTROMMEL_450X750</td><td class="loc">CONTINUOUS</td><td class="loc">r23</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_VEERTROMMEL_750X750</td><td class="loc">CONTINUOUS</td><td class="loc">r60</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_WIEL</td><td class="loc">CONTINUOUS</td><td class="loc">r103</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_WIEL_10KN</td><td class="loc">CONTINUOUS</td><td class="loc">r27</td></tr>
-<tr><td class="hg info">ES</td><td>AFSPANNING_WIEL_7.5KN</td><td class="loc">CONTINUOUS</td><td class="loc">r30</td></tr>
-<tr><td class="hg info">ES</td><td>BEREKENEN KRACHTEN GAWIRE</td><td class="loc">CONTINUOUS</td><td class="loc">r186</td></tr>
-<tr><td class="hg info">ES</td><td>BEVEILIGING</td><td class="loc">CONTINUOUS</td><td class="loc">r192</td></tr>
-<tr><td class="hg info">ES</td><td>BEVEILIGING_BOVENLEIDINGCONTACT</td><td class="loc">CONTINUOUS</td><td class="loc">r113</td></tr>
-<tr><td class="hg info">ES</td><td>BEVEILIGING_OVERSPANNINGSAFLEIDER</td><td class="loc">CONTINUOUS</td><td class="loc">r91</td></tr>
-<tr><td class="hg info">ES</td><td>BEVEILIGING_OVERSPANNINGSAFLEIDER_20KA</td><td class="loc">CONTINUOUS</td><td class="loc">r25</td></tr>
-<tr><td class="hg info">ES</td><td>BEVEILIGING_OVERSPANNINGSAFLEIDER_5KA</td><td class="loc">CONTINUOUS</td><td class="loc">r13</td></tr>
-<tr><td class="hg info">ES</td><td>BEVEILIGING_SIGNALERING</td><td class="loc">CONTINUOUS</td><td class="loc">r109</td></tr>
-<tr><td class="hg info">ES</td><td>BEVEILIGING_SIGNALERING_GROEN</td><td class="loc">CONTINUOUS</td><td class="loc">r203</td></tr>
-<tr><td class="hg info">ES</td><td>BEVEILIGING_SIGNALERING_ROOD</td><td class="loc">CONTINUOUS</td><td class="loc">r35</td></tr>
-<tr><td class="hg info">ES</td><td>BEVESTIGINGSCONSTRUCTIE</td><td class="loc">CONTINUOUS</td><td class="loc">r196</td></tr>
-<tr><td class="hg info">ES</td><td>BEVESTIGINGSCONSTRUCTIE_MUURANKER</td><td class="loc">CONTINUOUS</td><td class="loc">r154</td></tr>
-<tr><td class="hg info">ES</td><td>BEVESTIGINGSCONSTRUCTIE_MUURDOOK</td><td class="loc">CONTINUOUS</td><td class="loc">r152</td></tr>
-<tr><td class="hg info">ES</td><td>BEVESTIGINGSCONSTRUCTIE_MUURROZET</td><td class="loc">CONTINUOUS</td><td class="loc">r123</td></tr>
-<tr><td class="hg info">ES</td><td>BEVESTIGINGSCONSTRUCTIE_PORTAAL</td><td class="loc">ES-BEVESTIGINGSCONSTRUCTIE_PORTAAL-SO</td><td class="loc">r127</td></tr>
-<tr><td class="hg info">ES</td><td>BEVESTIGINGSCONSTRUCTIE_SCHOOR</td><td class="loc">ES-BEVESTIGINGSCONSTRUCTIE_SCHOOR-SO</td><td class="loc">r128</td></tr>
-<tr><td class="hg info">ES</td><td>BEVESTIGINGSCONSTRUCTIE_TUI</td><td class="loc">ES-BEVESTIGINGSCONSTRUCTIE_TUI-SO</td><td class="loc">r170</td></tr>
-<tr><td class="hg info">ES</td><td>BEVESTIGINGSCONSTRUCTIE_TUNNELKOLOM</td><td class="loc">CONTINUOUS</td><td class="loc">r157</td></tr>
-<tr><td class="hg info">ES</td><td>DRAADKRUISING</td><td class="loc">CONTINUOUS</td><td class="loc">r189</td></tr>
-<tr><td class="hg info">ES</td><td>DRAADKRUISING_DISK</td><td class="loc">CONTINUOUS</td><td class="loc">r112</td></tr>
-<tr><td class="hg info">ES</td><td>DRAADKRUISING_PROFIELDRAAD</td><td class="loc">CONTINUOUS</td><td class="loc">r176</td></tr>
-<tr><td class="hg info">ES</td><td>DRAAGKABEL</td><td class="loc">ES-DRAAGKABEL-SO</td><td class="loc">r193</td></tr>
-<tr><td class="hg info">ES</td><td>DRAAGKABEL_150MM2</td><td class="loc">ES-DRAAGKABEL_150MM2-SO</td><td class="loc">r138</td></tr>
-<tr><td class="hg info">ES</td><td>DRAAGKABEL_70MM2</td><td class="loc">ES-DRAAGKABEL_70MM2-SO</td><td class="loc">r162</td></tr>
-<tr><td class="hg info">ES</td><td>DRAAGKABEL_DUBBEL</td><td class="loc">ES-DRAAGKABEL_DUBBEL-SO</td><td class="loc">r146</td></tr>
-<tr><td class="hg info">ES</td><td>DRAAGKABEL_LIGGING</td><td class="loc">CONTINUOUS</td><td class="loc">r120</td></tr>
-<tr><td class="hg info">ES</td><td>DRAAGKABEL_WIEL</td><td class="loc">CONTINUOUS</td><td class="loc">r110</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING</td><td class="loc">CONTINUOUS</td><td class="loc">r188</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_AANSLUITPUNT</td><td class="loc">CONTINUOUS</td><td class="loc">r166</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING BOVENLEIDING</td><td class="loc">CONTINUOUS</td><td class="loc">r133</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING BOVENLEIDING_RDDR</td><td class="loc">CONTINUOUS</td><td class="loc">r77</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING BOVENLEIDING_RDVVDR</td><td class="loc">CONTINUOUS</td><td class="loc">r78</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING BOVENLEIDING_RR</td><td class="loc">CONTINUOUS</td><td class="loc">r80</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF</td><td class="loc">CONTINUOUS</td><td class="loc">r177</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_DUBBEL</td><td class="loc">CONTINUOUS</td><td class="loc">r87</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_DUBBEL_GROEFRAIL</td><td class="loc">CONTINUOUS</td><td class="loc">r10</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_DUBBEL_VIGNOLERAIL</td><td class="loc">CONTINUOUS</td><td class="loc">r7</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_ENKEL</td><td class="loc">CONTINUOUS</td><td class="loc">r86</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_ENKEL_GROEFRAIL</td><td class="loc">CONTINUOUS</td><td class="loc">r8</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_ENKEL_VIGNOLERAIL</td><td class="loc">CONTINUOUS</td><td class="loc">r9</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_GESTUURDEBORING</td><td class="loc">CONTINUOUS</td><td class="loc">r172</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_KABEL</td><td class="loc">CONTINUOUS</td><td class="loc">r95</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_KABEL_10KV</td><td class="loc">CONTINUOUS</td><td class="loc">r64</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_KABEL_240MM2</td><td class="loc">CONTINUOUS</td><td class="loc">r61</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_KABEL_500MM2</td><td class="loc">CONTINUOUS</td><td class="loc">r55</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_KABEL_630MM2</td><td class="loc">CONTINUOUS</td><td class="loc">r33</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_KABEL_70MM2</td><td class="loc">CONTINUOUS</td><td class="loc">r18</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_KABEL_GLASVEZEL</td><td class="loc">CONTINUOUS</td><td class="loc">r29</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_KABEL_VERBINDINGSMOF</td><td class="loc">CONTINUOUS</td><td class="loc">r81</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_KABEL_VOEDINGSKABEL</td><td class="loc">CONTINUOUS</td><td class="loc">r20</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_KABEL_VOEDINGSKABEL_220V</td><td class="loc">CONTINUOUS</td><td class="loc">r4</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_KABEL_VOEDINGSKABEL_600 750V</td><td class="loc">CONTINUOUS</td><td class="loc">r3</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_MINUSKABEL</td><td class="loc">CONTINUOUS</td><td class="loc">r93</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_MINUSKABEL_600 750V</td><td class="loc">CONTINUOUS</td><td class="loc">r15</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_MINUSKAST</td><td class="loc">CONTINUOUS</td><td class="loc">r105</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_MINUSVERBINDING</td><td class="loc">CONTINUOUS</td><td class="loc">r114</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_MINUSVERBINDING_GROEFRAIL</td><td class="loc">CONTINUOUS</td><td class="loc">r76</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_MINUSVERBINDING_VIGNOLERAIL</td><td class="loc">CONTINUOUS</td><td class="loc">r79</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_PAAL SPOORSTAAF</td><td class="loc">CONTINUOUS</td><td class="loc">r129</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_RETOUR</td><td class="loc">CONTINUOUS</td><td class="loc">r204</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_RETOUR_150MM2</td><td class="loc">CONTINUOUS</td><td class="loc">r202</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_RETOUR_500MM2</td><td class="loc">CONTINUOUS</td><td class="loc">r201</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_SCHUIFLASDOORVERBINDING</td><td class="loc">CONTINUOUS</td><td class="loc">r174</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_SPARINGEN</td><td class="loc">CONTINUOUS</td><td class="loc">r124</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_TRAM</td><td class="loc">CONTINUOUS</td><td class="loc">r150</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_VOEDING</td><td class="loc">CONTINUOUS</td><td class="loc">r145</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_VOEDINGSKAST</td><td class="loc">CONTINUOUS</td><td class="loc">r175</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_VOEDINGSPUNT</td><td class="loc">CONTINUOUS</td><td class="loc">r159</td></tr>
-<tr><td class="hg info">ES</td><td>ELEKTRISCHEVERBINDING_WISSELVERWARMINGSKAST</td><td class="loc">CONTINUOUS</td><td class="loc">r130</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE</td><td class="loc">CONTINUOUS</td><td class="loc">r187</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_BETONVOET</td><td class="loc">CONTINUOUS</td><td class="loc">r135</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_BETONVOET_1M3</td><td class="loc">CONTINUOUS</td><td class="loc">r37</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_BETONVOET_1P5M3</td><td class="loc">CONTINUOUS</td><td class="loc">r66</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_BLOK</td><td class="loc">CONTINUOUS</td><td class="loc">r139</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_BLOK_V2B</td><td class="loc">CONTINUOUS</td><td class="loc">r41</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_BOORBUIS</td><td class="loc">CONTINUOUS</td><td class="loc">r102</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_BOORBUIS_406</td><td class="loc">CONTINUOUS</td><td class="loc">r32</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_BOORBUIS_508</td><td class="loc">CONTINUOUS</td><td class="loc">r74</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_BOORBUIS_610</td><td class="loc">CONTINUOUS</td><td class="loc">r39</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_BOORBUIS_711</td><td class="loc">CONTINUOUS</td><td class="loc">r68</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_BOORBUIS_813</td><td class="loc">CONTINUOUS</td><td class="loc">r47</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_VLINDERBLOK</td><td class="loc">CONTINUOUS</td><td class="loc">r108</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_VOETPLAAT</td><td class="loc">CONTINUOUS</td><td class="loc">r90</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_VOETPLAAT_400X400</td><td class="loc">CONTINUOUS</td><td class="loc">r21</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_VOETPLAAT_500X500</td><td class="loc">CONTINUOUS</td><td class="loc">r75</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_VOETPLAAT_650X500</td><td class="loc">CONTINUOUS</td><td class="loc">r12</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_VOETPLAAT_DIAMETER400</td><td class="loc">CONTINUOUS</td><td class="loc">r67</td></tr>
-<tr><td class="hg info">ES</td><td>FUNDATIE_VOETPLAAT_DIAMETER500</td><td class="loc">CONTINUOUS</td><td class="loc">r49</td></tr>
-<tr><td class="hg info">ES</td><td>HOORNSCHAKELAAR</td><td class="loc">CONTINUOUS</td><td class="loc">r195</td></tr>
-<tr><td class="hg info">ES</td><td>HOORNSCHAKELAAR_HANDBEDIENEING</td><td class="loc">CONTINUOUS</td><td class="loc">r144</td></tr>
-<tr><td class="hg info">ES</td><td>HOORNSCHAKELAAR_MOTORBEDIENING</td><td class="loc">CONTINUOUS</td><td class="loc">r119</td></tr>
-<tr><td class="hg info">ES</td><td>MAST</td><td class="loc">ES-MAST-SO</td><td class="loc">r182</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_CONISCH</td><td class="loc">ES-MAST-SO</td><td class="loc">r100</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_CONISCH_RIVB</td><td class="loc">ES-MAST-SO</td><td class="loc">r53</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_CONISCH_RIVC</td><td class="loc">ES-MAST-SO</td><td class="loc">r50</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_CONISCH_RIVD</td><td class="loc">ES-MAST-SO</td><td class="loc">r31</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_CONISCH_RVIIB</td><td class="loc">ES-MAST-SO</td><td class="loc">r69</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_CONISCH_RVIID</td><td class="loc">ES-MAST-SO</td><td class="loc">r38</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_CONISCH_RVIIF</td><td class="loc">ES-MAST-SO</td><td class="loc">r73</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_HE180A</td><td class="loc">ES-MAST-SO</td><td class="loc">r118</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_HE220A</td><td class="loc">ES-MAST-SO</td><td class="loc">r122</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_HE240A</td><td class="loc">ES-MAST-SO</td><td class="loc">r169</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_HE280M</td><td class="loc">ES-MAST-SO</td><td class="loc">r163</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_HE300B</td><td class="loc">ES-MAST-SO</td><td class="loc">r98</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_HE300M</td><td class="loc">ES-MAST-SO</td><td class="loc">r136</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_VERJONGD</td><td class="loc">ES-MAST-SO</td><td class="loc">r94</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_VERJONGD_RIIIB</td><td class="loc">ES-MAST-SO</td><td class="loc">r43</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_VERJONGD_RIIIC</td><td class="loc">ES-MAST-SO</td><td class="loc">r62</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_VERJONGD_RIIID</td><td class="loc">ES-MAST-SO</td><td class="loc">r42</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_VERJONGD_RIVB</td><td class="loc">ES-MAST-SO</td><td class="loc">r65</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_VERJONGD_RIVD</td><td class="loc">ES-MAST-SO</td><td class="loc">r16</td></tr>
-<tr><td class="hg info">ES</td><td>MAST_VERJONGD_RIVF</td><td class="loc">ES-MAST-SO</td><td class="loc">r58</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE</td><td class="loc">CONTINUOUS</td><td class="loc">r181</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_HALVE TREK</td><td class="loc">ES-OPHANGCONSTRUCTIE_HALVE TREK-SO</td><td class="loc">r115</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_ISOLATOR</td><td class="loc">CONTINUOUS</td><td class="loc">r125</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_ISOLATOR_DRAAGKABEL</td><td class="loc">CONTINUOUS</td><td class="loc">r57</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_ISOLATOR_LUS</td><td class="loc">CONTINUOUS</td><td class="loc">r26</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_ISOLATOR_PROFIELDRAAD</td><td class="loc">CONTINUOUS</td><td class="loc">r71</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_ISOLATOR_VERSTERKINGSLEIDING</td><td class="loc">CONTINUOUS</td><td class="loc">r72</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_JUK</td><td class="loc">ES-OPHANGCONSTRUCTIE_JUK-SO</td><td class="loc">r121</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_KABEL</td><td class="loc">CONTINUOUS</td><td class="loc">r156</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_KABEL_GLASFIBER</td><td class="loc">CONTINUOUS</td><td class="loc">r14</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_MASTARM</td><td class="loc">CONTINUOUS</td><td class="loc">r107</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_OPHANGING</td><td class="loc">CONTINUOUS</td><td class="loc">r151</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_OPHANGING_FLEXIBEL</td><td class="loc">CONTINUOUS</td><td class="loc">r46</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_PARAFIL</td><td class="loc">ES-OPHANGCONSTRUCTIE_PARAFIL-SO</td><td class="loc">r134</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_PENDELOPHANGING</td><td class="loc">CONTINUOUS</td><td class="loc">r111</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_PORTAAL</td><td class="loc">CONTINUOUS</td><td class="loc">r171</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_PROFIELDRAADHOUDER</td><td class="loc">CONTINUOUS</td><td class="loc">r99</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_PROFIELDRAADHOUDER_DRIEVOUDIG</td><td class="loc">CONTINUOUS</td><td class="loc">r70</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_PROFIELDRAADHOUDER_DUBBEL</td><td class="loc">CONTINUOUS</td><td class="loc">r51</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_PROFIELDRAADHOUDER_ENKEL</td><td class="loc">CONTINUOUS</td><td class="loc">r28</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_PROFIELDRAADHOUDER_RECHT</td><td class="loc">CONTINUOUS</td><td class="loc">r45</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_SPANDRAAD</td><td class="loc">ES-OPHANGCONSTRUCTIE_SPANDRAAD-SO</td><td class="loc">r131</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_SPANDRAAD_BZLL</td><td class="loc">ES-OPHANGCONSTRUCTIE_SPANDRAAD-SO</td><td class="loc">r34</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_SPANDRAAD_BZLL_35MM2</td><td class="loc">ES-OPHANGCONSTRUCTIE_SPANDRAAD-SO</td><td class="loc">r5</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_SPANDRAAD_BZLL_50MM2</td><td class="loc">ES-OPHANGCONSTRUCTIE_SPANDRAAD-SO</td><td class="loc">r6</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_SPANDRAAD_RVS</td><td class="loc">ES-OPHANGCONSTRUCTIE_SPANDRAAD-SO</td><td class="loc">r22</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_SPANDRAAD_RVS_9MM</td><td class="loc">ES-OPHANGCONSTRUCTIE_SPANDRAAD-SO</td><td class="loc">r2</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_SPANPLAAT</td><td class="loc">CONTINUOUS</td><td class="loc">r141</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_SPANPLAAT_DRIEGAT</td><td class="loc">CONTINUOUS</td><td class="loc">r56</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_SPANPLAAT_RING</td><td class="loc">CONTINUOUS</td><td class="loc">r63</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_SPANPLAAT_TWEEGAT</td><td class="loc">CONTINUOUS</td><td class="loc">r59</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_SPANPLAAT_VIERGAT</td><td class="loc">CONTINUOUS</td><td class="loc">r19</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_UITLEGGER</td><td class="loc">CONTINUOUS</td><td class="loc">r88</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_ZIJWAARTSE</td><td class="loc">CONTINUOUS</td><td class="loc">r117</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_ZIJWAARTSE_DRIEHOEK</td><td class="loc">CONTINUOUS</td><td class="loc">r40</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_ZIJWAARTSE_ENKEL</td><td class="loc">CONTINUOUS</td><td class="loc">r44</td></tr>
-<tr><td class="hg info">ES</td><td>OPHANGCONSTRUCTIE_ZIJWAARTSE_PARALLEL</td><td class="loc">CONTINUOUS</td><td class="loc">r54</td></tr>
-<tr><td class="hg info">ES</td><td>PROFIELDRAAD</td><td class="loc">CONTINUOUS</td><td class="loc">r198</td></tr>
-<tr><td class="hg info">ES</td><td>PROFIELDRAAD_100</td><td class="loc">CONTINUOUS</td><td class="loc">r147</td></tr>
-<tr><td class="hg info">ES</td><td>PROFIELDRAAD_120</td><td class="loc">CONTINUOUS</td><td class="loc">r167</td></tr>
-<tr><td class="hg info">ES</td><td>PROFIELDRAAD_150</td><td class="loc">CONTINUOUS</td><td class="loc">r148</td></tr>
-<tr><td class="hg info">ES</td><td>PROFIELDRAAD_65</td><td class="loc">CONTINUOUS</td><td class="loc">r143</td></tr>
-<tr><td class="hg info">ES</td><td>PROFIELDRAAD_HOOGTE</td><td class="loc">CONTINUOUS</td><td class="loc">r168</td></tr>
-<tr><td class="hg info">ES</td><td>PROFIELDRAAD_HOOGTESTOPPER</td><td class="loc">CONTINUOUS</td><td class="loc">r155</td></tr>
-<tr><td class="hg info">ES</td><td>PROFIELDRAAD_LIGGING</td><td class="loc">CONTINUOUS</td><td class="loc">r178</td></tr>
-<tr><td class="hg info">ES</td><td>SCHAKELAAR</td><td class="loc">ES-SCHAKELAAR-SO</td><td class="loc">r191</td></tr>
-<tr><td class="hg info">ES</td><td>SCHAKELAAR_GESLOTEN</td><td class="loc">ES-SCHAKELAAR-SO</td><td class="loc">r149</td></tr>
-<tr><td class="hg info">ES</td><td>SCHAKELAAR_OPEN</td><td class="loc">ES-SCHAKELAAR-SO</td><td class="loc">r165</td></tr>
-<tr><td class="hg info">ES</td><td>SECTIE</td><td class="loc">CONTINUOUS</td><td class="loc">r190</td></tr>
-<tr><td class="hg info">ES</td><td>SECTIE_BLAUW</td><td class="loc">CONTINUOUS</td><td class="loc">r173</td></tr>
-<tr><td class="hg info">ES</td><td>SECTIE_GROEN</td><td class="loc">CONTINUOUS</td><td class="loc">r200</td></tr>
-<tr><td class="hg info">ES</td><td>SECTIE_ROOD</td><td class="loc">CONTINUOUS</td><td class="loc">r106</td></tr>
-<tr><td class="hg info">ES</td><td>SECTIE_ZWART</td><td class="loc">CONTINUOUS</td><td class="loc">r126</td></tr>
-<tr><td class="hg info">ES</td><td>SECTIENUMMER</td><td class="loc">CONTINUOUS</td><td class="loc">r199</td></tr>
-<tr><td class="hg info">ES</td><td>STROOMRAIL</td><td class="loc">ES-STROOMRAIL-SO</td><td class="loc">r197</td></tr>
-<tr><td class="hg info">ES</td><td>STROOMRAIL_ALUMINIUM</td><td class="loc">ES-STROOMRAIL-SO</td><td class="loc">r140</td></tr>
-<tr><td class="hg info">ES</td><td>STROOMRAIL_KOPER</td><td class="loc">ES-STROOMRAIL-SO</td><td class="loc">r153</td></tr>
-<tr><td class="hg info">GW</td><td>BAGGERVAK</td><td class="loc">CONTINUOUS</td><td class="loc">r74</td></tr>
-<tr><td class="hg info">IS</td><td>BLOKSCHEIDING</td><td class="loc">CONTINUOUS</td><td class="loc">r64</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT</td><td class="loc">CONTINUOUS</td><td class="loc">r66</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_AARDE</td><td class="loc">CONTINUOUS</td><td class="loc">r44</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_ARI MAGNEET</td><td class="loc">CONTINUOUS</td><td class="loc">r55</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_BEVEILIGINGSUNIT</td><td class="loc">CONTINUOUS</td><td class="loc">r52</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_CEMBRE</td><td class="loc">CONTINUOUS</td><td class="loc">r29</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_CONDENSATOR</td><td class="loc">CONTINUOUS</td><td class="loc">r46</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_KORTSLUITVERBINDING</td><td class="loc">CONTINUOUS</td><td class="loc">r57</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_LOOPTRANSCIEVERBUFFER</td><td class="loc">CONTINUOUS</td><td class="loc">r49</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_LUS</td><td class="loc">CONTINUOUS</td><td class="loc">r48</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_LUS_HFK</td><td class="loc">CONTINUOUS</td><td class="loc">r4</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_LUS_MDL</td><td class="loc">CONTINUOUS</td><td class="loc">r6</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_LUS_PREFAB</td><td class="loc">CONTINUOUS</td><td class="loc">r13</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_LUS_PREFAB_OPENBAAN</td><td class="loc">CONTINUOUS</td><td class="loc">r2</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_LUS_SAMENGESTELD</td><td class="loc">CONTINUOUS</td><td class="loc">r11</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_LUS_SLIJP</td><td class="loc">CONTINUOUS</td><td class="loc">r14</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_LUS_VECOM</td><td class="loc">CONTINUOUS</td><td class="loc">r8</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_MARKERING</td><td class="loc">CONTINUOUS</td><td class="loc">r42</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_ONTVANGER</td><td class="loc">CONTINUOUS</td><td class="loc">r28</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_RASBAK</td><td class="loc">CONTINUOUS</td><td class="loc">r41</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_SPOORSTROOMLOOPKAST</td><td class="loc">CONTINUOUS</td><td class="loc">r16</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_WIELSENSOR</td><td class="loc">CONTINUOUS</td><td class="loc">r22</td></tr>
-<tr><td class="hg info">IS</td><td>COMPONENT_ZENDER</td><td class="loc">CONTINUOUS</td><td class="loc">r40</td></tr>
-<tr><td class="hg info">IS</td><td>KAST</td><td class="loc">CONTINUOUS</td><td class="loc">r68</td></tr>
-<tr><td class="hg info">IS</td><td>KAST_BAKEN</td><td class="loc">CONTINUOUS</td><td class="loc">r30</td></tr>
-<tr><td class="hg info">IS</td><td>KAST_DRIS</td><td class="loc">CONTINUOUS</td><td class="loc">r45</td></tr>
-<tr><td class="hg info">IS</td><td>KAST_KABELVERDELER</td><td class="loc">CONTINUOUS</td><td class="loc">r34</td></tr>
-<tr><td class="hg info">IS</td><td>KAST_MINUS</td><td class="loc">CONTINUOUS</td><td class="loc">r38</td></tr>
-<tr><td class="hg info">IS</td><td>KAST_SEIN</td><td class="loc">CONTINUOUS</td><td class="loc">r33</td></tr>
-<tr><td class="hg info">IS</td><td>KAST_SYSTEEM</td><td class="loc">CONTINUOUS</td><td class="loc">r32</td></tr>
-<tr><td class="hg info">IS</td><td>KAST_TWI</td><td class="loc">CONTINUOUS</td><td class="loc">r36</td></tr>
-<tr><td class="hg info">IS</td><td>KAST_VECOM</td><td class="loc">CONTINUOUS</td><td class="loc">r25</td></tr>
-<tr><td class="hg info">IS</td><td>KAST_VOEDING</td><td class="loc">CONTINUOUS</td><td class="loc">r31</td></tr>
-<tr><td class="hg info">IS</td><td>KAST_VOEDING_230V</td><td class="loc">CONTINUOUS</td><td class="loc">r15</td></tr>
-<tr><td class="hg info">IS</td><td>KAST_WISSELAANSTURING</td><td class="loc">CONTINUOUS</td><td class="loc">r19</td></tr>
-<tr><td class="hg info">IS</td><td>KAST_WISSELVERWARMING</td><td class="loc">CONTINUOUS</td><td class="loc">r37</td></tr>
-<tr><td class="hg info">IS</td><td>MAST</td><td class="loc">CONTINUOUS</td><td class="loc">r69</td></tr>
-<tr><td class="hg info">IS</td><td>PUNTTONG</td><td class="loc">IS-PUNTTONG-SO</td><td class="loc">r47</td></tr>
-<tr><td class="hg info">IS</td><td>PUT</td><td class="loc">CONTINUOUS</td><td class="loc">r65</td></tr>
-<tr><td class="hg info">IS</td><td>PUT_EK288</td><td class="loc">CONTINUOUS</td><td class="loc">r24</td></tr>
-<tr><td class="hg info">IS</td><td>PUT_EK358</td><td class="loc">CONTINUOUS</td><td class="loc">r35</td></tr>
-<tr><td class="hg info">IS</td><td>PUT_PK315</td><td class="loc">CONTINUOUS</td><td class="loc">r39</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN</td><td class="loc">CONTINUOUS</td><td class="loc">r67</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_ABSOLUUT</td><td class="loc">CONTINUOUS</td><td class="loc">r56</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_BORD</td><td class="loc">CONTINUOUS</td><td class="loc">r17</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_CALAMITEIT</td><td class="loc">CONTINUOUS</td><td class="loc">r51</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_F0 F1</td><td class="loc">CONTINUOUS</td><td class="loc">r60</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_H EN K ROOD WIT</td><td class="loc">CONTINUOUS</td><td class="loc">r59</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_HSW</td><td class="loc">CONTINUOUS</td><td class="loc">r23</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_MATRIX</td><td class="loc">CONTINUOUS</td><td class="loc">r62</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_OMROEP INTERCOM</td><td class="loc">CONTINUOUS</td><td class="loc">r21</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_OPRIJD</td><td class="loc">CONTINUOUS</td><td class="loc">r54</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_PERMISSIEF</td><td class="loc">CONTINUOUS</td><td class="loc">r50</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_PERRON</td><td class="loc">CONTINUOUS</td><td class="loc">r53</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_TWI</td><td class="loc">CONTINUOUS</td><td class="loc">r18</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_TWI_AKOESTISCHSIGNAALGEVER</td><td class="loc">CONTINUOUS</td><td class="loc">r9</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_TWI_MAST</td><td class="loc">CONTINUOUS</td><td class="loc">r10</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_TWI_VOETGANGER</td><td class="loc">CONTINUOUS</td><td class="loc">r5</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_TWI_WEGVERKEER</td><td class="loc">CONTINUOUS</td><td class="loc">r7</td></tr>
-<tr><td class="hg info">IS</td><td>SEIN_WSA</td><td class="loc">CONTINUOUS</td><td class="loc">r26</td></tr>
-<tr><td class="hg info">IS</td><td>SPOORVERBINDER</td><td class="loc">CONTINUOUS</td><td class="loc">r70</td></tr>
-<tr><td class="hg info">IS</td><td>SPOORVERBINDER_EIND</td><td class="loc">CONTINUOUS</td><td class="loc">r43</td></tr>
-<tr><td class="hg info">IS</td><td>SPOORVERBINDER_KORTSLUITER</td><td class="loc">CONTINUOUS</td><td class="loc">r27</td></tr>
-<tr><td class="hg info">IS</td><td>SPOORVERBINDER_KORTSLUITER_HSK</td><td class="loc">CONTINUOUS</td><td class="loc">r12</td></tr>
-<tr><td class="hg info">IS</td><td>SPOORVERBINDER_MINUSBEEN</td><td class="loc">CONTINUOUS</td><td class="loc">r58</td></tr>
-<tr><td class="hg info">IS</td><td>SPOORVERBINDER_S</td><td class="loc">CONTINUOUS</td><td class="loc">r20</td></tr>
-<tr><td class="hg info">IS</td><td>SPOORVERBINDER_SIGNAALBEEN</td><td class="loc">CONTINUOUS</td><td class="loc">r61</td></tr>
-<tr><td class="hg info">IS</td><td>ZONE</td><td class="loc">CONTINUOUS</td><td class="loc">r63</td></tr>
-<tr><td class="hg info">IS</td><td>ZONE_GEISOLEERD</td><td class="loc">CONTINUOUS</td><td class="loc">r3</td></tr>
-<tr><td class="hg info">KG</td><td>GRENS_VLAKAFSLUITER</td><td class="loc">CONTINUOUS</td><td class="loc">r41</td></tr>
-<tr><td class="hg info">KG</td><td>GRENS_WIJK</td><td class="loc">CONTINUOUS</td><td class="loc">r42</td></tr>
 <tr><td class="hg info">KL</td><td>WARMTENET_AFSLUITER</td><td class="loc">CONTINUOUS</td><td class="loc">r781</td></tr>
-<tr><td class="hg info">MC</td><td>HYDRAULIEKVORM_SCHEMA</td><td class="loc">CONTINUOUS</td><td class="loc">r26</td></tr>
-<tr><td class="hg info">MC</td><td>HYDRAULIEKVORM_SCHEMA_COMPONENT</td><td class="loc">CONTINUOUS</td><td class="loc">r9</td></tr>
-<tr><td class="hg info">MC</td><td>HYDRAULIEKVORM_SCHEMA_DIAGRAM</td><td class="loc">CONTINUOUS</td><td class="loc">r15</td></tr>
-<tr><td class="hg info">MC</td><td>HYDRAULIEKVORM_SCHEMA_GOOT</td><td class="loc">CONTINUOUS</td><td class="loc">r17</td></tr>
-<tr><td class="hg info">MC</td><td>HYDRAULIEKVORM_SCHEMA_LEIDING</td><td class="loc">CONTINUOUS</td><td class="loc">r16</td></tr>
-<tr><td class="hg info">MC</td><td>HYDRAULIEKVORM_SCHEMA_RASTERINDELING</td><td class="loc">CONTINUOUS</td><td class="loc">r13</td></tr>
-<tr><td class="hg info">MC</td><td>HYDRAULIEKVORM_SCHEMA_RASTERINDELING_18</td><td class="loc">CONTINUOUS</td><td class="loc">r6</td></tr>
-<tr><td class="hg info">MC</td><td>HYDRAULIEKVORM_SCHEMA_RASTERINDELING_25</td><td class="loc">CONTINUOUS</td><td class="loc">r8</td></tr>
-<tr><td class="hg info">MC</td><td>HYDRAULIEKVORM_SCHEMA_RASTERINDELING_35</td><td class="loc">CONTINUOUS</td><td class="loc">r2</td></tr>
-<tr><td class="hg info">MC</td><td>PNEUMATIEKVORM_SCHEMA</td><td class="loc">CONTINUOUS</td><td class="loc">r29</td></tr>
-<tr><td class="hg info">MC</td><td>PNEUMATIEKVORM_SCHEMA_COMPONENT</td><td class="loc">CONTINUOUS</td><td class="loc">r18</td></tr>
-<tr><td class="hg info">MC</td><td>PNEUMATIEKVORM_SCHEMA_DIAGRAM</td><td class="loc">CONTINUOUS</td><td class="loc">r19</td></tr>
-<tr><td class="hg info">MC</td><td>PNEUMATIEKVORM_SCHEMA_GOOT</td><td class="loc">CONTINUOUS</td><td class="loc">r10</td></tr>
-<tr><td class="hg info">MC</td><td>PNEUMATIEKVORM_SCHEMA_RASTERINDELING</td><td class="loc">CONTINUOUS</td><td class="loc">r12</td></tr>
-<tr><td class="hg info">MC</td><td>PNEUMATIEKVORM_SCHEMA_RASTERINDELING_18</td><td class="loc">CONTINUOUS</td><td class="loc">r3</td></tr>
-<tr><td class="hg info">MC</td><td>PNEUMATIEKVORM_SCHEMA_RASTERINDELING_25</td><td class="loc">CONTINUOUS</td><td class="loc">r5</td></tr>
-<tr><td class="hg info">MC</td><td>PNEUMATIEKVORM_SCHEMA_RASTERINDELING_35</td><td class="loc">CONTINUOUS</td><td class="loc">r4</td></tr>
 <tr><td class="hg info">MW</td><td>AANGRENZENDECONSTRUCTIE</td><td class="loc">CONTINUOUS</td><td class="loc">r11</td></tr>
 <tr><td class="hg info">MW</td><td>AANGRENZENDECONSTRUCTIE_BETON</td><td class="loc">CONTINUOUS</td><td class="loc">r8</td></tr>
 <tr><td class="hg info">MW</td><td>AANGRENZENDECONSTRUCTIE_HOUT</td><td class="loc">CONTINUOUS</td><td class="loc">r9</td></tr>
@@ -1396,13 +1120,10 @@
 </tbody></table>
 </div>
 <div class="card"><h2>VERWIJDEREN2-schaal</h2>
-<p class="ctrldesc">VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit <code>NLCS.shx</code> op schaal 0.5. Gecontroleerd wordt of de <code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-segment van de <code>autocaddef</code> daadwerkelijk 0.5 is én of er geen verticale <code>y=</code>-verschuiving in staat (dan staan de scraps niet meer gecentreerd op de lijn). Een horizontale <code>x=</code>-offset is prima (fraaie uitlijning op de lijn) en blijft ongemoeid. Uitgezonderd (bewust afwijkende opzet, volledig overgeslagen): het lijntype <code>V-GR-PLANTSOEN-SO</code> en de hoofdgroepen <code>IS</code>, <code>ES</code> en <code>SB</code>.</p><div class="kpi"><div class="box "><b>192</b>vervallen lijntypes</div><div class="box "><b>145</b>s=0.5, geen y-offset</div><div class="box warn"><b>47</b>afwijkende schaal / y-offset</div></div>
-<p class="skip">Uitgezonderd van deze controle: lijntype(s) V-GR-PLANTSOEN-SO en hoofdgroep(en) ES, IS, SB — 1 vervallen lijntype(s) overgeslagen (bewust afwijkende VERWIJDEREN2-opzet).</p>
-<p class="warn">⚠ 47 met een afwijkende (of ontbrekende) schaal of een ongewenste verticale y-offset (een horizontale x-offset is prima) — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
+<p class="ctrldesc">VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit <code>NLCS.shx</code> op schaal 0.5. Gecontroleerd wordt of de <code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-segment van de <code>autocaddef</code> daadwerkelijk 0.5 is én of er geen verticale <code>y=</code>-verschuiving in staat (dan staan de scraps niet meer gecentreerd op de lijn). Een horizontale <code>x=</code>-offset is prima (fraaie uitlijning op de lijn) en blijft ongemoeid. Uitgezonderd (bewust afwijkende opzet, volledig overgeslagen): het lijntype <code>V-GR-PLANTSOEN-SO</code>.</p><div class="kpi"><div class="box "><b>190</b>vervallen lijntypes</div><div class="box "><b>179</b>s=0.5, geen y-offset</div><div class="box warn"><b>11</b>afwijkende schaal / y-offset</div></div>
+<p class="skip">Uitgezonderd van deze controle: lijntype(s) V-GR-PLANTSOEN-SO — 1 vervallen lijntype(s) overgeslagen (bewust afwijkende VERWIJDEREN2-opzet).</p>
+<p class="warn">⚠ 11 met een afwijkende (of ontbrekende) schaal of een ongewenste verticale y-offset (een horizontale x-offset is prima) — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>lijntype</th><th>gevonden</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg info">BV</td><td>V-BV-VLP2R13380-SO</td><td class="loc">(geen VERWIJDEREN2)</td><td class="loc">r55</td></tr>
-<tr><td class="hg info">IE</td><td>V-IE-CONSTRUCTIEVE AFSCHEIDING-SO</td><td class="loc">s=0.6</td><td class="loc">r6</td></tr>
-<tr><td class="hg info">IE</td><td>V-IE-CONSTRUCTIEVE AFSCHEIDING_SCHUTTING-SO</td><td class="loc">s=0.6</td><td class="loc">r4</td></tr>
 <tr><td class="hg info">IW</td><td>V-IW-DATA_GLASVEZEL</td><td class="loc">s=.25</td><td class="loc">r18</td></tr>
 <tr><td class="hg info">IW</td><td>V-IW-DATA_KOPER</td><td class="loc">s=.25</td><td class="loc">r19</td></tr>
 <tr><td class="hg info">IW</td><td>V-IW-DETECTIE</td><td class="loc">s=.25</td><td class="loc">r20</td></tr>
@@ -1413,109 +1134,11 @@
 <tr><td class="hg info">IW</td><td>V-IW-SIGNAALKABEL</td><td class="loc">s=.25</td><td class="loc">r16</td></tr>
 <tr><td class="hg info">IW</td><td>V-IW-VRI_DATAKABEL</td><td class="loc">s=.25</td><td class="loc">r24</td></tr>
 <tr><td class="hg info">IW</td><td>V-IW-VRI_MANTELBUIS</td><td class="loc">s=.25</td><td class="loc">r17</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-BENOG-SO</td><td class="loc">s=0.6</td><td class="loc">r50</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-BENOGGEMEENTE-SO</td><td class="loc">s=0.6</td><td class="loc">r54</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-BENOGPRORAIL-SO</td><td class="loc">s=0.6</td><td class="loc">r56</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-BENOGPROVINCIE-SO</td><td class="loc">s=0.6</td><td class="loc">r52</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-BENOGRIJK-SO</td><td class="loc">s=0.6</td><td class="loc">r60</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-BENOGRIJKRWS-SO</td><td class="loc">s=0.6</td><td class="loc">r62</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-BENOGWATERSCHAP-SO</td><td class="loc">s=0.6</td><td class="loc">r58</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-BG-SO</td><td class="loc">s=0.6</td><td class="loc">r22</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-BGGEMEENTE-SO</td><td class="loc">s=0.6</td><td class="loc">r26</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-BGPRORAIL-SO</td><td class="loc">s=0.6</td><td class="loc">r28</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-BGPROVINCIE-SO</td><td class="loc">s=0.6</td><td class="loc">r24</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-BGRIJK-SO</td><td class="loc">s=0.6</td><td class="loc">r32</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-BGRIJKRWS-SO</td><td class="loc">s=0.6</td><td class="loc">r34</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-BGWATERSCHAP-SO</td><td class="loc">s=0.6</td><td class="loc">r30</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-GV-SO</td><td class="loc">s=0.6</td><td class="loc">r64</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-GVAANKOOP-SO</td><td class="loc">s=0.6</td><td class="loc">r66</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-GVVERKOOP-SO</td><td class="loc">s=0.6</td><td class="loc">r68</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-GWBG-SO</td><td class="loc">s=0.6</td><td class="loc">r10</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-OG-SO</td><td class="loc">s=0.6</td><td class="loc">r36</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-OGGEMEENTE-SO</td><td class="loc">s=0.6</td><td class="loc">r40</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-OGPRORAIL-SO</td><td class="loc">s=0.6</td><td class="loc">r42</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-OGPROVINCIE-SO</td><td class="loc">s=0.6</td><td class="loc">r38</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-OGRIJK-SO</td><td class="loc">s=0.6</td><td class="loc">r46</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-OGRIJKRWS-SO</td><td class="loc">s=0.6</td><td class="loc">r48</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-OGWATERSCHAP-SO</td><td class="loc">s=0.6</td><td class="loc">r44</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-OPNAME-SO</td><td class="loc">s=0.6</td><td class="loc">r20</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-PACHT-SO</td><td class="loc">s=0.6</td><td class="loc">r12</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-PERCEEL-SO</td><td class="loc">s=0.6</td><td class="loc">r14</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-RIJKSEIGENDOM-SO</td><td class="loc">s=0.6</td><td class="loc">r18</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-SECTIE-SO</td><td class="loc">s=0.6</td><td class="loc">r16</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-UITGEEFBAARGEBIED-SO</td><td class="loc">s=0.6</td><td class="loc">r71</td></tr>
-<tr><td class="hg info">KG</td><td>V-KG-VERKOOP-SO</td><td class="loc">s=0.6</td><td class="loc">r72</td></tr>
 <tr><td class="hg info">KL</td><td>V-KL-BUNDEL-SO</td><td class="loc">s=1</td><td class="loc">r78</td></tr>
-<tr><td class="hg info">OB</td><td>V-OB-WATERLIJN-SO</td><td class="loc">s=0.6</td><td class="loc">r13</td></tr>
 </tbody></table>
 </div>
 <h1 class="sect" id="overzicht-hg-warn">Waarschuwingen per hoofdgroep</h1>
 <p class="sectnote">Alle waarschuwingen gegroepeerd per hoofdgroep. Dit zijn aandachtspunten die NIET als fout tellen in het publicatie-overzicht.</p>
-<div class="card hgblock warnblock" id="hgw-BV">
-<h2>BV <span class="hgcount">1 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
-<div class="tablescroll">
-<table class="otab">
-<thead>
-<tr><th>controle</th><th>melding</th></tr>
-</thead>
-<tbody>
-<tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-VLP2R13380-SO · (geen VERWIJDEREN2) · r55</td></tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="card hgblock warnblock" id="hgw-ES">
-<h2>ES <span class="hgcount">193 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
-<div class="tablescroll">
-<table class="otab">
-<thead>
-<tr><th>controle</th><th>melding</th></tr>
-</thead>
-<tbody>
-<tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANCONSTRUCTIE · CONTINUOUS · r184</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING · ES-AFSPANNING-SO · r185</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_ANKER · CONTINUOUS · r179</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_ANKER_DRAAGKABEL · CONTINUOUS · r85</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_ANKER_HULPDRAAGKABEL · CONTINUOUS · r83</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_ANKER_PROFIELDRAAD · CONTINUOUS · r82</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_ANKER_VERSTERKINGSLEIDING · CONTINUOUS · r84</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_BREEKPLAAT · CONTINUOUS · r97</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_MODEL A · CONTINUOUS · r132</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_MODEL B · CONTINUOUS · r160</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_MODEL C · CONTINUOUS · r137</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_MODEL D · CONTINUOUS · r96</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_MODEL E · CONTINUOUS · r164</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_MODEL F · CONTINUOUS · r158</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_VASTPUNT · ES-AFSPANNING-SO · r180</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_VEERBUS · CONTINUOUS · r92</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_VEERBUS_120M · CONTINUOUS · r36</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_VEERBUS_180M · CONTINUOUS · r48</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_VEERBUS_60M · CONTINUOUS · r24</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_VEERTROMMEL · CONTINUOUS · r101</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_VEERTROMMEL_450X750 · CONTINUOUS · r23</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_VEERTROMMEL_750X750 · CONTINUOUS · r60</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_WIEL · CONTINUOUS · r103</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_WIEL_10KN · CONTINUOUS · r27</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AFSPANNING_WIEL_7.5KN · CONTINUOUS · r30</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEREKENEN KRACHTEN GAWIRE · CONTINUOUS · r186</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEVEILIGING · CONTINUOUS · r192</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEVEILIGING_BOVENLEIDINGCONTACT · CONTINUOUS · r113</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEVEILIGING_OVERSPANNINGSAFLEIDER · CONTINUOUS · r91</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEVEILIGING_OVERSPANNINGSAFLEIDER_20KA · CONTINUOUS · r25</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEVEILIGING_OVERSPANNINGSAFLEIDER_5KA · CONTINUOUS · r13</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEVEILIGING_SIGNALERING · CONTINUOUS · r109</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEVEILIGING_SIGNALERING_GROEN · CONTINUOUS · r203</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEVEILIGING_SIGNALERING_ROOD · CONTINUOUS · r35</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEVESTIGINGSCONSTRUCTIE · CONTINUOUS · r196</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEVESTIGINGSCONSTRUCTIE_MUURANKER · CONTINUOUS · r154</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEVESTIGINGSCONSTRUCTIE_MUURDOOK · CONTINUOUS · r152</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEVESTIGINGSCONSTRUCTIE_MUURROZET · CONTINUOUS · r123</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEVESTIGINGSCONSTRUCTIE_PORTAAL · ES-BEVESTIGINGSCONSTRUCTIE_PORTAAL-SO · r127</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEVESTIGINGSCONSTRUCTIE_SCHOOR · ES-BEVESTIGINGSCONSTRUCTIE_SCHOOR-SO · r128</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEVESTIGINGSCONSTRUCTIE_TUI · ES-BEVESTIGINGSCONSTRUCTIE_TUI-SO · r170</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEVESTIGINGSCONSTRUCTIE_TUNNELKOLOM · CONTINUOUS · r157</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>DRAADKRUISING · CONTINUOUS · r189</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>DRAADKRUISING_DISK · CONTINUOUS · r112</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>DRAADKRUISING_PROFIELDRAAD · CONTINUOUS · r176</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>DRAAGKABEL · ES-DRAAGKABEL-SO · r193</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>DRAAGKABEL_150MM2 · ES-DRAAGKABEL_150MM2-SO · r138</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>DRAAGKABEL_70MM2 · ES-DRAAGKABEL_70MM2-SO · r162</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>DRAAGKABEL_DUBBEL · ES-DRAAGKABEL_DUBBEL-SO · r146</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>DRAAGKABEL_LIGGING · CONTINUOUS · r120</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>DRAAGKABEL_WIEL · CONTINUOUS · r110</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING · CONTINUOUS · r188</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_AANSLUITPUNT · CONTINUOUS · r166</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING BOVENLEIDING · CONTINUOUS · r133</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING BOVENLEIDING_RDDR · CONTINUOUS · r77</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING BOVENLEIDING_RDVVDR · CONTINUOUS · r78</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING BOVENLEIDING_RR · CONTINUOUS · r80</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF · CONTINUOUS · r177</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_DUBBEL · CONTINUOUS · r87</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_DUBBEL_GROEFRAIL · CONTINUOUS · r10</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_DUBBEL_VIGNOLERAIL · CONTINUOUS · r7</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_ENKEL · CONTINUOUS · r86</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_ENKEL_GROEFRAIL · CONTINUOUS · r8</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_DOORVERBINDING SPOORSTAAF_ENKEL_VIGNOLERAIL · CONTINUOUS · r9</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_GESTUURDEBORING · CONTINUOUS · r172</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_KABEL · CONTINUOUS · r95</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_KABEL_10KV · CONTINUOUS · r64</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_KABEL_240MM2 · CONTINUOUS · r61</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_KABEL_500MM2 · CONTINUOUS · r55</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_KABEL_630MM2 · CONTINUOUS · r33</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_KABEL_70MM2 · CONTINUOUS · r18</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_KABEL_GLASVEZEL · CONTINUOUS · r29</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_KABEL_VERBINDINGSMOF · CONTINUOUS · r81</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_KABEL_VOEDINGSKABEL · CONTINUOUS · r20</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_KABEL_VOEDINGSKABEL_220V · CONTINUOUS · r4</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_KABEL_VOEDINGSKABEL_600 750V · CONTINUOUS · r3</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_MINUSKABEL · CONTINUOUS · r93</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_MINUSKABEL_600 750V · CONTINUOUS · r15</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_MINUSKAST · CONTINUOUS · r105</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_MINUSVERBINDING · CONTINUOUS · r114</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_MINUSVERBINDING_GROEFRAIL · CONTINUOUS · r76</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_MINUSVERBINDING_VIGNOLERAIL · CONTINUOUS · r79</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_PAAL SPOORSTAAF · CONTINUOUS · r129</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_RETOUR · CONTINUOUS · r204</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_RETOUR_150MM2 · CONTINUOUS · r202</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_RETOUR_500MM2 · CONTINUOUS · r201</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_SCHUIFLASDOORVERBINDING · CONTINUOUS · r174</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_SPARINGEN · CONTINUOUS · r124</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_TRAM · CONTINUOUS · r150</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_VOEDING · CONTINUOUS · r145</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_VOEDINGSKAST · CONTINUOUS · r175</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_VOEDINGSPUNT · CONTINUOUS · r159</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ELEKTRISCHEVERBINDING_WISSELVERWARMINGSKAST · CONTINUOUS · r130</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE · CONTINUOUS · r187</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_BETONVOET · CONTINUOUS · r135</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_BETONVOET_1M3 · CONTINUOUS · r37</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_BETONVOET_1P5M3 · CONTINUOUS · r66</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_BLOK · CONTINUOUS · r139</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_BLOK_V2B · CONTINUOUS · r41</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_BOORBUIS · CONTINUOUS · r102</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_BOORBUIS_406 · CONTINUOUS · r32</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_BOORBUIS_508 · CONTINUOUS · r74</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_BOORBUIS_610 · CONTINUOUS · r39</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_BOORBUIS_711 · CONTINUOUS · r68</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_BOORBUIS_813 · CONTINUOUS · r47</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_VLINDERBLOK · CONTINUOUS · r108</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_VOETPLAAT · CONTINUOUS · r90</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_VOETPLAAT_400X400 · CONTINUOUS · r21</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_VOETPLAAT_500X500 · CONTINUOUS · r75</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_VOETPLAAT_650X500 · CONTINUOUS · r12</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_VOETPLAAT_DIAMETER400 · CONTINUOUS · r67</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>FUNDATIE_VOETPLAAT_DIAMETER500 · CONTINUOUS · r49</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>HOORNSCHAKELAAR · CONTINUOUS · r195</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>HOORNSCHAKELAAR_HANDBEDIENEING · CONTINUOUS · r144</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>HOORNSCHAKELAAR_MOTORBEDIENING · CONTINUOUS · r119</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST · ES-MAST-SO · r182</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_CONISCH · ES-MAST-SO · r100</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_CONISCH_RIVB · ES-MAST-SO · r53</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_CONISCH_RIVC · ES-MAST-SO · r50</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_CONISCH_RIVD · ES-MAST-SO · r31</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_CONISCH_RVIIB · ES-MAST-SO · r69</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_CONISCH_RVIID · ES-MAST-SO · r38</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_CONISCH_RVIIF · ES-MAST-SO · r73</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_HE180A · ES-MAST-SO · r118</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_HE220A · ES-MAST-SO · r122</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_HE240A · ES-MAST-SO · r169</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_HE280M · ES-MAST-SO · r163</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_HE300B · ES-MAST-SO · r98</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_HE300M · ES-MAST-SO · r136</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_VERJONGD · ES-MAST-SO · r94</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_VERJONGD_RIIIB · ES-MAST-SO · r43</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_VERJONGD_RIIIC · ES-MAST-SO · r62</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_VERJONGD_RIIID · ES-MAST-SO · r42</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_VERJONGD_RIVB · ES-MAST-SO · r65</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_VERJONGD_RIVD · ES-MAST-SO · r16</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST_VERJONGD_RIVF · ES-MAST-SO · r58</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE · CONTINUOUS · r181</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_HALVE TREK · ES-OPHANGCONSTRUCTIE_HALVE TREK-SO · r115</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_ISOLATOR · CONTINUOUS · r125</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_ISOLATOR_DRAAGKABEL · CONTINUOUS · r57</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_ISOLATOR_LUS · CONTINUOUS · r26</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_ISOLATOR_PROFIELDRAAD · CONTINUOUS · r71</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_ISOLATOR_VERSTERKINGSLEIDING · CONTINUOUS · r72</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_JUK · ES-OPHANGCONSTRUCTIE_JUK-SO · r121</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_KABEL · CONTINUOUS · r156</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_KABEL_GLASFIBER · CONTINUOUS · r14</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_MASTARM · CONTINUOUS · r107</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_OPHANGING · CONTINUOUS · r151</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_OPHANGING_FLEXIBEL · CONTINUOUS · r46</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_PARAFIL · ES-OPHANGCONSTRUCTIE_PARAFIL-SO · r134</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_PENDELOPHANGING · CONTINUOUS · r111</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_PORTAAL · CONTINUOUS · r171</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_PROFIELDRAADHOUDER · CONTINUOUS · r99</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_PROFIELDRAADHOUDER_DRIEVOUDIG · CONTINUOUS · r70</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_PROFIELDRAADHOUDER_DUBBEL · CONTINUOUS · r51</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_PROFIELDRAADHOUDER_ENKEL · CONTINUOUS · r28</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_PROFIELDRAADHOUDER_RECHT · CONTINUOUS · r45</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_SPANDRAAD · ES-OPHANGCONSTRUCTIE_SPANDRAAD-SO · r131</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_SPANDRAAD_BZLL · ES-OPHANGCONSTRUCTIE_SPANDRAAD-SO · r34</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_SPANDRAAD_BZLL_35MM2 · ES-OPHANGCONSTRUCTIE_SPANDRAAD-SO · r5</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_SPANDRAAD_BZLL_50MM2 · ES-OPHANGCONSTRUCTIE_SPANDRAAD-SO · r6</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_SPANDRAAD_RVS · ES-OPHANGCONSTRUCTIE_SPANDRAAD-SO · r22</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_SPANDRAAD_RVS_9MM · ES-OPHANGCONSTRUCTIE_SPANDRAAD-SO · r2</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_SPANPLAAT · CONTINUOUS · r141</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_SPANPLAAT_DRIEGAT · CONTINUOUS · r56</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_SPANPLAAT_RING · CONTINUOUS · r63</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_SPANPLAAT_TWEEGAT · CONTINUOUS · r59</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_SPANPLAAT_VIERGAT · CONTINUOUS · r19</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_UITLEGGER · CONTINUOUS · r88</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_ZIJWAARTSE · CONTINUOUS · r117</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_ZIJWAARTSE_DRIEHOEK · CONTINUOUS · r40</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_ZIJWAARTSE_ENKEL · CONTINUOUS · r44</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPHANGCONSTRUCTIE_ZIJWAARTSE_PARALLEL · CONTINUOUS · r54</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PROFIELDRAAD · CONTINUOUS · r198</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PROFIELDRAAD_100 · CONTINUOUS · r147</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PROFIELDRAAD_120 · CONTINUOUS · r167</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PROFIELDRAAD_150 · CONTINUOUS · r148</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PROFIELDRAAD_65 · CONTINUOUS · r143</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PROFIELDRAAD_HOOGTE · CONTINUOUS · r168</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PROFIELDRAAD_HOOGTESTOPPER · CONTINUOUS · r155</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PROFIELDRAAD_LIGGING · CONTINUOUS · r178</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SCHAKELAAR · ES-SCHAKELAAR-SO · r191</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SCHAKELAAR_GESLOTEN · ES-SCHAKELAAR-SO · r149</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SCHAKELAAR_OPEN · ES-SCHAKELAAR-SO · r165</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SECTIE · CONTINUOUS · r190</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SECTIE_BLAUW · CONTINUOUS · r173</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SECTIE_GROEN · CONTINUOUS · r200</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SECTIE_ROOD · CONTINUOUS · r106</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SECTIE_ZWART · CONTINUOUS · r126</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SECTIENUMMER · CONTINUOUS · r199</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>STROOMRAIL · ES-STROOMRAIL-SO · r197</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>STROOMRAIL_ALUMINIUM · ES-STROOMRAIL-SO · r140</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>STROOMRAIL_KOPER · ES-STROOMRAIL-SO · r153</td></tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="card hgblock warnblock" id="hgw-GW">
-<h2>GW <span class="hgcount">1 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
-<div class="tablescroll">
-<table class="otab">
-<thead>
-<tr><th>controle</th><th>melding</th></tr>
-</thead>
-<tbody>
-<tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BAGGERVAK · CONTINUOUS · r74</td></tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="card hgblock warnblock" id="hgw-IE">
-<h2>IE <span class="hgcount">2 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
-<div class="tablescroll">
-<table class="otab">
-<thead>
-<tr><th>controle</th><th>melding</th></tr>
-</thead>
-<tbody>
-<tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IE-CONSTRUCTIEVE AFSCHEIDING-SO · s=0.6 · r6</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IE-CONSTRUCTIEVE AFSCHEIDING_SCHUTTING-SO · s=0.6 · r4</td></tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="card hgblock warnblock" id="hgw-IS">
-<h2>IS <span class="hgcount">69 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
-<div class="tablescroll">
-<table class="otab">
-<thead>
-<tr><th>controle</th><th>melding</th></tr>
-</thead>
-<tbody>
-<tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BLOKSCHEIDING · CONTINUOUS · r64</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT · CONTINUOUS · r66</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_AARDE · CONTINUOUS · r44</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_ARI MAGNEET · CONTINUOUS · r55</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_BEVEILIGINGSUNIT · CONTINUOUS · r52</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_CEMBRE · CONTINUOUS · r29</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_CONDENSATOR · CONTINUOUS · r46</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_KORTSLUITVERBINDING · CONTINUOUS · r57</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_LOOPTRANSCIEVERBUFFER · CONTINUOUS · r49</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_LUS · CONTINUOUS · r48</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_LUS_HFK · CONTINUOUS · r4</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_LUS_MDL · CONTINUOUS · r6</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_LUS_PREFAB · CONTINUOUS · r13</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_LUS_PREFAB_OPENBAAN · CONTINUOUS · r2</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_LUS_SAMENGESTELD · CONTINUOUS · r11</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_LUS_SLIJP · CONTINUOUS · r14</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_LUS_VECOM · CONTINUOUS · r8</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_MARKERING · CONTINUOUS · r42</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_ONTVANGER · CONTINUOUS · r28</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_RASBAK · CONTINUOUS · r41</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_SPOORSTROOMLOOPKAST · CONTINUOUS · r16</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_WIELSENSOR · CONTINUOUS · r22</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>COMPONENT_ZENDER · CONTINUOUS · r40</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KAST · CONTINUOUS · r68</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KAST_BAKEN · CONTINUOUS · r30</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KAST_DRIS · CONTINUOUS · r45</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KAST_KABELVERDELER · CONTINUOUS · r34</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KAST_MINUS · CONTINUOUS · r38</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KAST_SEIN · CONTINUOUS · r33</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KAST_SYSTEEM · CONTINUOUS · r32</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KAST_TWI · CONTINUOUS · r36</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KAST_VECOM · CONTINUOUS · r25</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KAST_VOEDING · CONTINUOUS · r31</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KAST_VOEDING_230V · CONTINUOUS · r15</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KAST_WISSELAANSTURING · CONTINUOUS · r19</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KAST_WISSELVERWARMING · CONTINUOUS · r37</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>MAST · CONTINUOUS · r69</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PUNTTONG · IS-PUNTTONG-SO · r47</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PUT · CONTINUOUS · r65</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PUT_EK288 · CONTINUOUS · r24</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PUT_EK358 · CONTINUOUS · r35</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PUT_PK315 · CONTINUOUS · r39</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN · CONTINUOUS · r67</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_ABSOLUUT · CONTINUOUS · r56</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_BORD · CONTINUOUS · r17</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_CALAMITEIT · CONTINUOUS · r51</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_F0 F1 · CONTINUOUS · r60</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_H EN K ROOD WIT · CONTINUOUS · r59</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_HSW · CONTINUOUS · r23</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_MATRIX · CONTINUOUS · r62</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_OMROEP INTERCOM · CONTINUOUS · r21</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_OPRIJD · CONTINUOUS · r54</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_PERMISSIEF · CONTINUOUS · r50</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_PERRON · CONTINUOUS · r53</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_TWI · CONTINUOUS · r18</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_TWI_AKOESTISCHSIGNAALGEVER · CONTINUOUS · r9</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_TWI_MAST · CONTINUOUS · r10</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_TWI_VOETGANGER · CONTINUOUS · r5</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_TWI_WEGVERKEER · CONTINUOUS · r7</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SEIN_WSA · CONTINUOUS · r26</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SPOORVERBINDER · CONTINUOUS · r70</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SPOORVERBINDER_EIND · CONTINUOUS · r43</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SPOORVERBINDER_KORTSLUITER · CONTINUOUS · r27</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SPOORVERBINDER_KORTSLUITER_HSK · CONTINUOUS · r12</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SPOORVERBINDER_MINUSBEEN · CONTINUOUS · r58</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SPOORVERBINDER_S · CONTINUOUS · r20</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SPOORVERBINDER_SIGNAALBEEN · CONTINUOUS · r61</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ZONE · CONTINUOUS · r63</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ZONE_GEISOLEERD · CONTINUOUS · r3</td></tr>
-</tbody>
-</table>
-</div>
-</div>
 <div class="card hgblock warnblock" id="hgw-IW">
 <h2>IW <span class="hgcount">10 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
 <div class="tablescroll">
@@ -1525,19 +1148,6 @@
 </thead>
 <tbody>
 <tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-DATA_GLASVEZEL · s=.25 · r18</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-DATA_KOPER · s=.25 · r19</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-DETECTIE · s=.25 · r20</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-KABELTRACE · s=0.25 · r13</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-KOPPELKABEL · s=.25 · r21</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-SIGNAAL_230V · s=.25 · r14</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-SIGNAAL_42V · s=.25 · r15</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-SIGNAALKABEL · s=.25 · r16</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-VRI_DATAKABEL · s=.25 · r24</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-VRI_MANTELBUIS · s=.25 · r17</td></tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="card hgblock warnblock" id="hgw-KG">
-<h2>KG <span class="hgcount">34 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
-<div class="tablescroll">
-<table class="otab">
-<thead>
-<tr><th>controle</th><th>melding</th></tr>
-</thead>
-<tbody>
-<tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GRENS_VLAKAFSLUITER · CONTINUOUS · r41</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GRENS_WIJK · CONTINUOUS · r42</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-BENOG-SO · s=0.6 · r50</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-BENOGGEMEENTE-SO · s=0.6 · r54</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-BENOGPRORAIL-SO · s=0.6 · r56</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-BENOGPROVINCIE-SO · s=0.6 · r52</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-BENOGRIJK-SO · s=0.6 · r60</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-BENOGRIJKRWS-SO · s=0.6 · r62</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-BENOGWATERSCHAP-SO · s=0.6 · r58</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-BG-SO · s=0.6 · r22</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-BGGEMEENTE-SO · s=0.6 · r26</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-BGPRORAIL-SO · s=0.6 · r28</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-BGPROVINCIE-SO · s=0.6 · r24</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-BGRIJK-SO · s=0.6 · r32</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-BGRIJKRWS-SO · s=0.6 · r34</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-BGWATERSCHAP-SO · s=0.6 · r30</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-GV-SO · s=0.6 · r64</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-GVAANKOOP-SO · s=0.6 · r66</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-GVVERKOOP-SO · s=0.6 · r68</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-GWBG-SO · s=0.6 · r10</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-OG-SO · s=0.6 · r36</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-OGGEMEENTE-SO · s=0.6 · r40</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-OGPRORAIL-SO · s=0.6 · r42</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-OGPROVINCIE-SO · s=0.6 · r38</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-OGRIJK-SO · s=0.6 · r46</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-OGRIJKRWS-SO · s=0.6 · r48</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-OGWATERSCHAP-SO · s=0.6 · r44</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-OPNAME-SO · s=0.6 · r20</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-PACHT-SO · s=0.6 · r12</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-PERCEEL-SO · s=0.6 · r14</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-RIJKSEIGENDOM-SO · s=0.6 · r18</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-SECTIE-SO · s=0.6 · r16</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-UITGEEFBAARGEBIED-SO · s=0.6 · r71</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-KG-VERKOOP-SO · s=0.6 · r72</td></tr>
 </tbody>
 </table>
 </div>
@@ -1555,19 +1165,6 @@
 </table>
 </div>
 </div>
-<div class="card hgblock warnblock" id="hgw-MC">
-<h2>MC <span class="hgcount">17 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
-<div class="tablescroll">
-<table class="otab">
-<thead>
-<tr><th>controle</th><th>melding</th></tr>
-</thead>
-<tbody>
-<tr><td class="loc">Vervallen lijntype (lt_v)</td><td>HYDRAULIEKVORM_SCHEMA · CONTINUOUS · r26</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>HYDRAULIEKVORM_SCHEMA_COMPONENT · CONTINUOUS · r9</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>HYDRAULIEKVORM_SCHEMA_DIAGRAM · CONTINUOUS · r15</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>HYDRAULIEKVORM_SCHEMA_GOOT · CONTINUOUS · r17</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>HYDRAULIEKVORM_SCHEMA_LEIDING · CONTINUOUS · r16</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>HYDRAULIEKVORM_SCHEMA_RASTERINDELING · CONTINUOUS · r13</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>HYDRAULIEKVORM_SCHEMA_RASTERINDELING_18 · CONTINUOUS · r6</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>HYDRAULIEKVORM_SCHEMA_RASTERINDELING_25 · CONTINUOUS · r8</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>HYDRAULIEKVORM_SCHEMA_RASTERINDELING_35 · CONTINUOUS · r2</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PNEUMATIEKVORM_SCHEMA · CONTINUOUS · r29</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PNEUMATIEKVORM_SCHEMA_COMPONENT · CONTINUOUS · r18</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PNEUMATIEKVORM_SCHEMA_DIAGRAM · CONTINUOUS · r19</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PNEUMATIEKVORM_SCHEMA_GOOT · CONTINUOUS · r10</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PNEUMATIEKVORM_SCHEMA_RASTERINDELING · CONTINUOUS · r12</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PNEUMATIEKVORM_SCHEMA_RASTERINDELING_18 · CONTINUOUS · r3</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PNEUMATIEKVORM_SCHEMA_RASTERINDELING_25 · CONTINUOUS · r5</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>PNEUMATIEKVORM_SCHEMA_RASTERINDELING_35 · CONTINUOUS · r4</td></tr>
-</tbody>
-</table>
-</div>
-</div>
 <div class="card hgblock warnblock" id="hgw-MW">
 <h2>MW <span class="hgcount">14 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
 <div class="tablescroll">
@@ -1577,19 +1174,6 @@
 </thead>
 <tbody>
 <tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AANGRENZENDECONSTRUCTIE · CONTINUOUS · r11</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AANGRENZENDECONSTRUCTIE_BETON · CONTINUOUS · r8</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AANGRENZENDECONSTRUCTIE_HOUT · CONTINUOUS · r9</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AANGRENZENDECONSTRUCTIE_STAAL · CONTINUOUS · r7</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ISOLATIE · CONTINUOUS · r15</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>LATEI · CONTINUOUS · r13</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>METSELWERKVORM · CONTINUOUS · r10</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>METSELWERKVORM_BAKSTEEN · CONTINUOUS · r4</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>METSELWERKVORM_BETONSTEEN · CONTINUOUS · r6</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>METSELWERKVORM_CELLENBETON · CONTINUOUS · r2</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>METSELWERKVORM_KALKZANDSTEEN · CONTINUOUS · r5</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>METSELWERKVORM_NATUURSTEEN · CONTINUOUS · r3</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OVERIGMATERIAAL · CONTINUOUS · r17</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>VERANKERING · CONTINUOUS · r14</td></tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="card hgblock warnblock" id="hgw-OB">
-<h2>OB <span class="hgcount">1 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
-<div class="tablescroll">
-<table class="otab">
-<thead>
-<tr><th>controle</th><th>melding</th></tr>
-</thead>
-<tbody>
-<tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-OB-WATERLIJN-SO · s=0.6 · r13</td></tr>
 </tbody>
 </table>
 </div>

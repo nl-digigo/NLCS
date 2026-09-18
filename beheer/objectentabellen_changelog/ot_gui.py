@@ -1127,6 +1127,9 @@ class IndexTab(ttk.Frame):
         self.gen_btn = ttk.Button(btns, text="Genereer overzicht",
                                   command=self.on_generate)
         self.gen_btn.pack(side="left", padx=4)
+        self.tree_btn = ttk.Button(btns, text="Genereer objectenboom",
+                                   command=self.on_generate_tree)
+        self.tree_btn.pack(side="left", padx=4)
 
         logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
         logframe.pack(fill="both", expand=True, pady=(8, 0))
@@ -1282,6 +1285,63 @@ class IndexTab(ttk.Frame):
         except OSError as exc:
             self._logmsg("FOUT bij Markdown: " + str(exc))
 
+        self.app.save_config()
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(output))
+
+    def on_generate_tree(self) -> None:
+        """Objectenboom-overzicht: per hoofdgroep een inklapbare boom, in dezelfde
+        stijl als het publicatie-overzicht. Bron is de map objectentabellen-nieuw."""
+        src = self.app.loc["obj_new"].get().strip()
+        if not os.path.isdir(src):
+            messagebox.showwarning(
+                "Geen map", "Vul bij 'Locaties' de map objectentabellen-nieuw in "
+                "(bijv. tabellen/publicatie/objectentabellen/5-2).")
+            return
+
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg("Objectenboom inlezen…")
+        tree = ot_compare.check_object_tree(src)
+        if tree["count"] == 0:
+            messagebox.showinfo(
+                "Niets gevonden",
+                "Geen objecten gevonden in de map objectentabellen-nieuw.")
+            self._logmsg("Geen objecten gevonden.")
+            return
+
+        version = self.app.version_new_var.get().strip()
+        vdash = version.replace(".", "-")
+
+        # Uitvoerpad afleiden van het overzicht-uitvoerbestand: schrijf de
+        # objectenboom in dezelfde map als 'objectenboom-<versie>.html'.
+        base_out = self.app.loc["index_output"].get().strip()
+        if os.path.isdir(base_out) or base_out.endswith(("/", "\\")):
+            out_dir = base_out
+        elif base_out:
+            out_dir = os.path.dirname(base_out)
+        else:
+            out_dir = src
+        fname = f"objectenboom-{vdash}.html" if vdash else "objectenboom.html"
+        output = os.path.join(out_dir, fname)
+
+        html_txt = ot_html.build_objecttree_overview_html(
+            tree, title=f"NLCS objectenboom {version}".strip(), version=version)
+        try:
+            parent = os.path.dirname(os.path.abspath(output))
+            os.makedirs(parent, exist_ok=True)
+            with open(output, "w", encoding="utf-8") as f:
+                f.write(html_txt)
+        except OSError as exc:
+            messagebox.showerror("Fout", str(exc))
+            self._logmsg("FOUT: " + str(exc))
+            return
+
+        self._logmsg(f"{tree['count']} object(en) in "
+                     f"{tree['max_depth'] + 1} niveau(s); "
+                     f"{len(tree['roots'])} hoofdobject(en).")
+        self._logmsg(f"Objectenboom geschreven: {output}")
         self.app.save_config()
         if self.app.open_after_var.get():
             webbrowser.open(os.path.abspath(output))
