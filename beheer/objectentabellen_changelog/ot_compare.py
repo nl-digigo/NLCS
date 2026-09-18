@@ -1914,7 +1914,9 @@ _RE_YOFFSET = re.compile(r"\by\s*=\s*(-?[0-9]*\.?[0-9]+)", re.IGNORECASE)
 
 def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
                             def_col: str = "autocaddef", fase_col: str = "fase",
-                            expected: float = 0.5) -> dict:
+                            expected: float = 0.5,
+                            exceptions=None, hg_exceptions=None,
+                            hg_col: str = "hoofdgroep") -> dict:
     """Controleer of alle VERVALLEN lijntypes hun VERWIJDEREN2-scrap op de juiste
     schaal (s=0.5) hebben staan.
 
@@ -1928,21 +1930,41 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
     uitlijning op de lijn) en blijft ongemoeid; een `y=`-offset ongelijk aan 0 is
     ongewenst omdat de scraps dan niet meer gecentreerd op de lijn staan.
 
+    Twee soorten uitzonderingen (allebei hoofdletter-ongevoelig, volledig
+    overgeslagen — niet op schaal én niet op y-offset):
+      - `exceptions`: lijntype-namen (kolom `name_col`) met een BEWUST afwijkende
+        VERWIJDEREN2-opzet. Standaard `{"V-GR-PLANTSOEN-SO"}` (eigen schaal/offset).
+      - `hg_exceptions`: hele HOOFDGROEPEN (kolom `hg_col`, val terug op de
+        code uit de bestandsnaam) die niet aan deze controle onderhevig zijn.
+        Standaard `{"IS", "ES", "SB"}`.
+
     `src` mag een MAP met CSV's of één CSV-bestand zijn.
 
     Geeft een dict terug (zelfde vorm als de andere 'X zonder Y'-controles, plus
     per melding het gevonden probleem-veld, zodat ot_html het kan tonen):
       {
-        "total":    aantal vervallen lijntypes (fase = 'V'),
-        "ok":        aantal met VERWIJDEREN2 op s=0.5 én zonder y=-offset,
-        "expected":  de verwachte schaal (0.5),
-        "missing":  [ {name, file, row, found} ],  # afwijkende s= en/of y=
+        "total":     aantal GECONTROLEERDE vervallen lijntypes (fase = 'V', excl.
+                     uitzonderingen),
+        "ok":         aantal met VERWIJDEREN2 op s=0.5 én zonder y=-offset,
+        "expected":   de verwachte schaal (0.5),
+        "exempt":     aantal overgeslagen uitzonderingen (naam + hoofdgroep),
+        "exceptions": de gehanteerde lijntype-uitzonderingsnamen (gesorteerd),
+        "hg_exceptions": de gehanteerde hoofdgroep-uitzonderingen (gesorteerd),
+        "missing":   [ {name, file, row, found} ],  # afwijkende s= en/of y=
       }
       `found` beschrijft het probleem: de afwijkende schaal ('s=0.6'), een
       verticale offset ('y=0.3'), beide samengevoegd met ' · ', of
       '(geen VERWIJDEREN2)' / '(geen s=)' als die ontbreken.
     """
-    empty = {"total": 0, "ok": 0, "expected": expected, "missing": []}
+    exc = {e.strip().upper() for e in
+           (exceptions if exceptions is not None else ("V-GR-PLANTSOEN-SO",))
+           if e and e.strip()}
+    hgexc = {e.strip().upper() for e in
+             (hg_exceptions if hg_exceptions is not None else ("IS", "ES", "SB"))
+             if e and e.strip()}
+    empty = {"total": 0, "ok": 0, "expected": expected, "exempt": 0,
+             "exceptions": sorted(exc), "hg_exceptions": sorted(hgexc),
+             "missing": []}
     if not src:
         return empty
     if os.path.isdir(src):
@@ -1954,6 +1976,7 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
 
     total = 0
     ok = 0
+    exempt = 0
     missing: list[dict] = []
     for path in paths:
         headers, rows = read_table(path)
@@ -1962,13 +1985,24 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
         di = headers.index(def_col)
         fi = headers.index(fase_col)
         ni = headers.index(name_col) if name_col in headers else -1
+        hi = headers.index(hg_col) if hg_col in headers else -1
         fn = os.path.basename(path)
+        # Hoofdgroep uit de bestandsnaam ('lijntypes-5-2-IS.csv' -> 'IS') als
+        # terugval wanneer de hoofdgroep-kolom ontbreekt of leeg is.
+        fn_hg = os.path.splitext(fn)[0].split("-")[-1].strip().upper()
         for i, r in enumerate(rows):
             fase = (r[fi] if fi < len(r) else "").strip().upper()
             if fase != "V":
                 continue
-            total += 1
             name = (r[ni] if 0 <= ni < len(r) else "").strip()
+            row_hg = (r[hi] if 0 <= hi < len(r) else "").strip().upper() or fn_hg
+            # Uitzondering: bewust afwijkende VERWIJDEREN2-opzet (per lijntype-naam
+            # of per hele hoofdgroep) → volledig overslaan (niet op schaal én niet
+            # op y-offset controleren).
+            if name.upper() in exc or row_hg in hgexc:
+                exempt += 1
+                continue
+            total += 1
             ad = (r[di] if di < len(r) else "")
             m = _RE_VERWIJDEREN2.search(ad)
             if not m:
@@ -2000,7 +2034,9 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
                 ok += 1
 
     missing.sort(key=lambda d: (d["file"], d["name"].casefold()))
-    return {"total": total, "ok": ok, "expected": expected, "missing": missing}
+    return {"total": total, "ok": ok, "expected": expected, "exempt": exempt,
+            "exceptions": sorted(exc), "hg_exceptions": sorted(hgexc),
+            "missing": missing}
 
 
 def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",

@@ -2070,7 +2070,8 @@ def _c_missing(result, title, kpi_labels, warn, name_head) -> str:
 
 def _c_verwijderen_scale(result) -> str:
     """Kaart voor de VERWIJDEREN2-schaalcontrole op vervallen lijntypes:
-    result met total/ok/expected/missing[{name,file,row,found}]."""
+    result met total/ok/expected/exempt/exceptions/hg_exceptions/
+    missing[{name,file,row,found}]."""
     title = "VERWIJDEREN2-schaal"
     if not result:
         return _skip_card(title)
@@ -2083,9 +2084,23 @@ def _c_verwijderen_scale(result) -> str:
         (len(missing), "afwijkende schaal / y-offset",
          "warn" if missing else "free"))
     c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
+    # Toelichting op de uitgezonderde lijntypes/hoofdgroepen (indien aanwezig).
+    exempt = result.get("exempt", 0)
+    names = result.get("exceptions", [])
+    hgs = result.get("hg_exceptions", [])
+    if exempt or names or hgs:
+        parts = []
+        if names:
+            parts.append("lijntype(s) " + ", ".join(_esc(n) for n in names))
+        if hgs:
+            parts.append("hoofdgroep(en) " + ", ".join(_esc(h) for h in hgs))
+        c.append(f'<p class="skip">Uitgezonderd van deze controle: '
+                 f'{" en ".join(parts)} — {exempt} vervallen lijntype(s) '
+                 f'overgeslagen (bewust afwijkende VERWIJDEREN2-opzet).</p>')
     if not missing:
-        c.append(f'<p class="ok">✓ Elk vervallen lijntype heeft de VERWIJDEREN2-'
-                 f'scrap op schaal s={exp} zonder verticale y-verschuiving.</p>')
+        c.append(f'<p class="ok">✓ Elk (gecontroleerd) vervallen lijntype heeft de '
+                 f'VERWIJDEREN2-scrap op schaal s={exp} zonder verticale '
+                 f'y-verschuiving.</p>')
     else:
         c.append(f'<p class="warn">⚠ {len(missing)} met een afwijkende (of '
                  f'ontbrekende) schaal of een ongewenste verticale y-offset '
@@ -2514,7 +2529,10 @@ _D_VERWSCALE = (
     "<code>autocaddef</code> daadwerkelijk 0.5 is én of er geen verticale "
     "<code>y=</code>-verschuiving in staat (dan staan de scraps niet meer "
     "gecentreerd op de lijn). Een horizontale <code>x=</code>-offset is prima "
-    "(fraaie uitlijning op de lijn) en blijft ongemoeid.")
+    "(fraaie uitlijning op de lijn) en blijft ongemoeid. Uitgezonderd (bewust "
+    "afwijkende opzet, volledig overgeslagen): het lijntype "
+    "<code>V-GR-PLANTSOEN-SO</code> en de hoofdgroepen <code>IS</code>, "
+    "<code>ES</code> en <code>SB</code>.")
 
 
 def _desc(card_html: str, text: str) -> str:
