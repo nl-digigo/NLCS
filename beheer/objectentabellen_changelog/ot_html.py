@@ -2121,7 +2121,8 @@ def _c_verwijderen_scale(result) -> str:
 def _c_lt_v_vervallen(result) -> str:
     """Kaart voor de lt_v-controle (objectentabel): elke gevulde lt_v hoort naar
     een vervallen lijntype (naam begint met 'V-') te wijzen. result met
-    total/ok/prefix/missing[{name,file,row,found}]. Waarschuwing, geen fout."""
+    total/ok/prefix/exempt/exceptions/missing[{name,file,row,found}].
+    Waarschuwing, geen fout."""
     title = "Vervallen lijntype (lt_v)"
     if not result:
         return _skip_card(title)
@@ -2133,6 +2134,12 @@ def _c_lt_v_vervallen(result) -> str:
         (ok, f"begint met {pref}", "free" if ok == total else ""),
         (len(missing), f"zonder {pref}", "warn" if missing else "free"))
     c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
+    exempt = result.get("exempt", 0)
+    names = result.get("exceptions", [])
+    if exempt or names:
+        c.append(f'<p class="skip">Uitgezonderd (bewust toegestane lt_v-waarde(n)): '
+                 f'{", ".join(_esc(n) for n in names)} — {exempt} object(en) '
+                 f'overgeslagen.</p>')
     if not missing:
         c.append(f'<p class="ok">✓ Elke gevulde lt_v verwijst naar een vervallen '
                  f'lijntype (begint met {_esc(pref)}).</p>')
@@ -2519,7 +2526,9 @@ _D_LTV = (
     "is verdacht (waarschijnlijk een bestaand/nieuw lijntype) — een waarschuwing, "
     "geen fout. Uitzondering: de grenzen van gemeenten, provincies enzovoorts "
     "zijn eigendomsgrenzen die buiten de scope van engineering liggen; daarom "
-    "hebben deze grenzen geen vervallen lijnstijl.")
+    "hebben deze grenzen geen vervallen lijnstijl. Daarnaast is de waarde "
+    "<code>BC-SLOOPLIJN-SO</code> (een sloop-lijntype) bewust toegestaan en "
+    "wordt die niet gemeld.")
 
 _D_VERWSCALE = (
     "VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) "

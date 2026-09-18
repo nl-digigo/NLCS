@@ -1092,10 +1092,10 @@
 <h1 class="sect" id="waarschuwingen">Waarschuwingen</h1>
 <p class="sectnote">Aandachtspunten die NIET als fout tellen in het publicatie-overzicht (geen fout-vinkje). Bewust apart onderaan gezet zodat ze de controles hierboven niet overstemmen.</p>
 <div class="card"><h2>Vervallen lijntype (lt_v)</h2>
-<p class="ctrldesc">Vervallen lijntype (lt_v): de kolom <code>lt_v</code> in de objectentabel verwijst naar het lijntype voor de vervallen situatie. Vervallen lijntypes heten in NLCS altijd <code>V-…</code>, dus een gevulde <code>lt_v</code> hoort met <code>V-</code> te beginnen. Een waarde die daar niet mee begint is verdacht (waarschijnlijk een bestaand/nieuw lijntype) — een waarschuwing, geen fout. Uitzondering: de grenzen van gemeenten, provincies enzovoorts zijn eigendomsgrenzen die buiten de scope van engineering liggen; daarom hebben deze grenzen geen vervallen lijnstijl.</p><div class="kpi"><div class="box "><b>2726</b>objecten met lt_v</div><div class="box "><b>2428</b>begint met V-</div><div class="box warn"><b>298</b>zonder V-</div></div>
-<p class="warn">⚠ 298 object(en) met een lt_v die niet met V- begint — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
+<p class="ctrldesc">Vervallen lijntype (lt_v): de kolom <code>lt_v</code> in de objectentabel verwijst naar het lijntype voor de vervallen situatie. Vervallen lijntypes heten in NLCS altijd <code>V-…</code>, dus een gevulde <code>lt_v</code> hoort met <code>V-</code> te beginnen. Een waarde die daar niet mee begint is verdacht (waarschijnlijk een bestaand/nieuw lijntype) — een waarschuwing, geen fout. Uitzondering: de grenzen van gemeenten, provincies enzovoorts zijn eigendomsgrenzen die buiten de scope van engineering liggen; daarom hebben deze grenzen geen vervallen lijnstijl. Daarnaast is de waarde <code>BC-SLOOPLIJN-SO</code> (een sloop-lijntype) bewust toegestaan en wordt die niet gemeld.</p><div class="kpi"><div class="box "><b>2725</b>objecten met lt_v</div><div class="box "><b>2428</b>begint met V-</div><div class="box warn"><b>297</b>zonder V-</div></div>
+<p class="skip">Uitgezonderd (bewust toegestane lt_v-waarde(n)): BC-SLOOPLIJN-SO — 1 object(en) overgeslagen.</p>
+<p class="warn">⚠ 297 object(en) met een lt_v die niet met V- begint — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>object</th><th>lt_v</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg info">BC</td><td>SLOOPLIJN</td><td class="loc">BC-SLOOPLIJN-SO</td><td class="loc">r32</td></tr>
 <tr><td class="hg info">ES</td><td>AFSPANCONSTRUCTIE</td><td class="loc">CONTINUOUS</td><td class="loc">r184</td></tr>
 <tr><td class="hg info">ES</td><td>AFSPANNING</td><td class="loc">ES-AFSPANNING-SO</td><td class="loc">r185</td></tr>
 <tr><td class="hg info">ES</td><td>AFSPANNING_ANKER</td><td class="loc">CONTINUOUS</td><td class="loc">r179</td></tr>
@@ -1396,32 +1396,11 @@
 </tbody></table>
 </div>
 <div class="card"><h2>VERWIJDEREN2-schaal</h2>
-<p class="ctrldesc">VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit <code>NLCS.shx</code> op schaal 0.5. Gecontroleerd wordt of de <code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-segment van de <code>autocaddef</code> daadwerkelijk 0.5 is én of er geen verticale <code>y=</code>-verschuiving in staat (dan staan de scraps niet meer gecentreerd op de lijn). Een horizontale <code>x=</code>-offset is prima (fraaie uitlijning op de lijn) en blijft ongemoeid. Uitgezonderd (bewust afwijkende opzet, volledig overgeslagen): het lijntype <code>V-GR-PLANTSOEN-SO</code> en de hoofdgroepen <code>IS</code>, <code>ES</code> en <code>SB</code>.</p><div class="kpi"><div class="box "><b>192</b>vervallen lijntypes</div><div class="box "><b>124</b>s=0.5, geen y-offset</div><div class="box warn"><b>68</b>afwijkende schaal / y-offset</div></div>
+<p class="ctrldesc">VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit <code>NLCS.shx</code> op schaal 0.5. Gecontroleerd wordt of de <code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-segment van de <code>autocaddef</code> daadwerkelijk 0.5 is én of er geen verticale <code>y=</code>-verschuiving in staat (dan staan de scraps niet meer gecentreerd op de lijn). Een horizontale <code>x=</code>-offset is prima (fraaie uitlijning op de lijn) en blijft ongemoeid. Uitgezonderd (bewust afwijkende opzet, volledig overgeslagen): het lijntype <code>V-GR-PLANTSOEN-SO</code> en de hoofdgroepen <code>IS</code>, <code>ES</code> en <code>SB</code>.</p><div class="kpi"><div class="box "><b>192</b>vervallen lijntypes</div><div class="box "><b>145</b>s=0.5, geen y-offset</div><div class="box warn"><b>47</b>afwijkende schaal / y-offset</div></div>
 <p class="skip">Uitgezonderd van deze controle: lijntype(s) V-GR-PLANTSOEN-SO en hoofdgroep(en) ES, IS, SB — 1 vervallen lijntype(s) overgeslagen (bewust afwijkende VERWIJDEREN2-opzet).</p>
-<p class="warn">⚠ 68 met een afwijkende (of ontbrekende) schaal of een ongewenste verticale y-offset (een horizontale x-offset is prima) — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
+<p class="warn">⚠ 47 met een afwijkende (of ontbrekende) schaal of een ongewenste verticale y-offset (een horizontale x-offset is prima) — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>lijntype</th><th>gevonden</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg info">BV</td><td>V-BV-A1-SO</td><td class="loc">s=0.6</td><td class="loc">r26</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-ANTIVERBLINDINGSSCHERM-SO</td><td class="loc">s=0.6</td><td class="loc">r63</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-BEVER-SO</td><td class="loc">s=0.6</td><td class="loc">r28</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-F2DL40080-SO</td><td class="loc">s=0.6</td><td class="loc">r51</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-F2M40080-SO</td><td class="loc">s=0.6</td><td class="loc">r35</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-GELEIDERAIL-SO</td><td class="loc">s=0.6</td><td class="loc">r31</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-GELEIDERAIL_A-SO</td><td class="loc">s=0.6</td><td class="loc">r33</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-STEPBARRIER_B-SO</td><td class="loc">s=0.6</td><td class="loc">r11</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-STEPBARRIER_BG-SO</td><td class="loc">s=0.6</td><td class="loc">r15</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-STEPBARRIER_BV-SO</td><td class="loc">s=0.6</td><td class="loc">r13</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-STEPBARRIER_S-SO</td><td class="loc">s=0.6</td><td class="loc">r9</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-VLP1DL13360-SO</td><td class="loc">s=0.6</td><td class="loc">r57</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-VLP1LV13360-SO</td><td class="loc">s=0.6</td><td class="loc">r59</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-VLP1R13360-SO</td><td class="loc">s=0.6</td><td class="loc">r61</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-VLP1Z13360-SO</td><td class="loc">s=0.6</td><td class="loc">r45</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-VLP1Z26760-SO</td><td class="loc">s=0.6</td><td class="loc">r43</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-VLP1ZC13360-SO</td><td class="loc">s=0.6</td><td class="loc">r47</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-VLP2DL13380-SO</td><td class="loc">s=0.6</td><td class="loc">r53</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-VLP2R13380-SO</td><td class="loc">s=0.6</td><td class="loc">r55</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-VLP2Z13380-SO</td><td class="loc">s=0.6</td><td class="loc">r39</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-VLP2Z26780-SO</td><td class="loc">s=0.6</td><td class="loc">r37</td></tr>
-<tr><td class="hg info">BV</td><td>V-BV-VLP2ZC13380-SO</td><td class="loc">s=0.6</td><td class="loc">r41</td></tr>
+<tr><td class="hg info">BV</td><td>V-BV-VLP2R13380-SO</td><td class="loc">(geen VERWIJDEREN2)</td><td class="loc">r55</td></tr>
 <tr><td class="hg info">IE</td><td>V-IE-CONSTRUCTIEVE AFSCHEIDING-SO</td><td class="loc">s=0.6</td><td class="loc">r6</td></tr>
 <tr><td class="hg info">IE</td><td>V-IE-CONSTRUCTIEVE AFSCHEIDING_SCHUTTING-SO</td><td class="loc">s=0.6</td><td class="loc">r4</td></tr>
 <tr><td class="hg info">IW</td><td>V-IW-DATA_GLASVEZEL</td><td class="loc">s=.25</td><td class="loc">r18</td></tr>
@@ -1472,28 +1451,15 @@
 </div>
 <h1 class="sect" id="overzicht-hg-warn">Waarschuwingen per hoofdgroep</h1>
 <p class="sectnote">Alle waarschuwingen gegroepeerd per hoofdgroep. Dit zijn aandachtspunten die NIET als fout tellen in het publicatie-overzicht.</p>
-<div class="card hgblock warnblock" id="hgw-BC">
-<h2>BC <span class="hgcount">1 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
-<div class="tablescroll">
-<table class="otab">
-<thead>
-<tr><th>controle</th><th>melding</th></tr>
-</thead>
-<tbody>
-<tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SLOOPLIJN · BC-SLOOPLIJN-SO · r32</td></tr>
-</tbody>
-</table>
-</div>
-</div>
 <div class="card hgblock warnblock" id="hgw-BV">
-<h2>BV <span class="hgcount">22 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
+<h2>BV <span class="hgcount">1 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
 <div class="tablescroll">
 <table class="otab">
 <thead>
 <tr><th>controle</th><th>melding</th></tr>
 </thead>
 <tbody>
-<tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-A1-SO · s=0.6 · r26</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-ANTIVERBLINDINGSSCHERM-SO · s=0.6 · r63</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-BEVER-SO · s=0.6 · r28</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-F2DL40080-SO · s=0.6 · r51</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-F2M40080-SO · s=0.6 · r35</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-GELEIDERAIL-SO · s=0.6 · r31</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-GELEIDERAIL_A-SO · s=0.6 · r33</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-STEPBARRIER_B-SO · s=0.6 · r11</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-STEPBARRIER_BG-SO · s=0.6 · r15</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-STEPBARRIER_BV-SO · s=0.6 · r13</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-STEPBARRIER_S-SO · s=0.6 · r9</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-VLP1DL13360-SO · s=0.6 · r57</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-VLP1LV13360-SO · s=0.6 · r59</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-VLP1R13360-SO · s=0.6 · r61</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-VLP1Z13360-SO · s=0.6 · r45</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-VLP1Z26760-SO · s=0.6 · r43</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-VLP1ZC13360-SO · s=0.6 · r47</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-VLP2DL13380-SO · s=0.6 · r53</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-VLP2R13380-SO · s=0.6 · r55</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-VLP2Z13380-SO · s=0.6 · r39</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-VLP2Z26780-SO · s=0.6 · r37</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-VLP2ZC13380-SO · s=0.6 · r41</td></tr>
+<tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-BV-VLP2R13380-SO · (geen VERWIJDEREN2) · r55</td></tr>
 </tbody>
 </table>
 </div>

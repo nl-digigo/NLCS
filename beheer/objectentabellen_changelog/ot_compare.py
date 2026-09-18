@@ -2040,7 +2040,8 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
 
 
 def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",
-                         lt_col: str = "lt_v", prefix: str = "V-") -> dict:
+                         lt_col: str = "lt_v", prefix: str = "V-",
+                         exceptions=None) -> dict:
     """Controleer of de lijntype-verwijzing voor de VERVALLEN fase (kolom `lt_v`)
     in de objectentabel naar een vervallen lijntype wijst.
 
@@ -2050,18 +2051,29 @@ def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",
     NIET met 'V-' begint is verdacht — waarschijnlijk staat er per ongeluk een
     bestaand/nieuw lijntype in. Dit is een WAARSCHUWING, geen fout.
 
+    `exceptions` is een verzameling `lt_v`-waarden die BEWUST zijn toegestaan ook
+    al beginnen ze niet met 'V-' (bijv. een sloop-lijntype). Standaard
+    `{"BC-SLOOPLIJN-SO"}`. Hoofdletter-ongevoelig; deze waarden tellen niet als
+    waarschuwing en worden apart als `exempt` geteld.
+
     Lege `lt_v`-waarden worden overgeslagen (niet elk object heeft een vervallen
     visualisatie). `src` mag een MAP met CSV's of één CSV-bestand zijn.
 
     Geeft terug (zelfde vorm als de andere waarschuwings-controles):
       {
-        "total":   aantal objecten met een gevulde lt_v,
-        "ok":      aantal waarvan lt_v met 'V-' begint,
-        "prefix":  de verwachte prefix ('V-'),
-        "missing": [ {name, file, row, found} ],  # lt_v-waarde zonder 'V-'
+        "total":      aantal objecten met een gevulde lt_v (excl. uitzonderingen),
+        "ok":         aantal waarvan lt_v met 'V-' begint,
+        "prefix":     de verwachte prefix ('V-'),
+        "exempt":     aantal overgeslagen uitzonderingen,
+        "exceptions": de gehanteerde uitzonderingen (gesorteerd),
+        "missing":    [ {name, file, row, found} ],  # lt_v-waarde zonder 'V-'
       }
     """
-    empty = {"total": 0, "ok": 0, "prefix": prefix, "missing": []}
+    exc = {e.strip().upper() for e in
+           (exceptions if exceptions is not None else ("BC-SLOOPLIJN-SO",))
+           if e and e.strip()}
+    empty = {"total": 0, "ok": 0, "prefix": prefix, "exempt": 0,
+             "exceptions": sorted(exc), "missing": []}
     if not src:
         return empty
     if os.path.isdir(src):
@@ -2074,6 +2086,7 @@ def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",
     pref = prefix.upper()
     total = 0
     ok = 0
+    exempt = 0
     missing: list[dict] = []
     for path in paths:
         headers, rows = read_table(path)
@@ -2086,6 +2099,11 @@ def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",
             val = (r[li] if li < len(r) else "").strip()
             if not val:
                 continue
+            # Uitzondering: bewust toegestane lt_v-waarde (bijv. sloop-lijntype)
+            # → volledig overslaan, telt niet als waarschuwing.
+            if val.upper() in exc:
+                exempt += 1
+                continue
             total += 1
             name = (r[ni] if 0 <= ni < len(r) else "").strip()
             if val.upper().startswith(pref):
@@ -2095,7 +2113,8 @@ def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",
                                 "found": val})
 
     missing.sort(key=lambda d: (d["file"], d["name"].casefold()))
-    return {"total": total, "ok": ok, "prefix": prefix, "missing": missing}
+    return {"total": total, "ok": ok, "prefix": prefix, "exempt": exempt,
+            "exceptions": sorted(exc), "missing": missing}
 
 
 def bib_of_stem(stem: str, known_bibs) -> str:
