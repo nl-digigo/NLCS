@@ -647,8 +647,11 @@ _INDEX_STYLE = """
 # een pop-up (<dialog>) met de objectenboom daaronder.
 _TREE_STYLE = """
     .card .tree-count { font-size:.72rem; font-weight:400; color:var(--dg-grey2); }
-    a.btn.otbtn { border-left-color: var(--dg-green); cursor:pointer; }
-    a.btn.otbtn .kids { float:right; color:var(--dg-grey2); font-size:.78rem; }
+    a.btn.otbtn { border-left-color: var(--dg-green); cursor:pointer;
+            display:flex; align-items:center; justify-content:space-between;
+            gap:8px; }
+    a.btn.otbtn .kids { flex:none; color:var(--dg-grey2); font-size:.72rem;
+            font-weight:600; background:#eee; border-radius:10px; padding:1px 8px; }
     span.btn.otleaf { color:var(--dg-ink); }
 
     dialog.tree-dialog { border:none; border-radius:8px; padding:0;
