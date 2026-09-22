@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 203 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 197 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -247,18 +247,12 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/KL/lijntypes-5-2-KL.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/KL/objecten-5-2-KL.html)
-- [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/KL/objecten-concept-5.2-KL.html)
-- [Query Symbolen concept](https://nl-digigo.github.io/NLCS/changelog/KL/NLCS_Query_Symbolen-concept-5.2-SKL.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/KL/symbolen-5-2-KL.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/KL/changelog-lijntypes-5-2-KL.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/KL/changelog-objecten-5-2-KL.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/KL/changelog-symbolen-5-2-KL.html)
-- [Vergelijking](https://nl-digigo.github.io/NLCS/changelog/KL/vergelijking_SKL_5.0_vs_5.2.html)
-- [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/KL/vergelijking_lijntypes_KL_5.0_vs_5.2.html)
-- [Vergelijking symbolen](https://nl-digigo.github.io/NLCS/changelog/KL/vergelijking_symbolen_5.1_vs_5.2_SKL.html)
-- [Vergelijking symbolen hernoemd](https://nl-digigo.github.io/NLCS/changelog/KL/vergelijking_symbolen_5.1_vs_5.2_SKL_hernoemd.html)
 
 ## KW ✅
 
