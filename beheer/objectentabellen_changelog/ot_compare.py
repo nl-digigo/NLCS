@@ -948,7 +948,8 @@ def _name_segments(name: str) -> list[str]:
 
 def check_object_tree(src: str, name_col: str = "omschrijving",
                       id_col: str = "id_nummer",
-                      parent_col: str = "kind_van") -> dict:
+                      parent_col: str = "kind_van",
+                      lt_col: str = "lt_v") -> dict:
     """Controleer de boomstructuur van de objecten.
 
     De objecten vormen een boom: `parent_col` (standaard 'kind_van') bevat het
@@ -965,7 +966,8 @@ def check_object_tree(src: str, name_col: str = "omschrijving",
       {
         "count":   totaal aantal objecten,
         "roots":   [id, ...]  (op naam gesorteerd),
-        "nodes":   {id: {"id","name","parent","children":[...],"depth","segs"}},
+        "nodes":   {id: {"id","name","parent","children":[...],"depth","segs",
+                         "file","lt_v"}},
         "max_depth": grootste diepte,
         "errors":  [ {"type","id","name","parent","parent_name","got",
                       "expected","detail"} , ... ],
@@ -997,6 +999,7 @@ def check_object_tree(src: str, name_col: str = "omschrijving",
         ni = headers.index(name_col)
         ii = headers.index(id_col)
         pi = headers.index(parent_col) if parent_col in headers else -1
+        vi = headers.index(lt_col) if lt_col in headers else -1
         fn = os.path.basename(path)
         for r in rows:
             idn = (r[ii] if ii < len(r) else "").strip()
@@ -1004,11 +1007,12 @@ def check_object_tree(src: str, name_col: str = "omschrijving",
                 continue
             name = (r[ni] if ni < len(r) else "").strip()
             parent = (r[pi] if pi >= 0 and pi < len(r) else "").strip()
+            ltv = (r[vi] if 0 <= vi < len(r) else "").strip()
             # eerste voorkomen wint (zoals elders in de tool)
             nodes.setdefault(idn, {
                 "id": idn, "name": name, "parent": parent,
                 "children": [], "segs": _name_segments(name),
-                "depth": 0, "file": fn,
+                "depth": 0, "file": fn, "lt_v": ltv,
             })
 
     # kinderen koppelen + diepte bepalen
@@ -2066,6 +2070,16 @@ LT_V_NAME_PREFIX_EXCEPTIONS = ("HYDRAULIEKVORM_SCHEMA", "PNEUMATIEKVORM_SCHEMA")
 # GRENS) gedeeld wordt met andere objecten die wél een 'V-'-lt_v horen te hebben,
 # zodat alleen deze specifieke objecten worden overgeslagen.
 LT_V_NAME_EXCEPTIONS = ("GRENS_VLAKAFSLUITER", "GRENS_WIJK")
+
+
+def ltv_is_bad(value: str, prefix: str = "V-") -> bool:
+    """True als een `lt_v`-waarde gevuld is maar NIET met `prefix` ('V-') begint.
+
+    Puur op de kolomwaarde (geen hoofdgroep-/object-uitzonderingen); een lege
+    waarde is niet 'bad' (niet elk object heeft een vervallen lijntype). Gebruikt
+    door de lt_v-variant van de objectenboom om zulke objecten te markeren."""
+    v = (value or "").strip()
+    return bool(v) and not v.upper().startswith(prefix.upper())
 
 
 def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",

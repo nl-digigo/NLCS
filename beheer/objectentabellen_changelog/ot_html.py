@@ -681,6 +681,20 @@ _TREE_STYLE = """
     .otree li.leaf { padding:2px 5px 2px calc(1em + 5px); font-size:.88rem;
             color:var(--dg-ink); }
     .otree .empty { color:var(--dg-grey2); font-style:italic; font-size:.86rem; }
+
+    /* lt_v-variant: object met gevulde lt_v die niet met 'V-' begint */
+    a.btn.otbtn.ltv-bad, span.btn.otleaf.ltv-bad {
+            border-left-color:#c0392b; background:#fdecea; color:#8e2418; }
+    .otree li.leaf.ltv-bad, .otree summary.node.ltv-bad {
+            color:#8e2418; background:#fdecea; border-radius:4px; font-weight:600; }
+    .kids .badltv { display:inline-block; margin-right:6px; background:#c0392b;
+            color:#fff; border-radius:10px; padding:1px 8px; font-size:.72rem;
+            font-weight:700; }
+    .tree-count .ltv-cnt { color:#c0392b; font-weight:600; }
+    .ltv-legend { margin:0 0 14px; font-size:.9rem; color:var(--dg-ink); }
+    .ltv-legend code { background:#f2f2f2; border-radius:3px; padding:0 4px; }
+    .ltv-swatch { display:inline-block; width:14px; height:14px; vertical-align:-2px;
+            background:#fdecea; border-left:3px solid #c0392b; border-radius:2px; }
 """
 
 # Kleine, zelfstandige JS voor de pop-ups: knop opent het bijbehorende <dialog>
@@ -804,19 +818,33 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
 
 
 def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
-                                   version: str = "") -> str:
+                                   version: str = "", mark_ltv: bool = False) -> str:
     """Overzichtspagina in dezelfde stijl als build_index_html. Per hoofdgroep een
     kaart met alleen de objecten op het EERSTE niveau (de roots) als knop; een klik
     opent een pop-up (<dialog>) met de volledige objectenboom onder dat object.
 
     tree : het resultaat van ot_compare.check_object_tree() met
            {"count","roots","nodes","max_depth","errors"}. Elke node heeft
-           "id","name","children","file" (bron-CSV) en "depth".
+           "id","name","children","file" (bron-CSV), "depth" en "lt_v".
+
+    mark_ltv : als True krijgt elk object met een lt_v die gevuld is maar niet met
+           'V-' begint (ot_compare.ltv_is_bad) een afwijkende kleur ('ltv-bad'),
+           met een legenda en telling. Puur op de kolomwaarde, geen uitzonderingen.
     """
-    from ot_compare import hoofdgroep_code
+    from ot_compare import hoofdgroep_code, ltv_is_bad
 
     nodes = tree.get("nodes", {}) if tree else {}
     roots = tree.get("roots", []) if tree else []
+
+    def _bad(idn: str) -> bool:
+        nd = nodes.get(idn)
+        return bool(mark_ltv and nd and ltv_is_bad(nd.get("lt_v", "")))
+
+    def _bad_in(idn: str) -> int:
+        nd = nodes.get(idn)
+        if not nd:
+            return 0
+        return (1 if _bad(idn) else 0) + sum(_bad_in(c) for c in nd.get("children", []))
 
     # Roots per hoofdgroep (op bron-CSV-basename). Roots en kinderen zijn in
     # check_object_tree al op naam gesorteerd -> volgorde overnemen.
@@ -843,29 +871,40 @@ def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
         if not nd:
             return ""
         name = _esc(nd.get("name", idn))
+        bad = " ltv-bad" if _bad(idn) else ""
+        badttl = (f' title="lt_v: {_esc(nd.get("lt_v", ""))} (geen V-)"'
+                  if bad else "")
         kids = nd.get("children", [])
         if not kids:
-            return f'<li class="leaf">{name}</li>'
+            return f'<li class="leaf{bad}"{badttl}>{name}</li>'
         inner = "\n".join(_node_html(c) for c in kids)
-        return (f'<li><details class="tree" open><summary>{name}</summary>\n'
+        return (f'<li><details class="tree" open>'
+                f'<summary class="node{bad}"{badttl}>{name}</summary>\n'
                 f'<ul>\n{inner}\n</ul></details></li>')
 
     cards, dialogs = [], []
+    total_bad = 0
     for code in sorted(groups):
         root_ids = groups[code]
         n_obj = sum(_count_in(r) for r in root_ids)
+        n_bad_card = sum(_bad_in(r) for r in root_ids)
+        total_bad += n_bad_card
         btns = []
         for r in root_ids:
             nd = nodes[r]
             name = _esc(nd.get("name", r))
             kids = nd.get("children", [])
+            root_bad = " ltv-bad" if _bad(r) else ""
+            n_bad = _bad_in(r)
+            badge = (f'<span class="badltv" title="{n_bad} object(en) met '
+                     f'lt_v zonder V-">{n_bad}</span>' if mark_ltv and n_bad else "")
             if kids:
                 did = _dlg_id(r)
                 n_sub = _count_in(r) - 1
                 btns.append(
-                    f'<a class="btn otbtn" data-dlg="{did}" '
+                    f'<a class="btn otbtn{root_bad}" data-dlg="{did}" '
                     f'title="{name} — {n_sub} onderliggend(e) object(en)">'
-                    f'{name}<span class="kids">{n_sub}</span></a>')
+                    f'{name}<span class="kids">{badge}{n_sub}</span></a>')
                 # bijbehorende pop-up met de boom onder deze root
                 subtree = "\n".join(_node_html(c) for c in kids)
                 dialogs.append(
@@ -877,12 +916,15 @@ def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
                     f'</ul></div></dialog>')
             else:
                 # geen onderliggende objecten -> geen pop-up, alleen een label
-                btns.append(f'<span class="btn otleaf" title="{name} — geen '
-                            f'onderliggende objecten">{name}</span>')
+                btns.append(f'<span class="btn otleaf{root_bad}" title="{name} — '
+                            f'geen onderliggende objecten">{name}</span>')
+        card_cnt = (f'<span class="tree-count">{n_obj} object(en)'
+                    + (f' &middot; <span class="ltv-cnt">{n_bad_card} zonder V-</span>'
+                       if mark_ltv and n_bad_card else "")
+                    + '</span>')
         cards.append(
             '<div class="card">'
-            f'<h2>{_esc(code)} '
-            f'<span class="tree-count">{n_obj} object(en)</span></h2>'
+            f'<h2>{_esc(code)} {card_cnt}</h2>'
             f'<p class="subtitle">hoofdgroep {_esc(code)} &middot; '
             f'{len(root_ids)} object(en) op het eerste niveau</p>'
             + "\n".join(btns)
@@ -890,10 +932,17 @@ def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
 
     total = tree.get("count", 0) if tree else 0
     info = (f"{len(groups)} hoofdgroep(en) &middot; {total} object(en)"
+            + (f" &middot; {total_bad} object(en) met lt_v zonder V-"
+               if mark_ltv else "")
             + (f" &middot; versie {_esc(version)}" if version else ""))
 
+    legend = (
+        '<p class="ltv-legend"><span class="ltv-swatch"></span> '
+        'Object met een gevulde <code>lt_v</code> die niet met '
+        '<code>V-</code> begint.</p>' if mark_ltv else "")
+
     body = ('<p class="empty">Geen objecten gevonden.</p>' if not cards else
-            '<div class="card-grid">\n' + "\n".join(cards) + "\n</div>")
+            legend + '<div class="card-grid">\n' + "\n".join(cards) + "\n</div>")
 
     return (
         _shell_head(title, extra_style=_INDEX_STYLE + _TREE_STYLE, cdn=False)

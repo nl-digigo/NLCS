@@ -1312,6 +1312,10 @@ class IndexTab(ttk.Frame):
         self.tree_btn = ttk.Button(btns, text="Genereer objectenboom",
                                    command=self.on_generate_tree)
         self.tree_btn.pack(side="left", padx=4)
+        self.tree_ltv_btn = ttk.Button(
+            btns, text="Genereer objectenboom (lt_v)",
+            command=lambda: self.on_generate_tree(mark_ltv=True))
+        self.tree_ltv_btn.pack(side="left", padx=4)
 
         logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
         logframe.pack(fill="both", expand=True, pady=(8, 0))
@@ -1471,9 +1475,12 @@ class IndexTab(ttk.Frame):
         if self.app.open_after_var.get():
             webbrowser.open(os.path.abspath(output))
 
-    def on_generate_tree(self) -> None:
+    def on_generate_tree(self, mark_ltv: bool = False) -> None:
         """Objectenboom-overzicht: per hoofdgroep een inklapbare boom, in dezelfde
-        stijl als het publicatie-overzicht. Bron is de map objectentabellen-nieuw."""
+        stijl als het publicatie-overzicht. Bron is de map objectentabellen-nieuw.
+
+        mark_ltv=True maakt de lt_v-variant: objecten met een gevulde lt_v die niet
+        met 'V-' begint krijgen een afwijkende kleur; uitvoer -> objectenboom-ltv-."""
         src = self.app.loc["obj_new"].get().strip()
         if not os.path.isdir(src):
             messagebox.showwarning(
@@ -1505,11 +1512,14 @@ class IndexTab(ttk.Frame):
             out_dir = os.path.dirname(base_out)
         else:
             out_dir = src
-        fname = f"objectenboom-{vdash}.html" if vdash else "objectenboom.html"
+        stem = "objectenboom-ltv" if mark_ltv else "objectenboom"
+        fname = f"{stem}-{vdash}.html" if vdash else f"{stem}.html"
         output = os.path.join(out_dir, fname)
 
+        ttl = "NLCS objectenboom" + (" (lt_v)" if mark_ltv else "")
         html_txt = ot_html.build_objecttree_overview_html(
-            tree, title=f"NLCS objectenboom {version}".strip(), version=version)
+            tree, title=f"{ttl} {version}".strip(), version=version,
+            mark_ltv=mark_ltv)
         try:
             parent = os.path.dirname(os.path.abspath(output))
             os.makedirs(parent, exist_ok=True)
@@ -1523,6 +1533,11 @@ class IndexTab(ttk.Frame):
         self._logmsg(f"{tree['count']} object(en) in "
                      f"{tree['max_depth'] + 1} niveau(s); "
                      f"{len(tree['roots'])} hoofdobject(en).")
+        if mark_ltv:
+            n_bad = sum(1 for nd in tree["nodes"].values()
+                        if ot_compare.ltv_is_bad(nd.get("lt_v", "")))
+            self._logmsg(f"lt_v-variant: {n_bad} object(en) met een gevulde lt_v "
+                         f"zonder 'V-' gemarkeerd.")
         self._logmsg(f"Objectenboom geschreven: {output}")
         self.app.save_config()
         if self.app.open_after_var.get():
