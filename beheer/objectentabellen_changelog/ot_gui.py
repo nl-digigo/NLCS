@@ -519,6 +519,18 @@ class TableTab(ttk.Frame):
         self.gen_btn = ttk.Button(out, text="Genereer HTML's",
                                   command=self.on_generate)
         self.gen_btn.pack(side="right")
+        # Alleen voor symbolen (front_svg): ontbrekende SVG's opsporen én maken,
+        # plus SVG's vernieuwen van symbolen waarvan de .dwg is gewijzigd.
+        self.svg_btn = None
+        self.changed_btn = None
+        if self.profile.get("front_svg"):
+            self.svg_btn = ttk.Button(out, text="Genereer ontbrekende SVG's",
+                                      command=self.on_generate_svgs)
+            self.svg_btn.pack(side="right", padx=(0, 6))
+            self.changed_btn = ttk.Button(
+                out, text="Vernieuw SVG's van gewijzigde symbolen",
+                command=self.on_generate_changed_svgs)
+            self.changed_btn.pack(side="right", padx=(0, 6))
 
         logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
         logframe.pack(fill="both", expand=True, pady=(8, 0))
@@ -1087,13 +1099,183 @@ class TableTab(ttk.Frame):
                     if open_after and first:
                         webbrowser.open(os.path.abspath(first))
                     return
+                elif kind == "svg_done":
+                    conv, failed, errors = payload
+                    if errors:
+                        for e in errors:
+                            self._logmsg("FOUT: " + e)
+                    self._logmsg(f"Klaar: {conv} SVG('s) gemaakt"
+                                 + (f", {len(failed)} mislukt" if failed else "")
+                                 + ".")
+                    for f in failed:
+                        self._logmsg(f"  ⚠ {f['name']}: {f['reason']}")
+                    self.gen_btn.config(state="normal")
+                    if self.svg_btn is not None:
+                        self.svg_btn.config(state="normal")
+                    if self.changed_btn is not None:
+                        self.changed_btn.config(state="normal")
+                    return
                 elif kind == "error":
                     messagebox.showerror("Fout", payload)
                     self._logmsg("FOUT: " + payload)
                     self.gen_btn.config(state="normal")
+                    if self.svg_btn is not None:
+                        self.svg_btn.config(state="normal")
+                    if self.changed_btn is not None:
+                        self.changed_btn.config(state="normal")
                     return
         except queue.Empty:
             pass
+        self.after(100, self._poll_queue)
+
+    def on_generate_svgs(self) -> None:
+        """Zoek symbolen zonder SVG en genereer alleen die (DWG → DXF → SVG)."""
+        sym_src = self._loc("new")
+        dwg_dir = self._loc("dwg_new")
+        svg_root = self.app.loc["index_root"].get().strip()
+        if not sym_src or not os.path.isdir(sym_src):
+            messagebox.showwarning(
+                "Geen symbolentabellen",
+                "Vul bij 'Locaties' de map met de nieuwe symbolentabellen in.")
+            return
+        if not dwg_dir or not os.path.isdir(dwg_dir):
+            messagebox.showwarning(
+                "Geen .dwg-map",
+                "Vul bij 'Locaties' de map met de symbool-.dwg's in.")
+            return
+        if not svg_root or not os.path.isdir(svg_root):
+            messagebox.showwarning(
+                "Geen publicatie-map",
+                "Vul bij 'Locaties' de publicatie-overzichtmap (docs/changelog) in;"
+                " daaronder staan de SVG's per hoofdgroep.")
+            return
+
+        res = ot_compare.find_missing_svgs(sym_src, dwg_dir, svg_root)
+        if res is None:
+            messagebox.showwarning(
+                "Niet gevonden",
+                "Geen symboolnaam-kolom ('symbool') in de tabellen gevonden.")
+            return
+        missing = res["missing"]
+        no_dwg = res["no_dwg"]
+        if not missing and not no_dwg:
+            messagebox.showinfo(
+                "Niets te doen",
+                f"Alle {res['total']} symbolen hebben al een SVG.")
+            return
+        if not missing:
+            messagebox.showinfo(
+                "Geen bron-.dwg",
+                f"{len(no_dwg)} symbool(en) missen een SVG, maar er is voor geen "
+                "enkele een bron-.dwg gevonden. Er valt niets te converteren.")
+            return
+
+        skip_txt = (f"\n{len(no_dwg)} symbool(en) worden overgeslagen "
+                    "(geen bron-.dwg)." if no_dwg else "")
+        if not messagebox.askyesno(
+                "Ontbrekende SVG's genereren",
+                f"{len(missing)} ontbrekende SVG('s) genereren uit de .dwg's?"
+                f"{skip_txt}\n\nDit gebruikt ODA File Converter en Inkscape en kan "
+                "even duren."):
+            return
+
+        self._disable_svg_btns()
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg(f"{res['have']} met SVG, {len(missing)} te maken"
+                     + (f", {len(no_dwg)} zonder .dwg overgeslagen" if no_dwg else "")
+                     + ".")
+
+        def worker():
+            try:
+                def progress(done, total, msg):
+                    self._queue.put(("log", f"[{done}/{total}] {msg}"))
+                out = ot_compare.generate_svgs(missing, progress=progress)
+                self._queue.put(("svg_done", (out["converted"], out["failed"],
+                                              out["errors"])))
+            except Exception as exc:  # noqa: BLE001 - tonen in de GUI
+                self._queue.put(("error", str(exc)))
+
+        threading.Thread(target=worker, daemon=True).start()
+        self.after(100, self._poll_queue)
+
+    def _disable_svg_btns(self) -> None:
+        self.gen_btn.config(state="disabled")
+        if self.svg_btn is not None:
+            self.svg_btn.config(state="disabled")
+        if self.changed_btn is not None:
+            self.changed_btn.config(state="disabled")
+
+    def on_generate_changed_svgs(self) -> None:
+        """Vernieuw de SVG's van symbolen waarvan de .dwg-inhoud is gewijzigd
+        tussen de oude en de nieuwe versie (SHA-256 verschilt)."""
+        sym_src = self._loc("new")
+        dwg_new = self._loc("dwg_new")
+        dwg_old = self._loc("dwg_old")
+        svg_root = self.app.loc["index_root"].get().strip()
+        if not sym_src or not os.path.isdir(sym_src):
+            messagebox.showwarning(
+                "Geen symbolentabellen",
+                "Vul bij 'Locaties' de map met de nieuwe symbolentabellen in.")
+            return
+        if not dwg_new or not os.path.isdir(dwg_new):
+            messagebox.showwarning(
+                "Geen .dwg-map (nieuw)",
+                "Vul bij 'Locaties' de map met de nieuwe symbool-.dwg's in.")
+            return
+        if not dwg_old or not os.path.isdir(dwg_old):
+            messagebox.showwarning(
+                "Geen .dwg-map (oud)",
+                "Vul bij 'Locaties' de map met de oude symbool-.dwg's in;"
+                " die is nodig om te bepalen welke .dwg's zijn gewijzigd.")
+            return
+        if not svg_root or not os.path.isdir(svg_root):
+            messagebox.showwarning(
+                "Geen publicatie-map",
+                "Vul bij 'Locaties' de publicatie-overzichtmap (docs/changelog) in;"
+                " daaronder staan de SVG's per hoofdgroep.")
+            return
+
+        res = ot_compare.find_changed_svgs(sym_src, dwg_new, dwg_old, svg_root)
+        if res is None:
+            messagebox.showwarning(
+                "Niet gevonden",
+                "Geen symboolnaam-kolom ('symbool') in de tabellen gevonden.")
+            return
+        changed = res["changed"]
+        if not changed:
+            messagebox.showinfo(
+                "Niets te doen",
+                f"Geen enkel symbool heeft een gewijzigde .dwg "
+                f"({res['identical']} identiek van {res['total']} gecontroleerd).")
+            return
+
+        if not messagebox.askyesno(
+                "Gewijzigde SVG's vernieuwen",
+                f"{len(changed)} symbool(en) hebben een gewijzigde .dwg. De "
+                "bestaande SVG's worden overschreven met een nieuwe versie.\n\n"
+                "Dit gebruikt ODA File Converter en Inkscape en kan even duren."):
+            return
+
+        self._disable_svg_btns()
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg(f"{len(changed)} gewijzigde .dwg('s), {res['identical']} "
+                     f"identiek van {res['total']} gecontroleerd.")
+
+        def worker():
+            try:
+                def progress(done, total, msg):
+                    self._queue.put(("log", f"[{done}/{total}] {msg}"))
+                out = ot_compare.generate_svgs(changed, progress=progress)
+                self._queue.put(("svg_done", (out["converted"], out["failed"],
+                                              out["errors"])))
+            except Exception as exc:  # noqa: BLE001 - tonen in de GUI
+                self._queue.put(("error", str(exc)))
+
+        threading.Thread(target=worker, daemon=True).start()
         self.after(100, self._poll_queue)
 
 

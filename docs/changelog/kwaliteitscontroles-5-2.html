@@ -148,57 +148,188 @@
 <div class="wrap">
 <p class="info">Alle kwaliteitscontroles in de volgorde van de managementhandleiding &middot; versie 5.2. Klik op een kolomkop om te sorteren (bijv. op hoofdgroep).</p>
 <div class="toc"><a href="#objecten">Objecten</a><a href="#symbolen">Symbolen</a><a href="#arceringen">Arceringen</a><a href="#lijntypes">Lijntypes</a><a href="#overzicht-hg">Fouten per hoofdgroep</a><a href="#waarschuwingen" class="warn-link">Waarschuwingen</a><a href="#overzicht-hg-warn" class="warn-link">Waarschuwingen per hoofdgroep</a></div>
-<div class="hgnav"><span class="hgnav-lbl">Hoofdgroepen met fouten:</span><a href="#hg-IW">IW <span class="n">682</span></a></div>
-<div class="hgnav warn"><span class="hgnav-lbl">Hoofdgroepen met waarschuwingen:</span><a href="#hgw-IW">IW <span class="n">10</span></a><a href="#hgw-KG">KG <span class="n">5</span></a><a href="#hgw-KL">KL <span class="n">2</span></a><a href="#hgw-MW">MW <span class="n">14</span></a></div>
+<div class="hgnav"><span class="hgnav-lbl">Hoofdgroepen met fouten:</span><a href="#hg-IW">IW <span class="n">682</span></a><a href="#hg-SB">SB <span class="n">1</span></a><a href="#hg-VH">VH <span class="n">25</span></a><a href="#hg-ZZ">ZZ <span class="n">9</span></a></div>
+<div class="hgnav warn"><span class="hgnav-lbl">Hoofdgroepen met waarschuwingen:</span><a href="#hgw-IW">IW <span class="n">10</span></a><a href="#hgw-KG">KG <span class="n">5</span></a><a href="#hgw-KL">KL <span class="n">2</span></a><a href="#hgw-MW">MW <span class="n">14</span></a><a href="#hgw-SB">SB <span class="n">1</span></a><a href="#hgw-VH">VH <span class="n">64</span></a></div>
 <h1 class="sect" id="objecten">Objecten</h1>
 <p class="sectnote">Controle objectentabel — in de volgorde van de managementhandleiding.</p>
 <div class="card"><h2>Objectenboom (hiërarchie)</h2>
-<p class="ctrldesc">Naam-/laagnaamhiërarchie: elk onderliggend object heeft precies één segment meer dan zijn ouder, de oudernaam staat exact vooraan (prefix) en het scheidingsteken (- of _) klopt. Ook: niet meer dan 5 subobjecten in een laagnaam (<code>controle_nlcs-objecten_te_veel_subobjecten</code>).</p><div class="kpi"><div class="box "><b>2762</b>objecten</div><div class="box "><b>338</b>hoofdobjecten</div><div class="box free"><b>0</b>fout(en)</div></div>
-<p class="ok">✓ Elk onderliggend object heeft precies één segment meer dan zijn bovenliggende object.</p>
+<p class="ctrldesc">Naam-/laagnaamhiërarchie: elk onderliggend object heeft precies één segment meer dan zijn ouder, de oudernaam staat exact vooraan (prefix) en het scheidingsteken (- of _) klopt. Ook: niet meer dan 5 subobjecten in een laagnaam (<code>controle_nlcs-objecten_te_veel_subobjecten</code>).</p><div class="kpi"><div class="box "><b>3256</b>objecten</div><div class="box "><b>366</b>hoofdobjecten</div><div class="box bad"><b>1</b>fout(en)</div></div>
+<p class="warn">⚠ 1 fout(en):</p>
+<table class="otab"><thead><tr><th>hoofdgroep</th><th>type</th><th>object</th><th>bovenliggend</th><th>toelichting</th></tr></thead><tbody>
+<tr><td class="hg">SB</td><td><span class="badge prefix">prefix</span></td><td>SPOOR_BEVESTIGING_KLEM _SKL1 #5271</td><td>SPOOR_BEVESTIGING_KLEM #5269</td><td>naam is geen uitbreiding van de oudernaam</td></tr>
+</tbody></table>
+<div class="legend" style="font-size:.78rem;color:var(--dg-grey2)">count: verkeerd aantal segmenten (geen +1 t.o.v. ouder) · prefix: naam is geen uitbreiding van de oudernaam · separator: scheidingsteken klopt niet (oudernaam niet exact vooraan) · orphan: bovenliggend id onbekend · root_multi: hoofdobject met meer dan één segment · subobjecten: meer dan 5 subobjecten in de laagnaam</div>
 </div>
 <div class="card"><h2>Fase-visualisatie</h2>
-<p class="ctrldesc">Controleer of elk object voor alle NLCS-statussen (Bestaand, Nieuw, Vervallen, Tijdelijk) een visualisatie heeft; AL en ZZ hebben alleen een visualisatie voor de bestaande situatie.</p><div class="kpi"><div class="box "><b>2762</b>objecten</div><div class="box free"><b>2762</b>volledig</div><div class="box free"><b>0</b>fase ontbreekt</div></div>
-<p class="ok">✓ Elk object heeft voor alle verwachte fasen een visualisatie.</p>
+<p class="ctrldesc">Controleer of elk object voor alle NLCS-statussen (Bestaand, Nieuw, Vervallen, Tijdelijk) een visualisatie heeft; AL en ZZ hebben alleen een visualisatie voor de bestaande situatie.</p><div class="kpi"><div class="box "><b>3256</b>objecten</div><div class="box "><b>3235</b>volledig</div><div class="box bad"><b>21</b>fase ontbreekt</div></div>
+<p class="warn">⚠ 21 object(en) missen een fase-visualisatie:</p>
+<table class="otab"><thead><tr><th>hoofdgroep</th><th>object</th><th>ontbrekende fase(n)</th></tr></thead><tbody>
+<tr><td class="hg">VH</td><td>GESLOTENVERHARDING_ASFALT_ZAAGSNEDE</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_ASFALTBAND-OPNIEUW STELLEN</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_BETONRUG</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_BUSHALTEBAND-OPNIEUW STELLEN</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_GAZONBAND-OPNIEUW STELLEN</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_GELEIDEBAND-OPNIEUW STELLEN</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_OPSLUITBAND-OPNIEUW STELLEN</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_PLATEAUBAND-OPNIEUW STELLEN</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_PWSBAND-OPNIEUW STELLEN</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_RIJWIELPADBAND-OPNIEUW STELLEN</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_SCHEIDINGSBAND-OPNIEUW STELLEN</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_TROTTOIRBAND-OPNIEUW STELLEN</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_TROTTOIRBAND_130X150-OP DE KOP</td><td>Nieuw</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_TROTTOIRBAND_130X150-OPNIEUW STELLEN</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_TROTTOIRBAND_180X200-OP DE KOP</td><td>Nieuw</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_TROTTOIRBAND_180X200-OPNIEUW STELLEN</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_TROTTOIRBAND_280X300-OP DE KOP</td><td>Nieuw</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_TROTTOIRBAND_280X300-OPNIEUW STELLEN</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_TROTTOIRBAND_RWS-OPNIEUW STELLEN</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_TROTTOIRBAND_RWS_ZOAB-OPNIEUW STELLEN</td><td>Bestaand</td></tr>
+<tr><td class="hg">VH</td><td>OPENVERHARDING_STRAATBAKSTEEN-OP DE KOP</td><td>Bestaand, Nieuw</td></tr>
+</tbody></table>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>6513</b>ingelezen</div><div class="box "><b>6134</b>hoogste ID</div><div class="box free"><b>6135</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>7007</b>ingelezen</div><div class="box "><b>6134</b>hoogste ID</div><div class="box free"><b>6135</b>eerstvolgende vrij</div></div>
 <p class="ok">✓ Elke rij heeft een id_nummer.</p>
 <p class="ok">✓ Geen dubbel gebruikte ID’s.</p>
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
-<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>2762</b>namen</div><div class="box "><b>2762</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>3256</b>namen</div><div class="box "><b>3256</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>6513</b>namen</div><div class="box "><b>4357</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>7007</b>namen</div><div class="box "><b>4622</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Element-koppeling (S/A ↔ sobject/aobject)</h2>
-<p class="ctrldesc">Element-koppeling: als de kolom <code>element</code> een S (symbool) of A (arcering) bevat, moet er ook een <code>sobject</code> resp. <code>aobject</code> zijn ingevuld — en omgekeerd. Uitzondering: MW-objecten met A zonder <code>aobject</code> (o.a. <code>AANGRENZENDECONSTRUCTIE</code>) worden gearceerd met de gedeelde ACO-arceringen (arceringen van constructies) en gelden daarom als correct.</p><div class="kpi"><div class="box "><b>2762</b>objecten</div><div class="box "><b>2760</b>correct</div><div class="box bad"><b>2</b>afwijkend</div></div>
-<p class="warn">⚠ 2 object(en) met een afwijkende koppeling:</p>
+<p class="ctrldesc">Element-koppeling: als de kolom <code>element</code> een S (symbool) of A (arcering) bevat, moet er ook een <code>sobject</code> resp. <code>aobject</code> zijn ingevuld — en omgekeerd. Uitzondering: MW-objecten met A zonder <code>aobject</code> (o.a. <code>AANGRENZENDECONSTRUCTIE</code>) worden gearceerd met de gedeelde ACO-arceringen (arceringen van constructies) en gelden daarom als correct.</p><div class="kpi"><div class="box "><b>3256</b>objecten</div><div class="box "><b>3250</b>correct</div><div class="box bad"><b>6</b>afwijkend</div></div>
+<p class="warn">⚠ 6 object(en) met een afwijkende koppeling:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>object</th><th>element</th><th>probleem</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>VRI_CAMERA</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r19</td></tr>
 <tr><td class="hg">IW</td><td>VRI_DRAAGCONSTRUCTIE_PAAL</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r3</td></tr>
+<tr><td class="hg">VH</td><td>BEDRIJFSVLOERPLAAT</td><td>G/S/A</td><td>element bevat S maar sobject is leeg; element bevat A maar aobject is leeg</td><td class="loc">r203</td></tr>
+<tr><td class="hg">VH</td><td>KANTOPSLUITING_AMSTELBAND</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r165</td></tr>
+<tr><td class="hg">VH</td><td>OPENVERHARDING_BASALTON</td><td>G/S/A</td><td>element bevat A maar aobject is leeg</td><td class="loc">r147</td></tr>
+<tr><td class="hg">VH</td><td>SPECIAAL_SPORT</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r155</td></tr>
 </tbody></table>
 </div>
 <div class="card"><h2>Element gevuld</h2>
-<p class="ctrldesc">Element gevuld: de kolom <code>element</code> van elk object bevat minimaal één waarde (G=geometrie, A=arcering, S=symbool en/of T=tekst).</p><div class="kpi"><div class="box "><b>2762</b>objecten</div><div class="box "><b>2761</b>gevuld</div><div class="box bad"><b>1</b>leeg</div></div>
+<p class="ctrldesc">Element gevuld: de kolom <code>element</code> van elk object bevat minimaal één waarde (G=geometrie, A=arcering, S=symbool en/of T=tekst).</p><div class="kpi"><div class="box "><b>3256</b>objecten</div><div class="box "><b>3255</b>gevuld</div><div class="box bad"><b>1</b>leeg</div></div>
 <p class="warn">⚠ 1 zonder:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>object</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>VRI_KABEL_DATA_KOPPEL</td><td class="loc">r28</td></tr>
 </tbody></table>
 </div>
 <div class="card"><h2>Zoekterm-treffers → symbolen</h2>
-<p class="ctrldesc">Zoekterm-dekking: elke <code>sobject</code>-/<code>aobject</code>-waarde in een object moet minstens één symbool resp. arcering vinden (de zoekterm moet als tekst in de symbool-/arceringnaam voorkomen).</p><div class="kpi"><div class="box "><b>332</b>zoektermen (sobject)</div><div class="box "><b>332</b>met treffer</div><div class="box free"><b>0</b>zonder treffer</div></div>
-<p class="ok">✓ Elke zoekterm vindt minstens één symbolen.</p>
+<p class="ctrldesc">Zoekterm-dekking: elke <code>sobject</code>-/<code>aobject</code>-waarde in een object moet minstens één symbool resp. arcering vinden (de zoekterm moet als tekst in de symbool-/arceringnaam voorkomen).</p><div class="kpi"><div class="box "><b>427</b>zoektermen (sobject)</div><div class="box "><b>363</b>met treffer</div><div class="box bad"><b>64</b>zonder treffer</div></div>
+<p class="warn">⚠ 64 zoekterm(en) zonder treffer:</p>
+<table class="otab"><thead><tr><th>zoekterm</th><th>objectbestand(en)</th></tr></thead><tbody>
+<tr><td><code>B-SVH-DREMPEL_PREFAB_1000X1200; B-SVH-DREMPEL_PREFAB_1000X1200_RUITPROFIEL; B-SVH-DREMPEL_PREFAB_1000X600; B-SVH-DREMPEL_PREFAB_1000X600_RUITPROFIEL; B-SVH-DREMPEL_PREFAB_1200X1000; B-SVH-DREMPEL_PREFAB_1200X1000_RUITPROFIEL; B-SVH-DREMPEL_PREFAB_1200X500; B-SVH-DREMPEL_PREFAB_1200X500_RUITPROFIEL; B-SVH-DREMPEL_PREFAB_1500X1200; B-SVH-DREMPEL_PREFAB_1500X1200_RUITPROFIEL; B-SVH-DREMPEL_PREFAB_1500X600; B-SVH-DREMPEL_PREFAB_1500X600_RUITPROFIEL; B-SVH-DREMPEL_PREFAB_1700X1000; B-SVH-DREMPEL_PREFAB_1700X500; B-SVH-DREMPEL_PREFAB_1750X1000; B-SVH-DREMPEL_PREFAB_1750X1000_LINKS; B-SVH-DREMPEL_PREFAB_1750X1000_RECHTS; B-SVH-DREMPEL_PREFAB_1750X1200; B-SVH-DREMPEL_PREFAB_1750X500; B-SVH-DREMPEL_PREFAB_1750X600; B-SVH-DREMPEL_PREFAB_2400X1000; B-SVH-DREMPEL_PREFAB_2400X1000_RUITPROFIEL; B-SVH-DREMPEL_PREFAB_2400X1200; B-SVH-DREMPEL_PREFAB_2400X1200_RUITPROFIEL; B-SVH-DREMPEL_PREFAB_2400X500; B-SVH-DREMPEL_PREFAB_2400X500_RUITPROFIEL; B-SVH-DREMPEL_PREFAB_2400X600; B-SVH-DREMPEL_PREFAB_2400X600_RUITPROFIEL; B-SVH-DREMPEL_PREFAB_2400X750_LINKS; B-SVH-DREMPEL_PREFAB_2400X750_RECHTS; B-SVH-DREMPEL_PREFAB_2400X750_RUITPROFIEL_LINKS; B-SVH-DREMPEL_PREFAB_2400X750_RUITPROFIEL_RECHTS; B-SVH-DREMPEL_PREFAB_3000X1000; B-SVH-DREMPEL_PREFAB_3000X500; B-SVH-DREMPEL_PREFAB_4000X1000; B-SVH-DREMPEL_PREFAB_4000X500; B-SVH-DREMPEL_PREFAB_4200X1000; B-SVH-DREMPEL_PREFAB_900X500; B-SVH-DREMPEL_PREFAB_BUS; B-SVH-DREMPEL_PREFAB_BUS_LINKS; B-SVH-DREMPEL_PREFAB_BUS_RECHTS; B-SVH-DREMPEL_PREFAB_GUMACON; SVH-DREMPEL_PREFAB_1000X1200; SVH-DREMPEL_PREFAB_1000X1200_RUITPROFIEL; SVH-DREMPEL_PREFAB_1000X600; SVH-DREMPEL_PREFAB_1000X600_RUITPROFIEL; SVH-DREMPEL_PREFAB_1200X1000; SVH-DREMPEL_PREFAB_1200X1000_RUITPROFIEL; SVH-DREMPEL_PREFAB_1200X500; SVH-DREMPEL_PREFAB_1200X500_RUITPROFIEL; SVH-DREMPEL_PREFAB_1500X1200; SVH-DREMPEL_PREFAB_1500X1200_RUITPROFIEL; SVH-DREMPEL_PREFAB_1500X600; SVH-DREMPEL_PREFAB_1500X600_RUITPROFIEL; SVH-DREMPEL_PREFAB_1700X1000; SVH-DREMPEL_PREFAB_1700X500; SVH-DREMPEL_PREFAB_1750X1000; SVH-DREMPEL_PREFAB_1750X1000_LINKS; SVH-DREMPEL_PREFAB_1750X1000_RECHTS; SVH-DREMPEL_PREFAB_1750X1200; SVH-DREMPEL_PREFAB_1750X500; SVH-DREMPEL_PREFAB_1750X600; SVH-DREMPEL_PREFAB_2400X1000; SVH-DREMPEL_PREFAB_2400X1000_RUITPROFIEL; SVH-DREMPEL_PREFAB_2400X1200; SVH-DREMPEL_PREFAB_2400X1200_RUITPROFIEL; SVH-DREMPEL_PREFAB_2400X500; SVH-DREMPEL_PREFAB_2400X500_RUITPROFIEL; SVH-DREMPEL_PREFAB_2400X600; SVH-DREMPEL_PREFAB_2400X600_RUITPROFIEL; SVH-DREMPEL_PREFAB_2400X750_LINKS; SVH-DREMPEL_PREFAB_2400X750_RECHTS; SVH-DREMPEL_PREFAB_2400X750_RUITPROFIEL_LINKS; SVH-DREMPEL_PREFAB_2400X750_RUITPROFIEL_RECHTS; SVH-DREMPEL_PREFAB_3000X1000; SVH-DREMPEL_PREFAB_3000X500; SVH-DREMPEL_PREFAB_4000X1000; SVH-DREMPEL_PREFAB_4000X500; SVH-DREMPEL_PREFAB_4200X1000; SVH-DREMPEL_PREFAB_900X500; SVH-DREMPEL_PREFAB_BUS; SVH-DREMPEL_PREFAB_BUS_LINKS; SVH-DREMPEL_PREFAB_BUS_RECHTS; SVH-DREMPEL_PREFAB_GUMACON; T-SVH-DREMPEL_PREFAB_1000X1200; T-SVH-DREMPEL_PREFAB_1000X1200_RUITPROFIEL; T-SVH-DREMPEL_PREFAB_1000X600; T-SVH-DREMPEL_PREFAB_1000X600_RUITPROFIEL; T-SVH-DREMPEL_PREFAB_1200X1000; T-SVH-DREMPEL_PREFAB_1200X1000_RUITPROFIEL; T-SVH-DREMPEL_PREFAB_1200X500; T-SVH-DREMPEL_PREFAB_1200X500_RUITPROFIEL; T-SVH-DREMPEL_PREFAB_1500X1200; T-SVH-DREMPEL_PREFAB_1500X1200_RUITPROFIEL; T-SVH-DREMPEL_PREFAB_1500X600; T-SVH-DREMPEL_PREFAB_1500X600_RUITPROFIEL; T-SVH-DREMPEL_PREFAB_1700X1000; T-SVH-DREMPEL_PREFAB_1700X500; T-SVH-DREMPEL_PREFAB_1750X1000; T-SVH-DREMPEL_PREFAB_1750X1000_LINKS; T-SVH-DREMPEL_PREFAB_1750X1000_RECHTS; T-SVH-DREMPEL_PREFAB_1750X1200; T-SVH-DREMPEL_PREFAB_1750X500; T-SVH-DREMPEL_PREFAB_1750X600; T-SVH-DREMPEL_PREFAB_2400X1000; T-SVH-DREMPEL_PREFAB_2400X1000_RUITPROFIEL; T-SVH-DREMPEL_PREFAB_2400X1200; T-SVH-DREMPEL_PREFAB_2400X1200_RUITPROFIEL; T-SVH-DREMPEL_PREFAB_2400X500; T-SVH-DREMPEL_PREFAB_2400X500_RUITPROFIEL; T-SVH-DREMPEL_PREFAB_2400X600; T-SVH-DREMPEL_PREFAB_2400X600_RUITPROFIEL; T-SVH-DREMPEL_PREFAB_2400X750_LINKS; T-SVH-DREMPEL_PREFAB_2400X750_RECHTS; T-SVH-DREMPEL_PREFAB_2400X750_RUITPROFIEL_LINKS; T-SVH-DREMPEL_PREFAB_2400X750_RUITPROFIEL_RECHTS; T-SVH-DREMPEL_PREFAB_3000X1000; T-SVH-DREMPEL_PREFAB_3000X500; T-SVH-DREMPEL_PREFAB_4000X1000; T-SVH-DREMPEL_PREFAB_4000X500; T-SVH-DREMPEL_PREFAB_4200X1000; T-SVH-DREMPEL_PREFAB_900X500; T-SVH-DREMPEL_PREFAB_BUS; T-SVH-DREMPEL_PREFAB_BUS_LINKS; T-SVH-DREMPEL_PREFAB_BUS_RECHTS; T-SVH-DREMPEL_PREFAB_GUMACON; V-SVH-DREMPEL_PREFAB_1000X1200; V-SVH-DREMPEL_PREFAB_1000X1200_RUITPROFIEL; V-SVH-DREMPEL_PREFAB_1000X600; V-SVH-DREMPEL_PREFAB_1000X600_RUITPROFIEL; V-SVH-DREMPEL_PREFAB_1200X1000; V-SVH-DREMPEL_PREFAB_1200X1000_RUITPROFIEL; V-SVH-DREMPEL_PREFAB_1200X500; V-SVH-DREMPEL_PREFAB_1200X500_RUITPROFIEL; V-SVH-DREMPEL_PREFAB_1500X1200; V-SVH-DREMPEL_PREFAB_1500X1200_RUITPROFIEL; V-SVH-DREMPEL_PREFAB_1500X600; V-SVH-DREMPEL_PREFAB_1500X600_RUITPROFIEL; V-SVH-DREMPEL_PREFAB_1700X1000; V-SVH-DREMPEL_PREFAB_1700X500; V-SVH-DREMPEL_PREFAB_1750X1000; V-SVH-DREMPEL_PREFAB_1750X1000_LINKS; V-SVH-DREMPEL_PREFAB_1750X1000_RECHTS; V-SVH-DREMPEL_PREFAB_1750X1200; V-SVH-DREMPEL_PREFAB_1750X500; V-SVH-DREMPEL_PREFAB_1750X600; V-SVH-DREMPEL_PREFAB_2400X1000; V-SVH-DREMPEL_PREFAB_2400X1000_RUITPROFIEL; V-SVH-DREMPEL_PREFAB_2400X1200; V-SVH-DREMPEL_PREFAB_2400X1200_RUITPROFIEL; V-SVH-DREMPEL_PREFAB_2400X500; V-SVH-DREMPEL_PREFAB_2400X500_RUITPROFIEL; V-SVH-DREMPEL_PREFAB_2400X600; V-SVH-DREMPEL_PREFAB_2400X600_RUITPROFIEL; V-SVH-DREMPEL_PREFAB_2400X750_LINKS; V-SVH-DREMPEL_PREFAB_2400X750_RECHTS; V-SVH-DREMPEL_PREFAB_2400X750_RUITPROFIEL_LINKS; V-SVH-DREMPEL_PREFAB_2400X750_RUITPROFIEL_RECHTS; V-SVH-DREMPEL_PREFAB_3000X1000; V-SVH-DREMPEL_PREFAB_3000X500; V-SVH-DREMPEL_PREFAB_4000X1000; V-SVH-DREMPEL_PREFAB_4000X500; V-SVH-DREMPEL_PREFAB_4200X1000; V-SVH-DREMPEL_PREFAB_900X500; V-SVH-DREMPEL_PREFAB_BUS; V-SVH-DREMPEL_PREFAB_BUS_LINKS; V-SVH-DREMPEL_PREFAB_BUS_RECHTS; V-SVH-DREMPEL_PREFAB_GUMACON</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-GOOT_ZOAB_01-D; B-SVH-GOOT_ZOAB_02-D; B-SVH-GOOT_ZOAB_220X160-D; SVH-GOOT_ZOAB_01-D; SVH-GOOT_ZOAB_02-D; SVH-GOOT_ZOAB_220X160-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_ASFALTBAND_50X200X150-D; B-SVH-KANTOPSLUITING_ASFALTBAND_50X200X200-D; B-SVH-KANTOPSLUITING_ASFALTBAND_50X200X250-D; SVH-KANTOPSLUITING_ASFALTBAND_50X200X150-D; SVH-KANTOPSLUITING_ASFALTBAND_50X200X200-D; SVH-KANTOPSLUITING_ASFALTBAND_50X200X250-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_BUSHALTEBAND-D; SVH-KANTOPSLUITING_BUSHALTEBAND-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_GAZONBAND_100X150-D; B-SVH-KANTOPSLUITING_GAZONBAND_100X200-D; B-SVH-KANTOPSLUITING_GAZONBAND_100X300-D; B-SVH-KANTOPSLUITING_GAZONBAND_120X200-D; B-SVH-KANTOPSLUITING_GAZONBAND_120X250-D; B-SVH-KANTOPSLUITING_GAZONBAND_150X400-D; B-SVH-KANTOPSLUITING_GAZONBAND_200X150-D; B-SVH-KANTOPSLUITING_GAZONBAND_200X200-D; B-SVH-KANTOPSLUITING_GAZONBAND_50 150X70X500-D; B-SVH-KANTOPSLUITING_GAZONBAND_60X200-D; B-SVH-KANTOPSLUITING_GAZONBAND_80X200-D; SVH-KANTOPSLUITING_GAZONBAND_100X150-D; SVH-KANTOPSLUITING_GAZONBAND_100X200-D; SVH-KANTOPSLUITING_GAZONBAND_100X300-D; SVH-KANTOPSLUITING_GAZONBAND_120X200-D; SVH-KANTOPSLUITING_GAZONBAND_120X250-D; SVH-KANTOPSLUITING_GAZONBAND_150X400-D; SVH-KANTOPSLUITING_GAZONBAND_200X150-D; SVH-KANTOPSLUITING_GAZONBAND_200X200-D; SVH-KANTOPSLUITING_GAZONBAND_50 150X70X500-D; SVH-KANTOPSLUITING_GAZONBAND_60X200-D; SVH-KANTOPSLUITING_GAZONBAND_80X200-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_GELEIDEBAND_100_200X270-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_100_250X170-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_100_300X200-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_190_200X160-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_190_200X220-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_250X200-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_250X240-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_30_80X200-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_3740-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_40_120X250-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_50_200X150-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_50_200X200-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_60_120X100-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_60_120X200-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_60_130 150X250-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_60_180 200X250-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_70_150X250-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_70_200X150-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_70_200X200-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_STADSBAND_180_330X400-D; B-SVH-KANTOPSLUITING_GELEIDEBAND_ZOABBAND_50_200X200-D; SVH-KANTOPSLUITING_GELEIDEBAND_100_200X270-D; SVH-KANTOPSLUITING_GELEIDEBAND_100_250X170-D; SVH-KANTOPSLUITING_GELEIDEBAND_100_300X200-D; SVH-KANTOPSLUITING_GELEIDEBAND_190_200X160-D; SVH-KANTOPSLUITING_GELEIDEBAND_190_200X220-D; SVH-KANTOPSLUITING_GELEIDEBAND_250X200-D; SVH-KANTOPSLUITING_GELEIDEBAND_250X240-D; SVH-KANTOPSLUITING_GELEIDEBAND_30_80X200-D; SVH-KANTOPSLUITING_GELEIDEBAND_3740-D; SVH-KANTOPSLUITING_GELEIDEBAND_40_120X250-D; SVH-KANTOPSLUITING_GELEIDEBAND_50_200X150-D; SVH-KANTOPSLUITING_GELEIDEBAND_50_200X200-D; SVH-KANTOPSLUITING_GELEIDEBAND_60_120X100-D; SVH-KANTOPSLUITING_GELEIDEBAND_60_120X200-D; SVH-KANTOPSLUITING_GELEIDEBAND_60_130 150X250-D; SVH-KANTOPSLUITING_GELEIDEBAND_60_180 200X250-D; SVH-KANTOPSLUITING_GELEIDEBAND_70_150X250-D; SVH-KANTOPSLUITING_GELEIDEBAND_70_200X150-D; SVH-KANTOPSLUITING_GELEIDEBAND_70_200X200-D; SVH-KANTOPSLUITING_GELEIDEBAND_STADSBAND_180_330X400-D; SVH-KANTOPSLUITING_GELEIDEBAND_ZOABBAND_50_200X200-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_HAVENBAND_400X400-D; SVH-KANTOPSLUITING_HAVENBAND_400X400-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_INRITBAND_160X450-D; B-SVH-KANTOPSLUITING_INRITBAND_160X450X500-D; B-SVH-KANTOPSLUITING_INRITBAND_160X500X500-D; B-SVH-KANTOPSLUITING_INRITBAND_160X600X500-D; B-SVH-KANTOPSLUITING_INRITBAND_170X520-D; B-SVH-KANTOPSLUITING_INRITBAND_200X600X300-D; B-SVH-KANTOPSLUITING_INRITBAND_200X650X300-D; SVH-KANTOPSLUITING_INRITBAND_160X450-D; SVH-KANTOPSLUITING_INRITBAND_160X450X500-D; SVH-KANTOPSLUITING_INRITBAND_160X500X500-D; SVH-KANTOPSLUITING_INRITBAND_160X600X500-D; SVH-KANTOPSLUITING_INRITBAND_170X520-D; SVH-KANTOPSLUITING_INRITBAND_200X600X300-D; SVH-KANTOPSLUITING_INRITBAND_200X650X300-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_INRITPERRONBAND_200X250-D; SVH-KANTOPSLUITING_INRITPERRONBAND_200X250-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_LEICONBAND-D; SVH-KANTOPSLUITING_LEICONBAND-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_OPSLUITBAND_100X150-D; B-SVH-KANTOPSLUITING_OPSLUITBAND_100X200-D; B-SVH-KANTOPSLUITING_OPSLUITBAND_100X300-D; B-SVH-KANTOPSLUITING_OPSLUITBAND_100X400-D; B-SVH-KANTOPSLUITING_OPSLUITBAND_120X250-D; B-SVH-KANTOPSLUITING_OPSLUITBAND_150X250-D; B-SVH-KANTOPSLUITING_OPSLUITBAND_150X300-D; B-SVH-KANTOPSLUITING_OPSLUITBAND_150X400-D; B-SVH-KANTOPSLUITING_OPSLUITBAND_200X250-D; B-SVH-KANTOPSLUITING_OPSLUITBAND_200X300-D; B-SVH-KANTOPSLUITING_OPSLUITBAND_300X250-D; B-SVH-KANTOPSLUITING_OPSLUITBAND_50X150-D; B-SVH-KANTOPSLUITING_OPSLUITBAND_60X150-D; B-SVH-KANTOPSLUITING_OPSLUITBAND_60X200-D; B-SVH-KANTOPSLUITING_OPSLUITBAND_70 200-D; B-SVH-KANTOPSLUITING_OPSLUITBAND_80X200-D; SVH-KANTOPSLUITING_OPSLUITBAND_100X150-D; SVH-KANTOPSLUITING_OPSLUITBAND_100X200-D; SVH-KANTOPSLUITING_OPSLUITBAND_100X300-D; SVH-KANTOPSLUITING_OPSLUITBAND_100X400-D; SVH-KANTOPSLUITING_OPSLUITBAND_120X250-D; SVH-KANTOPSLUITING_OPSLUITBAND_150X250-D; SVH-KANTOPSLUITING_OPSLUITBAND_150X300-D; SVH-KANTOPSLUITING_OPSLUITBAND_150X400-D; SVH-KANTOPSLUITING_OPSLUITBAND_200X250-D; SVH-KANTOPSLUITING_OPSLUITBAND_200X300-D; SVH-KANTOPSLUITING_OPSLUITBAND_300X250-D; SVH-KANTOPSLUITING_OPSLUITBAND_50X150-D; SVH-KANTOPSLUITING_OPSLUITBAND_60X150-D; SVH-KANTOPSLUITING_OPSLUITBAND_60X200-D; SVH-KANTOPSLUITING_OPSLUITBAND_70 200-D; SVH-KANTOPSLUITING_OPSLUITBAND_80X200-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_PLAKBAND_130 150X100-D; B-SVH-KANTOPSLUITING_PLAKBAND_130 150X110-D; B-SVH-KANTOPSLUITING_PLAKBAND_130 150X120-D; B-SVH-KANTOPSLUITING_PLAKBAND_130 150X140-D; B-SVH-KANTOPSLUITING_PLAKBAND_80 160X100-D; B-SVH-KANTOPSLUITING_PLAKBAND_80X150-D; SVH-KANTOPSLUITING_PLAKBAND_130 150X100-D; SVH-KANTOPSLUITING_PLAKBAND_130 150X110-D; SVH-KANTOPSLUITING_PLAKBAND_130 150X120-D; SVH-KANTOPSLUITING_PLAKBAND_130 150X140-D; SVH-KANTOPSLUITING_PLAKBAND_80 160X100-D; SVH-KANTOPSLUITING_PLAKBAND_80X150-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_PWS_250 130X200-D; B-SVH-KANTOPSLUITING_PWS_250 130X250-D; SVH-KANTOPSLUITING_PWS_250 130X200-D; SVH-KANTOPSLUITING_PWS_250 130X250-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_RIJWIELPADBAND_120X250-D; B-SVH-KANTOPSLUITING_RIJWIELPADBAND_80X200-D; SVH-KANTOPSLUITING_RIJWIELPADBAND_120X250-D; SVH-KANTOPSLUITING_RIJWIELPADBAND_80X200-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_ROTONDE-D; SVH-KANTOPSLUITING_ROTONDE-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_RWS_110 220X160-D; B-SVH-KANTOPSLUITING_RWS_110 220X200-D; B-SVH-KANTOPSLUITING_RWS_110 220X250-D; B-SVH-KANTOPSLUITING_RWS_ZOABBAND_110 220X250-D; SVH-KANTOPSLUITING_RWS_110 220X160-D; SVH-KANTOPSLUITING_RWS_110 220X200-D; SVH-KANTOPSLUITING_RWS_110 220X250-D; SVH-KANTOPSLUITING_RWS_ZOABBAND_110 220X250-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_100 300X100-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_100 300X70-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_110 220-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_110 220X130 150-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_110 250-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_110 250X200-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_115 345X200-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_130 470X280-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_150 390X130-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_160 200X180-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_180 200-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_200 250X350-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_200 400X500-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_200 450X200-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_220 440X160-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_220 440X250-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_230 460X450-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_260 300X160-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_280 300-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_300X200-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_360 400X200-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_470 500X100-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_470 500X200-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_50 250X120-D; B-SVH-KANTOPSLUITING_SCHEIDINGSBAND_80 160X100-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_100 300X100-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_100 300X70-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_110 220-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_110 220X130 150-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_110 250-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_110 250X200-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_115 345X200-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_130 470X280-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_150 390X130-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_160 200X180-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_180 200-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_200 250X350-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_200 400X500-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_200 450X200-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_220 440X160-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_220 440X250-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_230 460X450-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_260 300X160-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_280 300-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_300X200-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_360 400X200-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_470 500X100-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_470 500X200-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_50 250X120-D; SVH-KANTOPSLUITING_SCHEIDINGSBAND_80 160X100-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_SIGNALERINGSBAND_OOG_110 220X160-D; B-SVH-KANTOPSLUITING_SIGNALERINGSBAND_OOG_110 220X250-D; B-SVH-KANTOPSLUITING_SIGNALERINGSBAND_OOG_130 150X160-D; B-SVH-KANTOPSLUITING_SIGNALERINGSBAND_OOG_130 150X250-D; B-SVH-KANTOPSLUITING_SIGNALERINGSBAND_OOG_180 200X160-D; B-SVH-KANTOPSLUITING_SIGNALERINGSBAND_OOG_180 200X250-D; SVH-KANTOPSLUITING_SIGNALERINGSBAND_OOG_110 220X160-D; SVH-KANTOPSLUITING_SIGNALERINGSBAND_OOG_110 220X250-D; SVH-KANTOPSLUITING_SIGNALERINGSBAND_OOG_130 150X160-D; SVH-KANTOPSLUITING_SIGNALERINGSBAND_OOG_130 150X250-D; SVH-KANTOPSLUITING_SIGNALERINGSBAND_OOG_180 200X160-D; SVH-KANTOPSLUITING_SIGNALERINGSBAND_OOG_180 200X250-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_STOOTBAND_100X250-D; B-SVH-KANTOPSLUITING_STOOTBAND_150X200-D; B-SVH-KANTOPSLUITING_STOOTBAND_200X200-D; B-SVH-KANTOPSLUITING_STOOTBAND_250X250-D; B-SVH-KANTOPSLUITING_STOOTBAND_300X300-D; SVH-KANTOPSLUITING_STOOTBAND_100X250-D; SVH-KANTOPSLUITING_STOOTBAND_150X200-D; SVH-KANTOPSLUITING_STOOTBAND_200X200-D; SVH-KANTOPSLUITING_STOOTBAND_250X250-D; SVH-KANTOPSLUITING_STOOTBAND_300X300-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_TALUDBAND_380X300-D; SVH-KANTOPSLUITING_TALUDBAND_380X300-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>B-SVH-KANTOPSLUITING_TROTTOIRBAND_130 150X160-D; B-SVH-KANTOPSLUITING_TROTTOIRBAND_130 150X200-D; B-SVH-KANTOPSLUITING_TROTTOIRBAND_130 150X250-D; B-SVH-KANTOPSLUITING_TROTTOIRBAND_130 150X300-D; B-SVH-KANTOPSLUITING_TROTTOIRBAND_130 250-D; B-SVH-KANTOPSLUITING_TROTTOIRBAND_180 200X160-D; B-SVH-KANTOPSLUITING_TROTTOIRBAND_180 200X200-D; B-SVH-KANTOPSLUITING_TROTTOIRBAND_180 200X250-D; B-SVH-KANTOPSLUITING_TROTTOIRBAND_190 220X160-D; B-SVH-KANTOPSLUITING_TROTTOIRBAND_70 150X250-D; B-SVH-KANTOPSLUITING_TROTTOIRBAND_75 150X200-D; B-SVH-KANTOPSLUITING_TROTTOIRBAND_ZOABBAND_180 200-D; SVH-KANTOPSLUITING_TROTTOIRBAND_130 150X160-D; SVH-KANTOPSLUITING_TROTTOIRBAND_130 150X200-D; SVH-KANTOPSLUITING_TROTTOIRBAND_130 150X250-D; SVH-KANTOPSLUITING_TROTTOIRBAND_130 150X300-D; SVH-KANTOPSLUITING_TROTTOIRBAND_130 250-D; SVH-KANTOPSLUITING_TROTTOIRBAND_180 200X160-D; SVH-KANTOPSLUITING_TROTTOIRBAND_180 200X200-D; SVH-KANTOPSLUITING_TROTTOIRBAND_180 200X250-D; SVH-KANTOPSLUITING_TROTTOIRBAND_190 220X160-D; SVH-KANTOPSLUITING_TROTTOIRBAND_70 150X250-D; SVH-KANTOPSLUITING_TROTTOIRBAND_75 150X200-D; SVH-KANTOPSLUITING_TROTTOIRBAND_ZOABBAND_180 200-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-ASFALT</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-BASALTONVERHARDING</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-BASALTVERHARDING</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-BENTONIET</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-BESTORTING</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-BETON</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-BOOMKRANS</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-BOOMKRANSBAND</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-BSS</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-COBBLESTONE</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-DELTA</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-FUNDERING</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-GEOTEXTIEL</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-GESLOTEN</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-GOOT</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-GOOT_TEGEL-D</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-GRAS_GESTABILISEERD-SO; V-SVH-GRAS_GESTABILISEERD-SO</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-GRASBETONSTEEN</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-GRASPLAAT</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-GRASTEGEL</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-GRAVEL</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-GRIND</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-HALFVERHARDING</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-HOUTSNIPPERS</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-HSTEEN</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-INRITELEMENT</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-KALKZANDSTEEN</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-KANTOPSLUITING_HOEKBLOK_180 200_R50; SVH-KANTOPSLUITING_HOEKBLOK_INWENDIG_180 200X45_ROND</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-KANTOPSLUITING_HOEKSTUK_INWENDIG_100X200; SVH-KANTOPSLUITING_HOEKSTUK_INWENDIG_130 150; SVH-KANTOPSLUITING_HOEKSTUK_INWENDIG_130 150_SCHUIN; SVH-KANTOPSLUITING_HOEKSTUK_INWENDIG_180 200; SVH-KANTOPSLUITING_HOEKSTUK_INWENDIG_180 200X40; SVH-KANTOPSLUITING_HOEKSTUK_INWENDIG_180 200_SCHUIN; SVH-KANTOPSLUITING_HOEKSTUK_INWENDIG_70X200; SVH-KANTOPSLUITING_HOEKSTUK_INWENDIG_70X200_SCHUIN; SVH-KANTOPSLUITING_HOEKSTUK_UITWENDIG_100X200; SVH-KANTOPSLUITING_HOEKSTUK_UITWENDIG_130 150; SVH-KANTOPSLUITING_HOEKSTUK_UITWENDIG_130 150_SCHUIN; SVH-KANTOPSLUITING_HOEKSTUK_UITWENDIG_180 200; SVH-KANTOPSLUITING_HOEKSTUK_UITWENDIG_180 200X400; SVH-KANTOPSLUITING_HOEKSTUK_UITWENDIG_180 200_SCHUIN; SVH-KANTOPSLUITING_HOEKSTUK_UITWENDIG_70X200; SVH-KANTOPSLUITING_HOEKSTUK_UITWENDIG_70X200_SCHUIN</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-KANTOPSLUITING_VERLOOP_100X200_130 150X250_LINKS; SVH-KANTOPSLUITING_VERLOOP_100X200_130 150X250_RECHTS; SVH-KANTOPSLUITING_VERLOOP_100X200_180 200X250_LINKS; SVH-KANTOPSLUITING_VERLOOP_100X200_180 200X250_RECHTS; SVH-KANTOPSLUITING_VERLOOP_120X250_130 150X250_LINKS; SVH-KANTOPSLUITING_VERLOOP_120X250_130 150X250_RECHTS; SVH-KANTOPSLUITING_VERLOOP_130 150X250_110 220X250_LINKS; SVH-KANTOPSLUITING_VERLOOP_130 150X250_110 220X250_RECHTS; SVH-KANTOPSLUITING_VERLOOP_130 150X250_120X250_LINKS; SVH-KANTOPSLUITING_VERLOOP_130 150X250_120X250_RECHTS; SVH-KANTOPSLUITING_VERLOOP_130 150X250_180 200X250_LINKS; SVH-KANTOPSLUITING_VERLOOP_130 150X250_180 200X250_RECHTS; SVH-KANTOPSLUITING_VERLOOP_130 150X250_50 200X200_LINKS; SVH-KANTOPSLUITING_VERLOOP_130 150X250_50 200X200_RECHTS; SVH-KANTOPSLUITING_VERLOOP_180 200X250_110 220X250_LINKS; SVH-KANTOPSLUITING_VERLOOP_180 200X250_110 220X250_RECHTS; SVH-KANTOPSLUITING_VERLOOP_180 200X250_40 120X250_LINKS; SVH-KANTOPSLUITING_VERLOOP_180 200X250_40 120X250_RECHTS; SVH-KANTOPSLUITING_VERLOOP_180 200X250_50 200X200_LINKS; SVH-KANTOPSLUITING_VERLOOP_180 200X250_50 200X200_RECHTS; SVH-KANTOPSLUITING_VERLOOP_40 120X250_120X250_LINKS; SVH-KANTOPSLUITING_VERLOOP_40 120X250_120X250_RECHTS; SVH-KANTOPSLUITING_VERLOOP_40 120X250_130 150X250_LINKS; SVH-KANTOPSLUITING_VERLOOP_40 120X250_130 150X250_RECHTS; SVH-KANTOPSLUITING_VERLOOP_70 120X200_130 150X250_LINKS; SVH-KANTOPSLUITING_VERLOOP_70 120X200_130 150X250_RECHTS</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-METSELWERK</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-NATUURSTEEN</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-PLANKEN</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-PUINVERHARDING</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-ROOSTER</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-RUBBERTEGEL</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-SBS</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-SIERBESTRATING</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-SIERTEGEL</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-SPECIAAL</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-STOOTBAND</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-TEGEL</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>SVH-VERKEERSTEGEL</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+</tbody></table>
 </div>
 <div class="card"><h2>Zoekterm-treffers → arceringen</h2>
-<p class="ctrldesc">Zoekterm-dekking: elke <code>sobject</code>-/<code>aobject</code>-waarde in een object moet minstens één symbool resp. arcering vinden (de zoekterm moet als tekst in de symbool-/arceringnaam voorkomen).</p><div class="kpi"><div class="box "><b>73</b>zoektermen (aobject)</div><div class="box "><b>73</b>met treffer</div><div class="box free"><b>0</b>zonder treffer</div></div>
-<p class="ok">✓ Elke zoekterm vindt minstens één arceringen.</p>
+<p class="ctrldesc">Zoekterm-dekking: elke <code>sobject</code>-/<code>aobject</code>-waarde in een object moet minstens één symbool resp. arcering vinden (de zoekterm moet als tekst in de symbool-/arceringnaam voorkomen).</p><div class="kpi"><div class="box "><b>105</b>zoektermen (aobject)</div><div class="box "><b>73</b>met treffer</div><div class="box bad"><b>32</b>zonder treffer</div></div>
+<p class="warn">⚠ 32 zoekterm(en) zonder treffer:</p>
+<table class="otab"><thead><tr><th>zoekterm</th><th>objectbestand(en)</th></tr></thead><tbody>
+<tr><td><code>AVH-ASFALT</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-BASALT</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-BENTONIET</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-BESTORTING</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-BETON</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-BSS</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-COBBLESTONE</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-DELTA</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-FLOWBLOCK</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-FUNDERING</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-GEOTEXTIEL</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-GESLOTEN</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-GRAS_GESTABILISEERD-SO</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-GRASBETONSTEEN</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-GRASPLAAT</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-GRASTEGEL</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-GRAVEL</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-HALFVERHARDING-SO; AVH-HALFVERHARDING-SOD; AVH-HALFVERHARDING_GRIND-SOD; AVH-HALFVERHARDING_GRIND_01-SO; AVH-HALFVERHARDING_GRIND_02-SO; AVH-HALFVERHARDING_GRIND_03-SO; AVH-HALFVERHARDING_SCHELPEN-SO; AVH-HALFVERHARDING_SCHELPEN-SOD</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-HERSTRATEN</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-HOUTSNIPPERS</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-HSTEEN</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-KALKZANDSTEEN</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-METSELWERK</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-NATUURSTEEN</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-PLANKEN</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-PUINVERHARDING</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-ROOSTER</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-SBS</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-SIERBESTRATING</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-SIERTEGEL</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-SPECIAAL</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+<tr><td><code>AVH-TEGEL</code></td><td class="loc">objecten-5-2-VH.csv</td></tr>
+</tbody></table>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
-<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>2762</b>namen</div><div class="box free"><b>2762</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>3256</b>namen</div><div class="box free"><b>3256</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 <p class="info">Ter info: 7 naam/namen met een kleine letter (toegestaan voor eenheden mm/Mm en elementsymbool Cu — controleer of bewust):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>rij</th></tr></thead><tbody>
@@ -214,7 +345,7 @@
 <h1 class="sect" id="symbolen">Symbolen</h1>
 <p class="sectnote">Controle symbolentabel.</p>
 <div class="card"><h2>Zoekterm-controle (<code>sobject</code>)</h2>
-<p class="ctrldesc"><code>controle_arceringsymbool_zonder_objectRelatie</code> — symbolen die via geen enkele zoekterm (<code>sobject</code>) in de objectentabel gevonden worden.</p><div class="kpi"><div class="box "><b>1841</b>namen</div><div class="box "><b>1841</b>via zoekterm gevonden</div><div class="box free"><b>0</b>niet gevonden</div></div>
+<p class="ctrldesc"><code>controle_arceringsymbool_zonder_objectRelatie</code> — symbolen die via geen enkele zoekterm (<code>sobject</code>) in de objectentabel gevonden worden.</p><div class="kpi"><div class="box "><b>1942</b>namen</div><div class="box "><b>1942</b>via zoekterm gevonden</div><div class="box free"><b>0</b>niet gevonden</div></div>
 <p class="ok">✓ Elke naam bevat een zoekterm uit de objectentabel.</p>
 </div>
 <div class="card"><h2>Optie-fase-check</h2>
@@ -222,7 +353,7 @@
 <p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>5717</b>ingelezen</div><div class="box "><b>7512</b>hoogste ID</div><div class="box free"><b>7513</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>5818</b>ingelezen</div><div class="box "><b>7512</b>hoogste ID</div><div class="box free"><b>7513</b>eerstvolgende vrij</div></div>
 <p class="warn">⚠ 3 zonder id:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>SIW-VRI_DETECTIE</td><td>nieuw</td><td class="loc">r2</td></tr>
@@ -233,15 +364,15 @@
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
-<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>1841</b>namen</div><div class="box "><b>1841</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>1942</b>namen</div><div class="box "><b>1942</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>5717</b>namen</div><div class="box "><b>4195</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>5818</b>namen</div><div class="box "><b>4196</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
-<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>1841</b>namen</div><div class="box free"><b>1841</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>1942</b>namen</div><div class="box free"><b>1942</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 <p class="info">Ter info: 76 naam/namen met een kleine letter (toegestaan voor eenheden mm/Mm en elementsymbool Cu — controleer of bewust):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>rij</th></tr></thead><tbody>
@@ -324,7 +455,7 @@
 </tbody></table>
 </div>
 <div class="card"><h2>Symbool ↔ .dwg</h2>
-<p class="ctrldesc">Controleer of alle symbolen in de database ook als bestand (.dwg) beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).</p><div class="kpi"><div class="box "><b>1841</b>tabelregels</div><div class="box "><b>1837</b>met .dwg</div><div class="box bad"><b>4</b>regel zonder .dwg</div><div class="box "><b>5625</b>.dwg-bestanden</div><div class="box bad"><b>668</b>.dwg zonder regel</div></div>
+<p class="ctrldesc">Controleer of alle symbolen in de database ook als bestand (.dwg) beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).</p><div class="kpi"><div class="box "><b>1942</b>tabelregels</div><div class="box "><b>1938</b>met .dwg</div><div class="box bad"><b>4</b>regel zonder .dwg</div><div class="box "><b>5672</b>.dwg-bestanden</div><div class="box bad"><b>668</b>.dwg zonder regel</div></div>
 <p class="warn">⚠ 4 symboolregel(s) zonder .dwg-bestand:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>symbool (regel)</th><th>verwacht bestand</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>SIW-VRI_DETECTIE</td><td class="loc">SIW-VRI_DETECTIE.dwg</td></tr>
@@ -1043,11 +1174,20 @@
 <h1 class="sect" id="lijntypes">Lijntypes</h1>
 <p class="sectnote">Controle lijntypetabel.</p>
 <div class="card"><h2>Lijntype-gebruik</h2>
-<p class="ctrldesc"><code>controle_lijntypes_zonder_objectRelatie</code> — lijntypes die bestaan maar in geen enkel object (lt_b/lt_n/lt_v/lt_t) gebruikt worden.</p><div class="kpi"><div class="box "><b>410</b>lijntypes</div><div class="box "><b>408</b>gebruikt</div><div class="box bad"><b>2</b>niet gebruikt</div></div>
-<p class="warn">⚠ 2 lijntype(s) worden nergens in de objecten gebruikt:</p>
+<p class="ctrldesc"><code>controle_lijntypes_zonder_objectRelatie</code> — lijntypes die bestaan maar in geen enkel object (lt_b/lt_n/lt_v/lt_t) gebruikt worden.</p><div class="kpi"><div class="box "><b>430</b>lijntypes</div><div class="box "><b>419</b>gebruikt</div><div class="box bad"><b>11</b>niet gebruikt</div></div>
+<p class="warn">⚠ 11 lijntype(s) worden nergens in de objecten gebruikt:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>lijntype</th></tr></thead><tbody>
 <tr><td class="hg">IW</td><td>IW-DRIP-SO</td></tr>
 <tr><td class="hg">IW</td><td>V-IW-DRIP-SO</td></tr>
+<tr><td class="hg">ZZ</td><td>ZZ-AFBREEKLIJN-SO</td></tr>
+<tr><td class="hg">ZZ</td><td>ZZ-FASEGRENS-SO</td></tr>
+<tr><td class="hg">ZZ</td><td>ZZ-HART-SO</td></tr>
+<tr><td class="hg">ZZ</td><td>ZZ-NAP_LIJN-SO</td></tr>
+<tr><td class="hg">ZZ</td><td>ZZ-ONDERZOEKSGRENS-SO</td></tr>
+<tr><td class="hg">ZZ</td><td>ZZ-PROJECTGRENS-SO</td></tr>
+<tr><td class="hg">ZZ</td><td>ZZ-STRAMIEN-SO</td></tr>
+<tr><td class="hg">ZZ</td><td>ZZ-SYSTEEMGRENS-SO</td></tr>
+<tr><td class="hg">ZZ</td><td>ZZ-WERKGRENS-SO</td></tr>
 </tbody></table>
 </div>
 <div class="card"><h2>Optie-fase-check</h2>
@@ -1055,7 +1195,7 @@
 <p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>980</b>ingelezen</div><div class="box "><b>7610</b>hoogste ID</div><div class="box free"><b>7611</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>1000</b>ingelezen</div><div class="box "><b>7610</b>hoogste ID</div><div class="box free"><b>7611</b>eerstvolgende vrij</div></div>
 <p class="ok">✓ Elke rij heeft een id.</p>
 <p class="warn">⚠ 1 dubbel gebruikte ID(’s):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>ID</th><th>naam</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
@@ -1065,19 +1205,19 @@
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
-<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>448</b>namen</div><div class="box "><b>448</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>469</b>namen</div><div class="box "><b>469</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>980</b>namen</div><div class="box "><b>652</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>1000</b>namen</div><div class="box "><b>662</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
-<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>448</b>namen</div><div class="box free"><b>448</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>469</b>namen</div><div class="box free"><b>469</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 </div>
 <div class="card"><h2>AutoCAD-definitie</h2>
-<p class="ctrldesc">AutoCAD-definitie: elk lijntype heeft een definitiestring in de kolom <code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO worden overgeslagen).</p><div class="kpi"><div class="box "><b>408</b>lijntypes</div><div class="box free"><b>408</b>met definitie</div><div class="box free"><b>0</b>zonder definitie</div></div>
+<p class="ctrldesc">AutoCAD-definitie: elk lijntype heeft een definitiestring in de kolom <code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO worden overgeslagen).</p><div class="kpi"><div class="box "><b>428</b>lijntypes</div><div class="box free"><b>428</b>met definitie</div><div class="box free"><b>0</b>zonder definitie</div></div>
 <p class="ok">✓ Elk lijntype heeft een AutoCAD-definitie (autocaddef); CONTINUOUS/V-CONTINUOUS-SO overgeslagen.</p>
 </div>
 <h1 class="sect" id="overzicht-hg">Fouten per hoofdgroep</h1>
@@ -1095,12 +1235,51 @@
 </table>
 </div>
 </div>
+<div class="card hgblock" id="hg-SB">
+<h2>SB <span class="hgcount">1 fout(en)</span> <a class="toplink" href="#overzicht-hg">&uarr; overzicht</a></h2>
+<div class="tablescroll">
+<table class="otab">
+<thead>
+<tr><th>tabel</th><th>controle</th><th>melding</th></tr>
+</thead>
+<tbody>
+<tr><td class="loc">Objecten</td><td>Objectenboom (hiërarchie)</td><td>prefix · SPOOR_BEVESTIGING_KLEM _SKL1 #5271 · SPOOR_BEVESTIGING_KLEM #5269 · naam is geen uitbreiding van de oudernaam</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="card hgblock" id="hg-VH">
+<h2>VH <span class="hgcount">25 fout(en)</span> <a class="toplink" href="#overzicht-hg">&uarr; overzicht</a></h2>
+<div class="tablescroll">
+<table class="otab">
+<thead>
+<tr><th>tabel</th><th>controle</th><th>melding</th></tr>
+</thead>
+<tbody>
+<tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>GESLOTENVERHARDING_ASFALT_ZAAGSNEDE · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_ASFALTBAND-OPNIEUW STELLEN · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_BETONRUG · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_BUSHALTEBAND-OPNIEUW STELLEN · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_GAZONBAND-OPNIEUW STELLEN · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_GELEIDEBAND-OPNIEUW STELLEN · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_OPSLUITBAND-OPNIEUW STELLEN · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_PLATEAUBAND-OPNIEUW STELLEN · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_PWSBAND-OPNIEUW STELLEN · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_RIJWIELPADBAND-OPNIEUW STELLEN · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_SCHEIDINGSBAND-OPNIEUW STELLEN · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_TROTTOIRBAND-OPNIEUW STELLEN · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_TROTTOIRBAND_130X150-OP DE KOP · Nieuw</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_TROTTOIRBAND_130X150-OPNIEUW STELLEN · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_TROTTOIRBAND_180X200-OP DE KOP · Nieuw</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_TROTTOIRBAND_180X200-OPNIEUW STELLEN · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_TROTTOIRBAND_280X300-OP DE KOP · Nieuw</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_TROTTOIRBAND_280X300-OPNIEUW STELLEN · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_TROTTOIRBAND_RWS-OPNIEUW STELLEN · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>KANTOPSLUITING_TROTTOIRBAND_RWS_ZOAB-OPNIEUW STELLEN · Bestaand</td></tr><tr><td class="loc">Objecten</td><td>Fase-visualisatie</td><td>OPENVERHARDING_STRAATBAKSTEEN-OP DE KOP · Bestaand, Nieuw</td></tr><tr><td class="loc">Objecten</td><td>Element-koppeling (S/A ↔ sobject/aobject)</td><td>BEDRIJFSVLOERPLAAT · G/S/A · element bevat S maar sobject is leeg; element bevat A maar aobject is leeg · r203</td></tr><tr><td class="loc">Objecten</td><td>Element-koppeling (S/A ↔ sobject/aobject)</td><td>KANTOPSLUITING_AMSTELBAND · G/S · element bevat S maar sobject is leeg · r165</td></tr><tr><td class="loc">Objecten</td><td>Element-koppeling (S/A ↔ sobject/aobject)</td><td>OPENVERHARDING_BASALTON · G/S/A · element bevat A maar aobject is leeg · r147</td></tr><tr><td class="loc">Objecten</td><td>Element-koppeling (S/A ↔ sobject/aobject)</td><td>SPECIAAL_SPORT · G/S · element bevat S maar sobject is leeg · r155</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="card hgblock" id="hg-ZZ">
+<h2>ZZ <span class="hgcount">9 fout(en)</span> <a class="toplink" href="#overzicht-hg">&uarr; overzicht</a></h2>
+<div class="tablescroll">
+<table class="otab">
+<thead>
+<tr><th>tabel</th><th>controle</th><th>melding</th></tr>
+</thead>
+<tbody>
+<tr><td class="loc">Lijntypes</td><td>Lijntype-gebruik</td><td>ZZ-AFBREEKLIJN-SO</td></tr><tr><td class="loc">Lijntypes</td><td>Lijntype-gebruik</td><td>ZZ-FASEGRENS-SO</td></tr><tr><td class="loc">Lijntypes</td><td>Lijntype-gebruik</td><td>ZZ-HART-SO</td></tr><tr><td class="loc">Lijntypes</td><td>Lijntype-gebruik</td><td>ZZ-NAP_LIJN-SO</td></tr><tr><td class="loc">Lijntypes</td><td>Lijntype-gebruik</td><td>ZZ-ONDERZOEKSGRENS-SO</td></tr><tr><td class="loc">Lijntypes</td><td>Lijntype-gebruik</td><td>ZZ-PROJECTGRENS-SO</td></tr><tr><td class="loc">Lijntypes</td><td>Lijntype-gebruik</td><td>ZZ-STRAMIEN-SO</td></tr><tr><td class="loc">Lijntypes</td><td>Lijntype-gebruik</td><td>ZZ-SYSTEEMGRENS-SO</td></tr><tr><td class="loc">Lijntypes</td><td>Lijntype-gebruik</td><td>ZZ-WERKGRENS-SO</td></tr>
+</tbody>
+</table>
+</div>
+</div>
 <h1 class="sect" id="waarschuwingen">Waarschuwingen</h1>
 <p class="sectnote">Aandachtspunten die NIET als fout tellen in het publicatie-overzicht (geen fout-vinkje). Bewust apart onderaan gezet zodat ze de controles hierboven niet overstemmen.</p>
 <div class="card"><h2>Vervallen lijntype (lt_v)</h2>
-<p class="ctrldesc">Vervallen lijntype (lt_v): de kolom <code>lt_v</code> in de objectentabel verwijst naar het lijntype voor de vervallen situatie. Vervallen lijntypes heten in NLCS altijd <code>V-…</code>, dus een gevulde <code>lt_v</code> hoort met <code>V-</code> te beginnen. Een waarde die daar niet mee begint is verdacht (waarschijnlijk een bestaand/nieuw lijntype) — een waarschuwing, geen fout. Uitzondering: de grenzen van gemeenten, provincies enzovoorts zijn eigendomsgrenzen die buiten de scope van engineering liggen; daarom hebben deze grenzen geen vervallen lijnstijl. Daarnaast is de waarde <code>BC-SLOOPLIJN-SO</code> (een sloop-lijntype) bewust toegestaan en wordt die niet gemeld. Verder zijn de hoofdgroepen <code>IS</code>, <code>ES</code> en <code>SB</code> uitgezonderd, en mogen <code>terrein</code>, <code>bebouwing</code>, <code>water</code>, <code>greppel</code> en <code>baggervak</code> (inclusief hun onderliggende objecten) én de OG-objecten <code>weg</code> en <code>zone</code> (inclusief hun onderliggende objecten) én de fase-objecten in OG (Fase1 t/m Fase7) bewust het lijntype <code>CONTINUOUS</code> als vervallen lijntype hebben — die worden niet gemeld. Hetzelfde geldt voor de takken <code>HYDRAULIEKVORM_SCHEMA</code> en <code>PNEUMATIEKVORM_SCHEMA</code> (inclusief hun onderliggende objecten) en voor de losse objecten <code>GRENS_VLAKAFSLUITER</code> en <code>GRENS_WIJK</code>.</p><div class="kpi"><div class="box "><b>2082</b>objecten met lt_v</div><div class="box "><b>2062</b>begint met V-</div><div class="box warn"><b>20</b>zonder V-</div></div>
-<p class="skip">Uitgezonderd (bewust toegestaan zonder V--prefix): lt_v-waarde(n) BC-SLOOPLIJN-SO en hoofdgroep(en) ES, IS, SB en object(en) BAGGERVAK, BEBOUWING, FASE1, FASE2, FASE3, FASE4, FASE5, FASE6, FASE7, GREPPEL, TERREIN, WATER, WEG, ZONE (incl. onderliggende objecten) en object-tak(ken) HYDRAULIEKVORM_SCHEMA, PNEUMATIEKVORM_SCHEMA (incl. onderliggende objecten) en object(en) GRENS_VLAKAFSLUITER, GRENS_WIJK — 643 object(en) overgeslagen.</p>
-<p class="warn">⚠ 20 object(en) met een lt_v die niet met V- begint — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
+<p class="ctrldesc">Vervallen lijntype (lt_v): de kolom <code>lt_v</code> in de objectentabel verwijst naar het lijntype voor de vervallen situatie. Vervallen lijntypes heten in NLCS altijd <code>V-…</code>, dus een gevulde <code>lt_v</code> hoort met <code>V-</code> te beginnen. Een waarde die daar niet mee begint is verdacht (waarschijnlijk een bestaand/nieuw lijntype) — een waarschuwing, geen fout. Uitzondering: de grenzen van gemeenten, provincies enzovoorts zijn eigendomsgrenzen die buiten de scope van engineering liggen; daarom hebben deze grenzen geen vervallen lijnstijl. Daarnaast is de waarde <code>BC-SLOOPLIJN-SO</code> (een sloop-lijntype) bewust toegestaan en wordt die niet gemeld. Verder zijn de hoofdgroepen <code>IS</code>, <code>ES</code> en <code>SB</code> uitgezonderd, en mogen <code>terrein</code>, <code>bebouwing</code>, <code>water</code>, <code>greppel</code> en <code>baggervak</code> (inclusief hun onderliggende objecten) én de OG-objecten <code>weg</code> en <code>zone</code> (inclusief hun onderliggende objecten) én de fase-objecten in OG (Fase1 t/m Fase7) bewust het lijntype <code>CONTINUOUS</code> als vervallen lijntype hebben — die worden niet gemeld. Hetzelfde geldt voor de takken <code>HYDRAULIEKVORM_SCHEMA</code> en <code>PNEUMATIEKVORM_SCHEMA</code> (inclusief hun onderliggende objecten) en voor de losse objecten <code>GRENS_VLAKAFSLUITER</code> en <code>GRENS_WIJK</code>.</p><div class="kpi"><div class="box "><b>2293</b>objecten met lt_v</div><div class="box "><b>2209</b>begint met V-</div><div class="box warn"><b>84</b>zonder V-</div></div>
+<p class="skip">Uitgezonderd (bewust toegestaan zonder V--prefix): lt_v-waarde(n) BC-SLOOPLIJN-SO en hoofdgroep(en) ES, IS, SB en object(en) BAGGERVAK, BEBOUWING, FASE1, FASE2, FASE3, FASE4, FASE5, FASE6, FASE7, GREPPEL, TERREIN, WATER, WEG, ZONE (incl. onderliggende objecten) en object-tak(ken) HYDRAULIEKVORM_SCHEMA, PNEUMATIEKVORM_SCHEMA (incl. onderliggende objecten) en object(en) GRENS_VLAKAFSLUITER, GRENS_WIJK — 908 object(en) overgeslagen.</p>
+<p class="warn">⚠ 84 object(en) met een lt_v die niet met V- begint — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>object</th><th>lt_v</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg info">KG</td><td>GRENS_BESTEMMINGSPLAN</td><td class="loc">CONTINUOUS</td><td class="loc">r33</td></tr>
 <tr><td class="hg info">KG</td><td>GRENS_GEMEENTE</td><td class="loc">CONTINUOUS</td><td class="loc">r18</td></tr>
@@ -1122,12 +1301,76 @@
 <tr><td class="hg info">MW</td><td>METSELWERKVORM_NATUURSTEEN</td><td class="loc">CONTINUOUS</td><td class="loc">r3</td></tr>
 <tr><td class="hg info">MW</td><td>OVERIGMATERIAAL</td><td class="loc">CONTINUOUS</td><td class="loc">r17</td></tr>
 <tr><td class="hg info">MW</td><td>VERANKERING</td><td class="loc">CONTINUOUS</td><td class="loc">r14</td></tr>
+<tr><td class="hg info">VH</td><td>BEDRIJFSVLOERPLAAT</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r203</td></tr>
+<tr><td class="hg info">VH</td><td>BEDRIJFSVLOERPLAAT_BETON</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r166</td></tr>
+<tr><td class="hg info">VH</td><td>BEDRIJFSVLOERPLAAT_BETON_INDUSTRIE</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r87</td></tr>
+<tr><td class="hg info">VH</td><td>BEDRIJFSVLOERPLAAT_HOUT</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r160</td></tr>
+<tr><td class="hg info">VH</td><td>BEDRIJFSVLOERPLAAT_KUNSTSTOF</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r172</td></tr>
+<tr><td class="hg info">VH</td><td>BEDRIJFSVLOERPLAAT_STAAL</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r164</td></tr>
+<tr><td class="hg info">VH</td><td>BEDRIJFSVLOERPLAAT_STAAL_RIJPLAAT</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r85</td></tr>
+<tr><td class="hg info">VH</td><td>BEDRIJFSVLOERPLAAT_STAAL_SCHEEPSHUID</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r101</td></tr>
+<tr><td class="hg info">VH</td><td>GEOTEXTIEL</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r188</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r122</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT-TRAPSGEWIJSFREZEN</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r182</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT_COATING</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r80</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT_DEKLAAG</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r44</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT_FUNDERING</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r91</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT_GIETASFALT</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r52</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT_GROEN</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r99</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT_ONDERLAAG</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r64</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT_ONDERLAAG_1</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r5</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT_ONDERLAAG_2</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r7</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT_ROOD</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r47</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT_SLIJTLAAG</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r53</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT_SLIJTLAAG_ROOD</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r9</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT_TUSSENLAAG</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r83</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT_TUSSENLAAG_1</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r10</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT_TUSSENLAAG_2</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r11</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT_WIT</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r89</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_ASFALT_ZOAB</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r104</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_BENTONIET</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r33</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_BETON</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r120</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_BETON_GEWAPEND</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r41</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_BETON_ONGEWAPEND</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r77</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_BETON_SCHRAAL</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r39</td></tr>
+<tr><td class="hg info">VH</td><td>GESLOTENVERHARDING_METSELWERK</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r36</td></tr>
+<tr><td class="hg info">VH</td><td>GOOT_STRAATBAKSTEEN</td><td class="loc">CONTINUOUS</td><td class="loc">r173</td></tr>
+<tr><td class="hg info">VH</td><td>GOOT_TEGEL</td><td class="loc">CONTINUOUS</td><td class="loc">r126</td></tr>
+<tr><td class="hg info">VH</td><td>HALFVERHARDING_PUIN</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r138</td></tr>
+<tr><td class="hg info">VH</td><td>KANTOPSLUITING_PWSBAND_250X130</td><td class="loc">VH-PWSBAND-SO</td><td class="loc">r50</td></tr>
+<tr><td class="hg info">VH</td><td>KANTVERHARDING</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r200</td></tr>
+<tr><td class="hg info">VH</td><td>KANTVERHARDING_ROLLAAG</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r150</td></tr>
+<tr><td class="hg info">VH</td><td>KANTVERHARDING_STREKLAAG</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r180</td></tr>
+<tr><td class="hg info">VH</td><td>KANTVERHARDING_TEGEL</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r158</td></tr>
+<tr><td class="hg info">VH</td><td>KANTVERHARDING_TEGEL_HALF</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r72</td></tr>
+<tr><td class="hg info">VH</td><td>KANTVERHARDING_TEGEL_PAS</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r112</td></tr>
+<tr><td class="hg info">VH</td><td>KNIPLIJN</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r202</td></tr>
+<tr><td class="hg info">VH</td><td>ONVERHARD_HOUTSNIPPERS</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r30</td></tr>
+<tr><td class="hg info">VH</td><td>OPENVERHARDING</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r207</td></tr>
+<tr><td class="hg info">VH</td><td>OPENVERHARDING_BETONSTRAATSTEEN</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r145</td></tr>
+<tr><td class="hg info">VH</td><td>OPENVERHARDING_COBBLESTONE</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r37</td></tr>
+<tr><td class="hg info">VH</td><td>OPENVERHARDING_DELTA</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r31</td></tr>
+<tr><td class="hg info">VH</td><td>OPENVERHARDING_HSTEEN</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r29</td></tr>
+<tr><td class="hg info">VH</td><td>OPENVERHARDING_KALKZANDSTEEN</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r28</td></tr>
+<tr><td class="hg info">VH</td><td>OPENVERHARDING_NATUURSTEEN</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r26</td></tr>
+<tr><td class="hg info">VH</td><td>OPENVERHARDING_PLANKEN</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r35</td></tr>
+<tr><td class="hg info">VH</td><td>OPENVERHARDING_SIERBESTRATING</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r142</td></tr>
+<tr><td class="hg info">VH</td><td>OPENVERHARDING_STRAATBAKSTEEN</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r130</td></tr>
+<tr><td class="hg info">VH</td><td>OPENVERHARDING_TEGEL</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r141</td></tr>
+<tr><td class="hg info">VH</td><td>OPENVERHARDING_TEGEL_GRAS</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r4</td></tr>
+<tr><td class="hg info">VH</td><td>OPENVERHARDING_TEGEL_RUBBER</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r22</td></tr>
+<tr><td class="hg info">VH</td><td>OPENVERHARDING_TEGEL_SIER</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r3</td></tr>
+<tr><td class="hg info">VH</td><td>OPENVERHARDING_TEGEL_ZINLOOS GEWELD TEGEL</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r70</td></tr>
+<tr><td class="hg info">VH</td><td>ROOSTER</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r190</td></tr>
+<tr><td class="hg info">VH</td><td>SPECIAAL</td><td class="loc">ZZ-HIDDEN-SO</td><td class="loc">r189</td></tr>
+<tr><td class="hg info">VH</td><td>STOOTBAND</td><td class="loc">CONTINUOUS</td><td class="loc">r192</td></tr>
+<tr><td class="hg info">VH</td><td>VERKEERSTEGEL</td><td class="loc">CONTINUOUS</td><td class="loc">r196</td></tr>
 </tbody></table>
 </div>
 <div class="card"><h2>VERWIJDEREN2-schaal</h2>
-<p class="ctrldesc">VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit <code>NLCS.shx</code> op schaal 0.5. Gecontroleerd wordt of de <code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-segment van de <code>autocaddef</code> daadwerkelijk 0.5 is én of er geen verticale <code>y=</code>-verschuiving in staat (dan staan de scraps niet meer gecentreerd op de lijn). Een horizontale <code>x=</code>-offset is prima (fraaie uitlijning op de lijn) en blijft ongemoeid. Uitgezonderd (bewust afwijkende opzet, volledig overgeslagen): het lijntype <code>V-GR-PLANTSOEN-SO</code>.</p><div class="kpi"><div class="box "><b>189</b>vervallen lijntypes</div><div class="box "><b>178</b>s=0.5, geen y-offset</div><div class="box warn"><b>11</b>afwijkende schaal / y-offset</div></div>
+<p class="ctrldesc">VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit <code>NLCS.shx</code> op schaal 0.5. Gecontroleerd wordt of de <code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-segment van de <code>autocaddef</code> daadwerkelijk 0.5 is én of er geen verticale <code>y=</code>-verschuiving in staat (dan staan de scraps niet meer gecentreerd op de lijn). Een horizontale <code>x=</code>-offset is prima (fraaie uitlijning op de lijn) en blijft ongemoeid. Uitgezonderd (bewust afwijkende opzet, volledig overgeslagen): het lijntype <code>V-GR-PLANTSOEN-SO</code>.</p><div class="kpi"><div class="box "><b>190</b>vervallen lijntypes</div><div class="box "><b>178</b>s=0.5, geen y-offset</div><div class="box warn"><b>12</b>afwijkende schaal / y-offset</div></div>
 <p class="skip">Uitgezonderd van deze controle: lijntype(s) V-GR-PLANTSOEN-SO — 1 vervallen lijntype(s) overgeslagen (bewust afwijkende VERWIJDEREN2-opzet).</p>
-<p class="warn">⚠ 11 met een afwijkende (of ontbrekende) schaal of een ongewenste verticale y-offset (een horizontale x-offset is prima) — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
+<p class="warn">⚠ 12 met een afwijkende (of ontbrekende) schaal of een ongewenste verticale y-offset (een horizontale x-offset is prima) — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>lijntype</th><th>gevonden</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg info">IW</td><td>V-IW-DATA_GLASVEZEL</td><td class="loc">s=.25</td><td class="loc">r18</td></tr>
 <tr><td class="hg info">IW</td><td>V-IW-DATA_KOPER</td><td class="loc">s=.25</td><td class="loc">r19</td></tr>
@@ -1140,6 +1383,7 @@
 <tr><td class="hg info">IW</td><td>V-IW-VRI_DATAKABEL</td><td class="loc">s=.25</td><td class="loc">r24</td></tr>
 <tr><td class="hg info">IW</td><td>V-IW-VRI_MANTELBUIS</td><td class="loc">s=.25</td><td class="loc">r17</td></tr>
 <tr><td class="hg info">KL</td><td>V-KL-BUNDEL-SO</td><td class="loc">s=1</td><td class="loc">r78</td></tr>
+<tr><td class="hg info">SB</td><td>V-SB-OMGRENZINGSPROFIEL_DYNAMISCH-SO</td><td class="loc">(geen VERWIJDEREN2)</td><td class="loc">r22</td></tr>
 </tbody></table>
 </div>
 <h1 class="sect" id="overzicht-hg-warn">Waarschuwingen per hoofdgroep</h1>
@@ -1192,6 +1436,32 @@
 </thead>
 <tbody>
 <tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AANGRENZENDECONSTRUCTIE · CONTINUOUS · r11</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AANGRENZENDECONSTRUCTIE_BETON · CONTINUOUS · r8</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AANGRENZENDECONSTRUCTIE_HOUT · CONTINUOUS · r9</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>AANGRENZENDECONSTRUCTIE_STAAL · CONTINUOUS · r7</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ISOLATIE · CONTINUOUS · r15</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>LATEI · CONTINUOUS · r13</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>METSELWERKVORM · CONTINUOUS · r10</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>METSELWERKVORM_BAKSTEEN · CONTINUOUS · r4</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>METSELWERKVORM_BETONSTEEN · CONTINUOUS · r6</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>METSELWERKVORM_CELLENBETON · CONTINUOUS · r2</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>METSELWERKVORM_KALKZANDSTEEN · CONTINUOUS · r5</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>METSELWERKVORM_NATUURSTEEN · CONTINUOUS · r3</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OVERIGMATERIAAL · CONTINUOUS · r17</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>VERANKERING · CONTINUOUS · r14</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="card hgblock warnblock" id="hgw-SB">
+<h2>SB <span class="hgcount">1 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
+<div class="tablescroll">
+<table class="otab">
+<thead>
+<tr><th>controle</th><th>melding</th></tr>
+</thead>
+<tbody>
+<tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-SB-OMGRENZINGSPROFIEL_DYNAMISCH-SO · (geen VERWIJDEREN2) · r22</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="card hgblock warnblock" id="hgw-VH">
+<h2>VH <span class="hgcount">64 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
+<div class="tablescroll">
+<table class="otab">
+<thead>
+<tr><th>controle</th><th>melding</th></tr>
+</thead>
+<tbody>
+<tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEDRIJFSVLOERPLAAT · ZZ-HIDDEN-SO · r203</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEDRIJFSVLOERPLAAT_BETON · ZZ-HIDDEN-SO · r166</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEDRIJFSVLOERPLAAT_BETON_INDUSTRIE · ZZ-HIDDEN-SO · r87</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEDRIJFSVLOERPLAAT_HOUT · ZZ-HIDDEN-SO · r160</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEDRIJFSVLOERPLAAT_KUNSTSTOF · ZZ-HIDDEN-SO · r172</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEDRIJFSVLOERPLAAT_STAAL · ZZ-HIDDEN-SO · r164</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEDRIJFSVLOERPLAAT_STAAL_RIJPLAAT · ZZ-HIDDEN-SO · r85</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>BEDRIJFSVLOERPLAAT_STAAL_SCHEEPSHUID · ZZ-HIDDEN-SO · r101</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GEOTEXTIEL · ZZ-HIDDEN-SO · r188</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT · ZZ-HIDDEN-SO · r122</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT-TRAPSGEWIJSFREZEN · ZZ-HIDDEN-SO · r182</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT_COATING · ZZ-HIDDEN-SO · r80</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT_DEKLAAG · ZZ-HIDDEN-SO · r44</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT_FUNDERING · ZZ-HIDDEN-SO · r91</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT_GIETASFALT · ZZ-HIDDEN-SO · r52</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT_GROEN · ZZ-HIDDEN-SO · r99</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT_ONDERLAAG · ZZ-HIDDEN-SO · r64</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT_ONDERLAAG_1 · ZZ-HIDDEN-SO · r5</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT_ONDERLAAG_2 · ZZ-HIDDEN-SO · r7</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT_ROOD · ZZ-HIDDEN-SO · r47</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT_SLIJTLAAG · ZZ-HIDDEN-SO · r53</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT_SLIJTLAAG_ROOD · ZZ-HIDDEN-SO · r9</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT_TUSSENLAAG · ZZ-HIDDEN-SO · r83</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT_TUSSENLAAG_1 · ZZ-HIDDEN-SO · r10</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT_TUSSENLAAG_2 · ZZ-HIDDEN-SO · r11</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT_WIT · ZZ-HIDDEN-SO · r89</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_ASFALT_ZOAB · ZZ-HIDDEN-SO · r104</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_BENTONIET · ZZ-HIDDEN-SO · r33</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_BETON · ZZ-HIDDEN-SO · r120</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_BETON_GEWAPEND · ZZ-HIDDEN-SO · r41</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_BETON_ONGEWAPEND · ZZ-HIDDEN-SO · r77</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_BETON_SCHRAAL · ZZ-HIDDEN-SO · r39</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GESLOTENVERHARDING_METSELWERK · ZZ-HIDDEN-SO · r36</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GOOT_STRAATBAKSTEEN · CONTINUOUS · r173</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>GOOT_TEGEL · CONTINUOUS · r126</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>HALFVERHARDING_PUIN · ZZ-HIDDEN-SO · r138</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KANTOPSLUITING_PWSBAND_250X130 · VH-PWSBAND-SO · r50</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KANTVERHARDING · ZZ-HIDDEN-SO · r200</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KANTVERHARDING_ROLLAAG · ZZ-HIDDEN-SO · r150</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KANTVERHARDING_STREKLAAG · ZZ-HIDDEN-SO · r180</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KANTVERHARDING_TEGEL · ZZ-HIDDEN-SO · r158</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KANTVERHARDING_TEGEL_HALF · ZZ-HIDDEN-SO · r72</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KANTVERHARDING_TEGEL_PAS · ZZ-HIDDEN-SO · r112</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>KNIPLIJN · ZZ-HIDDEN-SO · r202</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ONVERHARD_HOUTSNIPPERS · ZZ-HIDDEN-SO · r30</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPENVERHARDING · ZZ-HIDDEN-SO · r207</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPENVERHARDING_BETONSTRAATSTEEN · ZZ-HIDDEN-SO · r145</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPENVERHARDING_COBBLESTONE · ZZ-HIDDEN-SO · r37</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPENVERHARDING_DELTA · ZZ-HIDDEN-SO · r31</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPENVERHARDING_HSTEEN · ZZ-HIDDEN-SO · r29</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPENVERHARDING_KALKZANDSTEEN · ZZ-HIDDEN-SO · r28</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPENVERHARDING_NATUURSTEEN · ZZ-HIDDEN-SO · r26</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPENVERHARDING_PLANKEN · ZZ-HIDDEN-SO · r35</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPENVERHARDING_SIERBESTRATING · ZZ-HIDDEN-SO · r142</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPENVERHARDING_STRAATBAKSTEEN · ZZ-HIDDEN-SO · r130</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPENVERHARDING_TEGEL · ZZ-HIDDEN-SO · r141</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPENVERHARDING_TEGEL_GRAS · ZZ-HIDDEN-SO · r4</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPENVERHARDING_TEGEL_RUBBER · ZZ-HIDDEN-SO · r22</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPENVERHARDING_TEGEL_SIER · ZZ-HIDDEN-SO · r3</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>OPENVERHARDING_TEGEL_ZINLOOS GEWELD TEGEL · ZZ-HIDDEN-SO · r70</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>ROOSTER · ZZ-HIDDEN-SO · r190</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>SPECIAAL · ZZ-HIDDEN-SO · r189</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>STOOTBAND · CONTINUOUS · r192</td></tr><tr><td class="loc">Vervallen lijntype (lt_v)</td><td>VERKEERSTEGEL · CONTINUOUS · r196</td></tr>
 </tbody>
 </table>
 </div>

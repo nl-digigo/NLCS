@@ -22,6 +22,9 @@ import glob
 import hashlib
 import os
 import re
+import shutil
+import subprocess
+import tempfile
 
 KEY = "objectURI"          # kolom waarop rijen gematcht worden (stabiele unieke URI;
                            # id_nummer is in oudere versies leeg)
@@ -2307,6 +2310,323 @@ def check_dwg_symbols(sym_src: str, dwg_dir: str, name_col: str = "symbool",
     orphans.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
     return {"total": total, "ok": ok, "missing": missing, "orphans": orphans,
             "dwg_count": len(dwg_map), "bibs": sorted(processed_bibs)}
+
+
+# --- Ontbrekende SVG's zoeken en genereren --------------------------------
+#
+# De symbolen-SVG's staan onder <svg_root>/<HG>/<bib>/<symbool>.svg, waarbij
+# `bib` de bibliotheek-code is (eerste 'S'-segment in de naam, V-/B-prefix-proof
+# net als _svg_cell in ot_gui) en `HG` = bib zonder de leidende 'S'
+# (sbib_to_code). Voorbeeld: 'B-SAL-...' -> docs/changelog/AL/SAL/B-SAL-....svg.
+# Conversie DWG -> DXF -> SVG spiegelt beheer/releasenotesmaken/dwg_to_svg.sh.
+
+ODA_EXE = r"C:\Program Files\ODA\ODAFileConverter 27.1.0\ODAFileConverter.exe"
+INKSCAPE_EXE = r"C:\Program Files\Inkscape\bin\inkscape.exe"
+DXF_VERSION = "ACAD2010"
+
+
+def _svg_bib(name: str) -> str:
+    """Bibliotheek-code (submapnaam) voor een symboolnaam, exact zoals `_svg_cell`
+    in ot_gui: het eerste '-'-segment dat met 'S' begint (voorvoegsels 'V-'/'B-'
+    beginnen nooit met 'S'), anders het eerste segment als er een koppelteken is."""
+    segs = (name or "").split("-")
+    bib = next((s for s in segs if s[:1].upper() == "S" and len(s) > 1), "")
+    if not bib:
+        bib = segs[0] if len(segs) > 1 else ""
+    return bib
+
+
+def _svg_target(name: str, svg_root: str) -> str:
+    """Absoluut pad waar de SVG van `name` hoort: <svg_root>/<HG>/<bib>/<name>.svg.
+    Geeft "" als er geen bibliotheek uit de naam te halen is."""
+    bib = _svg_bib(name)
+    if not bib:
+        return ""
+    hg = sbib_to_code(bib)
+    return os.path.join(svg_root, hg, bib, name + ".svg")
+
+
+def find_missing_svgs(sym_src: str, dwg_dir: str, svg_root: str,
+                      name_col: str = "symbool") -> dict:
+    """Zoek symbolen (uit de symbolentabellen) waarvan de SVG nog niet bestaat.
+
+    `sym_src` mag een MAP met symbolen-CSV's of één CSV zijn; `dwg_dir` is de map
+    met bron-.dwg's (recursief); `svg_root` is de publicatie-wortel (docs/changelog)
+    waaronder <HG>/<bib>/<naam>.svg staat.
+
+    Geeft terug:
+      {
+        "total":   aantal gecontroleerde symbolen,
+        "have":    aantal met bestaande SVG,
+        "missing": [ {name, dwg_abs, svg_target, hoofdgroep, bib} ],  # kan gemaakt
+        "no_dwg":  [ {name, svg_target, hoofdgroep, bib} ],           # geen bron-.dwg
+      }
+    None als de symbolenbron of svg-wortel ontbreekt (controle niet van toepassing)."""
+    if not sym_src or not svg_root or not os.path.isdir(svg_root):
+        return None
+    if os.path.isdir(sym_src):
+        paths = sorted(glob.glob(os.path.join(sym_src, "*.csv")))
+    elif os.path.isfile(sym_src):
+        paths = [sym_src]
+    else:
+        return None
+
+    dwg_map = dwg_index(dwg_dir)          # {stem.lower(): relpad}
+    total = 0
+    have = 0
+    missing: list[dict] = []
+    no_dwg: list[dict] = []
+    seen: set = set()
+    have_names = False
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        have_names = True
+        ni = headers.index(name_col)
+        for r in rows:
+            nm = (r[ni] if ni < len(r) else "").strip()
+            if not nm or nm.lower() in seen:
+                continue
+            seen.add(nm.lower())
+            target = _svg_target(nm, svg_root)
+            if not target:
+                continue
+            total += 1
+            if os.path.isfile(target):
+                have += 1
+                continue
+            bib = _svg_bib(nm)
+            hg = sbib_to_code(bib)
+            rel = dwg_map.get(nm.lower())
+            if rel:
+                missing.append({"name": nm, "dwg_abs": os.path.join(dwg_dir, rel),
+                                "svg_target": target, "hoofdgroep": hg, "bib": bib})
+            else:
+                no_dwg.append({"name": nm, "svg_target": target,
+                               "hoofdgroep": hg, "bib": bib})
+    if not have_names:
+        return None
+
+    missing.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    no_dwg.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    return {"total": total, "have": have, "missing": missing, "no_dwg": no_dwg}
+
+
+def find_changed_svgs(sym_src: str, dwg_new_dir: str, dwg_old_dir: str,
+                      svg_root: str, name_col: str = "symbool") -> dict:
+    """Zoek symbolen waarvan de .dwg INHOUDELIJK is gewijzigd tussen de oude en
+    nieuwe versie (SHA-256 verschilt); die SVG's moeten opnieuw gemaakt worden.
+
+    `sym_src` = map/CSV met symbolentabellen; `dwg_new_dir`/`dwg_old_dir` = de
+    nieuwe resp. oude .dwg-map (beide recursief); `svg_root` = publicatie-wortel.
+
+    Geeft terug:
+      {
+        "total":    aantal gecontroleerde symbolen,
+        "changed":  [ {name, dwg_abs, svg_target, hoofdgroep, bib} ],  # opnieuw maken
+        "identical": aantal met ongewijzigde .dwg,
+        "only_new":  aantal alleen in de nieuwe .dwg-map,
+        "only_old":  aantal alleen in de oude .dwg-map,
+      }
+    `dwg_abs` is het NIEUWE .dwg-pad. None als bron/mappen ontbreken."""
+    if not sym_src or not svg_root or not os.path.isdir(svg_root):
+        return None
+    if not dwg_new_dir or not os.path.isdir(dwg_new_dir):
+        return None
+    if not dwg_old_dir or not os.path.isdir(dwg_old_dir):
+        return None
+    if os.path.isdir(sym_src):
+        paths = sorted(glob.glob(os.path.join(sym_src, "*.csv")))
+    elif os.path.isfile(sym_src):
+        paths = [sym_src]
+    else:
+        return None
+
+    new_map = dwg_index(dwg_new_dir)      # {stem.lower(): relpad}
+    old_map = dwg_index(dwg_old_dir)
+    new_abs = {k: os.path.join(dwg_new_dir, v) for k, v in new_map.items()}
+    old_abs = {k: os.path.join(dwg_old_dir, v) for k, v in old_map.items()}
+
+    # symboolnamen (originele schrijfwijze) verzamelen
+    names: list = []
+    seen: set = set()
+    have_names = False
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        have_names = True
+        ni = headers.index(name_col)
+        for r in rows:
+            nm = (r[ni] if ni < len(r) else "").strip()
+            if nm and nm.lower() not in seen:
+                seen.add(nm.lower())
+                names.append(nm)
+    if not have_names:
+        return None
+
+    status = dwg_hash_status(names, new_abs, old_abs)
+    total = 0
+    identical = only_new = only_old = 0
+    changed: list = []
+    for nm in names:
+        target = _svg_target(nm, svg_root)
+        if not target:
+            continue
+        total += 1
+        st = status.get(nm.lower(), "")
+        if st == "gewijzigd":
+            bib = _svg_bib(nm)
+            changed.append({"name": nm, "dwg_abs": new_abs[nm.lower()],
+                            "svg_target": target, "hoofdgroep": sbib_to_code(bib),
+                            "bib": bib})
+        elif st == "identiek":
+            identical += 1
+        elif st == "alleen nieuw":
+            only_new += 1
+        elif st == "alleen oud":
+            only_old += 1
+
+    changed.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    return {"total": total, "changed": changed, "identical": identical,
+            "only_new": only_new, "only_old": only_old}
+
+
+def _svg_add_mm(path: str) -> None:
+    """Voeg 'mm' toe aan de root width/height van een Inkscape-SVG. Inkscape
+    schrijft die zonder eenheid; browsers lezen dat als pixels (een 19-unit
+    symbool wordt ~19px = onzichtbaar). Alleen de root-attributen (3 spaties
+    inspringing) krijgen 'mm'; geneste <pattern>-elementen blijven unitless.
+    Spiegelt de sed-stap uit dwg_to_svg.sh."""
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+    except OSError:
+        return
+    pat = re.compile(r'^(   (?:width|height)=")([0-9.]+)(")\s*$')
+    changed = False
+    for i, ln in enumerate(lines):
+        m = pat.match(ln.rstrip("\n"))
+        if m:
+            lines[i] = f"{m.group(1)}{m.group(2)}mm{m.group(3)}\n"
+            changed = True
+    if changed:
+        try:
+            with open(path, "w", encoding="utf-8") as f:
+                f.writelines(lines)
+        except OSError:
+            pass
+
+
+def generate_svgs(items: list, oda_exe: str = ODA_EXE,
+                  inkscape_exe: str = INKSCAPE_EXE, progress=None) -> dict:
+    """Genereer SVG's voor precies de opgegeven `items` (uit `find_missing_svgs`'
+    'missing'-lijst: dicts met `dwg_abs` en `svg_target`).
+
+    Pipeline per batch: kopieer alleen de benodigde .dwg's naar een tijdelijke map,
+    ODA File Converter (DWG -> DXF), Inkscape (DXF -> SVG, --export-area-drawing),
+    'mm' op de root width/height, en verplaats elke SVG naar zijn `svg_target`.
+    Zo worden ALLEEN de ontbrekende symbolen geconverteerd.
+
+    `progress(done, total, msg)` (optioneel) meldt voortgang. Geeft terug:
+      {"converted": int, "failed": [ {name, reason} ], "errors": [str, ...]}."""
+    result = {"converted": 0, "failed": [], "errors": []}
+    items = [it for it in (items or []) if it.get("dwg_abs") and it.get("svg_target")]
+    if not items:
+        return result
+    if not os.path.isfile(oda_exe):
+        result["errors"].append(f"ODA File Converter niet gevonden op: {oda_exe}")
+        return result
+    if not os.path.isfile(inkscape_exe):
+        result["errors"].append(f"Inkscape niet gevonden op: {inkscape_exe}")
+        return result
+
+    total = len(items)
+
+    def _say(done, msg):
+        if progress:
+            progress(done, total, msg)
+
+    tmp = tempfile.mkdtemp(prefix="nlcs_svg_")
+    tmp_dwg = os.path.join(tmp, "dwg")
+    tmp_dxf = os.path.join(tmp, "dxf")
+    os.makedirs(tmp_dwg, exist_ok=True)
+    os.makedirs(tmp_dxf, exist_ok=True)
+    try:
+        # 1) alleen de benodigde .dwg's kopiëren (stem == symboolnaam)
+        by_stem: dict = {}
+        for it in items:
+            src = it["dwg_abs"]
+            if not os.path.isfile(src):
+                result["failed"].append({"name": it["name"], "reason": "geen .dwg"})
+                continue
+            dst = os.path.join(tmp_dwg, it["name"] + ".dwg")
+            try:
+                shutil.copy2(src, dst)
+                by_stem[it["name"].lower()] = it
+            except OSError as e:
+                result["failed"].append({"name": it["name"],
+                                         "reason": f"kopie mislukt: {e}"})
+        if not by_stem:
+            return result
+
+        # 2) ODA: DWG -> DXF (mapgebaseerd, alleen onze tijdelijke map)
+        _say(0, f"ODA File Converter: {len(by_stem)} DWG → DXF ...")
+        try:
+            subprocess.run([oda_exe, tmp_dwg, tmp_dxf, DXF_VERSION, "DXF",
+                            "0", "0", "*.DWG"],
+                           check=False, capture_output=True, text=True)
+        except OSError as e:
+            result["errors"].append(f"ODA File Converter mislukte: {e}")
+            return result
+        dxfs = sorted(glob.glob(os.path.join(tmp_dxf, "*.dxf")))
+        if not dxfs:
+            result["errors"].append("ODA leverde geen DXF-bestanden op.")
+            return result
+
+        # 3) Inkscape: DXF -> SVG in chunks (cmdline-limiet)
+        _say(0, f"Inkscape: {len(dxfs)} DXF → SVG ...")
+        for i in range(0, len(dxfs), 100):
+            chunk = dxfs[i:i + 100]
+            try:
+                subprocess.run([inkscape_exe, "--export-type=svg",
+                                "--export-area-drawing", *chunk],
+                               check=False, capture_output=True, text=True)
+            except OSError as e:
+                result["errors"].append(f"Inkscape mislukte: {e}")
+                return result
+
+        # 4) mm-fix + 5) verplaatsen naar svg_target
+        done = 0
+        for dxf in dxfs:
+            stem = os.path.splitext(os.path.basename(dxf))[0]
+            svg = os.path.join(tmp_dxf, stem + ".svg")
+            it = by_stem.get(stem.lower())
+            if not it:
+                continue
+            if not os.path.isfile(svg):
+                result["failed"].append({"name": it["name"],
+                                         "reason": "geen SVG uit Inkscape"})
+                continue
+            _svg_add_mm(svg)
+            target = it["svg_target"]
+            try:
+                os.makedirs(os.path.dirname(target), exist_ok=True)
+                # Bestaand doel eerst weg: op Windows faalt een move naar een
+                # bestaand bestand (nodig bij het vernieuwen van gewijzigde SVG's).
+                if os.path.exists(target):
+                    os.remove(target)
+                shutil.move(svg, target)
+                result["converted"] += 1
+                done += 1
+                _say(done, f"{it['name']} → {os.path.relpath(target, os.path.dirname(os.path.dirname(os.path.dirname(target))))}")
+            except OSError as e:
+                result["failed"].append({"name": it["name"],
+                                         "reason": f"verplaatsen mislukt: {e}"})
+        return result
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
 
 
 def _sort_key(row: list[str]) -> str:

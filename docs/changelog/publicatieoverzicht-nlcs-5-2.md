@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 205 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 199 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -335,18 +335,12 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/OV/lijntypes-5-2-OV.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/OV/objecten-5-2-OV.html)
-- [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/OV/objecten-concept-5.2-OV.html)
-- [Query Symbolen concept](https://nl-digigo.github.io/NLCS/changelog/OV/NLCS_Query_Symbolen-concept-5.2-SOV.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/OV/symbolen-5-2-OV.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/OV/changelog-lijntypes-5-2-OV.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/OV/changelog-objecten-5-2-OV.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/OV/changelog-symbolen-5-2-OV.html)
-- [Vergelijking](https://nl-digigo.github.io/NLCS/changelog/OV/vergelijking_SOV_5.0_vs_5.2.html)
-- [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/OV/vergelijking_lijntypes_OV_5.0_vs_5.2.html)
-- [Vergelijking symbolen](https://nl-digigo.github.io/NLCS/changelog/OV/vergelijking_symbolen_5.1_vs_5.2_SOV.html)
-- [Vergelijking symbolen hernoemd](https://nl-digigo.github.io/NLCS/changelog/OV/vergelijking_symbolen_5.1_vs_5.2_SOV_hernoemd.html)
 
 ## RI
 
@@ -360,7 +354,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Vergelijking symbolen](https://nl-digigo.github.io/NLCS/changelog/RI/vergelijking_symbolen_5.1_vs_5.2_SRI.html)
 - [Vergelijking symbolen hernoemd](https://nl-digigo.github.io/NLCS/changelog/RI/vergelijking_symbolen_5.1_vs_5.2_SRI_hernoemd.html)
 
-## SB
+## SB ❌ (1 fout(en))
 
 **Tabellen**
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/SB/objecten-concept-5.2-SB.html)
@@ -379,7 +373,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/SC/changelog-objecten-5-2-SC.html)
 
-## VH
+## VH ❌ (25 fout(en))
 
 **Tabellen**
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/VH/objecten-concept-5.2-VH.html)
