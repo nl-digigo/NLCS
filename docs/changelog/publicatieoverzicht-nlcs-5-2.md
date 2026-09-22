@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 199 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 203 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -354,15 +354,17 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Vergelijking symbolen](https://nl-digigo.github.io/NLCS/changelog/RI/vergelijking_symbolen_5.1_vs_5.2_SRI.html)
 - [Vergelijking symbolen hernoemd](https://nl-digigo.github.io/NLCS/changelog/RI/vergelijking_symbolen_5.1_vs_5.2_SRI_hernoemd.html)
 
-## SB ❌ (1 fout(en))
+## SB ✅
 
 **Tabellen**
-- [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/SB/objecten-concept-5.2-SB.html)
-- [Query Symbolen concept](https://nl-digigo.github.io/NLCS/changelog/SB/NLCS_Query_Symbolen-concept-5.2-SSB.html)
+- [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/SB/lijntypes-5-2-SB.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/SB/objecten-5-2-SB.html)
+- [Symbolen](https://nl-digigo.github.io/NLCS/changelog/SB/symbolen-5-2-SB.html)
 
 **Changelogs**
-- [Vergelijking](https://nl-digigo.github.io/NLCS/changelog/SB/vergelijking_SSB_5.0_vs_5.2.html)
-- [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/SB/vergelijking_lijntypes_SB_5.0_vs_5.2.html)
+- [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/SB/changelog-lijntypes-5-2-SB.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/SB/changelog-objecten-5-2-SB.html)
+- [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/SB/changelog-symbolen-5-2-SB.html)
 
 ## SC ✅
 
@@ -416,9 +418,11 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 ## ZZ
 
 **Tabellen**
+- [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/ZZ/lijntypes-5-2-ZZ.html)
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/ZZ/objecten-concept-5.2-ZZ.html)
 - [Query Symbolen concept](https://nl-digigo.github.io/NLCS/changelog/ZZ/NLCS_Query_Symbolen-concept-5.2-SZZ.html)
 
 **Changelogs**
+- [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/ZZ/changelog-lijntypes-5-2-ZZ.html)
 - [Vergelijking](https://nl-digigo.github.io/NLCS/changelog/ZZ/vergelijking_SZZ_5.0_vs_5.2.html)
 - [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/ZZ/vergelijking_lijntypes_ZZ_5.0_vs_5.2.html)
