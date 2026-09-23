@@ -1127,6 +1127,11 @@ def check_object_tree(src: str, name_col: str = "omschrijving",
 # Kolommen in de objectentabel die naar een lijntype-naam verwijzen
 # (per variant: bestaand/nieuw/vervallen/tijdelijk).
 LIJNTYPE_REF_COLS = ("lt_b", "lt_n", "lt_v", "lt_t")
+# Lijntypes-VERZAMELbestanden: bestandscodes waarin lijntypes van MEERDERE echte
+# hoofdgroepen staan. Voor deze bestanden meldt check_lijntype_usage de
+# 'hoofdgroep'-kolom van de rij (de eigen code, bijv. BC/MC) i.p.v. de
+# bestandscode, zodat je de lijntypes bij hun eigen hoofdgroep terugvindt.
+LIJNTYPE_VERZAMELBESTANDEN = ("CO",)
 
 # Visualisatie-velden per fase in de objectentabel: lijngewicht (lw), de kleuren
 # (kl*) en het lijntype (lt). Een object "heeft een visualisatie" voor een fase
@@ -1142,6 +1147,9 @@ FASE_VOLGORDE = ("B", "N", "V", "T")
 # Hoofdgroepen die alleen een visualisatie voor de bestaande situatie (fase B)
 # hebben; voor deze codes worden N/V/T niet verwacht.
 FASE_ALLEEN_B_CODES = ("AL", "ZZ")
+# Objecten (omschrijving) die bewust NIET voor alle fasen een visualisatie
+# hoeven te hebben; deze worden in check_fase_visualisatie overgeslagen.
+FASE_VIS_UITZONDERINGEN = ("GESLOTENVERHARDING_ASFALT_ZAAGSNEDE",)
 
 
 def check_lijntype_usage(lijn_src: str, obj_src: str,
@@ -1161,11 +1169,18 @@ def check_lijntype_usage(lijn_src: str, obj_src: str,
       {
         "lijn_total":     aantal unieke lijntypes,
         "used":           [naam, ...]  (lijntypes die in objecten voorkomen),
-        "unused":         [ {name, hoofdgroep, file} ]  (bestaat wel, niet gebruikt),
+        "unused":         [ {name, hoofdgroep, file} ]  (bestaat wel, niet gebruikt;
+                          `hoofdgroep` = code van het lijntypesbestand, bijv. SB;
+                          telt als fout),
+        "unused_variant": [ {name, hoofdgroep, file} ]  (niet gebruikt én met
+                          'VARIANT' in de naam: WAARSCHUWING, geen fout),
         "obj_refs_total": aantal unieke verwezen namen in de objecten,
         "missing":        [ {name, count, objects[]} ]  (objecten verwijzen naar
                           een naam die geen bestaand lijntype is),
       }
+    Niet-gebruikte lijntypes met 'VARIANT' in de naam (bijv. GAZONBAND_VARIANT01)
+    zijn bewust toegestane varianten; die komen in `unused_variant` als
+    waarschuwing te staan i.p.v. in `unused` (dat als fout telt).
     """
     def _paths(src):
         if not src:
@@ -1178,7 +1193,14 @@ def check_lijntype_usage(lijn_src: str, obj_src: str,
 
     skip = {(n or "").strip().upper() for n in exclude_names}
 
-    # bestaande lijntypes: naam -> (hoofdgroep, bestand) — eerste voorkomen wint
+    # bestaande lijntypes: naam -> (hoofdgroep, bestand) — eerste voorkomen wint.
+    # De hoofdgroep komt uit het LIJNTYPESBESTAND (bestandscode via
+    # hoofdgroep_code), niet uit de 'hoofdgroep'-kolom: die kolom bevat soms de
+    # code uit de lijntypenaam (bijv. ZZ-…-SO in het SB-bestand krijgt daar 'ZZ'),
+    # terwijl je wilt weten in welk bestand het lijntype staat (hier: SB).
+    # UITZONDERING: het CO-verzamelbestand bevat lijntypes van meerdere echte
+    # hoofdgroepen (BC/MC, …); daar melden we juist de 'hoofdgroep'-kolom van de
+    # rij, zodat de eigen code (BC/MC) zichtbaar blijft en niet alles 'CO' wordt.
     lijn: dict[str, dict] = {}
     for path in _paths(lijn_src):
         headers, rows = read_table(path)
@@ -1186,14 +1208,20 @@ def check_lijntype_usage(lijn_src: str, obj_src: str,
             continue
         ni = headers.index(name_col)
         hi = headers.index("hoofdgroep") if "hoofdgroep" in headers else -1
+        code_fn = hoofdgroep_code(path)
+        is_verzamel = code_fn in LIJNTYPE_VERZAMELBESTANDEN
         fn = os.path.basename(path)
         for r in rows:
             nm = (r[ni] if ni < len(r) else "").strip()
             if not nm or nm.upper() in skip:
                 continue
+            row_hg = (r[hi] if 0 <= hi < len(r) else "").strip().upper()
+            # Verzamelbestand → eigen code uit de kolom (val terug op de
+            # bestandscode als de kolom leeg is, bijv. generieke CONTINUOUS).
+            hg = (row_hg or code_fn) if is_verzamel else code_fn
             lijn.setdefault(nm, {
                 "name": nm,
-                "hoofdgroep": (r[hi] if hi >= 0 and hi < len(r) else "").strip(),
+                "hoofdgroep": hg,
                 "file": fn,
             })
 
@@ -1214,7 +1242,11 @@ def check_lijntype_usage(lijn_src: str, obj_src: str,
                     refs[v].append(oname)
 
     used = sorted((n for n in lijn if n in refs), key=str.casefold)
-    unused = [lijn[n] for n in sorted(lijn, key=str.casefold) if n not in refs]
+    unused_all = [lijn[n] for n in sorted(lijn, key=str.casefold) if n not in refs]
+    # Lijntypes met 'VARIANT' in de naam zijn bewust toegestane varianten: die
+    # tellen niet als fout maar komen in een aparte waarschuwingslijst.
+    unused_variant = [u for u in unused_all if "VARIANT" in u["name"].upper()]
+    unused = [u for u in unused_all if "VARIANT" not in u["name"].upper()]
     missing = [
         {"name": n, "count": len(refs[n]), "objects": sorted(refs[n], key=str.casefold)}
         for n in sorted(refs, key=str.casefold) if n not in lijn
@@ -1223,6 +1255,7 @@ def check_lijntype_usage(lijn_src: str, obj_src: str,
         "lijn_total": len(lijn),
         "used": used,
         "unused": unused,
+        "unused_variant": unused_variant,
         "obj_refs_total": len(refs),
         "missing": missing,
     }
@@ -1455,7 +1488,8 @@ def check_special_chars(src: str, name_col: str,
 
 def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
                             hoofdgroep_col: str = "hoofdgroep",
-                            only_b_codes=FASE_ALLEEN_B_CODES) -> dict:
+                            only_b_codes=FASE_ALLEEN_B_CODES,
+                            exclude_names=FASE_VIS_UITZONDERINGEN) -> dict:
     """Controleer of elk object voor alle fasen een visualisatie heeft.
 
     Elke fase (B=bestaand, N=nieuw, V=vervallen, T=tijdelijk) heeft in de
@@ -1464,6 +1498,9 @@ def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
     als minstens één van die velden gevuld is. Verwacht worden alle vier de
     fasen, BEHALVE voor de hoofdgroepen in `only_b_codes` (standaard AL en ZZ):
     die hebben alleen een visualisatie voor de bestaande situatie (fase B).
+    Objecten waarvan de `omschrijving` in `exclude_names` staat (standaard
+    `FASE_VIS_UITZONDERINGEN`) worden helemaal overgeslagen — bewuste
+    uitzonderingen die geen fout zijn.
 
     De hoofdgroep wordt per rij uit kolom `hoofdgroep_col` gelezen (valt terug op
     de code in de bestandsnaam). `src` mag een MAP met CSV's of één CSV-bestand
@@ -1490,6 +1527,7 @@ def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
         return empty
 
     only_b = {(c or "").strip().upper() for c in only_b_codes}
+    excl = {(n or "").strip().casefold() for n in exclude_names}
     total = 0
     ok = 0
     missing: list[dict] = []
@@ -1510,6 +1548,8 @@ def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
         for r in rows:
             name = (r[ni] if ni < len(r) else "").strip()
             if not name:
+                continue
+            if name.casefold() in excl:
                 continue
             total += 1
             code = ((r[hi] if hi >= 0 and hi < len(r) else "").strip()
@@ -2641,6 +2681,70 @@ def generate_svgs(items: list, oda_exe: str = ODA_EXE,
         return result
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+# --- IMPORT_NLCS_Symbolen: ontbrekende (wees-).dwg's als importbestand ----
+#
+# Per hoofdgroep een xlsx (zelfde vorm als 'IMPORT_NLCS_Symbolen IW.xlsx':
+# sheet 'Symbolen', kolommen sbib/fase/categorisering_symbool/symbool/optie/
+# fileURL/description) met de symbolen die WEL als .dwg klaarstaan maar nog NIET
+# in de symbolentabellen zitten (de wees-.dwg's uit `check_dwg_symbols`).
+
+IMPORT_HEADER = ["sbib", "fase", "categorisering_symbool", "symbool",
+                 "optie", "fileURL", "description"]
+_FASE_PREFIXES = ("B", "V", "N", "O")
+
+
+def _symbol_import_row(name: str) -> dict:
+    """Leid de IMPORT_NLCS_Symbolen-kolommen af uit een symboolnaam.
+    fase = leidend B/V/N/O-segment (anders leeg); sbib = eerste 'S'-segment
+    (V-/B-prefix-proof, zoals `_svg_bib`); optie = 'SO' bij een '-SO'-
+    achtervoegsel; categorisering_symbool/fileURL/description blijven leeg."""
+    segs = (name or "").split("-")
+    fase = segs[0] if segs and segs[0] in _FASE_PREFIXES else ""
+    return {"sbib": _svg_bib(name), "fase": fase, "categorisering_symbool": "",
+            "symbool": name, "optie": "SO" if name.endswith("-SO") else "",
+            "fileURL": "", "description": ""}
+
+
+def find_orphan_symbols(sym_src: str, dwg_dir: str, name_col: str = "symbool",
+                        bib_col: str = "sbibliotheek") -> dict:
+    """Zoek .dwg-symbolen die in de map klaarstaan maar niet in de
+    symbolentabellen zitten (wees-.dwg's), gegroepeerd per hoofdgroep, met de
+    afgeleide IMPORT_NLCS_Symbolen-kolommen per rij.
+
+    Gescoped op de bibliotheken die in de tabellen voorkomen (kolom
+    `sbibliotheek`), net als de wees-detectie in `check_dwg_symbols`.
+
+    Retour: {"total_dwg", "count", "groups": {HG: [row, ...]}} — of None als er
+    geen symbolenbron of geen .dwg-map is."""
+    res = check_dwg_symbols(sym_src, dwg_dir, name_col=name_col, bib_col=bib_col)
+    if res is None:
+        return None
+    groups: dict[str, list] = {}
+    for orph in res["orphans"]:
+        # `orph["name"]` is de lowercased dwg_index-sleutel; de originele casing
+        # (nodig voor fase-/optie-detectie en de symbool-cel) staat in het pad.
+        true_name = os.path.splitext(os.path.basename(orph["file"]))[0]
+        groups.setdefault(orph["hoofdgroep"], []).append(
+            _symbol_import_row(true_name))
+    for hg in groups:
+        groups[hg].sort(key=lambda d: d["symbool"].casefold())
+    return {"total_dwg": res["dwg_count"], "count": len(res["orphans"]),
+            "groups": groups}
+
+
+def write_symbol_import_xlsx(rows: list, path: str) -> None:
+    """Schrijf IMPORT_NLCS_Symbolen-rijen (dicts met de `IMPORT_HEADER`-sleutels)
+    naar een xlsx met sheet 'Symbolen'. Lege waarden worden lege cellen."""
+    import openpyxl  # lazy: alleen nodig bij deze knop
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Symbolen"
+    ws.append(IMPORT_HEADER)
+    for r in rows:
+        ws.append([(r.get(c) or None) for c in IMPORT_HEADER])
+    wb.save(path)
 
 
 def _sort_key(row: list[str]) -> str:

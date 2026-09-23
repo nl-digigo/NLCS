@@ -523,6 +523,7 @@ class TableTab(ttk.Frame):
         # plus SVG's vernieuwen van symbolen waarvan de .dwg is gewijzigd.
         self.svg_btn = None
         self.changed_btn = None
+        self.import_btn = None
         if self.profile.get("front_svg"):
             self.svg_btn = ttk.Button(out, text="Genereer ontbrekende SVG's",
                                       command=self.on_generate_svgs)
@@ -531,6 +532,11 @@ class TableTab(ttk.Frame):
                 out, text="Vernieuw SVG's van gewijzigde symbolen",
                 command=self.on_generate_changed_svgs)
             self.changed_btn.pack(side="right", padx=(0, 6))
+            # Wees-.dwg's (wel .dwg, niet in de tabel) als IMPORT-xlsx per HG.
+            self.import_btn = ttk.Button(
+                out, text="Genereer IMPORT-symbolen (ontbrekend in tabel)",
+                command=self.on_generate_symbol_import)
+            self.import_btn.pack(side="right", padx=(0, 6))
 
         logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
         logframe.pack(fill="both", expand=True, pady=(8, 0))
@@ -1114,6 +1120,8 @@ class TableTab(ttk.Frame):
                         self.svg_btn.config(state="normal")
                     if self.changed_btn is not None:
                         self.changed_btn.config(state="normal")
+                    if self.import_btn is not None:
+                        self.import_btn.config(state="normal")
                     return
                 elif kind == "error":
                     messagebox.showerror("Fout", payload)
@@ -1123,6 +1131,8 @@ class TableTab(ttk.Frame):
                         self.svg_btn.config(state="normal")
                     if self.changed_btn is not None:
                         self.changed_btn.config(state="normal")
+                    if self.import_btn is not None:
+                        self.import_btn.config(state="normal")
                     return
         except queue.Empty:
             pass
@@ -1206,6 +1216,8 @@ class TableTab(ttk.Frame):
             self.svg_btn.config(state="disabled")
         if self.changed_btn is not None:
             self.changed_btn.config(state="disabled")
+        if self.import_btn is not None:
+            self.import_btn.config(state="disabled")
 
     def on_generate_changed_svgs(self) -> None:
         """Vernieuw de SVG's van symbolen waarvan de .dwg-inhoud is gewijzigd
@@ -1277,6 +1289,75 @@ class TableTab(ttk.Frame):
 
         threading.Thread(target=worker, daemon=True).start()
         self.after(100, self._poll_queue)
+
+    def on_generate_symbol_import(self) -> None:
+        """Maak per hoofdgroep een IMPORT_NLCS_Symbolen-xlsx met de symbolen die
+        wél als .dwg klaarstaan maar nog niet in de symbolentabellen zitten.
+        Beperkt tot de aangevinkte hoofdgroepen als er een selectie is."""
+        sym_src = self._loc("new")
+        dwg_dir = self._loc("dwg_new")
+        if not sym_src or not os.path.isdir(sym_src):
+            messagebox.showwarning(
+                "Geen symbolentabellen",
+                "Vul bij 'Locaties' de map met de nieuwe symbolentabellen in.")
+            return
+        if not dwg_dir or not os.path.isdir(dwg_dir):
+            messagebox.showwarning(
+                "Geen .dwg-map",
+                "Vul bij 'Locaties' de map met de symbool-.dwg's in.")
+            return
+
+        res = ot_compare.find_orphan_symbols(sym_src, dwg_dir)
+        if res is None:
+            messagebox.showwarning(
+                "Niet gevonden",
+                "Geen symboolnaam-kolom ('symbool') in de tabellen gevonden.")
+            return
+        groups = res["groups"]
+        selected = set(self.code_list.checked())
+        if selected:
+            groups = {hg: rows for hg, rows in groups.items() if hg in selected}
+        if not groups:
+            scope = " voor de gekozen hoofdgroep(en)" if selected else ""
+            messagebox.showinfo(
+                "Niets te doen",
+                f"Alle .dwg-symbolen staan al in de tabellen{scope}.")
+            return
+
+        total = sum(len(r) for r in groups.values())
+        overzicht = "\n".join(f"  • {hg}: {len(groups[hg])} symbool(en)"
+                              for hg in sorted(groups))
+        out_dir = filedialog.askdirectory(
+            title="Map voor de IMPORT_NLCS_Symbolen-bestanden",
+            initialdir=sym_src)
+        if not out_dir:
+            return
+        if not messagebox.askyesno(
+                "IMPORT-symbolen genereren",
+                f"{len(groups)} bestand(en) met in totaal {total} symbool(en) "
+                f"schrijven naar:\n{out_dir}\n\n{overzicht}\n\n"
+                "Bestaande bestanden met dezelfde naam worden overschreven."):
+            return
+
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        made = 0
+        for hg in sorted(groups):
+            path = os.path.join(out_dir, f"IMPORT_NLCS_Symbolen {hg}.xlsx")
+            try:
+                ot_compare.write_symbol_import_xlsx(groups[hg], path)
+                made += 1
+                self._logmsg(f"{os.path.basename(path)}: {len(groups[hg])} symbool(en).")
+            except Exception as exc:  # noqa: BLE001 - tonen in de GUI
+                self._logmsg(f"FOUT bij {os.path.basename(path)}: {exc}")
+        self._logmsg(f"Klaar: {made}/{len(groups)} bestand(en) geschreven "
+                     f"in {out_dir}.")
+        if made:
+            try:
+                webbrowser.open(os.path.abspath(out_dir))
+            except OSError:
+                pass
 
 
 # ---------------------------------------------------------------------------
@@ -1479,8 +1560,10 @@ class IndexTab(ttk.Frame):
         """Objectenboom-overzicht: per hoofdgroep een inklapbare boom, in dezelfde
         stijl als het publicatie-overzicht. Bron is de map objectentabellen-nieuw.
 
-        mark_ltv=True maakt de lt_v-variant: objecten met een gevulde lt_v die niet
-        met 'V-' begint krijgen een afwijkende kleur; uitvoer -> objectenboom-ltv-."""
+        mark_ltv=True maakt de lt_v-variant: elk blokje krijgt een linker-streep op
+        basis van de V-dekking (groen = object + alle onderliggende objecten hebben
+        een lt_v die met 'V-' begint, blauw = ergens ontbreekt een 'V-'-lt_v);
+        uitvoer -> objectenboom-ltv-."""
         src = self.app.loc["obj_new"].get().strip()
         if not os.path.isdir(src):
             messagebox.showwarning(
@@ -1534,10 +1617,10 @@ class IndexTab(ttk.Frame):
                      f"{tree['max_depth'] + 1} niveau(s); "
                      f"{len(tree['roots'])} hoofdobject(en).")
         if mark_ltv:
-            n_bad = sum(1 for nd in tree["nodes"].values()
-                        if ot_compare.ltv_is_bad(nd.get("lt_v", "")))
-            self._logmsg(f"lt_v-variant: {n_bad} object(en) met een gevulde lt_v "
-                         f"zonder 'V-' gemarkeerd.")
+            n_gap = sum(1 for nd in tree["nodes"].values()
+                        if not (nd.get("lt_v", "") or "").strip().startswith("V-"))
+            self._logmsg(f"lt_v-variant (V-dekking): {n_gap} object(en) zonder "
+                         f"'V-'-lijntype (blauwe streep); rest groen.")
         self._logmsg(f"Objectenboom geschreven: {output}")
         self.app.save_config()
         if self.app.open_after_var.get():
@@ -2152,9 +2235,11 @@ class LijntypeUsageTab(ttk.Frame):
                 "Geen bronnen", "Vul bij 'Locaties' een geldige map in voor "
                 "zowel de nieuwe lijntypes als de nieuwe objectentabellen.")
             return
+        variant = res.get("unused_variant", [])
         self._logmsg(f"Lijntypes: {res['lijn_total']}  "
                      f"(gebruikt: {len(res['used'])}, "
-                     f"niet gebruikt: {len(res['unused'])})")
+                     f"niet gebruikt: {len(res['unused'])}, "
+                     f"variant-waarschuwing: {len(variant)})")
         self._logmsg()
         unused = res["unused"]
         if not unused:
@@ -2163,6 +2248,14 @@ class LijntypeUsageTab(ttk.Frame):
             self._logmsg(f"⚠ {len(unused)} lijntype(s) niet gebruikt in de "
                          "objecten:")
             for u in unused:
+                self._logmsg(f"   {u['name']}   [hoofdgroep {u['hoofdgroep']}, "
+                             f"{u['file']}]")
+        if variant:
+            self._logmsg()
+            self._logmsg(f"⚠ Waarschuwing: {len(variant)} niet-gebruikt(e) "
+                         "lijntype(s) met 'VARIANT' in de naam (bewust toegestaan, "
+                         "geen fout):")
+            for u in variant:
                 self._logmsg(f"   {u['name']}   [hoofdgroep {u['hoofdgroep']}, "
                              f"{u['file']}]")
 

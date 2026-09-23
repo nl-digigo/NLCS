@@ -682,19 +682,27 @@ _TREE_STYLE = """
             color:var(--dg-ink); }
     .otree .empty { color:var(--dg-grey2); font-style:italic; font-size:.86rem; }
 
-    /* lt_v-variant: object met gevulde lt_v die niet met 'V-' begint */
-    a.btn.otbtn.ltv-bad, span.btn.otleaf.ltv-bad {
-            border-left-color:#c0392b; background:#fdecea; color:#8e2418; }
-    .otree li.leaf.ltv-bad, .otree summary.node.ltv-bad {
-            color:#8e2418; background:#fdecea; border-radius:4px; font-weight:600; }
-    .kids .badltv { display:inline-block; margin-right:6px; background:#c0392b;
+    /* lt_v-variant (V-dekking): groen = object EN alle onderliggende objecten
+       hebben een lt_v die met 'V-' begint; blauw = ergens (object zelf of een
+       onderliggend object) ontbreekt een 'V-'-lt_v (leeg of andere waarde).
+       Kleuren zoals het publicatie-overzicht (--dg-green / --dg-blue). */
+    a.btn.otbtn.v-ok,  span.btn.otleaf.v-ok  { border-left-color:var(--dg-green); }
+    a.btn.otbtn.v-gap, span.btn.otleaf.v-gap { border-left-color:var(--dg-blue); }
+    .otree li.leaf.v-ok, .otree summary.node.v-ok {
+            border-left:4px solid var(--dg-green); border-radius:4px; }
+    .otree li.leaf.v-gap, .otree summary.node.v-gap {
+            border-left:4px solid var(--dg-blue); border-radius:4px; }
+    .kids .badltv { display:inline-block; margin-right:6px; background:var(--dg-blue);
             color:#fff; border-radius:10px; padding:1px 8px; font-size:.72rem;
             font-weight:700; }
-    .tree-count .ltv-cnt { color:#c0392b; font-weight:600; }
-    .ltv-legend { margin:0 0 14px; font-size:.9rem; color:var(--dg-ink); }
+    .tree-count .ltv-cnt { color:var(--dg-blue); font-weight:600; }
+    .ltv-legend { margin:0 0 14px; font-size:.9rem; color:var(--dg-ink);
+            display:flex; flex-wrap:wrap; gap:6px 18px; align-items:center; }
     .ltv-legend code { background:#f2f2f2; border-radius:3px; padding:0 4px; }
     .ltv-swatch { display:inline-block; width:14px; height:14px; vertical-align:-2px;
-            background:#fdecea; border-left:3px solid #c0392b; border-radius:2px; }
+            border-radius:2px; }
+    .ltv-swatch.ok  { background:#eef7ee; border-left:3px solid var(--dg-green); }
+    .ltv-swatch.gap { background:#e8f6fc; border-left:3px solid var(--dg-blue); }
 """
 
 # Kleine, zelfstandige JS voor de pop-ups: knop opent het bijbehorende <dialog>
@@ -827,24 +835,42 @@ def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
            {"count","roots","nodes","max_depth","errors"}. Elke node heeft
            "id","name","children","file" (bron-CSV), "depth" en "lt_v".
 
-    mark_ltv : als True krijgt elk object met een lt_v die gevuld is maar niet met
-           'V-' begint (ot_compare.ltv_is_bad) een afwijkende kleur ('ltv-bad'),
-           met een legenda en telling. Puur op de kolomwaarde, geen uitzonderingen.
+    mark_ltv : als True krijgt elk 'blokje' (objectknop en boom-knoop) een linker-
+           streep op basis van de V-dekking: GROEN als het object én al zijn
+           onderliggende objecten een lt_v hebben die met 'V-' begint, BLAUW zodra
+           ergens in die tak een lt_v leeg is of niet met 'V-' begint. Kleuren als
+           het publicatie-overzicht. Met legenda en telling van objecten zonder V.
     """
-    from ot_compare import hoofdgroep_code, ltv_is_bad
+    from ot_compare import hoofdgroep_code
 
     nodes = tree.get("nodes", {}) if tree else {}
     roots = tree.get("roots", []) if tree else []
 
-    def _bad(idn: str) -> bool:
+    def _has_v(idn: str) -> bool:
+        """True als de lt_v van dit object met 'V-' begint (heeft een V)."""
         nd = nodes.get(idn)
-        return bool(mark_ltv and nd and ltv_is_bad(nd.get("lt_v", "")))
+        return bool(nd and (nd.get("lt_v", "") or "").strip().startswith("V-"))
 
-    def _bad_in(idn: str) -> int:
+    _allv_cache: dict[str, bool] = {}
+
+    def _all_v(idn: str) -> bool:
+        """True als dit object én alle onderliggende objecten een 'V-'-lt_v
+        hebben (volledige V-dekking). Leeg of niet-'V-' -> False."""
+        if idn in _allv_cache:
+            return _allv_cache[idn]
+        nd = nodes.get(idn)
+        if not nd:
+            return True
+        res = _has_v(idn) and all(_all_v(c) for c in nd.get("children", []))
+        _allv_cache[idn] = res
+        return res
+
+    def _gap_in(idn: str) -> int:
+        """Aantal objecten in deze tak (incl. zichzelf) zonder 'V-'-lt_v."""
         nd = nodes.get(idn)
         if not nd:
             return 0
-        return (1 if _bad(idn) else 0) + sum(_bad_in(c) for c in nd.get("children", []))
+        return (0 if _has_v(idn) else 1) + sum(_gap_in(c) for c in nd.get("children", []))
 
     # Roots per hoofdgroep (op bron-CSV-basename). Roots en kinderen zijn in
     # check_object_tree al op naam gesorteerd -> volgorde overnemen.
@@ -871,38 +897,43 @@ def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
         if not nd:
             return ""
         name = _esc(nd.get("name", idn))
-        bad = " ltv-bad" if _bad(idn) else ""
-        badttl = (f' title="lt_v: {_esc(nd.get("lt_v", ""))} (geen V-)"'
-                  if bad else "")
+        vcls = vttl = ""
+        if mark_ltv:
+            if _all_v(idn):
+                vcls, vttl = " v-ok", ' title="volledige V-dekking"'
+            else:
+                gap = _gap_in(idn)
+                vcls = " v-gap"
+                vttl = f' title="{gap} object(en) zonder \'V-\'-lijntype"'
         kids = nd.get("children", [])
         if not kids:
-            return f'<li class="leaf{bad}"{badttl}>{name}</li>'
+            return f'<li class="leaf{vcls}"{vttl}>{name}</li>'
         inner = "\n".join(_node_html(c) for c in kids)
         return (f'<li><details class="tree" open>'
-                f'<summary class="node{bad}"{badttl}>{name}</summary>\n'
+                f'<summary class="node{vcls}"{vttl}>{name}</summary>\n'
                 f'<ul>\n{inner}\n</ul></details></li>')
 
     cards, dialogs = [], []
-    total_bad = 0
+    total_gap = 0
     for code in sorted(groups):
         root_ids = groups[code]
         n_obj = sum(_count_in(r) for r in root_ids)
-        n_bad_card = sum(_bad_in(r) for r in root_ids)
-        total_bad += n_bad_card
+        n_gap_card = sum(_gap_in(r) for r in root_ids)
+        total_gap += n_gap_card
         btns = []
         for r in root_ids:
             nd = nodes[r]
             name = _esc(nd.get("name", r))
             kids = nd.get("children", [])
-            root_bad = " ltv-bad" if _bad(r) else ""
-            n_bad = _bad_in(r)
-            badge = (f'<span class="badltv" title="{n_bad} object(en) met '
-                     f'lt_v zonder V-">{n_bad}</span>' if mark_ltv and n_bad else "")
+            root_v = (" v-ok" if _all_v(r) else " v-gap") if mark_ltv else ""
+            n_gap = _gap_in(r)
+            badge = (f'<span class="badltv" title="{n_gap} object(en) zonder '
+                     f'\'V-\'-lijntype">{n_gap}</span>' if mark_ltv and n_gap else "")
             if kids:
                 did = _dlg_id(r)
                 n_sub = _count_in(r) - 1
                 btns.append(
-                    f'<a class="btn otbtn{root_bad}" data-dlg="{did}" '
+                    f'<a class="btn otbtn{root_v}" data-dlg="{did}" '
                     f'title="{name} — {n_sub} onderliggend(e) object(en)">'
                     f'{name}<span class="kids">{badge}{n_sub}</span></a>')
                 # bijbehorende pop-up met de boom onder deze root
@@ -916,11 +947,11 @@ def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
                     f'</ul></div></dialog>')
             else:
                 # geen onderliggende objecten -> geen pop-up, alleen een label
-                btns.append(f'<span class="btn otleaf{root_bad}" title="{name} — '
+                btns.append(f'<span class="btn otleaf{root_v}" title="{name} — '
                             f'geen onderliggende objecten">{name}</span>')
         card_cnt = (f'<span class="tree-count">{n_obj} object(en)'
-                    + (f' &middot; <span class="ltv-cnt">{n_bad_card} zonder V-</span>'
-                       if mark_ltv and n_bad_card else "")
+                    + (f' &middot; <span class="ltv-cnt">{n_gap_card} zonder V</span>'
+                       if mark_ltv and n_gap_card else "")
                     + '</span>')
         cards.append(
             '<div class="card">'
@@ -932,14 +963,18 @@ def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
 
     total = tree.get("count", 0) if tree else 0
     info = (f"{len(groups)} hoofdgroep(en) &middot; {total} object(en)"
-            + (f" &middot; {total_bad} object(en) met lt_v zonder V-"
+            + (f" &middot; {total_gap} object(en) zonder 'V-'-lijntype"
                if mark_ltv else "")
             + (f" &middot; versie {_esc(version)}" if version else ""))
 
     legend = (
-        '<p class="ltv-legend"><span class="ltv-swatch"></span> '
-        'Object met een gevulde <code>lt_v</code> die niet met '
-        '<code>V-</code> begint.</p>' if mark_ltv else "")
+        '<p class="ltv-legend">'
+        '<span><span class="ltv-swatch ok"></span> object én alle onderliggende '
+        'objecten hebben een vervallen-lijntype (<code>lt_v</code> begint met '
+        '<code>V-</code>)</span>'
+        '<span><span class="ltv-swatch gap"></span> object of een onderliggend '
+        'object heeft geen <code>V-</code>-lijntype (leeg of andere waarde)</span>'
+        '</p>' if mark_ltv else "")
 
     body = ('<p class="empty">Geen objecten gevonden.</p>' if not cards else
             legend + '<div class="card-grid">\n' + "\n".join(cards) + "\n</div>")
@@ -1499,6 +1534,7 @@ def build_lijntype_usage_html(result: dict, title: str = "Lijntype-gebruik",
     lijn_total = result.get("lijn_total", 0)
     used = result.get("used", [])
     unused = result.get("unused", [])
+    variant = result.get("unused_variant", [])
 
     ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
     kpi = (
@@ -1507,6 +1543,8 @@ def build_lijntype_usage_html(result: dict, title: str = "Lijntype-gebruik",
         f'<div class="box"><b>{len(used)}</b>gebruikt in objecten</div>'
         f'<div class="box {"bad" if unused else "free"}"><b>{len(unused)}</b>'
         'niet gebruikt</div>'
+        f'<div class="box {"warn" if variant else "free"}"><b>{len(variant)}</b>'
+        'variant (waarschuwing)</div>'
         '</div>')
 
     # ongebruikte lijntypes (de hoofdvraag)
@@ -1525,6 +1563,17 @@ def build_lijntype_usage_html(result: dict, title: str = "Lijntype-gebruik",
             for u in unused]
         c1.append(_otab('<th>lijntype</th><th>hoofdgroep</th><th>bestand</th>',
                         rows))
+    if variant:
+        c1.append(f'<p class="warn">⚠ Waarschuwing: {len(variant)} niet-gebruikt(e) '
+                  "lijntype(s) met 'VARIANT' in de naam. Dit zijn bewust toegestane "
+                  'varianten en tellen niet als fout:</p>')
+        vrows = [
+            f'<tr><td>{_esc(u["name"])}</td>'
+            f'<td>{_esc(u.get("hoofdgroep", ""))}</td>'
+            f'<td class="loc">{_esc(u.get("file", ""))}</td></tr>'
+            for u in variant]
+        c1.append(_otab('<th>lijntype</th><th>hoofdgroep</th><th>bestand</th>',
+                        vrows))
     c1.append('</div>')
 
     body = "\n".join(c1)
@@ -2243,10 +2292,12 @@ def _c_lijntype_usage(result) -> str:
     if not result:
         return _skip_card("Lijntype-gebruik")
     unused = result.get("unused", [])
+    variant = result.get("unused_variant", [])
     kpi = _kpi_boxes(
         (result.get("lijn_total", 0), "lijntypes", ""),
         (len(result.get("used", [])), "gebruikt", ""),
-        (len(unused), "niet gebruikt", "bad" if unused else "free"))
+        (len(unused), "niet gebruikt", "bad" if unused else "free"),
+        (len(variant), "variant (waarsch.)", "warn" if variant else "free"))
     c = [f'<div class="card"><h2>Lijntype-gebruik</h2>{kpi}']
     if not unused:
         c.append('<p class="ok">✓ Elk lijntype wordt in de objectentabel '
@@ -2256,6 +2307,13 @@ def _c_lijntype_usage(result) -> str:
                  'de objecten gebruikt:</p>')
         c.append(_hg_table('<th>lijntype</th>', unused,
                            [lambda u: f'<td>{_esc(u.get("name",""))}</td>']))
+    if variant:
+        c.append(f'<p class="warn">⚠ Waarschuwing: {len(variant)} niet-gebruikt(e) '
+                 "lijntype(s) met 'VARIANT' in de naam (bewust toegestane "
+                 'varianten, tellen niet als fout):</p>')
+        c.append(_hg_table('<th>lijntype</th>', variant,
+                           [lambda u: f'<td>{_esc(u.get("name",""))}</td>'],
+                           hg_class="hg info"))
     c.append('</div>')
     return "\n".join(c)
 
