@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 217 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 221 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -311,7 +311,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/OB/changelog-lijntypes-5-2-OB.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/OB/changelog-objecten-5-2-OB.html)
 
-## OG ❌ (1 fout(en))
+## OG ✅
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/OG/arceringen-5-2-OG.html)
@@ -337,7 +337,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/OV/changelog-objecten-5-2-OV.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/OV/changelog-symbolen-5-2-OV.html)
 
-## RI ❌ (3 fout(en))
+## RI ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/RI/lijntypes-5-2-RI.html)
@@ -370,7 +370,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/SC/changelog-objecten-5-2-SC.html)
 
-## VH ❌ (52 fout(en))
+## VH ❌ (14 fout(en))
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/VH/arceringen-5-2-VH.html)
@@ -396,12 +396,14 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/VV/lijntypes-5-2-VV.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/VV/objecten-5-2-VV.html)
+- [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/VV/objecten-concept-5.2-VV.html)
+- [Query Symbolen concept](https://nl-digigo.github.io/NLCS/changelog/VV/NLCS_Query_Symbolen-concept-5.2-SVV.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/VV/symbolen-5-2-VV.html)
 
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/VV/changelog-objecten-5-2-VV.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/VV/changelog-symbolen-5-2-VV.html)
-
+- [Vergelijking](https://nl-digigo.github.io/NLCS/changelog/VV/vergelijking_SVV_5.0_vs_5.2.html)
 
 ## VW ❌ (1139 fout(en))
 
@@ -419,12 +421,16 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Vergelijking](https://nl-digigo.github.io/NLCS/changelog/VW/vergelijking_SVW_5.0_vs_5.2.html)
 - [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/VW/vergelijking_lijntypes_VW_5.0_vs_5.2.html)
 
-## WH
+## WH ❌ (3 fout(en))
 
 **Tabellen**
+- [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/WH/lijntypes-5-2-WH.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/WH/objecten-5-2-WH.html)
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/WH/objecten-concept-5.2-WH.html)
 
 **Changelogs**
+- [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/WH/changelog-lijntypes-5-2-WH.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/WH/changelog-objecten-5-2-WH.html)
 - [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/WH/vergelijking_lijntypes_WH_5.0_vs_5.2.html)
 
 ## ZZ
