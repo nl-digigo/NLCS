@@ -208,7 +208,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/IV/changelog-objecten-5-2-IV.html)
 
-## IW ❌ (682 fout(en))
+## IW ❌ (675 fout(en))
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/IW/lijntypes-5-2-IW.html)
@@ -370,7 +370,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/SC/changelog-objecten-5-2-SC.html)
 
-## VH ❌ (14 fout(en))
+## VH ✅
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/VH/arceringen-5-2-VH.html)
