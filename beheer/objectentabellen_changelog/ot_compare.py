@@ -2267,6 +2267,71 @@ def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",
             "name_exceptions": sorted(nexc), "missing": missing}
 
 
+def check_lt_v_misplaatst(src: str, prefix: str = "V-",
+                          lt_cols=("lt_b", "lt_n", "lt_t"),
+                          name_col: str = "omschrijving") -> dict:
+    """Controleer dat een 'V-'-lijntype ALLEEN in de kolom lt_v voorkomt.
+
+    Vervallen lijntypes heten in NLCS met een 'V-'-prefix en horen uitsluitend
+    in de kolom `lt_v` (de vervallen fase) te staan. Een waarde die met 'V-'
+    begint in `lt_b`, `lt_n` of `lt_t` is dus fout: daar hoort het lijntype van
+    respectievelijk de begin-, nieuwe- of tijdelijke fase te staan, niet het
+    vervallen lijntype.
+
+    `src` mag een MAP met CSV's of één CSV-bestand zijn. Lege cellen worden
+    overgeslagen; de kolom `lt_v` wordt niet gecontroleerd (daar mag 'V-' juist
+    wel). Een bestand zonder één van de gecontroleerde kolommen wordt
+    overgeslagen.
+
+    Geeft terug:
+      {
+        "total":   aantal gevulde lt_b/lt_n/lt_t-waarden dat is gecontroleerd,
+        "ok":      aantal daarvan dat NIET met 'V-' begint,
+        "prefix":  de verboden prefix ('V-'),
+        "columns": de gecontroleerde kolommen (kleine letters),
+        "bad":     [ {name, file, row, column, found} ],  # 'V-' buiten lt_v
+      }
+    """
+    cols = [c.strip().lower() for c in lt_cols if c and c.strip()]
+    empty = {"total": 0, "ok": 0, "prefix": prefix, "columns": cols, "bad": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    pref = prefix.upper()
+    total = 0
+    ok = 0
+    bad: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        idx = [(c, headers.index(c)) for c in cols if c in headers]
+        if not idx:
+            continue
+        ni = headers.index(name_col) if name_col in headers else -1
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if 0 <= ni < len(r) else "").strip()
+            for col, ci in idx:
+                val = (r[ci] if ci < len(r) else "").strip()
+                if not val:
+                    continue
+                total += 1
+                if val.upper().startswith(pref):
+                    bad.append({"name": name, "file": fn, "row": i + 2,
+                                "column": col, "found": val})
+                else:
+                    ok += 1
+
+    bad.sort(key=lambda d: (d["file"], d["name"].casefold(), d["column"]))
+    return {"total": total, "ok": ok, "prefix": prefix,
+            "columns": cols, "bad": bad}
+
+
 def bib_of_stem(stem: str, known_bibs) -> str:
     """De bibliotheek-code die als los hyphen-segment in een bestands-/symboolnaam
     staat. Symboolnamen kunnen een prefix hebben (bijv. 'V-SFC-PAAL...', 'B-SGC-…'),

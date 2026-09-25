@@ -2450,6 +2450,41 @@ def _c_lt_v_vervallen(result) -> str:
     return "\n".join(c)
 
 
+def _c_lt_v_misplaatst(result) -> str:
+    """Kaart: een 'V-'-lijntype (vervallen lijntype) hoort alleen in de kolom
+    lt_v. result met total/ok/prefix/columns/bad[{name,file,row,column,found}].
+    Dit is een FOUT (telt mee in het publicatie-overzicht)."""
+    title = "Vervallen lijntype buiten lt_v"
+    if not result:
+        return _skip_card(title)
+    bad = result.get("bad", [])
+    total, ok = result.get("total", 0), result.get("ok", 0)
+    pref = result.get("prefix", "V-")
+    cols = result.get("columns", [])
+    colstr = "/".join(cols) if cols else "lt_b/lt_n/lt_t"
+    kpi = _kpi_boxes(
+        (total, f"{colstr} gevuld", ""),
+        (ok, f"zonder {pref}", "free" if ok == total else ""),
+        (len(bad), f"{pref} op verkeerde plek", "bad" if bad else "free"))
+    c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
+    if not bad:
+        c.append(f'<p class="ok">✓ Geen enkel {_esc(pref)}-lijntype in '
+                 f'{_esc(colstr)}; vervallen lijntypes staan alleen in lt_v.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(bad)} keer een {_esc(pref)}-lijntype in '
+                 f'een andere kolom dan lt_v ({_esc(colstr)}). Een '
+                 f'{_esc(pref)}-lijntype is een vervallen lijntype en hoort '
+                 'uitsluitend in lt_v:</p>')
+        c.append(_hg_table(
+            '<th>object</th><th>kolom</th><th>lijntype</th><th>rij</th>', bad,
+            [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td class="loc">{_esc(m.get("column",""))}</td>',
+             lambda m: f'<td class="loc">{_esc(m.get("found",""))}</td>',
+             lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
 def _c_arc_length(result) -> str:
     """Kaart voor de maximale-naamlengte-controle van arceringen:
     result met total/ok/max_len/toolong[{name,file,row,length}]."""
@@ -2832,6 +2867,14 @@ _D_LTV = (
     "(inclusief hun onderliggende objecten) en voor de losse objecten "
     "<code>GRENS_VLAKAFSLUITER</code> en <code>GRENS_WIJK</code>.")
 
+_D_LTVMIS = (
+    "Vervallen lijntype buiten lt_v: een lijntype waarvan de naam met "
+    "<code>V-</code> begint is een vervallen lijntype en hoort uitsluitend in de "
+    "kolom <code>lt_v</code> te staan. De kolommen <code>lt_b</code>, "
+    "<code>lt_n</code> en <code>lt_t</code> (begin-, nieuwe- en tijdelijke fase) "
+    "mogen dus géén <code>V-…</code>-waarde bevatten; staat daar toch een "
+    "<code>V-</code>-lijntype, dan is dat een fout.")
+
 _D_VERWSCALE = (
     "VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) "
     "kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit "
@@ -2991,7 +3034,7 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
     heeft een sorteerbare kolom 'hoofdgroep' vooraan.
 
     `data` bevat de ruwe controle-resultaten (zie ot_gui.ControlesTab._gather):
-      tree, fasevis, elemlink, elemfill, lijnusage, arcverkl, arclen, lijndef, verwscale, dwg  -> dict|None
+      tree, fasevis, elemlink, elemfill, ltvmis, lijnusage, arcverkl, arclen, lijndef, verwscale, dwg  -> dict|None
       id       -> {soort: id-section|None}
       optie    -> {soort: optie-section|None}
       nameuri  -> {soort: analyze_name_uri-dict|None}
@@ -3020,7 +3063,8 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
            _desc(_c_missing(data.get("elemfill"), "Element gevuld",
                             ("objecten", "gevuld", "leeg"),
                             "Elk object heeft minimaal één waarde in de kolom "
-                            "element.", "<th>object</th>"), _D_ELEMFILL)]
+                            "element.", "<th>object</th>"), _D_ELEMFILL),
+           _desc(_c_lt_v_misplaatst(data.get("ltvmis")), _D_LTVMIS)]
     if smin.get("symbolen") or smin.get("arceringen"):
         obj.append(_desc(_c_searchmin(smin.get("symbolen")), _D_ZOEKTERM_MIN))
         obj.append(_desc(_c_searchmin(smin.get("arceringen")), _D_ZOEKTERM_MIN))

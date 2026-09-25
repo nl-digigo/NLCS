@@ -3263,6 +3263,8 @@ class ControlesTab(ttk.Frame):
                 app.loc["obj_new"].get().strip()),
             "ltv": ot_compare.check_lt_v_vervallen(
                 app.loc["obj_new"].get().strip()),
+            "ltvmis": ot_compare.check_lt_v_misplaatst(
+                app.loc["obj_new"].get().strip()),
             "lijnusage": app.lijnusage_tab._run(),
             "arcverkl": app.arceringverklaring_tab._run(),
             "arclen": ot_compare.check_arcering_name_length(
