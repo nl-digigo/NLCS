@@ -12,6 +12,7 @@ Instellingen (behalve het token) worden onthouden via rn_config.
 
 import os
 import queue
+import re
 import threading
 import webbrowser
 
@@ -461,6 +462,61 @@ class App(ttk.Frame):
         self.showlabel_list.set_items(self.labels_all,
                                       checked=self.cfg.get("show_labels"))
 
+    # -- per hoofdgroep bij de changelogs ---------------------------------
+    @staticmethod
+    def _changelog_root_and_codes(output_path: str):
+        """Zoek de changelog-wortel en de bestaande 2-letter hoofdgroepmappen.
+
+        Kijkt vanaf de map van het uitvoerbestand omhoog (die map, de ouder en
+        de grootouder) en kiest het niveau met de meeste 2-letter-submappen
+        (bv. docs/changelog met VW, RI, GR, ...). Retour: (root, codes), of
+        (None, set()) als er geen geschikte changelog-map gevonden is.
+        """
+        best_root, best_codes = None, set()
+        cur = os.path.dirname(os.path.abspath(output_path))
+        for _ in range(3):
+            if os.path.isdir(cur):
+                codes = {name for name in os.listdir(cur)
+                         if re.fullmatch(r"[A-Z]{2}", name)
+                         and os.path.isdir(os.path.join(cur, name))}
+                if len(codes) > len(best_codes):
+                    best_root, best_codes = cur, codes
+            parent = os.path.dirname(cur)
+            if parent == cur:
+                break
+            cur = parent
+        if len(best_codes) >= 5:
+            return best_root, best_codes
+        return None, set()
+
+    def _generate_per_hoofdgroep(self, selection, output, tag, show_labels):
+        """Schrijf naast het hoofdbestand per hoofdgroep een
+        releasenotes-<...>-<CODE>.html in docs/changelog/<CODE>/ (alleen voor
+        hoofdgroepen met minstens één release note). Retour: statustekst."""
+        root, codes = self._changelog_root_and_codes(output)
+        if not root or not codes:
+            return "per hoofdgroep: changelog-map niet gevonden"
+
+        groups, zonder = rn_extract.group_by_hoofdgroep(selection, codes)
+        stem = os.path.splitext(os.path.basename(output))[0]
+        base_title = self.title_var.get() or "Release Notes"
+        written, failed = 0, []
+        for code in sorted(groups):
+            dest = os.path.join(root, code, f"{stem}-{code}.html")
+            try:
+                rn_html.save_html(groups[code], dest, tag=tag,
+                                  show_labels=show_labels,
+                                  title=f"{base_title} – {code}")
+                written += 1
+            except OSError as exc:  # noqa: BLE001 - verzamel en toon in de GUI
+                failed.append(f"{code}: {exc}")
+        msg = f"per hoofdgroep: {written} bestanden in {os.path.basename(root)}/"
+        if zonder:
+            msg += f", {len(zonder)} zonder hoofdgroep overgeslagen"
+        if failed:
+            msg += f", {len(failed)} mislukt"
+        return msg
+
     # -- genereren ---------------------------------------------------------
     def on_generate(self) -> None:
         if not self.issues:
@@ -494,13 +550,18 @@ class App(ttk.Frame):
             messagebox.showerror("Fout bij opslaan", str(exc))
             return
 
+        # Altijd ook per hoofdgroep bij de changelogs plaatsen.
+        hg_msg = self._generate_per_hoofdgroep(selection, output, tag, show_labels)
+
         rn_config.save(self._collect_config())
-        self.status_var.set(f"{len(selection)} issues -> {output}")
+        self.status_var.set(f"{len(selection)} issues -> {output} | {hg_msg}")
 
         if self.open_after_var.get():
             webbrowser.open(os.path.abspath(output))
         else:
-            messagebox.showinfo("Klaar", f"{len(selection)} issues opgeslagen in:\n{output}")
+            messagebox.showinfo(
+                "Klaar",
+                f"{len(selection)} issues opgeslagen in:\n{output}\n\n{hg_msg}")
 
 
 def run() -> None:

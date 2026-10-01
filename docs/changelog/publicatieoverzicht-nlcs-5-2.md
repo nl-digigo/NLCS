@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 206 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 232 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -18,7 +18,35 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Query Lijnweights concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Lijnweights-concept-5.2.html)
 - [Query Sbibliotheken concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Sbibliotheken-concept-5.2.html)
 - [Query Statussen concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Statussen-concept-5.2.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/AL/releasenotes-5-2-AL.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/AM/releasenotes-5-2-AM.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/BC/releasenotes-5-2-BC.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/BV/releasenotes-5-2-BV.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/ES/releasenotes-5-2-ES.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/FC/releasenotes-5-2-FC.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/GC/releasenotes-5-2-GC.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/GK/releasenotes-5-2-GK.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/GR/releasenotes-5-2-GR.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/GW/releasenotes-5-2-GW.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/IE/releasenotes-5-2-IE.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/IS/releasenotes-5-2-IS.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/IW/releasenotes-5-2-IW.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/KG/releasenotes-5-2-KG.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/KL/releasenotes-5-2-KL.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/KW/releasenotes-5-2-KW.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/MC/releasenotes-5-2-MC.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/MO/releasenotes-5-2-MO.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/OB/releasenotes-5-2-OB.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/OG/releasenotes-5-2-OG.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/OV/releasenotes-5-2-OV.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/releasenotes/releasenotes-5-2.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/RI/releasenotes-5-2-RI.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/SB/releasenotes-5-2-SB.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/VH/releasenotes-5-2-VH.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/VV/releasenotes-5-2-VV.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/VW/releasenotes-5-2-VW.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/WH/releasenotes-5-2-WH.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/ZZ/releasenotes-5-2-ZZ.html)
 
 ## AL ✅
 
@@ -406,17 +434,15 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/VW/changelog-objecten-5-2-VW.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/VW/changelog-symbolen-5-2-VW.html)
 
-## WH ❌ (3 fout(en))
+## WH ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/WH/lijntypes-5-2-WH.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/WH/objecten-5-2-WH.html)
-- [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/WH/objecten-concept-5.2-WH.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/WH/changelog-lijntypes-5-2-WH.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/WH/changelog-objecten-5-2-WH.html)
-- [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/WH/vergelijking_lijntypes_WH_5.0_vs_5.2.html)
 
 ## ZZ
 
