@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 207 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 206 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -375,7 +375,6 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/VH/arceringen-5-2-VH.html)
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/VH/lijntypes-5-2-VH.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/VH/objecten-5-2-VH.html)
-- [Query Symbolen concept](https://nl-digigo.github.io/NLCS/changelog/VH/NLCS_Query_Symbolen-concept-5.2-SVH.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/VH/symbolen-5-2-VH.html)
 
 **Changelogs**
