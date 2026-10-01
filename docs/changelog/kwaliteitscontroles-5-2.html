@@ -148,8 +148,8 @@
 <div class="wrap">
 <p class="info">Alle kwaliteitscontroles in de volgorde van de managementhandleiding &middot; versie 5.2. Klik op een kolomkop om te sorteren (bijv. op hoofdgroep).</p>
 <div class="toc"><a href="#objecten">Objecten</a><a href="#symbolen">Symbolen</a><a href="#arceringen">Arceringen</a><a href="#lijntypes">Lijntypes</a><a href="#overzicht-hg">Fouten per hoofdgroep</a><a href="#waarschuwingen" class="warn-link">Waarschuwingen</a><a href="#overzicht-hg-warn" class="warn-link">Waarschuwingen per hoofdgroep</a></div>
-<div class="hgnav"><span class="hgnav-lbl">Hoofdgroepen met fouten:</span><a href="#hg-IW">IW <span class="n">6</span></a></div>
-<div class="hgnav warn"><span class="hgnav-lbl">Hoofdgroepen met waarschuwingen:</span><a href="#hgw-IW">IW <span class="n">10</span></a><a href="#hgw-KG">KG <span class="n">5</span></a><a href="#hgw-KL">KL <span class="n">1</span></a><a href="#hgw-MW">MW <span class="n">14</span></a><a href="#hgw-RI">RI <span class="n">28</span></a><a href="#hgw-SB">SB <span class="n">1</span></a><a href="#hgw-VH">VH <span class="n">1</span></a><a href="#hgw-VW">VW <span class="n">10</span></a><a href="#hgw-WH">WH <span class="n">2</span></a></div>
+<div class="hgnav"><span class="hgnav-lbl">Hoofdgroepen met fouten:</span><a href="#hg-IW">IW <span class="n">1</span></a></div>
+<div class="hgnav warn"><span class="hgnav-lbl">Hoofdgroepen met waarschuwingen:</span><a href="#hgw-KG">KG <span class="n">5</span></a><a href="#hgw-KL">KL <span class="n">1</span></a><a href="#hgw-MW">MW <span class="n">14</span></a><a href="#hgw-RI">RI <span class="n">28</span></a><a href="#hgw-SB">SB <span class="n">1</span></a><a href="#hgw-VH">VH <span class="n">1</span></a><a href="#hgw-VW">VW <span class="n">10</span></a><a href="#hgw-WH">WH <span class="n">2</span></a></div>
 <h1 class="sect" id="objecten">Objecten</h1>
 <p class="sectnote">Controle objectentabel — in de volgorde van de managementhandleiding.</p>
 <div class="card"><h2>Objectenboom (hiërarchie)</h2>
@@ -175,23 +175,19 @@
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Element-koppeling (S/A ↔ sobject/aobject)</h2>
-<p class="ctrldesc">Element-koppeling: als de kolom <code>element</code> een S (symbool) of A (arcering) bevat, moet er ook een <code>sobject</code> resp. <code>aobject</code> zijn ingevuld — en omgekeerd. Uitzondering: MW-objecten met A zonder <code>aobject</code> (o.a. <code>AANGRENZENDECONSTRUCTIE</code>) worden gearceerd met de gedeelde ACO-arceringen (arceringen van constructies) en gelden daarom als correct.</p><div class="kpi"><div class="box "><b>4529</b>objecten</div><div class="box "><b>4527</b>correct</div><div class="box bad"><b>2</b>afwijkend</div></div>
-<p class="warn">⚠ 2 object(en) met een afwijkende koppeling:</p>
-<table class="otab"><thead><tr><th>hoofdgroep</th><th>object</th><th>element</th><th>probleem</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg">IW</td><td>VRI_DRAAGCONSTRUCTIE_PAAL</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r3</td></tr>
-<tr><td class="hg">IW</td><td>VRI_DRAAGCONSTRUCTIE_PORTAAL</td><td>G/S</td><td>element bevat S maar sobject is leeg</td><td class="loc">r2</td></tr>
-</tbody></table>
+<p class="ctrldesc">Element-koppeling: als de kolom <code>element</code> een S (symbool) of A (arcering) bevat, moet er ook een <code>sobject</code> resp. <code>aobject</code> zijn ingevuld — en omgekeerd. Uitzondering: MW-objecten met A zonder <code>aobject</code> (o.a. <code>AANGRENZENDECONSTRUCTIE</code>) worden gearceerd met de gedeelde ACO-arceringen (arceringen van constructies) en gelden daarom als correct.</p><div class="kpi"><div class="box "><b>4529</b>objecten</div><div class="box free"><b>4529</b>correct</div><div class="box free"><b>0</b>afwijkend</div></div>
+<p class="ok">✓ Elk object heeft een consistente element-koppeling.</p>
 </div>
 <div class="card"><h2>Element gevuld</h2>
 <p class="ctrldesc">Element gevuld: de kolom <code>element</code> van elk object bevat minimaal één waarde (G=geometrie, A=arcering, S=symbool en/of T=tekst).</p><div class="kpi"><div class="box "><b>4529</b>objecten</div><div class="box free"><b>4529</b>gevuld</div><div class="box free"><b>0</b>leeg</div></div>
 <p class="ok">✓ Elk object heeft minimaal één waarde in de kolom element.</p>
 </div>
 <div class="card"><h2>Vervallen lijntype buiten lt_v</h2>
-<p class="ctrldesc">Vervallen lijntype buiten lt_v: een lijntype waarvan de naam met <code>V-</code> begint is een vervallen lijntype en hoort uitsluitend in de kolom <code>lt_v</code> te staan. De kolommen <code>lt_b</code>, <code>lt_n</code> en <code>lt_t</code> (begin-, nieuwe- en tijdelijke fase) mogen dus géén <code>V-…</code>-waarde bevatten; staat daar toch een <code>V-</code>-lijntype, dan is dat een fout.</p><div class="kpi"><div class="box "><b>13486</b>lt_b/lt_n/lt_t gevuld</div><div class="box free"><b>13486</b>zonder V-</div><div class="box free"><b>0</b>V- op verkeerde plek</div></div>
+<p class="ctrldesc">Vervallen lijntype buiten lt_v: een lijntype waarvan de naam met <code>V-</code> begint is een vervallen lijntype en hoort uitsluitend in de kolom <code>lt_v</code> te staan. De kolommen <code>lt_b</code>, <code>lt_n</code> en <code>lt_t</code> (begin-, nieuwe- en tijdelijke fase) mogen dus géén <code>V-…</code>-waarde bevatten; staat daar toch een <code>V-</code>-lijntype, dan is dat een fout.</p><div class="kpi"><div class="box "><b>13489</b>lt_b/lt_n/lt_t gevuld</div><div class="box free"><b>13489</b>zonder V-</div><div class="box free"><b>0</b>V- op verkeerde plek</div></div>
 <p class="ok">✓ Geen enkel V--lijntype in lt_b/lt_n/lt_t; vervallen lijntypes staan alleen in lt_v.</p>
 </div>
 <div class="card"><h2>Zoekterm-treffers → symbolen</h2>
-<p class="ctrldesc">Zoekterm-dekking: elke <code>sobject</code>-/<code>aobject</code>-waarde in een object moet minstens één symbool resp. arcering vinden (de zoekterm moet als tekst in de symbool-/arceringnaam voorkomen).</p><div class="kpi"><div class="box "><b>560</b>zoektermen (sobject)</div><div class="box "><b>560</b>met treffer</div><div class="box free"><b>0</b>zonder treffer</div></div>
+<p class="ctrldesc">Zoekterm-dekking: elke <code>sobject</code>-/<code>aobject</code>-waarde in een object moet minstens één symbool resp. arcering vinden (de zoekterm moet als tekst in de symbool-/arceringnaam voorkomen).</p><div class="kpi"><div class="box "><b>561</b>zoektermen (sobject)</div><div class="box "><b>561</b>met treffer</div><div class="box free"><b>0</b>zonder treffer</div></div>
 <p class="ok">✓ Elke zoekterm vindt minstens één symbolen.</p>
 </div>
 <div class="card"><h2>Zoekterm-treffers → arceringen</h2>
@@ -218,36 +214,39 @@
 <h1 class="sect" id="symbolen">Symbolen</h1>
 <p class="sectnote">Controle symbolentabel.</p>
 <div class="card"><h2>Zoekterm-controle (<code>sobject</code>)</h2>
-<p class="ctrldesc"><code>controle_arceringsymbool_zonder_objectRelatie</code> — symbolen die via geen enkele zoekterm (<code>sobject</code>) in de objectentabel gevonden worden.</p><div class="kpi"><div class="box "><b>5728</b>namen</div><div class="box "><b>5728</b>via zoekterm gevonden</div><div class="box free"><b>0</b>niet gevonden</div></div>
+<p class="ctrldesc"><code>controle_arceringsymbool_zonder_objectRelatie</code> — symbolen die via geen enkele zoekterm (<code>sobject</code>) in de objectentabel gevonden worden.</p><div class="kpi"><div class="box "><b>5730</b>namen</div><div class="box "><b>5730</b>via zoekterm gevonden</div><div class="box free"><b>0</b>niet gevonden</div></div>
 <p class="ok">✓ Elke naam bevat een zoekterm uit de objectentabel.</p>
 </div>
 <div class="card"><h2>Optie-fase-check</h2>
-<p class="ctrldesc">Consistentie fase/optie t.o.v. de gecodeerde naam (voorvoegsel V-/B- → fase, achtervoegsel -SO/-S/… → optie).</p><div class="kpi"><div class="box free"><b>0</b>afwijking(en)</div></div>
-<p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
+<p class="ctrldesc">Consistentie fase/optie t.o.v. de gecodeerde naam (voorvoegsel V-/B- → fase, achtervoegsel -SO/-S/… → optie).</p><div class="kpi"><div class="box bad"><b>1</b>afwijking(en)</div></div>
+<p class="warn">⚠ FASE-afwijkingen: 1</p>
+<table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>fase (is → verwacht)</th><th>rij</th></tr></thead><tbody>
+<tr><td class="hg">IW</td><td>V-SIW-VRI_LANTAARN_80MM_ONDERLICHT-SO</td><td class="is-was"><span class="is">(leeg)</span> → <span class="exp">V</span></td><td class="loc">r3</td></tr>
+</tbody></table>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>9604</b>ingelezen</div><div class="box "><b>10335</b>hoogste ID</div><div class="box free"><b>10336</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>9606</b>ingelezen</div><div class="box "><b>10337</b>hoogste ID</div><div class="box free"><b>10338</b>eerstvolgende vrij</div></div>
 <p class="ok">✓ Elke rij heeft een id.</p>
 <p class="ok">✓ Geen dubbel gebruikte ID’s.</p>
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
-<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>5728</b>namen</div><div class="box "><b>5728</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>5730</b>namen</div><div class="box "><b>5730</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>9604</b>namen</div><div class="box "><b>6192</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>9606</b>namen</div><div class="box "><b>6194</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
-<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>5728</b>namen</div><div class="box free"><b>5728</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>5730</b>namen</div><div class="box free"><b>5730</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 <p class="info">Ter info: 76 naam/namen met een kleine letter (toegestaan voor eenheden mm/Mm en elementsymbool Cu — controleer of bewust):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg info">IW</td><td>SIW-VRI_2LICHTVERKEERSLANTAARN_ROND_2X200mm-SO</td><td class="loc">r14</td></tr>
-<tr><td class="hg info">IW</td><td>SIW-VRI_3LICHTVERKEERSLANTAARN_ROND_3X200mm-SO</td><td class="loc">r15</td></tr>
-<tr><td class="hg info">IW</td><td>SIW-VRI_3LICHTVERKEERSLANTAARN_ROND_3X300mm-SO</td><td class="loc">r16</td></tr>
-<tr><td class="hg info">IW</td><td>SIW-VRI_3LICHTVERKEERSLANTAARN_ROND_3X80mm-SO</td><td class="loc">r17</td></tr>
+<tr><td class="hg info">IW</td><td>SIW-VRI_2LICHTVERKEERSLANTAARN_ROND_2X200mm-SO</td><td class="loc">r16</td></tr>
+<tr><td class="hg info">IW</td><td>SIW-VRI_3LICHTVERKEERSLANTAARN_ROND_3X200mm-SO</td><td class="loc">r17</td></tr>
+<tr><td class="hg info">IW</td><td>SIW-VRI_3LICHTVERKEERSLANTAARN_ROND_3X300mm-SO</td><td class="loc">r18</td></tr>
+<tr><td class="hg info">IW</td><td>SIW-VRI_3LICHTVERKEERSLANTAARN_ROND_3X80mm-SO</td><td class="loc">r19</td></tr>
 <tr><td class="hg info">OV</td><td>SOV-ARMATUUR_COMPACT_FLUOR_1x24W-SO</td><td class="loc">r2</td></tr>
 <tr><td class="hg info">OV</td><td>SOV-ARMATUUR_COMPACT_FLUOR_1x36W-SO</td><td class="loc">r3</td></tr>
 <tr><td class="hg info">OV</td><td>SOV-ARMATUUR_HD_NATRIUM_1x100W-SO</td><td class="loc">r4</td></tr>
@@ -323,13 +322,9 @@
 </tbody></table>
 </div>
 <div class="card"><h2>Symbool ↔ .dwg</h2>
-<p class="ctrldesc">Controleer of alle symbolen in de database ook als bestand (.dwg) beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).</p><div class="kpi"><div class="box "><b>5728</b>tabelregels</div><div class="box free"><b>5728</b>met .dwg</div><div class="box free"><b>0</b>regel zonder .dwg</div><div class="box "><b>5738</b>.dwg-bestanden</div><div class="box bad"><b>2</b>.dwg zonder regel</div></div>
+<p class="ctrldesc">Controleer of alle symbolen in de database ook als bestand (.dwg) beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).</p><div class="kpi"><div class="box "><b>5730</b>tabelregels</div><div class="box free"><b>5730</b>met .dwg</div><div class="box free"><b>0</b>regel zonder .dwg</div><div class="box "><b>5738</b>.dwg-bestanden</div><div class="box free"><b>0</b>.dwg zonder regel</div></div>
 <p class="ok">✓ Bij elke symboolregel is een .dwg-bestand gevonden.</p>
-<p class="warn">⚠ 2 .dwg-bestand(en) zonder tabelregel:</p>
-<table class="otab"><thead><tr><th>hoofdgroep</th><th>.dwg (bestand)</th><th>pad</th></tr></thead><tbody>
-<tr><td class="hg">IW</td><td>siw-vri_lantaarn_200mm_2licht_hemel-so</td><td class="loc">SIW\SIW-VRI_LANTAARN_200MM_2LICHT_HEMEL-SO.dwg</td></tr>
-<tr><td class="hg">IW</td><td>v-siw-vri_lantaarn_80mm_onderlicht-so</td><td class="loc">SIW\V-SIW-VRI_LANTAARN_80MM_ONDERLICHT-SO.dwg</td></tr>
-</tbody></table>
+<p class="ok">✓ Elk .dwg-bestand van een verwerkte bibliotheek heeft een tabelregel.</p>
 </div>
 <h1 class="sect" id="arceringen">Arceringen</h1>
 <p class="sectnote">Controle arceringentabel.</p>
@@ -370,12 +365,8 @@
 <h1 class="sect" id="lijntypes">Lijntypes</h1>
 <p class="sectnote">Controle lijntypetabel.</p>
 <div class="card"><h2>Lijntype-gebruik</h2>
-<p class="ctrldesc"><code>controle_lijntypes_zonder_objectRelatie</code> — lijntypes die bestaan maar in geen enkel object (lt_b/lt_n/lt_v/lt_t) gebruikt worden.</p><div class="kpi"><div class="box "><b>599</b>lijntypes</div><div class="box "><b>584</b>gebruikt</div><div class="box bad"><b>2</b>niet gebruikt</div><div class="box warn"><b>13</b>variant (waarsch.)</div></div>
-<p class="warn">⚠ 2 lijntype(s) worden nergens in de objecten gebruikt:</p>
-<table class="otab"><thead><tr><th>hoofdgroep</th><th>lijntype</th></tr></thead><tbody>
-<tr><td class="hg">IW</td><td>IW-DRIP-SO</td></tr>
-<tr><td class="hg">IW</td><td>V-IW-DRIP-SO</td></tr>
-</tbody></table>
+<p class="ctrldesc"><code>controle_lijntypes_zonder_objectRelatie</code> — lijntypes die bestaan maar in geen enkel object (lt_b/lt_n/lt_v/lt_t) gebruikt worden.</p><div class="kpi"><div class="box "><b>599</b>lijntypes</div><div class="box "><b>586</b>gebruikt</div><div class="box free"><b>0</b>niet gebruikt</div><div class="box warn"><b>13</b>variant (waarsch.)</div></div>
+<p class="ok">✓ Elk lijntype wordt in de objectentabel gebruikt.</p>
 <p class="warn">⚠ Waarschuwing: 13 niet-gebruikt(e) lijntype(s) met 'VARIANT' in de naam (bewust toegestane varianten, tellen niet als fout):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>lijntype</th></tr></thead><tbody>
 <tr><td class="hg info">VH</td><td>V-VH-GAZONBAND_VARIANT01-SO</td></tr>
@@ -422,14 +413,14 @@
 <h1 class="sect" id="overzicht-hg">Fouten per hoofdgroep</h1>
 <p class="sectnote">Alle foutmeldingen gegroepeerd per hoofdgroep. Waarschuwingen (zoals afwijkende VERWIJDEREN2-schaal of kleine letters) tellen niet als fout en staan hier niet bij.</p>
 <div class="card hgblock" id="hg-IW">
-<h2>IW <span class="hgcount">6 fout(en)</span> <a class="toplink" href="#overzicht-hg">&uarr; overzicht</a></h2>
+<h2>IW <span class="hgcount">1 fout(en)</span> <a class="toplink" href="#overzicht-hg">&uarr; overzicht</a></h2>
 <div class="tablescroll">
 <table class="otab">
 <thead>
 <tr><th>tabel</th><th>controle</th><th>melding</th></tr>
 </thead>
 <tbody>
-<tr><td class="loc">Objecten</td><td>Element-koppeling (S/A ↔ sobject/aobject)</td><td>VRI_DRAAGCONSTRUCTIE_PAAL · G/S · element bevat S maar sobject is leeg · r3</td></tr><tr><td class="loc">Objecten</td><td>Element-koppeling (S/A ↔ sobject/aobject)</td><td>VRI_DRAAGCONSTRUCTIE_PORTAAL · G/S · element bevat S maar sobject is leeg · r2</td></tr><tr><td class="loc">Symbolen</td><td>Symbool ↔ .dwg</td><td>siw-vri_lantaarn_200mm_2licht_hemel-so · SIW\SIW-VRI_LANTAARN_200MM_2LICHT_HEMEL-SO.dwg</td></tr><tr><td class="loc">Symbolen</td><td>Symbool ↔ .dwg</td><td>v-siw-vri_lantaarn_80mm_onderlicht-so · SIW\V-SIW-VRI_LANTAARN_80MM_ONDERLICHT-SO.dwg</td></tr><tr><td class="loc">Lijntypes</td><td>Lijntype-gebruik</td><td>IW-DRIP-SO</td></tr><tr><td class="loc">Lijntypes</td><td>Lijntype-gebruik</td><td>V-IW-DRIP-SO</td></tr>
+<tr><td class="loc">Symbolen</td><td>Optie-fase-check</td><td>V-SIW-VRI_LANTAARN_80MM_ONDERLICHT-SO · (leeg) → V · r3</td></tr>
 </tbody>
 </table>
 </div>
@@ -437,7 +428,7 @@
 <h1 class="sect" id="waarschuwingen">Waarschuwingen</h1>
 <p class="sectnote">Aandachtspunten die NIET als fout tellen in het publicatie-overzicht (geen fout-vinkje). Bewust apart onderaan gezet zodat ze de controles hierboven niet overstemmen.</p>
 <div class="card"><h2>Vervallen lijntype (lt_v)</h2>
-<p class="ctrldesc">Vervallen lijntype (lt_v): de kolom <code>lt_v</code> in de objectentabel verwijst naar het lijntype voor de vervallen situatie. Vervallen lijntypes heten in NLCS altijd <code>V-…</code>, dus een gevulde <code>lt_v</code> hoort met <code>V-</code> te beginnen. Een waarde die daar niet mee begint is verdacht (waarschijnlijk een bestaand/nieuw lijntype) — een waarschuwing, geen fout. Uitzondering: de grenzen van gemeenten, provincies enzovoorts zijn eigendomsgrenzen die buiten de scope van engineering liggen; daarom hebben deze grenzen geen vervallen lijnstijl. Daarnaast is de waarde <code>BC-SLOOPLIJN-SO</code> (een sloop-lijntype) bewust toegestaan en wordt die niet gemeld. Verder zijn de hoofdgroepen <code>IS</code>, <code>ES</code> en <code>SB</code> uitgezonderd, en mogen <code>terrein</code>, <code>bebouwing</code>, <code>water</code>, <code>greppel</code> en <code>baggervak</code> (inclusief hun onderliggende objecten) én de OG-objecten <code>weg</code> en <code>zone</code> (inclusief hun onderliggende objecten) én de fase-objecten in OG (Fase1 t/m Fase7) bewust het lijntype <code>CONTINUOUS</code> als vervallen lijntype hebben — die worden niet gemeld. Hetzelfde geldt voor de takken <code>HYDRAULIEKVORM_SCHEMA</code> en <code>PNEUMATIEKVORM_SCHEMA</code> (inclusief hun onderliggende objecten) en voor de losse objecten <code>GRENS_VLAKAFSLUITER</code> en <code>GRENS_WIJK</code>.</p><div class="kpi"><div class="box "><b>3584</b>objecten met lt_v</div><div class="box "><b>3538</b>begint met V-</div><div class="box warn"><b>46</b>zonder V-</div></div>
+<p class="ctrldesc">Vervallen lijntype (lt_v): de kolom <code>lt_v</code> in de objectentabel verwijst naar het lijntype voor de vervallen situatie. Vervallen lijntypes heten in NLCS altijd <code>V-…</code>, dus een gevulde <code>lt_v</code> hoort met <code>V-</code> te beginnen. Een waarde die daar niet mee begint is verdacht (waarschijnlijk een bestaand/nieuw lijntype) — een waarschuwing, geen fout. Uitzondering: de grenzen van gemeenten, provincies enzovoorts zijn eigendomsgrenzen die buiten de scope van engineering liggen; daarom hebben deze grenzen geen vervallen lijnstijl. Daarnaast is de waarde <code>BC-SLOOPLIJN-SO</code> (een sloop-lijntype) bewust toegestaan en wordt die niet gemeld. Verder zijn de hoofdgroepen <code>IS</code>, <code>ES</code> en <code>SB</code> uitgezonderd, en mogen <code>terrein</code>, <code>bebouwing</code>, <code>water</code>, <code>greppel</code> en <code>baggervak</code> (inclusief hun onderliggende objecten) én de OG-objecten <code>weg</code> en <code>zone</code> (inclusief hun onderliggende objecten) én de fase-objecten in OG (Fase1 t/m Fase7) bewust het lijntype <code>CONTINUOUS</code> als vervallen lijntype hebben — die worden niet gemeld. Hetzelfde geldt voor de takken <code>HYDRAULIEKVORM_SCHEMA</code> en <code>PNEUMATIEKVORM_SCHEMA</code> (inclusief hun onderliggende objecten) en voor de losse objecten <code>GRENS_VLAKAFSLUITER</code> en <code>GRENS_WIJK</code>.</p><div class="kpi"><div class="box "><b>3585</b>objecten met lt_v</div><div class="box "><b>3539</b>begint met V-</div><div class="box warn"><b>46</b>zonder V-</div></div>
 <p class="skip">Uitgezonderd (bewust toegestaan zonder V--prefix): lt_v-waarde(n) BC-SLOOPLIJN-SO en hoofdgroep(en) ES, IS, SB en object(en) BAGGERVAK, BEBOUWING, FASE1, FASE2, FASE3, FASE4, FASE5, FASE6, FASE7, GREPPEL, TERREIN, WATER, WEG, ZONE (incl. onderliggende objecten) en object-tak(ken) HYDRAULIEKVORM_SCHEMA, PNEUMATIEKVORM_SCHEMA (incl. onderliggende objecten) en object(en) GRENS_VLAKAFSLUITER, GRENS_WIJK — 908 object(en) overgeslagen.</p>
 <p class="warn">⚠ 46 object(en) met een lt_v die niet met V- begint — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>object</th><th>lt_v</th><th>rij</th></tr></thead><tbody>
@@ -490,20 +481,10 @@
 </tbody></table>
 </div>
 <div class="card"><h2>VERWIJDEREN2-schaal</h2>
-<p class="ctrldesc">VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit <code>NLCS.shx</code> op schaal 0.5. Gecontroleerd wordt of de <code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-segment van de <code>autocaddef</code> daadwerkelijk 0.5 is én of er geen verticale <code>y=</code>-verschuiving in staat (dan staan de scraps niet meer gecentreerd op de lijn). Een horizontale <code>x=</code>-offset is prima (fraaie uitlijning op de lijn) en blijft ongemoeid. Uitgezonderd (bewust afwijkende opzet, volledig overgeslagen): het lijntype <code>V-GR-PLANTSOEN-SO</code>.</p><div class="kpi"><div class="box "><b>272</b>vervallen lijntypes</div><div class="box "><b>246</b>s=0.5, geen y-offset</div><div class="box warn"><b>26</b>afwijkende schaal / y-offset</div></div>
+<p class="ctrldesc">VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit <code>NLCS.shx</code> op schaal 0.5. Gecontroleerd wordt of de <code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-segment van de <code>autocaddef</code> daadwerkelijk 0.5 is én of er geen verticale <code>y=</code>-verschuiving in staat (dan staan de scraps niet meer gecentreerd op de lijn). Een horizontale <code>x=</code>-offset is prima (fraaie uitlijning op de lijn) en blijft ongemoeid. Uitgezonderd (bewust afwijkende opzet, volledig overgeslagen): het lijntype <code>V-GR-PLANTSOEN-SO</code>.</p><div class="kpi"><div class="box "><b>272</b>vervallen lijntypes</div><div class="box "><b>256</b>s=0.5, geen y-offset</div><div class="box warn"><b>16</b>afwijkende schaal / y-offset</div></div>
 <p class="skip">Uitgezonderd van deze controle: lijntype(s) V-GR-PLANTSOEN-SO — 1 vervallen lijntype(s) overgeslagen (bewust afwijkende VERWIJDEREN2-opzet).</p>
-<p class="warn">⚠ 26 met een afwijkende (of ontbrekende) schaal of een ongewenste verticale y-offset (een horizontale x-offset is prima) — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
+<p class="warn">⚠ 16 met een afwijkende (of ontbrekende) schaal of een ongewenste verticale y-offset (een horizontale x-offset is prima) — <b>waarschuwing</b>, telt niet als fout in het publicatie-overzicht:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>lijntype</th><th>gevonden</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg info">IW</td><td>V-IW-DATA_GLASVEZEL</td><td class="loc">s=.25</td><td class="loc">r19</td></tr>
-<tr><td class="hg info">IW</td><td>V-IW-DATA_KOPER</td><td class="loc">s=.25</td><td class="loc">r20</td></tr>
-<tr><td class="hg info">IW</td><td>V-IW-DETECTIE</td><td class="loc">s=.25</td><td class="loc">r21</td></tr>
-<tr><td class="hg info">IW</td><td>V-IW-KABELTRACE</td><td class="loc">s=0.25</td><td class="loc">r14</td></tr>
-<tr><td class="hg info">IW</td><td>V-IW-KOPPELKABEL</td><td class="loc">s=.25</td><td class="loc">r22</td></tr>
-<tr><td class="hg info">IW</td><td>V-IW-SIGNAAL_230V</td><td class="loc">s=.25</td><td class="loc">r15</td></tr>
-<tr><td class="hg info">IW</td><td>V-IW-SIGNAAL_42V</td><td class="loc">s=.25</td><td class="loc">r16</td></tr>
-<tr><td class="hg info">IW</td><td>V-IW-SIGNAALKABEL</td><td class="loc">s=.25</td><td class="loc">r17</td></tr>
-<tr><td class="hg info">IW</td><td>V-IW-VRI_DATAKABEL</td><td class="loc">s=.25</td><td class="loc">r4</td></tr>
-<tr><td class="hg info">IW</td><td>V-IW-VRI_MANTELBUIS</td><td class="loc">s=.25</td><td class="loc">r18</td></tr>
 <tr><td class="hg info">KL</td><td>V-KL-SCHEMA_AARDRAIL-SO</td><td class="loc">(geen VERWIJDEREN2)</td><td class="loc">r81</td></tr>
 <tr><td class="hg info">RI</td><td>V-RI-PERS-SO</td><td class="loc">s=1</td><td class="loc">r27</td></tr>
 <tr><td class="hg info">RI</td><td>V-RI-TRANSPORTLEIDING-SO</td><td class="loc">s=1</td><td class="loc">r30</td></tr>
@@ -524,19 +505,6 @@
 </div>
 <h1 class="sect" id="overzicht-hg-warn">Waarschuwingen per hoofdgroep</h1>
 <p class="sectnote">Alle waarschuwingen gegroepeerd per hoofdgroep. Dit zijn aandachtspunten die NIET als fout tellen in het publicatie-overzicht.</p>
-<div class="card hgblock warnblock" id="hgw-IW">
-<h2>IW <span class="hgcount">10 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
-<div class="tablescroll">
-<table class="otab">
-<thead>
-<tr><th>controle</th><th>melding</th></tr>
-</thead>
-<tbody>
-<tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-DATA_GLASVEZEL · s=.25 · r19</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-DATA_KOPER · s=.25 · r20</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-DETECTIE · s=.25 · r21</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-KABELTRACE · s=0.25 · r14</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-KOPPELKABEL · s=.25 · r22</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-SIGNAAL_230V · s=.25 · r15</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-SIGNAAL_42V · s=.25 · r16</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-SIGNAALKABEL · s=.25 · r17</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-VRI_DATAKABEL · s=.25 · r4</td></tr><tr><td class="loc">VERWIJDEREN2-schaal</td><td>V-IW-VRI_MANTELBUIS · s=.25 · r18</td></tr>
-</tbody>
-</table>
-</div>
-</div>
 <div class="card hgblock warnblock" id="hgw-KG">
 <h2>KG <span class="hgcount">5 waarschuwing(en)</span> <a class="toplink" href="#overzicht-hg-warn">&uarr; overzicht</a></h2>
 <div class="tablescroll">

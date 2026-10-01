@@ -287,9 +287,13 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
 
     Groepeer op de eerste submap onder `root` (de hoofdgroep-code, bijv. 'AM');
     bestanden direct in `root` komen in de algemene groep ('voor alle
-    hoofdgroepen'). Twee uitzonderingen:
-      * `releasenotes.html` (waar dan ook onder `root`) komt ALTIJD in de
-        algemene groep, ook zonder versienummer in de naam.
+    hoofdgroepen'). Bijzonderheden:
+      * release notes (`releasenotes...`) worden ook zonder versienummer in de
+        naam opgenomen. Een per-hoofdgroep release note in een hoofdgroep-submap
+        (bv. 'AL/releasenotes-5-2-AL.html') komt bij DIE hoofdgroep; alleen een
+        overkoepelende release note buiten een hoofdgroep-submap (direct in
+        `root` of in een niet-hoofdgroep-map zoals 'releasenotes/') komt in de
+        algemene groep. Hun knop-label is steeds 'Release notes'.
       * publicatie-overzichten (het bestand dat deze functie voedt) worden NOOIT
         opgenomen: bestanden die met 'publicatieoverzicht' beginnen of waarvan de
         naam in `exclude_names` staat, worden overgeslagen.
@@ -327,13 +331,23 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
                     "subpath": os.path.relpath(full, docs_root).replace("\\", "/"),
                     "kind": index_kind(name),
                 }
-                # releasenotes én bestanden direct in root -> algemene groep.
-                if is_releasenotes or len(rel_parts) == 1:
+                # Zit het bestand in een hoofdgroep-submap? De eerste submap moet
+                # dan een hoofdgroep-code zijn (2 letters, of een 3-letterige
+                # A/S-bibliotheekmap). Zo ja: ALTIJD bij die hoofdgroep indelen,
+                # ook een per-hoofdgroep release note (releasenotes-5-2-AL.html in
+                # map AL/). De algemene map 'releasenotes/' is géén hoofdgroep.
+                first = rel_parts[0].strip().upper()
+                in_hoofdgroep = len(rel_parts) > 1 and bool(
+                    re.fullmatch(r"[A-Z]{2,3}", first))
+                if in_hoofdgroep:
+                    grouped.append((first, entry))
+                elif is_releasenotes or len(rel_parts) == 1:
+                    # Overkoepelende release note of los bestand in root -> algemeen.
                     entry["label"] = ("Release notes" if is_releasenotes
                                       else nice_index_label(name, ""))
                     general.append(entry)
                 else:
-                    grouped.append((rel_parts[0].strip().upper(), entry))
+                    grouped.append((first, entry))
                 count += 1
 
     # Arcering-/symbool-bibliotheekmappen (AGW, AIE, ...) samenvouwen in de gewone
@@ -343,7 +357,10 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     groups: dict = {}
     for rc, entry in grouped:
         code = _canon_group_code(rc, all_codes)
-        entry["label"] = nice_index_label(entry["filename"], code)
+        if entry["filename"].lower().startswith("releasenotes"):
+            entry["label"] = "Release notes"
+        else:
+            entry["label"] = nice_index_label(entry["filename"], code)
         groups.setdefault(code, []).append(entry)
 
     def _sortkey(e: dict) -> tuple:
