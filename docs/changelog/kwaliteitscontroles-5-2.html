@@ -148,7 +148,7 @@
 <div class="wrap">
 <p class="info">Alle kwaliteitscontroles in de volgorde van de managementhandleiding &middot; versie 5.2. Klik op een kolomkop om te sorteren (bijv. op hoofdgroep).</p>
 <div class="toc"><a href="#objecten">Objecten</a><a href="#symbolen">Symbolen</a><a href="#arceringen">Arceringen</a><a href="#lijntypes">Lijntypes</a><a href="#overzicht-hg">Fouten per hoofdgroep</a><a href="#waarschuwingen" class="warn-link">Waarschuwingen</a><a href="#overzicht-hg-warn" class="warn-link">Waarschuwingen per hoofdgroep</a></div>
-<div class="hgnav"><span class="hgnav-lbl">Hoofdgroepen met fouten:</span><a href="#hg-IW">IW <span class="n">6</span></a><a href="#hg-RI">RI <span class="n">2</span></a><a href="#hg-VV">VV <span class="n">5</span></a><a href="#hg-WH">WH <span class="n">3</span></a></div>
+<div class="hgnav"><span class="hgnav-lbl">Hoofdgroepen met fouten:</span><a href="#hg-IW">IW <span class="n">6</span></a><a href="#hg-RI">RI <span class="n">1</span></a><a href="#hg-VV">VV <span class="n">4</span></a><a href="#hg-WH">WH <span class="n">3</span></a></div>
 <div class="hgnav warn"><span class="hgnav-lbl">Hoofdgroepen met waarschuwingen:</span><a href="#hgw-IW">IW <span class="n">10</span></a><a href="#hgw-KG">KG <span class="n">5</span></a><a href="#hgw-KL">KL <span class="n">1</span></a><a href="#hgw-MW">MW <span class="n">14</span></a><a href="#hgw-RI">RI <span class="n">28</span></a><a href="#hgw-SB">SB <span class="n">1</span></a><a href="#hgw-VH">VH <span class="n">1</span></a><a href="#hgw-VW">VW <span class="n">10</span></a><a href="#hgw-WH">WH <span class="n">1</span></a></div>
 <h1 class="sect" id="objecten">Objecten</h1>
 <p class="sectnote">Controle objectentabel — in de volgorde van de managementhandleiding.</p>
@@ -226,14 +226,12 @@
 <p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>9605</b>ingelezen</div><div class="box "><b>10332</b>hoogste ID</div><div class="box free"><b>10333</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>9605</b>ingelezen</div><div class="box "><b>10334</b>hoogste ID</div><div class="box free"><b>10335</b>eerstvolgende vrij</div></div>
 <p class="ok">✓ Elke rij heeft een id.</p>
-<p class="warn">⚠ 2 dubbel gebruikte ID(’s):</p>
+<p class="warn">⚠ 1 dubbel gebruikte ID(’s):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>ID</th><th>naam</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
 <tr><td class="hg">RI</td><td class="num">9120</td><td>SRI-HULP_ONTSTOPPINGSSTUK-SO</td><td>nieuw</td><td class="loc">r255</td></tr>
-<tr><td class="hg">VV</td><td class="num">9120</td><td>SVV-VERKEERSTEKEN_A17-SO</td><td>nieuw</td><td class="loc">r23</td></tr>
-<tr><td class="hg">RI</td><td class="num">9121</td><td>SRI-HULP_AANSLUITEN-SO</td><td>nieuw</td><td class="loc">r256</td></tr>
-<tr><td class="hg">VV</td><td class="num">9121</td><td>SVV-VERKEERSTEKEN_A18-SO</td><td>nieuw</td><td class="loc">r24</td></tr>
+<tr><td class="hg">VV</td><td class="num">9120</td><td>SVV-VERKEERSTEKEN_A17-SO</td><td>nieuw</td><td class="loc">r25</td></tr>
 </tbody></table>
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
@@ -241,15 +239,15 @@
 <p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>5729</b>namen</div><div class="box "><b>5728</b>uniek per hoofdgroep</div><div class="box bad"><b>1</b>dubbel</div></div>
 <p class="warn">⚠ 1 naam/namen komen binnen dezelfde hoofdgroep meer dan eens voor:</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>aantal</th><th>rij(en)</th></tr></thead><tbody>
-<tr><td class="hg">VV</td><td>SVV-MARKERING_BETONNING-SO</td><td>2&times;</td><td class="loc">2, 3</td></tr>
+<tr><td class="hg">VV</td><td>SVV-MARKERING_BETONNING-SO</td><td>2&times;</td><td class="loc">4, 5</td></tr>
 </tbody></table>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
 <p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>9605</b>namen</div><div class="box "><b>6192</b>uniek per hoofdgroep</div><div class="box bad"><b>1</b>naam met meerdere URI’s</div></div>
 <p class="warn">⚠ 1 naam/namen hangen binnen dezelfde hoofdgroep aan meerdere URI’s (dubbele naam, ook tussen versies):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>URI</th><th>publicatie</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg">VV</td><td>SVV-MARKERING_BETONNING-SO</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/bab27f31-798e-4fdc-93ce-f293d96d4234</td><td>nieuw</td><td class="loc">r2</td></tr>
-<tr><td class="hg">VV</td><td>SVV-MARKERING_BETONNING-SO</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/533edda4-188b-436d-ba59-1f5a1a208106</td><td>nieuw</td><td class="loc">r3</td></tr>
+<tr><td class="hg">VV</td><td>SVV-MARKERING_BETONNING-SO</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/bab27f31-798e-4fdc-93ce-f293d96d4234</td><td>nieuw</td><td class="loc">r4</td></tr>
+<tr><td class="hg">VV</td><td>SVV-MARKERING_BETONNING-SO</td><td class="loc">http://digitalbuildingdata.tech/nlcs/def/533edda4-188b-436d-ba59-1f5a1a208106</td><td>nieuw</td><td class="loc">r5</td></tr>
 </tbody></table>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
@@ -453,27 +451,27 @@
 </div>
 </div>
 <div class="card hgblock" id="hg-RI">
-<h2>RI <span class="hgcount">2 fout(en)</span> <a class="toplink" href="#overzicht-hg">&uarr; overzicht</a></h2>
+<h2>RI <span class="hgcount">1 fout(en)</span> <a class="toplink" href="#overzicht-hg">&uarr; overzicht</a></h2>
 <div class="tablescroll">
 <table class="otab">
 <thead>
 <tr><th>tabel</th><th>controle</th><th>melding</th></tr>
 </thead>
 <tbody>
-<tr><td class="loc">Symbolen</td><td>ID-controle</td><td>9120 · SRI-HULP_ONTSTOPPINGSSTUK-SO · nieuw · r255</td></tr><tr><td class="loc">Symbolen</td><td>ID-controle</td><td>9121 · SRI-HULP_AANSLUITEN-SO · nieuw · r256</td></tr>
+<tr><td class="loc">Symbolen</td><td>ID-controle</td><td>9120 · SRI-HULP_ONTSTOPPINGSSTUK-SO · nieuw · r255</td></tr>
 </tbody>
 </table>
 </div>
 </div>
 <div class="card hgblock" id="hg-VV">
-<h2>VV <span class="hgcount">5 fout(en)</span> <a class="toplink" href="#overzicht-hg">&uarr; overzicht</a></h2>
+<h2>VV <span class="hgcount">4 fout(en)</span> <a class="toplink" href="#overzicht-hg">&uarr; overzicht</a></h2>
 <div class="tablescroll">
 <table class="otab">
 <thead>
 <tr><th>tabel</th><th>controle</th><th>melding</th></tr>
 </thead>
 <tbody>
-<tr><td class="loc">Symbolen</td><td>ID-controle</td><td>9120 · SVV-VERKEERSTEKEN_A17-SO · nieuw · r23</td></tr><tr><td class="loc">Symbolen</td><td>ID-controle</td><td>9121 · SVV-VERKEERSTEKEN_A18-SO · nieuw · r24</td></tr><tr><td class="loc">Symbolen</td><td>Dubbele namen</td><td>SVV-MARKERING_BETONNING-SO · 2&amp;times; · 2, 3</td></tr><tr><td class="loc">Symbolen</td><td>Naam ↔ URI</td><td>SVV-MARKERING_BETONNING-SO · http://digitalbuildingdata.tech/nlcs/def/bab27f31-798e-4fdc-93ce-f293d96d4234 · nieuw · r2</td></tr><tr><td class="loc">Symbolen</td><td>Naam ↔ URI</td><td>SVV-MARKERING_BETONNING-SO · http://digitalbuildingdata.tech/nlcs/def/533edda4-188b-436d-ba59-1f5a1a208106 · nieuw · r3</td></tr>
+<tr><td class="loc">Symbolen</td><td>ID-controle</td><td>9120 · SVV-VERKEERSTEKEN_A17-SO · nieuw · r25</td></tr><tr><td class="loc">Symbolen</td><td>Dubbele namen</td><td>SVV-MARKERING_BETONNING-SO · 2&amp;times; · 4, 5</td></tr><tr><td class="loc">Symbolen</td><td>Naam ↔ URI</td><td>SVV-MARKERING_BETONNING-SO · http://digitalbuildingdata.tech/nlcs/def/bab27f31-798e-4fdc-93ce-f293d96d4234 · nieuw · r4</td></tr><tr><td class="loc">Symbolen</td><td>Naam ↔ URI</td><td>SVV-MARKERING_BETONNING-SO · http://digitalbuildingdata.tech/nlcs/def/533edda4-188b-436d-ba59-1f5a1a208106 · nieuw · r5</td></tr>
 </tbody>
 </table>
 </div>
