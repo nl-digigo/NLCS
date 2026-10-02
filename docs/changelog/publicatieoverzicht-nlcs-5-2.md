@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 232 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 237 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -171,6 +171,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 
 **Tabellen**
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/HC/objecten-5-2-HC.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/HC/releasenotes-5-2-HC.html)
 
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/HC/changelog-objecten-5-2-HC.html)
@@ -216,6 +217,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/IV/lijntypes-5-2-IV.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/IV/objecten-5-2-IV.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/IV/releasenotes-5-2-IV.html)
 
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/IV/changelog-objecten-5-2-IV.html)
@@ -237,6 +239,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 
 **Tabellen**
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/KC/objecten-5-2-KC.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/KC/releasenotes-5-2-KC.html)
 
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/KC/changelog-objecten-5-2-KC.html)
@@ -313,6 +316,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/MW/arceringen-5-2-MW.html)
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/MW/lijntypes-5-2-MW.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/MW/objecten-5-2-MW.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/MW/releasenotes-5-2-MW.html)
 
 **Changelogs**
 - [Changelog arceringen](https://nl-digigo.github.io/NLCS/changelog/MW/changelog-arceringen-5-2-MW.html)
@@ -388,11 +392,12 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/SC/objecten-5-2-SC.html)
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/SC/objecten-concept-5.2-SC.html)
+- [Release notes](https://nl-digigo.github.io/NLCS/changelog/SC/releasenotes-5-2-SC.html)
 
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/SC/changelog-objecten-5-2-SC.html)
 
-## VH ✅
+## VH ❌ (316 fout(en))
 
 **Tabellen**
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/VH/arceringen-5-2-VH.html)
