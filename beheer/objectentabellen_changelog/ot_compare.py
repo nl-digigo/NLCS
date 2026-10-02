@@ -1450,12 +1450,24 @@ FORBIDDEN_NAME_CHARS = {
     ")": "haakje sluiten — breekt LISP-expressies",
 }
 
+# Per-hoofdgroep toegestane 'verboden' tekens voor de objectnamen: in ZZ staan
+# stramien-/maatvoeringlabels als (M), (T1.8), (T2.5), … waarvan de haakjes
+# bewust zijn toegestaan. Alleen de hier genoemde tekens tellen voor die
+# hoofdgroep niet als overtreding; andere verboden tekens blijven fout.
+OBJECT_SPECIAL_CHAR_UITZONDERINGEN = {"ZZ": "()"}
+
 
 def check_special_chars(src: str, name_col: str,
-                        forbidden: dict = None) -> dict:
+                        forbidden: dict = None,
+                        hg_allowed: dict = None) -> dict:
     """Controleer namen op tekens die in CAD-laag-/symboolnamen niet zijn
     toegestaan (zie FORBIDDEN_NAME_CHARS). Spaties, de punt (decimaalteken), '-'
     en '_' zijn WEL toegestaan. `src` mag een MAP met CSV's of één CSV zijn.
+
+    `hg_allowed` (optioneel): {hoofdgroep-code: "tekens"} — per hoofdgroep tekens
+    die daar wél zijn toegestaan en dus niet als overtreding tellen (bijv.
+    `{"ZZ": "()"}` voor de stramien-/maatvoeringlabels (M), (T1.8), …). De
+    hoofdgroep wordt uit de bestandsnaam afgeleid (`hoofdgroep_code`).
 
     Geeft terug:
       {
@@ -1469,6 +1481,8 @@ def check_special_chars(src: str, name_col: str,
       }
     """
     fb = forbidden if forbidden is not None else FORBIDDEN_NAME_CHARS
+    hga = {(k or "").strip().upper(): set(v or "")
+           for k, v in (hg_allowed or {}).items()}
     empty = {"total": 0, "ok": 0, "violations": [], "lowercase": []}
     if not src:
         return empty
@@ -1489,12 +1503,13 @@ def check_special_chars(src: str, name_col: str,
             continue
         ni = headers.index(name_col)
         fn = os.path.basename(path)
+        allowed_here = hga.get((hoofdgroep_code(path) or "").upper(), set())
         for i, r in enumerate(rows):
             name = (r[ni] if ni < len(r) else "").strip()
             if not name:
                 continue
             total += 1
-            found = [ch for ch in fb if ch in name]
+            found = [ch for ch in fb if ch in name and ch not in allowed_here]
             if found:
                 violations.append({"name": name, "file": fn, "row": i + 2,
                                    "chars": found})
@@ -1521,8 +1536,10 @@ def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
     als minstens één van die velden gevuld is. Verwacht worden alle vier de
     fasen, BEHALVE voor de hoofdgroepen in `only_b_codes` (standaard AL en ZZ):
     die hoeven alleen een visualisatie voor de bestaande situatie (fase B) te
-    hebben. Een alleen-B-hoofdgroep die daarnaast tóch N/V/T-velden gevuld heeft
-    is GEEN fout en wordt niet gemeld (die extra fasen zijn toegestaan).
+    hebben. Een alleen-B-hoofdgroep die daarnaast tóch N/V/T gevuld heeft wordt
+    normaal als 'onverwachte fase' gemeld, BEHALVE voor de codes in
+    `extra_allowed_codes` (standaard ZZ): die statusonafhankelijke hulpobjecten
+    mogen bewust extra fasen dragen en worden niet gemeld (AL wordt wél gemeld).
     Objecten waarvan de `omschrijving` in `exclude_names` staat (standaard
     `FASE_VIS_UITZONDERINGEN`) worden helemaal overgeslagen — bewuste
     uitzonderingen die geen fout zijn.
@@ -1552,10 +1569,12 @@ def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
         return empty
 
     only_b = {(c or "").strip().upper() for c in only_b_codes}
+    extra_ok = {(c or "").strip().upper() for c in extra_allowed_codes}
     excl = {(n or "").strip().casefold() for n in exclude_names}
     total = 0
     ok = 0
     missing: list[dict] = []
+    unexpected: list[dict] = []
     for path in paths:
         headers, rows = read_table(path)
         if name_col not in headers:
@@ -1585,19 +1604,30 @@ def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
                            for i in fase_idx.get(fase, ()))
 
             miss = [f for f in expected if not _has(f)]
-            # Alleen-B-hoofdgroepen (AL, ZZ) mogen daarnaast gerust N/V/T-velden
-            # gevuld hebben: dat is bewust toegestaan en wordt NIET gemeld.
+            # Onverwachte fasen: een alleen-B-hoofdgroep met N/V/T gevuld. De
+            # codes in extra_ok (standaard ZZ) zijn hiervan vrijgesteld — die
+            # mogen bewust extra fasen dragen; AL wordt wél gemeld.
+            extra = ([f for f in FASE_VOLGORDE
+                      if f not in expected and _has(f)]
+                     if code in only_b and code not in extra_ok else [])
             if miss:
                 missing.append({
                     "name": name, "hoofdgroep": code, "file": fn,
                     "missing": [FASE_LABELS[f] for f in miss],
                     "expected": [FASE_LABELS[f] for f in expected],
                 })
-            else:
+            if extra:
+                unexpected.append({
+                    "name": name, "hoofdgroep": code, "file": fn,
+                    "extra": [FASE_LABELS[f] for f in extra],
+                })
+            if not miss and not extra:
                 ok += 1
 
     missing.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
-    return {"total": total, "ok": ok, "missing": missing, "unexpected": []}
+    unexpected.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    return {"total": total, "ok": ok,
+            "missing": missing, "unexpected": unexpected}
 
 
 def check_duplicate_names(src: str, name_col: str) -> dict:

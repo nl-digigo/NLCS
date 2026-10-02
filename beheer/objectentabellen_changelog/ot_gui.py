@@ -2925,7 +2925,12 @@ class SpecialCharsTab(ttk.Frame):
             src = self.app.loc[name_key].get().strip()
             if not self._valid(src):
                 continue
-            res = ot_compare.check_special_chars(src, name_col)
+            # ZZ-objecten mogen haakjes in de naam hebben (stramien-/
+            # maatvoeringlabels (M), (T1.8), …) — alleen voor de objecten.
+            hg_allowed = (ot_compare.OBJECT_SPECIAL_CHAR_UITZONDERINGEN
+                          if label == "objecten" else None)
+            res = ot_compare.check_special_chars(src, name_col,
+                                                 hg_allowed=hg_allowed)
             res["label"] = label
             res["name_col"] = name_col
             sections.append(res)

@@ -1742,10 +1742,11 @@ def build_fase_visualisatie_html(result: dict,
     c1.append('</div>')
 
     # tweede controle: alleen-B-hoofdgroep met onverwachte N/V/T-visualisatie
-    c2 = ['<div class="card"><h2>Onverwachte fase-visualisatie (AL/ZZ)</h2>',
-          '<p class="info">AL en ZZ horen alleen een bestaande-situatie-'
+    # (ZZ is vrijgesteld — mag bewust extra fasen dragen; alleen AL telt hier)
+    c2 = ['<div class="card"><h2>Onverwachte fase-visualisatie (AL)</h2>',
+          '<p class="info">AL hoort alleen een bestaande-situatie-'
           'visualisatie te hebben. Deze objecten hebben tóch een N/V/T-'
-          'visualisatie.</p>']
+          'visualisatie. (ZZ is hiervan vrijgesteld.)</p>']
     if not unexpected:
         c2.append('<p class="ok">✓ Geen onverwachte fase-visualisaties.</p>')
     else:
@@ -2254,7 +2255,7 @@ def _c_fasevis(result) -> str:
              lambda m: f'<td>{_esc(", ".join(m.get("missing", [])))}</td>']))
     if unexpected:
         c.append(f'<p class="warn">⚠ {len(unexpected)} object(en) met een '
-                 'onverwachte N/V/T-visualisatie (AL/ZZ):</p>')
+                 'onverwachte N/V/T-visualisatie (AL):</p>')
         c.append(_hg_table(
             '<th>object</th><th>onverwachte fase(n)</th>', unexpected,
             [lambda u: f'<td>{_esc(u.get("name",""))}</td>',
