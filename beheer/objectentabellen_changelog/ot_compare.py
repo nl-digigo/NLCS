@@ -1164,6 +1164,11 @@ FASE_VOLGORDE = ("B", "N", "V", "T")
 # Hoofdgroepen die alleen een visualisatie voor de bestaande situatie (fase B)
 # hebben; voor deze codes worden N/V/T niet verwacht.
 FASE_ALLEEN_B_CODES = ("AL", "ZZ")
+# Alleen-B-hoofdgroepen die daarnaast tóch N/V/T-velden gevuld MOGEN hebben
+# zonder dat dit een (onverwachte-fase)fout is. ZZ bevat statusonafhankelijke
+# hulpobjecten (grids, grenzen, peilen, …) die bewust extra fasen dragen; AL
+# wordt wél gemeld als het N/V/T heeft.
+FASE_EXTRA_TOEGESTAAN_CODES = ("ZZ",)
 # Objecten (omschrijving) die bewust NIET voor alle fasen een visualisatie
 # hoeven te hebben; deze worden in check_fase_visualisatie overgeslagen.
 FASE_VIS_UITZONDERINGEN = ("GESLOTENVERHARDING_ASFALT_ZAAGSNEDE",)
@@ -1506,6 +1511,7 @@ def check_special_chars(src: str, name_col: str,
 def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
                             hoofdgroep_col: str = "hoofdgroep",
                             only_b_codes=FASE_ALLEEN_B_CODES,
+                            extra_allowed_codes=FASE_EXTRA_TOEGESTAAN_CODES,
                             exclude_names=FASE_VIS_UITZONDERINGEN) -> dict:
     """Controleer of elk object voor alle fasen een visualisatie heeft.
 
@@ -1514,7 +1520,9 @@ def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
     `lt`, zie `FASE_VELDEN`). Een object "heeft een visualisatie" voor een fase
     als minstens één van die velden gevuld is. Verwacht worden alle vier de
     fasen, BEHALVE voor de hoofdgroepen in `only_b_codes` (standaard AL en ZZ):
-    die hebben alleen een visualisatie voor de bestaande situatie (fase B).
+    die hoeven alleen een visualisatie voor de bestaande situatie (fase B) te
+    hebben. Een alleen-B-hoofdgroep die daarnaast tóch N/V/T-velden gevuld heeft
+    is GEEN fout en wordt niet gemeld (die extra fasen zijn toegestaan).
     Objecten waarvan de `omschrijving` in `exclude_names` staat (standaard
     `FASE_VIS_UITZONDERINGEN`) worden helemaal overgeslagen — bewuste
     uitzonderingen die geen fout zijn.
@@ -1548,7 +1556,6 @@ def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
     total = 0
     ok = 0
     missing: list[dict] = []
-    unexpected: list[dict] = []
     for path in paths:
         headers, rows = read_table(path)
         if name_col not in headers:
@@ -1578,28 +1585,19 @@ def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
                            for i in fase_idx.get(fase, ()))
 
             miss = [f for f in expected if not _has(f)]
-            # onverwachte fasen: alleen-B-hoofdgroep met N/V/T ingevuld
-            extra = ([f for f in FASE_VOLGORDE
-                      if f not in expected and _has(f)]
-                     if code in only_b else [])
+            # Alleen-B-hoofdgroepen (AL, ZZ) mogen daarnaast gerust N/V/T-velden
+            # gevuld hebben: dat is bewust toegestaan en wordt NIET gemeld.
             if miss:
                 missing.append({
                     "name": name, "hoofdgroep": code, "file": fn,
                     "missing": [FASE_LABELS[f] for f in miss],
                     "expected": [FASE_LABELS[f] for f in expected],
                 })
-            if extra:
-                unexpected.append({
-                    "name": name, "hoofdgroep": code, "file": fn,
-                    "extra": [FASE_LABELS[f] for f in extra],
-                })
-            if not miss and not extra:
+            else:
                 ok += 1
 
     missing.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
-    unexpected.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
-    return {"total": total, "ok": ok,
-            "missing": missing, "unexpected": unexpected}
+    return {"total": total, "ok": ok, "missing": missing, "unexpected": []}
 
 
 def check_duplicate_names(src: str, name_col: str) -> dict:

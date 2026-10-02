@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 237 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 239 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -448,15 +448,17 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/WH/changelog-lijntypes-5-2-WH.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/WH/changelog-objecten-5-2-WH.html)
 
-## ZZ
+## ZZ ❌ (52 fout(en))
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/ZZ/lijntypes-5-2-ZZ.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/ZZ/objecten-5-2-ZZ.html)
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/ZZ/objecten-concept-5.2-ZZ.html)
 - [Query Symbolen concept](https://nl-digigo.github.io/NLCS/changelog/ZZ/NLCS_Query_Symbolen-concept-5.2-SZZ.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/ZZ/releasenotes-5-2-ZZ.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/ZZ/changelog-lijntypes-5-2-ZZ.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/ZZ/changelog-objecten-5-2-ZZ.html)
 - [Vergelijking](https://nl-digigo.github.io/NLCS/changelog/ZZ/vergelijking_SZZ_5.0_vs_5.2.html)
 - [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/ZZ/vergelijking_lijntypes_ZZ_5.0_vs_5.2.html)
