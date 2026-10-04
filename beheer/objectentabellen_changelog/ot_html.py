@@ -647,12 +647,17 @@ _INDEX_STYLE = """
 # een pop-up (<dialog>) met de objectenboom daaronder.
 _TREE_STYLE = """
     .card .tree-count { font-size:.72rem; font-weight:400; color:var(--dg-grey2); }
+    /* Gewone objectenboom: een KLIKBAAR object (met onderliggende objecten, opent
+       een pop-up) is groen; een LOS object zonder onderliggende objecten is blauw.
+       (In de lt_v-variant overschrijven .v-ok/.v-gap deze kleuren.) */
     a.btn.otbtn { border-left-color: var(--dg-green); cursor:pointer;
             display:flex; align-items:center; justify-content:space-between;
-            gap:8px; }
-    a.btn.otbtn .kids { flex:none; color:var(--dg-grey2); font-size:.72rem;
-            font-weight:600; background:#eee; border-radius:10px; padding:1px 8px; }
-    span.btn.otleaf { color:var(--dg-ink); }
+            gap:10px; }
+    a.btn.otbtn .otname { overflow-wrap:anywhere; }
+    a.btn.otbtn .kids { flex:none; margin-left:auto; color:var(--dg-grey2);
+            font-size:.72rem; font-weight:600; background:#eee; border-radius:10px;
+            padding:1px 8px; }
+    span.btn.otleaf { color:var(--dg-ink); border-left-color:var(--dg-blue); }
 
     dialog.tree-dialog { border:none; border-radius:8px; padding:0;
             width:min(560px, 92vw); max-height:82vh;
@@ -725,7 +730,7 @@ document.addEventListener('click', function (e) {
 
 def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
                      version: str = "", base_url: str = "",
-                     checkmarks=None) -> str:
+                     checkmarks=None, expertcommissie=None) -> str:
     """Overzichtspagina ('kaart') met één blok per hoofdgroep en knoppen naar de
     gepubliceerde tabellen en changelogs.
 
@@ -737,6 +742,8 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
               voor hoofdgroepen met een objectentabel-CSV; 0 fouten -> groen
               vinkje in de kop, >0 -> rood kruis met aantal. None/leeg -> geen
               vinkjes.
+    expertcommissie : optioneel lijst entries uit de map 'expertcommissie'; komt
+              als apart blok 'Voor de expertcommissie' onderaan het overzicht.
     Elke entry heeft: filename, subpath, kind ('tabel'|'changelog'), label."""
     base = (base_url or "").strip()
     if base and not base.endswith("/"):
@@ -815,11 +822,24 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
             'versie.</p>' if not cards else
             '<div class="card-grid">\n' + "\n".join(cards) + "\n</div>")
 
+    # Extra blok onderaan: documenten uit de map 'expertcommissie'.
+    expert_html = ""
+    experts = expertcommissie or []
+    if experts:
+        expert_parts = ['<div class="card general">',
+                        '<h2>Voor de expertcommissie</h2>',
+                        f'<p class="subtitle">{len(experts)} bestand(en)</p>']
+        expert_parts += [_btn(e) for e in experts]
+        expert_parts.append('</div>')
+        expert_html = ('\n<div class="card-grid expert">\n'
+                       + "\n".join(expert_parts) + "\n</div>")
+
     return (
         _shell_head(title, extra_style=_INDEX_STYLE, cdn=False)
         + f'<div class="wrap">\n<p class="info">{info}</p>\n'
         + legend + ("\n" if legend else "")
         + body + "\n"
+        + expert_html + ("\n" if expert_html else "")
         + "</div>\n"
         + _FOOTER
     )
@@ -836,41 +856,38 @@ def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
            "id","name","children","file" (bron-CSV), "depth" en "lt_v".
 
     mark_ltv : als True krijgt elk 'blokje' (objectknop en boom-knoop) een linker-
-           streep op basis van de V-dekking: GROEN als het object én al zijn
-           onderliggende objecten een lt_v hebben die met 'V-' begint, BLAUW zodra
-           ergens in die tak een lt_v leeg is of niet met 'V-' begint. Kleuren als
-           het publicatie-overzicht. Met legenda en telling van objecten zonder V.
+           streep: BLAUW als het object of een onderliggend object een GEVULDE lt_v
+           heeft die NIET met 'V-' begint (een niet-vervallen lijntype op de
+           vervallen plek — precies wat de lt_v-controle flagt); GROEN als er in de
+           hele tak geen enkele zo'n afwijkende lt_v staat (een lege lt_v telt als
+           oké). Kleuren als het publicatie-overzicht; met legenda en telling van
+           objecten met een niet-'V-'-lijntype.
     """
     from ot_compare import hoofdgroep_code
 
     nodes = tree.get("nodes", {}) if tree else {}
     roots = tree.get("roots", []) if tree else []
 
-    def _has_v(idn: str) -> bool:
-        """True als de lt_v van dit object met 'V-' begint (heeft een V)."""
+    def _bad_v(idn: str) -> bool:
+        """True als dit object een GEVULDE lt_v heeft die niet met 'V-' begint.
+        Een lege lt_v is geen probleem (niet elk object heeft een vervallen
+        visualisatie)."""
         nd = nodes.get(idn)
-        return bool(nd and (nd.get("lt_v", "") or "").strip().startswith("V-"))
+        val = (nd.get("lt_v", "") or "").strip() if nd else ""
+        return bool(val) and not val.upper().startswith("V-")
 
-    _allv_cache: dict[str, bool] = {}
+    _badin_cache: dict[str, int] = {}
 
-    def _all_v(idn: str) -> bool:
-        """True als dit object én alle onderliggende objecten een 'V-'-lt_v
-        hebben (volledige V-dekking). Leeg of niet-'V-' -> False."""
-        if idn in _allv_cache:
-            return _allv_cache[idn]
-        nd = nodes.get(idn)
-        if not nd:
-            return True
-        res = _has_v(idn) and all(_all_v(c) for c in nd.get("children", []))
-        _allv_cache[idn] = res
-        return res
-
-    def _gap_in(idn: str) -> int:
-        """Aantal objecten in deze tak (incl. zichzelf) zonder 'V-'-lt_v."""
+    def _bad_in(idn: str) -> int:
+        """Aantal objecten in deze tak (incl. zichzelf) met een niet-'V-'-lt_v."""
+        if idn in _badin_cache:
+            return _badin_cache[idn]
         nd = nodes.get(idn)
         if not nd:
             return 0
-        return (0 if _has_v(idn) else 1) + sum(_gap_in(c) for c in nd.get("children", []))
+        res = (1 if _bad_v(idn) else 0) + sum(_bad_in(c) for c in nd.get("children", []))
+        _badin_cache[idn] = res
+        return res
 
     # Roots per hoofdgroep (op bron-CSV-basename). Roots en kinderen zijn in
     # check_object_tree al op naam gesorteerd -> volgorde overnemen.
@@ -899,12 +916,12 @@ def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
         name = _esc(nd.get("name", idn))
         vcls = vttl = ""
         if mark_ltv:
-            if _all_v(idn):
-                vcls, vttl = " v-ok", ' title="volledige V-dekking"'
-            else:
-                gap = _gap_in(idn)
+            bad = _bad_in(idn)
+            if bad:
                 vcls = " v-gap"
-                vttl = f' title="{gap} object(en) zonder \'V-\'-lijntype"'
+                vttl = f' title="{bad} object(en) met een niet-\'V-\'-lijntype"'
+            else:
+                vcls, vttl = " v-ok", ' title="geen niet-\'V-\'-lijntype"'
         kids = nd.get("children", [])
         if not kids:
             return f'<li class="leaf{vcls}"{vttl}>{name}</li>'
@@ -918,24 +935,25 @@ def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
     for code in sorted(groups):
         root_ids = groups[code]
         n_obj = sum(_count_in(r) for r in root_ids)
-        n_gap_card = sum(_gap_in(r) for r in root_ids)
+        n_gap_card = sum(_bad_in(r) for r in root_ids)
         total_gap += n_gap_card
         btns = []
         for r in root_ids:
             nd = nodes[r]
             name = _esc(nd.get("name", r))
             kids = nd.get("children", [])
-            root_v = (" v-ok" if _all_v(r) else " v-gap") if mark_ltv else ""
-            n_gap = _gap_in(r)
-            badge = (f'<span class="badltv" title="{n_gap} object(en) zonder '
-                     f'\'V-\'-lijntype">{n_gap}</span>' if mark_ltv and n_gap else "")
+            n_gap = _bad_in(r)
+            root_v = ((" v-gap" if n_gap else " v-ok") if mark_ltv else "")
+            badge = (f'<span class="badltv" title="{n_gap} object(en) met een '
+                     f'niet-\'V-\'-lijntype">{n_gap}</span>' if mark_ltv and n_gap else "")
             if kids:
                 did = _dlg_id(r)
                 n_sub = _count_in(r) - 1
                 btns.append(
                     f'<a class="btn otbtn{root_v}" data-dlg="{did}" '
                     f'title="{name} — {n_sub} onderliggend(e) object(en)">'
-                    f'{name}<span class="kids">{badge}{n_sub}</span></a>')
+                    f'<span class="otname">{name}</span>'
+                    f'<span class="kids">{badge}{n_sub}</span></a>')
                 # bijbehorende pop-up met de boom onder deze root
                 subtree = "\n".join(_node_html(c) for c in kids)
                 dialogs.append(
@@ -948,9 +966,10 @@ def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
             else:
                 # geen onderliggende objecten -> geen pop-up, alleen een label
                 btns.append(f'<span class="btn otleaf{root_v}" title="{name} — '
-                            f'geen onderliggende objecten">{name}</span>')
+                            f'geen onderliggende objecten">'
+                            f'<span class="otname">{name}</span></span>')
         card_cnt = (f'<span class="tree-count">{n_obj} object(en)'
-                    + (f' &middot; <span class="ltv-cnt">{n_gap_card} zonder V</span>'
+                    + (f' &middot; <span class="ltv-cnt">{n_gap_card} met niet-V</span>'
                        if mark_ltv and n_gap_card else "")
                     + '</span>')
         cards.append(
@@ -963,17 +982,18 @@ def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
 
     total = tree.get("count", 0) if tree else 0
     info = (f"{len(groups)} hoofdgroep(en) &middot; {total} object(en)"
-            + (f" &middot; {total_gap} object(en) zonder 'V-'-lijntype"
+            + (f" &middot; {total_gap} object(en) met een niet-'V-'-lijntype"
                if mark_ltv else "")
             + (f" &middot; versie {_esc(version)}" if version else ""))
 
     legend = (
         '<p class="ltv-legend">'
-        '<span><span class="ltv-swatch ok"></span> object én alle onderliggende '
-        'objecten hebben een vervallen-lijntype (<code>lt_v</code> begint met '
-        '<code>V-</code>)</span>'
+        '<span><span class="ltv-swatch ok"></span> geen enkel object in deze tak '
+        'heeft een afwijkend vervallen-lijntype (<code>lt_v</code> leeg of begint '
+        'met <code>V-</code>)</span>'
         '<span><span class="ltv-swatch gap"></span> object of een onderliggend '
-        'object heeft geen <code>V-</code>-lijntype (leeg of andere waarde)</span>'
+        'object heeft een gevulde <code>lt_v</code> die <strong>niet</strong> met '
+        '<code>V-</code> begint</span>'
         '</p>' if mark_ltv else "")
 
     body = ('<p class="empty">Geen objecten gevonden.</p>' if not cards else
@@ -993,7 +1013,7 @@ def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
 def build_index_markdown(groups, general,
                          title: str = "NLCS publicatie-overzicht",
                          version: str = "", base_url: str = "",
-                         checkmarks=None) -> str:
+                         checkmarks=None, expertcommissie=None) -> str:
     """Zelfde overzicht als build_index_html, maar als Markdown voor gebruik in
     GitHub-issues: één kop (##) per hoofdgroep met daaronder de links,
     gesplitst in Tabellen en Changelogs. base_url wordt aan het subpad geplakt
@@ -1049,7 +1069,13 @@ def build_index_markdown(groups, general,
     for code, entries in groups:
         lines += _section(code, entries, mark=marks.get(code))
 
-    if not groups and not general:
+    experts = expertcommissie or []
+    if experts:
+        lines += ["## Voor de expertcommissie", ""]
+        lines += [_link(e) for e in experts]
+        lines += [""]
+
+    if not groups and not general and not experts:
         lines += ["_Geen gepubliceerde bestanden gevonden voor deze versie._", ""]
 
     return "\n".join(lines).rstrip() + "\n"
@@ -1362,7 +1388,7 @@ _TREE_LAYER_COLORS = [
     "#E67E22", "#16A085", "#C0392B", "#2C3E50",
 ]
 
-_TREE_STYLE = """
+_TREECHECK_STYLE = """
     .wrap { max-width: 1100px; }
     .card { background:#fff; border:1px solid var(--dg-grey); border-radius:8px;
             padding:16px 18px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
@@ -1513,7 +1539,7 @@ def build_object_tree_html(result: dict, title: str = "Objectenboom",
 
     body = "\n".join(parts) + "\n" + tree
     return (
-        _shell_head(title, extra_style=_TREE_STYLE, cdn=False)
+        _shell_head(title, extra_style=_TREECHECK_STYLE, cdn=False)
         + f'<div class="wrap">\n<p class="info">Boomstructuur-controle{ver}</p>\n'
         + body + '\n</div>\n'
         + _FOOTER

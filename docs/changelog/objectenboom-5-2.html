@@ -81,53 +81,68 @@
             border-style:dashed; border-left-color:var(--dg-grey);
             cursor:default; font-style:italic; }
 
-    .wrap { max-width: 1100px; }
-    .card { background:#fff; border:1px solid var(--dg-grey); border-radius:8px;
-            padding:16px 18px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
-    .card h2 { margin:0 0 8px; font-size:1.2rem; border-bottom:3px solid var(--dg-yellow);
-               padding-bottom:6px; }
-    .kpi { display:flex; gap:14px; flex-wrap:wrap; margin:10px 0 4px; }
-    .kpi .box { background:#fafafa; border:1px solid var(--dg-grey); border-radius:6px;
-                padding:6px 14px; font-size:.85rem; color:var(--dg-grey2); }
-    .kpi .box b { display:block; font-size:1.3rem; font-weight:700; color:var(--dg-ink); }
-    .kpi .box.bad { border-color:var(--dg-red); background:#fdeff0; }
-    .kpi .box.bad b { color:var(--dg-red); }
-    .kpi .box.warn { border-color:#E0A800; background:#fff8e6; }
-    .kpi .box.warn b { color:#8a6d00; }
-    p.ok { color:var(--dg-green); font-weight:600; margin:8px 0; }
-    p.warn { color:var(--dg-red); font-weight:700; margin:14px 0 6px; }
-    .legend { display:flex; gap:10px; flex-wrap:wrap; margin:8px 0 4px;
-              font-size:.8rem; color:var(--dg-grey2); }
-    .legend span { display:inline-flex; align-items:center; gap:5px; }
-    .legend i { width:14px; height:14px; border-radius:3px; display:inline-block; }
-    table.errtab { width:100%; margin:6px 0 10px; }
-    table.errtab tbody td { white-space:normal; }
-    table.errtab tbody tr:nth-child(even) td { background:#fafafa; }
-    td.tid { font-family:Consolas,"Courier New",monospace; white-space:nowrap;
-             color:var(--dg-grey2); }
-    .badge { display:inline-block; font-size:.72rem; font-weight:700;
-             padding:1px 7px; border-radius:10px; color:#fff; white-space:nowrap; }
-    .badge.count { background:var(--dg-red); }
-    .badge.prefix { background:#9B59B6; }
-    .badge.separator { background:#2980B9; }
-    .badge.orphan { background:var(--dg-grey2); }
-    .badge.root_multi { background:#E67E22; }
-    .badge.subobjecten { background:#C0392B; }
-    ul.tree, ul.tree ul { list-style:none; margin:0; padding-left:20px; }
-    ul.tree { padding-left:2px; }
-    ul.tree li { margin:2px 0; position:relative; }
-    .node { display:inline-flex; align-items:center; gap:8px; padding:2px 10px;
-            border-radius:4px; border-left:4px solid var(--dg-grey);
-            background:#fff; font-size:.9rem; }
-    .node .nm { font-weight:600; }
-    .node .cnt { font-size:.72rem; color:var(--dg-grey2);
-                 font-family:Consolas,"Courier New",monospace; }
-    .node.err { outline:2px solid var(--dg-red); background:#fdeff0; }
-    details > summary { cursor:pointer; list-style:none; }
-    details > summary::-webkit-details-marker { display:none; }
-    details > summary .node::before { content:"▸ "; color:var(--dg-grey2); }
-    details[open] > summary .node::before { content:"▾ "; }
-    li.leaf .node { margin-left:0; }
+    .card .tree-count { font-size:.72rem; font-weight:400; color:var(--dg-grey2); }
+    /* Gewone objectenboom: een KLIKBAAR object (met onderliggende objecten, opent
+       een pop-up) is groen; een LOS object zonder onderliggende objecten is blauw.
+       (In de lt_v-variant overschrijven .v-ok/.v-gap deze kleuren.) */
+    a.btn.otbtn { border-left-color: var(--dg-green); cursor:pointer;
+            display:flex; align-items:center; justify-content:space-between;
+            gap:10px; }
+    a.btn.otbtn .otname { overflow-wrap:anywhere; }
+    a.btn.otbtn .kids { flex:none; margin-left:auto; color:var(--dg-grey2);
+            font-size:.72rem; font-weight:600; background:#eee; border-radius:10px;
+            padding:1px 8px; }
+    span.btn.otleaf { color:var(--dg-ink); border-left-color:var(--dg-blue); }
+
+    dialog.tree-dialog { border:none; border-radius:8px; padding:0;
+            width:min(560px, 92vw); max-height:82vh;
+            box-shadow:0 8px 30px rgba(0,0,0,.28); }
+    dialog.tree-dialog::backdrop { background:rgba(0,0,0,.42); }
+    .dlg-head { position:sticky; top:0; background:#fff;
+            border-bottom:2px solid var(--dg-yellow); padding:12px 16px;
+            display:flex; align-items:center; gap:10px; }
+    .dlg-head h3 { margin:0; font-size:1.05rem; color:var(--dg-ink); flex:1; }
+    .dlg-head .dlg-close { border:1px solid var(--dg-grey); background:#fbfbfb;
+            border-radius:6px; font-size:1.1rem; line-height:1; cursor:pointer;
+            padding:3px 9px; color:var(--dg-grey2); }
+    .dlg-head .dlg-close:hover { background:#FFF8CC; }
+    .dlg-body { padding:12px 16px 16px; overflow:auto; }
+
+    .otree, .otree ul { list-style:none; margin:0; padding:0; }
+    .otree ul { padding-left:15px; border-left:1px dotted var(--dg-grey); }
+    .otree li { margin:1px 0; }
+    .otree details > summary { list-style:none; cursor:pointer; padding:2px 5px;
+            border-radius:4px; font-size:.88rem; color:var(--dg-ink); }
+    .otree details > summary::-webkit-details-marker { display:none; }
+    .otree details > summary::before { content:"\25B8"; display:inline-block;
+            width:1em; color:var(--dg-grey2); transition:transform .12s; }
+    .otree details[open] > summary::before { transform:rotate(90deg); }
+    .otree details > summary:hover { background:#FFF8CC; }
+    .otree li.leaf { padding:2px 5px 2px calc(1em + 5px); font-size:.88rem;
+            color:var(--dg-ink); }
+    .otree .empty { color:var(--dg-grey2); font-style:italic; font-size:.86rem; }
+
+    /* lt_v-variant (V-dekking): groen = object EN alle onderliggende objecten
+       hebben een lt_v die met 'V-' begint; blauw = ergens (object zelf of een
+       onderliggend object) ontbreekt een 'V-'-lt_v (leeg of andere waarde).
+       Kleuren zoals het publicatie-overzicht (--dg-green / --dg-blue). */
+    a.btn.otbtn.v-ok,  span.btn.otleaf.v-ok  { border-left-color:var(--dg-green); }
+    a.btn.otbtn.v-gap, span.btn.otleaf.v-gap { border-left-color:var(--dg-blue); }
+    .otree li.leaf.v-ok, .otree summary.node.v-ok {
+            border-left:4px solid var(--dg-green); border-radius:4px; }
+    .otree li.leaf.v-gap, .otree summary.node.v-gap {
+            border-left:4px solid var(--dg-blue); border-radius:4px; }
+    .kids .badltv { display:inline-block; margin-right:6px; background:var(--dg-blue);
+            color:#fff; border-radius:10px; padding:1px 8px; font-size:.72rem;
+            font-weight:700; }
+    .tree-count .ltv-cnt { color:var(--dg-blue); font-weight:600; }
+    .ltv-legend { margin:0 0 14px; font-size:.9rem; color:var(--dg-ink);
+            display:flex; flex-wrap:wrap; gap:6px 18px; align-items:center; }
+    .ltv-legend code { background:#f2f2f2; border-radius:3px; padding:0 4px; }
+    .ltv-swatch { display:inline-block; width:14px; height:14px; vertical-align:-2px;
+            border-radius:2px; }
+    .ltv-swatch.ok  { background:#eef7ee; border-left:3px solid var(--dg-green); }
+    .ltv-swatch.gap { background:#e8f6fc; border-left:3px solid var(--dg-blue); }
 </style>
 </head>
 <body>
@@ -140,449 +155,449 @@
 <div class="wrap">
 <p class="info">35 hoofdgroep(en) &middot; 4555 object(en) &middot; versie 5.2</p>
 <div class="card-grid">
-<div class="card"><h2>AL <span class="tree-count">32 object(en)</span></h2><p class="subtitle">hoofdgroep AL &middot; 10 object(en) op het eerste niveau</p><span class="btn otleaf" title="AANKLEDING — geen onderliggende objecten">AANKLEDING</span>
-<a class="btn otbtn" data-dlg="dlg-2" title="BLADVERWIJZING — 5 onderliggend(e) object(en)">BLADVERWIJZING<span class="kids">5</span></a>
-<span class="btn otleaf" title="COORDINAATPUNT — geen onderliggende objecten">COORDINAATPUNT</span>
-<span class="btn otleaf" title="LEGENDA — geen onderliggende objecten">LEGENDA</span>
-<span class="btn otleaf" title="ORIENTATIE — geen onderliggende objecten">ORIENTATIE</span>
-<span class="btn otleaf" title="PROFIELBALK — geen onderliggende objecten">PROFIELBALK</span>
-<span class="btn otleaf" title="REFERENTIE — geen onderliggende objecten">REFERENTIE</span>
-<a class="btn otbtn" data-dlg="dlg-12" title="TEKENBLAD — 13 onderliggend(e) object(en)">TEKENBLAD<span class="kids">13</span></a>
-<span class="btn otleaf" title="TEKENBLADGRENS — geen onderliggende objecten">TEKENBLADGRENS</span>
-<a class="btn otbtn" data-dlg="dlg-27" title="VERWIJZING — 4 onderliggend(e) object(en)">VERWIJZING<span class="kids">4</span></a></div>
-<div class="card"><h2>AM <span class="tree-count">121 object(en)</span></h2><p class="subtitle">hoofdgroep AM &middot; 4 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-40" title="AS — 114 onderliggend(e) object(en)">AS<span class="kids">114</span></a>
-<span class="btn otleaf" title="KILOMETRERING — geen onderliggende objecten">KILOMETRERING</span>
-<a class="btn otbtn" data-dlg="dlg-145" title="STRING — 3 onderliggend(e) object(en)">STRING<span class="kids">3</span></a>
-<span class="btn otleaf" title="TANGENTPUNT — geen onderliggende objecten">TANGENTPUNT</span></div>
-<div class="card"><h2>BC <span class="tree-count">37 object(en)</span></h2><p class="subtitle">hoofdgroep BC &middot; 13 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2740" title="AANGRENZENDE CONSTRUCTIE — 3 onderliggend(e) object(en)">AANGRENZENDE CONSTRUCTIE<span class="kids">3</span></a>
-<a class="btn otbtn" data-dlg="dlg-2712" title="BETONVORM — 10 onderliggend(e) object(en)">BETONVORM<span class="kids">10</span></a>
-<span class="btn otleaf" title="DILATATIE — geen onderliggende objecten">DILATATIE</span>
-<span class="btn otleaf" title="ITSO — geen onderliggende objecten">ITSO</span>
-<span class="btn otleaf" title="LEVENSDUURVERLENGENDE MAATREGEL — geen onderliggende objecten">LEVENSDUURVERLENGENDE MAATREGEL</span>
-<span class="btn otleaf" title="OPLEGBLOK — geen onderliggende objecten">OPLEGBLOK</span>
-<span class="btn otleaf" title="OVERIGMATERIAAL — geen onderliggende objecten">OVERIGMATERIAAL</span>
-<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten">REPARATIES</span>
-<span class="btn otleaf" title="SLOOPLIJN — geen onderliggende objecten">SLOOPLIJN</span>
-<span class="btn otleaf" title="STORTNAAD — geen onderliggende objecten">STORTNAAD</span>
-<span class="btn otleaf" title="VOEGPROFIEL — geen onderliggende objecten">VOEGPROFIEL</span>
-<a class="btn otbtn" data-dlg="dlg-2732" title="VOORSPANNING — 7 onderliggend(e) object(en)">VOORSPANNING<span class="kids">7</span></a>
-<a class="btn otbtn" data-dlg="dlg-2727" title="WAPENING — 4 onderliggend(e) object(en)">WAPENING<span class="kids">4</span></a></div>
-<div class="card"><h2>BV <span class="tree-count">83 object(en)</span></h2><p class="subtitle">hoofdgroep BV &middot; 3 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-151" title="GELEIDECONSTRUCTIE — 76 onderliggend(e) object(en)">GELEIDECONSTRUCTIE<span class="kids">76</span></a>
-<span class="btn otleaf" title="LEUNING — geen onderliggende objecten">LEUNING</span>
-<a class="btn otbtn" data-dlg="dlg-228" title="OBSTAKELBEVEILIGER — 4 onderliggend(e) object(en)">OBSTAKELBEVEILIGER<span class="kids">4</span></a></div>
-<div class="card"><h2>ES <span class="tree-count">203 object(en)</span></h2><p class="subtitle">hoofdgroep ES &middot; 19 object(en) op het eerste niveau</p><span class="btn otleaf" title="AFSPANCONSTRUCTIE — geen onderliggende objecten">AFSPANCONSTRUCTIE</span>
-<a class="btn otbtn" data-dlg="dlg-4113" title="AFSPANNING — 23 onderliggend(e) object(en)">AFSPANNING<span class="kids">23</span></a>
-<span class="btn otleaf" title="BEREKENEN KRACHTEN GAWIRE — geen onderliggende objecten">BEREKENEN KRACHTEN GAWIRE</span>
-<a class="btn otbtn" data-dlg="dlg-4164" title="BEVEILIGING — 7 onderliggend(e) object(en)">BEVEILIGING<span class="kids">7</span></a>
-<a class="btn otbtn" data-dlg="dlg-4172" title="BEVESTIGINGSCONSTRUCTIE — 7 onderliggend(e) object(en)">BEVESTIGINGSCONSTRUCTIE<span class="kids">7</span></a>
-<a class="btn otbtn" data-dlg="dlg-4452" title="DRAADKRUISING — 2 onderliggend(e) object(en)">DRAADKRUISING<span class="kids">2</span></a>
-<a class="btn otbtn" data-dlg="dlg-4455" title="DRAAGKABEL — 5 onderliggend(e) object(en)">DRAAGKABEL<span class="kids">5</span></a>
-<a class="btn otbtn" data-dlg="dlg-4689" title="ELEKTRISCHEVERBINDING — 41 onderliggend(e) object(en)">ELEKTRISCHEVERBINDING<span class="kids">41</span></a>
-<a class="btn otbtn" data-dlg="dlg-4727" title="FUNDATIE — 18 onderliggend(e) object(en)">FUNDATIE<span class="kids">18</span></a>
-<a class="btn otbtn" data-dlg="dlg-4821" title="HOORNSCHAKELAAR — 2 onderliggend(e) object(en)">HOORNSCHAKELAAR<span class="kids">2</span></a>
-<a class="btn otbtn" data-dlg="dlg-5032" title="LEIDINGONDERBREKER — 6 onderliggend(e) object(en)">LEIDINGONDERBREKER<span class="kids">6</span></a>
-<a class="btn otbtn" data-dlg="dlg-5039" title="LIJNSCHAKELAAR — 2 onderliggend(e) object(en)">LIJNSCHAKELAAR<span class="kids">2</span></a>
-<a class="btn otbtn" data-dlg="dlg-5044" title="MAST — 20 onderliggend(e) object(en)">MAST<span class="kids">20</span></a>
-<a class="btn otbtn" data-dlg="dlg-5118" title="OPHANGCONSTRUCTIE — 36 onderliggend(e) object(en)">OPHANGCONSTRUCTIE<span class="kids">36</span></a>
-<a class="btn otbtn" data-dlg="dlg-5206" title="PROFIELDRAAD — 7 onderliggend(e) object(en)">PROFIELDRAAD<span class="kids">7</span></a>
-<a class="btn otbtn" data-dlg="dlg-5220" title="SCHAKELAAR — 2 onderliggend(e) object(en)">SCHAKELAAR<span class="kids">2</span></a>
-<a class="btn otbtn" data-dlg="dlg-5230" title="SECTIE — 4 onderliggend(e) object(en)">SECTIE<span class="kids">4</span></a>
-<span class="btn otleaf" title="SECTIENUMMER — geen onderliggende objecten">SECTIENUMMER</span>
-<a class="btn otbtn" data-dlg="dlg-5404" title="STROOMRAIL — 2 onderliggend(e) object(en)">STROOMRAIL<span class="kids">2</span></a></div>
-<div class="card"><h2>FC <span class="tree-count">22 object(en)</span></h2><p class="subtitle">hoofdgroep FC &middot; 8 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2758" title="DAMWAND — 5 onderliggend(e) object(en)">DAMWAND<span class="kids">5</span></a>
-<span class="btn otleaf" title="DIEPWAND — geen onderliggende objecten">DIEPWAND</span>
-<span class="btn otleaf" title="GRONDVERBETERING — geen onderliggende objecten">GRONDVERBETERING</span>
-<span class="btn otleaf" title="KESP — geen onderliggende objecten">KESP</span>
-<span class="btn otleaf" title="LEVENSDUURVERLENGENDE MAATREGEL — geen onderliggende objecten">LEVENSDUURVERLENGENDE MAATREGEL</span>
-<span class="btn otleaf" title="OPSTAAL — geen onderliggende objecten">OPSTAAL</span>
-<a class="btn otbtn" data-dlg="dlg-2747" title="PAAL — 9 onderliggend(e) object(en)">PAAL<span class="kids">9</span></a>
-<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten">REPARATIES</span></div>
-<div class="card"><h2>FV <span class="tree-count">58 object(en)</span></h2><p class="subtitle">hoofdgroep FV &middot; 5 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-234" title="ECOLOGISCHEVERBINDINGSZONE — 9 onderliggend(e) object(en)">ECOLOGISCHEVERBINDINGSZONE<span class="kids">9</span></a>
-<a class="btn otbtn" data-dlg="dlg-244" title="FAUNAPASSAGE — 14 onderliggend(e) object(en)">FAUNAPASSAGE<span class="kids">14</span></a>
-<a class="btn otbtn" data-dlg="dlg-278" title="FAUNAVOORZIENING — 12 onderliggend(e) object(en)">FAUNAVOORZIENING<span class="kids">12</span></a>
-<a class="btn otbtn" data-dlg="dlg-265" title="GELEIDING — 12 onderliggend(e) object(en)">GELEIDING<span class="kids">12</span></a>
-<a class="btn otbtn" data-dlg="dlg-258" title="NATUURVRIENDELIJKEOEVER — 6 onderliggend(e) object(en)">NATUURVRIENDELIJKEOEVER<span class="kids">6</span></a></div>
-<div class="card"><h2>GC <span class="tree-count">28 object(en)</span></h2><p class="subtitle">hoofdgroep GC &middot; 9 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2769" title="DAMWAND — 3 onderliggend(e) object(en)">DAMWAND<span class="kids">3</span></a>
-<a class="btn otbtn" data-dlg="dlg-2785" title="DEKSLOOF — 3 onderliggend(e) object(en)">DEKSLOOF<span class="kids">3</span></a>
-<span class="btn otleaf" title="DIEPWAND — geen onderliggende objecten">DIEPWAND</span>
-<span class="btn otleaf" title="FOLIE — geen onderliggende objecten">FOLIE</span>
-<a class="btn otbtn" data-dlg="dlg-2773" title="GORDING — 3 onderliggend(e) object(en)">GORDING<span class="kids">3</span></a>
-<span class="btn otleaf" title="LEVENSDUURVERLENGENDE MAATREGEL — geen onderliggende objecten">LEVENSDUURVERLENGENDE MAATREGEL</span>
-<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten">REPARATIES</span>
-<a class="btn otbtn" data-dlg="dlg-2789" title="STEMPEL — 3 onderliggend(e) object(en)">STEMPEL<span class="kids">3</span></a>
-<a class="btn otbtn" data-dlg="dlg-2777" title="VERANKERING — 7 onderliggend(e) object(en)">VERANKERING<span class="kids">7</span></a></div>
-<div class="card"><h2>GK <span class="tree-count">61 object(en)</span></h2><p class="subtitle">hoofdgroep GK &middot; 5 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-339" title="BESCHOEIING — 13 onderliggend(e) object(en)">BESCHOEIING<span class="kids">13</span></a>
-<a class="btn otbtn" data-dlg="dlg-307" title="BOUWKUIP — 7 onderliggend(e) object(en)">BOUWKUIP<span class="kids">7</span></a>
-<a class="btn otbtn" data-dlg="dlg-291" title="KADEMUUR — 15 onderliggend(e) object(en)">KADEMUUR<span class="kids">15</span></a>
-<a class="btn otbtn" data-dlg="dlg-315" title="KEERWAND — 12 onderliggend(e) object(en)">KEERWAND<span class="kids">12</span></a>
-<a class="btn otbtn" data-dlg="dlg-329" title="KISTDAM — 9 onderliggend(e) object(en)">KISTDAM<span class="kids">9</span></a></div>
-<div class="card"><h2>GR <span class="tree-count">217 object(en)</span></h2><p class="subtitle">hoofdgroep GR &middot; 37 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2885" title="BEPLANTING — 15 onderliggend(e) object(en)">BEPLANTING<span class="kids">15</span></a>
-<span class="btn otleaf" title="BLOEMBAK — geen onderliggende objecten">BLOEMBAK</span>
-<span class="btn otleaf" title="BOLLEN — geen onderliggende objecten">BOLLEN</span>
-<span class="btn otleaf" title="BOMENRIJ — geen onderliggende objecten">BOMENRIJ</span>
-<a class="btn otbtn" data-dlg="dlg-360" title="BOOM — 123 onderliggend(e) object(en)">BOOM<span class="kids">123</span></a>
-<span class="btn otleaf" title="BOOMTEELT — geen onderliggende objecten">BOOMTEELT</span>
-<a class="btn otbtn" data-dlg="dlg-356" title="BOS — 3 onderliggend(e) object(en)">BOS<span class="kids">3</span></a>
-<a class="btn otbtn" data-dlg="dlg-3377" title="BOUWLAND — 4 onderliggend(e) object(en)">BOUWLAND<span class="kids">4</span></a>
-<span class="btn otleaf" title="CONIFEER — geen onderliggende objecten">CONIFEER</span>
-<span class="btn otleaf" title="DOORWORTELBARE RUIMTE — geen onderliggende objecten">DOORWORTELBARE RUIMTE</span>
-<a class="btn otbtn" data-dlg="dlg-3366" title="DUIN — 2 onderliggend(e) object(en)">DUIN<span class="kids">2</span></a>
-<a class="btn otbtn" data-dlg="dlg-3370" title="FRUITTEELT — 5 onderliggend(e) object(en)">FRUITTEELT<span class="kids">5</span></a>
-<a class="btn otbtn" data-dlg="dlg-401" title="GRAS — 9 onderliggend(e) object(en)">GRAS<span class="kids">9</span></a>
-<span class="btn otleaf" title="GRIEND — geen onderliggende objecten">GRIEND</span>
-<span class="btn otleaf" title="GROENSTROOK — geen onderliggende objecten">GROENSTROOK</span>
-<span class="btn otleaf" title="GROENVOORZIENING — geen onderliggende objecten">GROENVOORZIENING</span>
-<a class="btn otbtn" data-dlg="dlg-380" title="HAAG — 7 onderliggend(e) object(en)">HAAG<span class="kids">7</span></a>
-<span class="btn otleaf" title="HAKHOUT — geen onderliggende objecten">HAKHOUT</span>
-<a class="btn otbtn" data-dlg="dlg-384" title="HEESTER — 1 onderliggend(e) object(en)">HEESTER<span class="kids">1</span></a>
-<span class="btn otleaf" title="HEIDE — geen onderliggende objecten">HEIDE</span>
-<span class="btn otleaf" title="HONDENTOILET — geen onderliggende objecten">HONDENTOILET</span>
-<a class="btn otbtn" data-dlg="dlg-368" title="HOUTOPSTAND — 3 onderliggend(e) object(en)">HOUTOPSTAND<span class="kids">3</span></a>
-<span class="btn otleaf" title="HOUTWAL — geen onderliggende objecten">HOUTWAL</span>
-<span class="btn otleaf" title="KRUIDEN — geen onderliggende objecten">KRUIDEN</span>
-<span class="btn otleaf" title="KWELDER — geen onderliggende objecten">KWELDER</span>
-<span class="btn otleaf" title="MOERAS — geen onderliggende objecten">MOERAS</span>
-<span class="btn otleaf" title="PERK — geen onderliggende objecten">PERK</span>
-<span class="btn otleaf" title="PLANTENBAK — geen onderliggende objecten">PLANTENBAK</span>
-<a class="btn otbtn" data-dlg="dlg-364" title="PLANTGATVERBETERING — 5 onderliggend(e) object(en)">PLANTGATVERBETERING<span class="kids">5</span></a>
-<span class="btn otleaf" title="RIET — geen onderliggende objecten">RIET</span>
-<span class="btn otleaf" title="SIERPLANTSOEN — geen onderliggende objecten">SIERPLANTSOEN</span>
-<span class="btn otleaf" title="SOORTAANDUIDING — geen onderliggende objecten">SOORTAANDUIDING</span>
-<a class="btn otbtn" data-dlg="dlg-406" title="SPORTVELD — 3 onderliggend(e) object(en)">SPORTVELD<span class="kids">3</span></a>
-<span class="btn otleaf" title="STRUIK — geen onderliggende objecten">STRUIK</span>
-<span class="btn otleaf" title="STRUWEEL — geen onderliggende objecten">STRUWEEL</span>
-<span class="btn otleaf" title="TYPEAANDUIDING — geen onderliggende objecten">TYPEAANDUIDING</span>
-<span class="btn otleaf" title="VERWIJDEREN — geen onderliggende objecten">VERWIJDEREN</span></div>
-<div class="card"><h2>GW <span class="tree-count">132 object(en)</span></h2><p class="subtitle">hoofdgroep GW &middot; 24 object(en) op het eerste niveau</p><span class="btn otleaf" title="BAGGERVAK — geen onderliggende objecten">BAGGERVAK</span>
-<span class="btn otleaf" title="BERM — geen onderliggende objecten">BERM</span>
-<a class="btn otbtn" data-dlg="dlg-454" title="CUNET — 3 onderliggend(e) object(en)">CUNET<span class="kids">3</span></a>
-<a class="btn otbtn" data-dlg="dlg-432" title="DIJK — 12 onderliggend(e) object(en)">DIJK<span class="kids">12</span></a>
-<a class="btn otbtn" data-dlg="dlg-477" title="GROND — 40 onderliggend(e) object(en)">GROND<span class="kids">40</span></a>
-<a class="btn otbtn" data-dlg="dlg-4756" title="GRONDSCHEIDINGEN — 8 onderliggend(e) object(en)">GRONDSCHEIDINGEN<span class="kids">8</span></a>
-<a class="btn otbtn" data-dlg="dlg-424" title="GRONDWERKLIJN — 4 onderliggend(e) object(en)">GRONDWERKLIJN<span class="kids">4</span></a>
-<a class="btn otbtn" data-dlg="dlg-416" title="HOOGTE — 4 onderliggend(e) object(en)">HOOGTE<span class="kids">4</span></a>
-<span class="btn otleaf" title="MAAIVELD — geen onderliggende objecten">MAAIVELD</span>
-<span class="btn otleaf" title="NIETBAGGERVAK — geen onderliggende objecten">NIETBAGGERVAK</span>
-<span class="btn otleaf" title="NIETSTORTVAK — geen onderliggende objecten">NIETSTORTVAK</span>
-<span class="btn otleaf" title="NIETWINNINGSVAK — geen onderliggende objecten">NIETWINNINGSVAK</span>
-<a class="btn otbtn" data-dlg="dlg-473" title="ONTGRAVINGSVAK — 3 onderliggend(e) object(en)">ONTGRAVINGSVAK<span class="kids">3</span></a>
-<a class="btn otbtn" data-dlg="dlg-442" title="OPHOGING — 3 onderliggend(e) object(en)">OPHOGING<span class="kids">3</span></a>
-<span class="btn otleaf" title="PIKETLIJN — geen onderliggende objecten">PIKETLIJN</span>
-<span class="btn otleaf" title="RAAI — geen onderliggende objecten">RAAI</span>
-<a class="btn otbtn" data-dlg="dlg-450" title="SLEUF — 3 onderliggend(e) object(en)">SLEUF<span class="kids">3</span></a>
-<span class="btn otleaf" title="STORTVAK — geen onderliggende objecten">STORTVAK</span>
-<a class="btn otbtn" data-dlg="dlg-427" title="TALUD — 4 onderliggend(e) object(en)">TALUD<span class="kids">4</span></a>
-<a class="btn otbtn" data-dlg="dlg-421" title="TALUDARCERING — 2 onderliggend(e) object(en)">TALUDARCERING<span class="kids">2</span></a>
-<span class="btn otleaf" title="VOORBELASTING — geen onderliggende objecten">VOORBELASTING</span>
-<a class="btn otbtn" data-dlg="dlg-446" title="WAL — 3 onderliggend(e) object(en)">WAL<span class="kids">3</span></a>
-<a class="btn otbtn" data-dlg="dlg-458" title="WATERGANG — 16 onderliggend(e) object(en)">WATERGANG<span class="kids">16</span></a>
-<a class="btn otbtn" data-dlg="dlg-511" title="WINNINGSVAK — 3 onderliggend(e) object(en)">WINNINGSVAK<span class="kids">3</span></a></div>
-<div class="card"><h2>HC <span class="tree-count">13 object(en)</span></h2><p class="subtitle">hoofdgroep HC &middot; 6 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2803" title="AANGRENZENDE CONSTRUCTIE — 3 onderliggend(e) object(en)">AANGRENZENDE CONSTRUCTIE<span class="kids">3</span></a>
-<a class="btn otbtn" data-dlg="dlg-2797" title="HOUTVORM — 2 onderliggend(e) object(en)">HOUTVORM<span class="kids">2</span></a>
-<span class="btn otleaf" title="LEVENSDUURVERLENGENDE MAATREGEL — geen onderliggende objecten">LEVENSDUURVERLENGENDE MAATREGEL</span>
-<span class="btn otleaf" title="OVERIG MATERIAAL — geen onderliggende objecten">OVERIG MATERIAAL</span>
-<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten">REPARATIES</span>
-<a class="btn otbtn" data-dlg="dlg-2800" title="VERBINDING — 2 onderliggend(e) object(en)">VERBINDING<span class="kids">2</span></a></div>
-<div class="card"><h2>HU <span class="tree-count">1 object(en)</span></h2><p class="subtitle">hoofdgroep HU &middot; 1 object(en) op het eerste niveau</p><span class="btn otleaf" title="HULPCONSTRUCTIES — geen onderliggende objecten">HULPCONSTRUCTIES</span></div>
-<div class="card"><h2>IE <span class="tree-count">128 object(en)</span></h2><p class="subtitle">hoofdgroep IE &middot; 12 object(en) op het eerste niveau</p><span class="btn otleaf" title="AFVAL APART PLAATS — geen onderliggende objecten">AFVAL APART PLAATS</span>
-<span class="btn otleaf" title="BALUSTRADE — geen onderliggende objecten">BALUSTRADE</span>
-<span class="btn otleaf" title="BORD — geen onderliggende objecten">BORD</span>
-<a class="btn otbtn" data-dlg="dlg-6004" title="CONSTRUCTIEVE AFSCHEIDING — 36 onderliggend(e) object(en)">CONSTRUCTIEVE AFSCHEIDING<span class="kids">36</span></a>
-<span class="btn otleaf" title="HERDENKINGSMONUMENT — geen onderliggende objecten">HERDENKINGSMONUMENT</span>
-<span class="btn otleaf" title="HOOGTEDETECTIEMETER — geen onderliggende objecten">HOOGTEDETECTIEMETER</span>
-<span class="btn otleaf" title="INKLIMBEVEILIGING — geen onderliggende objecten">INKLIMBEVEILIGING</span>
-<span class="btn otleaf" title="KUNSTOBJECT — geen onderliggende objecten">KUNSTOBJECT</span>
-<span class="btn otleaf" title="LPG VULPUNT — geen onderliggende objecten">LPG VULPUNT</span>
-<a class="btn otbtn" data-dlg="dlg-521" title="MEUBILAIR — 80 onderliggend(e) object(en)">MEUBILAIR<span class="kids">80</span></a>
-<span class="btn otleaf" title="SIRENE — geen onderliggende objecten">SIRENE</span>
-<span class="btn otleaf" title="WEERSTATION — geen onderliggende objecten">WEERSTATION</span></div>
-<div class="card"><h2>IS <span class="tree-count">69 object(en)</span></h2><p class="subtitle">hoofdgroep IS &middot; 9 object(en) op het eerste niveau</p><span class="btn otleaf" title="BLOKSCHEIDING — geen onderliggende objecten">BLOKSCHEIDING</span>
-<a class="btn otbtn" data-dlg="dlg-4395" title="COMPONENT — 21 onderliggend(e) object(en)">COMPONENT<span class="kids">21</span></a>
-<a class="btn otbtn" data-dlg="dlg-4958" title="KAST — 12 onderliggend(e) object(en)">KAST<span class="kids">12</span></a>
-<span class="btn otleaf" title="MAST — geen onderliggende objecten">MAST</span>
-<span class="btn otleaf" title="PUNTTONG — geen onderliggende objecten">PUNTTONG</span>
-<a class="btn otbtn" data-dlg="dlg-5215" title="PUT — 3 onderliggend(e) object(en)">PUT<span class="kids">3</span></a>
-<a class="btn otbtn" data-dlg="dlg-5236" title="SEIN — 17 onderliggend(e) object(en)">SEIN<span class="kids">17</span></a>
-<a class="btn otbtn" data-dlg="dlg-5397" title="SPOORVERBINDER — 6 onderliggend(e) object(en)">SPOORVERBINDER<span class="kids">6</span></a>
-<a class="btn otbtn" data-dlg="dlg-5912" title="ZONE — 1 onderliggend(e) object(en)">ZONE<span class="kids">1</span></a></div>
-<div class="card"><h2>IV <span class="tree-count">3 object(en)</span></h2><p class="subtitle">hoofdgroep IV &middot; 2 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2538" title="DRI — 1 onderliggend(e) object(en)">DRI<span class="kids">1</span></a>
-<span class="btn otleaf" title="LICHTOPSTAND — geen onderliggende objecten">LICHTOPSTAND</span></div>
-<div class="card"><h2>IW <span class="tree-count">34 object(en)</span></h2><p class="subtitle">hoofdgroep IW &middot; 6 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2648" title="DRIP — 2 onderliggend(e) object(en)">DRIP<span class="kids">2</span></a>
-<a class="btn otbtn" data-dlg="dlg-2642" title="TDI — 1 onderliggend(e) object(en)">TDI<span class="kids">1</span></a>
-<span class="btn otleaf" title="TELECOM — geen onderliggende objecten">TELECOM</span>
-<a class="btn otbtn" data-dlg="dlg-3352" title="TRAMSIGNALERING — 2 onderliggend(e) object(en)">TRAMSIGNALERING<span class="kids">2</span></a>
-<a class="btn otbtn" data-dlg="dlg-2644" title="VRI — 22 onderliggend(e) object(en)">VRI<span class="kids">22</span></a>
-<a class="btn otbtn" data-dlg="dlg-2646" title="VS — 1 onderliggend(e) object(en)">VS<span class="kids">1</span></a></div>
-<div class="card"><h2>KC <span class="tree-count">14 object(en)</span></h2><p class="subtitle">hoofdgroep KC &middot; 6 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2817" title="AANGRENZENDE CONSTRUCTIE — 4 onderliggend(e) object(en)">AANGRENZENDE CONSTRUCTIE<span class="kids">4</span></a>
-<a class="btn otbtn" data-dlg="dlg-2811" title="KUNSTSTOFVORM — 2 onderliggend(e) object(en)">KUNSTSTOFVORM<span class="kids">2</span></a>
-<span class="btn otleaf" title="LEVENSDUURVERLENGENDE MAATREGEL — geen onderliggende objecten">LEVENSDUURVERLENGENDE MAATREGEL</span>
-<span class="btn otleaf" title="OVERIG MATERIAAL — geen onderliggende objecten">OVERIG MATERIAAL</span>
-<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten">REPARATIES</span>
-<a class="btn otbtn" data-dlg="dlg-2814" title="VERBINDING — 2 onderliggend(e) object(en)">VERBINDING<span class="kids">2</span></a></div>
-<div class="card"><h2>KG <span class="tree-count">64 object(en)</span></h2><p class="subtitle">hoofdgroep KG &middot; 7 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-572" title="BEHEERGRENS — 6 onderliggend(e) object(en)">BEHEERGRENS<span class="kids">6</span></a>
-<a class="btn otbtn" data-dlg="dlg-586" title="BENOGRENS — 6 onderliggend(e) object(en)">BENOGRENS<span class="kids">6</span></a>
-<a class="btn otbtn" data-dlg="dlg-557" title="GRENS — 18 onderliggend(e) object(en)">GRENS<span class="kids">18</span></a>
-<a class="btn otbtn" data-dlg="dlg-598" title="GRONDEIGENDOM — 12 onderliggend(e) object(en)">GRONDEIGENDOM<span class="kids">12</span></a>
-<a class="btn otbtn" data-dlg="dlg-593" title="GRONDVERWERVING — 3 onderliggend(e) object(en)">GRONDVERWERVING<span class="kids">3</span></a>
-<a class="btn otbtn" data-dlg="dlg-611" title="KADASTRAAL — 6 onderliggend(e) object(en)">KADASTRAAL<span class="kids">6</span></a>
-<a class="btn otbtn" data-dlg="dlg-579" title="ONDERHOUDGRENS — 6 onderliggend(e) object(en)">ONDERHOUDGRENS<span class="kids">6</span></a></div>
-<div class="card"><h2>KL <span class="tree-count">849 object(en)</span></h2><p class="subtitle">hoofdgroep KL &middot; 38 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-1416" title="AFSLUITINSTALLATIE — 1 onderliggend(e) object(en)">AFSLUITINSTALLATIE<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-1386" title="BEWEGWIJZERING — 1 onderliggend(e) object(en)">BEWEGWIJZERING<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-620" title="BRANDSTOF — 14 onderliggend(e) object(en)">BRANDSTOF<span class="kids">14</span></a>
-<a class="btn otbtn" data-dlg="dlg-1418" title="CCTV — 4 onderliggend(e) object(en)">CCTV<span class="kids">4</span></a>
-<a class="btn otbtn" data-dlg="dlg-637" title="CHEMIE — 6 onderliggend(e) object(en)">CHEMIE<span class="kids">6</span></a>
-<span class="btn otleaf" title="COMBIKABEL — geen onderliggende objecten">COMBIKABEL</span>
-<a class="btn otbtn" data-dlg="dlg-645" title="CV — 72 onderliggend(e) object(en)">CV<span class="kids">72</span></a>
-<a class="btn otbtn" data-dlg="dlg-720" title="DATA — 109 onderliggend(e) object(en)">DATA<span class="kids">109</span></a>
-<a class="btn otbtn" data-dlg="dlg-1388" title="DRIP — 1 onderliggend(e) object(en)">DRIP<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-840" title="ET — 114 onderliggend(e) object(en)">ET<span class="kids">114</span></a>
-<a class="btn otbtn" data-dlg="dlg-1402" title="FILEMELDSYSTEEM — 1 onderliggend(e) object(en)">FILEMELDSYSTEEM<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-998" title="GAS — 184 onderliggend(e) object(en)">GAS<span class="kids">184</span></a>
-<a class="btn otbtn" data-dlg="dlg-1392" title="GMS — 1 onderliggend(e) object(en)">GMS<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-1394" title="HOOGTEDETECTIE — 1 onderliggend(e) object(en)">HOOGTEDETECTIE<span class="kids">1</span></a>
-<span class="btn otleaf" title="KATHODISCHE BESCHERMING — geen onderliggende objecten">KATHODISCHE BESCHERMING</span>
-<a class="btn otbtn" data-dlg="dlg-1183" title="KOUDENET — 69 onderliggend(e) object(en)">KOUDENET<span class="kids">69</span></a>
-<span class="btn otleaf" title="KOUDEOPSLAGSYSTEEM — geen onderliggende objecten">KOUDEOPSLAGSYSTEEM</span>
-<a class="btn otbtn" data-dlg="dlg-1215" title="MANTELBUIS — 3 onderliggend(e) object(en)">MANTELBUIS<span class="kids">3</span></a>
-<a class="btn otbtn" data-dlg="dlg-1404" title="MONITORING — 1 onderliggend(e) object(en)">MONITORING<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-1222" title="OLIE — 6 onderliggend(e) object(en)">OLIE<span class="kids">6</span></a>
-<a class="btn otbtn" data-dlg="dlg-3121" title="POLLER — 1 onderliggend(e) object(en)">POLLER<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-1420" title="POMP — 1 onderliggend(e) object(en)">POMP<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-2950" title="SCHEMA — 13 onderliggend(e) object(en)">SCHEMA<span class="kids">13</span></a>
-<span class="btn otleaf" title="STROOK — geen onderliggende objecten">STROOK</span>
-<a class="btn otbtn" data-dlg="dlg-1390" title="TDI — 1 onderliggend(e) object(en)">TDI<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-1400" title="TELPUNT — 2 onderliggend(e) object(en)">TELPUNT<span class="kids">2</span></a>
-<a class="btn otbtn" data-dlg="dlg-1230" title="TRACE — 2 onderliggend(e) object(en)">TRACE<span class="kids">2</span></a>
-<a class="btn otbtn" data-dlg="dlg-1412" title="TRANSMISSIE — 1 onderliggend(e) object(en)">TRANSMISSIE<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-1410" title="UWKS — 1 onderliggend(e) object(en)">UWKS<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-1414" title="VEVA — 1 onderliggend(e) object(en)">VEVA<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-1408" title="VRI — 1 onderliggend(e) object(en)">VRI<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-1406" title="VS — 1 onderliggend(e) object(en)">VS<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-1232" title="WARMTENET — 80 onderliggend(e) object(en)">WARMTENET<span class="kids">80</span></a>
-<span class="btn otleaf" title="WARMTEOPSLAGSYSTEEM — geen onderliggende objecten">WARMTEOPSLAGSYSTEEM</span>
-<a class="btn otbtn" data-dlg="dlg-1264" title="WATER — 116 onderliggend(e) object(en)">WATER<span class="kids">116</span></a>
-<span class="btn otleaf" title="WEESLEIDING — geen onderliggende objecten">WEESLEIDING</span>
-<a class="btn otbtn" data-dlg="dlg-1398" title="WIM — 1 onderliggend(e) object(en)">WIM<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-1396" title="WINDWAARSCHUWINGSSYSTEEM — 1 onderliggend(e) object(en)">WINDWAARSCHUWINGSSYSTEEM<span class="kids">1</span></a></div>
-<div class="card"><h2>KW <span class="tree-count">62 object(en)</span></h2><p class="subtitle">hoofdgroep KW &middot; 1 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-1422" title="KUNSTWERK — 61 onderliggend(e) object(en)">KUNSTWERK<span class="kids">61</span></a></div>
-<div class="card"><h2>MC <span class="tree-count">41 object(en)</span></h2><p class="subtitle">hoofdgroep MC &middot; 7 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2838" title="AANGRENZENDECONSTRUCTIE — 4 onderliggend(e) object(en)">AANGRENZENDECONSTRUCTIE<span class="kids">4</span></a>
-<a class="btn otbtn" data-dlg="dlg-2834" title="HYDRAULIEKVORM — 14 onderliggend(e) object(en)">HYDRAULIEKVORM<span class="kids">14</span></a>
-<span class="btn otleaf" title="LEVENSDUURVERLENGENDE MAATREGEL — geen onderliggende objecten">LEVENSDUURVERLENGENDE MAATREGEL</span>
-<a class="btn otbtn" data-dlg="dlg-2825" title="MECHANISCHVORM — 4 onderliggend(e) object(en)">MECHANISCHVORM<span class="kids">4</span></a>
-<span class="btn otleaf" title="OVERIGMATERIAAL — geen onderliggende objecten">OVERIGMATERIAAL</span>
-<a class="btn otbtn" data-dlg="dlg-2830" title="PNEUMATIEKVORM — 12 onderliggend(e) object(en)">PNEUMATIEKVORM<span class="kids">12</span></a>
-<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten">REPARATIES</span></div>
-<div class="card"><h2>MO <span class="tree-count">120 object(en)</span></h2><p class="subtitle">hoofdgroep MO &middot; 16 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-1550" title="ARCHEOLOGIE — 16 onderliggend(e) object(en)">ARCHEOLOGIE<span class="kids">16</span></a>
-<a class="btn otbtn" data-dlg="dlg-1495" title="BODEM — 14 onderliggend(e) object(en)">BODEM<span class="kids">14</span></a>
-<span class="btn otleaf" title="EXPLOSIEVEN — geen onderliggende objecten">EXPLOSIEVEN</span>
-<a class="btn otbtn" data-dlg="dlg-1529" title="GELUID — 4 onderliggend(e) object(en)">GELUID<span class="kids">4</span></a>
-<a class="btn otbtn" data-dlg="dlg-1544" title="GEUR — 4 onderliggend(e) object(en)">GEUR<span class="kids">4</span></a>
-<a class="btn otbtn" data-dlg="dlg-1506" title="GRONDWATER — 11 onderliggend(e) object(en)">GRONDWATER<span class="kids">11</span></a>
-<a class="btn otbtn" data-dlg="dlg-1559" title="INSPECTIE — 10 onderliggend(e) object(en)">INSPECTIE<span class="kids">10</span></a>
-<a class="btn otbtn" data-dlg="dlg-1519" title="LICHT — 4 onderliggend(e) object(en)">LICHT<span class="kids">4</span></a>
-<a class="btn otbtn" data-dlg="dlg-1475" title="LOCATIE — 1 onderliggend(e) object(en)">LOCATIE<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-1524" title="LUCHT — 4 onderliggend(e) object(en)">LUCHT<span class="kids">4</span></a>
-<a class="btn otbtn" data-dlg="dlg-1477" title="ONDERZOEK — 13 onderliggend(e) object(en)">ONDERZOEK<span class="kids">13</span></a>
-<span class="btn otleaf" title="ROUTE GEVAARLIJKE STOFFEN — geen onderliggende objecten">ROUTE GEVAARLIJKE STOFFEN</span>
-<a class="btn otbtn" data-dlg="dlg-1570" title="SCHADE — 10 onderliggend(e) object(en)">SCHADE<span class="kids">10</span></a>
-<a class="btn otbtn" data-dlg="dlg-1534" title="STRALING — 4 onderliggend(e) object(en)">STRALING<span class="kids">4</span></a>
-<a class="btn otbtn" data-dlg="dlg-1539" title="TRILLING — 4 onderliggend(e) object(en)">TRILLING<span class="kids">4</span></a>
-<a class="btn otbtn" data-dlg="dlg-1513" title="WATERBODEM — 5 onderliggend(e) object(en)">WATERBODEM<span class="kids">5</span></a></div>
-<div class="card"><h2>MW <span class="tree-count">16 object(en)</span></h2><p class="subtitle">hoofdgroep MW &middot; 8 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2855" title="AANGRENZENDECONSTRUCTIE — 3 onderliggend(e) object(en)">AANGRENZENDECONSTRUCTIE<span class="kids">3</span></a>
-<span class="btn otleaf" title="ISOLATIE — geen onderliggende objecten">ISOLATIE</span>
-<span class="btn otleaf" title="LATEI — geen onderliggende objecten">LATEI</span>
-<span class="btn otleaf" title="LEVENSDUURVERLENGENDE MAATREGEL — geen onderliggende objecten">LEVENSDUURVERLENGENDE MAATREGEL</span>
-<a class="btn otbtn" data-dlg="dlg-2846" title="METSELWERKVORM — 5 onderliggend(e) object(en)">METSELWERKVORM<span class="kids">5</span></a>
-<span class="btn otleaf" title="OVERIGMATERIAAL — geen onderliggende objecten">OVERIGMATERIAAL</span>
-<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten">REPARATIES</span>
-<span class="btn otleaf" title="VERANKERING — geen onderliggende objecten">VERANKERING</span></div>
-<div class="card"><h2>OB <span class="tree-count">30 object(en)</span></h2><p class="subtitle">hoofdgroep OB &middot; 23 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2914" title="BEKLEDING — 4 onderliggend(e) object(en)">BEKLEDING<span class="kids">4</span></a>
-<a class="btn otbtn" data-dlg="dlg-1587" title="BESCHOEIING — 2 onderliggend(e) object(en)">BESCHOEIING<span class="kids">2</span></a>
-<span class="btn otleaf" title="BETUINING — geen onderliggende objecten">BETUINING</span>
-<span class="btn otleaf" title="BODEMBESCHERMING — geen onderliggende objecten">BODEMBESCHERMING</span>
-<span class="btn otleaf" title="DIJKBEKLEDING — geen onderliggende objecten">DIJKBEKLEDING</span>
-<a class="btn otbtn" data-dlg="dlg-1591" title="DUINBESCHERMING — 1 onderliggend(e) object(en)">DUINBESCHERMING<span class="kids">1</span></a>
-<span class="btn otleaf" title="GOLFBREKER — geen onderliggende objecten">GOLFBREKER</span>
-<span class="btn otleaf" title="KLEI — geen onderliggende objecten">KLEI</span>
-<span class="btn otleaf" title="KRIB — geen onderliggende objecten">KRIB</span>
-<span class="btn otleaf" title="NATUURLIJKE BESCHERMING — geen onderliggende objecten">NATUURLIJKE BESCHERMING</span>
-<span class="btn otleaf" title="NATUUROEVER — geen onderliggende objecten">NATUUROEVER</span>
-<span class="btn otleaf" title="OEVERVOORZIENING — geen onderliggende objecten">OEVERVOORZIENING</span>
-<span class="btn otleaf" title="PEILVAK — geen onderliggende objecten">PEILVAK</span>
-<span class="btn otleaf" title="SCHANSKORF — geen onderliggende objecten">SCHANSKORF</span>
-<span class="btn otleaf" title="STEENMATRASSEN — geen onderliggende objecten">STEENMATRASSEN</span>
-<span class="btn otleaf" title="STORTSTEEN — geen onderliggende objecten">STORTSTEEN</span>
-<span class="btn otleaf" title="STREKDAM — geen onderliggende objecten">STREKDAM</span>
-<span class="btn otleaf" title="TALUDBEKLEDING — geen onderliggende objecten">TALUDBEKLEDING</span>
-<span class="btn otleaf" title="VERANKERING — geen onderliggende objecten">VERANKERING</span>
-<span class="btn otleaf" title="WATERLIJN — geen onderliggende objecten">WATERLIJN</span>
-<span class="btn otleaf" title="ZAND — geen onderliggende objecten">ZAND</span>
-<span class="btn otleaf" title="ZETSTEEN — geen onderliggende objecten">ZETSTEEN</span>
-<span class="btn otleaf" title="ZINKCONSTRUCTIE — geen onderliggende objecten">ZINKCONSTRUCTIE</span></div>
-<div class="card"><h2>OG <span class="tree-count">258 object(en)</span></h2><p class="subtitle">hoofdgroep OG &middot; 32 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-1616" title="BEBOUWING — 83 onderliggend(e) object(en)">BEBOUWING<span class="kids">83</span></a>
-<span class="btn otleaf" title="BEHEERKAART — geen onderliggende objecten">BEHEERKAART</span>
-<span class="btn otleaf" title="BREUKLIJN — geen onderliggende objecten">BREUKLIJN</span>
-<span class="btn otleaf" title="COORDINAAT — geen onderliggende objecten">COORDINAAT</span>
-<span class="btn otleaf" title="DTB — geen onderliggende objecten">DTB</span>
-<span class="btn otleaf" title="DTM — geen onderliggende objecten">DTM</span>
-<span class="btn otleaf" title="DWM — geen onderliggende objecten">DWM</span>
-<span class="btn otleaf" title="FASE1 — geen onderliggende objecten">FASE1</span>
-<span class="btn otleaf" title="FASE2 — geen onderliggende objecten">FASE2</span>
-<span class="btn otleaf" title="FASE3 — geen onderliggende objecten">FASE3</span>
-<span class="btn otleaf" title="FASE4 — geen onderliggende objecten">FASE4</span>
-<span class="btn otleaf" title="FASE5 — geen onderliggende objecten">FASE5</span>
-<span class="btn otleaf" title="FASE6 — geen onderliggende objecten">FASE6</span>
-<span class="btn otleaf" title="FASE7 — geen onderliggende objecten">FASE7</span>
-<span class="btn otleaf" title="GBKN — geen onderliggende objecten">GBKN</span>
-<span class="btn otleaf" title="GRENS — geen onderliggende objecten">GRENS</span>
-<span class="btn otleaf" title="GREPPEL — geen onderliggende objecten">GREPPEL</span>
-<span class="btn otleaf" title="GRID — geen onderliggende objecten">GRID</span>
-<a class="btn otbtn" data-dlg="dlg-1612" title="GRONDGEBRUIK — 2 onderliggend(e) object(en)">GRONDGEBRUIK<span class="kids">2</span></a>
-<a class="btn otbtn" data-dlg="dlg-1627" title="HOOGTELIJN — 2 onderliggend(e) object(en)">HOOGTELIJN<span class="kids">2</span></a>
-<span class="btn otleaf" title="HOOGTEPUNT — geen onderliggende objecten">HOOGTEPUNT</span>
-<span class="btn otleaf" title="INFO — geen onderliggende objecten">INFO</span>
-<a class="btn otbtn" data-dlg="dlg-5108" title="OPENBAAR VERVOER HALTE — 3 onderliggend(e) object(en)">OPENBAAR VERVOER HALTE<span class="kids">3</span></a>
-<span class="btn otleaf" title="SPOORBAAN — geen onderliggende objecten">SPOORBAAN</span>
-<a class="btn otbtn" data-dlg="dlg-3264" title="TERREIN — 76 onderliggend(e) object(en)">TERREIN<span class="kids">76</span></a>
-<a class="btn otbtn" data-dlg="dlg-1615" title="TOPOGRAFIE — 1 onderliggend(e) object(en)">TOPOGRAFIE<span class="kids">1</span></a>
-<span class="btn otleaf" title="TOPOKAART — geen onderliggende objecten">TOPOKAART</span>
-<span class="btn otleaf" title="TRIANGULATIE — geen onderliggende objecten">TRIANGULATIE</span>
-<span class="btn otleaf" title="VLAKVERDICHTINGSLIJN — geen onderliggende objecten">VLAKVERDICHTINGSLIJN</span>
-<a class="btn otbtn" data-dlg="dlg-1619" title="WATER — 19 onderliggend(e) object(en)">WATER<span class="kids">19</span></a>
-<a class="btn otbtn" data-dlg="dlg-1620" title="WEG — 31 onderliggend(e) object(en)">WEG<span class="kids">31</span></a>
-<a class="btn otbtn" data-dlg="dlg-3254" title="ZONE — 9 onderliggend(e) object(en)">ZONE<span class="kids">9</span></a></div>
-<div class="card"><h2>OV <span class="tree-count">44 object(en)</span></h2><p class="subtitle">hoofdgroep OV &middot; 16 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-3531" title="AARDING — 1 onderliggend(e) object(en)">AARDING<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-887" title="ARMATUUR — 5 onderliggend(e) object(en)">ARMATUUR<span class="kids">5</span></a>
-<span class="btn otleaf" title="DRAAGCONSTRUCTIE — geen onderliggende objecten">DRAAGCONSTRUCTIE</span>
-<span class="btn otleaf" title="GRONDSPOT — geen onderliggende objecten">GRONDSPOT</span>
-<a class="btn otbtn" data-dlg="dlg-893" title="HULPSTUK — 3 onderliggend(e) object(en)">HULPSTUK<span class="kids">3</span></a>
-<a class="btn otbtn" data-dlg="dlg-897" title="KABEL — 6 onderliggend(e) object(en)">KABEL<span class="kids">6</span></a>
-<a class="btn otbtn" data-dlg="dlg-902" title="KABELDOORVOER — 3 onderliggend(e) object(en)">KABELDOORVOER<span class="kids">3</span></a>
-<span class="btn otleaf" title="KABELROL — geen onderliggende objecten">KABELROL</span>
-<a class="btn otbtn" data-dlg="dlg-907" title="KAST — 9 onderliggend(e) object(en)">KAST<span class="kids">9</span></a>
-<span class="btn otleaf" title="LICHTMAST — geen onderliggende objecten">LICHTMAST</span>
-<span class="btn otleaf" title="LIJNVERLICHTING — geen onderliggende objecten">LIJNVERLICHTING</span>
-<span class="btn otleaf" title="MANTELBUIS — geen onderliggende objecten">MANTELBUIS</span>
-<span class="btn otleaf" title="PUT — geen onderliggende objecten">PUT</span>
-<span class="btn otleaf" title="STROOK — geen onderliggende objecten">STROOK</span>
-<a class="btn otbtn" data-dlg="dlg-3538" title="TRACE — 1 onderliggend(e) object(en)">TRACE<span class="kids">1</span></a>
-<span class="btn otleaf" title="WEESLEIDING — geen onderliggende objecten">WEESLEIDING</span></div>
-<div class="card"><h2>RI <span class="tree-count">1075 object(en)</span></h2><p class="subtitle">hoofdgroep RI &middot; 11 object(en) op het eerste niveau</p><span class="btn otleaf" title="BOB — geen onderliggende objecten">BOB</span>
-<a class="btn otbtn" data-dlg="dlg-1635" title="DRAINAGE — 54 onderliggend(e) object(en)">DRAINAGE<span class="kids">54</span></a>
-<a class="btn otbtn" data-dlg="dlg-2220" title="DWA — 216 onderliggend(e) object(en)">DWA<span class="kids">216</span></a>
-<a class="btn otbtn" data-dlg="dlg-1664" title="GWA — 214 onderliggend(e) object(en)">GWA<span class="kids">214</span></a>
-<a class="btn otbtn" data-dlg="dlg-1786" title="HWA — 273 onderliggend(e) object(en)">HWA<span class="kids">273</span></a>
-<a class="btn otbtn" data-dlg="dlg-1944" title="ITR — 141 onderliggend(e) object(en)">ITR<span class="kids">141</span></a>
-<span class="btn otleaf" title="MATERIAAL — geen onderliggende objecten">MATERIAAL</span>
-<a class="btn otbtn" data-dlg="dlg-2052" title="OVERIG — 56 onderliggend(e) object(en)">OVERIG<span class="kids">56</span></a>
-<a class="btn otbtn" data-dlg="dlg-2054" title="PERSLEIDING — 50 onderliggend(e) object(en)">PERSLEIDING<span class="kids">50</span></a>
-<a class="btn otbtn" data-dlg="dlg-3451" title="RWZI — 18 onderliggend(e) object(en)">RWZI<span class="kids">18</span></a>
-<a class="btn otbtn" data-dlg="dlg-2194" title="VACUUMLEIDING — 42 onderliggend(e) object(en)">VACUUMLEIDING<span class="kids">42</span></a></div>
-<div class="card"><h2>SB <span class="tree-count">265 object(en)</span></h2><p class="subtitle">hoofdgroep SB &middot; 7 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-4297" title="BOVENBOUW — 96 onderliggend(e) object(en)">BOVENBOUW<span class="kids">96</span></a>
-<span class="btn otleaf" title="CONSTRUCTIEGRENS — geen onderliggende objecten">CONSTRUCTIEGRENS</span>
-<a class="btn otbtn" data-dlg="dlg-4819" title="HOOGTEMATEN — 1 onderliggend(e) object(en)">HOOGTEMATEN<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-5087" title="OMGRENZINGSPROFIEL — 20 onderliggend(e) object(en)">OMGRENZINGSPROFIEL<span class="kids">20</span></a>
-<a class="btn otbtn" data-dlg="dlg-5254" title="SPOOR — 77 onderliggend(e) object(en)">SPOOR<span class="kids">77</span></a>
-<a class="btn otbtn" data-dlg="dlg-5332" title="SPOORSTAAF — 64 onderliggend(e) object(en)">SPOORSTAAF<span class="kids">64</span></a>
-<span class="btn otleaf" title="VERKANTING — geen onderliggende objecten">VERKANTING</span></div>
-<div class="card"><h2>SC <span class="tree-count">21 object(en)</span></h2><p class="subtitle">hoofdgroep SC &middot; 11 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2870" title="AANGRENZENDECONSTRUCTIE — 3 onderliggend(e) object(en)">AANGRENZENDECONSTRUCTIE<span class="kids">3</span></a>
-<span class="btn otleaf" title="HULPSTAAL — geen onderliggende objecten">HULPSTAAL</span>
-<span class="btn otleaf" title="ITSO — geen onderliggende objecten">ITSO</span>
-<span class="btn otleaf" title="LEVENSDUURVERLENGENDE MAATREGEL — geen onderliggende objecten">LEVENSDUURVERLENGENDE MAATREGEL</span>
-<span class="btn otleaf" title="NAAD — geen onderliggende objecten">NAAD</span>
-<span class="btn otleaf" title="OVERIGMATERIAAL — geen onderliggende objecten">OVERIGMATERIAAL</span>
-<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten">REPARATIES</span>
-<span class="btn otleaf" title="SLOOPLIJN — geen onderliggende objecten">SLOOPLIJN</span>
-<a class="btn otbtn" data-dlg="dlg-2862" title="STAALVORM — 5 onderliggend(e) object(en)">STAALVORM<span class="kids">5</span></a>
-<span class="btn otleaf" title="TREKSTANG — geen onderliggende objecten">TREKSTANG</span>
-<a class="btn otbtn" data-dlg="dlg-2867" title="VERBINDING — 2 onderliggend(e) object(en)">VERBINDING<span class="kids">2</span></a></div>
-<div class="card"><h2>VH <span class="tree-count">234 object(en)</span></h2><p class="subtitle">hoofdgroep VH &middot; 17 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2474" title="BEDRIJFSVLOERPLAAT — 7 onderliggend(e) object(en)">BEDRIJFSVLOERPLAAT<span class="kids">7</span></a>
-<a class="btn otbtn" data-dlg="dlg-2342" title="DREMPEL — 5 onderliggend(e) object(en)">DREMPEL<span class="kids">5</span></a>
-<a class="btn otbtn" data-dlg="dlg-2492" title="FUNDERING — 18 onderliggend(e) object(en)">FUNDERING<span class="kids">18</span></a>
-<span class="btn otleaf" title="GEOTEXTIEL — geen onderliggende objecten">GEOTEXTIEL</span>
-<a class="btn otbtn" data-dlg="dlg-3342" title="GESLOTENVERHARDING — 28 onderliggend(e) object(en)">GESLOTENVERHARDING<span class="kids">28</span></a>
-<a class="btn otbtn" data-dlg="dlg-2348" title="GOOT — 11 onderliggend(e) object(en)">GOOT<span class="kids">11</span></a>
-<a class="btn otbtn" data-dlg="dlg-2511" title="HALFVERHARDING — 10 onderliggend(e) object(en)">HALFVERHARDING<span class="kids">10</span></a>
-<span class="btn otleaf" title="HERSTRATEN — geen onderliggende objecten">HERSTRATEN</span>
-<a class="btn otbtn" data-dlg="dlg-2360" title="KANTOPSLUITING — 104 onderliggend(e) object(en)">KANTOPSLUITING<span class="kids">104</span></a>
-<a class="btn otbtn" data-dlg="dlg-2456" title="KANTVERHARDING — 5 onderliggend(e) object(en)">KANTVERHARDING<span class="kids">5</span></a>
-<span class="btn otleaf" title="MATERIAALGRENS — geen onderliggende objecten">MATERIAALGRENS</span>
-<a class="btn otbtn" data-dlg="dlg-2936" title="ONVERHARD — 4 onderliggend(e) object(en)">ONVERHARD<span class="kids">4</span></a>
-<a class="btn otbtn" data-dlg="dlg-2519" title="OPENVERHARDING — 25 onderliggend(e) object(en)">OPENVERHARDING<span class="kids">25</span></a>
-<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten">REPARATIES</span>
-<span class="btn otleaf" title="ROOSTER — geen onderliggende objecten">ROOSTER</span>
-<span class="btn otleaf" title="VERKANTING — geen onderliggende objecten">VERKANTING</span>
-<span class="btn otleaf" title="VERKEERSTEGEL — geen onderliggende objecten">VERKEERSTEGEL</span></div>
-<div class="card"><h2>VV <span class="tree-count">24 object(en)</span></h2><p class="subtitle">hoofdgroep VV &middot; 7 object(en) op het eerste niveau</p><span class="btn otleaf" title="AFMEERLOKATIE — geen onderliggende objecten">AFMEERLOKATIE</span>
-<a class="btn otbtn" data-dlg="dlg-2548" title="DOORVAART — 3 onderliggend(e) object(en)">DOORVAART<span class="kids">3</span></a>
-<a class="btn otbtn" data-dlg="dlg-2545" title="LIGPLAATS — 1 onderliggend(e) object(en)">LIGPLAATS<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-2540" title="MARKERING — 2 onderliggend(e) object(en)">MARKERING<span class="kids">2</span></a>
-<span class="btn otleaf" title="SCHEPENTELLER — geen onderliggende objecten">SCHEPENTELLER</span>
-<a class="btn otbtn" data-dlg="dlg-2551" title="VAARGEBIED — 1 onderliggend(e) object(en)">VAARGEBIED<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-2542" title="VERKEERSTEKEN — 10 onderliggend(e) object(en)">VERKEERSTEKEN<span class="kids">10</span></a></div>
-<div class="card"><h2>VW <span class="tree-count">114 object(en)</span></h2><p class="subtitle">hoofdgroep VW &middot; 11 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2657" title="AFZETTING — 7 onderliggend(e) object(en)">AFZETTING<span class="kids">7</span></a>
-<a class="btn otbtn" data-dlg="dlg-2553" title="BEWEGWIJZERING — 14 onderliggend(e) object(en)">BEWEGWIJZERING<span class="kids">14</span></a>
-<span class="btn otleaf" title="BLINDENGELEIDEROUTE — geen onderliggende objecten">BLINDENGELEIDEROUTE</span>
-<span class="btn otleaf" title="HECTOMETERPAAL — geen onderliggende objecten">HECTOMETERPAAL</span>
-<a class="btn otbtn" data-dlg="dlg-2569" title="MARKERING — 59 onderliggend(e) object(en)">MARKERING<span class="kids">59</span></a>
-<span class="btn otleaf" title="OMLEIDINGSROUTE — geen onderliggende objecten">OMLEIDINGSROUTE</span>
-<span class="btn otleaf" title="PVR — geen onderliggende objecten">PVR</span>
-<span class="btn otleaf" title="RIJRICHTING — geen onderliggende objecten">RIJRICHTING</span>
-<a class="btn otbtn" data-dlg="dlg-3350" title="VERKEERSSPIEGEL — 1 onderliggend(e) object(en)">VERKEERSSPIEGEL<span class="kids">1</span></a>
-<a class="btn otbtn" data-dlg="dlg-2637" title="VERKEERSTEKEN — 22 onderliggend(e) object(en)">VERKEERSTEKEN<span class="kids">22</span></a>
-<span class="btn otleaf" title="VERKEERSTELLER — geen onderliggende objecten">VERKEERSTELLER</span></div>
-<div class="card"><h2>WH <span class="tree-count">47 object(en)</span></h2><p class="subtitle">hoofdgroep WH &middot; 30 object(en) op het eerste niveau</p><span class="btn otleaf" title="DEBIETLIJN — geen onderliggende objecten">DEBIETLIJN</span>
-<span class="btn otleaf" title="DIEPTELIJN — geen onderliggende objecten">DIEPTELIJN</span>
-<a class="btn otbtn" data-dlg="dlg-3035" title="DUIKER — 4 onderliggend(e) object(en)">DUIKER<span class="kids">4</span></a>
-<span class="btn otleaf" title="EB — geen onderliggende objecten">EB</span>
-<span class="btn otleaf" title="FREATISCH OPPERVLAK — geen onderliggende objecten">FREATISCH OPPERVLAK</span>
-<a class="btn otbtn" data-dlg="dlg-2663" title="GEUL — 4 onderliggend(e) object(en)">GEUL<span class="kids">4</span></a>
-<span class="btn otleaf" title="GROENE RIVIER — geen onderliggende objecten">GROENE RIVIER</span>
-<span class="btn otleaf" title="GRONDWATERLIJN — geen onderliggende objecten">GRONDWATERLIJN</span>
-<span class="btn otleaf" title="HYDRAULISCH OPPERVLAK — geen onderliggende objecten">HYDRAULISCH OPPERVLAK</span>
-<span class="btn otleaf" title="INFO — geen onderliggende objecten">INFO</span>
-<a class="btn otbtn" data-dlg="dlg-3029" title="KUNSTWERK — 2 onderliggend(e) object(en)">KUNSTWERK<span class="kids">2</span></a>
-<span class="btn otleaf" title="NATTE OMTREK — geen onderliggende objecten">NATTE OMTREK</span>
-<span class="btn otleaf" title="NORMAALLIJN — geen onderliggende objecten">NORMAALLIJN</span>
-<span class="btn otleaf" title="OVERLOOPGEBIED — geen onderliggende objecten">OVERLOOPGEBIED</span>
-<span class="btn otleaf" title="OVERSTORT — geen onderliggende objecten">OVERSTORT</span>
-<span class="btn otleaf" title="PEILVAK — geen onderliggende objecten">PEILVAK</span>
-<span class="btn otleaf" title="RAAI — geen onderliggende objecten">RAAI</span>
-<span class="btn otleaf" title="STIJGHOOGTE — geen onderliggende objecten">STIJGHOOGTE</span>
-<span class="btn otleaf" title="STROOMRICHTING — geen onderliggende objecten">STROOMRICHTING</span>
-<span class="btn otleaf" title="VLOED — geen onderliggende objecten">VLOED</span>
-<span class="btn otleaf" title="VLOEDLIJN — geen onderliggende objecten">VLOEDLIJN</span>
-<span class="btn otleaf" title="WATERBODEM — geen onderliggende objecten">WATERBODEM</span>
-<span class="btn otleaf" title="WATERLIJN — geen onderliggende objecten">WATERLIJN</span>
-<span class="btn otleaf" title="WATERLOOP — geen onderliggende objecten">WATERLOOP</span>
-<span class="btn otleaf" title="WATEROVERSPANNING — geen onderliggende objecten">WATEROVERSPANNING</span>
-<a class="btn otbtn" data-dlg="dlg-2681" title="WATERPEIL — 4 onderliggend(e) object(en)">WATERPEIL<span class="kids">4</span></a>
-<span class="btn otleaf" title="WINTERBED — geen onderliggende objecten">WINTERBED</span>
-<span class="btn otleaf" title="WINTERBERGING — geen onderliggende objecten">WINTERBERGING</span>
-<a class="btn otbtn" data-dlg="dlg-2684" title="WVP — 3 onderliggend(e) object(en)">WVP<span class="kids">3</span></a>
-<span class="btn otleaf" title="ZOMERBED — geen onderliggende objecten">ZOMERBED</span></div>
-<div class="card"><h2>ZZ <span class="tree-count">35 object(en)</span></h2><p class="subtitle">hoofdgroep ZZ &middot; 22 object(en) op het eerste niveau</p><span class="btn otleaf" title="(M) — geen onderliggende objecten">(M)</span>
-<span class="btn otleaf" title="(T1.8) — geen onderliggende objecten">(T1.8)</span>
-<span class="btn otleaf" title="(T2.5) — geen onderliggende objecten">(T2.5)</span>
-<span class="btn otleaf" title="(T3.0) — geen onderliggende objecten">(T3.0)</span>
-<span class="btn otleaf" title="(T3.5) — geen onderliggende objecten">(T3.5)</span>
-<span class="btn otleaf" title="(T5.0) — geen onderliggende objecten">(T5.0)</span>
-<span class="btn otleaf" title="(T7.0) — geen onderliggende objecten">(T7.0)</span>
-<span class="btn otleaf" title="AANPIJLING — geen onderliggende objecten">AANPIJLING</span>
-<span class="btn otleaf" title="AFBREEKLIJN — geen onderliggende objecten">AFBREEKLIJN</span>
-<span class="btn otleaf" title="CONSTRUCTIELIJN — geen onderliggende objecten">CONSTRUCTIELIJN</span>
-<span class="btn otleaf" title="DETAIL1 — geen onderliggende objecten">DETAIL1</span>
-<span class="btn otleaf" title="DETAIL2 — geen onderliggende objecten">DETAIL2</span>
-<span class="btn otleaf" title="DETAIL3 — geen onderliggende objecten">DETAIL3</span>
-<span class="btn otleaf" title="DETAIL4 — geen onderliggende objecten">DETAIL4</span>
-<span class="btn otleaf" title="DETAIL5 — geen onderliggende objecten">DETAIL5</span>
-<a class="btn otbtn" data-dlg="dlg-4086" title="GRENS — 7 onderliggend(e) object(en)">GRENS<span class="kids">7</span></a>
-<span class="btn otleaf" title="HARTLIJN — geen onderliggende objecten">HARTLIJN</span>
-<a class="btn otbtn" data-dlg="dlg-8" title="HOOGTELABEL — 1 onderliggend(e) object(en)">HOOGTELABEL<span class="kids">1</span></a>
-<span class="btn otleaf" title="HULPLIJN — geen onderliggende objecten">HULPLIJN</span>
-<span class="btn otleaf" title="NAP — geen onderliggende objecten">NAP</span>
-<a class="btn otbtn" data-dlg="dlg-3358" title="PEIL — 5 onderliggend(e) object(en)">PEIL<span class="kids">5</span></a>
-<span class="btn otleaf" title="STRAMIENLIJN — geen onderliggende objecten">STRAMIENLIJN</span></div>
+<div class="card"><h2>AL <span class="tree-count">32 object(en)</span></h2><p class="subtitle">hoofdgroep AL &middot; 10 object(en) op het eerste niveau</p><span class="btn otleaf" title="AANKLEDING — geen onderliggende objecten"><span class="otname">AANKLEDING</span></span>
+<a class="btn otbtn" data-dlg="dlg-2" title="BLADVERWIJZING — 5 onderliggend(e) object(en)"><span class="otname">BLADVERWIJZING</span><span class="kids">5</span></a>
+<span class="btn otleaf" title="COORDINAATPUNT — geen onderliggende objecten"><span class="otname">COORDINAATPUNT</span></span>
+<span class="btn otleaf" title="LEGENDA — geen onderliggende objecten"><span class="otname">LEGENDA</span></span>
+<span class="btn otleaf" title="ORIENTATIE — geen onderliggende objecten"><span class="otname">ORIENTATIE</span></span>
+<span class="btn otleaf" title="PROFIELBALK — geen onderliggende objecten"><span class="otname">PROFIELBALK</span></span>
+<span class="btn otleaf" title="REFERENTIE — geen onderliggende objecten"><span class="otname">REFERENTIE</span></span>
+<a class="btn otbtn" data-dlg="dlg-12" title="TEKENBLAD — 13 onderliggend(e) object(en)"><span class="otname">TEKENBLAD</span><span class="kids">13</span></a>
+<span class="btn otleaf" title="TEKENBLADGRENS — geen onderliggende objecten"><span class="otname">TEKENBLADGRENS</span></span>
+<a class="btn otbtn" data-dlg="dlg-27" title="VERWIJZING — 4 onderliggend(e) object(en)"><span class="otname">VERWIJZING</span><span class="kids">4</span></a></div>
+<div class="card"><h2>AM <span class="tree-count">121 object(en)</span></h2><p class="subtitle">hoofdgroep AM &middot; 4 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-40" title="AS — 114 onderliggend(e) object(en)"><span class="otname">AS</span><span class="kids">114</span></a>
+<span class="btn otleaf" title="KILOMETRERING — geen onderliggende objecten"><span class="otname">KILOMETRERING</span></span>
+<a class="btn otbtn" data-dlg="dlg-145" title="STRING — 3 onderliggend(e) object(en)"><span class="otname">STRING</span><span class="kids">3</span></a>
+<span class="btn otleaf" title="TANGENTPUNT — geen onderliggende objecten"><span class="otname">TANGENTPUNT</span></span></div>
+<div class="card"><h2>BC <span class="tree-count">37 object(en)</span></h2><p class="subtitle">hoofdgroep BC &middot; 13 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2740" title="AANGRENZENDE CONSTRUCTIE — 3 onderliggend(e) object(en)"><span class="otname">AANGRENZENDE CONSTRUCTIE</span><span class="kids">3</span></a>
+<a class="btn otbtn" data-dlg="dlg-2712" title="BETONVORM — 10 onderliggend(e) object(en)"><span class="otname">BETONVORM</span><span class="kids">10</span></a>
+<span class="btn otleaf" title="DILATATIE — geen onderliggende objecten"><span class="otname">DILATATIE</span></span>
+<span class="btn otleaf" title="ITSO — geen onderliggende objecten"><span class="otname">ITSO</span></span>
+<span class="btn otleaf" title="LEVENSDUURVERLENGENDE MAATREGEL — geen onderliggende objecten"><span class="otname">LEVENSDUURVERLENGENDE MAATREGEL</span></span>
+<span class="btn otleaf" title="OPLEGBLOK — geen onderliggende objecten"><span class="otname">OPLEGBLOK</span></span>
+<span class="btn otleaf" title="OVERIGMATERIAAL — geen onderliggende objecten"><span class="otname">OVERIGMATERIAAL</span></span>
+<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten"><span class="otname">REPARATIES</span></span>
+<span class="btn otleaf" title="SLOOPLIJN — geen onderliggende objecten"><span class="otname">SLOOPLIJN</span></span>
+<span class="btn otleaf" title="STORTNAAD — geen onderliggende objecten"><span class="otname">STORTNAAD</span></span>
+<span class="btn otleaf" title="VOEGPROFIEL — geen onderliggende objecten"><span class="otname">VOEGPROFIEL</span></span>
+<a class="btn otbtn" data-dlg="dlg-2732" title="VOORSPANNING — 7 onderliggend(e) object(en)"><span class="otname">VOORSPANNING</span><span class="kids">7</span></a>
+<a class="btn otbtn" data-dlg="dlg-2727" title="WAPENING — 4 onderliggend(e) object(en)"><span class="otname">WAPENING</span><span class="kids">4</span></a></div>
+<div class="card"><h2>BV <span class="tree-count">83 object(en)</span></h2><p class="subtitle">hoofdgroep BV &middot; 3 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-151" title="GELEIDECONSTRUCTIE — 76 onderliggend(e) object(en)"><span class="otname">GELEIDECONSTRUCTIE</span><span class="kids">76</span></a>
+<span class="btn otleaf" title="LEUNING — geen onderliggende objecten"><span class="otname">LEUNING</span></span>
+<a class="btn otbtn" data-dlg="dlg-228" title="OBSTAKELBEVEILIGER — 4 onderliggend(e) object(en)"><span class="otname">OBSTAKELBEVEILIGER</span><span class="kids">4</span></a></div>
+<div class="card"><h2>ES <span class="tree-count">203 object(en)</span></h2><p class="subtitle">hoofdgroep ES &middot; 19 object(en) op het eerste niveau</p><span class="btn otleaf" title="AFSPANCONSTRUCTIE — geen onderliggende objecten"><span class="otname">AFSPANCONSTRUCTIE</span></span>
+<a class="btn otbtn" data-dlg="dlg-4113" title="AFSPANNING — 23 onderliggend(e) object(en)"><span class="otname">AFSPANNING</span><span class="kids">23</span></a>
+<span class="btn otleaf" title="BEREKENEN KRACHTEN GAWIRE — geen onderliggende objecten"><span class="otname">BEREKENEN KRACHTEN GAWIRE</span></span>
+<a class="btn otbtn" data-dlg="dlg-4164" title="BEVEILIGING — 7 onderliggend(e) object(en)"><span class="otname">BEVEILIGING</span><span class="kids">7</span></a>
+<a class="btn otbtn" data-dlg="dlg-4172" title="BEVESTIGINGSCONSTRUCTIE — 7 onderliggend(e) object(en)"><span class="otname">BEVESTIGINGSCONSTRUCTIE</span><span class="kids">7</span></a>
+<a class="btn otbtn" data-dlg="dlg-4452" title="DRAADKRUISING — 2 onderliggend(e) object(en)"><span class="otname">DRAADKRUISING</span><span class="kids">2</span></a>
+<a class="btn otbtn" data-dlg="dlg-4455" title="DRAAGKABEL — 5 onderliggend(e) object(en)"><span class="otname">DRAAGKABEL</span><span class="kids">5</span></a>
+<a class="btn otbtn" data-dlg="dlg-4689" title="ELEKTRISCHEVERBINDING — 41 onderliggend(e) object(en)"><span class="otname">ELEKTRISCHEVERBINDING</span><span class="kids">41</span></a>
+<a class="btn otbtn" data-dlg="dlg-4727" title="FUNDATIE — 18 onderliggend(e) object(en)"><span class="otname">FUNDATIE</span><span class="kids">18</span></a>
+<a class="btn otbtn" data-dlg="dlg-4821" title="HOORNSCHAKELAAR — 2 onderliggend(e) object(en)"><span class="otname">HOORNSCHAKELAAR</span><span class="kids">2</span></a>
+<a class="btn otbtn" data-dlg="dlg-5032" title="LEIDINGONDERBREKER — 6 onderliggend(e) object(en)"><span class="otname">LEIDINGONDERBREKER</span><span class="kids">6</span></a>
+<a class="btn otbtn" data-dlg="dlg-5039" title="LIJNSCHAKELAAR — 2 onderliggend(e) object(en)"><span class="otname">LIJNSCHAKELAAR</span><span class="kids">2</span></a>
+<a class="btn otbtn" data-dlg="dlg-5044" title="MAST — 20 onderliggend(e) object(en)"><span class="otname">MAST</span><span class="kids">20</span></a>
+<a class="btn otbtn" data-dlg="dlg-5118" title="OPHANGCONSTRUCTIE — 36 onderliggend(e) object(en)"><span class="otname">OPHANGCONSTRUCTIE</span><span class="kids">36</span></a>
+<a class="btn otbtn" data-dlg="dlg-5206" title="PROFIELDRAAD — 7 onderliggend(e) object(en)"><span class="otname">PROFIELDRAAD</span><span class="kids">7</span></a>
+<a class="btn otbtn" data-dlg="dlg-5220" title="SCHAKELAAR — 2 onderliggend(e) object(en)"><span class="otname">SCHAKELAAR</span><span class="kids">2</span></a>
+<a class="btn otbtn" data-dlg="dlg-5230" title="SECTIE — 4 onderliggend(e) object(en)"><span class="otname">SECTIE</span><span class="kids">4</span></a>
+<span class="btn otleaf" title="SECTIENUMMER — geen onderliggende objecten"><span class="otname">SECTIENUMMER</span></span>
+<a class="btn otbtn" data-dlg="dlg-5404" title="STROOMRAIL — 2 onderliggend(e) object(en)"><span class="otname">STROOMRAIL</span><span class="kids">2</span></a></div>
+<div class="card"><h2>FC <span class="tree-count">22 object(en)</span></h2><p class="subtitle">hoofdgroep FC &middot; 8 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2758" title="DAMWAND — 5 onderliggend(e) object(en)"><span class="otname">DAMWAND</span><span class="kids">5</span></a>
+<span class="btn otleaf" title="DIEPWAND — geen onderliggende objecten"><span class="otname">DIEPWAND</span></span>
+<span class="btn otleaf" title="GRONDVERBETERING — geen onderliggende objecten"><span class="otname">GRONDVERBETERING</span></span>
+<span class="btn otleaf" title="KESP — geen onderliggende objecten"><span class="otname">KESP</span></span>
+<span class="btn otleaf" title="LEVENSDUURVERLENGENDE MAATREGEL — geen onderliggende objecten"><span class="otname">LEVENSDUURVERLENGENDE MAATREGEL</span></span>
+<span class="btn otleaf" title="OPSTAAL — geen onderliggende objecten"><span class="otname">OPSTAAL</span></span>
+<a class="btn otbtn" data-dlg="dlg-2747" title="PAAL — 9 onderliggend(e) object(en)"><span class="otname">PAAL</span><span class="kids">9</span></a>
+<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten"><span class="otname">REPARATIES</span></span></div>
+<div class="card"><h2>FV <span class="tree-count">58 object(en)</span></h2><p class="subtitle">hoofdgroep FV &middot; 5 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-234" title="ECOLOGISCHEVERBINDINGSZONE — 9 onderliggend(e) object(en)"><span class="otname">ECOLOGISCHEVERBINDINGSZONE</span><span class="kids">9</span></a>
+<a class="btn otbtn" data-dlg="dlg-244" title="FAUNAPASSAGE — 14 onderliggend(e) object(en)"><span class="otname">FAUNAPASSAGE</span><span class="kids">14</span></a>
+<a class="btn otbtn" data-dlg="dlg-278" title="FAUNAVOORZIENING — 12 onderliggend(e) object(en)"><span class="otname">FAUNAVOORZIENING</span><span class="kids">12</span></a>
+<a class="btn otbtn" data-dlg="dlg-265" title="GELEIDING — 12 onderliggend(e) object(en)"><span class="otname">GELEIDING</span><span class="kids">12</span></a>
+<a class="btn otbtn" data-dlg="dlg-258" title="NATUURVRIENDELIJKEOEVER — 6 onderliggend(e) object(en)"><span class="otname">NATUURVRIENDELIJKEOEVER</span><span class="kids">6</span></a></div>
+<div class="card"><h2>GC <span class="tree-count">28 object(en)</span></h2><p class="subtitle">hoofdgroep GC &middot; 9 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2769" title="DAMWAND — 3 onderliggend(e) object(en)"><span class="otname">DAMWAND</span><span class="kids">3</span></a>
+<a class="btn otbtn" data-dlg="dlg-2785" title="DEKSLOOF — 3 onderliggend(e) object(en)"><span class="otname">DEKSLOOF</span><span class="kids">3</span></a>
+<span class="btn otleaf" title="DIEPWAND — geen onderliggende objecten"><span class="otname">DIEPWAND</span></span>
+<span class="btn otleaf" title="FOLIE — geen onderliggende objecten"><span class="otname">FOLIE</span></span>
+<a class="btn otbtn" data-dlg="dlg-2773" title="GORDING — 3 onderliggend(e) object(en)"><span class="otname">GORDING</span><span class="kids">3</span></a>
+<span class="btn otleaf" title="LEVENSDUURVERLENGENDE MAATREGEL — geen onderliggende objecten"><span class="otname">LEVENSDUURVERLENGENDE MAATREGEL</span></span>
+<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten"><span class="otname">REPARATIES</span></span>
+<a class="btn otbtn" data-dlg="dlg-2789" title="STEMPEL — 3 onderliggend(e) object(en)"><span class="otname">STEMPEL</span><span class="kids">3</span></a>
+<a class="btn otbtn" data-dlg="dlg-2777" title="VERANKERING — 7 onderliggend(e) object(en)"><span class="otname">VERANKERING</span><span class="kids">7</span></a></div>
+<div class="card"><h2>GK <span class="tree-count">61 object(en)</span></h2><p class="subtitle">hoofdgroep GK &middot; 5 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-339" title="BESCHOEIING — 13 onderliggend(e) object(en)"><span class="otname">BESCHOEIING</span><span class="kids">13</span></a>
+<a class="btn otbtn" data-dlg="dlg-307" title="BOUWKUIP — 7 onderliggend(e) object(en)"><span class="otname">BOUWKUIP</span><span class="kids">7</span></a>
+<a class="btn otbtn" data-dlg="dlg-291" title="KADEMUUR — 15 onderliggend(e) object(en)"><span class="otname">KADEMUUR</span><span class="kids">15</span></a>
+<a class="btn otbtn" data-dlg="dlg-315" title="KEERWAND — 12 onderliggend(e) object(en)"><span class="otname">KEERWAND</span><span class="kids">12</span></a>
+<a class="btn otbtn" data-dlg="dlg-329" title="KISTDAM — 9 onderliggend(e) object(en)"><span class="otname">KISTDAM</span><span class="kids">9</span></a></div>
+<div class="card"><h2>GR <span class="tree-count">217 object(en)</span></h2><p class="subtitle">hoofdgroep GR &middot; 37 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2885" title="BEPLANTING — 15 onderliggend(e) object(en)"><span class="otname">BEPLANTING</span><span class="kids">15</span></a>
+<span class="btn otleaf" title="BLOEMBAK — geen onderliggende objecten"><span class="otname">BLOEMBAK</span></span>
+<span class="btn otleaf" title="BOLLEN — geen onderliggende objecten"><span class="otname">BOLLEN</span></span>
+<span class="btn otleaf" title="BOMENRIJ — geen onderliggende objecten"><span class="otname">BOMENRIJ</span></span>
+<a class="btn otbtn" data-dlg="dlg-360" title="BOOM — 123 onderliggend(e) object(en)"><span class="otname">BOOM</span><span class="kids">123</span></a>
+<span class="btn otleaf" title="BOOMTEELT — geen onderliggende objecten"><span class="otname">BOOMTEELT</span></span>
+<a class="btn otbtn" data-dlg="dlg-356" title="BOS — 3 onderliggend(e) object(en)"><span class="otname">BOS</span><span class="kids">3</span></a>
+<a class="btn otbtn" data-dlg="dlg-3377" title="BOUWLAND — 4 onderliggend(e) object(en)"><span class="otname">BOUWLAND</span><span class="kids">4</span></a>
+<span class="btn otleaf" title="CONIFEER — geen onderliggende objecten"><span class="otname">CONIFEER</span></span>
+<span class="btn otleaf" title="DOORWORTELBARE RUIMTE — geen onderliggende objecten"><span class="otname">DOORWORTELBARE RUIMTE</span></span>
+<a class="btn otbtn" data-dlg="dlg-3366" title="DUIN — 2 onderliggend(e) object(en)"><span class="otname">DUIN</span><span class="kids">2</span></a>
+<a class="btn otbtn" data-dlg="dlg-3370" title="FRUITTEELT — 5 onderliggend(e) object(en)"><span class="otname">FRUITTEELT</span><span class="kids">5</span></a>
+<a class="btn otbtn" data-dlg="dlg-401" title="GRAS — 9 onderliggend(e) object(en)"><span class="otname">GRAS</span><span class="kids">9</span></a>
+<span class="btn otleaf" title="GRIEND — geen onderliggende objecten"><span class="otname">GRIEND</span></span>
+<span class="btn otleaf" title="GROENSTROOK — geen onderliggende objecten"><span class="otname">GROENSTROOK</span></span>
+<span class="btn otleaf" title="GROENVOORZIENING — geen onderliggende objecten"><span class="otname">GROENVOORZIENING</span></span>
+<a class="btn otbtn" data-dlg="dlg-380" title="HAAG — 7 onderliggend(e) object(en)"><span class="otname">HAAG</span><span class="kids">7</span></a>
+<span class="btn otleaf" title="HAKHOUT — geen onderliggende objecten"><span class="otname">HAKHOUT</span></span>
+<a class="btn otbtn" data-dlg="dlg-384" title="HEESTER — 1 onderliggend(e) object(en)"><span class="otname">HEESTER</span><span class="kids">1</span></a>
+<span class="btn otleaf" title="HEIDE — geen onderliggende objecten"><span class="otname">HEIDE</span></span>
+<span class="btn otleaf" title="HONDENTOILET — geen onderliggende objecten"><span class="otname">HONDENTOILET</span></span>
+<a class="btn otbtn" data-dlg="dlg-368" title="HOUTOPSTAND — 3 onderliggend(e) object(en)"><span class="otname">HOUTOPSTAND</span><span class="kids">3</span></a>
+<span class="btn otleaf" title="HOUTWAL — geen onderliggende objecten"><span class="otname">HOUTWAL</span></span>
+<span class="btn otleaf" title="KRUIDEN — geen onderliggende objecten"><span class="otname">KRUIDEN</span></span>
+<span class="btn otleaf" title="KWELDER — geen onderliggende objecten"><span class="otname">KWELDER</span></span>
+<span class="btn otleaf" title="MOERAS — geen onderliggende objecten"><span class="otname">MOERAS</span></span>
+<span class="btn otleaf" title="PERK — geen onderliggende objecten"><span class="otname">PERK</span></span>
+<span class="btn otleaf" title="PLANTENBAK — geen onderliggende objecten"><span class="otname">PLANTENBAK</span></span>
+<a class="btn otbtn" data-dlg="dlg-364" title="PLANTGATVERBETERING — 5 onderliggend(e) object(en)"><span class="otname">PLANTGATVERBETERING</span><span class="kids">5</span></a>
+<span class="btn otleaf" title="RIET — geen onderliggende objecten"><span class="otname">RIET</span></span>
+<span class="btn otleaf" title="SIERPLANTSOEN — geen onderliggende objecten"><span class="otname">SIERPLANTSOEN</span></span>
+<span class="btn otleaf" title="SOORTAANDUIDING — geen onderliggende objecten"><span class="otname">SOORTAANDUIDING</span></span>
+<a class="btn otbtn" data-dlg="dlg-406" title="SPORTVELD — 3 onderliggend(e) object(en)"><span class="otname">SPORTVELD</span><span class="kids">3</span></a>
+<span class="btn otleaf" title="STRUIK — geen onderliggende objecten"><span class="otname">STRUIK</span></span>
+<span class="btn otleaf" title="STRUWEEL — geen onderliggende objecten"><span class="otname">STRUWEEL</span></span>
+<span class="btn otleaf" title="TYPEAANDUIDING — geen onderliggende objecten"><span class="otname">TYPEAANDUIDING</span></span>
+<span class="btn otleaf" title="VERWIJDEREN — geen onderliggende objecten"><span class="otname">VERWIJDEREN</span></span></div>
+<div class="card"><h2>GW <span class="tree-count">132 object(en)</span></h2><p class="subtitle">hoofdgroep GW &middot; 24 object(en) op het eerste niveau</p><span class="btn otleaf" title="BAGGERVAK — geen onderliggende objecten"><span class="otname">BAGGERVAK</span></span>
+<span class="btn otleaf" title="BERM — geen onderliggende objecten"><span class="otname">BERM</span></span>
+<a class="btn otbtn" data-dlg="dlg-454" title="CUNET — 3 onderliggend(e) object(en)"><span class="otname">CUNET</span><span class="kids">3</span></a>
+<a class="btn otbtn" data-dlg="dlg-432" title="DIJK — 12 onderliggend(e) object(en)"><span class="otname">DIJK</span><span class="kids">12</span></a>
+<a class="btn otbtn" data-dlg="dlg-477" title="GROND — 40 onderliggend(e) object(en)"><span class="otname">GROND</span><span class="kids">40</span></a>
+<a class="btn otbtn" data-dlg="dlg-4756" title="GRONDSCHEIDINGEN — 8 onderliggend(e) object(en)"><span class="otname">GRONDSCHEIDINGEN</span><span class="kids">8</span></a>
+<a class="btn otbtn" data-dlg="dlg-424" title="GRONDWERKLIJN — 4 onderliggend(e) object(en)"><span class="otname">GRONDWERKLIJN</span><span class="kids">4</span></a>
+<a class="btn otbtn" data-dlg="dlg-416" title="HOOGTE — 4 onderliggend(e) object(en)"><span class="otname">HOOGTE</span><span class="kids">4</span></a>
+<span class="btn otleaf" title="MAAIVELD — geen onderliggende objecten"><span class="otname">MAAIVELD</span></span>
+<span class="btn otleaf" title="NIETBAGGERVAK — geen onderliggende objecten"><span class="otname">NIETBAGGERVAK</span></span>
+<span class="btn otleaf" title="NIETSTORTVAK — geen onderliggende objecten"><span class="otname">NIETSTORTVAK</span></span>
+<span class="btn otleaf" title="NIETWINNINGSVAK — geen onderliggende objecten"><span class="otname">NIETWINNINGSVAK</span></span>
+<a class="btn otbtn" data-dlg="dlg-473" title="ONTGRAVINGSVAK — 3 onderliggend(e) object(en)"><span class="otname">ONTGRAVINGSVAK</span><span class="kids">3</span></a>
+<a class="btn otbtn" data-dlg="dlg-442" title="OPHOGING — 3 onderliggend(e) object(en)"><span class="otname">OPHOGING</span><span class="kids">3</span></a>
+<span class="btn otleaf" title="PIKETLIJN — geen onderliggende objecten"><span class="otname">PIKETLIJN</span></span>
+<span class="btn otleaf" title="RAAI — geen onderliggende objecten"><span class="otname">RAAI</span></span>
+<a class="btn otbtn" data-dlg="dlg-450" title="SLEUF — 3 onderliggend(e) object(en)"><span class="otname">SLEUF</span><span class="kids">3</span></a>
+<span class="btn otleaf" title="STORTVAK — geen onderliggende objecten"><span class="otname">STORTVAK</span></span>
+<a class="btn otbtn" data-dlg="dlg-427" title="TALUD — 4 onderliggend(e) object(en)"><span class="otname">TALUD</span><span class="kids">4</span></a>
+<a class="btn otbtn" data-dlg="dlg-421" title="TALUDARCERING — 2 onderliggend(e) object(en)"><span class="otname">TALUDARCERING</span><span class="kids">2</span></a>
+<span class="btn otleaf" title="VOORBELASTING — geen onderliggende objecten"><span class="otname">VOORBELASTING</span></span>
+<a class="btn otbtn" data-dlg="dlg-446" title="WAL — 3 onderliggend(e) object(en)"><span class="otname">WAL</span><span class="kids">3</span></a>
+<a class="btn otbtn" data-dlg="dlg-458" title="WATERGANG — 16 onderliggend(e) object(en)"><span class="otname">WATERGANG</span><span class="kids">16</span></a>
+<a class="btn otbtn" data-dlg="dlg-511" title="WINNINGSVAK — 3 onderliggend(e) object(en)"><span class="otname">WINNINGSVAK</span><span class="kids">3</span></a></div>
+<div class="card"><h2>HC <span class="tree-count">13 object(en)</span></h2><p class="subtitle">hoofdgroep HC &middot; 6 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2803" title="AANGRENZENDE CONSTRUCTIE — 3 onderliggend(e) object(en)"><span class="otname">AANGRENZENDE CONSTRUCTIE</span><span class="kids">3</span></a>
+<a class="btn otbtn" data-dlg="dlg-2797" title="HOUTVORM — 2 onderliggend(e) object(en)"><span class="otname">HOUTVORM</span><span class="kids">2</span></a>
+<span class="btn otleaf" title="LEVENSDUURVERLENGENDE MAATREGEL — geen onderliggende objecten"><span class="otname">LEVENSDUURVERLENGENDE MAATREGEL</span></span>
+<span class="btn otleaf" title="OVERIG MATERIAAL — geen onderliggende objecten"><span class="otname">OVERIG MATERIAAL</span></span>
+<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten"><span class="otname">REPARATIES</span></span>
+<a class="btn otbtn" data-dlg="dlg-2800" title="VERBINDING — 2 onderliggend(e) object(en)"><span class="otname">VERBINDING</span><span class="kids">2</span></a></div>
+<div class="card"><h2>HU <span class="tree-count">1 object(en)</span></h2><p class="subtitle">hoofdgroep HU &middot; 1 object(en) op het eerste niveau</p><span class="btn otleaf" title="HULPCONSTRUCTIES — geen onderliggende objecten"><span class="otname">HULPCONSTRUCTIES</span></span></div>
+<div class="card"><h2>IE <span class="tree-count">128 object(en)</span></h2><p class="subtitle">hoofdgroep IE &middot; 12 object(en) op het eerste niveau</p><span class="btn otleaf" title="AFVAL APART PLAATS — geen onderliggende objecten"><span class="otname">AFVAL APART PLAATS</span></span>
+<span class="btn otleaf" title="BALUSTRADE — geen onderliggende objecten"><span class="otname">BALUSTRADE</span></span>
+<span class="btn otleaf" title="BORD — geen onderliggende objecten"><span class="otname">BORD</span></span>
+<a class="btn otbtn" data-dlg="dlg-6004" title="CONSTRUCTIEVE AFSCHEIDING — 36 onderliggend(e) object(en)"><span class="otname">CONSTRUCTIEVE AFSCHEIDING</span><span class="kids">36</span></a>
+<span class="btn otleaf" title="HERDENKINGSMONUMENT — geen onderliggende objecten"><span class="otname">HERDENKINGSMONUMENT</span></span>
+<span class="btn otleaf" title="HOOGTEDETECTIEMETER — geen onderliggende objecten"><span class="otname">HOOGTEDETECTIEMETER</span></span>
+<span class="btn otleaf" title="INKLIMBEVEILIGING — geen onderliggende objecten"><span class="otname">INKLIMBEVEILIGING</span></span>
+<span class="btn otleaf" title="KUNSTOBJECT — geen onderliggende objecten"><span class="otname">KUNSTOBJECT</span></span>
+<span class="btn otleaf" title="LPG VULPUNT — geen onderliggende objecten"><span class="otname">LPG VULPUNT</span></span>
+<a class="btn otbtn" data-dlg="dlg-521" title="MEUBILAIR — 80 onderliggend(e) object(en)"><span class="otname">MEUBILAIR</span><span class="kids">80</span></a>
+<span class="btn otleaf" title="SIRENE — geen onderliggende objecten"><span class="otname">SIRENE</span></span>
+<span class="btn otleaf" title="WEERSTATION — geen onderliggende objecten"><span class="otname">WEERSTATION</span></span></div>
+<div class="card"><h2>IS <span class="tree-count">69 object(en)</span></h2><p class="subtitle">hoofdgroep IS &middot; 9 object(en) op het eerste niveau</p><span class="btn otleaf" title="BLOKSCHEIDING — geen onderliggende objecten"><span class="otname">BLOKSCHEIDING</span></span>
+<a class="btn otbtn" data-dlg="dlg-4395" title="COMPONENT — 21 onderliggend(e) object(en)"><span class="otname">COMPONENT</span><span class="kids">21</span></a>
+<a class="btn otbtn" data-dlg="dlg-4958" title="KAST — 12 onderliggend(e) object(en)"><span class="otname">KAST</span><span class="kids">12</span></a>
+<span class="btn otleaf" title="MAST — geen onderliggende objecten"><span class="otname">MAST</span></span>
+<span class="btn otleaf" title="PUNTTONG — geen onderliggende objecten"><span class="otname">PUNTTONG</span></span>
+<a class="btn otbtn" data-dlg="dlg-5215" title="PUT — 3 onderliggend(e) object(en)"><span class="otname">PUT</span><span class="kids">3</span></a>
+<a class="btn otbtn" data-dlg="dlg-5236" title="SEIN — 17 onderliggend(e) object(en)"><span class="otname">SEIN</span><span class="kids">17</span></a>
+<a class="btn otbtn" data-dlg="dlg-5397" title="SPOORVERBINDER — 6 onderliggend(e) object(en)"><span class="otname">SPOORVERBINDER</span><span class="kids">6</span></a>
+<a class="btn otbtn" data-dlg="dlg-5912" title="ZONE — 1 onderliggend(e) object(en)"><span class="otname">ZONE</span><span class="kids">1</span></a></div>
+<div class="card"><h2>IV <span class="tree-count">3 object(en)</span></h2><p class="subtitle">hoofdgroep IV &middot; 2 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2538" title="DRI — 1 onderliggend(e) object(en)"><span class="otname">DRI</span><span class="kids">1</span></a>
+<span class="btn otleaf" title="LICHTOPSTAND — geen onderliggende objecten"><span class="otname">LICHTOPSTAND</span></span></div>
+<div class="card"><h2>IW <span class="tree-count">34 object(en)</span></h2><p class="subtitle">hoofdgroep IW &middot; 6 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2648" title="DRIP — 2 onderliggend(e) object(en)"><span class="otname">DRIP</span><span class="kids">2</span></a>
+<a class="btn otbtn" data-dlg="dlg-2642" title="TDI — 1 onderliggend(e) object(en)"><span class="otname">TDI</span><span class="kids">1</span></a>
+<span class="btn otleaf" title="TELECOM — geen onderliggende objecten"><span class="otname">TELECOM</span></span>
+<a class="btn otbtn" data-dlg="dlg-3352" title="TRAMSIGNALERING — 2 onderliggend(e) object(en)"><span class="otname">TRAMSIGNALERING</span><span class="kids">2</span></a>
+<a class="btn otbtn" data-dlg="dlg-2644" title="VRI — 22 onderliggend(e) object(en)"><span class="otname">VRI</span><span class="kids">22</span></a>
+<a class="btn otbtn" data-dlg="dlg-2646" title="VS — 1 onderliggend(e) object(en)"><span class="otname">VS</span><span class="kids">1</span></a></div>
+<div class="card"><h2>KC <span class="tree-count">14 object(en)</span></h2><p class="subtitle">hoofdgroep KC &middot; 6 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2817" title="AANGRENZENDE CONSTRUCTIE — 4 onderliggend(e) object(en)"><span class="otname">AANGRENZENDE CONSTRUCTIE</span><span class="kids">4</span></a>
+<a class="btn otbtn" data-dlg="dlg-2811" title="KUNSTSTOFVORM — 2 onderliggend(e) object(en)"><span class="otname">KUNSTSTOFVORM</span><span class="kids">2</span></a>
+<span class="btn otleaf" title="LEVENSDUURVERLENGENDE MAATREGEL — geen onderliggende objecten"><span class="otname">LEVENSDUURVERLENGENDE MAATREGEL</span></span>
+<span class="btn otleaf" title="OVERIG MATERIAAL — geen onderliggende objecten"><span class="otname">OVERIG MATERIAAL</span></span>
+<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten"><span class="otname">REPARATIES</span></span>
+<a class="btn otbtn" data-dlg="dlg-2814" title="VERBINDING — 2 onderliggend(e) object(en)"><span class="otname">VERBINDING</span><span class="kids">2</span></a></div>
+<div class="card"><h2>KG <span class="tree-count">64 object(en)</span></h2><p class="subtitle">hoofdgroep KG &middot; 7 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-572" title="BEHEERGRENS — 6 onderliggend(e) object(en)"><span class="otname">BEHEERGRENS</span><span class="kids">6</span></a>
+<a class="btn otbtn" data-dlg="dlg-586" title="BENOGRENS — 6 onderliggend(e) object(en)"><span class="otname">BENOGRENS</span><span class="kids">6</span></a>
+<a class="btn otbtn" data-dlg="dlg-557" title="GRENS — 18 onderliggend(e) object(en)"><span class="otname">GRENS</span><span class="kids">18</span></a>
+<a class="btn otbtn" data-dlg="dlg-598" title="GRONDEIGENDOM — 12 onderliggend(e) object(en)"><span class="otname">GRONDEIGENDOM</span><span class="kids">12</span></a>
+<a class="btn otbtn" data-dlg="dlg-593" title="GRONDVERWERVING — 3 onderliggend(e) object(en)"><span class="otname">GRONDVERWERVING</span><span class="kids">3</span></a>
+<a class="btn otbtn" data-dlg="dlg-611" title="KADASTRAAL — 6 onderliggend(e) object(en)"><span class="otname">KADASTRAAL</span><span class="kids">6</span></a>
+<a class="btn otbtn" data-dlg="dlg-579" title="ONDERHOUDGRENS — 6 onderliggend(e) object(en)"><span class="otname">ONDERHOUDGRENS</span><span class="kids">6</span></a></div>
+<div class="card"><h2>KL <span class="tree-count">849 object(en)</span></h2><p class="subtitle">hoofdgroep KL &middot; 38 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-1416" title="AFSLUITINSTALLATIE — 1 onderliggend(e) object(en)"><span class="otname">AFSLUITINSTALLATIE</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-1386" title="BEWEGWIJZERING — 1 onderliggend(e) object(en)"><span class="otname">BEWEGWIJZERING</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-620" title="BRANDSTOF — 14 onderliggend(e) object(en)"><span class="otname">BRANDSTOF</span><span class="kids">14</span></a>
+<a class="btn otbtn" data-dlg="dlg-1418" title="CCTV — 4 onderliggend(e) object(en)"><span class="otname">CCTV</span><span class="kids">4</span></a>
+<a class="btn otbtn" data-dlg="dlg-637" title="CHEMIE — 6 onderliggend(e) object(en)"><span class="otname">CHEMIE</span><span class="kids">6</span></a>
+<span class="btn otleaf" title="COMBIKABEL — geen onderliggende objecten"><span class="otname">COMBIKABEL</span></span>
+<a class="btn otbtn" data-dlg="dlg-645" title="CV — 72 onderliggend(e) object(en)"><span class="otname">CV</span><span class="kids">72</span></a>
+<a class="btn otbtn" data-dlg="dlg-720" title="DATA — 109 onderliggend(e) object(en)"><span class="otname">DATA</span><span class="kids">109</span></a>
+<a class="btn otbtn" data-dlg="dlg-1388" title="DRIP — 1 onderliggend(e) object(en)"><span class="otname">DRIP</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-840" title="ET — 114 onderliggend(e) object(en)"><span class="otname">ET</span><span class="kids">114</span></a>
+<a class="btn otbtn" data-dlg="dlg-1402" title="FILEMELDSYSTEEM — 1 onderliggend(e) object(en)"><span class="otname">FILEMELDSYSTEEM</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-998" title="GAS — 184 onderliggend(e) object(en)"><span class="otname">GAS</span><span class="kids">184</span></a>
+<a class="btn otbtn" data-dlg="dlg-1392" title="GMS — 1 onderliggend(e) object(en)"><span class="otname">GMS</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-1394" title="HOOGTEDETECTIE — 1 onderliggend(e) object(en)"><span class="otname">HOOGTEDETECTIE</span><span class="kids">1</span></a>
+<span class="btn otleaf" title="KATHODISCHE BESCHERMING — geen onderliggende objecten"><span class="otname">KATHODISCHE BESCHERMING</span></span>
+<a class="btn otbtn" data-dlg="dlg-1183" title="KOUDENET — 69 onderliggend(e) object(en)"><span class="otname">KOUDENET</span><span class="kids">69</span></a>
+<span class="btn otleaf" title="KOUDEOPSLAGSYSTEEM — geen onderliggende objecten"><span class="otname">KOUDEOPSLAGSYSTEEM</span></span>
+<a class="btn otbtn" data-dlg="dlg-1215" title="MANTELBUIS — 3 onderliggend(e) object(en)"><span class="otname">MANTELBUIS</span><span class="kids">3</span></a>
+<a class="btn otbtn" data-dlg="dlg-1404" title="MONITORING — 1 onderliggend(e) object(en)"><span class="otname">MONITORING</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-1222" title="OLIE — 6 onderliggend(e) object(en)"><span class="otname">OLIE</span><span class="kids">6</span></a>
+<a class="btn otbtn" data-dlg="dlg-3121" title="POLLER — 1 onderliggend(e) object(en)"><span class="otname">POLLER</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-1420" title="POMP — 1 onderliggend(e) object(en)"><span class="otname">POMP</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-2950" title="SCHEMA — 13 onderliggend(e) object(en)"><span class="otname">SCHEMA</span><span class="kids">13</span></a>
+<span class="btn otleaf" title="STROOK — geen onderliggende objecten"><span class="otname">STROOK</span></span>
+<a class="btn otbtn" data-dlg="dlg-1390" title="TDI — 1 onderliggend(e) object(en)"><span class="otname">TDI</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-1400" title="TELPUNT — 2 onderliggend(e) object(en)"><span class="otname">TELPUNT</span><span class="kids">2</span></a>
+<a class="btn otbtn" data-dlg="dlg-1230" title="TRACE — 2 onderliggend(e) object(en)"><span class="otname">TRACE</span><span class="kids">2</span></a>
+<a class="btn otbtn" data-dlg="dlg-1412" title="TRANSMISSIE — 1 onderliggend(e) object(en)"><span class="otname">TRANSMISSIE</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-1410" title="UWKS — 1 onderliggend(e) object(en)"><span class="otname">UWKS</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-1414" title="VEVA — 1 onderliggend(e) object(en)"><span class="otname">VEVA</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-1408" title="VRI — 1 onderliggend(e) object(en)"><span class="otname">VRI</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-1406" title="VS — 1 onderliggend(e) object(en)"><span class="otname">VS</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-1232" title="WARMTENET — 80 onderliggend(e) object(en)"><span class="otname">WARMTENET</span><span class="kids">80</span></a>
+<span class="btn otleaf" title="WARMTEOPSLAGSYSTEEM — geen onderliggende objecten"><span class="otname">WARMTEOPSLAGSYSTEEM</span></span>
+<a class="btn otbtn" data-dlg="dlg-1264" title="WATER — 116 onderliggend(e) object(en)"><span class="otname">WATER</span><span class="kids">116</span></a>
+<span class="btn otleaf" title="WEESLEIDING — geen onderliggende objecten"><span class="otname">WEESLEIDING</span></span>
+<a class="btn otbtn" data-dlg="dlg-1398" title="WIM — 1 onderliggend(e) object(en)"><span class="otname">WIM</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-1396" title="WINDWAARSCHUWINGSSYSTEEM — 1 onderliggend(e) object(en)"><span class="otname">WINDWAARSCHUWINGSSYSTEEM</span><span class="kids">1</span></a></div>
+<div class="card"><h2>KW <span class="tree-count">62 object(en)</span></h2><p class="subtitle">hoofdgroep KW &middot; 1 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-1422" title="KUNSTWERK — 61 onderliggend(e) object(en)"><span class="otname">KUNSTWERK</span><span class="kids">61</span></a></div>
+<div class="card"><h2>MC <span class="tree-count">41 object(en)</span></h2><p class="subtitle">hoofdgroep MC &middot; 7 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2838" title="AANGRENZENDECONSTRUCTIE — 4 onderliggend(e) object(en)"><span class="otname">AANGRENZENDECONSTRUCTIE</span><span class="kids">4</span></a>
+<a class="btn otbtn" data-dlg="dlg-2834" title="HYDRAULIEKVORM — 14 onderliggend(e) object(en)"><span class="otname">HYDRAULIEKVORM</span><span class="kids">14</span></a>
+<span class="btn otleaf" title="LEVENSDUURVERLENGENDE MAATREGEL — geen onderliggende objecten"><span class="otname">LEVENSDUURVERLENGENDE MAATREGEL</span></span>
+<a class="btn otbtn" data-dlg="dlg-2825" title="MECHANISCHVORM — 4 onderliggend(e) object(en)"><span class="otname">MECHANISCHVORM</span><span class="kids">4</span></a>
+<span class="btn otleaf" title="OVERIGMATERIAAL — geen onderliggende objecten"><span class="otname">OVERIGMATERIAAL</span></span>
+<a class="btn otbtn" data-dlg="dlg-2830" title="PNEUMATIEKVORM — 12 onderliggend(e) object(en)"><span class="otname">PNEUMATIEKVORM</span><span class="kids">12</span></a>
+<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten"><span class="otname">REPARATIES</span></span></div>
+<div class="card"><h2>MO <span class="tree-count">120 object(en)</span></h2><p class="subtitle">hoofdgroep MO &middot; 16 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-1550" title="ARCHEOLOGIE — 16 onderliggend(e) object(en)"><span class="otname">ARCHEOLOGIE</span><span class="kids">16</span></a>
+<a class="btn otbtn" data-dlg="dlg-1495" title="BODEM — 14 onderliggend(e) object(en)"><span class="otname">BODEM</span><span class="kids">14</span></a>
+<span class="btn otleaf" title="EXPLOSIEVEN — geen onderliggende objecten"><span class="otname">EXPLOSIEVEN</span></span>
+<a class="btn otbtn" data-dlg="dlg-1529" title="GELUID — 4 onderliggend(e) object(en)"><span class="otname">GELUID</span><span class="kids">4</span></a>
+<a class="btn otbtn" data-dlg="dlg-1544" title="GEUR — 4 onderliggend(e) object(en)"><span class="otname">GEUR</span><span class="kids">4</span></a>
+<a class="btn otbtn" data-dlg="dlg-1506" title="GRONDWATER — 11 onderliggend(e) object(en)"><span class="otname">GRONDWATER</span><span class="kids">11</span></a>
+<a class="btn otbtn" data-dlg="dlg-1559" title="INSPECTIE — 10 onderliggend(e) object(en)"><span class="otname">INSPECTIE</span><span class="kids">10</span></a>
+<a class="btn otbtn" data-dlg="dlg-1519" title="LICHT — 4 onderliggend(e) object(en)"><span class="otname">LICHT</span><span class="kids">4</span></a>
+<a class="btn otbtn" data-dlg="dlg-1475" title="LOCATIE — 1 onderliggend(e) object(en)"><span class="otname">LOCATIE</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-1524" title="LUCHT — 4 onderliggend(e) object(en)"><span class="otname">LUCHT</span><span class="kids">4</span></a>
+<a class="btn otbtn" data-dlg="dlg-1477" title="ONDERZOEK — 13 onderliggend(e) object(en)"><span class="otname">ONDERZOEK</span><span class="kids">13</span></a>
+<span class="btn otleaf" title="ROUTE GEVAARLIJKE STOFFEN — geen onderliggende objecten"><span class="otname">ROUTE GEVAARLIJKE STOFFEN</span></span>
+<a class="btn otbtn" data-dlg="dlg-1570" title="SCHADE — 10 onderliggend(e) object(en)"><span class="otname">SCHADE</span><span class="kids">10</span></a>
+<a class="btn otbtn" data-dlg="dlg-1534" title="STRALING — 4 onderliggend(e) object(en)"><span class="otname">STRALING</span><span class="kids">4</span></a>
+<a class="btn otbtn" data-dlg="dlg-1539" title="TRILLING — 4 onderliggend(e) object(en)"><span class="otname">TRILLING</span><span class="kids">4</span></a>
+<a class="btn otbtn" data-dlg="dlg-1513" title="WATERBODEM — 5 onderliggend(e) object(en)"><span class="otname">WATERBODEM</span><span class="kids">5</span></a></div>
+<div class="card"><h2>MW <span class="tree-count">16 object(en)</span></h2><p class="subtitle">hoofdgroep MW &middot; 8 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2855" title="AANGRENZENDECONSTRUCTIE — 3 onderliggend(e) object(en)"><span class="otname">AANGRENZENDECONSTRUCTIE</span><span class="kids">3</span></a>
+<span class="btn otleaf" title="ISOLATIE — geen onderliggende objecten"><span class="otname">ISOLATIE</span></span>
+<span class="btn otleaf" title="LATEI — geen onderliggende objecten"><span class="otname">LATEI</span></span>
+<span class="btn otleaf" title="LEVENSDUURVERLENGENDE MAATREGEL — geen onderliggende objecten"><span class="otname">LEVENSDUURVERLENGENDE MAATREGEL</span></span>
+<a class="btn otbtn" data-dlg="dlg-2846" title="METSELWERKVORM — 5 onderliggend(e) object(en)"><span class="otname">METSELWERKVORM</span><span class="kids">5</span></a>
+<span class="btn otleaf" title="OVERIGMATERIAAL — geen onderliggende objecten"><span class="otname">OVERIGMATERIAAL</span></span>
+<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten"><span class="otname">REPARATIES</span></span>
+<span class="btn otleaf" title="VERANKERING — geen onderliggende objecten"><span class="otname">VERANKERING</span></span></div>
+<div class="card"><h2>OB <span class="tree-count">30 object(en)</span></h2><p class="subtitle">hoofdgroep OB &middot; 23 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2914" title="BEKLEDING — 4 onderliggend(e) object(en)"><span class="otname">BEKLEDING</span><span class="kids">4</span></a>
+<a class="btn otbtn" data-dlg="dlg-1587" title="BESCHOEIING — 2 onderliggend(e) object(en)"><span class="otname">BESCHOEIING</span><span class="kids">2</span></a>
+<span class="btn otleaf" title="BETUINING — geen onderliggende objecten"><span class="otname">BETUINING</span></span>
+<span class="btn otleaf" title="BODEMBESCHERMING — geen onderliggende objecten"><span class="otname">BODEMBESCHERMING</span></span>
+<span class="btn otleaf" title="DIJKBEKLEDING — geen onderliggende objecten"><span class="otname">DIJKBEKLEDING</span></span>
+<a class="btn otbtn" data-dlg="dlg-1591" title="DUINBESCHERMING — 1 onderliggend(e) object(en)"><span class="otname">DUINBESCHERMING</span><span class="kids">1</span></a>
+<span class="btn otleaf" title="GOLFBREKER — geen onderliggende objecten"><span class="otname">GOLFBREKER</span></span>
+<span class="btn otleaf" title="KLEI — geen onderliggende objecten"><span class="otname">KLEI</span></span>
+<span class="btn otleaf" title="KRIB — geen onderliggende objecten"><span class="otname">KRIB</span></span>
+<span class="btn otleaf" title="NATUURLIJKE BESCHERMING — geen onderliggende objecten"><span class="otname">NATUURLIJKE BESCHERMING</span></span>
+<span class="btn otleaf" title="NATUUROEVER — geen onderliggende objecten"><span class="otname">NATUUROEVER</span></span>
+<span class="btn otleaf" title="OEVERVOORZIENING — geen onderliggende objecten"><span class="otname">OEVERVOORZIENING</span></span>
+<span class="btn otleaf" title="PEILVAK — geen onderliggende objecten"><span class="otname">PEILVAK</span></span>
+<span class="btn otleaf" title="SCHANSKORF — geen onderliggende objecten"><span class="otname">SCHANSKORF</span></span>
+<span class="btn otleaf" title="STEENMATRASSEN — geen onderliggende objecten"><span class="otname">STEENMATRASSEN</span></span>
+<span class="btn otleaf" title="STORTSTEEN — geen onderliggende objecten"><span class="otname">STORTSTEEN</span></span>
+<span class="btn otleaf" title="STREKDAM — geen onderliggende objecten"><span class="otname">STREKDAM</span></span>
+<span class="btn otleaf" title="TALUDBEKLEDING — geen onderliggende objecten"><span class="otname">TALUDBEKLEDING</span></span>
+<span class="btn otleaf" title="VERANKERING — geen onderliggende objecten"><span class="otname">VERANKERING</span></span>
+<span class="btn otleaf" title="WATERLIJN — geen onderliggende objecten"><span class="otname">WATERLIJN</span></span>
+<span class="btn otleaf" title="ZAND — geen onderliggende objecten"><span class="otname">ZAND</span></span>
+<span class="btn otleaf" title="ZETSTEEN — geen onderliggende objecten"><span class="otname">ZETSTEEN</span></span>
+<span class="btn otleaf" title="ZINKCONSTRUCTIE — geen onderliggende objecten"><span class="otname">ZINKCONSTRUCTIE</span></span></div>
+<div class="card"><h2>OG <span class="tree-count">258 object(en)</span></h2><p class="subtitle">hoofdgroep OG &middot; 32 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-1616" title="BEBOUWING — 83 onderliggend(e) object(en)"><span class="otname">BEBOUWING</span><span class="kids">83</span></a>
+<span class="btn otleaf" title="BEHEERKAART — geen onderliggende objecten"><span class="otname">BEHEERKAART</span></span>
+<span class="btn otleaf" title="BREUKLIJN — geen onderliggende objecten"><span class="otname">BREUKLIJN</span></span>
+<span class="btn otleaf" title="COORDINAAT — geen onderliggende objecten"><span class="otname">COORDINAAT</span></span>
+<span class="btn otleaf" title="DTB — geen onderliggende objecten"><span class="otname">DTB</span></span>
+<span class="btn otleaf" title="DTM — geen onderliggende objecten"><span class="otname">DTM</span></span>
+<span class="btn otleaf" title="DWM — geen onderliggende objecten"><span class="otname">DWM</span></span>
+<span class="btn otleaf" title="FASE1 — geen onderliggende objecten"><span class="otname">FASE1</span></span>
+<span class="btn otleaf" title="FASE2 — geen onderliggende objecten"><span class="otname">FASE2</span></span>
+<span class="btn otleaf" title="FASE3 — geen onderliggende objecten"><span class="otname">FASE3</span></span>
+<span class="btn otleaf" title="FASE4 — geen onderliggende objecten"><span class="otname">FASE4</span></span>
+<span class="btn otleaf" title="FASE5 — geen onderliggende objecten"><span class="otname">FASE5</span></span>
+<span class="btn otleaf" title="FASE6 — geen onderliggende objecten"><span class="otname">FASE6</span></span>
+<span class="btn otleaf" title="FASE7 — geen onderliggende objecten"><span class="otname">FASE7</span></span>
+<span class="btn otleaf" title="GBKN — geen onderliggende objecten"><span class="otname">GBKN</span></span>
+<span class="btn otleaf" title="GRENS — geen onderliggende objecten"><span class="otname">GRENS</span></span>
+<span class="btn otleaf" title="GREPPEL — geen onderliggende objecten"><span class="otname">GREPPEL</span></span>
+<span class="btn otleaf" title="GRID — geen onderliggende objecten"><span class="otname">GRID</span></span>
+<a class="btn otbtn" data-dlg="dlg-1612" title="GRONDGEBRUIK — 2 onderliggend(e) object(en)"><span class="otname">GRONDGEBRUIK</span><span class="kids">2</span></a>
+<a class="btn otbtn" data-dlg="dlg-1627" title="HOOGTELIJN — 2 onderliggend(e) object(en)"><span class="otname">HOOGTELIJN</span><span class="kids">2</span></a>
+<span class="btn otleaf" title="HOOGTEPUNT — geen onderliggende objecten"><span class="otname">HOOGTEPUNT</span></span>
+<span class="btn otleaf" title="INFO — geen onderliggende objecten"><span class="otname">INFO</span></span>
+<a class="btn otbtn" data-dlg="dlg-5108" title="OPENBAAR VERVOER HALTE — 3 onderliggend(e) object(en)"><span class="otname">OPENBAAR VERVOER HALTE</span><span class="kids">3</span></a>
+<span class="btn otleaf" title="SPOORBAAN — geen onderliggende objecten"><span class="otname">SPOORBAAN</span></span>
+<a class="btn otbtn" data-dlg="dlg-3264" title="TERREIN — 76 onderliggend(e) object(en)"><span class="otname">TERREIN</span><span class="kids">76</span></a>
+<a class="btn otbtn" data-dlg="dlg-1615" title="TOPOGRAFIE — 1 onderliggend(e) object(en)"><span class="otname">TOPOGRAFIE</span><span class="kids">1</span></a>
+<span class="btn otleaf" title="TOPOKAART — geen onderliggende objecten"><span class="otname">TOPOKAART</span></span>
+<span class="btn otleaf" title="TRIANGULATIE — geen onderliggende objecten"><span class="otname">TRIANGULATIE</span></span>
+<span class="btn otleaf" title="VLAKVERDICHTINGSLIJN — geen onderliggende objecten"><span class="otname">VLAKVERDICHTINGSLIJN</span></span>
+<a class="btn otbtn" data-dlg="dlg-1619" title="WATER — 19 onderliggend(e) object(en)"><span class="otname">WATER</span><span class="kids">19</span></a>
+<a class="btn otbtn" data-dlg="dlg-1620" title="WEG — 31 onderliggend(e) object(en)"><span class="otname">WEG</span><span class="kids">31</span></a>
+<a class="btn otbtn" data-dlg="dlg-3254" title="ZONE — 9 onderliggend(e) object(en)"><span class="otname">ZONE</span><span class="kids">9</span></a></div>
+<div class="card"><h2>OV <span class="tree-count">44 object(en)</span></h2><p class="subtitle">hoofdgroep OV &middot; 16 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-3531" title="AARDING — 1 onderliggend(e) object(en)"><span class="otname">AARDING</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-887" title="ARMATUUR — 5 onderliggend(e) object(en)"><span class="otname">ARMATUUR</span><span class="kids">5</span></a>
+<span class="btn otleaf" title="DRAAGCONSTRUCTIE — geen onderliggende objecten"><span class="otname">DRAAGCONSTRUCTIE</span></span>
+<span class="btn otleaf" title="GRONDSPOT — geen onderliggende objecten"><span class="otname">GRONDSPOT</span></span>
+<a class="btn otbtn" data-dlg="dlg-893" title="HULPSTUK — 3 onderliggend(e) object(en)"><span class="otname">HULPSTUK</span><span class="kids">3</span></a>
+<a class="btn otbtn" data-dlg="dlg-897" title="KABEL — 6 onderliggend(e) object(en)"><span class="otname">KABEL</span><span class="kids">6</span></a>
+<a class="btn otbtn" data-dlg="dlg-902" title="KABELDOORVOER — 3 onderliggend(e) object(en)"><span class="otname">KABELDOORVOER</span><span class="kids">3</span></a>
+<span class="btn otleaf" title="KABELROL — geen onderliggende objecten"><span class="otname">KABELROL</span></span>
+<a class="btn otbtn" data-dlg="dlg-907" title="KAST — 9 onderliggend(e) object(en)"><span class="otname">KAST</span><span class="kids">9</span></a>
+<span class="btn otleaf" title="LICHTMAST — geen onderliggende objecten"><span class="otname">LICHTMAST</span></span>
+<span class="btn otleaf" title="LIJNVERLICHTING — geen onderliggende objecten"><span class="otname">LIJNVERLICHTING</span></span>
+<span class="btn otleaf" title="MANTELBUIS — geen onderliggende objecten"><span class="otname">MANTELBUIS</span></span>
+<span class="btn otleaf" title="PUT — geen onderliggende objecten"><span class="otname">PUT</span></span>
+<span class="btn otleaf" title="STROOK — geen onderliggende objecten"><span class="otname">STROOK</span></span>
+<a class="btn otbtn" data-dlg="dlg-3538" title="TRACE — 1 onderliggend(e) object(en)"><span class="otname">TRACE</span><span class="kids">1</span></a>
+<span class="btn otleaf" title="WEESLEIDING — geen onderliggende objecten"><span class="otname">WEESLEIDING</span></span></div>
+<div class="card"><h2>RI <span class="tree-count">1075 object(en)</span></h2><p class="subtitle">hoofdgroep RI &middot; 11 object(en) op het eerste niveau</p><span class="btn otleaf" title="BOB — geen onderliggende objecten"><span class="otname">BOB</span></span>
+<a class="btn otbtn" data-dlg="dlg-1635" title="DRAINAGE — 54 onderliggend(e) object(en)"><span class="otname">DRAINAGE</span><span class="kids">54</span></a>
+<a class="btn otbtn" data-dlg="dlg-2220" title="DWA — 216 onderliggend(e) object(en)"><span class="otname">DWA</span><span class="kids">216</span></a>
+<a class="btn otbtn" data-dlg="dlg-1664" title="GWA — 214 onderliggend(e) object(en)"><span class="otname">GWA</span><span class="kids">214</span></a>
+<a class="btn otbtn" data-dlg="dlg-1786" title="HWA — 273 onderliggend(e) object(en)"><span class="otname">HWA</span><span class="kids">273</span></a>
+<a class="btn otbtn" data-dlg="dlg-1944" title="ITR — 141 onderliggend(e) object(en)"><span class="otname">ITR</span><span class="kids">141</span></a>
+<span class="btn otleaf" title="MATERIAAL — geen onderliggende objecten"><span class="otname">MATERIAAL</span></span>
+<a class="btn otbtn" data-dlg="dlg-2052" title="OVERIG — 56 onderliggend(e) object(en)"><span class="otname">OVERIG</span><span class="kids">56</span></a>
+<a class="btn otbtn" data-dlg="dlg-2054" title="PERSLEIDING — 50 onderliggend(e) object(en)"><span class="otname">PERSLEIDING</span><span class="kids">50</span></a>
+<a class="btn otbtn" data-dlg="dlg-3451" title="RWZI — 18 onderliggend(e) object(en)"><span class="otname">RWZI</span><span class="kids">18</span></a>
+<a class="btn otbtn" data-dlg="dlg-2194" title="VACUUMLEIDING — 42 onderliggend(e) object(en)"><span class="otname">VACUUMLEIDING</span><span class="kids">42</span></a></div>
+<div class="card"><h2>SB <span class="tree-count">265 object(en)</span></h2><p class="subtitle">hoofdgroep SB &middot; 7 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-4297" title="BOVENBOUW — 96 onderliggend(e) object(en)"><span class="otname">BOVENBOUW</span><span class="kids">96</span></a>
+<span class="btn otleaf" title="CONSTRUCTIEGRENS — geen onderliggende objecten"><span class="otname">CONSTRUCTIEGRENS</span></span>
+<a class="btn otbtn" data-dlg="dlg-4819" title="HOOGTEMATEN — 1 onderliggend(e) object(en)"><span class="otname">HOOGTEMATEN</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-5087" title="OMGRENZINGSPROFIEL — 20 onderliggend(e) object(en)"><span class="otname">OMGRENZINGSPROFIEL</span><span class="kids">20</span></a>
+<a class="btn otbtn" data-dlg="dlg-5254" title="SPOOR — 77 onderliggend(e) object(en)"><span class="otname">SPOOR</span><span class="kids">77</span></a>
+<a class="btn otbtn" data-dlg="dlg-5332" title="SPOORSTAAF — 64 onderliggend(e) object(en)"><span class="otname">SPOORSTAAF</span><span class="kids">64</span></a>
+<span class="btn otleaf" title="VERKANTING — geen onderliggende objecten"><span class="otname">VERKANTING</span></span></div>
+<div class="card"><h2>SC <span class="tree-count">21 object(en)</span></h2><p class="subtitle">hoofdgroep SC &middot; 11 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2870" title="AANGRENZENDECONSTRUCTIE — 3 onderliggend(e) object(en)"><span class="otname">AANGRENZENDECONSTRUCTIE</span><span class="kids">3</span></a>
+<span class="btn otleaf" title="HULPSTAAL — geen onderliggende objecten"><span class="otname">HULPSTAAL</span></span>
+<span class="btn otleaf" title="ITSO — geen onderliggende objecten"><span class="otname">ITSO</span></span>
+<span class="btn otleaf" title="LEVENSDUURVERLENGENDE MAATREGEL — geen onderliggende objecten"><span class="otname">LEVENSDUURVERLENGENDE MAATREGEL</span></span>
+<span class="btn otleaf" title="NAAD — geen onderliggende objecten"><span class="otname">NAAD</span></span>
+<span class="btn otleaf" title="OVERIGMATERIAAL — geen onderliggende objecten"><span class="otname">OVERIGMATERIAAL</span></span>
+<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten"><span class="otname">REPARATIES</span></span>
+<span class="btn otleaf" title="SLOOPLIJN — geen onderliggende objecten"><span class="otname">SLOOPLIJN</span></span>
+<a class="btn otbtn" data-dlg="dlg-2862" title="STAALVORM — 5 onderliggend(e) object(en)"><span class="otname">STAALVORM</span><span class="kids">5</span></a>
+<span class="btn otleaf" title="TREKSTANG — geen onderliggende objecten"><span class="otname">TREKSTANG</span></span>
+<a class="btn otbtn" data-dlg="dlg-2867" title="VERBINDING — 2 onderliggend(e) object(en)"><span class="otname">VERBINDING</span><span class="kids">2</span></a></div>
+<div class="card"><h2>VH <span class="tree-count">234 object(en)</span></h2><p class="subtitle">hoofdgroep VH &middot; 17 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2474" title="BEDRIJFSVLOERPLAAT — 7 onderliggend(e) object(en)"><span class="otname">BEDRIJFSVLOERPLAAT</span><span class="kids">7</span></a>
+<a class="btn otbtn" data-dlg="dlg-2342" title="DREMPEL — 5 onderliggend(e) object(en)"><span class="otname">DREMPEL</span><span class="kids">5</span></a>
+<a class="btn otbtn" data-dlg="dlg-2492" title="FUNDERING — 18 onderliggend(e) object(en)"><span class="otname">FUNDERING</span><span class="kids">18</span></a>
+<span class="btn otleaf" title="GEOTEXTIEL — geen onderliggende objecten"><span class="otname">GEOTEXTIEL</span></span>
+<a class="btn otbtn" data-dlg="dlg-3342" title="GESLOTENVERHARDING — 28 onderliggend(e) object(en)"><span class="otname">GESLOTENVERHARDING</span><span class="kids">28</span></a>
+<a class="btn otbtn" data-dlg="dlg-2348" title="GOOT — 11 onderliggend(e) object(en)"><span class="otname">GOOT</span><span class="kids">11</span></a>
+<a class="btn otbtn" data-dlg="dlg-2511" title="HALFVERHARDING — 10 onderliggend(e) object(en)"><span class="otname">HALFVERHARDING</span><span class="kids">10</span></a>
+<span class="btn otleaf" title="HERSTRATEN — geen onderliggende objecten"><span class="otname">HERSTRATEN</span></span>
+<a class="btn otbtn" data-dlg="dlg-2360" title="KANTOPSLUITING — 104 onderliggend(e) object(en)"><span class="otname">KANTOPSLUITING</span><span class="kids">104</span></a>
+<a class="btn otbtn" data-dlg="dlg-2456" title="KANTVERHARDING — 5 onderliggend(e) object(en)"><span class="otname">KANTVERHARDING</span><span class="kids">5</span></a>
+<span class="btn otleaf" title="MATERIAALGRENS — geen onderliggende objecten"><span class="otname">MATERIAALGRENS</span></span>
+<a class="btn otbtn" data-dlg="dlg-2936" title="ONVERHARD — 4 onderliggend(e) object(en)"><span class="otname">ONVERHARD</span><span class="kids">4</span></a>
+<a class="btn otbtn" data-dlg="dlg-2519" title="OPENVERHARDING — 25 onderliggend(e) object(en)"><span class="otname">OPENVERHARDING</span><span class="kids">25</span></a>
+<span class="btn otleaf" title="REPARATIES — geen onderliggende objecten"><span class="otname">REPARATIES</span></span>
+<span class="btn otleaf" title="ROOSTER — geen onderliggende objecten"><span class="otname">ROOSTER</span></span>
+<span class="btn otleaf" title="VERKANTING — geen onderliggende objecten"><span class="otname">VERKANTING</span></span>
+<span class="btn otleaf" title="VERKEERSTEGEL — geen onderliggende objecten"><span class="otname">VERKEERSTEGEL</span></span></div>
+<div class="card"><h2>VV <span class="tree-count">24 object(en)</span></h2><p class="subtitle">hoofdgroep VV &middot; 7 object(en) op het eerste niveau</p><span class="btn otleaf" title="AFMEERLOKATIE — geen onderliggende objecten"><span class="otname">AFMEERLOKATIE</span></span>
+<a class="btn otbtn" data-dlg="dlg-2548" title="DOORVAART — 3 onderliggend(e) object(en)"><span class="otname">DOORVAART</span><span class="kids">3</span></a>
+<a class="btn otbtn" data-dlg="dlg-2545" title="LIGPLAATS — 1 onderliggend(e) object(en)"><span class="otname">LIGPLAATS</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-2540" title="MARKERING — 2 onderliggend(e) object(en)"><span class="otname">MARKERING</span><span class="kids">2</span></a>
+<span class="btn otleaf" title="SCHEPENTELLER — geen onderliggende objecten"><span class="otname">SCHEPENTELLER</span></span>
+<a class="btn otbtn" data-dlg="dlg-2551" title="VAARGEBIED — 1 onderliggend(e) object(en)"><span class="otname">VAARGEBIED</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-2542" title="VERKEERSTEKEN — 10 onderliggend(e) object(en)"><span class="otname">VERKEERSTEKEN</span><span class="kids">10</span></a></div>
+<div class="card"><h2>VW <span class="tree-count">114 object(en)</span></h2><p class="subtitle">hoofdgroep VW &middot; 11 object(en) op het eerste niveau</p><a class="btn otbtn" data-dlg="dlg-2657" title="AFZETTING — 7 onderliggend(e) object(en)"><span class="otname">AFZETTING</span><span class="kids">7</span></a>
+<a class="btn otbtn" data-dlg="dlg-2553" title="BEWEGWIJZERING — 14 onderliggend(e) object(en)"><span class="otname">BEWEGWIJZERING</span><span class="kids">14</span></a>
+<span class="btn otleaf" title="BLINDENGELEIDEROUTE — geen onderliggende objecten"><span class="otname">BLINDENGELEIDEROUTE</span></span>
+<span class="btn otleaf" title="HECTOMETERPAAL — geen onderliggende objecten"><span class="otname">HECTOMETERPAAL</span></span>
+<a class="btn otbtn" data-dlg="dlg-2569" title="MARKERING — 59 onderliggend(e) object(en)"><span class="otname">MARKERING</span><span class="kids">59</span></a>
+<span class="btn otleaf" title="OMLEIDINGSROUTE — geen onderliggende objecten"><span class="otname">OMLEIDINGSROUTE</span></span>
+<span class="btn otleaf" title="PVR — geen onderliggende objecten"><span class="otname">PVR</span></span>
+<span class="btn otleaf" title="RIJRICHTING — geen onderliggende objecten"><span class="otname">RIJRICHTING</span></span>
+<a class="btn otbtn" data-dlg="dlg-3350" title="VERKEERSSPIEGEL — 1 onderliggend(e) object(en)"><span class="otname">VERKEERSSPIEGEL</span><span class="kids">1</span></a>
+<a class="btn otbtn" data-dlg="dlg-2637" title="VERKEERSTEKEN — 22 onderliggend(e) object(en)"><span class="otname">VERKEERSTEKEN</span><span class="kids">22</span></a>
+<span class="btn otleaf" title="VERKEERSTELLER — geen onderliggende objecten"><span class="otname">VERKEERSTELLER</span></span></div>
+<div class="card"><h2>WH <span class="tree-count">47 object(en)</span></h2><p class="subtitle">hoofdgroep WH &middot; 30 object(en) op het eerste niveau</p><span class="btn otleaf" title="DEBIETLIJN — geen onderliggende objecten"><span class="otname">DEBIETLIJN</span></span>
+<span class="btn otleaf" title="DIEPTELIJN — geen onderliggende objecten"><span class="otname">DIEPTELIJN</span></span>
+<a class="btn otbtn" data-dlg="dlg-3035" title="DUIKER — 4 onderliggend(e) object(en)"><span class="otname">DUIKER</span><span class="kids">4</span></a>
+<span class="btn otleaf" title="EB — geen onderliggende objecten"><span class="otname">EB</span></span>
+<span class="btn otleaf" title="FREATISCH OPPERVLAK — geen onderliggende objecten"><span class="otname">FREATISCH OPPERVLAK</span></span>
+<a class="btn otbtn" data-dlg="dlg-2663" title="GEUL — 4 onderliggend(e) object(en)"><span class="otname">GEUL</span><span class="kids">4</span></a>
+<span class="btn otleaf" title="GROENE RIVIER — geen onderliggende objecten"><span class="otname">GROENE RIVIER</span></span>
+<span class="btn otleaf" title="GRONDWATERLIJN — geen onderliggende objecten"><span class="otname">GRONDWATERLIJN</span></span>
+<span class="btn otleaf" title="HYDRAULISCH OPPERVLAK — geen onderliggende objecten"><span class="otname">HYDRAULISCH OPPERVLAK</span></span>
+<span class="btn otleaf" title="INFO — geen onderliggende objecten"><span class="otname">INFO</span></span>
+<a class="btn otbtn" data-dlg="dlg-3029" title="KUNSTWERK — 2 onderliggend(e) object(en)"><span class="otname">KUNSTWERK</span><span class="kids">2</span></a>
+<span class="btn otleaf" title="NATTE OMTREK — geen onderliggende objecten"><span class="otname">NATTE OMTREK</span></span>
+<span class="btn otleaf" title="NORMAALLIJN — geen onderliggende objecten"><span class="otname">NORMAALLIJN</span></span>
+<span class="btn otleaf" title="OVERLOOPGEBIED — geen onderliggende objecten"><span class="otname">OVERLOOPGEBIED</span></span>
+<span class="btn otleaf" title="OVERSTORT — geen onderliggende objecten"><span class="otname">OVERSTORT</span></span>
+<span class="btn otleaf" title="PEILVAK — geen onderliggende objecten"><span class="otname">PEILVAK</span></span>
+<span class="btn otleaf" title="RAAI — geen onderliggende objecten"><span class="otname">RAAI</span></span>
+<span class="btn otleaf" title="STIJGHOOGTE — geen onderliggende objecten"><span class="otname">STIJGHOOGTE</span></span>
+<span class="btn otleaf" title="STROOMRICHTING — geen onderliggende objecten"><span class="otname">STROOMRICHTING</span></span>
+<span class="btn otleaf" title="VLOED — geen onderliggende objecten"><span class="otname">VLOED</span></span>
+<span class="btn otleaf" title="VLOEDLIJN — geen onderliggende objecten"><span class="otname">VLOEDLIJN</span></span>
+<span class="btn otleaf" title="WATERBODEM — geen onderliggende objecten"><span class="otname">WATERBODEM</span></span>
+<span class="btn otleaf" title="WATERLIJN — geen onderliggende objecten"><span class="otname">WATERLIJN</span></span>
+<span class="btn otleaf" title="WATERLOOP — geen onderliggende objecten"><span class="otname">WATERLOOP</span></span>
+<span class="btn otleaf" title="WATEROVERSPANNING — geen onderliggende objecten"><span class="otname">WATEROVERSPANNING</span></span>
+<a class="btn otbtn" data-dlg="dlg-2681" title="WATERPEIL — 4 onderliggend(e) object(en)"><span class="otname">WATERPEIL</span><span class="kids">4</span></a>
+<span class="btn otleaf" title="WINTERBED — geen onderliggende objecten"><span class="otname">WINTERBED</span></span>
+<span class="btn otleaf" title="WINTERBERGING — geen onderliggende objecten"><span class="otname">WINTERBERGING</span></span>
+<a class="btn otbtn" data-dlg="dlg-2684" title="WVP — 3 onderliggend(e) object(en)"><span class="otname">WVP</span><span class="kids">3</span></a>
+<span class="btn otleaf" title="ZOMERBED — geen onderliggende objecten"><span class="otname">ZOMERBED</span></span></div>
+<div class="card"><h2>ZZ <span class="tree-count">35 object(en)</span></h2><p class="subtitle">hoofdgroep ZZ &middot; 22 object(en) op het eerste niveau</p><span class="btn otleaf" title="(M) — geen onderliggende objecten"><span class="otname">(M)</span></span>
+<span class="btn otleaf" title="(T1.8) — geen onderliggende objecten"><span class="otname">(T1.8)</span></span>
+<span class="btn otleaf" title="(T2.5) — geen onderliggende objecten"><span class="otname">(T2.5)</span></span>
+<span class="btn otleaf" title="(T3.0) — geen onderliggende objecten"><span class="otname">(T3.0)</span></span>
+<span class="btn otleaf" title="(T3.5) — geen onderliggende objecten"><span class="otname">(T3.5)</span></span>
+<span class="btn otleaf" title="(T5.0) — geen onderliggende objecten"><span class="otname">(T5.0)</span></span>
+<span class="btn otleaf" title="(T7.0) — geen onderliggende objecten"><span class="otname">(T7.0)</span></span>
+<span class="btn otleaf" title="AANPIJLING — geen onderliggende objecten"><span class="otname">AANPIJLING</span></span>
+<span class="btn otleaf" title="AFBREEKLIJN — geen onderliggende objecten"><span class="otname">AFBREEKLIJN</span></span>
+<span class="btn otleaf" title="CONSTRUCTIELIJN — geen onderliggende objecten"><span class="otname">CONSTRUCTIELIJN</span></span>
+<span class="btn otleaf" title="DETAIL1 — geen onderliggende objecten"><span class="otname">DETAIL1</span></span>
+<span class="btn otleaf" title="DETAIL2 — geen onderliggende objecten"><span class="otname">DETAIL2</span></span>
+<span class="btn otleaf" title="DETAIL3 — geen onderliggende objecten"><span class="otname">DETAIL3</span></span>
+<span class="btn otleaf" title="DETAIL4 — geen onderliggende objecten"><span class="otname">DETAIL4</span></span>
+<span class="btn otleaf" title="DETAIL5 — geen onderliggende objecten"><span class="otname">DETAIL5</span></span>
+<a class="btn otbtn" data-dlg="dlg-4086" title="GRENS — 7 onderliggend(e) object(en)"><span class="otname">GRENS</span><span class="kids">7</span></a>
+<span class="btn otleaf" title="HARTLIJN — geen onderliggende objecten"><span class="otname">HARTLIJN</span></span>
+<a class="btn otbtn" data-dlg="dlg-8" title="HOOGTELABEL — 1 onderliggend(e) object(en)"><span class="otname">HOOGTELABEL</span><span class="kids">1</span></a>
+<span class="btn otleaf" title="HULPLIJN — geen onderliggende objecten"><span class="otname">HULPLIJN</span></span>
+<span class="btn otleaf" title="NAP — geen onderliggende objecten"><span class="otname">NAP</span></span>
+<a class="btn otbtn" data-dlg="dlg-3358" title="PEIL — 5 onderliggend(e) object(en)"><span class="otname">PEIL</span><span class="kids">5</span></a>
+<span class="btn otleaf" title="STRAMIENLIJN — geen onderliggende objecten"><span class="otname">STRAMIENLIJN</span></span></div>
 </div>
 </div>
 <dialog id="dlg-2" class="tree-dialog"><div class="dlg-head"><h3>BLADVERWIJZING</h3><button class="dlg-close" onclick="this.closest('dialog').close()" aria-label="Sluiten">&times;</button></div><div class="dlg-body"><ul class="otree">

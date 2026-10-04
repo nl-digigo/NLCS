@@ -1,18 +1,17 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 239 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 238 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
 ## Voor alle hoofdgroepen
 
 **Tabellen**
+- [Arceringsbibliotheken](https://nl-digigo.github.io/NLCS/changelog/Arceringsbibliotheken-5-2.html)
+- [Disciplines](https://nl-digigo.github.io/NLCS/changelog/Disciplines-5-2.html)
 - [Kwaliteitscontroles](https://nl-digigo.github.io/NLCS/changelog/kwaliteitscontroles-5-2.html)
 - [Objectenboom](https://nl-digigo.github.io/NLCS/changelog/objectenboom-5-2.html)
-- [Objectenboom ltv](https://nl-digigo.github.io/NLCS/changelog/objectenboom-ltv-5-2.html)
-- [Query Abibliotheken concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Abibliotheken-concept-5.2.html)
 - [Query Bewerkingen concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Bewerkingen-concept-5.2.html)
-- [Query Disciplines concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Disciplines-concept-5.2.html)
 - [Query Hoofdgroepen concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Hoofdgroepen-concept-5.2.html)
 - [Query Lijnkleuren concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Lijnkleuren-concept-5.2.html)
 - [Query Lijnweights concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Lijnweights-concept-5.2.html)
@@ -462,3 +461,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/ZZ/changelog-objecten-5-2-ZZ.html)
 - [Vergelijking](https://nl-digigo.github.io/NLCS/changelog/ZZ/vergelijking_SZZ_5.0_vs_5.2.html)
 - [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/ZZ/vergelijking_lijntypes_ZZ_5.0_vs_5.2.html)
+
+## Voor de expertcommissie
+
+- [Objectenboom ltv](https://nl-digigo.github.io/NLCS/changelog/expertcommissie/objectenboom-ltv-5-2.html)

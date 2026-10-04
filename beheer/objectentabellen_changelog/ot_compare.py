@@ -294,6 +294,9 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
         overkoepelende release note buiten een hoofdgroep-submap (direct in
         `root` of in een niet-hoofdgroep-map zoals 'releasenotes/') komt in de
         algemene groep. Hun knop-label is steeds 'Release notes'.
+      * HTML's in de submap 'expertcommissie' komen (ook zonder versienummer in
+        de naam) in een aparte lijst `expertcommissie` -> eigen blok onderaan het
+        overzicht ('Voor de expertcommissie').
       * publicatie-overzichten (het bestand dat deze functie voedt) worden NOOIT
         opgenomen: bestanden die met 'publicatieoverzicht' beginnen of waarvan de
         naam in `exclude_names` staat, worden overgeslagen.
@@ -301,6 +304,7 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     Geeft:
       {"groups": [(code, [entry, ...]), ...],   # gesorteerd op code
        "general": [entry, ...],
+       "expertcommissie": [entry, ...],
        "docs_root": <pad>, "count": <int>}
     entry = {"filename", "subpath", "kind", "label"} waarbij subpath het pad is
     t.o.v. de docs-map (posix, voor de online-URL). Per groep staan de tabellen
@@ -310,6 +314,7 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     exclude = {n.strip().lower() for n in (exclude_names or ()) if n and n.strip()}
     grouped: list = []      # [(raw_code, entry), ...] — code na de walk canoniek maken
     general: list = []
+    expertcommissie: list = []   # HTML's uit de submap 'expertcommissie'
     count = 0
     if variants and os.path.isdir(root):
         for dirpath, _dirs, files in os.walk(root):
@@ -321,11 +326,17 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
                 if low in exclude or low.startswith("publicatieoverzicht") \
                         or low.startswith("publicatie-overzicht"):
                     continue
-                is_releasenotes = low.startswith("releasenotes")
-                if not is_releasenotes and not any(v in name for v in variants):
-                    continue
                 full = os.path.join(dirpath, name)
                 rel_parts = os.path.relpath(full, root).replace("\\", "/").split("/")
+                first = rel_parts[0].strip()
+                # De submap 'expertcommissie' krijgt een eigen blok onderaan het
+                # overzicht; die bestanden worden altijd opgenomen (ook zonder
+                # versienummer in de naam), net als de release notes.
+                is_expert = len(rel_parts) > 1 and first.lower() == "expertcommissie"
+                is_releasenotes = low.startswith("releasenotes")
+                if not is_expert and not is_releasenotes \
+                        and not any(v in name for v in variants):
+                    continue
                 entry = {
                     "filename": name,
                     "subpath": os.path.relpath(full, docs_root).replace("\\", "/"),
@@ -336,18 +347,21 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
                 # A/S-bibliotheekmap). Zo ja: ALTIJD bij die hoofdgroep indelen,
                 # ook een per-hoofdgroep release note (releasenotes-5-2-AL.html in
                 # map AL/). De algemene map 'releasenotes/' is géén hoofdgroep.
-                first = rel_parts[0].strip().upper()
+                first_up = first.upper()
                 in_hoofdgroep = len(rel_parts) > 1 and bool(
-                    re.fullmatch(r"[A-Z]{2,3}", first))
-                if in_hoofdgroep:
-                    grouped.append((first, entry))
+                    re.fullmatch(r"[A-Z]{2,3}", first_up))
+                if is_expert:
+                    entry["label"] = nice_index_label(name, "")
+                    expertcommissie.append(entry)
+                elif in_hoofdgroep:
+                    grouped.append((first_up, entry))
                 elif is_releasenotes or len(rel_parts) == 1:
                     # Overkoepelende release note of los bestand in root -> algemeen.
                     entry["label"] = ("Release notes" if is_releasenotes
                                       else nice_index_label(name, ""))
                     general.append(entry)
                 else:
-                    grouped.append((first, entry))
+                    grouped.append((first_up, entry))
                 count += 1
 
     # Arcering-/symbool-bibliotheekmappen (AGW, AIE, ...) samenvouwen in de gewone
@@ -384,10 +398,12 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     for code in list(groups):
         groups[code] = sorted(_dedupe(code, groups[code]), key=_sortkey)
     general.sort(key=_sortkey)
-    count = sum(len(v) for v in groups.values()) + len(general)
+    expertcommissie.sort(key=_sortkey)
+    count = sum(len(v) for v in groups.values()) + len(general) + len(expertcommissie)
     return {
         "groups": sorted(groups.items()),
         "general": general,
+        "expertcommissie": expertcommissie,
         "docs_root": docs_root,
         "count": count,
     }

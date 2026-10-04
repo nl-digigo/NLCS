@@ -1525,7 +1525,8 @@ class IndexTab(ttk.Frame):
         html_txt = ot_html.build_index_html(
             data["groups"], data["general"],
             title=f"NLCS publicatie-overzicht {version}".strip(),
-            version=version, base_url=base_url, checkmarks=checkmarks)
+            version=version, base_url=base_url, checkmarks=checkmarks,
+            expertcommissie=data.get("expertcommissie"))
         try:
             parent = os.path.dirname(os.path.abspath(output))
             os.makedirs(parent, exist_ok=True)
@@ -1544,7 +1545,8 @@ class IndexTab(ttk.Frame):
         md_txt = ot_html.build_index_markdown(
             data["groups"], data["general"],
             title=f"NLCS publicatie-overzicht {version}".strip(),
-            version=version, base_url=base_url, checkmarks=checkmarks)
+            version=version, base_url=base_url, checkmarks=checkmarks,
+            expertcommissie=data.get("expertcommissie"))
         try:
             with open(md_path, "w", encoding="utf-8") as f:
                 f.write(md_txt)
@@ -1595,6 +1597,10 @@ class IndexTab(ttk.Frame):
             out_dir = os.path.dirname(base_out)
         else:
             out_dir = src
+        # De lt_v-variant is een expertcommissie-document: in de submap
+        # 'expertcommissie' zetten (het publicatie-overzicht toont die apart).
+        if mark_ltv:
+            out_dir = os.path.join(out_dir, "expertcommissie")
         stem = "objectenboom-ltv" if mark_ltv else "objectenboom"
         fname = f"{stem}-{vdash}.html" if vdash else f"{stem}.html"
         output = os.path.join(out_dir, fname)
