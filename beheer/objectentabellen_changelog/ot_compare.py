@@ -2133,6 +2133,11 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
             "missing": missing}
 
 
+# lt_v-WAARDEN die bewust zijn toegestaan ook al beginnen ze niet met 'V-':
+# BC-SLOOPLIJN-SO (sloop-lijntype) en VH-MATERIAALGRENS-SO (de materiaalgrens in
+# hoofdgroep VH heeft als vervallen lijntype het gewone VH-MATERIAALGRENS-SO).
+LT_V_VALUE_EXCEPTIONS = ("BC-SLOOPLIJN-SO", "VH-MATERIAALGRENS-SO")
+
 # Objecten (kolom `object`) die BEWUST een vervallen lijntype CONTINUOUS
 # (zonder 'V-'-prefix) mogen hebben, inclusief al hun onderliggende objecten:
 # de kolom `object` staat bij elke onderliggende rij (subobject/element) op de
@@ -2187,7 +2192,9 @@ def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",
     overgeslagen — tellen niet als waarschuwing en worden samen als `exempt`
     geteld):
       - `exceptions`: `lt_v`-WAARDEN die bewust zijn toegestaan ook al beginnen ze
-        niet met 'V-' (bijv. een sloop-lijntype). Standaard `{"BC-SLOOPLIJN-SO"}`.
+        niet met 'V-' (bijv. een sloop-lijntype of de VH-materiaalgrens).
+        Standaard `LT_V_VALUE_EXCEPTIONS` ({"BC-SLOOPLIJN-SO",
+        "VH-MATERIAALGRENS-SO"}).
       - `hg_exceptions`: hele HOOFDGROEPEN (kolom `hg_col`, val terug op de code
         uit de bestandsnaam) waarvan de vervallen lijntypes geen 'V-'-naam hoeven
         te hebben. Standaard `{"IS", "ES", "SB"}`.
@@ -2227,7 +2234,7 @@ def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",
       }
     """
     exc = {e.strip().upper() for e in
-           (exceptions if exceptions is not None else ("BC-SLOOPLIJN-SO",))
+           (exceptions if exceptions is not None else LT_V_VALUE_EXCEPTIONS)
            if e and e.strip()}
     hgexc = {e.strip().upper() for e in
              (hg_exceptions if hg_exceptions is not None else ("IS", "ES", "SB"))
