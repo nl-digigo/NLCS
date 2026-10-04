@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 238 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 236 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -8,16 +8,16 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 
 **Tabellen**
 - [Arceringsbibliotheken](https://nl-digigo.github.io/NLCS/changelog/Arceringsbibliotheken-5-2.html)
+- [Bewerkingen](https://nl-digigo.github.io/NLCS/changelog/Bewerkingen-5-2.html)
 - [Disciplines](https://nl-digigo.github.io/NLCS/changelog/Disciplines-5-2.html)
+- [Hoofdgroepen](https://nl-digigo.github.io/NLCS/changelog/Hoofdgroepen-5-2.html)
 - [Kwaliteitscontroles](https://nl-digigo.github.io/NLCS/changelog/kwaliteitscontroles-5-2.html)
+- [Lijnkleuren](https://nl-digigo.github.io/NLCS/changelog/Lijnkleuren-5-2.html)
+- [Lijnweights](https://nl-digigo.github.io/NLCS/changelog/Lijnweights-5-2.html)
 - [Objectenboom](https://nl-digigo.github.io/NLCS/changelog/objectenboom-5-2.html)
-- [Query Bewerkingen concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Bewerkingen-concept-5.2.html)
-- [Query Hoofdgroepen concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Hoofdgroepen-concept-5.2.html)
-- [Query Lijnkleuren concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Lijnkleuren-concept-5.2.html)
-- [Query Lijnweights concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Lijnweights-concept-5.2.html)
-- [Query Sbibliotheken concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Sbibliotheken-concept-5.2.html)
-- [Query Statussen concept](https://nl-digigo.github.io/NLCS/changelog/NLCS_Query_Statussen-concept-5.2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/releasenotes/releasenotes-5-2.html)
+- [Statussen](https://nl-digigo.github.io/NLCS/changelog/Statussen-5-2.html)
+- [Symbolenbibliotheken](https://nl-digigo.github.io/NLCS/changelog/Symbolenbibliotheken-5-2.html)
 
 ## AL ✅
 
@@ -452,15 +452,13 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/ZZ/lijntypes-5-2-ZZ.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/ZZ/objecten-5-2-ZZ.html)
-- [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/ZZ/objecten-concept-5.2-ZZ.html)
-- [Query Symbolen concept](https://nl-digigo.github.io/NLCS/changelog/ZZ/NLCS_Query_Symbolen-concept-5.2-SZZ.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/ZZ/releasenotes-5-2-ZZ.html)
+- [Symbolen](https://nl-digigo.github.io/NLCS/changelog/ZZ/symbolen-5-2-ZZ.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/ZZ/changelog-lijntypes-5-2-ZZ.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/ZZ/changelog-objecten-5-2-ZZ.html)
-- [Vergelijking](https://nl-digigo.github.io/NLCS/changelog/ZZ/vergelijking_SZZ_5.0_vs_5.2.html)
-- [Vergelijking lijntypes](https://nl-digigo.github.io/NLCS/changelog/ZZ/vergelijking_lijntypes_ZZ_5.0_vs_5.2.html)
+- [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/ZZ/changelog-symbolen-5-2-ZZ.html)
 
 ## Voor de expertcommissie
 

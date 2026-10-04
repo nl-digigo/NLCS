@@ -2900,7 +2900,8 @@ def _norm_cell(value: str) -> str:
 
 def compare(new_path: str, old_path: str, key: str = KEY,
             scope_col: str = "", blank_spec: dict = None,
-            suppress_change: dict = None, multilink_cols=None) -> dict:
+            suppress_change: dict = None, multilink_cols=None,
+            scope_code: str = "", scope_strip_s: bool = False) -> dict:
     """Vergelijk twee CSV-versies en geef een resultaat-dict terug.
 
     Parameters:
@@ -2911,6 +2912,16 @@ def compare(new_path: str, old_path: str, key: str = KEY,
                    dan tot de waarden van deze kolom die ook in de nieuwe versie
                    voorkomen (bijv. 'sbibliotheek'). Zo blijven 'vervallen' rijen
                    beperkt tot dezelfde bibliotheek/hoofdgroep.
+      scope_code : optioneel, de hoofdgroep-code uit de bestandsnaam. Alleen van
+                   belang als de NIEUWE CSV geen rijen heeft (een hoofdgroep die in
+                   de nieuwe versie leeg is): dan kan de scope niet uit de nieuwe
+                   rijen worden afgeleid en vallen we terug op deze code, zodat de
+                   oude rijen van die hoofdgroep als 'vervallen' verschijnen.
+      scope_strip_s : hoe de scope-waarde naar een hoofdgroep-code wordt herleid bij
+                   de scope_code-terugval: True haalt de leidende 'S' eraf
+                   (sbibliotheek 'SZZ' -> 'ZZ', symbolen), False gebruikt de waarde
+                   zelf (kolom 'hoofdgroep', lijntypes). Zelfde regel als
+                   split_result_by_bib.
       blank_spec : optioneel. Maakt bepaalde kolommen leeg (aan BEIDE kanten) voor
                    rijen die uit een andere publicatie komen, zodat die kolommen
                    niet als 'wijziging' tellen. Vorm:
@@ -2988,9 +2999,24 @@ def compare(new_path: str, old_path: str, key: str = KEY,
         allowed = {r[nidx[scope_col]].strip() for r in new_rows
                    if r[nidx[scope_col]].strip()}
         allow_empty = any(not r[nidx[scope_col]].strip() for r in new_rows)
+        # Leeg nieuw bestand (een hoofdgroep die in de nieuwe versie geen rijen
+        # meer heeft, bijv. symbolen-5-2-ZZ.csv met alleen een kop): dan levert
+        # de nieuwe versie geen scope-waarde op en zouden er helemaal geen
+        # 'vervallen' rijen verschijnen. Val in dat geval terug op de hoofdgroep-
+        # code uit de bestandsnaam (`scope_code`): houd de oude rijen waarvan de
+        # scope-waarde na code-afleiding gelijk is aan die code, zodat de
+        # vergelijking met de oude versie (alles vervallen) tóch zichtbaar wordt.
+        want_code = (scope_code or "").strip().upper()
+        use_code = bool(want_code) and not new_rows
+
+        def _scope_code(value: str) -> str:
+            v = (value or "").strip().upper()
+            return sbib_to_code(v) if scope_strip_s else v
+
         old_rows = [r for r in old_rows
                     if r[oidx[scope_col]].strip() in allowed
-                    or (allow_empty and not r[oidx[scope_col]].strip())]
+                    or (allow_empty and not r[oidx[scope_col]].strip())
+                    or (use_code and _scope_code(r[oidx[scope_col]]) == want_code)]
 
     # Rijen waarvoor GEEN wijzigingen getoond mogen worden (changelog): match op
     # een kolomwaarde (bijv. omschrijving = CONTINUOUS/V-CONTINUOUS-SO).

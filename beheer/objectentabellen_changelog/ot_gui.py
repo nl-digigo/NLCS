@@ -779,7 +779,8 @@ class TableTab(ttk.Frame):
                     full_result = ot_compare.compare(
                         new_path, old_path, key=match_key, scope_col=scope_col,
                         blank_spec=blank_spec, suppress_change=suppress_change,
-                        multilink_cols=multilink_cols)
+                        multilink_cols=multilink_cols,
+                        scope_code=code, scope_strip_s=scope_strip_s)
 
                     # Verzamelbestand (CO) uiteen laten vallen in aparte
                     # hoofdgroepen; gewone bestanden blijven één geheel.
