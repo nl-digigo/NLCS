@@ -148,7 +148,7 @@
 <div class="wrap">
 <p class="info">Alle kwaliteitscontroles in de volgorde van de managementhandleiding &middot; versie 5.2. Klik op een kolomkop om te sorteren (bijv. op hoofdgroep).</p>
 <div class="toc"><a href="#objecten">Objecten</a><a href="#symbolen">Symbolen</a><a href="#arceringen">Arceringen</a><a href="#lijntypes">Lijntypes</a><a href="#overzicht-hg">Fouten per hoofdgroep</a><a href="#waarschuwingen" class="warn-link">Waarschuwingen</a><a href="#overzicht-hg-warn" class="warn-link">Waarschuwingen per hoofdgroep</a></div>
-<div class="hgnav"><span class="hgnav-lbl">Hoofdgroepen met fouten:</span><a href="#hg-IW">IW <span class="n">1</span></a><a href="#hg-VH">VH <span class="n">210</span></a></div>
+<div class="hgnav"><span class="hgnav-lbl">Hoofdgroepen met fouten:</span><a href="#hg-VH">VH <span class="n">210</span></a></div>
 <div class="hgnav warn"><span class="hgnav-lbl">Hoofdgroepen met waarschuwingen:</span><a href="#hgw-KG">KG <span class="n">5</span></a><a href="#hgw-KL">KL <span class="n">1</span></a><a href="#hgw-MW">MW <span class="n">14</span></a><a href="#hgw-RI">RI <span class="n">2</span></a><a href="#hgw-SB">SB <span class="n">1</span></a><a href="#hgw-VH">VH <span class="n">1</span></a><a href="#hgw-VW">VW <span class="n">10</span></a><a href="#hgw-WH">WH <span class="n">3</span></a><a href="#hgw-ZZ">ZZ <span class="n">26</span></a></div>
 <h1 class="sect" id="objecten">Objecten</h1>
 <p class="sectnote">Controle objectentabel — in de volgorde van de managementhandleiding.</p>
@@ -218,11 +218,8 @@
 <p class="ok">✓ Elke naam bevat een zoekterm uit de objectentabel.</p>
 </div>
 <div class="card"><h2>Optie-fase-check</h2>
-<p class="ctrldesc">Consistentie fase/optie t.o.v. de gecodeerde naam (voorvoegsel V-/B- → fase, achtervoegsel -SO/-S/… → optie).</p><div class="kpi"><div class="box bad"><b>1</b>afwijking(en)</div></div>
-<p class="warn">⚠ FASE-afwijkingen: 1</p>
-<table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>fase (is → verwacht)</th><th>rij</th></tr></thead><tbody>
-<tr><td class="hg">IW</td><td>V-SIW-VRI_LANTAARN_80MM_ONDERLICHT-SO</td><td class="is-was"><span class="is">(leeg)</span> → <span class="exp">V</span></td><td class="loc">r3</td></tr>
-</tbody></table>
+<p class="ctrldesc">Consistentie fase/optie t.o.v. de gecodeerde naam (voorvoegsel V-/B- → fase, achtervoegsel -SO/-S/… → optie).</p><div class="kpi"><div class="box free"><b>0</b>afwijking(en)</div></div>
+<p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
 <p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>9484</b>ingelezen</div><div class="box "><b>10337</b>hoogste ID</div><div class="box free"><b>10338</b>eerstvolgende vrij</div></div>
@@ -626,19 +623,6 @@
 </div>
 <h1 class="sect" id="overzicht-hg">Fouten per hoofdgroep</h1>
 <p class="sectnote">Alle foutmeldingen gegroepeerd per hoofdgroep. Waarschuwingen (zoals afwijkende VERWIJDEREN2-schaal of kleine letters) tellen niet als fout en staan hier niet bij.</p>
-<div class="card hgblock" id="hg-IW">
-<h2>IW <span class="hgcount">1 fout(en)</span> <a class="toplink" href="#overzicht-hg">&uarr; overzicht</a></h2>
-<div class="tablescroll">
-<table class="otab">
-<thead>
-<tr><th>tabel</th><th>controle</th><th>melding</th></tr>
-</thead>
-<tbody>
-<tr><td class="loc">Symbolen</td><td>Optie-fase-check</td><td>V-SIW-VRI_LANTAARN_80MM_ONDERLICHT-SO · (leeg) → V · r3</td></tr>
-</tbody>
-</table>
-</div>
-</div>
 <div class="card hgblock" id="hg-VH">
 <h2>VH <span class="hgcount">210 fout(en)</span> <a class="toplink" href="#overzicht-hg">&uarr; overzicht</a></h2>
 <div class="tablescroll">
