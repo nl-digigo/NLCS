@@ -1402,6 +1402,10 @@ class IndexTab(ttk.Frame):
             btns, text="Genereer gedeelde objecttypes",
             command=self.on_generate_shared)
         self.shared_btn.pack(side="left", padx=4)
+        self.shared_inv_btn = ttk.Button(
+            btns, text="Genereer dubbele objecten (per object)",
+            command=self.on_generate_shared_inverse)
+        self.shared_inv_btn.pack(side="left", padx=4)
 
         logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
         logframe.pack(fill="both", expand=True, pady=(8, 0))
@@ -1690,6 +1694,61 @@ class IndexTab(ttk.Frame):
 
         self._logmsg(f"{data['total']} gedeeld objecttype(n) over "
                      f"{len(data['codes'])} hoofdgroep(en).")
+        self._logmsg(f"Overzicht geschreven: {output}")
+        self.app.save_config()
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(output))
+
+    def on_generate_shared_inverse(self) -> None:
+        """Inverse van 'gedeelde objecttypes': één blok per objecttype dat in
+        meerdere hoofdgroepen voorkomt, met per hoofdgroep een voorbeeld-
+        objectnaam. Uitvoer in de submap 'expertcommissie'."""
+        src = self.app.loc["obj_new"].get().strip()
+        if not os.path.isdir(src):
+            messagebox.showwarning(
+                "Geen map", "Vul bij 'Locaties' de map objectentabellen-nieuw in "
+                "(bijv. tabellen/publicatie/objectentabellen/5-2).")
+            return
+
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg("Dubbele objecten (per object) zoeken…")
+        data = ot_compare.find_shared_objecttypes(src)
+        if data["total"] == 0:
+            messagebox.showinfo(
+                "Niets gevonden",
+                "Geen objecttypes gevonden die in meer dan één hoofdgroep "
+                "voorkomen.")
+            self._logmsg("Geen dubbele objecten.")
+            return
+
+        version = self.app.version_new_var.get().strip()
+        vdash = version.replace(".", "-")
+        base_out = self.app.loc["index_output"].get().strip()
+        if os.path.isdir(base_out) or base_out.endswith(("/", "\\")):
+            out_dir = base_out
+        elif base_out:
+            out_dir = os.path.dirname(base_out)
+        else:
+            out_dir = src
+        out_dir = os.path.join(out_dir, "expertcommissie")
+        fname = f"dubbele-objecten-{vdash}.html" if vdash else "dubbele-objecten.html"
+        output = os.path.join(out_dir, fname)
+
+        html_txt = ot_html.build_shared_objects_inverse_html(
+            data, title=f"NLCS dubbele objecten {version}".strip(),
+            version=version)
+        try:
+            os.makedirs(os.path.dirname(os.path.abspath(output)), exist_ok=True)
+            with open(output, "w", encoding="utf-8") as f:
+                f.write(html_txt)
+        except OSError as exc:
+            messagebox.showerror("Fout", str(exc))
+            self._logmsg("FOUT: " + str(exc))
+            return
+
+        self._logmsg(f"{data['total']} objecttype(n) in meerdere hoofdgroepen.")
         self._logmsg(f"Overzicht geschreven: {output}")
         self.app.save_config()
         if self.app.open_after_var.get():

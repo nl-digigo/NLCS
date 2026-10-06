@@ -1021,7 +1021,33 @@ _SHARED_STYLE = """
     .shared-item .others .hgchip { display:inline-block; background:#eef4f8;
             color:var(--dg-ink); border-radius:10px; padding:1px 7px;
             margin-left:3px; font-weight:700; }
+    .ex-item { display:flex; align-items:baseline; gap:9px; padding:4px 9px;
+            margin:3px 0; font-size:.86rem; background:#fbfbfb;
+            border:1px solid var(--dg-grey); border-left:4px solid var(--dg-green);
+            border-radius:4px; }
+    .ex-item .hgchip { flex:none; display:inline-block; background:#eef4f8;
+            color:var(--dg-ink); border-radius:10px; padding:1px 8px;
+            font-weight:700; font-size:.74rem; min-width:30px; text-align:center; }
+    .ex-item .nm { overflow-wrap:anywhere; }
+    .zone-head { margin:28px 0 10px; font-size:1.15rem; color:var(--dg-ink);
+            border-bottom:3px solid var(--dg-yellow); padding-bottom:5px; }
+    .zone-head .zone-codes { font-size:.8rem; font-weight:400;
+            color:var(--dg-grey2); margin-left:10px; }
+    .zone-head.cross { border-bottom-color:var(--dg-blue); }
+    /* objecten die meerdere zones overlappen: blauw zijkantstreepje i.p.v. groen */
+    .card.cross .ex-item { border-left-color:var(--dg-blue); }
 """
+
+
+# Zone-indeling voor het 'dubbele objecten'-overzicht (gebruikerskeuze): verwante
+# hoofdgroepen samen onder één kopje. 'Overig' = al het andere; objecten die meer
+# dan één zone raken komen in een aparte sectie 'Meerdere zones'.
+_OBJECT_ZONES = [
+    ("Constructies", ("BC", "FC", "GC", "HC", "KC", "HU", "MC", "MW", "SC")),
+    ("Verkeerskunde", ("VV", "VW")),
+    ("Installaties", ("IW", "IV", "IS")),
+    ("Ondergrondse netten", ("KL", "RI")),
+]
 
 
 def build_shared_objecttypes_html(data, title: str = "NLCS gedeelde objecttypes",
@@ -1054,6 +1080,81 @@ def build_shared_objecttypes_html(data, title: str = "NLCS gedeelde objecttypes"
     body = ('<p class="empty">Geen objecttypes gevonden die in meerdere '
             'hoofdgroepen voorkomen.</p>' if not cards else
             '<div class="card-grid">\n' + "\n".join(cards) + "\n</div>")
+
+    return (
+        _shell_head(title, extra_style=_INDEX_STYLE + _SHARED_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n'
+        + body + "\n</div>\n"
+        + _FOOTER
+    )
+
+
+def build_shared_objects_inverse_html(data,
+                                      title: str = "NLCS dubbele objecten",
+                                      version: str = "") -> str:
+    """Inverse van build_shared_objecttypes_html: één blok per objecttype dat in
+    meerdere hoofdgroepen voorkomt, met per hoofdgroep een voorbeeld-objectnaam
+    (de omschrijving zoals die hoofdgroep het modelleert). Zie
+    ot_compare.find_shared_objecttypes (sleutel 'examples')."""
+    examples = data.get("examples", {}) if data else {}
+    names = data.get("names", {}) if data else {}
+    total = len(examples)
+    n_hg = len(data.get("codes", [])) if data else 0
+
+    def _zone_of(code: str) -> str:
+        c = (code or "").strip().upper()
+        for zname, zcodes in _OBJECT_ZONES:
+            if c in zcodes:
+                return zname
+        return "Overig"
+
+    order = [z for z, _ in _OBJECT_ZONES] + ["Overig"]
+    # elk objecttype in precies één zone: de EERSTE zone (in bovenstaande vaste
+    # volgorde) die het raakt. Raakt het meerdere zones, dan markeren we de kaart
+    # (blauw zijkantstreepje) zodat zichtbaar is dat het ook elders voorkomt.
+    buckets: dict = {}
+    cross_name: set = set()
+    for name in sorted(examples, key=str.casefold):
+        codes = names.get(name) or [c for c, _ in examples[name]]
+        zones = {_zone_of(c) for c in codes}
+        bucket = next((z for z in order if z in zones), "Overig")
+        buckets.setdefault(bucket, []).append(name)
+        if len(zones) > 1:
+            cross_name.add(name)
+
+    def _card(name: str) -> str:
+        rows = [f'<div class="ex-item"><span class="hgchip">{_esc(c)}</span>'
+                f'<span class="nm">{_esc(v or "—")}</span></div>'
+                for c, v in examples[name]]
+        cls = "card cross" if name in cross_name else "card"
+        return (f'<div class="{cls}">'
+                f'<h2>{_esc(name)}</h2>'
+                f'<p class="subtitle">in {len(examples[name])} hoofdgroepen</p>'
+                + "\n".join(rows) + '</div>')
+
+    sections = []
+    for zname in order:
+        objs = buckets.get(zname)
+        if not objs:
+            continue
+        if zname == "Overig":
+            codes_lbl = "overige hoofdgroepen"
+        else:
+            codes_lbl = " &middot; ".join(dict(_OBJECT_ZONES)[zname])
+        sections.append(
+            f'<h2 class="zone-head">{_esc(zname)} <span class="zone-codes">'
+            f'{codes_lbl}</span></h2>\n'
+            f'<div class="card-grid">\n'
+            + "\n".join(_card(n) for n in objs)
+            + "\n</div>")
+
+    info = (f"{total} objecttype(n) in meerdere hoofdgroepen &middot; "
+            f"{n_hg} hoofdgroep(en)"
+            + (f" &middot; versie {_esc(version)}" if version else ""))
+
+    body = ('<p class="empty">Geen objecttypes gevonden die in meerdere '
+            'hoofdgroepen voorkomen.</p>' if not sections else
+            "\n".join(sections))
 
     return (
         _shell_head(title, extra_style=_INDEX_STYLE + _SHARED_STYLE, cdn=False)

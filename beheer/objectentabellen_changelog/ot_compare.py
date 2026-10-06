@@ -985,6 +985,7 @@ OBJECT_SEGMENT_COLS = ("object", "subobject01", "subobject02", "subobject03",
 
 def find_shared_objecttypes(src: str, object_col: str = "object",
                             segment_cols=OBJECT_SEGMENT_COLS,
+                            name_col: str = "omschrijving",
                             min_hoofdgroepen: int = 2) -> dict:
     """Zoek objecttypes die in meerdere hoofdgroepen voorkomen.
 
@@ -1003,6 +1004,9 @@ def find_shared_objecttypes(src: str, object_col: str = "object",
         "names":    {NAAM: [codes...]},            # gedeelde naam -> hoofdgroepen
         "per_code": [(code, [(NAAM, [andere codes]), ...]), ...],  # per hoofdgroep
                     (op code gesorteerd; binnen een hoofdgroep op naam)
+        "examples": {NAAM: [(code, voorbeeld-omschrijving), ...]},  # per gedeelde
+                    naam, per hoofdgroep een voorbeeld-`name_col` (de kortste
+                    omschrijving waarin die naam als segment voorkomt)
         "total":    aantal gedeelde namen,
         "codes":    [codes...],                     # hoofdgroepen met >=1 gedeelde
       }
@@ -1017,12 +1021,15 @@ def find_shared_objecttypes(src: str, object_col: str = "object",
     seg2hg: dict[str, set] = {}     # NAAM(upper) -> {hoofdgroep-codes}
     display: dict[str, str] = {}    # NAAM(upper) -> weergave-spelling
     objnames: set = set()           # NAAM(upper) van top-niveau objecten
+    ex: dict[tuple, str] = {}       # (NAAM(upper), code) -> kortste omschrijving
     for path in paths:
         code = (hoofdgroep_code(path) or "").strip().upper()
         headers, rows = read_table(path)
         seg_idx = [headers.index(c) for c in segment_cols if c in headers]
         obj_i = headers.index(object_col) if object_col in headers else -1
+        nm_i = headers.index(name_col) if name_col in headers else -1
         for r in rows:
+            oms = r[nm_i].strip() if 0 <= nm_i < len(r) else ""
             if 0 <= obj_i < len(r) and r[obj_i].strip():
                 ov = r[obj_i].strip()
                 objnames.add(ov.upper())
@@ -1030,14 +1037,23 @@ def find_shared_objecttypes(src: str, object_col: str = "object",
             for i in seg_idx:
                 v = (r[i] if i < len(r) else "").strip()
                 if v:
-                    seg2hg.setdefault(v.upper(), set()).add(code)
-                    display.setdefault(v.upper(), v)
+                    key = v.upper()
+                    seg2hg.setdefault(key, set()).add(code)
+                    display.setdefault(key, v)
+                    if oms:
+                        cur = ex.get((key, code))
+                        if cur is None or (len(oms), oms) < (len(cur), cur):
+                            ex[(key, code)] = oms
 
     names: dict = {}
+    examples: dict = {}
     for key in objnames:
         codes = seg2hg.get(key, set())
         if len(codes) >= min_hoofdgroepen:
-            names[display.get(key, key)] = sorted(codes)
+            nm = display.get(key, key)
+            scodes = sorted(codes)
+            names[nm] = scodes
+            examples[nm] = [(c, ex.get((key, c), "")) for c in scodes]
 
     per_code: dict = {}
     for name, codes in names.items():
@@ -1050,6 +1066,7 @@ def find_shared_objecttypes(src: str, object_col: str = "object",
     return {
         "names": names,
         "per_code": sorted(per_code.items()),
+        "examples": examples,
         "total": len(names),
         "codes": sorted(per_code),
     }
