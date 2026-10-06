@@ -1010,6 +1010,59 @@ def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
     )
 
 
+_SHARED_STYLE = """
+    .shared-item { display:flex; align-items:center; justify-content:space-between;
+            gap:10px; padding:5px 9px; margin:4px 0; font-size:.86rem;
+            background:#fbfbfb; border:1px solid var(--dg-grey);
+            border-left:4px solid var(--dg-blue); border-radius:4px; }
+    .shared-item .nm { font-weight:600; overflow-wrap:anywhere; }
+    .shared-item .others { flex:none; color:var(--dg-grey2); font-size:.74rem;
+            white-space:nowrap; }
+    .shared-item .others .hgchip { display:inline-block; background:#eef4f8;
+            color:var(--dg-ink); border-radius:10px; padding:1px 7px;
+            margin-left:3px; font-weight:700; }
+"""
+
+
+def build_shared_objecttypes_html(data, title: str = "NLCS gedeelde objecttypes",
+                                  version: str = "") -> str:
+    """Overzicht in dezelfde kaartstijl als het publicatie-overzicht: per
+    hoofdgroep een blok met de objecttypes die ook in een andere hoofdgroep
+    voorkomen (zie ot_compare.find_shared_objecttypes). Elk type toont bij welke
+    andere hoofdgroep(en) het hoort."""
+    per_code = data.get("per_code", []) if data else []
+    total = data.get("total", 0) if data else 0
+
+    cards = []
+    for code, items in per_code:
+        rows = []
+        for name, others in items:
+            chips = "".join(f'<span class="hgchip">{_esc(c)}</span>' for c in others)
+            rows.append(f'<div class="shared-item"><span class="nm">{_esc(name)}</span>'
+                        f'<span class="others">ook in:{chips}</span></div>')
+        cards.append(
+            '<div class="card">'
+            f'<h2>{_esc(code)}</h2>'
+            f'<p class="subtitle">hoofdgroep {_esc(code)} &middot; '
+            f'{len(items)} gedeeld objecttype(n)</p>'
+            + "\n".join(rows) + '</div>')
+
+    info = (f"{len(per_code)} hoofdgroep(en) &middot; {total} gedeeld objecttype(n) "
+            "(komen in minstens twee hoofdgroepen voor)"
+            + (f" &middot; versie {_esc(version)}" if version else ""))
+
+    body = ('<p class="empty">Geen objecttypes gevonden die in meerdere '
+            'hoofdgroepen voorkomen.</p>' if not cards else
+            '<div class="card-grid">\n' + "\n".join(cards) + "\n</div>")
+
+    return (
+        _shell_head(title, extra_style=_INDEX_STYLE + _SHARED_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n'
+        + body + "\n</div>\n"
+        + _FOOTER
+    )
+
+
 def build_index_markdown(groups, general,
                          title: str = "NLCS publicatie-overzicht",
                          version: str = "", base_url: str = "",

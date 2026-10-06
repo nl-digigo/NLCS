@@ -979,6 +979,82 @@ def _name_segments(name: str) -> list[str]:
     return [s for s in re.split(r"[-_]", (name or "").strip()) if s]
 
 
+OBJECT_SEGMENT_COLS = ("object", "subobject01", "subobject02", "subobject03",
+                       "subobject04", "subobject05")
+
+
+def find_shared_objecttypes(src: str, object_col: str = "object",
+                            segment_cols=OBJECT_SEGMENT_COLS,
+                            min_hoofdgroepen: int = 2) -> dict:
+    """Zoek objecttypes die in meerdere hoofdgroepen voorkomen.
+
+    Een 'objecttype' is een top-niveau `object`-waarde (bijv. TRAMSIGNALERING).
+    Het 'komt voor' in een hoofdgroep als die naam daar ergens in de naam-
+    hiërarchie staat: als `object` OF als een van de `subobject`-kolommen. Zo telt
+    TRAMSIGNALERING mee in IW (daar is het het object) én in VW (daar staat het
+    als subobject onder VERKEERSTEKEN).
+
+    `src` is de map met objectentabellen per hoofdgroep (of één CSV). De
+    hoofdgroep-code komt uit de bestandsnaam (`hoofdgroep_code`). Alleen namen die
+    in minstens `min_hoofdgroepen` verschillende hoofdgroepen voorkomen tellen mee.
+
+    Retour:
+      {
+        "names":    {NAAM: [codes...]},            # gedeelde naam -> hoofdgroepen
+        "per_code": [(code, [(NAAM, [andere codes]), ...]), ...],  # per hoofdgroep
+                    (op code gesorteerd; binnen een hoofdgroep op naam)
+        "total":    aantal gedeelde namen,
+        "codes":    [codes...],                     # hoofdgroepen met >=1 gedeelde
+      }
+    """
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        paths = []
+
+    seg2hg: dict[str, set] = {}     # NAAM(upper) -> {hoofdgroep-codes}
+    display: dict[str, str] = {}    # NAAM(upper) -> weergave-spelling
+    objnames: set = set()           # NAAM(upper) van top-niveau objecten
+    for path in paths:
+        code = (hoofdgroep_code(path) or "").strip().upper()
+        headers, rows = read_table(path)
+        seg_idx = [headers.index(c) for c in segment_cols if c in headers]
+        obj_i = headers.index(object_col) if object_col in headers else -1
+        for r in rows:
+            if 0 <= obj_i < len(r) and r[obj_i].strip():
+                ov = r[obj_i].strip()
+                objnames.add(ov.upper())
+                display.setdefault(ov.upper(), ov)
+            for i in seg_idx:
+                v = (r[i] if i < len(r) else "").strip()
+                if v:
+                    seg2hg.setdefault(v.upper(), set()).add(code)
+                    display.setdefault(v.upper(), v)
+
+    names: dict = {}
+    for key in objnames:
+        codes = seg2hg.get(key, set())
+        if len(codes) >= min_hoofdgroepen:
+            names[display.get(key, key)] = sorted(codes)
+
+    per_code: dict = {}
+    for name, codes in names.items():
+        for code in codes:
+            per_code.setdefault(code, []).append(
+                (name, [c for c in codes if c != code]))
+    for code in per_code:
+        per_code[code].sort(key=lambda t: t[0].casefold())
+
+    return {
+        "names": names,
+        "per_code": sorted(per_code.items()),
+        "total": len(names),
+        "codes": sorted(per_code),
+    }
+
+
 def check_object_tree(src: str, name_col: str = "omschrijving",
                       id_col: str = "id_nummer",
                       parent_col: str = "kind_van",
