@@ -465,3 +465,6 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Dubbele objecten](https://nl-digigo.github.io/NLCS/changelog/expertcommissie/dubbele-objecten-5-2.html)
 - [Gedeelde objecttypes](https://nl-digigo.github.io/NLCS/changelog/expertcommissie/gedeelde-objecttypes-5-2.html)
 - [Objectenboom ltv](https://nl-digigo.github.io/NLCS/changelog/expertcommissie/objectenboom-ltv-5-2.html)
+- [Standaard visualisatiekeuzen](https://nl-digigo.github.io/NLCS/changelog/expertcommissie/standaard-visualisatiekeuzen-5-2.html)
+- [Unieke lijntypes](https://nl-digigo.github.io/NLCS/changelog/expertcommissie/unieke-lijntypes-5-2.html)
+- [Visualisatiekeuzen](https://nl-digigo.github.io/NLCS/changelog/expertcommissie/visualisatiekeuzen-5-2.html)

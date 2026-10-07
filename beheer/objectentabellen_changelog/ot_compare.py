@@ -1072,6 +1072,202 @@ def find_shared_objecttypes(src: str, object_col: str = "object",
     }
 
 
+def is_zwart_kleurnummer(value: str) -> bool:
+    """True als `value` een kleurNUMMER uit de 10-serie (X0: 10, 20, … 240) of de
+    12-serie (X2: 12, 22, … 242) is. Die worden in NLCS zwart geplot; de
+    grijstinten 250-254 vallen erbuiten. Letterlijke 'R,G,B'-waarden en andere
+    nummers zijn geen 10/12-serie."""
+    v = (value or "").strip()
+    if not v.isdigit():
+        return False
+    n = int(v)
+    return 10 <= n <= 242 and n % 10 in (0, 2)
+
+
+def visualisatie_combinaties(src: str, start_col: str = "lw_b",
+                             end_col: str = "lt_t",
+                             name_col: str = "omschrijving",
+                             collapse_black: bool = False) -> dict:
+    """Tel de unieke combinaties van visualisatie-waarden over de objecten.
+
+    De 'visualisatiekeuze' van een object is de rij waarden in de aaneengesloten
+    kolommen van `start_col` t/m `end_col` (standaard lw_b .. lt_t: lijngewicht,
+    kleuren en lijntype voor de vier fasen B/N/V/T — 28 kolommen). Twee objecten
+    met exact dezelfde waarden in die kolommen delen één visualisatiekeuze.
+
+    `src` is de map met objectentabellen per hoofdgroep (of één CSV).
+
+    `collapse_black`: als True worden in de kleur-kolommen (naam begint met 'kl')
+    alle waarden uit de 10- en 12-serie (die zwart plotten) vervangen door één
+    waarde 'zwart' vóór het vergelijken. Verschillende zwart-plottende
+    kleurnummers tellen dan als dezelfde keuze, zodat je de 'standaard'
+    basisvariatie overhoudt.
+
+    Retour:
+      {
+        "columns":       [kolomnamen in de range],
+        "combos":        [{"values":[...], "count":n, "example":<omschrijving>,
+                           "codes":[hoofdgroepen]}],  # op aantal aflopend
+        "unique":        aantal unieke combinaties,
+        "total_objects": aantal gecontroleerde objecten,
+      }
+    """
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        paths = []
+
+    columns: list = []
+    combos: dict = {}      # values-tuple -> {count, example, codes}
+    total = 0
+    for path in paths:
+        headers, rows = read_table(path)
+        if start_col not in headers or end_col not in headers:
+            continue
+        a = headers.index(start_col)
+        b = headers.index(end_col)
+        if a > b:
+            a, b = b, a
+        if not columns:
+            columns = headers[a:b + 1]
+        ni = headers.index(name_col) if name_col in headers else -1
+        code = (hoofdgroep_code(path) or "").strip().upper()
+        is_kl = [headers[j].lower().startswith("kl") for j in range(a, b + 1)]
+        for r in rows:
+            cells = []
+            for k, j in enumerate(range(a, b + 1)):
+                cell = (r[j] if j < len(r) else "").strip()
+                if collapse_black and is_kl[k] and is_zwart_kleurnummer(cell):
+                    cell = "zwart"
+                cells.append(cell)
+            vals = tuple(cells)
+            total += 1
+            e = combos.get(vals)
+            if e is None:
+                combos[vals] = {
+                    "count": 1,
+                    "example": (r[ni].strip() if 0 <= ni < len(r) else ""),
+                    "codes": {code} if code else set(),
+                }
+            else:
+                e["count"] += 1
+                if code:
+                    e["codes"].add(code)
+
+    combolist = [{"values": list(vals), "count": info["count"],
+                  "example": info["example"], "codes": sorted(info["codes"])}
+                 for vals, info in combos.items()]
+    combolist.sort(key=lambda d: (-d["count"],
+                                  [x.casefold() for x in d["values"]]))
+    return {
+        "columns": columns,
+        "combos": combolist,
+        "unique": len(combolist),
+        "total_objects": total,
+    }
+
+
+def lijntype_autocaddef_groups(src: str, def_col: str = "autocaddef",
+                               name_col: str = "omschrijving",
+                               hg_col: str = "hoofdgroep") -> dict:
+    """Groepeer de lijntypes op hun `autocaddef`: lijntypes met exact dezelfde
+    AutoCAD-definitie worden samengevoegd tot één groep.
+
+    `src` is de map met lijntype-CSV's per hoofdgroep (of één CSV). De hoofdgroep
+    komt uit kolom `hg_col` (val terug op de bestandsnaam-code).
+
+    Retour:
+      {
+        "groups": [{"autocaddef": <def>, "names": [lijntype-namen],
+                    "codes": [hoofdgroepen], "count": aantal unieke namen}],
+                   # op aantal aflopend, dan op autocaddef
+        "unique":      aantal unieke autocaddef-definities,
+        "total_rows":  aantal lijntype-rijen,
+        "total_names": aantal unieke lijntype-namen,
+      }
+    """
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        paths = []
+
+    groups: dict = {}          # autocaddef -> {"names": set, "codes": set}
+    total_rows = 0
+    total_names: set = set()
+    for path in paths:
+        headers, rows = read_table(path)
+        if def_col not in headers:
+            continue
+        di = headers.index(def_col)
+        ni = headers.index(name_col) if name_col in headers else -1
+        hi = headers.index(hg_col) if hg_col in headers else -1
+        fn_hg = (hoofdgroep_code(path) or "").strip().upper()
+        for r in rows:
+            ad = (r[di] if di < len(r) else "").strip()
+            nm = (r[ni] if 0 <= ni < len(r) else "").strip()
+            code = ((r[hi] if 0 <= hi < len(r) else "").strip().upper() or fn_hg)
+            total_rows += 1
+            # Lijntypes met een LEGE autocaddef (CONTINUOUS, V-CONTINUOUS-SO) zien
+            # er niet hetzelfde uit (doorgetrokken vs. doorgetrokken + verwijderen-
+            # scraps), dus die niet op elkaar gooien: groepeer ze dan per naam.
+            gkey = ad if ad else ("\x00" + nm.upper())
+            g = groups.setdefault(gkey, {"autocaddef": ad, "names": set(),
+                                         "codes": set()})
+            if nm:
+                g["names"].add(nm)
+                total_names.add(nm)
+            if code:
+                g["codes"].add(code)
+
+    glist = [{"autocaddef": info["autocaddef"],
+              "names": sorted(info["names"], key=str.casefold),
+              "codes": sorted(info["codes"]),
+              "count": len(info["names"])}
+             for info in groups.values()]
+    glist.sort(key=lambda d: (-d["count"], d["autocaddef"].casefold()))
+    return {
+        "groups": glist,
+        "unique": len(glist),
+        "total_rows": total_rows,
+        "total_names": len(total_names),
+    }
+
+
+def read_lijnkleuren_mapping(path: str) -> dict:
+    """Lees {kleurnummer: '#RRGGBB'} uit een Lijnkleuren-overzicht-HTML.
+
+    De tabel heeft koppen o.a. 'nummer' en 'hex'; we zoeken die kolommen op in de
+    <thead> en lezen daarna per rij het nummer -> hex. Lege dict als het bestand
+    ontbreekt of geen bruikbare kolommen heeft. Nodig om in andere overzichten een
+    kleurblokje bij een kleurnummer te tonen."""
+    mapping: dict = {}
+    if not path or not os.path.isfile(path):
+        return mapping
+    try:
+        with open(path, encoding="utf-8") as f:
+            html = f.read()
+    except OSError:
+        return mapping
+    heads = re.findall(r"<th[^>]*>(.*?)</th>", html, re.S)
+    heads = [re.sub(r"<[^>]+>", "", h).strip().lower() for h in heads]
+    if "nummer" not in heads or "hex" not in heads:
+        return mapping
+    ni, hi = heads.index("nummer"), heads.index("hex")
+    for tr in re.findall(r"<tr[^>]*>(.*?)</tr>", html, re.S):
+        tds = re.findall(r"<td[^>]*>(.*?)</td>", tr, re.S)
+        if len(tds) <= max(ni, hi):
+            continue
+        num = re.sub(r"<[^>]+>", "", tds[ni]).strip()
+        hexv = re.sub(r"<[^>]+>", "", tds[hi]).strip()
+        if num.isdigit() and re.fullmatch(r"#[0-9A-Fa-f]{6}", hexv):
+            mapping.setdefault(num, hexv.upper())
+    return mapping
+
+
 def check_object_tree(src: str, name_col: str = "omschrijving",
                       id_col: str = "id_nummer",
                       parent_col: str = "kind_van",
@@ -2491,6 +2687,71 @@ def check_lt_v_misplaatst(src: str, prefix: str = "V-",
     bad.sort(key=lambda d: (d["file"], d["name"].casefold(), d["column"]))
     return {"total": total, "ok": ok, "prefix": prefix,
             "columns": cols, "bad": bad}
+
+
+def check_verboden_kleur(src: str, name_col: str = "omschrijving",
+                         kl_prefix: str = "kl", forbidden=("50",)) -> dict:
+    """Controleer dat verboden kleur(nummers) niet meer in de objectentabel staan.
+
+    Scant alle KLEUR-kolommen (naam begint met `kl_prefix`, standaard 'kl' — de
+    kl_*-kolommen van de vier fasen) en meldt elke cel waarvan de waarde exact een
+    van de `forbidden` kleurnummers is (standaard '50', die niet meer gebruikt mag
+    worden). Lege cellen en andere kleurwaarden worden overgeslagen.
+
+    `src` mag een MAP met CSV's of één CSV-bestand zijn. Dit is een FOUT (telt mee
+    in het publicatie-overzicht).
+
+    Geeft terug:
+      {
+        "total":     aantal gecontroleerde (gevulde) kleur-cellen,
+        "ok":        aantal daarvan zonder verboden kleur,
+        "forbidden": de verboden kleurwaarden (gesorteerd),
+        "columns":   de gecontroleerde kleur-kolommen,
+        "bad":       [ {name, file, row, column, found} ],  # verboden kleur
+      }
+    """
+    fb = {str(v).strip().upper() for v in (forbidden or ()) if str(v).strip()}
+    pref = (kl_prefix or "kl").lower()
+    empty = {"total": 0, "ok": 0, "forbidden": sorted(fb),
+             "columns": [], "bad": []}
+    if not src or not fb:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    total = 0
+    ok = 0
+    bad: list[dict] = []
+    checked_cols: set = set()
+    for path in paths:
+        headers, rows = read_table(path)
+        kcols = [(h, i) for i, h in enumerate(headers)
+                 if h.lower().startswith(pref)]
+        if not kcols:
+            continue
+        checked_cols.update(h for h, _ in kcols)
+        ni = headers.index(name_col) if name_col in headers else -1
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if 0 <= ni < len(r) else "").strip()
+            for col, ci in kcols:
+                val = (r[ci] if ci < len(r) else "").strip()
+                if not val:
+                    continue
+                total += 1
+                if val.upper() in fb:
+                    bad.append({"name": name, "file": fn, "row": i + 2,
+                                "column": col, "found": val})
+                else:
+                    ok += 1
+
+    bad.sort(key=lambda d: (d["file"], d["name"].casefold(), d["column"]))
+    return {"total": total, "ok": ok, "forbidden": sorted(fb),
+            "columns": sorted(checked_cols), "bad": bad}
 
 
 def bib_of_stem(stem: str, known_bibs) -> str:

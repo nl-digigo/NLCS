@@ -437,6 +437,18 @@ _CHANGELOG_STYLE = """
     p.geen-wijzigingen { margin: 0 0 14px; padding: 12px 16px;
                     background-color: #eef7ee; border-left: 6px solid var(--dg-green);
                     font-size: 1.05em; font-weight: 600; color: #1f6b23; }
+
+    /* Sorteerbare changelog (DataTables): kop zwart/geel, hover, svg-cel */
+    table.dataTable thead th { background-color: var(--dg-black); color: #fff;
+                    border-bottom: 3px solid var(--dg-yellow); white-space: nowrap; }
+    table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: var(--dg-yellow) !important; border-color: var(--dg-yellow) !important;
+        color: #000 !important; }
+    h2.wees-kop { font-size: 1rem; margin: 20px 0 6px;
+                    border-top: 3px solid var(--dg-grey2); padding-top: 10px; }
+    table.weestab { width: auto; }
 """
 
 
@@ -484,7 +496,7 @@ def build_changelog_html(result: dict, title: str,
                          version_new: str = "", version_old: str = "",
                          visible_indices=None, extra_columns=None,
                          orphans=None, deleted_notes=None,
-                         header_labels=None) -> str:
+                         header_labels=None, sortable: bool = False) -> str:
     """Changelog-pagina: gewijzigde cellen blauw (oud + nieuw), nieuwe rijen
     groen, vervallen rijen onderaan rood.
 
@@ -518,41 +530,26 @@ def build_changelog_html(result: dict, title: str,
     head_cells += "".join(f"<th>{_esc(col['header'])}</th>" for col in extra)
     ncols = len(vis) + len(extra)
 
-    body = [_changelog_row(r, version_new, version_old, vis, extra, ri, headers)
-            for ri, r in enumerate(rows)]
+    norm_rows = [_changelog_row(r, version_new, version_old, vis, extra, ri, headers)
+                 for ri, r in enumerate(rows)]
 
-    if deleted:
-        body.append(
-            f'<tr class="section-header"><th colspan="{ncols}">'
-            f'Vervallen rijen ({len(deleted)}) &middot; aanwezig in '
-            f'{_esc(version_old or "de oude versie")}, niet meer in '
-            f'{_esc(version_new or "de nieuwe versie")}</th></tr>')
-        for di, drow in enumerate(deleted):
-            note = deleted_notes[di] if di < len(deleted_notes) else None
-            note_html = (f' <span class="naamgenoot">{_esc(note)}</span>'
-                         if note else "")
-            tds = "".join(
-                f"<td>{_cl_val(headers, i, drow[i])}"
-                f"{note_html if pos == 0 else ''}</td>"
-                for pos, i in enumerate(vis))
-            for col in extra:
-                cls = col.get("td_class")
-                dcells = col.get("deleted_cells") or []
-                cell = dcells[di] if di < len(dcells) else ""
-                tds += (f'<td class="{cls}">{cell}</td>' if cls
-                        else f"<td>{cell}</td>")
-            body.append(f'<tr class="deleted">{tds}</tr>')
-
-    if orphans:
-        body.append(
-            f'<tr class="section-header wees"><th colspan="{ncols}">'
-            f'Wees-.dwg\'s ({len(orphans)}) &middot; .dwg-bestand aanwezig, '
-            f'maar geen regel in deze symbolentabel</th></tr>')
-        pad_span = ncols - 1 if ncols > 1 else 1
-        for naam, pad in orphans:
-            body.append(
-                f'<tr class="orphan"><td>{_esc(naam)}.dwg</td>'
-                f'<td class="weespad" colspan="{pad_span}">{_esc(pad)}</td></tr>')
+    # Vervallen rijen als gewone (rode) rijen met evenveel cellen als de rest.
+    deleted_rows = []
+    for di, drow in enumerate(deleted):
+        note = deleted_notes[di] if di < len(deleted_notes) else None
+        note_html = (f' <span class="naamgenoot">{_esc(note)}</span>'
+                     if note else "")
+        tds = "".join(
+            f"<td>{_cl_val(headers, i, drow[i])}"
+            f"{note_html if pos == 0 else ''}</td>"
+            for pos, i in enumerate(vis))
+        for col in extra:
+            cls = col.get("td_class")
+            dcells = col.get("deleted_cells") or []
+            cell = dcells[di] if di < len(dcells) else ""
+            tds += (f'<td class="{cls}">{cell}</td>' if cls
+                    else f"<td>{cell}</td>")
+        deleted_rows.append(f'<tr class="deleted">{tds}</tr>')
 
     versie_txt = ""
     if version_new or version_old:
@@ -586,6 +583,59 @@ def build_changelog_html(result: dict, title: str,
         banner = (f'<p class="geen-wijzigingen">Versie '
                   f'{_esc(version_new or "?")} bevat geen wijzigingen ten '
                   f'opzichte van versie {_esc(version_old or "?")}.</p>\n')
+
+    if sortable:
+        # Sorteerbaar op elke kolom (DataTables): nieuwe + vervallen rijen in één
+        # tabel; de kleuren tonen de status, dus geen tussen-kop. svg-kolom niet
+        # sorteerbaar. Wees-.dwg's komen in een aparte tabel eronder.
+        base = len(vis)
+        no_sort = [base + j for j, col in enumerate(extra)
+                   if (not col.get("orderable", True))
+                   or (col.get("header", "").strip().lower() == "svg")
+                   or (col.get("td_class") == "svgcell")]
+        orphan_html = ""
+        if orphans:
+            orows = "\n".join(
+                f'<tr class="orphan"><td>{_esc(naam)}.dwg</td>'
+                f'<td class="weespad">{_esc(pad)}</td></tr>' for naam, pad in orphans)
+            orphan_html = (
+                f'<h2 class="wees-kop">Wees-.dwg\'s ({len(orphans)}) &middot; '
+                '.dwg-bestand aanwezig, maar geen regel in deze symbolentabel</h2>\n'
+                '<table class="otab weestab">\n<thead><tr><th>.dwg</th><th>pad</th>'
+                f'</tr></thead>\n<tbody>\n{orows}\n</tbody>\n</table>\n')
+        return (
+            _shell_head(title, extra_style=_CHANGELOG_STYLE, cdn=True)
+            + f'<div class="wrap">\n{banner}<p class="info">{info}</p>\n{legend}\n'
+            + '<table id="otab" class="otab display" style="width:100%">\n<thead>\n'
+            + f"<tr>{head_cells}</tr>\n</thead>\n<tbody>\n"
+            + "\n".join(norm_rows + deleted_rows)
+            + "\n</tbody>\n</table>\n"
+            + _full_script(no_sort, order=None, paginate=False)
+            + orphan_html
+            + "</div>\n"
+            + _FOOTER
+        )
+
+    # Statische variant (ongewijzigd): vervallen rijen onder een tussenkop,
+    # wees-.dwg's onder een eigen tussenkop.
+    body = list(norm_rows)
+    if deleted:
+        body.append(
+            f'<tr class="section-header"><th colspan="{ncols}">'
+            f'Vervallen rijen ({len(deleted)}) &middot; aanwezig in '
+            f'{_esc(version_old or "de oude versie")}, niet meer in '
+            f'{_esc(version_new or "de nieuwe versie")}</th></tr>')
+        body.extend(deleted_rows)
+    if orphans:
+        body.append(
+            f'<tr class="section-header wees"><th colspan="{ncols}">'
+            f'Wees-.dwg\'s ({len(orphans)}) &middot; .dwg-bestand aanwezig, '
+            f'maar geen regel in deze symbolentabel</th></tr>')
+        pad_span = ncols - 1 if ncols > 1 else 1
+        for naam, pad in orphans:
+            body.append(
+                f'<tr class="orphan"><td>{_esc(naam)}.dwg</td>'
+                f'<td class="weespad" colspan="{pad_span}">{_esc(pad)}</td></tr>')
 
     return (
         _shell_head(title, extra_style=_CHANGELOG_STYLE, cdn=False)
@@ -1160,6 +1210,378 @@ def build_shared_objects_inverse_html(data,
         _shell_head(title, extra_style=_INDEX_STYLE + _SHARED_STYLE, cdn=False)
         + f'<div class="wrap">\n<p class="info">{info}</p>\n'
         + body + "\n</div>\n"
+        + _FOOTER
+    )
+
+
+_VK_STYLE = """
+    .wrap { max-width: 100%; }
+    table.otab { font-size: .8rem; }
+    table.dataTable thead th { background-color: var(--dg-black); color:#fff;
+            border-bottom: 3px solid var(--dg-yellow); white-space: nowrap;
+            padding: 5px 7px; }
+    table.dataTable tbody td { white-space: nowrap; padding: 3px 7px;
+            border-bottom: 1px solid var(--dg-grey); }
+    table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
+    td.vk-cnt { text-align: right; font-weight: 600; }
+    td.vk-hg { font-weight: 600; }
+    .vk-sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px;
+            border: 1px solid #888; vertical-align: middle; margin-right: 5px; }
+    .vk-note { background: #FFF8CC; border-left: 4px solid var(--dg-yellow);
+            padding: 9px 13px; margin: 8px 0 16px; font-size: .9rem;
+            color: var(--dg-ink); border-radius: 4px; }
+    .vk-filter { margin: 10px 0 6px; font-size: .9rem; display: flex;
+            align-items: center; gap: 8px; }
+    .vk-filter select { font-size: .9rem; padding: 3px 7px; }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: var(--dg-yellow) !important; border-color: var(--dg-yellow) !important;
+        color: #000 !important; }
+"""
+
+
+_RGB_TRIPLE = _re.compile(r"^\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*$")
+
+
+def _color_hex(value: str, color_map: dict) -> str:
+    """'#RRGGBB' voor een kleurwaarde: een kleurnummer (via `color_map`, de
+    Lijnkleuren-tabel) of een letterlijke 'R,G,B'-triple. "" als het geen kleur is.
+
+    NLCS-regel: kleuren uit de 10-serie (10, 20, 30, … t/m 240 = X0) en de
+    12-serie (12, 22, … t/m 242 = X2) worden ZWART weergegeven (dat zijn de
+    lijn-/arceerkleuren die zwart plotten); de grijstinten 250-254 vallen erbuiten."""
+    v = (value or "").strip()
+    if not v:
+        return ""
+    if v.lower() == "zwart":          # samengevoegde 10/12-serie (basisvariatie)
+        return "#000000"
+    if v.isdigit():
+        n = int(v)
+        if 10 <= n <= 242 and n % 10 in (0, 2):
+            return "#000000"
+        return color_map.get(v, "")
+    m = _RGB_TRIPLE.match(v)
+    if m:
+        rgb = [int(x) for x in m.groups()]
+        if all(0 <= x <= 255 for x in rgb):
+            return "#%02X%02X%02X" % tuple(rgb)
+    return ""
+
+
+def build_visualisatiekeuzen_html(data, title: str = "Overzicht visualisatiekeuzen",
+                                  version: str = "", color_map=None,
+                                  collapsed: bool = False) -> str:
+    """Lijst van unieke visualisatiekeuzen (combinaties van lw_b..lt_t) als
+    sorteerbare/filterbare DataTables-tabel. Kolommen: aantal objecten,
+    hoofdgroep(en), een voorbeeld-objectnaam en de 28 visualisatie-kolommen.
+    Standaard gesorteerd op hoofdgroep; dropdown-filter op hoofdgroep (houdt de
+    rijen waarvan de combinatie in die hoofdgroep voorkomt). Zie
+    ot_compare.visualisatie_combinaties."""
+    columns = data.get("columns", []) if data else []
+    combos = data.get("combos", []) if data else []
+    unique = data.get("unique", len(combos))
+    total_obj = data.get("total_objects", 0)
+    cmap = color_map or {}
+    # kolommen die met 'kl' beginnen zijn kleuren -> toon een kleurblokje
+    kl_idx = {i for i, cn in enumerate(columns) if cn.lower().startswith("kl")}
+
+    all_codes = sorted({c for combo in combos for c in combo.get("codes", [])})
+    options = '<option value="">(alle hoofdgroepen)</option>' + "".join(
+        f'<option value="{_esc(c)}">{_esc(c)}</option>' for c in all_codes)
+
+    head_cells = ("<th>aantal</th><th>hoofdgroep</th><th>voorbeeld</th>"
+                  + "".join(f"<th>{_esc(c)}</th>" for c in columns))
+    body_rows = []
+    row_codes = []
+    for combo in combos:
+        codes = combo.get("codes", [])
+        row_codes.append(codes)
+        cells = []
+        for i, v in enumerate(combo.get("values", [])):
+            if i in kl_idx:
+                hexv = _color_hex(v, cmap)
+                sw = (f'<span class="vk-sw" style="background:{hexv}"></span>'
+                      if hexv else "")
+                cells.append(f"<td>{sw}{_esc(v)}</td>")
+            else:
+                cells.append(f"<td>{_esc(v)}</td>")
+        body_rows.append(
+            f'<tr><td class="vk-cnt">{combo.get("count", 0)}</td>'
+            f'<td class="vk-hg">{_esc(", ".join(codes))}</td>'
+            f'<td>{_esc(combo.get("example", ""))}</td>' + "".join(cells) + "</tr>")
+
+    info = (f"{unique} unieke visualisatiekeuze(n) over {total_obj} object(en)"
+            + (f" &middot; versie {_esc(version)}" if version else ""))
+    note = ('<p class="vk-note">De NLCS Database gebruikt de aanname dat de '
+            'kleurnummers vertaald worden naar kleuren volgens de meegeleverde '
+            'tabel; waarbij kleuren uit de 10- en 12-serie zwart worden '
+            'weergegeven.'
+            + (' In dit overzicht zijn alle kleuren uit de 10- en 12-serie '
+               'samengevoegd tot één waarde (<code>zwart</code>), zodat alleen de '
+               'basisvariatie in visualisatiekeuzen overblijft.' if collapsed else "")
+            + '</p>')
+
+    script = (
+        "<script>\n"
+        "var vkCodes = " + _json.dumps(row_codes) + ";\n"
+        "$.fn.dataTable.ext.search.push(function(settings, data, dataIndex){\n"
+        "  var f = document.getElementById('vkHg').value;\n"
+        "  if(!f) return true;\n"
+        "  var c = vkCodes[dataIndex] || [];\n"
+        "  return c.indexOf(f) !== -1;\n"
+        "});\n"
+        "$(function(){\n"
+        "  var t = $('#vk').DataTable({ paging: false, scrollX: true,\n"
+        "     scrollY: '72vh', scrollCollapse: true,\n"
+        "     order: [[1,'asc'],[0,'desc']],\n"
+        "     language: { search: 'Zoek:', info: '_TOTAL_ visualisatiekeuze(n)',\n"
+        "       infoFiltered: ' (gefilterd uit _MAX_)' } });\n"
+        "  document.getElementById('vkHg').addEventListener('change', function(){ t.draw(); });\n"
+        "});\n"
+        "</script>\n")
+
+    body = ('<p class="empty">Geen objecten gevonden.</p>' if not combos else
+            '<div class="vk-filter"><label for="vkHg">Hoofdgroep:</label>'
+            f'<select id="vkHg">{options}</select></div>\n'
+            '<table id="vk" class="otab display" style="width:100%">\n'
+            f'<thead><tr>{head_cells}</tr></thead>\n<tbody>\n'
+            + "\n".join(body_rows) + "\n</tbody></table>\n" + script)
+
+    return (
+        _shell_head(title, extra_style=_VK_STYLE, cdn=True)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n'
+        + note + "\n"
+        + body + "\n</div>\n"
+        + _FOOTER
+    )
+
+
+_LT_STYLE = """
+    .wrap { max-width: 100%; }
+    .tablescroll { overflow: auto; max-height: 78vh; }
+    table.otab { width: auto; font-size: .84rem; }
+    table.otab thead th { position: sticky; top: 0; z-index: 3; }
+    table.otab tbody td { white-space: normal; vertical-align: top;
+            padding: 4px 8px; border-bottom: 1px solid var(--dg-grey); }
+    table.otab tbody tr:hover td { background-color: #FFF8CC; }
+    td.lt-cnt { text-align: right; font-weight: 600; width: 1%; }
+    td.lt-def { font-family: Consolas, "Courier New", monospace; font-size: .8rem;
+            white-space: pre-wrap; }
+    .lt-geen { color: var(--dg-grey2); font-style: italic; }
+    td.lt-line { width: 180px; }
+    svg.ltsvg { display: block; width: 170px; height: 18px; background: #fff;
+            border: 1px solid var(--dg-grey); border-radius: 2px; }
+    tr.lt-multi td { background-color: #eef4f8; }
+    tr.lt-multi:hover td { background-color: #FFF8CC; }
+"""
+
+
+def _parse_autocaddef(ad: str) -> list:
+    """Ontleed een AutoCAD-lijntypedefinitie in elementen:
+    ('dash', lengte) / ('gap', lengte) / ('dot',) / ('shape', naam). De
+    [SHAPE,SHX,params]-blokken worden op hun plek als 'shape' opgenomen
+    (ze verbruiken zelf geen lijnlengte). Het leidende 'A' wordt genegeerd."""
+    s = (ad or "").strip()
+    tokens, buf, i, n = [], "", 0, len(s)
+    while i < n:
+        ch = s[i]
+        if ch == "[":
+            if buf.strip():
+                tokens.append(buf.strip())
+                buf = ""
+            j = s.find("]", i)
+            if j == -1:
+                j = n - 1
+            tokens.append(s[i:j + 1])
+            i = j + 1
+        elif ch == ",":
+            if buf.strip():
+                tokens.append(buf.strip())
+            buf = ""
+            i += 1
+        else:
+            buf += ch
+            i += 1
+    if buf.strip():
+        tokens.append(buf.strip())
+
+    elems = []
+    for t in tokens:
+        if t.upper() == "A":
+            continue
+        if t.startswith("["):
+            first = t[1:-1].split(",")[0].strip()
+            # tekst-element: eerste token staat tussen (eventueel escaped) quotes,
+            # bv. ["VS",standard,...] of [\"VS\",standard,...]. Anders een SHX-shape.
+            fnorm = first.replace('\\"', '"').replace("\\'", "'")
+            if len(fnorm) >= 2 and fnorm[0] in "\"'" and fnorm[-1] in "\"'":
+                elems.append(("text", fnorm[1:-1]))
+            else:
+                elems.append(("shape", first))
+            continue
+        try:
+            v = float(t)
+        except ValueError:
+            continue
+        if v > 0:
+            elems.append(("dash", v))
+        elif v < 0:
+            elems.append(("gap", -v))
+        else:
+            elems.append(("dot",))
+    return elems
+
+
+def lijntype_preview_svg(autocaddef: str, name: str = "", width: int = 190,
+                         height: int = 18, scale: float = 6.0) -> str:
+    """Inline-SVG met een voorbeeld van de lijn volgens `autocaddef`. Streepjes
+    worden getekend, gaten overgeslagen, punten als stip, scrap-shapes als een
+    blauw verticaal tickje (de echte SHX-vorm wordt niet getekend, wel de plek) en
+    ingebedde tekst-elementen (bv. ["VS",...]) als die tekst op de lijn.
+
+    `name` wordt gebruikt voor lijntypes met een LEGE autocaddef: 'CONTINUOUS' ->
+    doorgetrokken lijn; een vervallen continue (naam begint met 'V-' en bevat
+    'CONTINUOUS', bv. V-CONTINUOUS-SO) -> doorgetrokken lijn met verwijderen-scraps.
+    Herbruikbaar in elke tabel met lijntypes."""
+    y = height / 2.0
+    nm = (name or "").strip().upper()
+    elems = _parse_autocaddef(autocaddef)
+    line_len = sum(e[1] for e in elems if e[0] in ("dash", "gap"))
+    BLACK, BLUE = "#1D1D1B", "#009DDB"
+    parts = [f'<svg class="ltsvg" viewBox="0 0 {width} {height}" width="{width}" '
+             f'height="{height}" preserveAspectRatio="none" role="img" '
+             f'aria-label="lijnvoorbeeld">']
+
+    def _tick(x):
+        return (f'<line x1="{x:.1f}" y1="{y-5:.1f}" x2="{x:.1f}" y2="{y+5:.1f}" '
+                f'stroke="{BLUE}" stroke-width="1.2"/>')
+
+    def _text(x, s):
+        return (f'<text x="{x:.1f}" y="{y:.1f}" font-size="9" fill="{BLACK}" '
+                f'dominant-baseline="central" text-anchor="middle" '
+                f'style="paint-order:stroke;stroke:#fff;stroke-width:2.5px">'
+                f'{_esc(s)}</text>')
+
+    if line_len <= 0:
+        # geen streeppatroon -> doorgetrokken lijn
+        parts.append(f'<line x1="0" y1="{y:.1f}" x2="{width}" y2="{y:.1f}" '
+                     f'stroke="{BLACK}" stroke-width="1.4"/>')
+        if "CONTINUOUS" in nm and nm.startswith("V-"):
+            # vervallen continue lijn: doorgetrokken met verwijderen-scraps
+            step = 34
+            xx = step / 2
+            while xx < width:
+                parts.append(_tick(xx))
+                xx += step
+        else:
+            # eventuele losse tekst/shape-elementen die wél in de def staan
+            xx = 10
+            for e in elems:
+                if e[0] == "shape":
+                    parts.append(_tick(xx)); xx += 24
+                elif e[0] == "text":
+                    parts.append(_text(xx + 6, e[1])); xx += 24
+    else:
+        x = 0.0
+        guard = 0
+        while x < width and guard < 20000:
+            for e in elems:
+                guard += 1
+                if x >= width:
+                    break
+                if e[0] == "dash":
+                    x2 = min(x + e[1] * scale, width)
+                    parts.append(f'<line x1="{x:.1f}" y1="{y:.1f}" x2="{x2:.1f}" '
+                                 f'y2="{y:.1f}" stroke="{BLACK}" stroke-width="1.4"/>')
+                    x += e[1] * scale
+                elif e[0] == "gap":
+                    x += e[1] * scale
+                elif e[0] == "dot":
+                    parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="1.4" '
+                                 f'fill="{BLACK}"/>')
+                elif e[0] == "shape":
+                    parts.append(_tick(x))
+                elif e[0] == "text":
+                    parts.append(_text(x, e[1]))
+    parts.append("</svg>")
+    return "".join(parts)
+
+
+def build_unieke_lijntypes_html(data, title: str = "Overzicht unieke lijntypes",
+                                version: str = "") -> str:
+    """Lijst van unieke lijntype-definities: per unieke `autocaddef` de lijntypes
+    die die definitie delen (zie ot_compare.lijntype_autocaddef_groups). Groepen
+    met meer dan één lijntype staan vooraan en zijn licht gemarkeerd."""
+    groups = data.get("groups", []) if data else []
+    unique = data.get("unique", len(groups))
+    total_names = data.get("total_names", 0)
+
+    all_codes = sorted({c for g in groups for c in g.get("codes", [])})
+    options = '<option value="">(alle hoofdgroepen)</option>' + "".join(
+        f'<option value="{_esc(c)}">{_esc(c)}</option>' for c in all_codes)
+
+    rows = []
+    row_codes = []
+    for g in groups:
+        codes = g.get("codes", [])
+        row_codes.append(codes)
+        ad = g.get("autocaddef", "")
+        names = g.get("names", [])
+        # Bij een lege autocaddef is de groep per naam gesplitst -> gebruik die
+        # naam voor het juiste voorbeeld (CONTINUOUS vs. V-CONTINUOUS-SO).
+        pname = names[0] if (not ad and names) else ""
+        if ad:
+            defcell = _esc(ad)
+        elif "CONTINUOUS" in pname.upper() and pname.upper().startswith("V-"):
+            defcell = ('<span class="lt-geen">doorgetrokken lijn met '
+                       'verwijderen-scraps</span>')
+        else:
+            defcell = '<span class="lt-geen">doorgetrokken lijn</span>'
+        cls = ' class="lt-multi"' if g.get("count", 0) > 1 else ""
+        rows.append(
+            f'<tr{cls}><td class="lt-cnt">{g.get("count", 0)}</td>'
+            f'<td>{_esc(", ".join(names))}</td>'
+            f'<td>{_esc(", ".join(codes))}</td>'
+            f'<td class="lt-line">{lijntype_preview_svg(ad, name=pname)}</td>'
+            f'<td class="lt-def">{defcell}</td></tr>')
+
+    info = (f"{unique} unieke autocaddef-definitie(s) over {total_names} lijntype(s)"
+            + (f" &middot; versie {_esc(version)}" if version else ""))
+    note = ('<p class="vk-note">Lijntypes met exact dezelfde <code>autocaddef</code> '
+            'zijn samengevoegd tot één regel. Groepen met meer dan één lijntype '
+            '(zelfde definitie, verschillende naam) staan bovenaan.</p>')
+
+    script = (
+        "<script>\n"
+        "var ltCodes = " + _json.dumps(row_codes) + ";\n"
+        "$.fn.dataTable.ext.search.push(function(settings, data, dataIndex){\n"
+        "  if(settings.nTable.id !== 'lt') return true;\n"
+        "  var f = document.getElementById('ltHg').value;\n"
+        "  if(!f) return true;\n"
+        "  var c = ltCodes[dataIndex] || [];\n"
+        "  return c.indexOf(f) !== -1;\n"
+        "});\n"
+        "$(function(){\n"
+        "  var t = $('#lt').DataTable({ paging: false, scrollX: true,\n"
+        "     scrollY: '70vh', scrollCollapse: true, order: [[0,'desc']],\n"
+        "     language: { search: 'Zoek:', info: '_TOTAL_ definitie(s)',\n"
+        "       infoFiltered: ' (gefilterd uit _MAX_)' } });\n"
+        "  document.getElementById('ltHg').addEventListener('change', function(){ t.draw(); });\n"
+        "});\n"
+        "</script>\n")
+
+    body = ('<p class="empty">Geen lijntypes gevonden.</p>' if not groups else
+            '<div class="vk-filter"><label for="ltHg">Hoofdgroep:</label>'
+            f'<select id="ltHg">{options}</select></div>\n'
+            '<table id="lt" class="otab display" style="width:100%">\n'
+            '<thead><tr><th>aantal</th><th>lijntypes</th><th>hoofdgroep</th>'
+            '<th>lijn</th><th>autocaddef</th></tr></thead>\n<tbody>\n'
+            + "\n".join(rows) + "\n</tbody></table>\n" + script)
+
+    return (
+        _shell_head(title, extra_style=_VK_STYLE + _LT_STYLE, cdn=True)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n'
+        + note + "\n" + body + "\n</div>\n"
         + _FOOTER
     )
 
@@ -2666,6 +3088,38 @@ def _c_lt_v_misplaatst(result) -> str:
     return "\n".join(c)
 
 
+def _c_verboden_kleur(result) -> str:
+    """Kaart: verboden kleur(nummers) in de objectentabel. result met
+    total/ok/forbidden/columns/bad[{name,file,row,column,found}]. FOUT (telt mee
+    in het publicatie-overzicht)."""
+    title = "Verboden kleur"
+    if not result:
+        return _skip_card(title)
+    bad = result.get("bad", [])
+    total, ok = result.get("total", 0), result.get("ok", 0)
+    fb = result.get("forbidden", [])
+    fbstr = ", ".join(fb) if fb else "50"
+    kpi = _kpi_boxes(
+        (total, "kleur-cellen", ""),
+        (ok, "toegestaan", "free" if ok == total else ""),
+        (len(bad), f"kleur {fbstr}", "bad" if bad else "free"))
+    c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
+    if not bad:
+        c.append(f'<p class="ok">✓ Kleur {_esc(fbstr)} komt niet voor in de '
+                 'kleur-kolommen.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(bad)} keer kleur {_esc(fbstr)} in een '
+                 'kleur-kolom; die kleur mag niet meer gebruikt worden:</p>')
+        c.append(_hg_table(
+            '<th>object</th><th>kolom</th><th>kleur</th><th>rij</th>', bad,
+            [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td class="loc">{_esc(m.get("column",""))}</td>',
+             lambda m: f'<td class="loc">{_esc(m.get("found",""))}</td>',
+             lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
 def _c_arc_length(result) -> str:
     """Kaart voor de maximale-naamlengte-controle van arceringen:
     result met total/ok/max_len/toolong[{name,file,row,length}]."""
@@ -3056,6 +3510,12 @@ _D_LTVMIS = (
     "mogen dus géén <code>V-…</code>-waarde bevatten; staat daar toch een "
     "<code>V-</code>-lijntype, dan is dat een fout.")
 
+_D_VERBKLEUR = (
+    "Verboden kleur: kleurnummer <code>50</code> mag niet meer gebruikt worden. "
+    "Alle kleur-kolommen (<code>kl_*</code>) van de objectentabel worden "
+    "gecontroleerd; staat er in een cel kleur <code>50</code>, dan is dat een "
+    "fout en moet er een andere kleur gekozen worden.")
+
 _D_VERWSCALE = (
     "VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) "
     "kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit "
@@ -3215,7 +3675,7 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
     heeft een sorteerbare kolom 'hoofdgroep' vooraan.
 
     `data` bevat de ruwe controle-resultaten (zie ot_gui.ControlesTab._gather):
-      tree, fasevis, elemlink, elemfill, ltvmis, lijnusage, arcverkl, arclen, lijndef, verwscale, dwg  -> dict|None
+      tree, fasevis, elemlink, elemfill, ltvmis, verbkleur, lijnusage, arcverkl, arclen, lijndef, verwscale, dwg  -> dict|None
       id       -> {soort: id-section|None}
       optie    -> {soort: optie-section|None}
       nameuri  -> {soort: analyze_name_uri-dict|None}
@@ -3245,7 +3705,8 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
                             ("objecten", "gevuld", "leeg"),
                             "Elk object heeft minimaal één waarde in de kolom "
                             "element.", "<th>object</th>"), _D_ELEMFILL),
-           _desc(_c_lt_v_misplaatst(data.get("ltvmis")), _D_LTVMIS)]
+           _desc(_c_lt_v_misplaatst(data.get("ltvmis")), _D_LTVMIS),
+           _desc(_c_verboden_kleur(data.get("verbkleur")), _D_VERBKLEUR)]
     if smin.get("symbolen") or smin.get("arceringen"):
         obj.append(_desc(_c_searchmin(smin.get("symbolen")), _D_ZOEKTERM_MIN))
         obj.append(_desc(_c_searchmin(smin.get("arceringen")), _D_ZOEKTERM_MIN))

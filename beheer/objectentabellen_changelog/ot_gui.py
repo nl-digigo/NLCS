@@ -85,6 +85,8 @@ PROFILES = [
         "zoekfilter_name_col": "symbool",
         "zoekfilter_scope": "per_code",
         "front_svg": True,
+        # symbolen-changelog sorteerbaar op elke kolom (DataTables)
+        "sortable_changelog": True,
         # rijen groeperen per zoekfilter (sobject-term) en binnen die groep
         # alfabetisch op symboolnaam, zowel in de volledige tabel als de changelog
         "group_by_zoekfilter": True,
@@ -1049,7 +1051,8 @@ class TableTab(ttk.Frame):
                                 version_new=version_new, version_old=version_old,
                                 visible_indices=vis, extra_columns=extra_cols,
                                 orphans=orphans_this, deleted_notes=deleted_notes,
-                                header_labels=self.profile.get("header_labels"))
+                                header_labels=self.profile.get("header_labels"),
+                                sortable=self.profile.get("sortable_changelog", False))
                             changelog_path = os.path.join(
                                 dest_dir, f"changelog-{base}.html")
                             with open(changelog_path, "w", encoding="utf-8") as f:
@@ -1406,6 +1409,18 @@ class IndexTab(ttk.Frame):
             btns, text="Genereer dubbele objecten (per object)",
             command=self.on_generate_shared_inverse)
         self.shared_inv_btn.pack(side="left", padx=4)
+        self.vk_btn = ttk.Button(
+            btns, text="Genereer visualisatiekeuzen",
+            command=lambda: self.on_generate_visualisatiekeuzen(collapse=False))
+        self.vk_btn.pack(side="left", padx=4)
+        self.vk_std_btn = ttk.Button(
+            btns, text="Genereer standaard visualisatiekeuzen",
+            command=lambda: self.on_generate_visualisatiekeuzen(collapse=True))
+        self.vk_std_btn.pack(side="left", padx=4)
+        self.lt_btn = ttk.Button(
+            btns, text="Genereer unieke lijntypes",
+            command=self.on_generate_unieke_lijntypes)
+        self.lt_btn.pack(side="left", padx=4)
 
         logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
         logframe.pack(fill="both", expand=True, pady=(8, 0))
@@ -1749,6 +1764,138 @@ class IndexTab(ttk.Frame):
             return
 
         self._logmsg(f"{data['total']} objecttype(n) in meerdere hoofdgroepen.")
+        self._logmsg(f"Overzicht geschreven: {output}")
+        self.app.save_config()
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(output))
+
+    def on_generate_visualisatiekeuzen(self, collapse: bool = False) -> None:
+        """Overzicht visualisatiekeuzen: unieke combinaties van de visualisatie-
+        kolommen lw_b..lt_t over alle objecten, als sorteerbare/filterbare lijst
+        (met hoofdgroep). Uitvoer in de submap 'expertcommissie'.
+
+        collapse=True → 'standaard visualisatiekeuzen': alle kleuren uit de 10- en
+        12-serie worden samengevoegd tot één zwarte waarde, zodat alleen de
+        basisvariatie overblijft."""
+        src = self.app.loc["obj_new"].get().strip()
+        if not os.path.isdir(src):
+            messagebox.showwarning(
+                "Geen map", "Vul bij 'Locaties' de map objectentabellen-nieuw in "
+                "(bijv. tabellen/publicatie/objectentabellen/5-2).")
+            return
+
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg("Visualisatiekeuzen tellen (lw_b..lt_t)"
+                     + (" — 10/12-serie samengevoegd" if collapse else "") + "…")
+        data = ot_compare.visualisatie_combinaties(src, collapse_black=collapse)
+        if data["total_objects"] == 0:
+            messagebox.showinfo(
+                "Niets gevonden",
+                "Geen objecten met visualisatie-kolommen (lw_b..lt_t) gevonden.")
+            self._logmsg("Geen objecten gevonden.")
+            return
+
+        version = self.app.version_new_var.get().strip()
+        vdash = version.replace(".", "-")
+        base_out = self.app.loc["index_output"].get().strip()
+        if os.path.isdir(base_out) or base_out.endswith(("/", "\\")):
+            overview_dir = base_out
+        elif base_out:
+            overview_dir = os.path.dirname(base_out)
+        else:
+            overview_dir = src
+        out_dir = os.path.join(overview_dir, "expertcommissie")
+        stem = "standaard-visualisatiekeuzen" if collapse else "visualisatiekeuzen"
+        fname = f"{stem}-{vdash}.html" if vdash else f"{stem}.html"
+        output = os.path.join(out_dir, fname)
+
+        # Kleurnummer -> hex uit het Lijnkleuren-overzicht (voor de kleurblokjes).
+        pub_root = self.app.loc["index_root"].get().strip()
+        color_map = {}
+        for d in (pub_root, overview_dir):
+            if not d:
+                continue
+            lk = os.path.join(d, f"Lijnkleuren-{vdash}.html" if vdash
+                              else "Lijnkleuren.html")
+            color_map = ot_compare.read_lijnkleuren_mapping(lk)
+            if color_map:
+                self._logmsg(f"{len(color_map)} kleurnummers uit {os.path.basename(lk)}.")
+                break
+        if not color_map:
+            self._logmsg("Geen Lijnkleuren-overzicht gevonden; kleurblokjes alleen "
+                         "voor letterlijke R,G,B-waarden.")
+
+        titel = ("Overzicht standaard visualisatiekeuzen" if collapse
+                 else "Overzicht visualisatiekeuzen")
+        html_txt = ot_html.build_visualisatiekeuzen_html(
+            data, title=f"{titel} {version}".strip(),
+            version=version, color_map=color_map, collapsed=collapse)
+        try:
+            os.makedirs(os.path.dirname(os.path.abspath(output)), exist_ok=True)
+            with open(output, "w", encoding="utf-8") as f:
+                f.write(html_txt)
+        except OSError as exc:
+            messagebox.showerror("Fout", str(exc))
+            self._logmsg("FOUT: " + str(exc))
+            return
+
+        self._logmsg(f"{data['unique']} unieke visualisatiekeuze(n) over "
+                     f"{data['total_objects']} object(en).")
+        self._logmsg(f"Overzicht geschreven: {output}")
+        self.app.save_config()
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(output))
+
+    def on_generate_unieke_lijntypes(self) -> None:
+        """Overzicht unieke lijntypes: lijntypes met dezelfde autocaddef worden
+        samengevoegd. Bron is de lijntypes-map. Uitvoer in 'expertcommissie'."""
+        src = self.app.loc["lijn_new"].get().strip()
+        if not os.path.isdir(src):
+            messagebox.showwarning(
+                "Geen map", "Vul bij 'Locaties' de map lijntypes-nieuw in "
+                "(bijv. tabellen/publicatie/lijntypes/5-2).")
+            return
+
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg("Lijntypes groeperen op autocaddef…")
+        data = ot_compare.lijntype_autocaddef_groups(src)
+        if data["total_rows"] == 0:
+            messagebox.showinfo(
+                "Niets gevonden", "Geen lijntypes met een autocaddef-kolom gevonden.")
+            self._logmsg("Geen lijntypes gevonden.")
+            return
+
+        version = self.app.version_new_var.get().strip()
+        vdash = version.replace(".", "-")
+        base_out = self.app.loc["index_output"].get().strip()
+        if os.path.isdir(base_out) or base_out.endswith(("/", "\\")):
+            out_dir = base_out
+        elif base_out:
+            out_dir = os.path.dirname(base_out)
+        else:
+            out_dir = src
+        out_dir = os.path.join(out_dir, "expertcommissie")
+        fname = f"unieke-lijntypes-{vdash}.html" if vdash else "unieke-lijntypes.html"
+        output = os.path.join(out_dir, fname)
+
+        html_txt = ot_html.build_unieke_lijntypes_html(
+            data, title=f"Overzicht unieke lijntypes {version}".strip(),
+            version=version)
+        try:
+            os.makedirs(os.path.dirname(os.path.abspath(output)), exist_ok=True)
+            with open(output, "w", encoding="utf-8") as f:
+                f.write(html_txt)
+        except OSError as exc:
+            messagebox.showerror("Fout", str(exc))
+            self._logmsg("FOUT: " + str(exc))
+            return
+
+        self._logmsg(f"{data['unique']} unieke autocaddef-definitie(s) over "
+                     f"{data['total_names']} lijntype(s).")
         self._logmsg(f"Overzicht geschreven: {output}")
         self.app.save_config()
         if self.app.open_after_var.get():
@@ -3397,6 +3544,8 @@ class ControlesTab(ttk.Frame):
             "ltv": ot_compare.check_lt_v_vervallen(
                 app.loc["obj_new"].get().strip()),
             "ltvmis": ot_compare.check_lt_v_misplaatst(
+                app.loc["obj_new"].get().strip()),
+            "verbkleur": ot_compare.check_verboden_kleur(
                 app.loc["obj_new"].get().strip()),
             "lijnusage": app.lijnusage_tab._run(),
             "arcverkl": app.arceringverklaring_tab._run(),
