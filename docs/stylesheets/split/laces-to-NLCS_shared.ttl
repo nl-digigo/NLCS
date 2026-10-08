@@ -256,7 +256,7 @@ ex:ConvertAspectsWithoutRole a sh:NodeShape ;
     sh:rule [ a sh:SPARQLRule ;
             sh:construct """	
 			CONSTRUCT {
-				?tgtAspect a rdf:Property .
+				?tgtAspect a owl:ObjectProperty .
 				?tgtAspect rdfs:subPropertyOf ?tgtParent .
 				?tgtAspect skos:prefLabel ?tgtAspectPrefName .
 				?tgtAspect skos:altLabel ?tgtAspectAltName .
@@ -292,8 +292,11 @@ ex:ConvertAspectsWithoutRole a sh:NodeShape ;
 				OPTIONAL {
 					?this otl:attr-Conceptual-description ?tgtAspectDescription .
 				} .
+				# attr-Aspect-datatype is a literal ("...#string"^^xsd:anyURI); only an IRI is a valid rdfs:range
 				OPTIONAL {
-					?this otl:attr-Aspect-datatype ?tgtRangeDatatype
+					?this otl:attr-Aspect-datatype ?rawRangeDatatype .
+					FILTER (isIRI(?rawRangeDatatype)) .
+					BIND (?rawRangeDatatype AS ?tgtRangeDatatype) .
 				} .
 				OPTIONAL {
 					?this otl:attr-Conceptual-note ?tgtAspectNote .

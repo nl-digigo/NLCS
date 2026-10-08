@@ -252,11 +252,11 @@ ex:ConvertAspectsWithoutRole a sh:NodeShape ;
     sh:rule [ a sh:SPARQLRule ;
             sh:construct """	
 			CONSTRUCT {
-				?tgtAspect a rdf:Property .
+				?tgtAspect a owl:ObjectProperty .
 				?tgtAspect rdfs:subPropertyOf ?tgtParent .
 				?tgtAspect skos:prefLabel ?tgtAspectPrefName .
 				?tgtAspect skos:altLabel ?tgtAspectAltName .
-				?tgtAspect skos:definition ?tgtAttributeDescription .
+				?tgtAspect skos:definition ?tgtAspectDescription .
 				?tgtAspect skos:note ?tgtAspectNote .
 				?tgtAspect skos:notation ?tgtAspectCode .
 				?tgtAspect nen2660:abbreviation ?tgtAspectAbbreviation .
@@ -288,8 +288,11 @@ ex:ConvertAspectsWithoutRole a sh:NodeShape ;
 				OPTIONAL {
 					?this otl:attr-Conceptual-description ?tgtAspectDescription .
 				} .
+				# attr-Aspect-datatype is a literal ("...#string"^^xsd:anyURI); only an IRI is a valid rdfs:range
 				OPTIONAL {
-					?this otl:attr-Aspect-datatype ?tgtRangeDatatype
+					?this otl:attr-Aspect-datatype ?rawRangeDatatype .
+					FILTER (isIRI(?rawRangeDatatype)) .
+					BIND (?rawRangeDatatype AS ?tgtRangeDatatype) .
 				} .
 				OPTIONAL {
 					?this otl:attr-Conceptual-note ?tgtAspectNote .
@@ -336,15 +339,14 @@ ex:CreateNLCSobject a sh:NodeShape ;
 	sh:rule [ a sh:SPARQLRule ;
 			sh:construct """
 			CONSTRUCT {
-				# ?tgtThis rdfs:subClassOf ?nlcsObject .
 				?nlcsObject a owl:Class .
 				?nlcsObject skos:prefLabel "NLCS-object" .
 				?nlcsObject rdfs:subClassOf nen2660:InformationObject .
 			}
 			WHERE {
-				?this a otl:PhysicalObject .
-				# FILTER NOT EXISTS { ?this otl:rel-Conceptual-isSpecializationOf ?anyParent . } .
-				# BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
+				# Runs once per ontology node (targetClass owl:Ontology) instead of once per conceptual:
+				# the output is constant, so per-conceptual execution only repeated the same work.
+				FILTER EXISTS { ?anyObject a otl:PhysicalObject . } .
 				BIND (ex:createURI("e160a4d4-d97c-4555-8928-7affd0051548") AS ?nlcsObject) .
 			} LIMIT 1
 			""" ;
@@ -361,7 +363,7 @@ ex:CreateNLCSobject a sh:NodeShape ;
                 sh:,
                 schema:,
                 nen2660: ] ;
-	sh:targetClass otl:Conceptual .
+	sh:targetClass owl:Ontology .
 
 ex:ConvertConceptualFundamentals a sh:NodeShape ;
     sh:rule [ a sh:SPARQLRule ;
@@ -376,7 +378,7 @@ ex:ConvertConceptualFundamentals a sh:NodeShape ;
 			    ?tgtThis skos:notation ?tgtConceptualCode .
 			    ?tgtThis nen2660:abbreviation ?tgtConceptualAbbreviation .
 				?tgtThis schema:unitText ?tgtUnitText .
-				?tgtThis schema:url ?tgtUrl .
+				# schema:url is missing in original 5.0.2, so don't generate for 5.0.3
 			    ?tgtThis ?tgtAnnotationProperty ?tgtAnnotationValue .
 			    ?tgtAnnotationProperty a owl:AnnotationProperty .
 			    ?tgtAnnotationProperty skos:prefLabel ?tgtAnnotationName .
@@ -389,6 +391,10 @@ ex:ConvertConceptualFundamentals a sh:NodeShape ;
 			}
 			WHERE {
 			# Only certain subclasses of otl:Conceptual should be converted into classes (Qualifications for example should not be converted into instances of owl:Class)
+			# Gate first, in its own sub-group anchored on ?this, so the type / shared-stub FILTERs and the
+			# mandatory name are applied before any function call below (a FILTER otherwise applies to the
+			# whole group, i.e. only after all the work). Most targets (qualifications, fields, ...) stop here.
+				{
 				?this a ?conceptual .
     			FILTER (?conceptual IN (otl:PhysicalObject, otl:GeometricalSpace, otl:Activity, otl:Function, otl:Document, otl:FunctionalSpace, otl:Objective, otl:Agent, otl:Event, otl:State, otl:Risk, otl:TimePeriod, otl:Matter)) .
 			# Shared concepts (lijnkleuren, lijnweights, lijntypes, aspects) are stubbed into each
@@ -409,8 +415,15 @@ ex:ConvertConceptualFundamentals a sh:NodeShape ;
 					?this otl:rel-Conceptual-hasExternalLink ?sharedStubLink .
 					?sharedStubLink otl:attr-ExternalLink-relation "isSameAs" .
 					?sharedStubLink otl:attr-ExternalLink-sourceurl ?sharedStubSourceUrl .
-					
+
 				} .
+				?this shapes:sequence/rdf:_1 ?tgtConceptualPrefName .
+				}
+			# Resolve the target URI once per concept, before the annotation OPTIONAL multiplies the rows
+			# (at the end of WHERE it was re-evaluated for every annotation row).
+				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
+			# Namespace of ex:createHumanReadableUri, once per concept (used for the annotation property URIs).
+				BIND (REPLACE(STR(ex:createHumanReadableUri("ns")), "ns$", "") AS ?propNamespace) .
 			# If the concept is a specialization of another concept in the OTL, it should be modeled by a rdfs:subClassOf relation between the two concepts
 				OPTIONAL {
 			        ?this otl:rel-Conceptual-isSpecializationOf ?parentConceptual .
@@ -434,8 +447,7 @@ ex:ConvertConceptualFundamentals a sh:NodeShape ;
 					COALESCE(?newParentConceptual, ex:createURI("e160a4d4-d97c-4555-8928-7affd0051548")), 
 					COALESCE(?newParentConceptual, ?tgtTopConceptual)) AS ?tgtParentConcept) .
 
-			# This section finds any names, the preferred name, descriptions, notes, codes and abbreviations of the concept (if applicable).
-				?this shapes:sequence/rdf:_1 ?tgtConceptualPrefName .
+			# This section finds any names, the preferred name (matched in the gate above), descriptions, notes, codes and abbreviations of the concept (if applicable).
 				OPTIONAL {
 					?this otl:attr-Conceptual-name ?tgtConceptualAltName .
 					?this shapes:sequence/rdf:_1 ?tgtConceptualPrefName .
@@ -470,8 +482,21 @@ ex:ConvertConceptualFundamentals a sh:NodeShape ;
 					FILTER (?tgtAnnotationName != "Original URI") .
 					FILTER (?tgtAnnotationName != "Symbool") .
 					FILTER (?tgtAnnotationName != "Arcering") .
-					BIND (ex:createHumanReadableUri(?tgtAnnotationName) AS ?tgtAnnotationProperty) .
 				} .
+				# Property URI = ex:createHumanReadableUri(?tgtAnnotationName), built with string functions: the function
+				# costs 2-4 sub-queries per call and ran for every row. Same rule as ex:humanReadableNameForUri:
+				# first word as is, a word equal to the first word as is, every other word capitalised.
+				# Labels of more than 3 words fall back to the function.
+				BIND (IF(CONTAINS(?tgtAnnotationName, " "), STRBEFORE(?tgtAnnotationName, " "), ?tgtAnnotationName) AS ?hrWord1) .
+				BIND (STRAFTER(?tgtAnnotationName, " ") AS ?hrRest1) .
+				BIND (IF(CONTAINS(?hrRest1, " "), STRBEFORE(?hrRest1, " "), ?hrRest1) AS ?hrWord2) .
+				BIND (STRAFTER(?hrRest1, " ") AS ?hrRest2) .
+				BIND (IF(CONTAINS(?hrRest2, " "), STRBEFORE(?hrRest2, " "), ?hrRest2) AS ?hrWord3) .
+				BIND (STRAFTER(?hrRest2, " ") AS ?hrRest3) .
+				BIND (CONCAT(?hrWord1,
+					IF(?hrWord2 = ?hrWord1, ?hrWord2, CONCAT(UCASE(SUBSTR(?hrWord2, 1, 1)), LCASE(SUBSTR(?hrWord2, 2)))),
+					IF(?hrWord3 = ?hrWord1, ?hrWord3, CONCAT(UCASE(SUBSTR(?hrWord3, 1, 1)), LCASE(SUBSTR(?hrWord3, 2))))) AS ?hrCamel) .
+				BIND (IF(?hrRest3 = "", IRI(CONCAT(?propNamespace, ENCODE_FOR_URI(?hrCamel))), ex:createHumanReadableUri(?tgtAnnotationName)) AS ?tgtAnnotationProperty) .
 				
 				OPTIONAL {
 			        ?this otl:rel-Conceptual-isSubjectOf ?informationCarrier .
@@ -498,6 +523,7 @@ ex:ConvertConceptualFundamentals a sh:NodeShape ;
 					FILTER(?tgtUnitText != "") .
 					} .
 
+				# schema:url (Symbool .dwg / Arcering .pat file links) is not generated for 5.0.3; the ?tgtUrl
 				OPTIONAL {
 					?Symbool a otl:Document .
 					?Symbool otl:attr-Conceptual-name "Symbool" .
@@ -519,8 +545,6 @@ ex:ConvertConceptualFundamentals a sh:NodeShape ;
 					BIND (CONCAT("https://github.com/nl-digigo/NLCS/tree/main/arceringen/concept/5.1/", STR(?arceringItemName), ".pat") AS ?tgtUrlArcering) .
 				}
 				BIND (COALESCE(?tgtUrlSymbool, ?tgtUrlArcering) AS ?tgtUrl) .
-
-				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
 			}
 			""" ;
             sh:deactivated false ;
@@ -543,76 +567,55 @@ ex:ConvertConceptualSymbolArceringRelations a sh:NodeShape ;
             sh:construct """
 			CONSTRUCT {
 				?tgtThis rdfs:subClassOf ?bnode .
+				?bnode a owl:Restriction .
 				?bnode owl:onProperty nen2660:isDescribedBy .
 				?bnode owl:onClass ?tgtConcept .
+				?bnode owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger .
 
 				?tgtShapeFromLaces a sh:NodeShape .
 				?tgtShapeFromLaces sh:targetClass ?tgtThis .
 				?tgtShapeFromLaces sh:property ?bnode2 .
+				?bnode2 sh:path nen2660:isDescribedBy .
+				?bnode2 sh:qualifiedMinCount "0"^^xsd:nonNegativeInteger .
 				?bnode2 sh:qualifiedValueShape ?bnode3 .
 				?bnode3 sh:class ?tgtConcept .
-				?bnode2 sh:path nen2660:isDescribedBy .
-				?bnode3 sh:qualifiedMinCount "0"^^xsd:nonNegativeInteger .
 			}
 			WHERE {
 				?this a otl:PhysicalObject .
+				# Symbool and Arcering in one pass: the field's information-type name ("Symbool" /
+				# "Arcering") is also the name of the top document the linked concept must sit under.
+				# Empty and "nvt" values are dropped before any concept lookup (they never match one).
+				# One sub-group, anchored on ?this (only this object's own fields), so its FILTER applies
+				# right here instead of at the end of the whole WHERE. Keep every pattern in it tied to
+				# ?this: RDF4J may evaluate a { } group on its own (hash join), and an unanchored pattern
+				# would then scan every InformationField in the workspace per object.
 				{
-					## Symbool
-					BIND (BNODE() AS ?bnode) .
-					OPTIONAL {
-						?this otl:rel-Conceptual-isDescribedIn ?informationFieldThis .
-						?informationFieldThis otl:rel-InformationField-isClassifiedAs ?informationType .
-						?informationFieldThis otl:attr-InformationField-value ?valueThis .
-						OPTIONAL { ?informationType otl:attr-Conceptual-name ?existingTypeName . }
-						BIND (IF(BOUND(?existingTypeName), STR(?existingTypeName),
-						         REPLACE(REPLACE(STRAFTER(STR(?informationType), "/Field-"), "[+]", " "), "%20", " ")) AS ?typeName) .
-						FILTER (?typeName = "Symbool") .
-					}
-					BIND (IF(BOUND(?valueThis),
-						IF(?valueThis = "nvt", ?undefined, ?valueThis), 
-						?undefined2) AS ?value) .
-					FILTER (BOUND(?informationType)) .
-					FILTER (BOUND(?value)) .
-					?SymboolTop a otl:Document .
-					?SymboolTop otl:attr-Conceptual-name "Symbool" .
-					?conceptStub otl:rel-Conceptual-isSpecializationOf+ ?SymboolTop .
-					?conceptStub otl:attr-Conceptual-name ?value .
-					
-					BIND (COALESCE(ex:getOriginalUri(?conceptStub), ?conceptStub) AS ?tgtConcept) .
+					?this otl:rel-Conceptual-isDescribedIn ?informationFieldThis .
+					?informationFieldThis otl:attr-InformationField-value ?value .
+					?informationFieldThis otl:rel-InformationField-isClassifiedAs ?informationType .
+					OPTIONAL { ?informationType otl:attr-Conceptual-name ?existingTypeName . }
+					BIND (IF(BOUND(?existingTypeName), STR(?existingTypeName),
+					         REPLACE(REPLACE(STRAFTER(STR(?informationType), "/Field-"), "[+]", " "), "%20", " ")) AS ?typeName) .
+					FILTER (?value != "" && ?value != "nvt" && ?typeName IN ("Symbool", "Arcering")) .
 				}
-				UNION
-				{
-					## Arcering
-					BIND (BNODE() AS ?bnode) .
-					OPTIONAL {
-						?this otl:rel-Conceptual-isDescribedIn ?informationFieldThis .
-						?informationFieldThis otl:rel-InformationField-isClassifiedAs ?informationType .
-						?informationFieldThis otl:attr-InformationField-value ?valueThis .
-						OPTIONAL { ?informationType otl:attr-Conceptual-name ?existingTypeName . }
-						BIND (IF(BOUND(?existingTypeName), STR(?existingTypeName),
-						         REPLACE(REPLACE(STRAFTER(STR(?informationType), "/Field-"), "[+]", " "), "%20", " ")) AS ?typeName) .
-						FILTER (?typeName = "Arcering") .
-					}
-					BIND (IF(BOUND(?valueThis),
-						IF(?valueThis = "nvt", ?undefined, ?valueThis),
-						?undefined2) AS ?value) .
-					FILTER (BOUND(?informationType)) .
-					FILTER (BOUND(?value)) .
-					?ArceringTop a otl:Document .
-					?ArceringTop otl:attr-Conceptual-name "Arcering" .
-					?conceptStub otl:rel-Conceptual-isSpecializationOf+ ?ArceringTop .
-					?conceptStub otl:attr-Conceptual-name ?value .
-					
-					BIND (COALESCE(ex:getOriginalUri(?conceptStub), ?conceptStub) AS ?tgtConcept) .
-				}
+				# Look the concept up by its (known) name first, then check it sits under the matching
+				# top document - instead of walking every descendant of the top document per value.
+				?conceptStub otl:attr-Conceptual-name ?value .
+				?conceptStub otl:rel-Conceptual-isSpecializationOf+ ?topDocument .
+				?topDocument otl:attr-Conceptual-name ?typeName .
+				?topDocument a otl:Document .
+				BIND (COALESCE(ex:getOriginalUri(?conceptStub), ?conceptStub) AS ?tgtConcept) .
 				OPTIONAL {
 					?this otl:rel-Conceptual-hasShape ?shapeFrom .
 					BIND (?shapeFrom AS ?shapeFromReused) .
 				} .
 				BIND (COALESCE(?shapeFromReused, ex:createURI(CONCAT(ex:localname(?this), "-Shape"))) AS ?tgtShapeFromLaces) .
-				BIND (BNODE() AS ?bnode2) .
-				BIND (BNODE() AS ?bnode3) .
 				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .		# nlcs object
+				# One restriction / property shape per (object, concept) pair. A plain BNODE() bound before any
+				# variable is known gets evaluated once by RDF4J, merging all links of an object into one node.
+				BIND (BNODE(CONCAT(STR(?tgtThis), "|owl|", STR(?tgtConcept))) AS ?bnode) .
+				BIND (BNODE(CONCAT(STR(?tgtThis), "|sh|", STR(?tgtConcept))) AS ?bnode2) .
+				BIND (BNODE(CONCAT(STR(?tgtThis), "|qvs|", STR(?tgtConcept))) AS ?bnode3) .
 			}
 			""" ;
             sh:deactivated false ;
@@ -640,38 +643,97 @@ ex:ConvertConceptualLijnkleurRelations a sh:NodeShape ;
 			}
 			WHERE {
 				?this a otl:PhysicalObject .
+				# Once per object instead of once per (object, colour type) row.
+				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
+				# Namespace of ex:createHumanReadableUri, looked up once per object (used by the property URI below).
+				BIND (REPLACE(STR(ex:createHumanReadableUri("ns")), "ns$", "") AS ?propNamespace) .
 
-				?lijnkleurInformationType a otl:InformationType .
-				?lijnkleurInformationType otl:attr-Conceptual-name ?tgtLijnkleurTypeName .
-				FILTER (CONTAINS(?tgtLijnkleurTypeName, " color")) .
+				# Own sub-group so the type FILTER applies right here, not at the end of the whole WHERE.
+				{
+					?lijnkleurInformationType a otl:InformationType .
+					?lijnkleurInformationType otl:attr-Conceptual-name ?tgtLijnkleurTypeName .
+					FILTER (CONTAINS(?tgtLijnkleurTypeName, " color")) .
+				}
 
-				## Option 1: SPARQL logic
-				OPTIONAL {
+				# Own value; the inherited (nearest-ancestor) value is only looked up when the object has
+				# no field of this type at all. The split import writes all 28 drawing fields for every
+				# object (value "" when empty), so the double transitive walk is skipped for those -
+				# before, it ran for every object and its result was then discarded.
+				{
 					?this otl:rel-Conceptual-isDescribedIn ?informationFieldThis .
 					?informationFieldThis otl:rel-InformationField-isClassifiedAs ?lijnkleurInformationType .
 					?informationFieldThis otl:attr-InformationField-value ?lijnkleurValueThis .
-					
 				}
-				OPTIONAL {
-					?this otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
-					?thisGrandparents otl:rel-Conceptual-isDescribedIn ?informationFieldGrandparent .
-					?informationFieldGrandparent otl:rel-InformationField-isClassifiedAs ?lijnkleurInformationType .
-					?informationFieldGrandparent otl:attr-InformationField-value ?lijnkleurValueParent .
+				UNION
+				{
+					?lijnkleurInformationType a otl:InformationType .
 					FILTER NOT EXISTS {
-						?thisParents otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
-						?this otl:rel-Conceptual-isSpecializationOf+ ?thisParents .
-						?thisParents otl:rel-Conceptual-isDescribedIn ?informationFieldParent .
-						?informationFieldParent otl:rel-InformationField-isClassifiedAs ?lijnkleurInformationType .
-						?informationFieldParent otl:attr-InformationField-value ?lijnkleurValueTemp .
+						?this otl:rel-Conceptual-isDescribedIn ?ownField .
+						?ownField otl:rel-InformationField-isClassifiedAs ?lijnkleurInformationType .
+						?ownField otl:attr-InformationField-value ?ownValue .
+					}
+					OPTIONAL {
+						?this otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
+						?thisGrandparents otl:rel-Conceptual-isDescribedIn ?informationFieldGrandparent .
+						?informationFieldGrandparent otl:rel-InformationField-isClassifiedAs ?lijnkleurInformationType .
+						?informationFieldGrandparent otl:attr-InformationField-value ?lijnkleurValueParent .
+						FILTER NOT EXISTS {
+							?thisParents otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
+							?this otl:rel-Conceptual-isSpecializationOf+ ?thisParents .
+							?thisParents otl:rel-Conceptual-isDescribedIn ?informationFieldParent .
+							?informationFieldParent otl:rel-InformationField-isClassifiedAs ?lijnkleurInformationType .
+							?informationFieldParent otl:attr-InformationField-value ?lijnkleurValueTemp .
+						}
 					}
 				}
 				BIND( IF(BOUND(?lijnkleurValueThis),
 					IF(?lijnkleurValueThis = "nvt", ?undefined, ?lijnkleurValueThis),
 					IF(BOUND(?lijnkleurValueParent), ?lijnkleurValueParent, ?undefined2)) AS ?lijnkleurValue) .
 
-				BIND (IF(BOUND(?lijnkleurValue),ex:linkLijnkleur(?lijnkleurValue), ?undefined3) AS ?tgtLijnkleur) .
-				BIND (ex:createHumanReadableUri(?tgtLijnkleurTypeName) AS ?tgtLijnkleurProperty) .
-				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
+				# Inlined ex:linkLijnkleur (one sub-query less per row, and no nested function call).
+				# "" never names a Lijnkleur, so it is swapped for a name nothing has instead of
+				# checking every concept named "" (e.g. all empty qualifications).
+				BIND (IF(BOUND(?lijnkleurValue) && ?lijnkleurValue != "", ?lijnkleurValue, "#no-lijnkleur#") AS ?lijnkleurLookupName) .
+				OPTIONAL {
+					?lijnkleurConcept otl:attr-Conceptual-name ?lijnkleurLookupName .
+					?lijnkleurConcept otl:rel-Conceptual-isSpecializationOf+ ?lijnkleurTop .
+					?lijnkleurTop otl:attr-Conceptual-name "Lijnkleur" .
+					?lijnkleurTop a otl:Document .
+					OPTIONAL {
+						{
+							?lijnkleurConcept otl:rel-Conceptual-isDescribedIn ?ouInformationField .
+							?ouInformationField otl:attr-InformationField-value ?ouValue .
+							?ouInformationField otl:rel-InformationField-isClassifiedAs ?ouInformationType .
+							OPTIONAL { ?ouInformationType otl:attr-Conceptual-name ?ouTypeName . }
+							FILTER (
+								(BOUND(?ouTypeName) && STR(?ouTypeName) = "Original URI") ||
+								CONTAINS(STR(?ouInformationType), "Field-Original")
+							) .
+							BIND (URI(STR(?ouValue)) AS ?canonicalUri) .
+						} UNION {
+							?lijnkleurConcept otl:rel-Conceptual-hasExternalLink ?ouExtLink .
+							?ouExtLink otl:attr-ExternalLink-relation "isSameAs" .
+							?ouExtLink otl:attr-ExternalLink-uri ?ouExtUri .
+							BIND (URI(STR(?ouExtUri)) AS ?canonicalUri) .
+						}
+					}
+				}
+				# Same result as ex:linkLijnkleur: the canonical Lijnkleur URI, else the value itself (free-text colour).
+				BIND (IF(BOUND(?lijnkleurValue), COALESCE(?canonicalUri, ?lijnkleurValue), ?undefined3) AS ?tgtLijnkleur) .
+				# Property URI = ex:createHumanReadableUri(?tgtLijnkleurTypeName), built with string functions: the function
+				# costs 2-4 sub-queries per call and ran for every row. Same rule as ex:humanReadableNameForUri:
+				# first word as is, a word equal to the first word as is, every other word capitalised.
+				# Labels of more than 3 words fall back to the function.
+				BIND (IF(CONTAINS(?tgtLijnkleurTypeName, " "), STRBEFORE(?tgtLijnkleurTypeName, " "), ?tgtLijnkleurTypeName) AS ?hrWord1) .
+				BIND (STRAFTER(?tgtLijnkleurTypeName, " ") AS ?hrRest1) .
+				BIND (IF(CONTAINS(?hrRest1, " "), STRBEFORE(?hrRest1, " "), ?hrRest1) AS ?hrWord2) .
+				BIND (STRAFTER(?hrRest1, " ") AS ?hrRest2) .
+				BIND (IF(CONTAINS(?hrRest2, " "), STRBEFORE(?hrRest2, " "), ?hrRest2) AS ?hrWord3) .
+				BIND (STRAFTER(?hrRest2, " ") AS ?hrRest3) .
+				BIND (CONCAT(?hrWord1,
+					IF(?hrWord2 = ?hrWord1, ?hrWord2, CONCAT(UCASE(SUBSTR(?hrWord2, 1, 1)), LCASE(SUBSTR(?hrWord2, 2)))),
+					IF(?hrWord3 = ?hrWord1, ?hrWord3, CONCAT(UCASE(SUBSTR(?hrWord3, 1, 1)), LCASE(SUBSTR(?hrWord3, 2))))) AS ?hrCamel) .
+				BIND (IF(?hrRest3 = "", IRI(CONCAT(?propNamespace, ENCODE_FOR_URI(?hrCamel))), ex:createHumanReadableUri(?tgtLijnkleurTypeName)) AS ?tgtLijnkleurProperty) .
 			}
 			""" ;
             sh:deactivated false ;
@@ -699,42 +761,74 @@ ex:ConvertConceptualLijntypeRelations a sh:NodeShape ;
 			}
 			WHERE {
 				?this a otl:PhysicalObject .
+				# Once per object instead of once per (object, linetype type) row.
+				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
+				# Namespace of ex:createHumanReadableUri, looked up once per object (used by the property URI below).
+				BIND (REPLACE(STR(ex:createHumanReadableUri("ns")), "ns$", "") AS ?propNamespace) .
 
-				?lijntypeInformationType a otl:InformationType .
-				?lijntypeInformationType otl:attr-Conceptual-name ?tgtLijntypeTypeName .
-				FILTER (CONTAINS(?tgtLijntypeTypeName, "linetype")) .
+				# Own sub-group so the type FILTER applies right here, not at the end of the whole WHERE.
+				{
+					?lijntypeInformationType a otl:InformationType .
+					?lijntypeInformationType otl:attr-Conceptual-name ?tgtLijntypeTypeName .
+					FILTER (CONTAINS(?tgtLijntypeTypeName, "linetype")) .
+				}
 
-				## Option 1: SPARQL logic
-				OPTIONAL {
+				# Own value; inherited value only when the object has no field of this type at all
+				# (see ConvertConceptualLijnkleurRelations for why).
+				{
 					?this otl:rel-Conceptual-isDescribedIn ?informationFieldThis .
 					?informationFieldThis otl:rel-InformationField-isClassifiedAs ?lijntypeInformationType .
 					?informationFieldThis otl:attr-InformationField-value ?lijntypeValueThis .
 				}
-				OPTIONAL {
-					?this otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
-					?thisGrandparents otl:rel-Conceptual-isDescribedIn ?informationFieldGrandparent .
-					?informationFieldGrandparent otl:rel-InformationField-isClassifiedAs ?lijntypeInformationType .
-					?informationFieldGrandparent otl:attr-InformationField-value ?lijntypeValueParent .
+				UNION
+				{
+					?lijntypeInformationType a otl:InformationType .
 					FILTER NOT EXISTS {
-						?thisParents otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
-						?this otl:rel-Conceptual-isSpecializationOf+ ?thisParents .
-						?thisParents otl:rel-Conceptual-isDescribedIn ?informationFieldParent .
-						?informationFieldParent otl:rel-InformationField-isClassifiedAs ?lijntypeInformationType .
-						?informationFieldParent otl:attr-InformationField-value ?lijntypeValueTemp .
+						?this otl:rel-Conceptual-isDescribedIn ?ownField .
+						?ownField otl:rel-InformationField-isClassifiedAs ?lijntypeInformationType .
+						?ownField otl:attr-InformationField-value ?ownValue .
+					}
+					OPTIONAL {
+						?this otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
+						?thisGrandparents otl:rel-Conceptual-isDescribedIn ?informationFieldGrandparent .
+						?informationFieldGrandparent otl:rel-InformationField-isClassifiedAs ?lijntypeInformationType .
+						?informationFieldGrandparent otl:attr-InformationField-value ?lijntypeValueParent .
+						FILTER NOT EXISTS {
+							?thisParents otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
+							?this otl:rel-Conceptual-isSpecializationOf+ ?thisParents .
+							?thisParents otl:rel-Conceptual-isDescribedIn ?informationFieldParent .
+							?informationFieldParent otl:rel-InformationField-isClassifiedAs ?lijntypeInformationType .
+							?informationFieldParent otl:attr-InformationField-value ?lijntypeValueTemp .
+						}
 					}
 				}
 				BIND( IF(BOUND(?lijntypeValueThis),
 					IF(?lijntypeValueThis = "nvt", ?undefined, ?lijntypeValueThis),
 					IF(BOUND(?lijntypeValueParent), ?lijntypeValueParent, ?undefined2)) AS ?lijntypeValue) .
 
-				?Lijntype a otl:Document .
-				?Lijntype otl:attr-Conceptual-name "Lijntype" .
+				# Look the linetype up by its (known) name, then check it sits under "Lijntype" - instead of
+				# walking every Lijntype descendant and filtering on the name. Empty / unbound values get a
+				# name nothing has (an unbound variable here would match every name).
+				BIND (IF(BOUND(?lijntypeValue) && ?lijntypeValue != "", ?lijntypeValue, "#no-lijntype#") AS ?lijntypeLookupName) .
+				?lijntypeConceptStub otl:attr-Conceptual-name ?lijntypeLookupName .
 				?lijntypeConceptStub otl:rel-Conceptual-isSpecializationOf+ ?Lijntype .
-				?lijntypeConceptStub otl:attr-Conceptual-name ?lijntypeName .
-				FILTER (?lijntypeValue = ?lijntypeName) .
+				?Lijntype otl:attr-Conceptual-name "Lijntype" .
+				?Lijntype a otl:Document .
 				BIND (COALESCE(ex:getOriginalUri(?lijntypeConceptStub), ?lijntypeConceptStub) AS ?tgtLijntype) .
-				BIND (ex:createHumanReadableUri(?tgtLijntypeTypeName) AS ?tgtLijntypeProperty) .
-				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
+				# Property URI = ex:createHumanReadableUri(?tgtLijntypeTypeName), built with string functions: the function
+				# costs 2-4 sub-queries per call and ran for every row. Same rule as ex:humanReadableNameForUri:
+				# first word as is, a word equal to the first word as is, every other word capitalised.
+				# Labels of more than 3 words fall back to the function.
+				BIND (IF(CONTAINS(?tgtLijntypeTypeName, " "), STRBEFORE(?tgtLijntypeTypeName, " "), ?tgtLijntypeTypeName) AS ?hrWord1) .
+				BIND (STRAFTER(?tgtLijntypeTypeName, " ") AS ?hrRest1) .
+				BIND (IF(CONTAINS(?hrRest1, " "), STRBEFORE(?hrRest1, " "), ?hrRest1) AS ?hrWord2) .
+				BIND (STRAFTER(?hrRest1, " ") AS ?hrRest2) .
+				BIND (IF(CONTAINS(?hrRest2, " "), STRBEFORE(?hrRest2, " "), ?hrRest2) AS ?hrWord3) .
+				BIND (STRAFTER(?hrRest2, " ") AS ?hrRest3) .
+				BIND (CONCAT(?hrWord1,
+					IF(?hrWord2 = ?hrWord1, ?hrWord2, CONCAT(UCASE(SUBSTR(?hrWord2, 1, 1)), LCASE(SUBSTR(?hrWord2, 2)))),
+					IF(?hrWord3 = ?hrWord1, ?hrWord3, CONCAT(UCASE(SUBSTR(?hrWord3, 1, 1)), LCASE(SUBSTR(?hrWord3, 2))))) AS ?hrCamel) .
+				BIND (IF(?hrRest3 = "", IRI(CONCAT(?propNamespace, ENCODE_FOR_URI(?hrCamel))), ex:createHumanReadableUri(?tgtLijntypeTypeName)) AS ?tgtLijntypeProperty) .
 			}
 			""" ;
             sh:deactivated false ;
@@ -762,42 +856,73 @@ ex:ConvertConceptualLijnweightRelations a sh:NodeShape ;
 			}
 			WHERE {
 				?this a otl:PhysicalObject .
+				# Once per object instead of once per (object, lineweight type) row.
+				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
+				# Namespace of ex:createHumanReadableUri, looked up once per object (used by the property URI below).
+				BIND (REPLACE(STR(ex:createHumanReadableUri("ns")), "ns$", "") AS ?propNamespace) .
 
-				?lijnweightInformationType a otl:InformationType .
-				?lijnweightInformationType otl:attr-Conceptual-name ?tgtLijnweightTypeName .
-				FILTER (CONTAINS(?tgtLijnweightTypeName, "lineweight")) .
+				# Own sub-group so the type FILTER applies right here, not at the end of the whole WHERE.
+				{
+					?lijnweightInformationType a otl:InformationType .
+					?lijnweightInformationType otl:attr-Conceptual-name ?tgtLijnweightTypeName .
+					FILTER (CONTAINS(?tgtLijnweightTypeName, "lineweight")) .
+				}
 
-				## Option 1: SPARQL logic
-				OPTIONAL {
+				# Own value; inherited value only when the object has no field of this type at all
+				# (see ConvertConceptualLijnkleurRelations for why).
+				{
 					?this otl:rel-Conceptual-isDescribedIn ?informationFieldThis .
 					?informationFieldThis otl:rel-InformationField-isClassifiedAs ?lijnweightInformationType .
 					?informationFieldThis otl:attr-InformationField-value ?lijnweightValueThis .
 				}
-				OPTIONAL {
-					?this otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
-					?thisGrandparents otl:rel-Conceptual-isDescribedIn ?informationFieldGrandparent .
-					?informationFieldGrandparent otl:rel-InformationField-isClassifiedAs ?lijnweightInformationType .
-					?informationFieldGrandparent otl:attr-InformationField-value ?lijnweightValueParent .
+				UNION
+				{
+					?lijnweightInformationType a otl:InformationType .
 					FILTER NOT EXISTS {
-						?thisParents otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
-						?this otl:rel-Conceptual-isSpecializationOf+ ?thisParents .
-						?thisParents otl:rel-Conceptual-isDescribedIn ?informationFieldParent .
-						?informationFieldParent otl:rel-InformationField-isClassifiedAs ?lijnweightInformationType .
-						?informationFieldParent otl:attr-InformationField-value ?lijnweightValueTemp .
+						?this otl:rel-Conceptual-isDescribedIn ?ownField .
+						?ownField otl:rel-InformationField-isClassifiedAs ?lijnweightInformationType .
+						?ownField otl:attr-InformationField-value ?ownValue .
+					}
+					OPTIONAL {
+						?this otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
+						?thisGrandparents otl:rel-Conceptual-isDescribedIn ?informationFieldGrandparent .
+						?informationFieldGrandparent otl:rel-InformationField-isClassifiedAs ?lijnweightInformationType .
+						?informationFieldGrandparent otl:attr-InformationField-value ?lijnweightValueParent .
+						FILTER NOT EXISTS {
+							?thisParents otl:rel-Conceptual-isSpecializationOf+ ?thisGrandparents .
+							?this otl:rel-Conceptual-isSpecializationOf+ ?thisParents .
+							?thisParents otl:rel-Conceptual-isDescribedIn ?informationFieldParent .
+							?informationFieldParent otl:rel-InformationField-isClassifiedAs ?lijnweightInformationType .
+							?informationFieldParent otl:attr-InformationField-value ?lijnweightValueTemp .
+						}
 					}
 				}
 				BIND( IF(BOUND(?lijnweightValueThis),
 					IF(?lijnweightValueThis = "nvt", ?undefined, ?lijnweightValueThis),
 					IF(BOUND(?lijnweightValueParent), ?lijnweightValueParent, ?undefined2)) AS ?lijnweightValue) .
 
-				?Lijnweight a otl:Document .
-				?Lijnweight otl:attr-Conceptual-name "Lijnweight" .
+				# Look the lineweight up by its (known) name, then check it sits under "Lijnweight"
+				# (see ConvertConceptualLijntypeRelations).
+				BIND (IF(BOUND(?lijnweightValue) && ?lijnweightValue != "", ?lijnweightValue, "#no-lijnweight#") AS ?lijnweightLookupName) .
+				?lijnweightConceptStub otl:attr-Conceptual-name ?lijnweightLookupName .
 				?lijnweightConceptStub otl:rel-Conceptual-isSpecializationOf+ ?Lijnweight .
-				?lijnweightConceptStub otl:attr-Conceptual-name ?lijnweightName .
-				FILTER (?lijnweightValue = ?lijnweightName) .
+				?Lijnweight otl:attr-Conceptual-name "Lijnweight" .
+				?Lijnweight a otl:Document .
 				BIND (COALESCE(ex:getOriginalUri(?lijnweightConceptStub), ?lijnweightConceptStub) AS ?tgtLijnweight) .
-				BIND (ex:createHumanReadableUri(?tgtLijnweightTypeName) AS ?tgtLijnweightProperty) .
-				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
+				# Property URI = ex:createHumanReadableUri(?tgtLijnweightTypeName), built with string functions: the function
+				# costs 2-4 sub-queries per call and ran for every row. Same rule as ex:humanReadableNameForUri:
+				# first word as is, a word equal to the first word as is, every other word capitalised.
+				# Labels of more than 3 words fall back to the function.
+				BIND (IF(CONTAINS(?tgtLijnweightTypeName, " "), STRBEFORE(?tgtLijnweightTypeName, " "), ?tgtLijnweightTypeName) AS ?hrWord1) .
+				BIND (STRAFTER(?tgtLijnweightTypeName, " ") AS ?hrRest1) .
+				BIND (IF(CONTAINS(?hrRest1, " "), STRBEFORE(?hrRest1, " "), ?hrRest1) AS ?hrWord2) .
+				BIND (STRAFTER(?hrRest1, " ") AS ?hrRest2) .
+				BIND (IF(CONTAINS(?hrRest2, " "), STRBEFORE(?hrRest2, " "), ?hrRest2) AS ?hrWord3) .
+				BIND (STRAFTER(?hrRest2, " ") AS ?hrRest3) .
+				BIND (CONCAT(?hrWord1,
+					IF(?hrWord2 = ?hrWord1, ?hrWord2, CONCAT(UCASE(SUBSTR(?hrWord2, 1, 1)), LCASE(SUBSTR(?hrWord2, 2)))),
+					IF(?hrWord3 = ?hrWord1, ?hrWord3, CONCAT(UCASE(SUBSTR(?hrWord3, 1, 1)), LCASE(SUBSTR(?hrWord3, 2))))) AS ?hrCamel) .
+				BIND (IF(?hrRest3 = "", IRI(CONCAT(?propNamespace, ENCODE_FOR_URI(?hrCamel))), ex:createHumanReadableUri(?tgtLijnweightTypeName)) AS ?tgtLijnweightProperty) .
 			}
 			""" ;
             sh:deactivated false ;
@@ -825,7 +950,17 @@ ex:ConvertExternalSource a sh:NodeShape ;
 				?tgtThis ?shallBeCompliantWith ?tgtIsCompliantWithExternalURI .
 			}
 			WHERE {
-				?this a ?conceptual .
+				# Early exit, in its own sub-group so it applies before the function call below: without an
+				# external link or an unnamed (external) child this rule emits nothing - skip the work for the
+				# vast majority of conceptuals (objects, qualifications).
+				{
+					?this a ?conceptual .
+					FILTER (EXISTS { ?this otl:rel-Conceptual-hasExternalLink ?anyExternalLink . } ||
+					        EXISTS { ?anyChild otl:rel-Conceptual-isSpecializationOf ?this .
+					                 FILTER NOT EXISTS { ?anyChild otl:attr-Conceptual-name ?anyChildName . } } ) .
+				}
+				# Once, and reused in the isSameAs filter below (it was evaluated twice per row).
+				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
 				OPTIONAL {
 					?childConceptual otl:rel-Conceptual-isSpecializationOf ?this .
 					FILTER NOT EXISTS {
@@ -842,7 +977,7 @@ ex:ConvertExternalSource a sh:NodeShape ;
 					# ex:getOriginalUri(?this) resolves through this very "isSameAs" link for shared
 					# concepts, so tgtSameAsExternalURI would equal tgtThis and produce a
 					# self-referencing owl:equivalentClass in every hoofdgroep split. Skip those.
-					FILTER (?tgtSameAsExternalURI != ex:getOriginalUri(?this)) .
+					FILTER (?tgtSameAsExternalURI != ?tgtThis) .
 				} .
 				OPTIONAL {
 					?this otl:rel-Conceptual-hasExternalLink ?2externalRelation .
@@ -859,7 +994,6 @@ ex:ConvertExternalSource a sh:NodeShape ;
 					BIND (URI(str(?isCompliantWithExternalURI)) AS ?tgtIsCompliantWithExternalURI) .
 					BIND (ex:createURI("shallBeCompliantWith") AS ?shallBeCompliantWith) .
 				} .
-				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .
 			}
 			""" ;
             sh:deactivated false ;
@@ -989,12 +1123,19 @@ ex:ConvertRelations a sh:NodeShape ;
 					BIND (?shapeTo AS ?shapeToReused) .
 				} .
 				BIND (COALESCE(?shapeToReused, ex:createURI(CONCAT(ex:localname(?to), "-Shape"))) AS ?tmpShapeTo) .
-				
-				BIND (IF(bound(?inverseRelation) && !bound(?bsRelation0), ?to, ?from) AS ?tgtFrom) .
-				BIND (IF(bound(?inverseRelation) && !bound(?bsRelation0), ?from, ?to) AS ?tgtTo) .
+
+				# Laces re-mints object URIs on import; resolve both ends to their original URI
+				BIND (ex:getOriginalUri(?from) AS ?origFrom) .
+				BIND (ex:getOriginalUri(?to) AS ?origTo) .
+				BIND (IF(bound(?inverseRelation) && !bound(?bsRelation0), ?origTo, ?origFrom) AS ?tgtFrom) .
+				BIND (IF(bound(?inverseRelation) && !bound(?bsRelation0), ?origFrom, ?origTo) AS ?tgtTo) .
 				BIND (IF(bound(?inverseRelation) && !bound(?bsRelation0), ?tmpShapeTo,?tmpShapeFrom) AS ?tgtShapeFromLaces) .
 				BIND (IF(bound(?minCardinality), ?minCardinality, IF(bound(?maxCardinality), ?null, "0"^^xsd:nonNegativeInteger)) AS ?tgtMinCardinality) .
 				BIND (COALESCE(?bsRelation0, ?inverseRelation, ?bsRelation1, ?bsRelation2) AS ?tgtRelation) .
+				# Relations without a resolvable target property (e.g. hasAspect relations whose
+				# rdfs:subClassOf otl:hasAspect is absent from the workspace) would otherwise still emit a
+				# bare "?shape sh:targetClass ?from" with the Laces-local object URI.
+				FILTER (BOUND(?tgtRelation)) .
 			}
 
 			""" ;
