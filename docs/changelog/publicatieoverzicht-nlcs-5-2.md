@@ -80,7 +80,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Changelogs**
 - [Changelog arceringen](https://nl-digigo.github.io/NLCS/changelog/CO/changelog-arceringen-5-2-CO.html)
 
-## ES ✅
+## ES ❌ (20 fout(en))
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/ES/lijntypes-5-2-ES.html)
@@ -258,7 +258,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/KG/changelog-objecten-5-2-KG.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/KG/changelog-symbolen-5-2-KG.html)
 
-## KL ✅
+## KL ❌ (744 fout(en))
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/KL/lijntypes-5-2-KL.html)
@@ -360,7 +360,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/OV/changelog-objecten-5-2-OV.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/OV/changelog-symbolen-5-2-OV.html)
 
-## RI ✅
+## RI ❌ (86 fout(en))
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/RI/lijntypes-5-2-RI.html)
@@ -373,7 +373,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/RI/changelog-objecten-5-2-RI.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/RI/changelog-symbolen-5-2-RI.html)
 
-## SB ✅
+## SB ❌ (15 fout(en))
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/SB/lijntypes-5-2-SB.html)

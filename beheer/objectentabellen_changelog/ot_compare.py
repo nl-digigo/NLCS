@@ -3255,7 +3255,8 @@ def _norm_cell(value: str) -> str:
 def compare(new_path: str, old_path: str, key: str = KEY,
             scope_col: str = "", blank_spec: dict = None,
             suppress_change: dict = None, multilink_cols=None,
-            scope_code: str = "", scope_strip_s: bool = False) -> dict:
+            scope_code: str = "", scope_strip_s: bool = False,
+            scope_codes=None) -> dict:
     """Vergelijk twee CSV-versies en geef een resultaat-dict terug.
 
     Parameters:
@@ -3276,6 +3277,12 @@ def compare(new_path: str, old_path: str, key: str = KEY,
                    (sbibliotheek 'SZZ' -> 'ZZ', symbolen), False gebruikt de waarde
                    zelf (kolom 'hoofdgroep', lijntypes). Zelfde regel als
                    split_result_by_bib.
+      scope_codes : optioneel, de hoofdgroep-codes die een VERZAMELbestand dekt
+                   (bijv. CO-arceringen: ('CO','MW') voor ACO+AMW). Oude rijen
+                   waarvan de hoofdgroep hierin valt blijven in scope, óók als die
+                   bibliotheek niet meer in de nieuwe versie staat — zo verschijnt
+                   een verdwenen bibliotheek tóch als 'vervallen' in zijn
+                   hoofdgroep-changelog.
       blank_spec : optioneel. Maakt bepaalde kolommen leeg (aan BEIDE kanten) voor
                    rijen die uit een andere publicatie komen, zodat die kolommen
                    niet als 'wijziging' tellen. Vorm:
@@ -3362,15 +3369,25 @@ def compare(new_path: str, old_path: str, key: str = KEY,
         # vergelijking met de oude versie (alles vervallen) tóch zichtbaar wordt.
         want_code = (scope_code or "").strip().upper()
         use_code = bool(want_code) and not new_rows
+        # Hoofdgroepen die dit (verzamel)bestand dekt (bijv. CO-arceringen = CO
+        # [ACO] + MW [AMW]). Oude rijen waarvan de hoofdgroep hierin zit blijven
+        # staan, ook als die bibliotheek NIET meer in de nieuwe versie voorkomt —
+        # zo verschijnt een verdwenen bibliotheek (bijv. AMW) tóch als 'vervallen'.
+        owned = {c.strip().upper() for c in (scope_codes or ()) if c and c.strip()}
 
         def _scope_code(value: str) -> str:
             v = (value or "").strip().upper()
             return sbib_to_code(v) if scope_strip_s else v
 
+        def _scope_hg(value: str) -> str:
+            # scope-waarde -> hoofdgroep-code (ACO->CO, AMW->MW, SBC->BC)
+            return _canon_group_code(_scope_code(value), set())
+
         old_rows = [r for r in old_rows
                     if r[oidx[scope_col]].strip() in allowed
                     or (allow_empty and not r[oidx[scope_col]].strip())
-                    or (use_code and _scope_code(r[oidx[scope_col]]) == want_code)]
+                    or (use_code and _scope_code(r[oidx[scope_col]]) == want_code)
+                    or (owned and _scope_hg(r[oidx[scope_col]]) in owned)]
 
     # Rijen waarvoor GEEN wijzigingen getoond mogen worden (changelog): match op
     # een kolomwaarde (bijv. omschrijving = CONTINUOUS/V-CONTINUOUS-SO).

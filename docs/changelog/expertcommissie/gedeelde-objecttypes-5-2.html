@@ -91,6 +91,21 @@
     .shared-item .others .hgchip { display:inline-block; background:#eef4f8;
             color:var(--dg-ink); border-radius:10px; padding:1px 7px;
             margin-left:3px; font-weight:700; }
+    .ex-item { display:flex; align-items:baseline; gap:9px; padding:4px 9px;
+            margin:3px 0; font-size:.86rem; background:#fbfbfb;
+            border:1px solid var(--dg-grey); border-left:4px solid var(--dg-green);
+            border-radius:4px; }
+    .ex-item .hgchip { flex:none; display:inline-block; background:#eef4f8;
+            color:var(--dg-ink); border-radius:10px; padding:1px 8px;
+            font-weight:700; font-size:.74rem; min-width:30px; text-align:center; }
+    .ex-item .nm { overflow-wrap:anywhere; }
+    .zone-head { margin:28px 0 10px; font-size:1.15rem; color:var(--dg-ink);
+            border-bottom:3px solid var(--dg-yellow); padding-bottom:5px; }
+    .zone-head .zone-codes { font-size:.8rem; font-weight:400;
+            color:var(--dg-grey2); margin-left:10px; }
+    .zone-head.cross { border-bottom-color:var(--dg-blue); }
+    /* objecten die meerdere zones overlappen: blauw zijkantstreepje i.p.v. groen */
+    .card.cross .ex-item { border-left-color:var(--dg-blue); }
 </style>
 </head>
 <body>
@@ -250,11 +265,12 @@
 <div class="shared-item"><span class="nm">OVERIGMATERIAAL</span><span class="others">ook in:<span class="hgchip">BC</span><span class="hgchip">MW</span><span class="hgchip">SC</span></span></div>
 <div class="shared-item"><span class="nm">REPARATIES</span><span class="others">ook in:<span class="hgchip">BC</span><span class="hgchip">FC</span><span class="hgchip">GC</span><span class="hgchip">HC</span><span class="hgchip">KC</span><span class="hgchip">MW</span><span class="hgchip">SC</span><span class="hgchip">VH</span></span></div>
 <div class="shared-item"><span class="nm">SCHEMA</span><span class="others">ook in:<span class="hgchip">KL</span></span></div></div>
-<div class="card"><h2>MO</h2><p class="subtitle">hoofdgroep MO &middot; 8 gedeeld objecttype(n)</p><div class="shared-item"><span class="nm">BODEM</span><span class="others">ook in:<span class="hgchip">GW</span><span class="hgchip">RI</span></span></div>
+<div class="card"><h2>MO</h2><p class="subtitle">hoofdgroep MO &middot; 9 gedeeld objecttype(n)</p><div class="shared-item"><span class="nm">BODEM</span><span class="others">ook in:<span class="hgchip">GW</span><span class="hgchip">RI</span></span></div>
 <div class="shared-item"><span class="nm">FUNDERING</span><span class="others">ook in:<span class="hgchip">OG</span><span class="hgchip">VH</span></span></div>
 <div class="shared-item"><span class="nm">INSPECTIE</span><span class="others">ook in:<span class="hgchip">RI</span></span></div>
 <div class="shared-item"><span class="nm">LICHT</span><span class="others">ook in:<span class="hgchip">BC</span></span></div>
 <div class="shared-item"><span class="nm">NAP</span><span class="others">ook in:<span class="hgchip">ZZ</span></span></div>
+<div class="shared-item"><span class="nm">ONDERZOEK</span><span class="others">ook in:<span class="hgchip">ZZ</span></span></div>
 <div class="shared-item"><span class="nm">SLEUF</span><span class="others">ook in:<span class="hgchip">GW</span></span></div>
 <div class="shared-item"><span class="nm">SPOOR</span><span class="others">ook in:<span class="hgchip">AM</span><span class="hgchip">SB</span></span></div>
 <div class="shared-item"><span class="nm">WATERBODEM</span><span class="others">ook in:<span class="hgchip">WH</span></span></div></div>
@@ -324,11 +340,10 @@
 <div class="shared-item"><span class="nm">REPARATIES</span><span class="others">ook in:<span class="hgchip">BC</span><span class="hgchip">FC</span><span class="hgchip">GC</span><span class="hgchip">HC</span><span class="hgchip">KC</span><span class="hgchip">MC</span><span class="hgchip">MW</span><span class="hgchip">VH</span></span></div>
 <div class="shared-item"><span class="nm">SLOOPLIJN</span><span class="others">ook in:<span class="hgchip">BC</span></span></div>
 <div class="shared-item"><span class="nm">VERBINDING</span><span class="others">ook in:<span class="hgchip">HC</span><span class="hgchip">KC</span></span></div></div>
-<div class="card"><h2>VH</h2><p class="subtitle">hoofdgroep VH &middot; 11 gedeeld objecttype(n)</p><div class="shared-item"><span class="nm">FUNDERING</span><span class="others">ook in:<span class="hgchip">MO</span><span class="hgchip">OG</span></span></div>
+<div class="card"><h2>VH</h2><p class="subtitle">hoofdgroep VH &middot; 10 gedeeld objecttype(n)</p><div class="shared-item"><span class="nm">FUNDERING</span><span class="others">ook in:<span class="hgchip">MO</span><span class="hgchip">OG</span></span></div>
 <div class="shared-item"><span class="nm">GEOTEXTIEL</span><span class="others">ook in:<span class="hgchip">GW</span></span></div>
 <div class="shared-item"><span class="nm">GOOT</span><span class="others">ook in:<span class="hgchip">KL</span><span class="hgchip">MC</span><span class="hgchip">RI</span></span></div>
 <div class="shared-item"><span class="nm">GRAS</span><span class="others">ook in:<span class="hgchip">GR</span></span></div>
-<div class="shared-item"><span class="nm">KANTOPSLUITING</span><span class="others">ook in:<span class="hgchip">ZZ</span></span></div>
 <div class="shared-item"><span class="nm">KLEI</span><span class="others">ook in:<span class="hgchip">GW</span><span class="hgchip">OB</span></span></div>
 <div class="shared-item"><span class="nm">ONVERHARD</span><span class="others">ook in:<span class="hgchip">OG</span></span></div>
 <div class="shared-item"><span class="nm">REPARATIES</span><span class="others">ook in:<span class="hgchip">BC</span><span class="hgchip">FC</span><span class="hgchip">GC</span><span class="hgchip">HC</span><span class="hgchip">KC</span><span class="hgchip">MC</span><span class="hgchip">MW</span><span class="hgchip">SC</span></span></div>
@@ -362,8 +377,8 @@
 <div class="shared-item"><span class="nm">WATERLIJN</span><span class="others">ook in:<span class="hgchip">GW</span><span class="hgchip">OB</span></span></div></div>
 <div class="card"><h2>ZZ</h2><p class="subtitle">hoofdgroep ZZ &middot; 4 gedeeld objecttype(n)</p><div class="shared-item"><span class="nm">GRENS</span><span class="others">ook in:<span class="hgchip">KG</span><span class="hgchip">OG</span></span></div>
 <div class="shared-item"><span class="nm">HARTLIJN</span><span class="others">ook in:<span class="hgchip">KL</span></span></div>
-<div class="shared-item"><span class="nm">KANTOPSLUITING</span><span class="others">ook in:<span class="hgchip">VH</span></span></div>
-<div class="shared-item"><span class="nm">NAP</span><span class="others">ook in:<span class="hgchip">MO</span></span></div></div>
+<div class="shared-item"><span class="nm">NAP</span><span class="others">ook in:<span class="hgchip">MO</span></span></div>
+<div class="shared-item"><span class="nm">ONDERZOEK</span><span class="others">ook in:<span class="hgchip">MO</span></span></div></div>
 </div>
 </div>
 <footer class="site-footer">
