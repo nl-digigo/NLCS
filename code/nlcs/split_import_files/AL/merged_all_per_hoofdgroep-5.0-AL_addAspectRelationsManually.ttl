@@ -6876,1318 +6876,1316 @@ nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-field-c2f421fe569e440c58d0f6de941faae9
   otl:attr-InformationField-value "";
   otl:rel-InformationField-isClassifiedAs nlcs:965ac85b41943c884f3487cb131e05bd-info-type .
 
-nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-role-status .
-
-nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-empty-qualification-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-empty-qualification-status a otl:Qualification;
-  otl:attr-Conceptual-name "";
-  shapes:sequence nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-empty-qualification-status-seq-name .
-
-nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-empty-qualification-status-seq-name a otl:Seq_attr-Conceptual-name;
-  rdf:_1 "";
-  owl:annotatedProperty otl:attr-Conceptual-name .
-
-nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-shape-seq-status .
-
-nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-role-status .
-
-nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66 a otl:Qualification .
-
-nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-shape-seq-status .
-
-nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-role-status .
-
-nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-shape-seq-status .
-
-nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-role-status .
-
-nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-shape-seq-status .
-
-nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-role-status .
-
-nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-shape-seq-status .
-
-nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-role-status .
-
-nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-shape-seq-status .
-
-nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-role-status .
-
-nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-shape-seq-status .
-
-nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:ae1369b0-0ece-4017-94a5-f001804b4188;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-role-status .
-
-nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-shape-seq-status .
-
-nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-role-status .
-
-nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-shape-seq-status .
-
-nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:a9622d0d-facb-411a-987b-f6adf25910f4;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-role-status .
-
-nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-shape-seq-status .
-
-nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-role-status .
-
-nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-shape-seq-status .
-
-nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-role-status .
-
-nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-shape-seq-status .
-
-nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:3455519b-0969-441e-9066-defcb5245141-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:3455519b-0969-441e-9066-defcb5245141;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:3455519b-0969-441e-9066-defcb5245141-role-status .
-
-nlcs:3455519b-0969-441e-9066-defcb5245141-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:3455519b-0969-441e-9066-defcb5245141-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:3455519b-0969-441e-9066-defcb5245141-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:3455519b-0969-441e-9066-defcb5245141-shape-seq-status .
-
-nlcs:3455519b-0969-441e-9066-defcb5245141-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-role-status .
-
-nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-shape-seq-status .
-
-nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:a394f60d-1d36-4b97-80db-a568211f2980-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:a394f60d-1d36-4b97-80db-a568211f2980;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:a394f60d-1d36-4b97-80db-a568211f2980-role-status .
-
-nlcs:a394f60d-1d36-4b97-80db-a568211f2980-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:a394f60d-1d36-4b97-80db-a568211f2980-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:a394f60d-1d36-4b97-80db-a568211f2980-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:a394f60d-1d36-4b97-80db-a568211f2980-shape-seq-status .
-
-nlcs:a394f60d-1d36-4b97-80db-a568211f2980-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-role-status .
-
-nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-shape-seq-status .
-
-nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-role-status .
-
-nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-shape-seq-status .
-
-nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-role-status .
-
-nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-shape-seq-status .
-
-nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-role-status .
-
-nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-shape-seq-status .
-
-nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-role-status .
-
-nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-shape-seq-status .
-
-nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:e982babe-06cc-4800-b3e9-7e44471737bd;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-role-status .
-
-nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-shape-seq-status .
-
-nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:73554001-b372-4756-8df7-fe86ce5073c7-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:73554001-b372-4756-8df7-fe86ce5073c7;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:73554001-b372-4756-8df7-fe86ce5073c7-role-status .
-
-nlcs:73554001-b372-4756-8df7-fe86ce5073c7-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:73554001-b372-4756-8df7-fe86ce5073c7-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:73554001-b372-4756-8df7-fe86ce5073c7-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:73554001-b372-4756-8df7-fe86ce5073c7-shape-seq-status .
-
-nlcs:73554001-b372-4756-8df7-fe86ce5073c7-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:13864a8b-0201-45a7-9da1-3d049b336411-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:13864a8b-0201-45a7-9da1-3d049b336411;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:13864a8b-0201-45a7-9da1-3d049b336411-role-status .
-
-nlcs:13864a8b-0201-45a7-9da1-3d049b336411-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:13864a8b-0201-45a7-9da1-3d049b336411-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:13864a8b-0201-45a7-9da1-3d049b336411-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:13864a8b-0201-45a7-9da1-3d049b336411-shape-seq-status .
-
-nlcs:13864a8b-0201-45a7-9da1-3d049b336411-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-role-status .
-
-nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-shape-seq-status .
-
-nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-role-status .
-
-nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-shape-seq-status .
-
-nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:183069c1-f792-472f-9713-477516c63199-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:183069c1-f792-472f-9713-477516c63199;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:183069c1-f792-472f-9713-477516c63199-role-status .
-
-nlcs:183069c1-f792-472f-9713-477516c63199-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:183069c1-f792-472f-9713-477516c63199-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:183069c1-f792-472f-9713-477516c63199-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:183069c1-f792-472f-9713-477516c63199-shape-seq-status .
-
-nlcs:183069c1-f792-472f-9713-477516c63199-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:d366a885-c350-4366-afc0-1af4aa64d227-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:d366a885-c350-4366-afc0-1af4aa64d227;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:d366a885-c350-4366-afc0-1af4aa64d227-role-status .
-
-nlcs:d366a885-c350-4366-afc0-1af4aa64d227-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:d366a885-c350-4366-afc0-1af4aa64d227-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:d366a885-c350-4366-afc0-1af4aa64d227-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:d366a885-c350-4366-afc0-1af4aa64d227-shape-seq-status .
-
-nlcs:d366a885-c350-4366-afc0-1af4aa64d227-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-role-status .
-
-nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-shape-seq-status .
-
-nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-role-status .
-
-nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-shape-seq-status .
-
-nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:22235789-48d3-4154-8f8d-63ed70b13e04;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-role-status .
-
-nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-shape-seq-status .
-
-nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:136521c9-daf1-49e9-b172-75e75b470a76-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:136521c9-daf1-49e9-b172-75e75b470a76;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:136521c9-daf1-49e9-b172-75e75b470a76-role-status .
-
-nlcs:136521c9-daf1-49e9-b172-75e75b470a76-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:136521c9-daf1-49e9-b172-75e75b470a76-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:136521c9-daf1-49e9-b172-75e75b470a76-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:136521c9-daf1-49e9-b172-75e75b470a76-shape-seq-status .
-
-nlcs:136521c9-daf1-49e9-b172-75e75b470a76-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:142d5294-b077-446d-87e7-30f2777e841d-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:142d5294-b077-446d-87e7-30f2777e841d;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:142d5294-b077-446d-87e7-30f2777e841d-role-status .
-
-nlcs:142d5294-b077-446d-87e7-30f2777e841d-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:142d5294-b077-446d-87e7-30f2777e841d-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:142d5294-b077-446d-87e7-30f2777e841d-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:142d5294-b077-446d-87e7-30f2777e841d-shape-seq-status .
-
-nlcs:142d5294-b077-446d-87e7-30f2777e841d-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-role-status .
-
-nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-shape-seq-status .
-
-nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8;
-  otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
-  otl:rel-Relation-toRole nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-role-status .
-
-nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-role-status a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-shape-attr-status;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
-
-nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-shape-attr-status a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Status";
-  shapes:sequence nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-shape-seq-status .
-
-nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-shape-seq-status a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Status";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-role-discipline .
-
-nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-empty-qualification-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-empty-qualification-discipline a otl:Qualification;
-  otl:attr-Conceptual-name "";
-  shapes:sequence nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-empty-qualification-discipline-seq-name .
-
-nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-empty-qualification-discipline-seq-name
-  a otl:Seq_attr-Conceptual-name;
-  rdf:_1 "";
-  owl:annotatedProperty otl:attr-Conceptual-name .
-
-nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-shape-seq-discipline .
-
-nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-role-discipline .
-
-nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:a4074b0f-7910-4496-951e-1879d6059d4b a otl:Qualification .
-
-nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-shape-seq-discipline .
-
-nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-role-discipline .
-
-nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-shape-seq-discipline .
-
-nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-role-discipline .
-
-nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-shape-seq-discipline .
-
-nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-role-discipline .
-
-nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-shape-seq-discipline .
-
-nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-role-discipline .
-
-nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-shape-seq-discipline .
-
-nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-role-discipline .
-
-nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-shape-seq-discipline .
-
-nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:ae1369b0-0ece-4017-94a5-f001804b4188;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-role-discipline .
-
-nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-shape-seq-discipline .
-
-nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-role-discipline .
-
-nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-shape-seq-discipline .
-
-nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:a9622d0d-facb-411a-987b-f6adf25910f4;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-role-discipline .
-
-nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-shape-seq-discipline .
-
-nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-role-discipline .
-
-nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-shape-seq-discipline .
-
-nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-role-discipline .
-
-nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-shape-seq-discipline .
-
-nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:3455519b-0969-441e-9066-defcb5245141-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:3455519b-0969-441e-9066-defcb5245141;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:3455519b-0969-441e-9066-defcb5245141-role-discipline .
-
-nlcs:3455519b-0969-441e-9066-defcb5245141-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:3455519b-0969-441e-9066-defcb5245141-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:3455519b-0969-441e-9066-defcb5245141-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:3455519b-0969-441e-9066-defcb5245141-shape-seq-discipline .
-
-nlcs:3455519b-0969-441e-9066-defcb5245141-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-role-discipline .
-
-nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-shape-seq-discipline .
-
-nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:a394f60d-1d36-4b97-80db-a568211f2980-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:a394f60d-1d36-4b97-80db-a568211f2980;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:a394f60d-1d36-4b97-80db-a568211f2980-role-discipline .
-
-nlcs:a394f60d-1d36-4b97-80db-a568211f2980-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:a394f60d-1d36-4b97-80db-a568211f2980-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:a394f60d-1d36-4b97-80db-a568211f2980-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:a394f60d-1d36-4b97-80db-a568211f2980-shape-seq-discipline .
-
-nlcs:a394f60d-1d36-4b97-80db-a568211f2980-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-role-discipline .
-
-nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-shape-seq-discipline .
-
-nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-role-discipline .
-
-nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-shape-seq-discipline .
-
-nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-role-discipline .
-
-nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-shape-seq-discipline .
-
-nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-role-discipline .
-
-nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-shape-seq-discipline .
-
-nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-role-discipline .
-
-nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-shape-seq-discipline .
-
-nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:e982babe-06cc-4800-b3e9-7e44471737bd;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-role-discipline .
-
-nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-shape-seq-discipline .
-
-nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:73554001-b372-4756-8df7-fe86ce5073c7-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:73554001-b372-4756-8df7-fe86ce5073c7;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:73554001-b372-4756-8df7-fe86ce5073c7-role-discipline .
-
-nlcs:73554001-b372-4756-8df7-fe86ce5073c7-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:73554001-b372-4756-8df7-fe86ce5073c7-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:73554001-b372-4756-8df7-fe86ce5073c7-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:73554001-b372-4756-8df7-fe86ce5073c7-shape-seq-discipline .
-
-nlcs:73554001-b372-4756-8df7-fe86ce5073c7-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:13864a8b-0201-45a7-9da1-3d049b336411-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:13864a8b-0201-45a7-9da1-3d049b336411;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:13864a8b-0201-45a7-9da1-3d049b336411-role-discipline .
-
-nlcs:13864a8b-0201-45a7-9da1-3d049b336411-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:13864a8b-0201-45a7-9da1-3d049b336411-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:13864a8b-0201-45a7-9da1-3d049b336411-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:13864a8b-0201-45a7-9da1-3d049b336411-shape-seq-discipline .
-
-nlcs:13864a8b-0201-45a7-9da1-3d049b336411-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-role-discipline .
-
-nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-shape-seq-discipline .
-
-nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-role-discipline .
-
-nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-shape-seq-discipline .
-
-nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:183069c1-f792-472f-9713-477516c63199-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:183069c1-f792-472f-9713-477516c63199;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:183069c1-f792-472f-9713-477516c63199-role-discipline .
-
-nlcs:183069c1-f792-472f-9713-477516c63199-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:183069c1-f792-472f-9713-477516c63199-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:183069c1-f792-472f-9713-477516c63199-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:183069c1-f792-472f-9713-477516c63199-shape-seq-discipline .
-
-nlcs:183069c1-f792-472f-9713-477516c63199-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:d366a885-c350-4366-afc0-1af4aa64d227-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:d366a885-c350-4366-afc0-1af4aa64d227;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:d366a885-c350-4366-afc0-1af4aa64d227-role-discipline .
-
-nlcs:d366a885-c350-4366-afc0-1af4aa64d227-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:d366a885-c350-4366-afc0-1af4aa64d227-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:d366a885-c350-4366-afc0-1af4aa64d227-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:d366a885-c350-4366-afc0-1af4aa64d227-shape-seq-discipline .
-
-nlcs:d366a885-c350-4366-afc0-1af4aa64d227-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-role-discipline .
-
-nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-shape-seq-discipline .
-
-nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-role-discipline .
-
-nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-shape-seq-discipline .
-
-nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:22235789-48d3-4154-8f8d-63ed70b13e04;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-role-discipline .
-
-nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-shape-seq-discipline .
-
-nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:136521c9-daf1-49e9-b172-75e75b470a76-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:136521c9-daf1-49e9-b172-75e75b470a76;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:136521c9-daf1-49e9-b172-75e75b470a76-role-discipline .
-
-nlcs:136521c9-daf1-49e9-b172-75e75b470a76-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:136521c9-daf1-49e9-b172-75e75b470a76-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:136521c9-daf1-49e9-b172-75e75b470a76-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:136521c9-daf1-49e9-b172-75e75b470a76-shape-seq-discipline .
-
-nlcs:136521c9-daf1-49e9-b172-75e75b470a76-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:142d5294-b077-446d-87e7-30f2777e841d-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:142d5294-b077-446d-87e7-30f2777e841d;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:142d5294-b077-446d-87e7-30f2777e841d-role-discipline .
-
-nlcs:142d5294-b077-446d-87e7-30f2777e841d-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:142d5294-b077-446d-87e7-30f2777e841d-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:142d5294-b077-446d-87e7-30f2777e841d-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:142d5294-b077-446d-87e7-30f2777e841d-shape-seq-discipline .
-
-nlcs:142d5294-b077-446d-87e7-30f2777e841d-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-role-discipline .
-
-nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-shape-seq-discipline .
-
-nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
-
-nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
-  otl:rel-Relation-from nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8;
-  otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
-  otl:rel-Relation-toRole nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-role-discipline .
-
-nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-role-discipline a otl:RoleOfAspect-PossessedAspect;
-  otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-shape-attr-discipline;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
-  otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
-
-nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-shape-attr-discipline a bp:Attribute;
-  bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
-  bp:attr-ShapeElement-name "Discipline";
-  shapes:sequence nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-shape-seq-discipline .
-
-nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
-  rdf:_1 "Discipline";
-  owl:annotatedProperty bp:attr-ShapeElement-name .
+# nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-role-status .
+
+# nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-empty-qualification-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-empty-qualification-status a otl:Qualification;
+#   otl:attr-Conceptual-name "";
+#   shapes:sequence nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-empty-qualification-status-seq-name .
+
+# nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-empty-qualification-status-seq-name a otl:Seq_attr-Conceptual-name;
+#   rdf:_1 "";
+#   owl:annotatedProperty otl:attr-Conceptual-name .
+
+# nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-shape-seq-status .
+
+# nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-role-status .
+
+# nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-shape-seq-status .
+
+# nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-role-status .
+
+# nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-shape-seq-status .
+
+# nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-role-status .
+
+# nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-shape-seq-status .
+
+# nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-role-status .
+
+# nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-shape-seq-status .
+
+# nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-role-status .
+
+# nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-shape-seq-status .
+
+# nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-role-status .
+
+# nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-shape-seq-status .
+
+# nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:ae1369b0-0ece-4017-94a5-f001804b4188;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-role-status .
+
+# nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-shape-seq-status .
+
+# nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-role-status .
+
+# nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-shape-seq-status .
+
+# nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:a9622d0d-facb-411a-987b-f6adf25910f4;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-role-status .
+
+# nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-shape-seq-status .
+
+# nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-role-status .
+
+# nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-shape-seq-status .
+
+# nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-role-status .
+
+# nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-shape-seq-status .
+
+# nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:3455519b-0969-441e-9066-defcb5245141-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:3455519b-0969-441e-9066-defcb5245141;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:3455519b-0969-441e-9066-defcb5245141-role-status .
+
+# nlcs:3455519b-0969-441e-9066-defcb5245141-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:3455519b-0969-441e-9066-defcb5245141-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:3455519b-0969-441e-9066-defcb5245141-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:3455519b-0969-441e-9066-defcb5245141-shape-seq-status .
+
+# nlcs:3455519b-0969-441e-9066-defcb5245141-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-role-status .
+
+# nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-shape-seq-status .
+
+# nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:a394f60d-1d36-4b97-80db-a568211f2980-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:a394f60d-1d36-4b97-80db-a568211f2980;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:a394f60d-1d36-4b97-80db-a568211f2980-role-status .
+
+# nlcs:a394f60d-1d36-4b97-80db-a568211f2980-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:a394f60d-1d36-4b97-80db-a568211f2980-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:a394f60d-1d36-4b97-80db-a568211f2980-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:a394f60d-1d36-4b97-80db-a568211f2980-shape-seq-status .
+
+# nlcs:a394f60d-1d36-4b97-80db-a568211f2980-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-role-status .
+
+# nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-shape-seq-status .
+
+# nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-role-status .
+
+# nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-shape-seq-status .
+
+# nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-role-status .
+
+# nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-shape-seq-status .
+
+# nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-role-status .
+
+# nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-shape-seq-status .
+
+# nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-role-status .
+
+# nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-shape-seq-status .
+
+# nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:e982babe-06cc-4800-b3e9-7e44471737bd;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-role-status .
+
+# nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-shape-seq-status .
+
+# nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:73554001-b372-4756-8df7-fe86ce5073c7-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:73554001-b372-4756-8df7-fe86ce5073c7;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:73554001-b372-4756-8df7-fe86ce5073c7-role-status .
+
+# nlcs:73554001-b372-4756-8df7-fe86ce5073c7-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:73554001-b372-4756-8df7-fe86ce5073c7-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:73554001-b372-4756-8df7-fe86ce5073c7-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:73554001-b372-4756-8df7-fe86ce5073c7-shape-seq-status .
+
+# nlcs:73554001-b372-4756-8df7-fe86ce5073c7-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:13864a8b-0201-45a7-9da1-3d049b336411-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:13864a8b-0201-45a7-9da1-3d049b336411;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:13864a8b-0201-45a7-9da1-3d049b336411-role-status .
+
+# nlcs:13864a8b-0201-45a7-9da1-3d049b336411-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:13864a8b-0201-45a7-9da1-3d049b336411-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:13864a8b-0201-45a7-9da1-3d049b336411-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:13864a8b-0201-45a7-9da1-3d049b336411-shape-seq-status .
+
+# nlcs:13864a8b-0201-45a7-9da1-3d049b336411-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-role-status .
+
+# nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-shape-seq-status .
+
+# nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-role-status .
+
+# nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-shape-seq-status .
+
+# nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:183069c1-f792-472f-9713-477516c63199-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:183069c1-f792-472f-9713-477516c63199;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:183069c1-f792-472f-9713-477516c63199-role-status .
+
+# nlcs:183069c1-f792-472f-9713-477516c63199-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:183069c1-f792-472f-9713-477516c63199-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:183069c1-f792-472f-9713-477516c63199-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:183069c1-f792-472f-9713-477516c63199-shape-seq-status .
+
+# nlcs:183069c1-f792-472f-9713-477516c63199-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:d366a885-c350-4366-afc0-1af4aa64d227-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:d366a885-c350-4366-afc0-1af4aa64d227;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:d366a885-c350-4366-afc0-1af4aa64d227-role-status .
+
+# nlcs:d366a885-c350-4366-afc0-1af4aa64d227-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:d366a885-c350-4366-afc0-1af4aa64d227-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:d366a885-c350-4366-afc0-1af4aa64d227-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:d366a885-c350-4366-afc0-1af4aa64d227-shape-seq-status .
+
+# nlcs:d366a885-c350-4366-afc0-1af4aa64d227-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-role-status .
+
+# nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-shape-seq-status .
+
+# nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-role-status .
+
+# nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-shape-seq-status .
+
+# nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:22235789-48d3-4154-8f8d-63ed70b13e04;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-role-status .
+
+# nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-shape-seq-status .
+
+# nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:136521c9-daf1-49e9-b172-75e75b470a76-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:136521c9-daf1-49e9-b172-75e75b470a76;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:136521c9-daf1-49e9-b172-75e75b470a76-role-status .
+
+# nlcs:136521c9-daf1-49e9-b172-75e75b470a76-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:136521c9-daf1-49e9-b172-75e75b470a76-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:136521c9-daf1-49e9-b172-75e75b470a76-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:136521c9-daf1-49e9-b172-75e75b470a76-shape-seq-status .
+
+# nlcs:136521c9-daf1-49e9-b172-75e75b470a76-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:142d5294-b077-446d-87e7-30f2777e841d-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:142d5294-b077-446d-87e7-30f2777e841d;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:142d5294-b077-446d-87e7-30f2777e841d-role-status .
+
+# nlcs:142d5294-b077-446d-87e7-30f2777e841d-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:142d5294-b077-446d-87e7-30f2777e841d-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:142d5294-b077-446d-87e7-30f2777e841d-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:142d5294-b077-446d-87e7-30f2777e841d-shape-seq-status .
+
+# nlcs:142d5294-b077-446d-87e7-30f2777e841d-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-role-status .
+
+# nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-shape-seq-status .
+
+# nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-aspect-status a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8;
+#   otl:rel-Relation-to nlcs:580a54a5-3f8e-4d92-afac-24eb23707884;
+#   otl:rel-Relation-toRole nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-role-status .
+
+# nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-role-status a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-shape-attr-status;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a2ce6e32-8c3b-4f59-ad98-af8ed7c4ab66;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:4644d710-5447-4ba0-b05f-0ed335bf5c9c .
+
+# nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-shape-attr-status a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Status";
+#   shapes:sequence nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-shape-seq-status .
+
+# nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-shape-seq-status a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Status";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-role-discipline .
+
+# nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-empty-qualification-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-empty-qualification-discipline a otl:Qualification;
+#   otl:attr-Conceptual-name "";
+#   shapes:sequence nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-empty-qualification-discipline-seq-name .
+
+# nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-empty-qualification-discipline-seq-name
+#   a otl:Seq_attr-Conceptual-name;
+#   rdf:_1 "";
+#   owl:annotatedProperty otl:attr-Conceptual-name .
+
+# nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-shape-seq-discipline .
+
+# nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-role-discipline .
+
+# nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:a4074b0f-7910-4496-951e-1879d6059d4b a otl:Qualification .
+
+# nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-shape-seq-discipline .
+
+# nlcs:d98ba953-a03b-42f3-aed2-88ac9595dd7a-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-role-discipline .
+
+# nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-shape-seq-discipline .
+
+# nlcs:5bd4b95a-dc71-42af-b5cf-c2d7449f9760-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-role-discipline .
+
+# nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-shape-seq-discipline .
+
+# nlcs:cbc84760-0b9a-4205-93b3-ae4b8279cd08-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-role-discipline .
+
+# nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-shape-seq-discipline .
+
+# nlcs:6b3b0a4e-ae5c-41b6-8924-e37f88c13d31-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-role-discipline .
+
+# nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-shape-seq-discipline .
+
+# nlcs:f7144968-6e00-4516-a3bc-9b7b556cc0a5-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-role-discipline .
+
+# nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-shape-seq-discipline .
+
+# nlcs:e5aa0262-49bc-4a8b-9dc4-81debfa37345-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:ae1369b0-0ece-4017-94a5-f001804b4188;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-role-discipline .
+
+# nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-shape-seq-discipline .
+
+# nlcs:ae1369b0-0ece-4017-94a5-f001804b4188-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-role-discipline .
+
+# nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-shape-seq-discipline .
+
+# nlcs:82677c85-1aa0-4ea4-ad78-a9534476dc8e-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:a9622d0d-facb-411a-987b-f6adf25910f4;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-role-discipline .
+
+# nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-shape-seq-discipline .
+
+# nlcs:a9622d0d-facb-411a-987b-f6adf25910f4-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-role-discipline .
+
+# nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-shape-seq-discipline .
+
+# nlcs:f54c6021-5e77-48aa-a020-0bf0f86da9e4-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-role-discipline .
+
+# nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-shape-seq-discipline .
+
+# nlcs:7158aa53-1b03-40c5-bf95-8d31e2c72624-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:3455519b-0969-441e-9066-defcb5245141-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:3455519b-0969-441e-9066-defcb5245141;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:3455519b-0969-441e-9066-defcb5245141-role-discipline .
+
+# nlcs:3455519b-0969-441e-9066-defcb5245141-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:3455519b-0969-441e-9066-defcb5245141-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:3455519b-0969-441e-9066-defcb5245141-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:3455519b-0969-441e-9066-defcb5245141-shape-seq-discipline .
+
+# nlcs:3455519b-0969-441e-9066-defcb5245141-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-role-discipline .
+
+# nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-shape-seq-discipline .
+
+# nlcs:d7424c0f-a027-451f-b6b2-26fc04374b9d-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:a394f60d-1d36-4b97-80db-a568211f2980-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:a394f60d-1d36-4b97-80db-a568211f2980;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:a394f60d-1d36-4b97-80db-a568211f2980-role-discipline .
+
+# nlcs:a394f60d-1d36-4b97-80db-a568211f2980-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:a394f60d-1d36-4b97-80db-a568211f2980-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:a394f60d-1d36-4b97-80db-a568211f2980-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:a394f60d-1d36-4b97-80db-a568211f2980-shape-seq-discipline .
+
+# nlcs:a394f60d-1d36-4b97-80db-a568211f2980-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-role-discipline .
+
+# nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-shape-seq-discipline .
+
+# nlcs:b587d613-cd7c-4348-a3b4-24538c0cb9f2-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-role-discipline .
+
+# nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-shape-seq-discipline .
+
+# nlcs:1f26db84-c369-43cd-bc64-5af1eef71e7d-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-role-discipline .
+
+# nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-shape-seq-discipline .
+
+# nlcs:afa7666b-1c23-4d4e-a6ca-f8a9d64324dc-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-role-discipline .
+
+# nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-shape-seq-discipline .
+
+# nlcs:65dac3f7-5b5d-42b4-a3bb-0762970d45bd-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-role-discipline .
+
+# nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-shape-seq-discipline .
+
+# nlcs:836a066d-0781-4ce6-a760-4566c5dbfa5d-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:e982babe-06cc-4800-b3e9-7e44471737bd;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-role-discipline .
+
+# nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-shape-seq-discipline .
+
+# nlcs:e982babe-06cc-4800-b3e9-7e44471737bd-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:73554001-b372-4756-8df7-fe86ce5073c7-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:73554001-b372-4756-8df7-fe86ce5073c7;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:73554001-b372-4756-8df7-fe86ce5073c7-role-discipline .
+
+# nlcs:73554001-b372-4756-8df7-fe86ce5073c7-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:73554001-b372-4756-8df7-fe86ce5073c7-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:73554001-b372-4756-8df7-fe86ce5073c7-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:73554001-b372-4756-8df7-fe86ce5073c7-shape-seq-discipline .
+
+# nlcs:73554001-b372-4756-8df7-fe86ce5073c7-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:13864a8b-0201-45a7-9da1-3d049b336411-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:13864a8b-0201-45a7-9da1-3d049b336411;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:13864a8b-0201-45a7-9da1-3d049b336411-role-discipline .
+
+# nlcs:13864a8b-0201-45a7-9da1-3d049b336411-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:13864a8b-0201-45a7-9da1-3d049b336411-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:13864a8b-0201-45a7-9da1-3d049b336411-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:13864a8b-0201-45a7-9da1-3d049b336411-shape-seq-discipline .
+
+# nlcs:13864a8b-0201-45a7-9da1-3d049b336411-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-role-discipline .
+
+# nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-shape-seq-discipline .
+
+# nlcs:d4e4aefc-e55d-4e15-b524-2e3344e15eec-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-role-discipline .
+
+# nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-shape-seq-discipline .
+
+# nlcs:91cd8ded-2932-4cc1-bf16-1321ddb60b47-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:183069c1-f792-472f-9713-477516c63199-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:183069c1-f792-472f-9713-477516c63199;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:183069c1-f792-472f-9713-477516c63199-role-discipline .
+
+# nlcs:183069c1-f792-472f-9713-477516c63199-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:183069c1-f792-472f-9713-477516c63199-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:183069c1-f792-472f-9713-477516c63199-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:183069c1-f792-472f-9713-477516c63199-shape-seq-discipline .
+
+# nlcs:183069c1-f792-472f-9713-477516c63199-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:d366a885-c350-4366-afc0-1af4aa64d227-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:d366a885-c350-4366-afc0-1af4aa64d227;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:d366a885-c350-4366-afc0-1af4aa64d227-role-discipline .
+
+# nlcs:d366a885-c350-4366-afc0-1af4aa64d227-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:d366a885-c350-4366-afc0-1af4aa64d227-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:d366a885-c350-4366-afc0-1af4aa64d227-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:d366a885-c350-4366-afc0-1af4aa64d227-shape-seq-discipline .
+
+# nlcs:d366a885-c350-4366-afc0-1af4aa64d227-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-role-discipline .
+
+# nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-shape-seq-discipline .
+
+# nlcs:18b54499-57d3-49e4-ac4c-3048b64a7c69-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-role-discipline .
+
+# nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-shape-seq-discipline .
+
+# nlcs:9f9c66dc-e5f0-4de1-85f9-82d36f81ff33-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:22235789-48d3-4154-8f8d-63ed70b13e04;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-role-discipline .
+
+# nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-shape-seq-discipline .
+
+# nlcs:22235789-48d3-4154-8f8d-63ed70b13e04-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:136521c9-daf1-49e9-b172-75e75b470a76-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:136521c9-daf1-49e9-b172-75e75b470a76;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:136521c9-daf1-49e9-b172-75e75b470a76-role-discipline .
+
+# nlcs:136521c9-daf1-49e9-b172-75e75b470a76-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:136521c9-daf1-49e9-b172-75e75b470a76-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:136521c9-daf1-49e9-b172-75e75b470a76-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:136521c9-daf1-49e9-b172-75e75b470a76-shape-seq-discipline .
+
+# nlcs:136521c9-daf1-49e9-b172-75e75b470a76-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:142d5294-b077-446d-87e7-30f2777e841d-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:142d5294-b077-446d-87e7-30f2777e841d;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:142d5294-b077-446d-87e7-30f2777e841d-role-discipline .
+
+# nlcs:142d5294-b077-446d-87e7-30f2777e841d-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:142d5294-b077-446d-87e7-30f2777e841d-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:142d5294-b077-446d-87e7-30f2777e841d-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:142d5294-b077-446d-87e7-30f2777e841d-shape-seq-discipline .
+
+# nlcs:142d5294-b077-446d-87e7-30f2777e841d-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-role-discipline .
+
+# nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-shape-seq-discipline .
+
+# nlcs:5c8ecbe8-2744-4c16-87df-9a4db5b2c7c8-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
+
+# nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-aspect-discipline a otl:PhysicalObject-hasAspect-Aspect;
+#   otl:rel-Relation-from nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8;
+#   otl:rel-Relation-to nlcs:d01031dc-9abe-47d3-9656-17185c986709;
+#   otl:rel-Relation-toRole nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-role-discipline .
+
+# nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-role-discipline a otl:RoleOfAspect-PossessedAspect;
+#   otl:rel-RoleOfAspect-PossessedAspect-hasShapeAttribute nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-shape-attr-discipline;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification nlcs:a4074b0f-7910-4496-951e-1879d6059d4b;
+#   otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAsOneOf nlcs:5f471bbf-473a-4975-9008-cbdcca2ffe9e .
+
+# nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-shape-attr-discipline a bp:Attribute;
+#   bp:attr-Component-minCardinality "0"^^xsd:nonNegativeInteger;
+#   bp:attr-ShapeElement-name "Discipline";
+#   shapes:sequence nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-shape-seq-discipline .
+
+# nlcs:b5f97208-afc7-442d-ad3f-a1e4371644e8-shape-seq-discipline a bp:Seq_attr-ShapeElement-name;
+#   rdf:_1 "Discipline";
+#   owl:annotatedProperty bp:attr-ShapeElement-name .
 
 nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60 otl:rel-Conceptual-isDescribedIn nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-field-sym,
     nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-field-arc, nlcs:a6dd3cd1-92f9-4f48-b418-a556c3475b60-field-uri .
