@@ -77,6 +77,59 @@ def collect_labels(issues: list[dict]) -> list[str]:
 
 
 # ---------------------------------------------------------------------------
+# 2b. Hoofdgroep-indeling (voor per-hoofdgroep release notes)
+# ---------------------------------------------------------------------------
+
+# Een hoofdgroep-label begint met precies twee hoofdletters gevolgd door een
+# scheidingsteken (spatie, '-' of '_'), bv. "VW Verkeersmaatregelen Weg" -> VW,
+# "RI_riolering-en-GWSW" -> RI, "AL - Algemeen" -> AL. Labels als "kleuren",
+# "publicatie" of "Symbolen" matchen bewust niet (geen 2 hoofdletters + scheiding).
+_HOOFDGROEP_RE = re.compile(r"^([A-Z]{2})(?=[\s_-])")
+
+
+def hoofdgroep_from_label(label: str):
+    """De 2-letter hoofdgroep-code uit één label, of None als het label geen
+    hoofdgroep-aanduiding is."""
+    if not label:
+        return None
+    m = _HOOFDGROEP_RE.match(label.strip())
+    return m.group(1) if m else None
+
+
+def issue_hoofdgroepen(issue: dict, valid_codes=None) -> list[str]:
+    """De (unieke, gesorteerde) hoofdgroep-codes van een issue uit zijn labels.
+
+    valid_codes (optioneel): alleen codes uit deze verzameling tellen mee
+    (bv. de set bestaande changelog-mappen). None = elke herkende code.
+    """
+    codes = set()
+    for lbl in (issue.get("labels") or []):
+        code = hoofdgroep_from_label(lbl)
+        if code and (valid_codes is None or code in valid_codes):
+            codes.add(code)
+    return sorted(codes)
+
+
+def group_by_hoofdgroep(issues: list[dict], valid_codes=None):
+    """Verdeel issues over hoofdgroep-codes.
+
+    Retour: (groups, zonder) met groups = {code: [issues]} (een issue met
+    meerdere hoofdgroep-labels komt in elke groep voor) en zonder = de lijst
+    issues zonder (geldige) hoofdgroep.
+    """
+    groups: dict[str, list[dict]] = {}
+    zonder: list[dict] = []
+    for issue in issues:
+        codes = issue_hoofdgroepen(issue, valid_codes)
+        if not codes:
+            zonder.append(issue)
+            continue
+        for code in codes:
+            groups.setdefault(code, []).append(issue)
+    return groups, zonder
+
+
+# ---------------------------------------------------------------------------
 # 3. Filteren (welke issues komen in de output)
 # ---------------------------------------------------------------------------
 

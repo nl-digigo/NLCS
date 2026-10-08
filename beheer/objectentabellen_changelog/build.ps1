@@ -14,8 +14,8 @@ if (-not (Test-Path $py)) {
     Write-Error "Python niet gevonden op $py. Pas het pad in build.ps1 aan."
 }
 
-# Zorg dat PyInstaller aanwezig is
-& $py -m pip install --quiet --upgrade pyinstaller
+# Zorg dat PyInstaller aanwezig is (+ openpyxl voor de IMPORT-symbolen-xlsx)
+& $py -m pip install --quiet --upgrade pyinstaller openpyxl
 if ($LASTEXITCODE -ne 0) { Write-Error "pip install mislukte." }
 
 # Oude build opruimen (dist\ blijft staan zodat config.json bewaard blijft;
@@ -34,6 +34,7 @@ elseif (Test-Path "digigo.ico") { $iconArgs = @("--icon", "digigo.ico") }
     --onefile `
     --windowed `
     --name "NLCS-Objectchangelog" `
+    --hidden-import openpyxl `
     @iconArgs `
     main.py
 if ($LASTEXITCODE -ne 0) { Write-Error "PyInstaller-build mislukte." }

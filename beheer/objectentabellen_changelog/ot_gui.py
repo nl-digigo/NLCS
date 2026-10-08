@@ -85,6 +85,8 @@ PROFILES = [
         "zoekfilter_name_col": "symbool",
         "zoekfilter_scope": "per_code",
         "front_svg": True,
+        # symbolen-changelog sorteerbaar op elke kolom (DataTables)
+        "sortable_changelog": True,
         # rijen groeperen per zoekfilter (sobject-term) en binnen die groep
         # alfabetisch op symboolnaam, zowel in de volledige tabel als de changelog
         "group_by_zoekfilter": True,
@@ -519,6 +521,24 @@ class TableTab(ttk.Frame):
         self.gen_btn = ttk.Button(out, text="Genereer HTML's",
                                   command=self.on_generate)
         self.gen_btn.pack(side="right")
+        # Alleen voor symbolen (front_svg): ontbrekende SVG's opsporen én maken,
+        # plus SVG's vernieuwen van symbolen waarvan de .dwg is gewijzigd.
+        self.svg_btn = None
+        self.changed_btn = None
+        self.import_btn = None
+        if self.profile.get("front_svg"):
+            self.svg_btn = ttk.Button(out, text="Genereer ontbrekende SVG's",
+                                      command=self.on_generate_svgs)
+            self.svg_btn.pack(side="right", padx=(0, 6))
+            self.changed_btn = ttk.Button(
+                out, text="Vernieuw SVG's van gewijzigde symbolen",
+                command=self.on_generate_changed_svgs)
+            self.changed_btn.pack(side="right", padx=(0, 6))
+            # Wees-.dwg's (wel .dwg, niet in de tabel) als IMPORT-xlsx per HG.
+            self.import_btn = ttk.Button(
+                out, text="Genereer IMPORT-symbolen (ontbrekend in tabel)",
+                command=self.on_generate_symbol_import)
+            self.import_btn.pack(side="right", padx=(0, 6))
 
         logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
         logframe.pack(fill="both", expand=True, pady=(8, 0))
@@ -761,7 +781,8 @@ class TableTab(ttk.Frame):
                     full_result = ot_compare.compare(
                         new_path, old_path, key=match_key, scope_col=scope_col,
                         blank_spec=blank_spec, suppress_change=suppress_change,
-                        multilink_cols=multilink_cols)
+                        multilink_cols=multilink_cols,
+                        scope_code=code, scope_strip_s=scope_strip_s)
 
                     # Verzamelbestand (CO) uiteen laten vallen in aparte
                     # hoofdgroepen; gewone bestanden blijven één geheel.
@@ -1030,7 +1051,8 @@ class TableTab(ttk.Frame):
                                 version_new=version_new, version_old=version_old,
                                 visible_indices=vis, extra_columns=extra_cols,
                                 orphans=orphans_this, deleted_notes=deleted_notes,
-                                header_labels=self.profile.get("header_labels"))
+                                header_labels=self.profile.get("header_labels"),
+                                sortable=self.profile.get("sortable_changelog", False))
                             changelog_path = os.path.join(
                                 dest_dir, f"changelog-{base}.html")
                             with open(changelog_path, "w", encoding="utf-8") as f:
@@ -1087,14 +1109,259 @@ class TableTab(ttk.Frame):
                     if open_after and first:
                         webbrowser.open(os.path.abspath(first))
                     return
+                elif kind == "svg_done":
+                    conv, failed, errors = payload
+                    if errors:
+                        for e in errors:
+                            self._logmsg("FOUT: " + e)
+                    self._logmsg(f"Klaar: {conv} SVG('s) gemaakt"
+                                 + (f", {len(failed)} mislukt" if failed else "")
+                                 + ".")
+                    for f in failed:
+                        self._logmsg(f"  ⚠ {f['name']}: {f['reason']}")
+                    self.gen_btn.config(state="normal")
+                    if self.svg_btn is not None:
+                        self.svg_btn.config(state="normal")
+                    if self.changed_btn is not None:
+                        self.changed_btn.config(state="normal")
+                    if self.import_btn is not None:
+                        self.import_btn.config(state="normal")
+                    return
                 elif kind == "error":
                     messagebox.showerror("Fout", payload)
                     self._logmsg("FOUT: " + payload)
                     self.gen_btn.config(state="normal")
+                    if self.svg_btn is not None:
+                        self.svg_btn.config(state="normal")
+                    if self.changed_btn is not None:
+                        self.changed_btn.config(state="normal")
+                    if self.import_btn is not None:
+                        self.import_btn.config(state="normal")
                     return
         except queue.Empty:
             pass
         self.after(100, self._poll_queue)
+
+    def on_generate_svgs(self) -> None:
+        """Zoek symbolen zonder SVG en genereer alleen die (DWG → DXF → SVG)."""
+        sym_src = self._loc("new")
+        dwg_dir = self._loc("dwg_new")
+        svg_root = self.app.loc["index_root"].get().strip()
+        if not sym_src or not os.path.isdir(sym_src):
+            messagebox.showwarning(
+                "Geen symbolentabellen",
+                "Vul bij 'Locaties' de map met de nieuwe symbolentabellen in.")
+            return
+        if not dwg_dir or not os.path.isdir(dwg_dir):
+            messagebox.showwarning(
+                "Geen .dwg-map",
+                "Vul bij 'Locaties' de map met de symbool-.dwg's in.")
+            return
+        if not svg_root or not os.path.isdir(svg_root):
+            messagebox.showwarning(
+                "Geen publicatie-map",
+                "Vul bij 'Locaties' de publicatie-overzichtmap (docs/changelog) in;"
+                " daaronder staan de SVG's per hoofdgroep.")
+            return
+
+        res = ot_compare.find_missing_svgs(sym_src, dwg_dir, svg_root)
+        if res is None:
+            messagebox.showwarning(
+                "Niet gevonden",
+                "Geen symboolnaam-kolom ('symbool') in de tabellen gevonden.")
+            return
+        missing = res["missing"]
+        no_dwg = res["no_dwg"]
+        if not missing and not no_dwg:
+            messagebox.showinfo(
+                "Niets te doen",
+                f"Alle {res['total']} symbolen hebben al een SVG.")
+            return
+        if not missing:
+            messagebox.showinfo(
+                "Geen bron-.dwg",
+                f"{len(no_dwg)} symbool(en) missen een SVG, maar er is voor geen "
+                "enkele een bron-.dwg gevonden. Er valt niets te converteren.")
+            return
+
+        skip_txt = (f"\n{len(no_dwg)} symbool(en) worden overgeslagen "
+                    "(geen bron-.dwg)." if no_dwg else "")
+        if not messagebox.askyesno(
+                "Ontbrekende SVG's genereren",
+                f"{len(missing)} ontbrekende SVG('s) genereren uit de .dwg's?"
+                f"{skip_txt}\n\nDit gebruikt ODA File Converter en Inkscape en kan "
+                "even duren."):
+            return
+
+        self._disable_svg_btns()
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg(f"{res['have']} met SVG, {len(missing)} te maken"
+                     + (f", {len(no_dwg)} zonder .dwg overgeslagen" if no_dwg else "")
+                     + ".")
+
+        def worker():
+            try:
+                def progress(done, total, msg):
+                    self._queue.put(("log", f"[{done}/{total}] {msg}"))
+                out = ot_compare.generate_svgs(missing, progress=progress)
+                self._queue.put(("svg_done", (out["converted"], out["failed"],
+                                              out["errors"])))
+            except Exception as exc:  # noqa: BLE001 - tonen in de GUI
+                self._queue.put(("error", str(exc)))
+
+        threading.Thread(target=worker, daemon=True).start()
+        self.after(100, self._poll_queue)
+
+    def _disable_svg_btns(self) -> None:
+        self.gen_btn.config(state="disabled")
+        if self.svg_btn is not None:
+            self.svg_btn.config(state="disabled")
+        if self.changed_btn is not None:
+            self.changed_btn.config(state="disabled")
+        if self.import_btn is not None:
+            self.import_btn.config(state="disabled")
+
+    def on_generate_changed_svgs(self) -> None:
+        """Vernieuw de SVG's van symbolen waarvan de .dwg-inhoud is gewijzigd
+        tussen de oude en de nieuwe versie (SHA-256 verschilt)."""
+        sym_src = self._loc("new")
+        dwg_new = self._loc("dwg_new")
+        dwg_old = self._loc("dwg_old")
+        svg_root = self.app.loc["index_root"].get().strip()
+        if not sym_src or not os.path.isdir(sym_src):
+            messagebox.showwarning(
+                "Geen symbolentabellen",
+                "Vul bij 'Locaties' de map met de nieuwe symbolentabellen in.")
+            return
+        if not dwg_new or not os.path.isdir(dwg_new):
+            messagebox.showwarning(
+                "Geen .dwg-map (nieuw)",
+                "Vul bij 'Locaties' de map met de nieuwe symbool-.dwg's in.")
+            return
+        if not dwg_old or not os.path.isdir(dwg_old):
+            messagebox.showwarning(
+                "Geen .dwg-map (oud)",
+                "Vul bij 'Locaties' de map met de oude symbool-.dwg's in;"
+                " die is nodig om te bepalen welke .dwg's zijn gewijzigd.")
+            return
+        if not svg_root or not os.path.isdir(svg_root):
+            messagebox.showwarning(
+                "Geen publicatie-map",
+                "Vul bij 'Locaties' de publicatie-overzichtmap (docs/changelog) in;"
+                " daaronder staan de SVG's per hoofdgroep.")
+            return
+
+        res = ot_compare.find_changed_svgs(sym_src, dwg_new, dwg_old, svg_root)
+        if res is None:
+            messagebox.showwarning(
+                "Niet gevonden",
+                "Geen symboolnaam-kolom ('symbool') in de tabellen gevonden.")
+            return
+        changed = res["changed"]
+        if not changed:
+            messagebox.showinfo(
+                "Niets te doen",
+                f"Geen enkel symbool heeft een gewijzigde .dwg "
+                f"({res['identical']} identiek van {res['total']} gecontroleerd).")
+            return
+
+        if not messagebox.askyesno(
+                "Gewijzigde SVG's vernieuwen",
+                f"{len(changed)} symbool(en) hebben een gewijzigde .dwg. De "
+                "bestaande SVG's worden overschreven met een nieuwe versie.\n\n"
+                "Dit gebruikt ODA File Converter en Inkscape en kan even duren."):
+            return
+
+        self._disable_svg_btns()
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg(f"{len(changed)} gewijzigde .dwg('s), {res['identical']} "
+                     f"identiek van {res['total']} gecontroleerd.")
+
+        def worker():
+            try:
+                def progress(done, total, msg):
+                    self._queue.put(("log", f"[{done}/{total}] {msg}"))
+                out = ot_compare.generate_svgs(changed, progress=progress)
+                self._queue.put(("svg_done", (out["converted"], out["failed"],
+                                              out["errors"])))
+            except Exception as exc:  # noqa: BLE001 - tonen in de GUI
+                self._queue.put(("error", str(exc)))
+
+        threading.Thread(target=worker, daemon=True).start()
+        self.after(100, self._poll_queue)
+
+    def on_generate_symbol_import(self) -> None:
+        """Maak per hoofdgroep een IMPORT_NLCS_Symbolen-xlsx met de symbolen die
+        wél als .dwg klaarstaan maar nog niet in de symbolentabellen zitten.
+        Beperkt tot de aangevinkte hoofdgroepen als er een selectie is."""
+        sym_src = self._loc("new")
+        dwg_dir = self._loc("dwg_new")
+        if not sym_src or not os.path.isdir(sym_src):
+            messagebox.showwarning(
+                "Geen symbolentabellen",
+                "Vul bij 'Locaties' de map met de nieuwe symbolentabellen in.")
+            return
+        if not dwg_dir or not os.path.isdir(dwg_dir):
+            messagebox.showwarning(
+                "Geen .dwg-map",
+                "Vul bij 'Locaties' de map met de symbool-.dwg's in.")
+            return
+
+        res = ot_compare.find_orphan_symbols(sym_src, dwg_dir)
+        if res is None:
+            messagebox.showwarning(
+                "Niet gevonden",
+                "Geen symboolnaam-kolom ('symbool') in de tabellen gevonden.")
+            return
+        groups = res["groups"]
+        selected = set(self.code_list.checked())
+        if selected:
+            groups = {hg: rows for hg, rows in groups.items() if hg in selected}
+        if not groups:
+            scope = " voor de gekozen hoofdgroep(en)" if selected else ""
+            messagebox.showinfo(
+                "Niets te doen",
+                f"Alle .dwg-symbolen staan al in de tabellen{scope}.")
+            return
+
+        total = sum(len(r) for r in groups.values())
+        overzicht = "\n".join(f"  • {hg}: {len(groups[hg])} symbool(en)"
+                              for hg in sorted(groups))
+        out_dir = filedialog.askdirectory(
+            title="Map voor de IMPORT_NLCS_Symbolen-bestanden",
+            initialdir=sym_src)
+        if not out_dir:
+            return
+        if not messagebox.askyesno(
+                "IMPORT-symbolen genereren",
+                f"{len(groups)} bestand(en) met in totaal {total} symbool(en) "
+                f"schrijven naar:\n{out_dir}\n\n{overzicht}\n\n"
+                "Bestaande bestanden met dezelfde naam worden overschreven."):
+            return
+
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        made = 0
+        for hg in sorted(groups):
+            path = os.path.join(out_dir, f"IMPORT_NLCS_Symbolen {hg}.xlsx")
+            try:
+                ot_compare.write_symbol_import_xlsx(groups[hg], path)
+                made += 1
+                self._logmsg(f"{os.path.basename(path)}: {len(groups[hg])} symbool(en).")
+            except Exception as exc:  # noqa: BLE001 - tonen in de GUI
+                self._logmsg(f"FOUT bij {os.path.basename(path)}: {exc}")
+        self._logmsg(f"Klaar: {made}/{len(groups)} bestand(en) geschreven "
+                     f"in {out_dir}.")
+        if made:
+            try:
+                webbrowser.open(os.path.abspath(out_dir))
+            except OSError:
+                pass
 
 
 # ---------------------------------------------------------------------------
@@ -1127,6 +1394,33 @@ class IndexTab(ttk.Frame):
         self.gen_btn = ttk.Button(btns, text="Genereer overzicht",
                                   command=self.on_generate)
         self.gen_btn.pack(side="left", padx=4)
+        self.tree_btn = ttk.Button(btns, text="Genereer objectenboom",
+                                   command=self.on_generate_tree)
+        self.tree_btn.pack(side="left", padx=4)
+        self.tree_ltv_btn = ttk.Button(
+            btns, text="Genereer objectenboom (lt_v)",
+            command=lambda: self.on_generate_tree(mark_ltv=True))
+        self.tree_ltv_btn.pack(side="left", padx=4)
+        self.shared_btn = ttk.Button(
+            btns, text="Genereer gedeelde objecttypes",
+            command=self.on_generate_shared)
+        self.shared_btn.pack(side="left", padx=4)
+        self.shared_inv_btn = ttk.Button(
+            btns, text="Genereer dubbele objecten (per object)",
+            command=self.on_generate_shared_inverse)
+        self.shared_inv_btn.pack(side="left", padx=4)
+        self.vk_btn = ttk.Button(
+            btns, text="Genereer visualisatiekeuzen",
+            command=lambda: self.on_generate_visualisatiekeuzen(collapse=False))
+        self.vk_btn.pack(side="left", padx=4)
+        self.vk_std_btn = ttk.Button(
+            btns, text="Genereer standaard visualisatiekeuzen",
+            command=lambda: self.on_generate_visualisatiekeuzen(collapse=True))
+        self.vk_std_btn.pack(side="left", padx=4)
+        self.lt_btn = ttk.Button(
+            btns, text="Genereer unieke lijntypes",
+            command=self.on_generate_unieke_lijntypes)
+        self.lt_btn.pack(side="left", padx=4)
 
         logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
         logframe.pack(fill="both", expand=True, pady=(8, 0))
@@ -1255,7 +1549,8 @@ class IndexTab(ttk.Frame):
         html_txt = ot_html.build_index_html(
             data["groups"], data["general"],
             title=f"NLCS publicatie-overzicht {version}".strip(),
-            version=version, base_url=base_url, checkmarks=checkmarks)
+            version=version, base_url=base_url, checkmarks=checkmarks,
+            expertcommissie=data.get("expertcommissie"))
         try:
             parent = os.path.dirname(os.path.abspath(output))
             os.makedirs(parent, exist_ok=True)
@@ -1274,7 +1569,8 @@ class IndexTab(ttk.Frame):
         md_txt = ot_html.build_index_markdown(
             data["groups"], data["general"],
             title=f"NLCS publicatie-overzicht {version}".strip(),
-            version=version, base_url=base_url, checkmarks=checkmarks)
+            version=version, base_url=base_url, checkmarks=checkmarks,
+            expertcommissie=data.get("expertcommissie"))
         try:
             with open(md_path, "w", encoding="utf-8") as f:
                 f.write(md_txt)
@@ -1282,6 +1578,325 @@ class IndexTab(ttk.Frame):
         except OSError as exc:
             self._logmsg("FOUT bij Markdown: " + str(exc))
 
+        self.app.save_config()
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(output))
+
+    def on_generate_tree(self, mark_ltv: bool = False) -> None:
+        """Objectenboom-overzicht: per hoofdgroep een inklapbare boom, in dezelfde
+        stijl als het publicatie-overzicht. Bron is de map objectentabellen-nieuw.
+
+        mark_ltv=True maakt de lt_v-variant: elk blokje krijgt een linker-streep op
+        basis van de V-dekking (groen = object + alle onderliggende objecten hebben
+        een lt_v die met 'V-' begint, blauw = ergens ontbreekt een 'V-'-lt_v);
+        uitvoer -> objectenboom-ltv-."""
+        src = self.app.loc["obj_new"].get().strip()
+        if not os.path.isdir(src):
+            messagebox.showwarning(
+                "Geen map", "Vul bij 'Locaties' de map objectentabellen-nieuw in "
+                "(bijv. tabellen/publicatie/objectentabellen/5-2).")
+            return
+
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg("Objectenboom inlezen…")
+        tree = ot_compare.check_object_tree(src)
+        if tree["count"] == 0:
+            messagebox.showinfo(
+                "Niets gevonden",
+                "Geen objecten gevonden in de map objectentabellen-nieuw.")
+            self._logmsg("Geen objecten gevonden.")
+            return
+
+        version = self.app.version_new_var.get().strip()
+        vdash = version.replace(".", "-")
+
+        # Uitvoerpad afleiden van het overzicht-uitvoerbestand: schrijf de
+        # objectenboom in dezelfde map als 'objectenboom-<versie>.html'.
+        base_out = self.app.loc["index_output"].get().strip()
+        if os.path.isdir(base_out) or base_out.endswith(("/", "\\")):
+            out_dir = base_out
+        elif base_out:
+            out_dir = os.path.dirname(base_out)
+        else:
+            out_dir = src
+        # De lt_v-variant is een expertcommissie-document: in de submap
+        # 'expertcommissie' zetten (het publicatie-overzicht toont die apart).
+        if mark_ltv:
+            out_dir = os.path.join(out_dir, "expertcommissie")
+        stem = "objectenboom-ltv" if mark_ltv else "objectenboom"
+        fname = f"{stem}-{vdash}.html" if vdash else f"{stem}.html"
+        output = os.path.join(out_dir, fname)
+
+        ttl = "NLCS objectenboom" + (" (lt_v)" if mark_ltv else "")
+        html_txt = ot_html.build_objecttree_overview_html(
+            tree, title=f"{ttl} {version}".strip(), version=version,
+            mark_ltv=mark_ltv)
+        try:
+            parent = os.path.dirname(os.path.abspath(output))
+            os.makedirs(parent, exist_ok=True)
+            with open(output, "w", encoding="utf-8") as f:
+                f.write(html_txt)
+        except OSError as exc:
+            messagebox.showerror("Fout", str(exc))
+            self._logmsg("FOUT: " + str(exc))
+            return
+
+        self._logmsg(f"{tree['count']} object(en) in "
+                     f"{tree['max_depth'] + 1} niveau(s); "
+                     f"{len(tree['roots'])} hoofdobject(en).")
+        if mark_ltv:
+            n_gap = sum(1 for nd in tree["nodes"].values()
+                        if not (nd.get("lt_v", "") or "").strip().startswith("V-"))
+            self._logmsg(f"lt_v-variant (V-dekking): {n_gap} object(en) zonder "
+                         f"'V-'-lijntype (blauwe streep); rest groen.")
+        self._logmsg(f"Objectenboom geschreven: {output}")
+        self.app.save_config()
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(output))
+
+    def on_generate_shared(self) -> None:
+        """Overzicht van objecttypes die in meerdere hoofdgroepen voorkomen: per
+        hoofdgroep een blok met die types en bij welke andere hoofdgroep(en) ze
+        horen (bijv. TRAMSIGNALERING in IW én VW). Bron is de map objecten-nieuw."""
+        src = self.app.loc["obj_new"].get().strip()
+        if not os.path.isdir(src):
+            messagebox.showwarning(
+                "Geen map", "Vul bij 'Locaties' de map objectentabellen-nieuw in "
+                "(bijv. tabellen/publicatie/objectentabellen/5-2).")
+            return
+
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg("Gedeelde objecttypes zoeken…")
+        data = ot_compare.find_shared_objecttypes(src)
+        if data["total"] == 0:
+            messagebox.showinfo(
+                "Niets gevonden",
+                "Geen objecttypes gevonden die in meer dan één hoofdgroep "
+                "voorkomen.")
+            self._logmsg("Geen gedeelde objecttypes.")
+            return
+
+        version = self.app.version_new_var.get().strip()
+        vdash = version.replace(".", "-")
+        base_out = self.app.loc["index_output"].get().strip()
+        if os.path.isdir(base_out) or base_out.endswith(("/", "\\")):
+            out_dir = base_out
+        elif base_out:
+            out_dir = os.path.dirname(base_out)
+        else:
+            out_dir = src
+        # Expertcommissie-document: in de submap 'expertcommissie' zetten (het
+        # publicatie-overzicht toont die apart, niet in de algemene groep).
+        out_dir = os.path.join(out_dir, "expertcommissie")
+        fname = f"gedeelde-objecttypes-{vdash}.html" if vdash else "gedeelde-objecttypes.html"
+        output = os.path.join(out_dir, fname)
+
+        html_txt = ot_html.build_shared_objecttypes_html(
+            data, title=f"NLCS gedeelde objecttypes {version}".strip(),
+            version=version)
+        try:
+            os.makedirs(os.path.dirname(os.path.abspath(output)), exist_ok=True)
+            with open(output, "w", encoding="utf-8") as f:
+                f.write(html_txt)
+        except OSError as exc:
+            messagebox.showerror("Fout", str(exc))
+            self._logmsg("FOUT: " + str(exc))
+            return
+
+        self._logmsg(f"{data['total']} gedeeld objecttype(n) over "
+                     f"{len(data['codes'])} hoofdgroep(en).")
+        self._logmsg(f"Overzicht geschreven: {output}")
+        self.app.save_config()
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(output))
+
+    def on_generate_shared_inverse(self) -> None:
+        """Inverse van 'gedeelde objecttypes': één blok per objecttype dat in
+        meerdere hoofdgroepen voorkomt, met per hoofdgroep een voorbeeld-
+        objectnaam. Uitvoer in de submap 'expertcommissie'."""
+        src = self.app.loc["obj_new"].get().strip()
+        if not os.path.isdir(src):
+            messagebox.showwarning(
+                "Geen map", "Vul bij 'Locaties' de map objectentabellen-nieuw in "
+                "(bijv. tabellen/publicatie/objectentabellen/5-2).")
+            return
+
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg("Dubbele objecten (per object) zoeken…")
+        data = ot_compare.find_shared_objecttypes(src)
+        if data["total"] == 0:
+            messagebox.showinfo(
+                "Niets gevonden",
+                "Geen objecttypes gevonden die in meer dan één hoofdgroep "
+                "voorkomen.")
+            self._logmsg("Geen dubbele objecten.")
+            return
+
+        version = self.app.version_new_var.get().strip()
+        vdash = version.replace(".", "-")
+        base_out = self.app.loc["index_output"].get().strip()
+        if os.path.isdir(base_out) or base_out.endswith(("/", "\\")):
+            out_dir = base_out
+        elif base_out:
+            out_dir = os.path.dirname(base_out)
+        else:
+            out_dir = src
+        out_dir = os.path.join(out_dir, "expertcommissie")
+        fname = f"dubbele-objecten-{vdash}.html" if vdash else "dubbele-objecten.html"
+        output = os.path.join(out_dir, fname)
+
+        html_txt = ot_html.build_shared_objects_inverse_html(
+            data, title=f"NLCS dubbele objecten {version}".strip(),
+            version=version)
+        try:
+            os.makedirs(os.path.dirname(os.path.abspath(output)), exist_ok=True)
+            with open(output, "w", encoding="utf-8") as f:
+                f.write(html_txt)
+        except OSError as exc:
+            messagebox.showerror("Fout", str(exc))
+            self._logmsg("FOUT: " + str(exc))
+            return
+
+        self._logmsg(f"{data['total']} objecttype(n) in meerdere hoofdgroepen.")
+        self._logmsg(f"Overzicht geschreven: {output}")
+        self.app.save_config()
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(output))
+
+    def on_generate_visualisatiekeuzen(self, collapse: bool = False) -> None:
+        """Overzicht visualisatiekeuzen: unieke combinaties van de visualisatie-
+        kolommen lw_b..lt_t over alle objecten, als sorteerbare/filterbare lijst
+        (met hoofdgroep). Uitvoer in de submap 'expertcommissie'.
+
+        collapse=True → 'standaard visualisatiekeuzen': alle kleuren uit de 10- en
+        12-serie worden samengevoegd tot één zwarte waarde, zodat alleen de
+        basisvariatie overblijft."""
+        src = self.app.loc["obj_new"].get().strip()
+        if not os.path.isdir(src):
+            messagebox.showwarning(
+                "Geen map", "Vul bij 'Locaties' de map objectentabellen-nieuw in "
+                "(bijv. tabellen/publicatie/objectentabellen/5-2).")
+            return
+
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg("Visualisatiekeuzen tellen (lw_b..lt_t)"
+                     + (" — 10/12-serie samengevoegd" if collapse else "") + "…")
+        data = ot_compare.visualisatie_combinaties(src, collapse_black=collapse)
+        if data["total_objects"] == 0:
+            messagebox.showinfo(
+                "Niets gevonden",
+                "Geen objecten met visualisatie-kolommen (lw_b..lt_t) gevonden.")
+            self._logmsg("Geen objecten gevonden.")
+            return
+
+        version = self.app.version_new_var.get().strip()
+        vdash = version.replace(".", "-")
+        base_out = self.app.loc["index_output"].get().strip()
+        if os.path.isdir(base_out) or base_out.endswith(("/", "\\")):
+            overview_dir = base_out
+        elif base_out:
+            overview_dir = os.path.dirname(base_out)
+        else:
+            overview_dir = src
+        out_dir = os.path.join(overview_dir, "expertcommissie")
+        stem = "standaard-visualisatiekeuzen" if collapse else "visualisatiekeuzen"
+        fname = f"{stem}-{vdash}.html" if vdash else f"{stem}.html"
+        output = os.path.join(out_dir, fname)
+
+        # Kleurnummer -> hex uit het Lijnkleuren-overzicht (voor de kleurblokjes).
+        pub_root = self.app.loc["index_root"].get().strip()
+        color_map = {}
+        for d in (pub_root, overview_dir):
+            if not d:
+                continue
+            lk = os.path.join(d, f"Lijnkleuren-{vdash}.html" if vdash
+                              else "Lijnkleuren.html")
+            color_map = ot_compare.read_lijnkleuren_mapping(lk)
+            if color_map:
+                self._logmsg(f"{len(color_map)} kleurnummers uit {os.path.basename(lk)}.")
+                break
+        if not color_map:
+            self._logmsg("Geen Lijnkleuren-overzicht gevonden; kleurblokjes alleen "
+                         "voor letterlijke R,G,B-waarden.")
+
+        titel = ("Overzicht standaard visualisatiekeuzen" if collapse
+                 else "Overzicht visualisatiekeuzen")
+        html_txt = ot_html.build_visualisatiekeuzen_html(
+            data, title=f"{titel} {version}".strip(),
+            version=version, color_map=color_map, collapsed=collapse)
+        try:
+            os.makedirs(os.path.dirname(os.path.abspath(output)), exist_ok=True)
+            with open(output, "w", encoding="utf-8") as f:
+                f.write(html_txt)
+        except OSError as exc:
+            messagebox.showerror("Fout", str(exc))
+            self._logmsg("FOUT: " + str(exc))
+            return
+
+        self._logmsg(f"{data['unique']} unieke visualisatiekeuze(n) over "
+                     f"{data['total_objects']} object(en).")
+        self._logmsg(f"Overzicht geschreven: {output}")
+        self.app.save_config()
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(output))
+
+    def on_generate_unieke_lijntypes(self) -> None:
+        """Overzicht unieke lijntypes: lijntypes met dezelfde autocaddef worden
+        samengevoegd. Bron is de lijntypes-map. Uitvoer in 'expertcommissie'."""
+        src = self.app.loc["lijn_new"].get().strip()
+        if not os.path.isdir(src):
+            messagebox.showwarning(
+                "Geen map", "Vul bij 'Locaties' de map lijntypes-nieuw in "
+                "(bijv. tabellen/publicatie/lijntypes/5-2).")
+            return
+
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg("Lijntypes groeperen op autocaddef…")
+        data = ot_compare.lijntype_autocaddef_groups(src)
+        if data["total_rows"] == 0:
+            messagebox.showinfo(
+                "Niets gevonden", "Geen lijntypes met een autocaddef-kolom gevonden.")
+            self._logmsg("Geen lijntypes gevonden.")
+            return
+
+        version = self.app.version_new_var.get().strip()
+        vdash = version.replace(".", "-")
+        base_out = self.app.loc["index_output"].get().strip()
+        if os.path.isdir(base_out) or base_out.endswith(("/", "\\")):
+            out_dir = base_out
+        elif base_out:
+            out_dir = os.path.dirname(base_out)
+        else:
+            out_dir = src
+        out_dir = os.path.join(out_dir, "expertcommissie")
+        fname = f"unieke-lijntypes-{vdash}.html" if vdash else "unieke-lijntypes.html"
+        output = os.path.join(out_dir, fname)
+
+        html_txt = ot_html.build_unieke_lijntypes_html(
+            data, title=f"Overzicht unieke lijntypes {version}".strip(),
+            version=version)
+        try:
+            os.makedirs(os.path.dirname(os.path.abspath(output)), exist_ok=True)
+            with open(output, "w", encoding="utf-8") as f:
+                f.write(html_txt)
+        except OSError as exc:
+            messagebox.showerror("Fout", str(exc))
+            self._logmsg("FOUT: " + str(exc))
+            return
+
+        self._logmsg(f"{data['unique']} unieke autocaddef-definitie(s) over "
+                     f"{data['total_names']} lijntype(s).")
+        self._logmsg(f"Overzicht geschreven: {output}")
         self.app.save_config()
         if self.app.open_after_var.get():
             webbrowser.open(os.path.abspath(output))
@@ -1895,9 +2510,11 @@ class LijntypeUsageTab(ttk.Frame):
                 "Geen bronnen", "Vul bij 'Locaties' een geldige map in voor "
                 "zowel de nieuwe lijntypes als de nieuwe objectentabellen.")
             return
+        variant = res.get("unused_variant", [])
         self._logmsg(f"Lijntypes: {res['lijn_total']}  "
                      f"(gebruikt: {len(res['used'])}, "
-                     f"niet gebruikt: {len(res['unused'])})")
+                     f"niet gebruikt: {len(res['unused'])}, "
+                     f"variant-waarschuwing: {len(variant)})")
         self._logmsg()
         unused = res["unused"]
         if not unused:
@@ -1906,6 +2523,14 @@ class LijntypeUsageTab(ttk.Frame):
             self._logmsg(f"⚠ {len(unused)} lijntype(s) niet gebruikt in de "
                          "objecten:")
             for u in unused:
+                self._logmsg(f"   {u['name']}   [hoofdgroep {u['hoofdgroep']}, "
+                             f"{u['file']}]")
+        if variant:
+            self._logmsg()
+            self._logmsg(f"⚠ Waarschuwing: {len(variant)} niet-gebruikt(e) "
+                         "lijntype(s) met 'VARIANT' in de naam (bewust toegestaan, "
+                         "geen fout):")
+            for u in variant:
                 self._logmsg(f"   {u['name']}   [hoofdgroep {u['hoofdgroep']}, "
                              f"{u['file']}]")
 
@@ -2575,7 +3200,12 @@ class SpecialCharsTab(ttk.Frame):
             src = self.app.loc[name_key].get().strip()
             if not self._valid(src):
                 continue
-            res = ot_compare.check_special_chars(src, name_col)
+            # ZZ-objecten mogen haakjes in de naam hebben (stramien-/
+            # maatvoeringlabels (M), (T1.8), …) — alleen voor de objecten.
+            hg_allowed = (ot_compare.OBJECT_SPECIAL_CHAR_UITZONDERINGEN
+                          if label == "objecten" else None)
+            res = ot_compare.check_special_chars(src, name_col,
+                                                 hg_allowed=hg_allowed)
             res["label"] = label
             res["name_col"] = name_col
             sections.append(res)
@@ -2910,6 +3540,12 @@ class ControlesTab(ttk.Frame):
             "fasevis": app.fasevis_tab._run(),
             "elemlink": app.elemlink_tab._run(),
             "elemfill": ot_compare.check_element_filled(
+                app.loc["obj_new"].get().strip()),
+            "ltv": ot_compare.check_lt_v_vervallen(
+                app.loc["obj_new"].get().strip()),
+            "ltvmis": ot_compare.check_lt_v_misplaatst(
+                app.loc["obj_new"].get().strip()),
+            "verbkleur": ot_compare.check_verboden_kleur(
                 app.loc["obj_new"].get().strip()),
             "lijnusage": app.lijnusage_tab._run(),
             "arcverkl": app.arceringverklaring_tab._run(),

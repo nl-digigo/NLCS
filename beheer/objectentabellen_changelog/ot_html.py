@@ -20,6 +20,7 @@ DataTables/jQuery via CDN (internet nodig voor de volledige tabel).
 import html as _html
 import json as _json
 import os as _os
+import re as _re
 
 from ot_assets import LOGO_DATA_URI, BANNER_DATA_URI
 
@@ -436,6 +437,18 @@ _CHANGELOG_STYLE = """
     p.geen-wijzigingen { margin: 0 0 14px; padding: 12px 16px;
                     background-color: #eef7ee; border-left: 6px solid var(--dg-green);
                     font-size: 1.05em; font-weight: 600; color: #1f6b23; }
+
+    /* Sorteerbare changelog (DataTables): kop zwart/geel, hover, svg-cel */
+    table.dataTable thead th { background-color: var(--dg-black); color: #fff;
+                    border-bottom: 3px solid var(--dg-yellow); white-space: nowrap; }
+    table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: var(--dg-yellow) !important; border-color: var(--dg-yellow) !important;
+        color: #000 !important; }
+    h2.wees-kop { font-size: 1rem; margin: 20px 0 6px;
+                    border-top: 3px solid var(--dg-grey2); padding-top: 10px; }
+    table.weestab { width: auto; }
 """
 
 
@@ -483,7 +496,7 @@ def build_changelog_html(result: dict, title: str,
                          version_new: str = "", version_old: str = "",
                          visible_indices=None, extra_columns=None,
                          orphans=None, deleted_notes=None,
-                         header_labels=None) -> str:
+                         header_labels=None, sortable: bool = False) -> str:
     """Changelog-pagina: gewijzigde cellen blauw (oud + nieuw), nieuwe rijen
     groen, vervallen rijen onderaan rood.
 
@@ -517,41 +530,26 @@ def build_changelog_html(result: dict, title: str,
     head_cells += "".join(f"<th>{_esc(col['header'])}</th>" for col in extra)
     ncols = len(vis) + len(extra)
 
-    body = [_changelog_row(r, version_new, version_old, vis, extra, ri, headers)
-            for ri, r in enumerate(rows)]
+    norm_rows = [_changelog_row(r, version_new, version_old, vis, extra, ri, headers)
+                 for ri, r in enumerate(rows)]
 
-    if deleted:
-        body.append(
-            f'<tr class="section-header"><th colspan="{ncols}">'
-            f'Vervallen rijen ({len(deleted)}) &middot; aanwezig in '
-            f'{_esc(version_old or "de oude versie")}, niet meer in '
-            f'{_esc(version_new or "de nieuwe versie")}</th></tr>')
-        for di, drow in enumerate(deleted):
-            note = deleted_notes[di] if di < len(deleted_notes) else None
-            note_html = (f' <span class="naamgenoot">{_esc(note)}</span>'
-                         if note else "")
-            tds = "".join(
-                f"<td>{_cl_val(headers, i, drow[i])}"
-                f"{note_html if pos == 0 else ''}</td>"
-                for pos, i in enumerate(vis))
-            for col in extra:
-                cls = col.get("td_class")
-                dcells = col.get("deleted_cells") or []
-                cell = dcells[di] if di < len(dcells) else ""
-                tds += (f'<td class="{cls}">{cell}</td>' if cls
-                        else f"<td>{cell}</td>")
-            body.append(f'<tr class="deleted">{tds}</tr>')
-
-    if orphans:
-        body.append(
-            f'<tr class="section-header wees"><th colspan="{ncols}">'
-            f'Wees-.dwg\'s ({len(orphans)}) &middot; .dwg-bestand aanwezig, '
-            f'maar geen regel in deze symbolentabel</th></tr>')
-        pad_span = ncols - 1 if ncols > 1 else 1
-        for naam, pad in orphans:
-            body.append(
-                f'<tr class="orphan"><td>{_esc(naam)}.dwg</td>'
-                f'<td class="weespad" colspan="{pad_span}">{_esc(pad)}</td></tr>')
+    # Vervallen rijen als gewone (rode) rijen met evenveel cellen als de rest.
+    deleted_rows = []
+    for di, drow in enumerate(deleted):
+        note = deleted_notes[di] if di < len(deleted_notes) else None
+        note_html = (f' <span class="naamgenoot">{_esc(note)}</span>'
+                     if note else "")
+        tds = "".join(
+            f"<td>{_cl_val(headers, i, drow[i])}"
+            f"{note_html if pos == 0 else ''}</td>"
+            for pos, i in enumerate(vis))
+        for col in extra:
+            cls = col.get("td_class")
+            dcells = col.get("deleted_cells") or []
+            cell = dcells[di] if di < len(dcells) else ""
+            tds += (f'<td class="{cls}">{cell}</td>' if cls
+                    else f"<td>{cell}</td>")
+        deleted_rows.append(f'<tr class="deleted">{tds}</tr>')
 
     versie_txt = ""
     if version_new or version_old:
@@ -585,6 +583,59 @@ def build_changelog_html(result: dict, title: str,
         banner = (f'<p class="geen-wijzigingen">Versie '
                   f'{_esc(version_new or "?")} bevat geen wijzigingen ten '
                   f'opzichte van versie {_esc(version_old or "?")}.</p>\n')
+
+    if sortable:
+        # Sorteerbaar op elke kolom (DataTables): nieuwe + vervallen rijen in één
+        # tabel; de kleuren tonen de status, dus geen tussen-kop. svg-kolom niet
+        # sorteerbaar. Wees-.dwg's komen in een aparte tabel eronder.
+        base = len(vis)
+        no_sort = [base + j for j, col in enumerate(extra)
+                   if (not col.get("orderable", True))
+                   or (col.get("header", "").strip().lower() == "svg")
+                   or (col.get("td_class") == "svgcell")]
+        orphan_html = ""
+        if orphans:
+            orows = "\n".join(
+                f'<tr class="orphan"><td>{_esc(naam)}.dwg</td>'
+                f'<td class="weespad">{_esc(pad)}</td></tr>' for naam, pad in orphans)
+            orphan_html = (
+                f'<h2 class="wees-kop">Wees-.dwg\'s ({len(orphans)}) &middot; '
+                '.dwg-bestand aanwezig, maar geen regel in deze symbolentabel</h2>\n'
+                '<table class="otab weestab">\n<thead><tr><th>.dwg</th><th>pad</th>'
+                f'</tr></thead>\n<tbody>\n{orows}\n</tbody>\n</table>\n')
+        return (
+            _shell_head(title, extra_style=_CHANGELOG_STYLE, cdn=True)
+            + f'<div class="wrap">\n{banner}<p class="info">{info}</p>\n{legend}\n'
+            + '<table id="otab" class="otab display" style="width:100%">\n<thead>\n'
+            + f"<tr>{head_cells}</tr>\n</thead>\n<tbody>\n"
+            + "\n".join(norm_rows + deleted_rows)
+            + "\n</tbody>\n</table>\n"
+            + _full_script(no_sort, order=None, paginate=False)
+            + orphan_html
+            + "</div>\n"
+            + _FOOTER
+        )
+
+    # Statische variant (ongewijzigd): vervallen rijen onder een tussenkop,
+    # wees-.dwg's onder een eigen tussenkop.
+    body = list(norm_rows)
+    if deleted:
+        body.append(
+            f'<tr class="section-header"><th colspan="{ncols}">'
+            f'Vervallen rijen ({len(deleted)}) &middot; aanwezig in '
+            f'{_esc(version_old or "de oude versie")}, niet meer in '
+            f'{_esc(version_new or "de nieuwe versie")}</th></tr>')
+        body.extend(deleted_rows)
+    if orphans:
+        body.append(
+            f'<tr class="section-header wees"><th colspan="{ncols}">'
+            f'Wees-.dwg\'s ({len(orphans)}) &middot; .dwg-bestand aanwezig, '
+            f'maar geen regel in deze symbolentabel</th></tr>')
+        pad_span = ncols - 1 if ncols > 1 else 1
+        for naam, pad in orphans:
+            body.append(
+                f'<tr class="orphan"><td>{_esc(naam)}.dwg</td>'
+                f'<td class="weespad" colspan="{pad_span}">{_esc(pad)}</td></tr>')
 
     return (
         _shell_head(title, extra_style=_CHANGELOG_STYLE, cdn=False)
@@ -641,9 +692,95 @@ _INDEX_STYLE = """
 """
 
 
+# Stijl voor het objectenboom-overzicht: net als het publicatie-overzicht. De
+# kaarten tonen alleen de objecten op het EERSTE niveau als knop; een klik opent
+# een pop-up (<dialog>) met de objectenboom daaronder.
+_TREE_STYLE = """
+    .card .tree-count { font-size:.72rem; font-weight:400; color:var(--dg-grey2); }
+    /* Gewone objectenboom: een KLIKBAAR object (met onderliggende objecten, opent
+       een pop-up) is groen; een LOS object zonder onderliggende objecten is blauw.
+       (In de lt_v-variant overschrijven .v-ok/.v-gap deze kleuren.) */
+    a.btn.otbtn { border-left-color: var(--dg-green); cursor:pointer;
+            display:flex; align-items:center; justify-content:space-between;
+            gap:10px; }
+    a.btn.otbtn .otname { overflow-wrap:anywhere; }
+    a.btn.otbtn .kids { flex:none; margin-left:auto; color:var(--dg-grey2);
+            font-size:.72rem; font-weight:600; background:#eee; border-radius:10px;
+            padding:1px 8px; }
+    span.btn.otleaf { color:var(--dg-ink); border-left-color:var(--dg-blue); }
+
+    dialog.tree-dialog { border:none; border-radius:8px; padding:0;
+            width:min(560px, 92vw); max-height:82vh;
+            box-shadow:0 8px 30px rgba(0,0,0,.28); }
+    dialog.tree-dialog::backdrop { background:rgba(0,0,0,.42); }
+    .dlg-head { position:sticky; top:0; background:#fff;
+            border-bottom:2px solid var(--dg-yellow); padding:12px 16px;
+            display:flex; align-items:center; gap:10px; }
+    .dlg-head h3 { margin:0; font-size:1.05rem; color:var(--dg-ink); flex:1; }
+    .dlg-head .dlg-close { border:1px solid var(--dg-grey); background:#fbfbfb;
+            border-radius:6px; font-size:1.1rem; line-height:1; cursor:pointer;
+            padding:3px 9px; color:var(--dg-grey2); }
+    .dlg-head .dlg-close:hover { background:#FFF8CC; }
+    .dlg-body { padding:12px 16px 16px; overflow:auto; }
+
+    .otree, .otree ul { list-style:none; margin:0; padding:0; }
+    .otree ul { padding-left:15px; border-left:1px dotted var(--dg-grey); }
+    .otree li { margin:1px 0; }
+    .otree details > summary { list-style:none; cursor:pointer; padding:2px 5px;
+            border-radius:4px; font-size:.88rem; color:var(--dg-ink); }
+    .otree details > summary::-webkit-details-marker { display:none; }
+    .otree details > summary::before { content:"\\25B8"; display:inline-block;
+            width:1em; color:var(--dg-grey2); transition:transform .12s; }
+    .otree details[open] > summary::before { transform:rotate(90deg); }
+    .otree details > summary:hover { background:#FFF8CC; }
+    .otree li.leaf { padding:2px 5px 2px calc(1em + 5px); font-size:.88rem;
+            color:var(--dg-ink); }
+    .otree .empty { color:var(--dg-grey2); font-style:italic; font-size:.86rem; }
+
+    /* lt_v-variant (V-dekking): groen = object EN alle onderliggende objecten
+       hebben een lt_v die met 'V-' begint; blauw = ergens (object zelf of een
+       onderliggend object) ontbreekt een 'V-'-lt_v (leeg of andere waarde).
+       Kleuren zoals het publicatie-overzicht (--dg-green / --dg-blue). */
+    a.btn.otbtn.v-ok,  span.btn.otleaf.v-ok  { border-left-color:var(--dg-green); }
+    a.btn.otbtn.v-gap, span.btn.otleaf.v-gap { border-left-color:var(--dg-blue); }
+    .otree li.leaf.v-ok, .otree summary.node.v-ok {
+            border-left:4px solid var(--dg-green); border-radius:4px; }
+    .otree li.leaf.v-gap, .otree summary.node.v-gap {
+            border-left:4px solid var(--dg-blue); border-radius:4px; }
+    .kids .badltv { display:inline-block; margin-right:6px; background:var(--dg-blue);
+            color:#fff; border-radius:10px; padding:1px 8px; font-size:.72rem;
+            font-weight:700; }
+    .tree-count .ltv-cnt { color:var(--dg-blue); font-weight:600; }
+    .ltv-legend { margin:0 0 14px; font-size:.9rem; color:var(--dg-ink);
+            display:flex; flex-wrap:wrap; gap:6px 18px; align-items:center; }
+    .ltv-legend code { background:#f2f2f2; border-radius:3px; padding:0 4px; }
+    .ltv-swatch { display:inline-block; width:14px; height:14px; vertical-align:-2px;
+            border-radius:2px; }
+    .ltv-swatch.ok  { background:#eef7ee; border-left:3px solid var(--dg-green); }
+    .ltv-swatch.gap { background:#e8f6fc; border-left:3px solid var(--dg-blue); }
+"""
+
+# Kleine, zelfstandige JS voor de pop-ups: knop opent het bijbehorende <dialog>
+# (native modal); klik op de achtergrond sluit hem (Esc werkt al native).
+_TREE_SCRIPT = """
+<script>
+document.addEventListener('click', function (e) {
+  var btn = e.target.closest('[data-dlg]');
+  if (btn) {
+    var d = document.getElementById(btn.getAttribute('data-dlg'));
+    if (d && d.showModal) { d.showModal(); }
+    return;
+  }
+  var dlg = e.target.closest('dialog.tree-dialog');
+  if (dlg && e.target === dlg) { dlg.close(); }   // klik op de achtergrond
+});
+</script>
+"""
+
+
 def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
                      version: str = "", base_url: str = "",
-                     checkmarks=None) -> str:
+                     checkmarks=None, expertcommissie=None) -> str:
     """Overzichtspagina ('kaart') met één blok per hoofdgroep en knoppen naar de
     gepubliceerde tabellen en changelogs.
 
@@ -655,6 +792,8 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
               voor hoofdgroepen met een objectentabel-CSV; 0 fouten -> groen
               vinkje in de kop, >0 -> rood kruis met aantal. None/leeg -> geen
               vinkjes.
+    expertcommissie : optioneel lijst entries uit de map 'expertcommissie'; komt
+              als apart blok 'Voor de expertcommissie' onderaan het overzicht.
     Elke entry heeft: filename, subpath, kind ('tabel'|'changelog'), label."""
     base = (base_url or "").strip()
     if base and not base.endswith("/"):
@@ -733,12 +872,716 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
             'versie.</p>' if not cards else
             '<div class="card-grid">\n' + "\n".join(cards) + "\n</div>")
 
+    # Extra blok onderaan: documenten uit de map 'expertcommissie'.
+    expert_html = ""
+    experts = expertcommissie or []
+    if experts:
+        expert_parts = ['<div class="card general">',
+                        '<h2>Voor de expertcommissie</h2>',
+                        f'<p class="subtitle">{len(experts)} bestand(en)</p>']
+        expert_parts += [_btn(e) for e in experts]
+        expert_parts.append('</div>')
+        expert_html = ('\n<div class="card-grid expert">\n'
+                       + "\n".join(expert_parts) + "\n</div>")
+
     return (
         _shell_head(title, extra_style=_INDEX_STYLE, cdn=False)
         + f'<div class="wrap">\n<p class="info">{info}</p>\n'
         + legend + ("\n" if legend else "")
         + body + "\n"
+        + expert_html + ("\n" if expert_html else "")
         + "</div>\n"
+        + _FOOTER
+    )
+
+
+def build_objecttree_overview_html(tree, title: str = "NLCS objectenboom",
+                                   version: str = "", mark_ltv: bool = False) -> str:
+    """Overzichtspagina in dezelfde stijl als build_index_html. Per hoofdgroep een
+    kaart met alleen de objecten op het EERSTE niveau (de roots) als knop; een klik
+    opent een pop-up (<dialog>) met de volledige objectenboom onder dat object.
+
+    tree : het resultaat van ot_compare.check_object_tree() met
+           {"count","roots","nodes","max_depth","errors"}. Elke node heeft
+           "id","name","children","file" (bron-CSV), "depth" en "lt_v".
+
+    mark_ltv : als True krijgt elk 'blokje' (objectknop en boom-knoop) een linker-
+           streep: BLAUW als het object of een onderliggend object een GEVULDE lt_v
+           heeft die NIET met 'V-' begint (een niet-vervallen lijntype op de
+           vervallen plek — precies wat de lt_v-controle flagt); GROEN als er in de
+           hele tak geen enkele zo'n afwijkende lt_v staat (een lege lt_v telt als
+           oké). Kleuren als het publicatie-overzicht; met legenda en telling van
+           objecten met een niet-'V-'-lijntype.
+    """
+    from ot_compare import hoofdgroep_code
+
+    nodes = tree.get("nodes", {}) if tree else {}
+    roots = tree.get("roots", []) if tree else []
+
+    def _bad_v(idn: str) -> bool:
+        """True als dit object een GEVULDE lt_v heeft die niet met 'V-' begint.
+        Een lege lt_v is geen probleem (niet elk object heeft een vervallen
+        visualisatie)."""
+        nd = nodes.get(idn)
+        val = (nd.get("lt_v", "") or "").strip() if nd else ""
+        return bool(val) and not val.upper().startswith("V-")
+
+    _badin_cache: dict[str, int] = {}
+
+    def _bad_in(idn: str) -> int:
+        """Aantal objecten in deze tak (incl. zichzelf) met een niet-'V-'-lt_v."""
+        if idn in _badin_cache:
+            return _badin_cache[idn]
+        nd = nodes.get(idn)
+        if not nd:
+            return 0
+        res = (1 if _bad_v(idn) else 0) + sum(_bad_in(c) for c in nd.get("children", []))
+        _badin_cache[idn] = res
+        return res
+
+    # Roots per hoofdgroep (op bron-CSV-basename). Roots en kinderen zijn in
+    # check_object_tree al op naam gesorteerd -> volgorde overnemen.
+    groups: dict[str, list] = {}
+    for idn in roots:
+        nd = nodes.get(idn)
+        if not nd:
+            continue
+        code = hoofdgroep_code(nd.get("file", "")) or "?"
+        groups.setdefault(code, []).append(idn)
+
+    def _count_in(idn: str) -> int:
+        nd = nodes.get(idn)
+        if not nd:
+            return 0
+        return 1 + sum(_count_in(c) for c in nd.get("children", []))
+
+    def _dlg_id(idn: str) -> str:
+        return "dlg-" + _re.sub(r"[^A-Za-z0-9_-]", "_", str(idn))
+
+    # De boom BINNEN de pop-up: alle takken open, elk los inklapbaar.
+    def _node_html(idn: str) -> str:
+        nd = nodes.get(idn)
+        if not nd:
+            return ""
+        name = _esc(nd.get("name", idn))
+        vcls = vttl = ""
+        if mark_ltv:
+            bad = _bad_in(idn)
+            if bad:
+                vcls = " v-gap"
+                vttl = f' title="{bad} object(en) met een niet-\'V-\'-lijntype"'
+            else:
+                vcls, vttl = " v-ok", ' title="geen niet-\'V-\'-lijntype"'
+        kids = nd.get("children", [])
+        if not kids:
+            return f'<li class="leaf{vcls}"{vttl}>{name}</li>'
+        inner = "\n".join(_node_html(c) for c in kids)
+        return (f'<li><details class="tree" open>'
+                f'<summary class="node{vcls}"{vttl}>{name}</summary>\n'
+                f'<ul>\n{inner}\n</ul></details></li>')
+
+    cards, dialogs = [], []
+    total_gap = 0
+    for code in sorted(groups):
+        root_ids = groups[code]
+        n_obj = sum(_count_in(r) for r in root_ids)
+        n_gap_card = sum(_bad_in(r) for r in root_ids)
+        total_gap += n_gap_card
+        btns = []
+        for r in root_ids:
+            nd = nodes[r]
+            name = _esc(nd.get("name", r))
+            kids = nd.get("children", [])
+            n_gap = _bad_in(r)
+            root_v = ((" v-gap" if n_gap else " v-ok") if mark_ltv else "")
+            badge = (f'<span class="badltv" title="{n_gap} object(en) met een '
+                     f'niet-\'V-\'-lijntype">{n_gap}</span>' if mark_ltv and n_gap else "")
+            if kids:
+                did = _dlg_id(r)
+                n_sub = _count_in(r) - 1
+                btns.append(
+                    f'<a class="btn otbtn{root_v}" data-dlg="{did}" '
+                    f'title="{name} — {n_sub} onderliggend(e) object(en)">'
+                    f'<span class="otname">{name}</span>'
+                    f'<span class="kids">{badge}{n_sub}</span></a>')
+                # bijbehorende pop-up met de boom onder deze root
+                subtree = "\n".join(_node_html(c) for c in kids)
+                dialogs.append(
+                    f'<dialog id="{did}" class="tree-dialog">'
+                    f'<div class="dlg-head"><h3>{name}</h3>'
+                    f'<button class="dlg-close" onclick="this.closest(\'dialog\')'
+                    f'.close()" aria-label="Sluiten">&times;</button></div>'
+                    f'<div class="dlg-body"><ul class="otree">\n{subtree}\n'
+                    f'</ul></div></dialog>')
+            else:
+                # geen onderliggende objecten -> geen pop-up, alleen een label
+                btns.append(f'<span class="btn otleaf{root_v}" title="{name} — '
+                            f'geen onderliggende objecten">'
+                            f'<span class="otname">{name}</span></span>')
+        card_cnt = (f'<span class="tree-count">{n_obj} object(en)'
+                    + (f' &middot; <span class="ltv-cnt">{n_gap_card} met niet-V</span>'
+                       if mark_ltv and n_gap_card else "")
+                    + '</span>')
+        cards.append(
+            '<div class="card">'
+            f'<h2>{_esc(code)} {card_cnt}</h2>'
+            f'<p class="subtitle">hoofdgroep {_esc(code)} &middot; '
+            f'{len(root_ids)} object(en) op het eerste niveau</p>'
+            + "\n".join(btns)
+            + '</div>')
+
+    total = tree.get("count", 0) if tree else 0
+    info = (f"{len(groups)} hoofdgroep(en) &middot; {total} object(en)"
+            + (f" &middot; {total_gap} object(en) met een niet-'V-'-lijntype"
+               if mark_ltv else "")
+            + (f" &middot; versie {_esc(version)}" if version else ""))
+
+    legend = (
+        '<p class="ltv-legend">'
+        '<span><span class="ltv-swatch ok"></span> geen enkel object in deze tak '
+        'heeft een afwijkend vervallen-lijntype (<code>lt_v</code> leeg of begint '
+        'met <code>V-</code>)</span>'
+        '<span><span class="ltv-swatch gap"></span> object of een onderliggend '
+        'object heeft een gevulde <code>lt_v</code> die <strong>niet</strong> met '
+        '<code>V-</code> begint</span>'
+        '</p>' if mark_ltv else "")
+
+    body = ('<p class="empty">Geen objecten gevonden.</p>' if not cards else
+            legend + '<div class="card-grid">\n' + "\n".join(cards) + "\n</div>")
+
+    return (
+        _shell_head(title, extra_style=_INDEX_STYLE + _TREE_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n'
+        + body + "\n"
+        + "</div>\n"
+        + "\n".join(dialogs) + "\n"
+        + _TREE_SCRIPT
+        + _FOOTER
+    )
+
+
+_SHARED_STYLE = """
+    .shared-item { display:flex; align-items:center; justify-content:space-between;
+            gap:10px; padding:5px 9px; margin:4px 0; font-size:.86rem;
+            background:#fbfbfb; border:1px solid var(--dg-grey);
+            border-left:4px solid var(--dg-blue); border-radius:4px; }
+    .shared-item .nm { font-weight:600; overflow-wrap:anywhere; }
+    .shared-item .others { flex:none; color:var(--dg-grey2); font-size:.74rem;
+            white-space:nowrap; }
+    .shared-item .others .hgchip { display:inline-block; background:#eef4f8;
+            color:var(--dg-ink); border-radius:10px; padding:1px 7px;
+            margin-left:3px; font-weight:700; }
+    .ex-item { display:flex; align-items:baseline; gap:9px; padding:4px 9px;
+            margin:3px 0; font-size:.86rem; background:#fbfbfb;
+            border:1px solid var(--dg-grey); border-left:4px solid var(--dg-green);
+            border-radius:4px; }
+    .ex-item .hgchip { flex:none; display:inline-block; background:#eef4f8;
+            color:var(--dg-ink); border-radius:10px; padding:1px 8px;
+            font-weight:700; font-size:.74rem; min-width:30px; text-align:center; }
+    .ex-item .nm { overflow-wrap:anywhere; }
+    .zone-head { margin:28px 0 10px; font-size:1.15rem; color:var(--dg-ink);
+            border-bottom:3px solid var(--dg-yellow); padding-bottom:5px; }
+    .zone-head .zone-codes { font-size:.8rem; font-weight:400;
+            color:var(--dg-grey2); margin-left:10px; }
+    .zone-head.cross { border-bottom-color:var(--dg-blue); }
+    /* objecten die meerdere zones overlappen: blauw zijkantstreepje i.p.v. groen */
+    .card.cross .ex-item { border-left-color:var(--dg-blue); }
+"""
+
+
+# Zone-indeling voor het 'dubbele objecten'-overzicht (gebruikerskeuze): verwante
+# hoofdgroepen samen onder één kopje. 'Overig' = al het andere; objecten die meer
+# dan één zone raken komen in een aparte sectie 'Meerdere zones'.
+_OBJECT_ZONES = [
+    ("Constructies", ("BC", "FC", "GC", "HC", "KC", "HU", "MC", "MW", "SC")),
+    ("Verkeerskunde", ("VV", "VW")),
+    ("Installaties", ("IW", "IV", "IS")),
+    ("Ondergrondse netten", ("KL", "RI")),
+]
+
+
+def build_shared_objecttypes_html(data, title: str = "NLCS gedeelde objecttypes",
+                                  version: str = "") -> str:
+    """Overzicht in dezelfde kaartstijl als het publicatie-overzicht: per
+    hoofdgroep een blok met de objecttypes die ook in een andere hoofdgroep
+    voorkomen (zie ot_compare.find_shared_objecttypes). Elk type toont bij welke
+    andere hoofdgroep(en) het hoort."""
+    per_code = data.get("per_code", []) if data else []
+    total = data.get("total", 0) if data else 0
+
+    cards = []
+    for code, items in per_code:
+        rows = []
+        for name, others in items:
+            chips = "".join(f'<span class="hgchip">{_esc(c)}</span>' for c in others)
+            rows.append(f'<div class="shared-item"><span class="nm">{_esc(name)}</span>'
+                        f'<span class="others">ook in:{chips}</span></div>')
+        cards.append(
+            '<div class="card">'
+            f'<h2>{_esc(code)}</h2>'
+            f'<p class="subtitle">hoofdgroep {_esc(code)} &middot; '
+            f'{len(items)} gedeeld objecttype(n)</p>'
+            + "\n".join(rows) + '</div>')
+
+    info = (f"{len(per_code)} hoofdgroep(en) &middot; {total} gedeeld objecttype(n) "
+            "(komen in minstens twee hoofdgroepen voor)"
+            + (f" &middot; versie {_esc(version)}" if version else ""))
+
+    body = ('<p class="empty">Geen objecttypes gevonden die in meerdere '
+            'hoofdgroepen voorkomen.</p>' if not cards else
+            '<div class="card-grid">\n' + "\n".join(cards) + "\n</div>")
+
+    return (
+        _shell_head(title, extra_style=_INDEX_STYLE + _SHARED_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n'
+        + body + "\n</div>\n"
+        + _FOOTER
+    )
+
+
+def build_shared_objects_inverse_html(data,
+                                      title: str = "NLCS dubbele objecten",
+                                      version: str = "") -> str:
+    """Inverse van build_shared_objecttypes_html: één blok per objecttype dat in
+    meerdere hoofdgroepen voorkomt, met per hoofdgroep een voorbeeld-objectnaam
+    (de omschrijving zoals die hoofdgroep het modelleert). Zie
+    ot_compare.find_shared_objecttypes (sleutel 'examples')."""
+    examples = data.get("examples", {}) if data else {}
+    names = data.get("names", {}) if data else {}
+    total = len(examples)
+    n_hg = len(data.get("codes", [])) if data else 0
+
+    def _zone_of(code: str) -> str:
+        c = (code or "").strip().upper()
+        for zname, zcodes in _OBJECT_ZONES:
+            if c in zcodes:
+                return zname
+        return "Overig"
+
+    order = [z for z, _ in _OBJECT_ZONES] + ["Overig"]
+    # elk objecttype in precies één zone: de EERSTE zone (in bovenstaande vaste
+    # volgorde) die het raakt. Raakt het meerdere zones, dan markeren we de kaart
+    # (blauw zijkantstreepje) zodat zichtbaar is dat het ook elders voorkomt.
+    buckets: dict = {}
+    cross_name: set = set()
+    for name in sorted(examples, key=str.casefold):
+        codes = names.get(name) or [c for c, _ in examples[name]]
+        zones = {_zone_of(c) for c in codes}
+        bucket = next((z for z in order if z in zones), "Overig")
+        buckets.setdefault(bucket, []).append(name)
+        if len(zones) > 1:
+            cross_name.add(name)
+
+    def _card(name: str) -> str:
+        rows = [f'<div class="ex-item"><span class="hgchip">{_esc(c)}</span>'
+                f'<span class="nm">{_esc(v or "—")}</span></div>'
+                for c, v in examples[name]]
+        cls = "card cross" if name in cross_name else "card"
+        return (f'<div class="{cls}">'
+                f'<h2>{_esc(name)}</h2>'
+                f'<p class="subtitle">in {len(examples[name])} hoofdgroepen</p>'
+                + "\n".join(rows) + '</div>')
+
+    sections = []
+    for zname in order:
+        objs = buckets.get(zname)
+        if not objs:
+            continue
+        if zname == "Overig":
+            codes_lbl = "overige hoofdgroepen"
+        else:
+            codes_lbl = " &middot; ".join(dict(_OBJECT_ZONES)[zname])
+        sections.append(
+            f'<h2 class="zone-head">{_esc(zname)} <span class="zone-codes">'
+            f'{codes_lbl}</span></h2>\n'
+            f'<div class="card-grid">\n'
+            + "\n".join(_card(n) for n in objs)
+            + "\n</div>")
+
+    info = (f"{total} objecttype(n) in meerdere hoofdgroepen &middot; "
+            f"{n_hg} hoofdgroep(en)"
+            + (f" &middot; versie {_esc(version)}" if version else ""))
+
+    body = ('<p class="empty">Geen objecttypes gevonden die in meerdere '
+            'hoofdgroepen voorkomen.</p>' if not sections else
+            "\n".join(sections))
+
+    return (
+        _shell_head(title, extra_style=_INDEX_STYLE + _SHARED_STYLE, cdn=False)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n'
+        + body + "\n</div>\n"
+        + _FOOTER
+    )
+
+
+_VK_STYLE = """
+    .wrap { max-width: 100%; }
+    table.otab { font-size: .8rem; }
+    table.dataTable thead th { background-color: var(--dg-black); color:#fff;
+            border-bottom: 3px solid var(--dg-yellow); white-space: nowrap;
+            padding: 5px 7px; }
+    table.dataTable tbody td { white-space: nowrap; padding: 3px 7px;
+            border-bottom: 1px solid var(--dg-grey); }
+    table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
+    td.vk-cnt { text-align: right; font-weight: 600; }
+    td.vk-hg { font-weight: 600; }
+    .vk-sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px;
+            border: 1px solid #888; vertical-align: middle; margin-right: 5px; }
+    .vk-note { background: #FFF8CC; border-left: 4px solid var(--dg-yellow);
+            padding: 9px 13px; margin: 8px 0 16px; font-size: .9rem;
+            color: var(--dg-ink); border-radius: 4px; }
+    .vk-filter { margin: 10px 0 6px; font-size: .9rem; display: flex;
+            align-items: center; gap: 8px; }
+    .vk-filter select { font-size: .9rem; padding: 3px 7px; }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: var(--dg-yellow) !important; border-color: var(--dg-yellow) !important;
+        color: #000 !important; }
+"""
+
+
+_RGB_TRIPLE = _re.compile(r"^\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*$")
+
+
+def _color_hex(value: str, color_map: dict) -> str:
+    """'#RRGGBB' voor een kleurwaarde: een kleurnummer (via `color_map`, de
+    Lijnkleuren-tabel) of een letterlijke 'R,G,B'-triple. "" als het geen kleur is.
+
+    NLCS-regel: kleuren uit de 10-serie (10, 20, 30, … t/m 240 = X0) en de
+    12-serie (12, 22, … t/m 242 = X2) worden ZWART weergegeven (dat zijn de
+    lijn-/arceerkleuren die zwart plotten); de grijstinten 250-254 vallen erbuiten."""
+    v = (value or "").strip()
+    if not v:
+        return ""
+    if v.lower() == "zwart":          # samengevoegde 10/12-serie (basisvariatie)
+        return "#000000"
+    if v.isdigit():
+        n = int(v)
+        if 10 <= n <= 242 and n % 10 in (0, 2):
+            return "#000000"
+        return color_map.get(v, "")
+    m = _RGB_TRIPLE.match(v)
+    if m:
+        rgb = [int(x) for x in m.groups()]
+        if all(0 <= x <= 255 for x in rgb):
+            return "#%02X%02X%02X" % tuple(rgb)
+    return ""
+
+
+def build_visualisatiekeuzen_html(data, title: str = "Overzicht visualisatiekeuzen",
+                                  version: str = "", color_map=None,
+                                  collapsed: bool = False) -> str:
+    """Lijst van unieke visualisatiekeuzen (combinaties van lw_b..lt_t) als
+    sorteerbare/filterbare DataTables-tabel. Kolommen: aantal objecten,
+    hoofdgroep(en), een voorbeeld-objectnaam en de 28 visualisatie-kolommen.
+    Standaard gesorteerd op hoofdgroep; dropdown-filter op hoofdgroep (houdt de
+    rijen waarvan de combinatie in die hoofdgroep voorkomt). Zie
+    ot_compare.visualisatie_combinaties."""
+    columns = data.get("columns", []) if data else []
+    combos = data.get("combos", []) if data else []
+    unique = data.get("unique", len(combos))
+    total_obj = data.get("total_objects", 0)
+    cmap = color_map or {}
+    # kolommen die met 'kl' beginnen zijn kleuren -> toon een kleurblokje
+    kl_idx = {i for i, cn in enumerate(columns) if cn.lower().startswith("kl")}
+
+    all_codes = sorted({c for combo in combos for c in combo.get("codes", [])})
+    options = '<option value="">(alle hoofdgroepen)</option>' + "".join(
+        f'<option value="{_esc(c)}">{_esc(c)}</option>' for c in all_codes)
+
+    head_cells = ("<th>aantal</th><th>hoofdgroep</th><th>voorbeeld</th>"
+                  + "".join(f"<th>{_esc(c)}</th>" for c in columns))
+    body_rows = []
+    row_codes = []
+    for combo in combos:
+        codes = combo.get("codes", [])
+        row_codes.append(codes)
+        cells = []
+        for i, v in enumerate(combo.get("values", [])):
+            if i in kl_idx:
+                hexv = _color_hex(v, cmap)
+                sw = (f'<span class="vk-sw" style="background:{hexv}"></span>'
+                      if hexv else "")
+                cells.append(f"<td>{sw}{_esc(v)}</td>")
+            else:
+                cells.append(f"<td>{_esc(v)}</td>")
+        body_rows.append(
+            f'<tr><td class="vk-cnt">{combo.get("count", 0)}</td>'
+            f'<td class="vk-hg">{_esc(", ".join(codes))}</td>'
+            f'<td>{_esc(combo.get("example", ""))}</td>' + "".join(cells) + "</tr>")
+
+    info = (f"{unique} unieke visualisatiekeuze(n) over {total_obj} object(en)"
+            + (f" &middot; versie {_esc(version)}" if version else ""))
+    note = ('<p class="vk-note">De NLCS Database gebruikt de aanname dat de '
+            'kleurnummers vertaald worden naar kleuren volgens de meegeleverde '
+            'tabel; waarbij kleuren uit de 10- en 12-serie zwart worden '
+            'weergegeven.'
+            + (' In dit overzicht zijn alle kleuren uit de 10- en 12-serie '
+               'samengevoegd tot één waarde (<code>zwart</code>), zodat alleen de '
+               'basisvariatie in visualisatiekeuzen overblijft.' if collapsed else "")
+            + '</p>')
+
+    script = (
+        "<script>\n"
+        "var vkCodes = " + _json.dumps(row_codes) + ";\n"
+        "$.fn.dataTable.ext.search.push(function(settings, data, dataIndex){\n"
+        "  var f = document.getElementById('vkHg').value;\n"
+        "  if(!f) return true;\n"
+        "  var c = vkCodes[dataIndex] || [];\n"
+        "  return c.indexOf(f) !== -1;\n"
+        "});\n"
+        "$(function(){\n"
+        "  var t = $('#vk').DataTable({ paging: false, scrollX: true,\n"
+        "     scrollY: '72vh', scrollCollapse: true,\n"
+        "     order: [[1,'asc'],[0,'desc']],\n"
+        "     language: { search: 'Zoek:', info: '_TOTAL_ visualisatiekeuze(n)',\n"
+        "       infoFiltered: ' (gefilterd uit _MAX_)' } });\n"
+        "  document.getElementById('vkHg').addEventListener('change', function(){ t.draw(); });\n"
+        "});\n"
+        "</script>\n")
+
+    body = ('<p class="empty">Geen objecten gevonden.</p>' if not combos else
+            '<div class="vk-filter"><label for="vkHg">Hoofdgroep:</label>'
+            f'<select id="vkHg">{options}</select></div>\n'
+            '<table id="vk" class="otab display" style="width:100%">\n'
+            f'<thead><tr>{head_cells}</tr></thead>\n<tbody>\n'
+            + "\n".join(body_rows) + "\n</tbody></table>\n" + script)
+
+    return (
+        _shell_head(title, extra_style=_VK_STYLE, cdn=True)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n'
+        + note + "\n"
+        + body + "\n</div>\n"
+        + _FOOTER
+    )
+
+
+_LT_STYLE = """
+    .wrap { max-width: 100%; }
+    .tablescroll { overflow: auto; max-height: 78vh; }
+    table.otab { width: auto; font-size: .84rem; }
+    table.otab thead th { position: sticky; top: 0; z-index: 3; }
+    table.otab tbody td { white-space: normal; vertical-align: top;
+            padding: 4px 8px; border-bottom: 1px solid var(--dg-grey); }
+    table.otab tbody tr:hover td { background-color: #FFF8CC; }
+    td.lt-cnt { text-align: right; font-weight: 600; width: 1%; }
+    td.lt-def { font-family: Consolas, "Courier New", monospace; font-size: .8rem;
+            white-space: pre-wrap; }
+    .lt-geen { color: var(--dg-grey2); font-style: italic; }
+    td.lt-line { width: 180px; }
+    svg.ltsvg { display: block; width: 170px; height: 18px; background: #fff;
+            border: 1px solid var(--dg-grey); border-radius: 2px; }
+    tr.lt-multi td { background-color: #eef4f8; }
+    tr.lt-multi:hover td { background-color: #FFF8CC; }
+"""
+
+
+def _parse_autocaddef(ad: str) -> list:
+    """Ontleed een AutoCAD-lijntypedefinitie in elementen:
+    ('dash', lengte) / ('gap', lengte) / ('dot',) / ('shape', naam). De
+    [SHAPE,SHX,params]-blokken worden op hun plek als 'shape' opgenomen
+    (ze verbruiken zelf geen lijnlengte). Het leidende 'A' wordt genegeerd."""
+    s = (ad or "").strip()
+    tokens, buf, i, n = [], "", 0, len(s)
+    while i < n:
+        ch = s[i]
+        if ch == "[":
+            if buf.strip():
+                tokens.append(buf.strip())
+                buf = ""
+            j = s.find("]", i)
+            if j == -1:
+                j = n - 1
+            tokens.append(s[i:j + 1])
+            i = j + 1
+        elif ch == ",":
+            if buf.strip():
+                tokens.append(buf.strip())
+            buf = ""
+            i += 1
+        else:
+            buf += ch
+            i += 1
+    if buf.strip():
+        tokens.append(buf.strip())
+
+    elems = []
+    for t in tokens:
+        if t.upper() == "A":
+            continue
+        if t.startswith("["):
+            first = t[1:-1].split(",")[0].strip()
+            # tekst-element: eerste token staat tussen (eventueel escaped) quotes,
+            # bv. ["VS",standard,...] of [\"VS\",standard,...]. Anders een SHX-shape.
+            fnorm = first.replace('\\"', '"').replace("\\'", "'")
+            if len(fnorm) >= 2 and fnorm[0] in "\"'" and fnorm[-1] in "\"'":
+                elems.append(("text", fnorm[1:-1]))
+            else:
+                elems.append(("shape", first))
+            continue
+        try:
+            v = float(t)
+        except ValueError:
+            continue
+        if v > 0:
+            elems.append(("dash", v))
+        elif v < 0:
+            elems.append(("gap", -v))
+        else:
+            elems.append(("dot",))
+    return elems
+
+
+def lijntype_preview_svg(autocaddef: str, name: str = "", width: int = 190,
+                         height: int = 18, scale: float = 6.0) -> str:
+    """Inline-SVG met een voorbeeld van de lijn volgens `autocaddef`. Streepjes
+    worden getekend, gaten overgeslagen, punten als stip, scrap-shapes als een
+    blauw verticaal tickje (de echte SHX-vorm wordt niet getekend, wel de plek) en
+    ingebedde tekst-elementen (bv. ["VS",...]) als die tekst op de lijn.
+
+    `name` wordt gebruikt voor lijntypes met een LEGE autocaddef: 'CONTINUOUS' ->
+    doorgetrokken lijn; een vervallen continue (naam begint met 'V-' en bevat
+    'CONTINUOUS', bv. V-CONTINUOUS-SO) -> doorgetrokken lijn met verwijderen-scraps.
+    Herbruikbaar in elke tabel met lijntypes."""
+    y = height / 2.0
+    nm = (name or "").strip().upper()
+    elems = _parse_autocaddef(autocaddef)
+    line_len = sum(e[1] for e in elems if e[0] in ("dash", "gap"))
+    BLACK, BLUE = "#1D1D1B", "#009DDB"
+    parts = [f'<svg class="ltsvg" viewBox="0 0 {width} {height}" width="{width}" '
+             f'height="{height}" preserveAspectRatio="none" role="img" '
+             f'aria-label="lijnvoorbeeld">']
+
+    def _tick(x):
+        return (f'<line x1="{x:.1f}" y1="{y-5:.1f}" x2="{x:.1f}" y2="{y+5:.1f}" '
+                f'stroke="{BLUE}" stroke-width="1.2"/>')
+
+    def _text(x, s):
+        return (f'<text x="{x:.1f}" y="{y:.1f}" font-size="9" fill="{BLACK}" '
+                f'dominant-baseline="central" text-anchor="middle" '
+                f'style="paint-order:stroke;stroke:#fff;stroke-width:2.5px">'
+                f'{_esc(s)}</text>')
+
+    if line_len <= 0:
+        # geen streeppatroon -> doorgetrokken lijn
+        parts.append(f'<line x1="0" y1="{y:.1f}" x2="{width}" y2="{y:.1f}" '
+                     f'stroke="{BLACK}" stroke-width="1.4"/>')
+        if "CONTINUOUS" in nm and nm.startswith("V-"):
+            # vervallen continue lijn: doorgetrokken met verwijderen-scraps
+            step = 34
+            xx = step / 2
+            while xx < width:
+                parts.append(_tick(xx))
+                xx += step
+        else:
+            # eventuele losse tekst/shape-elementen die wél in de def staan
+            xx = 10
+            for e in elems:
+                if e[0] == "shape":
+                    parts.append(_tick(xx)); xx += 24
+                elif e[0] == "text":
+                    parts.append(_text(xx + 6, e[1])); xx += 24
+    else:
+        x = 0.0
+        guard = 0
+        while x < width and guard < 20000:
+            for e in elems:
+                guard += 1
+                if x >= width:
+                    break
+                if e[0] == "dash":
+                    x2 = min(x + e[1] * scale, width)
+                    parts.append(f'<line x1="{x:.1f}" y1="{y:.1f}" x2="{x2:.1f}" '
+                                 f'y2="{y:.1f}" stroke="{BLACK}" stroke-width="1.4"/>')
+                    x += e[1] * scale
+                elif e[0] == "gap":
+                    x += e[1] * scale
+                elif e[0] == "dot":
+                    parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="1.4" '
+                                 f'fill="{BLACK}"/>')
+                elif e[0] == "shape":
+                    parts.append(_tick(x))
+                elif e[0] == "text":
+                    parts.append(_text(x, e[1]))
+    parts.append("</svg>")
+    return "".join(parts)
+
+
+def build_unieke_lijntypes_html(data, title: str = "Overzicht unieke lijntypes",
+                                version: str = "") -> str:
+    """Lijst van unieke lijntype-definities: per unieke `autocaddef` de lijntypes
+    die die definitie delen (zie ot_compare.lijntype_autocaddef_groups). Groepen
+    met meer dan één lijntype staan vooraan en zijn licht gemarkeerd."""
+    groups = data.get("groups", []) if data else []
+    unique = data.get("unique", len(groups))
+    total_names = data.get("total_names", 0)
+
+    all_codes = sorted({c for g in groups for c in g.get("codes", [])})
+    options = '<option value="">(alle hoofdgroepen)</option>' + "".join(
+        f'<option value="{_esc(c)}">{_esc(c)}</option>' for c in all_codes)
+
+    rows = []
+    row_codes = []
+    for g in groups:
+        codes = g.get("codes", [])
+        row_codes.append(codes)
+        ad = g.get("autocaddef", "")
+        names = g.get("names", [])
+        # Bij een lege autocaddef is de groep per naam gesplitst -> gebruik die
+        # naam voor het juiste voorbeeld (CONTINUOUS vs. V-CONTINUOUS-SO).
+        pname = names[0] if (not ad and names) else ""
+        if ad:
+            defcell = _esc(ad)
+        elif "CONTINUOUS" in pname.upper() and pname.upper().startswith("V-"):
+            defcell = ('<span class="lt-geen">doorgetrokken lijn met '
+                       'verwijderen-scraps</span>')
+        else:
+            defcell = '<span class="lt-geen">doorgetrokken lijn</span>'
+        cls = ' class="lt-multi"' if g.get("count", 0) > 1 else ""
+        rows.append(
+            f'<tr{cls}><td class="lt-cnt">{g.get("count", 0)}</td>'
+            f'<td>{_esc(", ".join(names))}</td>'
+            f'<td>{_esc(", ".join(codes))}</td>'
+            f'<td class="lt-line">{lijntype_preview_svg(ad, name=pname)}</td>'
+            f'<td class="lt-def">{defcell}</td></tr>')
+
+    info = (f"{unique} unieke autocaddef-definitie(s) over {total_names} lijntype(s)"
+            + (f" &middot; versie {_esc(version)}" if version else ""))
+    note = ('<p class="vk-note">Lijntypes met exact dezelfde <code>autocaddef</code> '
+            'zijn samengevoegd tot één regel. Groepen met meer dan één lijntype '
+            '(zelfde definitie, verschillende naam) staan bovenaan.</p>')
+
+    script = (
+        "<script>\n"
+        "var ltCodes = " + _json.dumps(row_codes) + ";\n"
+        "$.fn.dataTable.ext.search.push(function(settings, data, dataIndex){\n"
+        "  if(settings.nTable.id !== 'lt') return true;\n"
+        "  var f = document.getElementById('ltHg').value;\n"
+        "  if(!f) return true;\n"
+        "  var c = ltCodes[dataIndex] || [];\n"
+        "  return c.indexOf(f) !== -1;\n"
+        "});\n"
+        "$(function(){\n"
+        "  var t = $('#lt').DataTable({ paging: false, scrollX: true,\n"
+        "     scrollY: '70vh', scrollCollapse: true, order: [[0,'desc']],\n"
+        "     language: { search: 'Zoek:', info: '_TOTAL_ definitie(s)',\n"
+        "       infoFiltered: ' (gefilterd uit _MAX_)' } });\n"
+        "  document.getElementById('ltHg').addEventListener('change', function(){ t.draw(); });\n"
+        "});\n"
+        "</script>\n")
+
+    body = ('<p class="empty">Geen lijntypes gevonden.</p>' if not groups else
+            '<div class="vk-filter"><label for="ltHg">Hoofdgroep:</label>'
+            f'<select id="ltHg">{options}</select></div>\n'
+            '<table id="lt" class="otab display" style="width:100%">\n'
+            '<thead><tr><th>aantal</th><th>lijntypes</th><th>hoofdgroep</th>'
+            '<th>lijn</th><th>autocaddef</th></tr></thead>\n<tbody>\n'
+            + "\n".join(rows) + "\n</tbody></table>\n" + script)
+
+    return (
+        _shell_head(title, extra_style=_VK_STYLE + _LT_STYLE, cdn=True)
+        + f'<div class="wrap">\n<p class="info">{info}</p>\n'
+        + note + "\n" + body + "\n</div>\n"
         + _FOOTER
     )
 
@@ -746,7 +1589,7 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
 def build_index_markdown(groups, general,
                          title: str = "NLCS publicatie-overzicht",
                          version: str = "", base_url: str = "",
-                         checkmarks=None) -> str:
+                         checkmarks=None, expertcommissie=None) -> str:
     """Zelfde overzicht als build_index_html, maar als Markdown voor gebruik in
     GitHub-issues: één kop (##) per hoofdgroep met daaronder de links,
     gesplitst in Tabellen en Changelogs. base_url wordt aan het subpad geplakt
@@ -802,7 +1645,13 @@ def build_index_markdown(groups, general,
     for code, entries in groups:
         lines += _section(code, entries, mark=marks.get(code))
 
-    if not groups and not general:
+    experts = expertcommissie or []
+    if experts:
+        lines += ["## Voor de expertcommissie", ""]
+        lines += [_link(e) for e in experts]
+        lines += [""]
+
+    if not groups and not general and not experts:
         lines += ["_Geen gepubliceerde bestanden gevonden voor deze versie._", ""]
 
     return "\n".join(lines).rstrip() + "\n"
@@ -902,6 +1751,8 @@ _CHECK_STYLE = """
     .kpi .box.free b { color:var(--dg-green); }
     .kpi .box.bad { border-color:var(--dg-red); background:#fdeff0; }
     .kpi .box.bad b { color:var(--dg-red); }
+    .kpi .box.warn { border-color:#E0A800; background:#fff8e6; }
+    .kpi .box.warn b { color:#8a6d00; }
     p.ok { color:var(--dg-green); font-weight:600; margin:8px 0; }
     p.warn { color:var(--dg-red); font-weight:700; margin:14px 0 4px; }
     p.skip { color:var(--dg-grey2); font-style:italic; }
@@ -1113,7 +1964,7 @@ _TREE_LAYER_COLORS = [
     "#E67E22", "#16A085", "#C0392B", "#2C3E50",
 ]
 
-_TREE_STYLE = """
+_TREECHECK_STYLE = """
     .wrap { max-width: 1100px; }
     .card { background:#fff; border:1px solid var(--dg-grey); border-radius:8px;
             padding:16px 18px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
@@ -1125,6 +1976,8 @@ _TREE_STYLE = """
     .kpi .box b { display:block; font-size:1.3rem; font-weight:700; color:var(--dg-ink); }
     .kpi .box.bad { border-color:var(--dg-red); background:#fdeff0; }
     .kpi .box.bad b { color:var(--dg-red); }
+    .kpi .box.warn { border-color:#E0A800; background:#fff8e6; }
+    .kpi .box.warn b { color:#8a6d00; }
     p.ok { color:var(--dg-green); font-weight:600; margin:8px 0; }
     p.warn { color:var(--dg-red); font-weight:700; margin:14px 0 6px; }
     .legend { display:flex; gap:10px; flex-wrap:wrap; margin:8px 0 4px;
@@ -1262,7 +2115,7 @@ def build_object_tree_html(result: dict, title: str = "Objectenboom",
 
     body = "\n".join(parts) + "\n" + tree
     return (
-        _shell_head(title, extra_style=_TREE_STYLE, cdn=False)
+        _shell_head(title, extra_style=_TREECHECK_STYLE, cdn=False)
         + f'<div class="wrap">\n<p class="info">Boomstructuur-controle{ver}</p>\n'
         + body + '\n</div>\n'
         + _FOOTER
@@ -1283,6 +2136,7 @@ def build_lijntype_usage_html(result: dict, title: str = "Lijntype-gebruik",
     lijn_total = result.get("lijn_total", 0)
     used = result.get("used", [])
     unused = result.get("unused", [])
+    variant = result.get("unused_variant", [])
 
     ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
     kpi = (
@@ -1291,6 +2145,8 @@ def build_lijntype_usage_html(result: dict, title: str = "Lijntype-gebruik",
         f'<div class="box"><b>{len(used)}</b>gebruikt in objecten</div>'
         f'<div class="box {"bad" if unused else "free"}"><b>{len(unused)}</b>'
         'niet gebruikt</div>'
+        f'<div class="box {"warn" if variant else "free"}"><b>{len(variant)}</b>'
+        'variant (waarschuwing)</div>'
         '</div>')
 
     # ongebruikte lijntypes (de hoofdvraag)
@@ -1309,6 +2165,17 @@ def build_lijntype_usage_html(result: dict, title: str = "Lijntype-gebruik",
             for u in unused]
         c1.append(_otab('<th>lijntype</th><th>hoofdgroep</th><th>bestand</th>',
                         rows))
+    if variant:
+        c1.append(f'<p class="warn">⚠ Waarschuwing: {len(variant)} niet-gebruikt(e) '
+                  "lijntype(s) met 'VARIANT' in de naam. Dit zijn bewust toegestane "
+                  'varianten en tellen niet als fout:</p>')
+        vrows = [
+            f'<tr><td>{_esc(u["name"])}</td>'
+            f'<td>{_esc(u.get("hoofdgroep", ""))}</td>'
+            f'<td class="loc">{_esc(u.get("file", ""))}</td></tr>'
+            for u in variant]
+        c1.append(_otab('<th>lijntype</th><th>hoofdgroep</th><th>bestand</th>',
+                        vrows))
     c1.append('</div>')
 
     body = "\n".join(c1)
@@ -1477,10 +2344,11 @@ def build_fase_visualisatie_html(result: dict,
     c1.append('</div>')
 
     # tweede controle: alleen-B-hoofdgroep met onverwachte N/V/T-visualisatie
-    c2 = ['<div class="card"><h2>Onverwachte fase-visualisatie (AL/ZZ)</h2>',
-          '<p class="info">AL en ZZ horen alleen een bestaande-situatie-'
+    # (ZZ is vrijgesteld — mag bewust extra fasen dragen; alleen AL telt hier)
+    c2 = ['<div class="card"><h2>Onverwachte fase-visualisatie (AL)</h2>',
+          '<p class="info">AL hoort alleen een bestaande-situatie-'
           'visualisatie te hebben. Deze objecten hebben tóch een N/V/T-'
-          'visualisatie.</p>']
+          'visualisatie. (ZZ is hiervan vrijgesteld.)</p>']
     if not unexpected:
         c2.append('<p class="ok">✓ Geen onverwachte fase-visualisaties.</p>')
     else:
@@ -1824,6 +2692,36 @@ _ALL_STYLE = """
     .toc a { color:var(--dg-blue); text-decoration:none; margin-right:16px;
              font-weight:600; white-space:nowrap; }
     .toc a:hover { text-decoration:underline; }
+    .toc a.warn-link { color:#8a6d00; }
+    .hgnav { background:#fff; border:1px solid var(--dg-grey); border-radius:8px;
+             padding:12px 18px; margin-bottom:18px; display:flex; flex-wrap:wrap;
+             gap:8px; align-items:center; }
+    .hgnav-lbl { font-weight:700; margin-right:6px; }
+    .hgnav a { display:inline-flex; align-items:center; gap:6px;
+               font-family:Consolas,"Courier New",monospace; font-weight:700;
+               text-decoration:none; color:var(--dg-ink);
+               background:#fff4f4; border:1px solid var(--dg-red);
+               border-radius:6px; padding:2px 8px; white-space:nowrap; }
+    .hgnav a:hover { background:var(--dg-red); color:#fff; }
+    .hgnav a .n { font-family:inherit; font-size:.78rem; font-weight:700;
+                  background:var(--dg-red); color:#fff; border-radius:9px;
+                  padding:0 6px; }
+    .hgnav a:hover .n { background:#fff; color:var(--dg-red); }
+    /* Waarschuwings-variant (amberkleurig, spiegelt de fouten-nav). */
+    .hgnav.warn a { background:#fff9e8; border-color:#d9a400; }
+    .hgnav.warn a:hover { background:#d9a400; color:#fff; }
+    .hgnav.warn a .n { background:#d9a400; color:#fff; }
+    .hgnav.warn a:hover .n { background:#fff; color:#8a6d00; }
+    .card.hgblock h2 { display:flex; align-items:baseline; gap:10px;
+                       flex-wrap:wrap; }
+    .card.hgblock .hgcount { font-size:.85rem; font-weight:600;
+                             color:var(--dg-grey2); }
+    .card.hgblock .toplink { margin-left:auto; font-size:.82rem; font-weight:600;
+                             color:var(--dg-blue); text-decoration:none; }
+    .card.hgblock .toplink:hover { text-decoration:underline; }
+    .card.hgblock.warnblock { border-left:4px solid #d9a400; }
+    .card.hgblock.warnblock .hgcount { color:#8a6d00; }
+    td.loc { white-space:nowrap; color:var(--dg-grey2); }
 """
 
 # Klein sorteerscript: klik op een kolomkop om die kolom te sorteren (numeriek
@@ -1959,7 +2857,7 @@ def _c_fasevis(result) -> str:
              lambda m: f'<td>{_esc(", ".join(m.get("missing", [])))}</td>']))
     if unexpected:
         c.append(f'<p class="warn">⚠ {len(unexpected)} object(en) met een '
-                 'onverwachte N/V/T-visualisatie (AL/ZZ):</p>')
+                 'onverwachte N/V/T-visualisatie (AL):</p>')
         c.append(_hg_table(
             '<th>object</th><th>onverwachte fase(n)</th>', unexpected,
             [lambda u: f'<td>{_esc(u.get("name",""))}</td>',
@@ -1997,10 +2895,12 @@ def _c_lijntype_usage(result) -> str:
     if not result:
         return _skip_card("Lijntype-gebruik")
     unused = result.get("unused", [])
+    variant = result.get("unused_variant", [])
     kpi = _kpi_boxes(
         (result.get("lijn_total", 0), "lijntypes", ""),
         (len(result.get("used", [])), "gebruikt", ""),
-        (len(unused), "niet gebruikt", "bad" if unused else "free"))
+        (len(unused), "niet gebruikt", "bad" if unused else "free"),
+        (len(variant), "variant (waarsch.)", "warn" if variant else "free"))
     c = [f'<div class="card"><h2>Lijntype-gebruik</h2>{kpi}']
     if not unused:
         c.append('<p class="ok">✓ Elk lijntype wordt in de objectentabel '
@@ -2010,6 +2910,13 @@ def _c_lijntype_usage(result) -> str:
                  'de objecten gebruikt:</p>')
         c.append(_hg_table('<th>lijntype</th>', unused,
                            [lambda u: f'<td>{_esc(u.get("name",""))}</td>']))
+    if variant:
+        c.append(f'<p class="warn">⚠ Waarschuwing: {len(variant)} niet-gebruikt(e) '
+                 "lijntype(s) met 'VARIANT' in de naam (bewust toegestane "
+                 'varianten, tellen niet als fout):</p>')
+        c.append(_hg_table('<th>lijntype</th>', variant,
+                           [lambda u: f'<td>{_esc(u.get("name",""))}</td>'],
+                           hg_class="hg info"))
     c.append('</div>')
     return "\n".join(c)
 
@@ -2040,7 +2947,8 @@ def _c_missing(result, title, kpi_labels, warn, name_head) -> str:
 
 def _c_verwijderen_scale(result) -> str:
     """Kaart voor de VERWIJDEREN2-schaalcontrole op vervallen lijntypes:
-    result met total/ok/expected/missing[{name,file,row,found}]."""
+    result met total/ok/expected/exempt/exceptions/hg_exceptions/
+    missing[{name,file,row,found}]."""
     title = "VERWIJDEREN2-schaal"
     if not result:
         return _skip_card(title)
@@ -2049,18 +2957,163 @@ def _c_verwijderen_scale(result) -> str:
     exp = result.get("expected", 0.5)
     kpi = _kpi_boxes(
         (total, "vervallen lijntypes", ""),
-        (ok, f"s={exp}", "free" if ok == total else ""),
-        (len(missing), "verkeerde schaal", "bad" if missing else "free"))
+        (ok, f"s={exp}, geen y-offset", "free" if ok == total else ""),
+        (len(missing), "afwijkende schaal / y-offset",
+         "warn" if missing else "free"))
     c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
+    # Toelichting op de uitgezonderde lijntypes/hoofdgroepen (indien aanwezig).
+    exempt = result.get("exempt", 0)
+    names = result.get("exceptions", [])
+    hgs = result.get("hg_exceptions", [])
+    if exempt or names or hgs:
+        parts = []
+        if names:
+            parts.append("lijntype(s) " + ", ".join(_esc(n) for n in names))
+        if hgs:
+            parts.append("hoofdgroep(en) " + ", ".join(_esc(h) for h in hgs))
+        c.append(f'<p class="skip">Uitgezonderd van deze controle: '
+                 f'{" en ".join(parts)} — {exempt} vervallen lijntype(s) '
+                 f'overgeslagen (bewust afwijkende VERWIJDEREN2-opzet).</p>')
     if not missing:
-        c.append(f'<p class="ok">✓ Elk vervallen lijntype heeft de VERWIJDEREN2-'
-                 f'scrap op schaal s={exp}.</p>')
+        c.append(f'<p class="ok">✓ Elk (gecontroleerd) vervallen lijntype heeft de '
+                 f'VERWIJDEREN2-scrap op schaal s={exp} zonder verticale '
+                 f'y-verschuiving.</p>')
     else:
         c.append(f'<p class="warn">⚠ {len(missing)} met een afwijkende (of '
-                 f'ontbrekende) schaal:</p>')
+                 f'ontbrekende) schaal of een ongewenste verticale y-offset '
+                 f'(een horizontale x-offset is prima) — <b>waarschuwing</b>, '
+                 f'telt niet als fout in het publicatie-overzicht:</p>')
+        # hg_class 'hg info' → uitgesloten van findings_by_hoofdgroep, dus geen
+        # fout-vinkje in het overzicht; dit is een waarschuwing (gebruikerskeuze).
         c.append(_hg_table(
             '<th>lijntype</th><th>gevonden</th><th>rij</th>', missing,
             [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td class="loc">{_esc(m.get("found",""))}</td>',
+             lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>'],
+            hg_class="hg info"))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_lt_v_vervallen(result) -> str:
+    """Kaart voor de lt_v-controle (objectentabel): elke gevulde lt_v hoort naar
+    een vervallen lijntype (naam begint met 'V-') te wijzen. result met
+    total/ok/prefix/exempt/exceptions/missing[{name,file,row,found}].
+    Waarschuwing, geen fout."""
+    title = "Vervallen lijntype (lt_v)"
+    if not result:
+        return _skip_card(title)
+    missing = result.get("missing", [])
+    total, ok = result.get("total", 0), result.get("ok", 0)
+    pref = result.get("prefix", "V-")
+    kpi = _kpi_boxes(
+        (total, "objecten met lt_v", ""),
+        (ok, f"begint met {pref}", "free" if ok == total else ""),
+        (len(missing), f"zonder {pref}", "warn" if missing else "free"))
+    c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
+    exempt = result.get("exempt", 0)
+    names = result.get("exceptions", [])
+    hgs = result.get("hg_exceptions", [])
+    objs = result.get("object_exceptions", [])
+    npfx = result.get("name_prefix_exceptions", [])
+    nms = result.get("name_exceptions", [])
+    if exempt or names or hgs or objs or npfx or nms:
+        parts = []
+        if names:
+            parts.append("lt_v-waarde(n) " + ", ".join(_esc(n) for n in names))
+        if hgs:
+            parts.append("hoofdgroep(en) " + ", ".join(_esc(h) for h in hgs))
+        if objs:
+            parts.append("object(en) " + ", ".join(_esc(o) for o in objs)
+                         + " (incl. onderliggende objecten)")
+        if npfx:
+            parts.append("object-tak(ken) " + ", ".join(_esc(p) for p in npfx)
+                         + " (incl. onderliggende objecten)")
+        if nms:
+            parts.append("object(en) " + ", ".join(_esc(n) for n in nms))
+        c.append(f'<p class="skip">Uitgezonderd (bewust toegestaan zonder '
+                 f'{_esc(pref)}-prefix): {" en ".join(parts)} — {exempt} '
+                 f'object(en) overgeslagen.</p>')
+    if not missing:
+        c.append(f'<p class="ok">✓ Elke gevulde lt_v verwijst naar een vervallen '
+                 f'lijntype (begint met {_esc(pref)}).</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(missing)} object(en) met een lt_v die '
+                 f'niet met {_esc(pref)} begint — <b>waarschuwing</b>, telt niet '
+                 f'als fout in het publicatie-overzicht:</p>')
+        # hg_class 'hg info' → uitgesloten van findings_by_hoofdgroep, dus geen
+        # fout-vinkje in het overzicht; dit is een waarschuwing (gebruikerskeuze).
+        c.append(_hg_table(
+            '<th>object</th><th>lt_v</th><th>rij</th>', missing,
+            [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td class="loc">{_esc(m.get("found",""))}</td>',
+             lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>'],
+            hg_class="hg info"))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_lt_v_misplaatst(result) -> str:
+    """Kaart: een 'V-'-lijntype (vervallen lijntype) hoort alleen in de kolom
+    lt_v. result met total/ok/prefix/columns/bad[{name,file,row,column,found}].
+    Dit is een FOUT (telt mee in het publicatie-overzicht)."""
+    title = "Vervallen lijntype buiten lt_v"
+    if not result:
+        return _skip_card(title)
+    bad = result.get("bad", [])
+    total, ok = result.get("total", 0), result.get("ok", 0)
+    pref = result.get("prefix", "V-")
+    cols = result.get("columns", [])
+    colstr = "/".join(cols) if cols else "lt_b/lt_n/lt_t"
+    kpi = _kpi_boxes(
+        (total, f"{colstr} gevuld", ""),
+        (ok, f"zonder {pref}", "free" if ok == total else ""),
+        (len(bad), f"{pref} op verkeerde plek", "bad" if bad else "free"))
+    c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
+    if not bad:
+        c.append(f'<p class="ok">✓ Geen enkel {_esc(pref)}-lijntype in '
+                 f'{_esc(colstr)}; vervallen lijntypes staan alleen in lt_v.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(bad)} keer een {_esc(pref)}-lijntype in '
+                 f'een andere kolom dan lt_v ({_esc(colstr)}). Een '
+                 f'{_esc(pref)}-lijntype is een vervallen lijntype en hoort '
+                 'uitsluitend in lt_v:</p>')
+        c.append(_hg_table(
+            '<th>object</th><th>kolom</th><th>lijntype</th><th>rij</th>', bad,
+            [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td class="loc">{_esc(m.get("column",""))}</td>',
+             lambda m: f'<td class="loc">{_esc(m.get("found",""))}</td>',
+             lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
+def _c_verboden_kleur(result) -> str:
+    """Kaart: verboden kleur(nummers) in de objectentabel. result met
+    total/ok/forbidden/columns/bad[{name,file,row,column,found}]. FOUT (telt mee
+    in het publicatie-overzicht)."""
+    title = "Verboden kleur"
+    if not result:
+        return _skip_card(title)
+    bad = result.get("bad", [])
+    total, ok = result.get("total", 0), result.get("ok", 0)
+    fb = result.get("forbidden", [])
+    fbstr = ", ".join(fb) if fb else "50"
+    kpi = _kpi_boxes(
+        (total, "kleur-cellen", ""),
+        (ok, "toegestaan", "free" if ok == total else ""),
+        (len(bad), f"kleur {fbstr}", "bad" if bad else "free"))
+    c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
+    if not bad:
+        c.append(f'<p class="ok">✓ Kleur {_esc(fbstr)} komt niet voor in de '
+                 'kleur-kolommen.</p>')
+    else:
+        c.append(f'<p class="warn">⚠ {len(bad)} keer kleur {_esc(fbstr)} in een '
+                 'kleur-kolom; die kleur mag niet meer gebruikt worden:</p>')
+        c.append(_hg_table(
+            '<th>object</th><th>kolom</th><th>kleur</th><th>rij</th>', bad,
+            [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td class="loc">{_esc(m.get("column",""))}</td>',
              lambda m: f'<td class="loc">{_esc(m.get("found",""))}</td>',
              lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>']))
     c.append('</div>')
@@ -2426,13 +3479,54 @@ _D_AUTOCADDEF = (
     "<code>autocaddef</code> (de generieke lijnen CONTINUOUS/V-CONTINUOUS-SO "
     "worden overgeslagen).")
 
+_D_LTV = (
+    "Vervallen lijntype (lt_v): de kolom <code>lt_v</code> in de objectentabel "
+    "verwijst naar het lijntype voor de vervallen situatie. Vervallen lijntypes "
+    "heten in NLCS altijd <code>V-…</code>, dus een gevulde <code>lt_v</code> "
+    "hoort met <code>V-</code> te beginnen. Een waarde die daar niet mee begint "
+    "is verdacht (waarschijnlijk een bestaand/nieuw lijntype) — een waarschuwing, "
+    "geen fout. Uitzondering: de grenzen van gemeenten, provincies enzovoorts "
+    "zijn eigendomsgrenzen die buiten de scope van engineering liggen; daarom "
+    "hebben deze grenzen geen vervallen lijnstijl. Daarnaast is de waarde "
+    "<code>BC-SLOOPLIJN-SO</code> (een sloop-lijntype) bewust toegestaan en "
+    "wordt die niet gemeld. Verder zijn de hoofdgroepen <code>IS</code>, "
+    "<code>ES</code> en <code>SB</code> uitgezonderd, en mogen "
+    "<code>terrein</code>, <code>bebouwing</code>, <code>water</code>, "
+    "<code>greppel</code> en <code>baggervak</code> (inclusief hun "
+    "onderliggende objecten) én de OG-objecten <code>weg</code> en "
+    "<code>zone</code> (inclusief hun onderliggende objecten) én de "
+    "fase-objecten in OG (Fase1 t/m Fase7) "
+    "bewust het lijntype <code>CONTINUOUS</code> als vervallen lijntype "
+    "hebben — die worden niet gemeld. Hetzelfde geldt voor de takken "
+    "<code>HYDRAULIEKVORM_SCHEMA</code> en <code>PNEUMATIEKVORM_SCHEMA</code> "
+    "(inclusief hun onderliggende objecten) en voor de losse objecten "
+    "<code>GRENS_VLAKAFSLUITER</code> en <code>GRENS_WIJK</code>.")
+
+_D_LTVMIS = (
+    "Vervallen lijntype buiten lt_v: een lijntype waarvan de naam met "
+    "<code>V-</code> begint is een vervallen lijntype en hoort uitsluitend in de "
+    "kolom <code>lt_v</code> te staan. De kolommen <code>lt_b</code>, "
+    "<code>lt_n</code> en <code>lt_t</code> (begin-, nieuwe- en tijdelijke fase) "
+    "mogen dus géén <code>V-…</code>-waarde bevatten; staat daar toch een "
+    "<code>V-</code>-lijntype, dan is dat een fout.")
+
+_D_VERBKLEUR = (
+    "Verboden kleur: kleurnummer <code>50</code> mag niet meer gebruikt worden. "
+    "Alle kleur-kolommen (<code>kl_*</code>) van de objectentabel worden "
+    "gecontroleerd; staat er in een cel kleur <code>50</code>, dan is dat een "
+    "fout en moet er een andere kleur gekozen worden.")
+
 _D_VERWSCALE = (
     "VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) "
     "kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit "
     "<code>NLCS.shx</code> op schaal 0.5. Gecontroleerd wordt of de "
     "<code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-segment van de "
-    "<code>autocaddef</code> daadwerkelijk 0.5 is (een eventuele "
-    "<code>x=</code>-offset blijft ongemoeid).")
+    "<code>autocaddef</code> daadwerkelijk 0.5 is én of er geen verticale "
+    "<code>y=</code>-verschuiving in staat (dan staan de scraps niet meer "
+    "gecentreerd op de lijn). Een horizontale <code>x=</code>-offset is prima "
+    "(fraaie uitlijning op de lijn) en blijft ongemoeid. Uitgezonderd (bewust "
+    "afwijkende opzet, volledig overgeslagen): het lijntype "
+    "<code>V-GR-PLANTSOEN-SO</code>.")
 
 
 def _desc(card_html: str, text: str) -> str:
@@ -2444,13 +3538,144 @@ def _desc(card_html: str, text: str) -> str:
         "</h2>", f'</h2>\n<p class="ctrldesc">{text}</p>', 1)
 
 
+_RE_H2 = _re.compile(r'<h2[^>]*>(.*?)</h2>', _re.DOTALL)
+_RE_TR = _re.compile(r'<tr>(.*?)</tr>', _re.DOTALL)
+# Alléén exact class="hg" telt als foutregel (net als findings_by_hoofdgroep);
+# 'hg info'-regels (waarschuwingen) matchen dit patroon bewust niet.
+_RE_HG_CELL = _re.compile(r'<td class="hg">([^<]*)</td>')
+# 'hg info' → waarschuwingsregels (tellen niet als fout).
+_RE_HG_INFO_CELL = _re.compile(r'<td class="hg info">([^<]*)</td>')
+_RE_TD = _re.compile(r'<td[^>]*>(.*?)</td>', _re.DOTALL)
+_RE_TAGS = _re.compile(r'<[^>]+>')
+_RE_SECT = _re.compile(r'<h1 class="sect"[^>]*>(.*?)</h1>', _re.DOTALL)
+
+
+def _plain(html: str) -> str:
+    """HTML-fragment → platte tekst (tags weg, entiteiten simpel terug, witruimte
+    genormaliseerd)."""
+    t = _RE_TAGS.sub("", html or "")
+    t = (t.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
+          .replace("&middot;", "·").replace("&nbsp;", " ").replace("&#39;", "'")
+          .replace("&quot;", '"'))
+    return " ".join(t.split())
+
+
+def _collect_hg_groups(sections: list, cell_re) -> dict:
+    """Verzamel per hoofdgroep-code de regels uit de al-gerenderde secties.
+
+    `cell_re` bepaalt welke rijen meetellen: exact ``class="hg"`` voor fouten,
+    ``class="hg info"`` voor waarschuwingen. Per regel bewaren we de sectie
+    (Objecten/Symbolen/…), de controle (de <h2> van de kaart) en de melding
+    (de overige cellen als platte tekst). Geeft {code: [{sect,check,msg}, …]}."""
+    groups: dict = {}
+    for sect_html in sections:
+        ms = _RE_SECT.search(sect_html)
+        sect = _plain(ms.group(1)) if ms else ""
+        # Kaarten bevatten geneste <div>'s (o.a. _kpi_boxes: <div class="kpi">
+        # <div class="box">…</div>…</div>), dus een non-greedy </div>-match zou
+        # de kaart vóór de findings-tabel afkappen. Splits daarom op de
+        # kaart-grens: elk stuk ná de eerste bevat precies één kaart.
+        for card in sect_html.split('<div class="card"')[1:]:
+            hm = _RE_H2.search(card)
+            check = _plain(hm.group(1)) if hm else ""
+            for tm in _RE_TR.finditer(card):
+                row = tm.group(1)
+                cell = cell_re.search(row)
+                if not cell:
+                    continue
+                code = cell.group(1).strip().upper()
+                if not code:
+                    continue
+                # melding = de overige cellen (de hg-cel eruit) als platte tekst
+                rest = row.replace(cell.group(0), "", 1)
+                parts = [_plain(td) for td in _RE_TD.findall(rest)]
+                msg = " · ".join(p for p in parts if p)
+                groups.setdefault(code, []).append(
+                    {"sect": sect, "check": check, "msg": msg})
+    return groups
+
+
+def _hoofdgroep_overview(sections: list) -> tuple:
+    """Bouw uit de al-gerenderde controle-secties een overzicht per hoofdgroep.
+
+    Elke foutregel rendert als ``<tr>…<td class="hg">CODE</td>…</tr>`` (via
+    _hg_table met de standaard-class 'hg'); waarschuwingen ('hg info') tellen
+    NIET mee — precies dezelfde regel als findings_by_hoofdgroep, zodat de
+    aantallen hier en de vinkjes in het publicatie-overzicht overeenkomen.
+
+    Geeft terug: (overzicht_html, [(code, aantal), …] gesorteerd op code). Zonder
+    fouten: ("", [])."""
+    groups = _collect_hg_groups(sections, _RE_HG_CELL)
+    if not groups:
+        return "", []
+
+    order = sorted(groups.items())
+    counts = [(code, len(items)) for code, items in order]
+
+    out = ['<h1 class="sect" id="overzicht-hg">Fouten per hoofdgroep</h1>',
+           '<p class="sectnote">Alle foutmeldingen gegroepeerd per hoofdgroep. '
+           'Waarschuwingen (zoals afwijkende VERWIJDEREN2-schaal of kleine '
+           'letters) tellen niet als fout en staan hier niet bij.</p>']
+    for code, items in order:
+        out.append(f'<div class="card hgblock" id="hg-{_esc(code)}">')
+        out.append(f'<h2>{_esc(code)} <span class="hgcount">{len(items)} '
+                   f'fout(en)</span> <a class="toplink" href="#overzicht-hg">'
+                   f'&uarr; overzicht</a></h2>')
+        rows = "".join(
+            f'<tr><td class="loc">{_esc(it["sect"])}</td>'
+            f'<td>{_esc(it["check"])}</td>'
+            f'<td>{_esc(it["msg"])}</td></tr>'
+            for it in items)
+        out.append('<div class="tablescroll">\n<table class="otab">\n<thead>\n'
+                   '<tr><th>tabel</th><th>controle</th><th>melding</th></tr>\n'
+                   '</thead>\n<tbody>\n' + rows + '\n</tbody>\n</table>\n</div>')
+        out.append('</div>')
+    return "\n".join(out), counts
+
+
+def _waarschuwing_overview(sections: list) -> tuple:
+    """Zoals _hoofdgroep_overview, maar voor waarschuwingsregels ('hg info').
+
+    Toont per hoofdgroep de controle + melding. De 'tabel'-kolom vervalt: alle
+    waarschuwingen staan in dezelfde sectie, dus die kolom zou niets toevoegen.
+
+    Geeft terug: (overzicht_html, [(code, aantal), …]). Zonder waarschuwingen:
+    ("", [])."""
+    groups = _collect_hg_groups(sections, _RE_HG_INFO_CELL)
+    if not groups:
+        return "", []
+
+    order = sorted(groups.items())
+    counts = [(code, len(items)) for code, items in order]
+
+    out = ['<h1 class="sect" id="overzicht-hg-warn">Waarschuwingen per '
+           'hoofdgroep</h1>',
+           '<p class="sectnote">Alle waarschuwingen gegroepeerd per hoofdgroep. '
+           'Dit zijn aandachtspunten die NIET als fout tellen in het '
+           'publicatie-overzicht.</p>']
+    for code, items in order:
+        out.append(f'<div class="card hgblock warnblock" id="hgw-{_esc(code)}">')
+        out.append(f'<h2>{_esc(code)} <span class="hgcount">{len(items)} '
+                   f'waarschuwing(en)</span> <a class="toplink" '
+                   f'href="#overzicht-hg-warn">&uarr; overzicht</a></h2>')
+        rows = "".join(
+            f'<tr><td class="loc">{_esc(it["check"])}</td>'
+            f'<td>{_esc(it["msg"])}</td></tr>'
+            for it in items)
+        out.append('<div class="tablescroll">\n<table class="otab">\n<thead>\n'
+                   '<tr><th>controle</th><th>melding</th></tr>\n'
+                   '</thead>\n<tbody>\n' + rows + '\n</tbody>\n</table>\n</div>')
+        out.append('</div>')
+    return "\n".join(out), counts
+
+
 def build_all_checks_html(data: dict, version_new: str = "") -> str:
     """Eén gecombineerd controle-rapport met alle kwaliteitscontroles, ingedeeld
     per tabel in de volgorde van docs/managementmanual/2.md. Elke findings-tabel
     heeft een sorteerbare kolom 'hoofdgroep' vooraan.
 
     `data` bevat de ruwe controle-resultaten (zie ot_gui.ControlesTab._gather):
-      tree, fasevis, elemlink, elemfill, lijnusage, arcverkl, arclen, lijndef, verwscale, dwg  -> dict|None
+      tree, fasevis, elemlink, elemfill, ltvmis, verbkleur, lijnusage, arcverkl, arclen, lijndef, verwscale, dwg  -> dict|None
       id       -> {soort: id-section|None}
       optie    -> {soort: optie-section|None}
       nameuri  -> {soort: analyze_name_uri-dict|None}
@@ -2479,7 +3704,9 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
            _desc(_c_missing(data.get("elemfill"), "Element gevuld",
                             ("objecten", "gevuld", "leeg"),
                             "Elk object heeft minimaal één waarde in de kolom "
-                            "element.", "<th>object</th>"), _D_ELEMFILL)]
+                            "element.", "<th>object</th>"), _D_ELEMFILL),
+           _desc(_c_lt_v_misplaatst(data.get("ltvmis")), _D_LTVMIS),
+           _desc(_c_verboden_kleur(data.get("verbkleur")), _D_VERBKLEUR)]
     if smin.get("symbolen") or smin.get("arceringen"):
         obj.append(_desc(_c_searchmin(smin.get("symbolen")), _D_ZOEKTERM_MIN))
         obj.append(_desc(_c_searchmin(smin.get("arceringen")), _D_ZOEKTERM_MIN))
@@ -2529,21 +3756,71 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
                              ("lijntypes", "met definitie", "zonder definitie"),
                              "Elk lijntype heeft een AutoCAD-definitie (autocaddef); "
                              "CONTINUOUS/V-CONTINUOUS-SO overgeslagen.",
-                             "<th>lijntype</th>"), _D_AUTOCADDEF),
-            _desc(_c_verwijderen_scale(data.get("verwscale")), _D_VERWSCALE)]
+                             "<th>lijntype</th>"), _D_AUTOCADDEF)]
     sections.append("\n".join(lijn))
+
+    # -- WAARSCHUWINGEN (apart, helemaal onderaan) -------------------------
+    # Aandachtspunten die NIET als fout tellen (hg info): ze staan los onderaan
+    # zodat hun (vaak vele) meldingen de fout-controles hierboven niet overstemmen.
+    waarsch = ['<h1 class="sect" id="waarschuwingen">Waarschuwingen</h1>',
+               '<p class="sectnote">Aandachtspunten die NIET als fout tellen in het '
+               'publicatie-overzicht (geen fout-vinkje). Bewust apart onderaan gezet '
+               'zodat ze de controles hierboven niet overstemmen.</p>',
+               _desc(_c_lt_v_vervallen(data.get("ltv")), _D_LTV),
+               _desc(_c_verwijderen_scale(data.get("verwscale")), _D_VERWSCALE)]
+    waarsch_html = "\n".join(waarsch)
 
     ver = f" &middot; versie {_esc(version_new)}" if version_new else ""
     toc = ('<div class="toc"><a href="#objecten">Objecten</a>'
            '<a href="#symbolen">Symbolen</a><a href="#arceringen">Arceringen</a>'
-           '<a href="#lijntypes">Lijntypes</a></div>')
+           '<a href="#lijntypes">Lijntypes</a>')
+
+    # Overzicht per hoofdgroep uit de al-gerenderde secties (alleen fouten). De
+    # waarschuwingen-sectie zit bewust NIET in `sections`, dus die telt hier niet
+    # mee (en zou als 'hg info' sowieso al niet meetellen).
+    overview_html, hg_counts = _hoofdgroep_overview(sections)
+    if hg_counts:
+        toc += '<a href="#overzicht-hg">Fouten per hoofdgroep</a>'
+    toc += '<a href="#waarschuwingen" class="warn-link">Waarschuwingen</a>'
+    # Waarschuwingen per hoofdgroep (uit de aparte waarschuwingen-sectie).
+    warn_overview_html, warn_counts = _waarschuwing_overview([waarsch_html])
+    if warn_counts:
+        toc += ('<a href="#overzicht-hg-warn" class="warn-link">'
+                'Waarschuwingen per hoofdgroep</a>')
+    toc += "</div>"
+
+    # Klikbare balk met de hoofdgroepen die fouten hebben → spring naar het blok.
+    hgnav = ""
+    if hg_counts:
+        links = "".join(
+            f'<a href="#hg-{_esc(code)}">{_esc(code)} '
+            f'<span class="n">{n}</span></a>'
+            for code, n in hg_counts)
+        hgnav = ('<div class="hgnav"><span class="hgnav-lbl">Hoofdgroepen met '
+                 'fouten:</span>' + links + '</div>\n')
+    # Idem voor de waarschuwingen → spring naar het waarschuwings-blok (#hgw-…).
+    if warn_counts:
+        wlinks = "".join(
+            f'<a href="#hgw-{_esc(code)}">{_esc(code)} '
+            f'<span class="n">{n}</span></a>'
+            for code, n in warn_counts)
+        hgnav += ('<div class="hgnav warn"><span class="hgnav-lbl">Hoofdgroepen '
+                  'met waarschuwingen:</span>' + wlinks + '</div>\n')
+
     body = "\n".join(sections)
+    if overview_html:
+        body += "\n" + overview_html
+    # Waarschuwingen helemaal onderaan, ná het fouten-overzicht.
+    body += "\n" + waarsch_html
+    # …en daaronder het waarschuwingen-per-hoofdgroep-overzicht.
+    if warn_overview_html:
+        body += "\n" + warn_overview_html
     return (
         _shell_head("Controles", extra_style=_CHECK_STYLE + _ALL_STYLE, cdn=False)
         + f'<div class="wrap">\n<p class="info">Alle kwaliteitscontroles in de '
           f'volgorde van de managementhandleiding{ver}. Klik op een kolomkop om '
           f'te sorteren (bijv. op hoofdgroep).</p>\n'
-        + toc + "\n" + body + '\n</div>\n'
+        + toc + "\n" + hgnav + body + '\n</div>\n'
         + _ALL_SORT_JS
         + _FOOTER
     )

@@ -22,6 +22,9 @@ import glob
 import hashlib
 import os
 import re
+import shutil
+import subprocess
+import tempfile
 
 KEY = "objectURI"          # kolom waarop rijen gematcht worden (stabiele unieke URI;
                            # id_nummer is in oudere versies leeg)
@@ -284,9 +287,16 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
 
     Groepeer op de eerste submap onder `root` (de hoofdgroep-code, bijv. 'AM');
     bestanden direct in `root` komen in de algemene groep ('voor alle
-    hoofdgroepen'). Twee uitzonderingen:
-      * `releasenotes.html` (waar dan ook onder `root`) komt ALTIJD in de
-        algemene groep, ook zonder versienummer in de naam.
+    hoofdgroepen'). Bijzonderheden:
+      * release notes (`releasenotes...`) worden ook zonder versienummer in de
+        naam opgenomen. Een per-hoofdgroep release note in een hoofdgroep-submap
+        (bv. 'AL/releasenotes-5-2-AL.html') komt bij DIE hoofdgroep; alleen een
+        overkoepelende release note buiten een hoofdgroep-submap (direct in
+        `root` of in een niet-hoofdgroep-map zoals 'releasenotes/') komt in de
+        algemene groep. Hun knop-label is steeds 'Release notes'.
+      * HTML's in de submap 'expertcommissie' komen (ook zonder versienummer in
+        de naam) in een aparte lijst `expertcommissie` -> eigen blok onderaan het
+        overzicht ('Voor de expertcommissie').
       * publicatie-overzichten (het bestand dat deze functie voedt) worden NOOIT
         opgenomen: bestanden die met 'publicatieoverzicht' beginnen of waarvan de
         naam in `exclude_names` staat, worden overgeslagen.
@@ -294,6 +304,7 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     Geeft:
       {"groups": [(code, [entry, ...]), ...],   # gesorteerd op code
        "general": [entry, ...],
+       "expertcommissie": [entry, ...],
        "docs_root": <pad>, "count": <int>}
     entry = {"filename", "subpath", "kind", "label"} waarbij subpath het pad is
     t.o.v. de docs-map (posix, voor de online-URL). Per groep staan de tabellen
@@ -303,6 +314,7 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     exclude = {n.strip().lower() for n in (exclude_names or ()) if n and n.strip()}
     grouped: list = []      # [(raw_code, entry), ...] — code na de walk canoniek maken
     general: list = []
+    expertcommissie: list = []   # HTML's uit de submap 'expertcommissie'
     count = 0
     if variants and os.path.isdir(root):
         for dirpath, _dirs, files in os.walk(root):
@@ -314,23 +326,42 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
                 if low in exclude or low.startswith("publicatieoverzicht") \
                         or low.startswith("publicatie-overzicht"):
                     continue
-                is_releasenotes = low.startswith("releasenotes")
-                if not is_releasenotes and not any(v in name for v in variants):
-                    continue
                 full = os.path.join(dirpath, name)
                 rel_parts = os.path.relpath(full, root).replace("\\", "/").split("/")
+                first = rel_parts[0].strip()
+                # De submap 'expertcommissie' krijgt een eigen blok onderaan het
+                # overzicht; die bestanden worden altijd opgenomen (ook zonder
+                # versienummer in de naam), net als de release notes.
+                is_expert = len(rel_parts) > 1 and first.lower() == "expertcommissie"
+                is_releasenotes = low.startswith("releasenotes")
+                if not is_expert and not is_releasenotes \
+                        and not any(v in name for v in variants):
+                    continue
                 entry = {
                     "filename": name,
                     "subpath": os.path.relpath(full, docs_root).replace("\\", "/"),
                     "kind": index_kind(name),
                 }
-                # releasenotes én bestanden direct in root -> algemene groep.
-                if is_releasenotes or len(rel_parts) == 1:
+                # Zit het bestand in een hoofdgroep-submap? De eerste submap moet
+                # dan een hoofdgroep-code zijn (2 letters, of een 3-letterige
+                # A/S-bibliotheekmap). Zo ja: ALTIJD bij die hoofdgroep indelen,
+                # ook een per-hoofdgroep release note (releasenotes-5-2-AL.html in
+                # map AL/). De algemene map 'releasenotes/' is géén hoofdgroep.
+                first_up = first.upper()
+                in_hoofdgroep = len(rel_parts) > 1 and bool(
+                    re.fullmatch(r"[A-Z]{2,3}", first_up))
+                if is_expert:
+                    entry["label"] = nice_index_label(name, "")
+                    expertcommissie.append(entry)
+                elif in_hoofdgroep:
+                    grouped.append((first_up, entry))
+                elif is_releasenotes or len(rel_parts) == 1:
+                    # Overkoepelende release note of los bestand in root -> algemeen.
                     entry["label"] = ("Release notes" if is_releasenotes
                                       else nice_index_label(name, ""))
                     general.append(entry)
                 else:
-                    grouped.append((rel_parts[0].strip().upper(), entry))
+                    grouped.append((first_up, entry))
                 count += 1
 
     # Arcering-/symbool-bibliotheekmappen (AGW, AIE, ...) samenvouwen in de gewone
@@ -340,7 +371,10 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     groups: dict = {}
     for rc, entry in grouped:
         code = _canon_group_code(rc, all_codes)
-        entry["label"] = nice_index_label(entry["filename"], code)
+        if entry["filename"].lower().startswith("releasenotes"):
+            entry["label"] = "Release notes"
+        else:
+            entry["label"] = nice_index_label(entry["filename"], code)
         groups.setdefault(code, []).append(entry)
 
     def _sortkey(e: dict) -> tuple:
@@ -364,10 +398,12 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     for code in list(groups):
         groups[code] = sorted(_dedupe(code, groups[code]), key=_sortkey)
     general.sort(key=_sortkey)
-    count = sum(len(v) for v in groups.values()) + len(general)
+    expertcommissie.sort(key=_sortkey)
+    count = sum(len(v) for v in groups.values()) + len(general) + len(expertcommissie)
     return {
         "groups": sorted(groups.items()),
         "general": general,
+        "expertcommissie": expertcommissie,
         "docs_root": docs_root,
         "count": count,
     }
@@ -943,9 +979,299 @@ def _name_segments(name: str) -> list[str]:
     return [s for s in re.split(r"[-_]", (name or "").strip()) if s]
 
 
+OBJECT_SEGMENT_COLS = ("object", "subobject01", "subobject02", "subobject03",
+                       "subobject04", "subobject05")
+
+
+def find_shared_objecttypes(src: str, object_col: str = "object",
+                            segment_cols=OBJECT_SEGMENT_COLS,
+                            name_col: str = "omschrijving",
+                            min_hoofdgroepen: int = 2) -> dict:
+    """Zoek objecttypes die in meerdere hoofdgroepen voorkomen.
+
+    Een 'objecttype' is een top-niveau `object`-waarde (bijv. TRAMSIGNALERING).
+    Het 'komt voor' in een hoofdgroep als die naam daar ergens in de naam-
+    hiërarchie staat: als `object` OF als een van de `subobject`-kolommen. Zo telt
+    TRAMSIGNALERING mee in IW (daar is het het object) én in VW (daar staat het
+    als subobject onder VERKEERSTEKEN).
+
+    `src` is de map met objectentabellen per hoofdgroep (of één CSV). De
+    hoofdgroep-code komt uit de bestandsnaam (`hoofdgroep_code`). Alleen namen die
+    in minstens `min_hoofdgroepen` verschillende hoofdgroepen voorkomen tellen mee.
+
+    Retour:
+      {
+        "names":    {NAAM: [codes...]},            # gedeelde naam -> hoofdgroepen
+        "per_code": [(code, [(NAAM, [andere codes]), ...]), ...],  # per hoofdgroep
+                    (op code gesorteerd; binnen een hoofdgroep op naam)
+        "examples": {NAAM: [(code, voorbeeld-omschrijving), ...]},  # per gedeelde
+                    naam, per hoofdgroep een voorbeeld-`name_col` (de kortste
+                    omschrijving waarin die naam als segment voorkomt)
+        "total":    aantal gedeelde namen,
+        "codes":    [codes...],                     # hoofdgroepen met >=1 gedeelde
+      }
+    """
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        paths = []
+
+    seg2hg: dict[str, set] = {}     # NAAM(upper) -> {hoofdgroep-codes}
+    display: dict[str, str] = {}    # NAAM(upper) -> weergave-spelling
+    objnames: set = set()           # NAAM(upper) van top-niveau objecten
+    ex: dict[tuple, str] = {}       # (NAAM(upper), code) -> kortste omschrijving
+    for path in paths:
+        code = (hoofdgroep_code(path) or "").strip().upper()
+        headers, rows = read_table(path)
+        seg_idx = [headers.index(c) for c in segment_cols if c in headers]
+        obj_i = headers.index(object_col) if object_col in headers else -1
+        nm_i = headers.index(name_col) if name_col in headers else -1
+        for r in rows:
+            oms = r[nm_i].strip() if 0 <= nm_i < len(r) else ""
+            if 0 <= obj_i < len(r) and r[obj_i].strip():
+                ov = r[obj_i].strip()
+                objnames.add(ov.upper())
+                display.setdefault(ov.upper(), ov)
+            for i in seg_idx:
+                v = (r[i] if i < len(r) else "").strip()
+                if v:
+                    key = v.upper()
+                    seg2hg.setdefault(key, set()).add(code)
+                    display.setdefault(key, v)
+                    if oms:
+                        cur = ex.get((key, code))
+                        if cur is None or (len(oms), oms) < (len(cur), cur):
+                            ex[(key, code)] = oms
+
+    names: dict = {}
+    examples: dict = {}
+    for key in objnames:
+        codes = seg2hg.get(key, set())
+        if len(codes) >= min_hoofdgroepen:
+            nm = display.get(key, key)
+            scodes = sorted(codes)
+            names[nm] = scodes
+            examples[nm] = [(c, ex.get((key, c), "")) for c in scodes]
+
+    per_code: dict = {}
+    for name, codes in names.items():
+        for code in codes:
+            per_code.setdefault(code, []).append(
+                (name, [c for c in codes if c != code]))
+    for code in per_code:
+        per_code[code].sort(key=lambda t: t[0].casefold())
+
+    return {
+        "names": names,
+        "per_code": sorted(per_code.items()),
+        "examples": examples,
+        "total": len(names),
+        "codes": sorted(per_code),
+    }
+
+
+def is_zwart_kleurnummer(value: str) -> bool:
+    """True als `value` een kleurNUMMER uit de 10-serie (X0: 10, 20, … 240) of de
+    12-serie (X2: 12, 22, … 242) is. Die worden in NLCS zwart geplot; de
+    grijstinten 250-254 vallen erbuiten. Letterlijke 'R,G,B'-waarden en andere
+    nummers zijn geen 10/12-serie."""
+    v = (value or "").strip()
+    if not v.isdigit():
+        return False
+    n = int(v)
+    return 10 <= n <= 242 and n % 10 in (0, 2)
+
+
+def visualisatie_combinaties(src: str, start_col: str = "lw_b",
+                             end_col: str = "lt_t",
+                             name_col: str = "omschrijving",
+                             collapse_black: bool = False) -> dict:
+    """Tel de unieke combinaties van visualisatie-waarden over de objecten.
+
+    De 'visualisatiekeuze' van een object is de rij waarden in de aaneengesloten
+    kolommen van `start_col` t/m `end_col` (standaard lw_b .. lt_t: lijngewicht,
+    kleuren en lijntype voor de vier fasen B/N/V/T — 28 kolommen). Twee objecten
+    met exact dezelfde waarden in die kolommen delen één visualisatiekeuze.
+
+    `src` is de map met objectentabellen per hoofdgroep (of één CSV).
+
+    `collapse_black`: als True worden in de kleur-kolommen (naam begint met 'kl')
+    alle waarden uit de 10- en 12-serie (die zwart plotten) vervangen door één
+    waarde 'zwart' vóór het vergelijken. Verschillende zwart-plottende
+    kleurnummers tellen dan als dezelfde keuze, zodat je de 'standaard'
+    basisvariatie overhoudt.
+
+    Retour:
+      {
+        "columns":       [kolomnamen in de range],
+        "combos":        [{"values":[...], "count":n, "example":<omschrijving>,
+                           "codes":[hoofdgroepen]}],  # op aantal aflopend
+        "unique":        aantal unieke combinaties,
+        "total_objects": aantal gecontroleerde objecten,
+      }
+    """
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        paths = []
+
+    columns: list = []
+    combos: dict = {}      # values-tuple -> {count, example, codes}
+    total = 0
+    for path in paths:
+        headers, rows = read_table(path)
+        if start_col not in headers or end_col not in headers:
+            continue
+        a = headers.index(start_col)
+        b = headers.index(end_col)
+        if a > b:
+            a, b = b, a
+        if not columns:
+            columns = headers[a:b + 1]
+        ni = headers.index(name_col) if name_col in headers else -1
+        code = (hoofdgroep_code(path) or "").strip().upper()
+        is_kl = [headers[j].lower().startswith("kl") for j in range(a, b + 1)]
+        for r in rows:
+            cells = []
+            for k, j in enumerate(range(a, b + 1)):
+                cell = (r[j] if j < len(r) else "").strip()
+                if collapse_black and is_kl[k] and is_zwart_kleurnummer(cell):
+                    cell = "zwart"
+                cells.append(cell)
+            vals = tuple(cells)
+            total += 1
+            e = combos.get(vals)
+            if e is None:
+                combos[vals] = {
+                    "count": 1,
+                    "example": (r[ni].strip() if 0 <= ni < len(r) else ""),
+                    "codes": {code} if code else set(),
+                }
+            else:
+                e["count"] += 1
+                if code:
+                    e["codes"].add(code)
+
+    combolist = [{"values": list(vals), "count": info["count"],
+                  "example": info["example"], "codes": sorted(info["codes"])}
+                 for vals, info in combos.items()]
+    combolist.sort(key=lambda d: (-d["count"],
+                                  [x.casefold() for x in d["values"]]))
+    return {
+        "columns": columns,
+        "combos": combolist,
+        "unique": len(combolist),
+        "total_objects": total,
+    }
+
+
+def lijntype_autocaddef_groups(src: str, def_col: str = "autocaddef",
+                               name_col: str = "omschrijving",
+                               hg_col: str = "hoofdgroep") -> dict:
+    """Groepeer de lijntypes op hun `autocaddef`: lijntypes met exact dezelfde
+    AutoCAD-definitie worden samengevoegd tot één groep.
+
+    `src` is de map met lijntype-CSV's per hoofdgroep (of één CSV). De hoofdgroep
+    komt uit kolom `hg_col` (val terug op de bestandsnaam-code).
+
+    Retour:
+      {
+        "groups": [{"autocaddef": <def>, "names": [lijntype-namen],
+                    "codes": [hoofdgroepen], "count": aantal unieke namen}],
+                   # op aantal aflopend, dan op autocaddef
+        "unique":      aantal unieke autocaddef-definities,
+        "total_rows":  aantal lijntype-rijen,
+        "total_names": aantal unieke lijntype-namen,
+      }
+    """
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        paths = []
+
+    groups: dict = {}          # autocaddef -> {"names": set, "codes": set}
+    total_rows = 0
+    total_names: set = set()
+    for path in paths:
+        headers, rows = read_table(path)
+        if def_col not in headers:
+            continue
+        di = headers.index(def_col)
+        ni = headers.index(name_col) if name_col in headers else -1
+        hi = headers.index(hg_col) if hg_col in headers else -1
+        fn_hg = (hoofdgroep_code(path) or "").strip().upper()
+        for r in rows:
+            ad = (r[di] if di < len(r) else "").strip()
+            nm = (r[ni] if 0 <= ni < len(r) else "").strip()
+            code = ((r[hi] if 0 <= hi < len(r) else "").strip().upper() or fn_hg)
+            total_rows += 1
+            # Lijntypes met een LEGE autocaddef (CONTINUOUS, V-CONTINUOUS-SO) zien
+            # er niet hetzelfde uit (doorgetrokken vs. doorgetrokken + verwijderen-
+            # scraps), dus die niet op elkaar gooien: groepeer ze dan per naam.
+            gkey = ad if ad else ("\x00" + nm.upper())
+            g = groups.setdefault(gkey, {"autocaddef": ad, "names": set(),
+                                         "codes": set()})
+            if nm:
+                g["names"].add(nm)
+                total_names.add(nm)
+            if code:
+                g["codes"].add(code)
+
+    glist = [{"autocaddef": info["autocaddef"],
+              "names": sorted(info["names"], key=str.casefold),
+              "codes": sorted(info["codes"]),
+              "count": len(info["names"])}
+             for info in groups.values()]
+    glist.sort(key=lambda d: (-d["count"], d["autocaddef"].casefold()))
+    return {
+        "groups": glist,
+        "unique": len(glist),
+        "total_rows": total_rows,
+        "total_names": len(total_names),
+    }
+
+
+def read_lijnkleuren_mapping(path: str) -> dict:
+    """Lees {kleurnummer: '#RRGGBB'} uit een Lijnkleuren-overzicht-HTML.
+
+    De tabel heeft koppen o.a. 'nummer' en 'hex'; we zoeken die kolommen op in de
+    <thead> en lezen daarna per rij het nummer -> hex. Lege dict als het bestand
+    ontbreekt of geen bruikbare kolommen heeft. Nodig om in andere overzichten een
+    kleurblokje bij een kleurnummer te tonen."""
+    mapping: dict = {}
+    if not path or not os.path.isfile(path):
+        return mapping
+    try:
+        with open(path, encoding="utf-8") as f:
+            html = f.read()
+    except OSError:
+        return mapping
+    heads = re.findall(r"<th[^>]*>(.*?)</th>", html, re.S)
+    heads = [re.sub(r"<[^>]+>", "", h).strip().lower() for h in heads]
+    if "nummer" not in heads or "hex" not in heads:
+        return mapping
+    ni, hi = heads.index("nummer"), heads.index("hex")
+    for tr in re.findall(r"<tr[^>]*>(.*?)</tr>", html, re.S):
+        tds = re.findall(r"<td[^>]*>(.*?)</td>", tr, re.S)
+        if len(tds) <= max(ni, hi):
+            continue
+        num = re.sub(r"<[^>]+>", "", tds[ni]).strip()
+        hexv = re.sub(r"<[^>]+>", "", tds[hi]).strip()
+        if num.isdigit() and re.fullmatch(r"#[0-9A-Fa-f]{6}", hexv):
+            mapping.setdefault(num, hexv.upper())
+    return mapping
+
+
 def check_object_tree(src: str, name_col: str = "omschrijving",
                       id_col: str = "id_nummer",
-                      parent_col: str = "kind_van") -> dict:
+                      parent_col: str = "kind_van",
+                      lt_col: str = "lt_v") -> dict:
     """Controleer de boomstructuur van de objecten.
 
     De objecten vormen een boom: `parent_col` (standaard 'kind_van') bevat het
@@ -962,7 +1288,8 @@ def check_object_tree(src: str, name_col: str = "omschrijving",
       {
         "count":   totaal aantal objecten,
         "roots":   [id, ...]  (op naam gesorteerd),
-        "nodes":   {id: {"id","name","parent","children":[...],"depth","segs"}},
+        "nodes":   {id: {"id","name","parent","children":[...],"depth","segs",
+                         "file","lt_v"}},
         "max_depth": grootste diepte,
         "errors":  [ {"type","id","name","parent","parent_name","got",
                       "expected","detail"} , ... ],
@@ -994,6 +1321,7 @@ def check_object_tree(src: str, name_col: str = "omschrijving",
         ni = headers.index(name_col)
         ii = headers.index(id_col)
         pi = headers.index(parent_col) if parent_col in headers else -1
+        vi = headers.index(lt_col) if lt_col in headers else -1
         fn = os.path.basename(path)
         for r in rows:
             idn = (r[ii] if ii < len(r) else "").strip()
@@ -1001,11 +1329,12 @@ def check_object_tree(src: str, name_col: str = "omschrijving",
                 continue
             name = (r[ni] if ni < len(r) else "").strip()
             parent = (r[pi] if pi >= 0 and pi < len(r) else "").strip()
+            ltv = (r[vi] if 0 <= vi < len(r) else "").strip()
             # eerste voorkomen wint (zoals elders in de tool)
             nodes.setdefault(idn, {
                 "id": idn, "name": name, "parent": parent,
                 "children": [], "segs": _name_segments(name),
-                "depth": 0, "file": fn,
+                "depth": 0, "file": fn, "lt_v": ltv,
             })
 
     # kinderen koppelen + diepte bepalen
@@ -1120,6 +1449,11 @@ def check_object_tree(src: str, name_col: str = "omschrijving",
 # Kolommen in de objectentabel die naar een lijntype-naam verwijzen
 # (per variant: bestaand/nieuw/vervallen/tijdelijk).
 LIJNTYPE_REF_COLS = ("lt_b", "lt_n", "lt_v", "lt_t")
+# Lijntypes-VERZAMELbestanden: bestandscodes waarin lijntypes van MEERDERE echte
+# hoofdgroepen staan. Voor deze bestanden meldt check_lijntype_usage de
+# 'hoofdgroep'-kolom van de rij (de eigen code, bijv. BC/MC) i.p.v. de
+# bestandscode, zodat je de lijntypes bij hun eigen hoofdgroep terugvindt.
+LIJNTYPE_VERZAMELBESTANDEN = ("CO",)
 
 # Visualisatie-velden per fase in de objectentabel: lijngewicht (lw), de kleuren
 # (kl*) en het lijntype (lt). Een object "heeft een visualisatie" voor een fase
@@ -1135,6 +1469,14 @@ FASE_VOLGORDE = ("B", "N", "V", "T")
 # Hoofdgroepen die alleen een visualisatie voor de bestaande situatie (fase B)
 # hebben; voor deze codes worden N/V/T niet verwacht.
 FASE_ALLEEN_B_CODES = ("AL", "ZZ")
+# Alleen-B-hoofdgroepen die daarnaast tóch N/V/T-velden gevuld MOGEN hebben
+# zonder dat dit een (onverwachte-fase)fout is. ZZ bevat statusonafhankelijke
+# hulpobjecten (grids, grenzen, peilen, …) die bewust extra fasen dragen; AL
+# wordt wél gemeld als het N/V/T heeft.
+FASE_EXTRA_TOEGESTAAN_CODES = ("ZZ",)
+# Objecten (omschrijving) die bewust NIET voor alle fasen een visualisatie
+# hoeven te hebben; deze worden in check_fase_visualisatie overgeslagen.
+FASE_VIS_UITZONDERINGEN = ("GESLOTENVERHARDING_ASFALT_ZAAGSNEDE",)
 
 
 def check_lijntype_usage(lijn_src: str, obj_src: str,
@@ -1154,11 +1496,18 @@ def check_lijntype_usage(lijn_src: str, obj_src: str,
       {
         "lijn_total":     aantal unieke lijntypes,
         "used":           [naam, ...]  (lijntypes die in objecten voorkomen),
-        "unused":         [ {name, hoofdgroep, file} ]  (bestaat wel, niet gebruikt),
+        "unused":         [ {name, hoofdgroep, file} ]  (bestaat wel, niet gebruikt;
+                          `hoofdgroep` = code van het lijntypesbestand, bijv. SB;
+                          telt als fout),
+        "unused_variant": [ {name, hoofdgroep, file} ]  (niet gebruikt én met
+                          'VARIANT' in de naam: WAARSCHUWING, geen fout),
         "obj_refs_total": aantal unieke verwezen namen in de objecten,
         "missing":        [ {name, count, objects[]} ]  (objecten verwijzen naar
                           een naam die geen bestaand lijntype is),
       }
+    Niet-gebruikte lijntypes met 'VARIANT' in de naam (bijv. GAZONBAND_VARIANT01)
+    zijn bewust toegestane varianten; die komen in `unused_variant` als
+    waarschuwing te staan i.p.v. in `unused` (dat als fout telt).
     """
     def _paths(src):
         if not src:
@@ -1171,7 +1520,14 @@ def check_lijntype_usage(lijn_src: str, obj_src: str,
 
     skip = {(n or "").strip().upper() for n in exclude_names}
 
-    # bestaande lijntypes: naam -> (hoofdgroep, bestand) — eerste voorkomen wint
+    # bestaande lijntypes: naam -> (hoofdgroep, bestand) — eerste voorkomen wint.
+    # De hoofdgroep komt uit het LIJNTYPESBESTAND (bestandscode via
+    # hoofdgroep_code), niet uit de 'hoofdgroep'-kolom: die kolom bevat soms de
+    # code uit de lijntypenaam (bijv. ZZ-…-SO in het SB-bestand krijgt daar 'ZZ'),
+    # terwijl je wilt weten in welk bestand het lijntype staat (hier: SB).
+    # UITZONDERING: het CO-verzamelbestand bevat lijntypes van meerdere echte
+    # hoofdgroepen (BC/MC, …); daar melden we juist de 'hoofdgroep'-kolom van de
+    # rij, zodat de eigen code (BC/MC) zichtbaar blijft en niet alles 'CO' wordt.
     lijn: dict[str, dict] = {}
     for path in _paths(lijn_src):
         headers, rows = read_table(path)
@@ -1179,14 +1535,20 @@ def check_lijntype_usage(lijn_src: str, obj_src: str,
             continue
         ni = headers.index(name_col)
         hi = headers.index("hoofdgroep") if "hoofdgroep" in headers else -1
+        code_fn = hoofdgroep_code(path)
+        is_verzamel = code_fn in LIJNTYPE_VERZAMELBESTANDEN
         fn = os.path.basename(path)
         for r in rows:
             nm = (r[ni] if ni < len(r) else "").strip()
             if not nm or nm.upper() in skip:
                 continue
+            row_hg = (r[hi] if 0 <= hi < len(r) else "").strip().upper()
+            # Verzamelbestand → eigen code uit de kolom (val terug op de
+            # bestandscode als de kolom leeg is, bijv. generieke CONTINUOUS).
+            hg = (row_hg or code_fn) if is_verzamel else code_fn
             lijn.setdefault(nm, {
                 "name": nm,
-                "hoofdgroep": (r[hi] if hi >= 0 and hi < len(r) else "").strip(),
+                "hoofdgroep": hg,
                 "file": fn,
             })
 
@@ -1207,7 +1569,11 @@ def check_lijntype_usage(lijn_src: str, obj_src: str,
                     refs[v].append(oname)
 
     used = sorted((n for n in lijn if n in refs), key=str.casefold)
-    unused = [lijn[n] for n in sorted(lijn, key=str.casefold) if n not in refs]
+    unused_all = [lijn[n] for n in sorted(lijn, key=str.casefold) if n not in refs]
+    # Lijntypes met 'VARIANT' in de naam zijn bewust toegestane varianten: die
+    # tellen niet als fout maar komen in een aparte waarschuwingslijst.
+    unused_variant = [u for u in unused_all if "VARIANT" in u["name"].upper()]
+    unused = [u for u in unused_all if "VARIANT" not in u["name"].upper()]
     missing = [
         {"name": n, "count": len(refs[n]), "objects": sorted(refs[n], key=str.casefold)}
         for n in sorted(refs, key=str.casefold) if n not in lijn
@@ -1216,6 +1582,7 @@ def check_lijntype_usage(lijn_src: str, obj_src: str,
         "lijn_total": len(lijn),
         "used": used,
         "unused": unused,
+        "unused_variant": unused_variant,
         "obj_refs_total": len(refs),
         "missing": missing,
     }
@@ -1388,12 +1755,24 @@ FORBIDDEN_NAME_CHARS = {
     ")": "haakje sluiten — breekt LISP-expressies",
 }
 
+# Per-hoofdgroep toegestane 'verboden' tekens voor de objectnamen: in ZZ staan
+# stramien-/maatvoeringlabels als (M), (T1.8), (T2.5), … waarvan de haakjes
+# bewust zijn toegestaan. Alleen de hier genoemde tekens tellen voor die
+# hoofdgroep niet als overtreding; andere verboden tekens blijven fout.
+OBJECT_SPECIAL_CHAR_UITZONDERINGEN = {"ZZ": "()"}
+
 
 def check_special_chars(src: str, name_col: str,
-                        forbidden: dict = None) -> dict:
+                        forbidden: dict = None,
+                        hg_allowed: dict = None) -> dict:
     """Controleer namen op tekens die in CAD-laag-/symboolnamen niet zijn
     toegestaan (zie FORBIDDEN_NAME_CHARS). Spaties, de punt (decimaalteken), '-'
     en '_' zijn WEL toegestaan. `src` mag een MAP met CSV's of één CSV zijn.
+
+    `hg_allowed` (optioneel): {hoofdgroep-code: "tekens"} — per hoofdgroep tekens
+    die daar wél zijn toegestaan en dus niet als overtreding tellen (bijv.
+    `{"ZZ": "()"}` voor de stramien-/maatvoeringlabels (M), (T1.8), …). De
+    hoofdgroep wordt uit de bestandsnaam afgeleid (`hoofdgroep_code`).
 
     Geeft terug:
       {
@@ -1407,6 +1786,8 @@ def check_special_chars(src: str, name_col: str,
       }
     """
     fb = forbidden if forbidden is not None else FORBIDDEN_NAME_CHARS
+    hga = {(k or "").strip().upper(): set(v or "")
+           for k, v in (hg_allowed or {}).items()}
     empty = {"total": 0, "ok": 0, "violations": [], "lowercase": []}
     if not src:
         return empty
@@ -1427,12 +1808,13 @@ def check_special_chars(src: str, name_col: str,
             continue
         ni = headers.index(name_col)
         fn = os.path.basename(path)
+        allowed_here = hga.get((hoofdgroep_code(path) or "").upper(), set())
         for i, r in enumerate(rows):
             name = (r[ni] if ni < len(r) else "").strip()
             if not name:
                 continue
             total += 1
-            found = [ch for ch in fb if ch in name]
+            found = [ch for ch in fb if ch in name and ch not in allowed_here]
             if found:
                 violations.append({"name": name, "file": fn, "row": i + 2,
                                    "chars": found})
@@ -1448,7 +1830,9 @@ def check_special_chars(src: str, name_col: str,
 
 def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
                             hoofdgroep_col: str = "hoofdgroep",
-                            only_b_codes=FASE_ALLEEN_B_CODES) -> dict:
+                            only_b_codes=FASE_ALLEEN_B_CODES,
+                            extra_allowed_codes=FASE_EXTRA_TOEGESTAAN_CODES,
+                            exclude_names=FASE_VIS_UITZONDERINGEN) -> dict:
     """Controleer of elk object voor alle fasen een visualisatie heeft.
 
     Elke fase (B=bestaand, N=nieuw, V=vervallen, T=tijdelijk) heeft in de
@@ -1456,7 +1840,14 @@ def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
     `lt`, zie `FASE_VELDEN`). Een object "heeft een visualisatie" voor een fase
     als minstens één van die velden gevuld is. Verwacht worden alle vier de
     fasen, BEHALVE voor de hoofdgroepen in `only_b_codes` (standaard AL en ZZ):
-    die hebben alleen een visualisatie voor de bestaande situatie (fase B).
+    die hoeven alleen een visualisatie voor de bestaande situatie (fase B) te
+    hebben. Een alleen-B-hoofdgroep die daarnaast tóch N/V/T gevuld heeft wordt
+    normaal als 'onverwachte fase' gemeld, BEHALVE voor de codes in
+    `extra_allowed_codes` (standaard ZZ): die statusonafhankelijke hulpobjecten
+    mogen bewust extra fasen dragen en worden niet gemeld (AL wordt wél gemeld).
+    Objecten waarvan de `omschrijving` in `exclude_names` staat (standaard
+    `FASE_VIS_UITZONDERINGEN`) worden helemaal overgeslagen — bewuste
+    uitzonderingen die geen fout zijn.
 
     De hoofdgroep wordt per rij uit kolom `hoofdgroep_col` gelezen (valt terug op
     de code in de bestandsnaam). `src` mag een MAP met CSV's of één CSV-bestand
@@ -1483,6 +1874,8 @@ def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
         return empty
 
     only_b = {(c or "").strip().upper() for c in only_b_codes}
+    extra_ok = {(c or "").strip().upper() for c in extra_allowed_codes}
+    excl = {(n or "").strip().casefold() for n in exclude_names}
     total = 0
     ok = 0
     missing: list[dict] = []
@@ -1504,6 +1897,8 @@ def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
             name = (r[ni] if ni < len(r) else "").strip()
             if not name:
                 continue
+            if name.casefold() in excl:
+                continue
             total += 1
             code = ((r[hi] if hi >= 0 and hi < len(r) else "").strip()
                     or code_fn).upper()
@@ -1514,10 +1909,12 @@ def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
                            for i in fase_idx.get(fase, ()))
 
             miss = [f for f in expected if not _has(f)]
-            # onverwachte fasen: alleen-B-hoofdgroep met N/V/T ingevuld
+            # Onverwachte fasen: een alleen-B-hoofdgroep met N/V/T gevuld. De
+            # codes in extra_ok (standaard ZZ) zijn hiervan vrijgesteld — die
+            # mogen bewust extra fasen dragen; AL wordt wél gemeld.
             extra = ([f for f in FASE_VOLGORDE
                       if f not in expected and _has(f)]
-                     if code in only_b else [])
+                     if code in only_b and code not in extra_ok else [])
             if miss:
                 missing.append({
                     "name": name, "hoofdgroep": code, "file": fn,
@@ -1904,14 +2301,19 @@ def check_lijntype_autocaddef(src: str, name_col: str = "omschrijving",
 # Vervallen lijntypes (fase = 'V', naam begint met 'V-') kregen bij de transitie
 # een 'scrap' met een VERWIJDEREN2-shape uit NLCS.shx op schaal 0.5. In de
 # autocaddef staat dan een segment als '[VERWIJDEREN2,NLCS.SHX,s=0.5]' (soms met
-# extra x=-offset). De juiste schaal is s=0.5.
+# extra x=- en/of y=-offset). De juiste schaal is s=0.5. Een horizontale x=-offset
+# is prima (zorgt voor een fraaie uitlijning op de lijn); een verticale y=-offset
+# is ongewenst want dan staan de scraps niet meer gecentreerd op de lijn.
 _RE_VERWIJDEREN2 = re.compile(r"\[\s*VERWIJDEREN2\b([^\]]*)\]", re.IGNORECASE)
 _RE_SCALE = re.compile(r"\bs\s*=\s*([0-9]*\.?[0-9]+)", re.IGNORECASE)
+_RE_YOFFSET = re.compile(r"\by\s*=\s*(-?[0-9]*\.?[0-9]+)", re.IGNORECASE)
 
 
 def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
                             def_col: str = "autocaddef", fase_col: str = "fase",
-                            expected: float = 0.5) -> dict:
+                            expected: float = 0.5,
+                            exceptions=None, hg_exceptions=None,
+                            hg_col: str = "hoofdgroep") -> dict:
     """Controleer of alle VERVALLEN lijntypes hun VERWIJDEREN2-scrap op de juiste
     schaal (s=0.5) hebben staan.
 
@@ -1920,23 +2322,48 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
     AutoCAD-definitie, met dezelfde afmetingen: de juiste eigenschap is
     `[VERWIJDEREN2,NLCS.shx,s=0.5]`. Deze controle leest per vervallen lijntype de
     `autocaddef`, zoekt het `[VERWIJDEREN2,…]`-segment en controleert of de
-    `s=`-waarde daarin gelijk is aan 0.5. Alleen de schaal telt; een eventuele
-    `x=`-offset blijft ongemoeid.
+    `s=`-waarde daarin gelijk is aan 0.5 én of er geen verticale `y=`-verschuiving
+    in staat. Een horizontale `x=`-offset is prima (zorgt voor een fraaie
+    uitlijning op de lijn) en blijft ongemoeid; een `y=`-offset ongelijk aan 0 is
+    ongewenst omdat de scraps dan niet meer gecentreerd op de lijn staan.
+
+    Twee soorten uitzonderingen (allebei hoofdletter-ongevoelig, volledig
+    overgeslagen — niet op schaal én niet op y-offset):
+      - `exceptions`: lijntype-namen (kolom `name_col`) met een BEWUST afwijkende
+        VERWIJDEREN2-opzet. Standaard `{"V-GR-PLANTSOEN-SO"}` (eigen schaal/offset).
+      - `hg_exceptions`: hele HOOFDGROEPEN (kolom `hg_col`, val terug op de
+        code uit de bestandsnaam) die niet aan deze controle onderhevig zijn.
+        Standaard leeg — IS/ES/SB horen NIET hier thuis maar bij de
+        lt_v-controle (`check_lt_v_vervallen`); de schaalcontrole geldt voor al
+        hun vervallen lijntypes.
 
     `src` mag een MAP met CSV's of één CSV-bestand zijn.
 
     Geeft een dict terug (zelfde vorm als de andere 'X zonder Y'-controles, plus
-    per melding het gevonden schaalwaarde-veld, zodat ot_html het kan tonen):
+    per melding het gevonden probleem-veld, zodat ot_html het kan tonen):
       {
-        "total":    aantal vervallen lijntypes (fase = 'V'),
-        "ok":        aantal met VERWIJDEREN2 op s=0.5,
-        "expected":  de verwachte schaal (0.5),
-        "missing":  [ {name, file, row, found} ],  # verkeerde/ontbrekende s=
+        "total":     aantal GECONTROLEERDE vervallen lijntypes (fase = 'V', excl.
+                     uitzonderingen),
+        "ok":         aantal met VERWIJDEREN2 op s=0.5 én zonder y=-offset,
+        "expected":   de verwachte schaal (0.5),
+        "exempt":     aantal overgeslagen uitzonderingen (naam + hoofdgroep),
+        "exceptions": de gehanteerde lijntype-uitzonderingsnamen (gesorteerd),
+        "hg_exceptions": de gehanteerde hoofdgroep-uitzonderingen (gesorteerd),
+        "missing":   [ {name, file, row, found} ],  # afwijkende s= en/of y=
       }
-      `found` = de gevonden s-waarde als tekst ('0.6', '1', …), of
-      '(geen VERWIJDEREN2)' / '(geen s=)' als die ontbreekt.
+      `found` beschrijft het probleem: de afwijkende schaal ('s=0.6'), een
+      verticale offset ('y=0.3'), beide samengevoegd met ' · ', of
+      '(geen VERWIJDEREN2)' / '(geen s=)' als die ontbreken.
     """
-    empty = {"total": 0, "ok": 0, "expected": expected, "missing": []}
+    exc = {e.strip().upper() for e in
+           (exceptions if exceptions is not None else ("V-GR-PLANTSOEN-SO",))
+           if e and e.strip()}
+    hgexc = {e.strip().upper() for e in
+             (hg_exceptions if hg_exceptions is not None else ())
+             if e and e.strip()}
+    empty = {"total": 0, "ok": 0, "expected": expected, "exempt": 0,
+             "exceptions": sorted(exc), "hg_exceptions": sorted(hgexc),
+             "missing": []}
     if not src:
         return empty
     if os.path.isdir(src):
@@ -1948,6 +2375,7 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
 
     total = 0
     ok = 0
+    exempt = 0
     missing: list[dict] = []
     for path in paths:
         headers, rows = read_table(path)
@@ -1956,32 +2384,374 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
         di = headers.index(def_col)
         fi = headers.index(fase_col)
         ni = headers.index(name_col) if name_col in headers else -1
+        hi = headers.index(hg_col) if hg_col in headers else -1
         fn = os.path.basename(path)
+        # Hoofdgroep uit de bestandsnaam ('lijntypes-5-2-IS.csv' -> 'IS') als
+        # terugval wanneer de hoofdgroep-kolom ontbreekt of leeg is.
+        fn_hg = os.path.splitext(fn)[0].split("-")[-1].strip().upper()
         for i, r in enumerate(rows):
             fase = (r[fi] if fi < len(r) else "").strip().upper()
             if fase != "V":
                 continue
-            total += 1
             name = (r[ni] if 0 <= ni < len(r) else "").strip()
+            row_hg = (r[hi] if 0 <= hi < len(r) else "").strip().upper() or fn_hg
+            # Uitzondering: bewust afwijkende VERWIJDEREN2-opzet (per lijntype-naam
+            # of per hele hoofdgroep) → volledig overslaan (niet op schaal én niet
+            # op y-offset controleren).
+            if name.upper() in exc or row_hg in hgexc:
+                exempt += 1
+                continue
+            total += 1
             ad = (r[di] if di < len(r) else "")
             m = _RE_VERWIJDEREN2.search(ad)
             if not m:
                 missing.append({"name": name, "file": fn, "row": i + 2,
                                 "found": "(geen VERWIJDEREN2)"})
                 continue
-            sm = _RE_SCALE.search(m.group(1))
+            inner = m.group(1)
+            problems: list[str] = []
+            # (1) schaal: moet exact s=0.5 zijn
+            sm = _RE_SCALE.search(inner)
             if not sm:
+                problems.append("(geen s=)")
+            elif float(sm.group(1)) != expected:
+                problems.append(f"s={sm.group(1)}")
+            # (2) verticale y=-offset ongelijk aan 0 is ongewenst (niet gecentreerd);
+            #     een horizontale x=-offset is prima en negeren we bewust.
+            ym = _RE_YOFFSET.search(inner)
+            if ym:
+                try:
+                    yv = float(ym.group(1))
+                except ValueError:
+                    yv = 0.0
+                if yv != 0:
+                    problems.append(f"y={ym.group(1)}")
+            if problems:
                 missing.append({"name": name, "file": fn, "row": i + 2,
-                                "found": "(geen s=)"})
+                                "found": " · ".join(problems)})
+            else:
+                ok += 1
+
+    missing.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "expected": expected, "exempt": exempt,
+            "exceptions": sorted(exc), "hg_exceptions": sorted(hgexc),
+            "missing": missing}
+
+
+# lt_v-WAARDEN die bewust zijn toegestaan ook al beginnen ze niet met 'V-':
+# BC-SLOOPLIJN-SO (sloop-lijntype) en VH-MATERIAALGRENS-SO (de materiaalgrens in
+# hoofdgroep VH heeft als vervallen lijntype het gewone VH-MATERIAALGRENS-SO).
+LT_V_VALUE_EXCEPTIONS = ("BC-SLOOPLIJN-SO", "VH-MATERIAALGRENS-SO")
+
+# Objecten (kolom `object`) die BEWUST een vervallen lijntype CONTINUOUS
+# (zonder 'V-'-prefix) mogen hebben, inclusief al hun onderliggende objecten:
+# de kolom `object` staat bij elke onderliggende rij (subobject/element) op de
+# naam van het bovenliggende object, dus matchen op `object` dekt "… en
+# onderliggende objecten" automatisch. FASE1..FASE7 zijn de OG-fase-objecten;
+# WEG en ZONE zijn OG-objecten (incl. onderliggende) die bewust CONTINUOUS houden.
+LT_V_OBJECT_EXCEPTIONS = ("TERREIN", "BEBOUWING", "WATER", "GREPPEL", "BAGGERVAK",
+                          "FASE1", "FASE2", "FASE3", "FASE4", "FASE5", "FASE6",
+                          "FASE7", "WEG", "ZONE")
+
+# Objecten die BEWUST CONTINUOUS als vervallen lijntype mogen hebben maar die
+# alléén op naam (kolom `omschrijving`) te herkennen zijn — een subobject-tak,
+# niet een heel `object`. Een rij is uitgezonderd als zijn omschrijving exact
+# gelijk is aan zo'n waarde of ermee begint gevolgd door een scheidingsteken
+# ('_' of '-'), zodat de tak én al zijn onderliggende objecten worden gedekt.
+LT_V_NAME_PREFIX_EXCEPTIONS = ("HYDRAULIEKVORM_SCHEMA", "PNEUMATIEKVORM_SCHEMA")
+
+# Losse objecten die BEWUST geen vervallen lijntype hoeven te hebben, herkend op
+# hun EXACTE naam (kolom `omschrijving`) — nodig wanneer het `object` (bijv.
+# GRENS) gedeeld wordt met andere objecten die wél een 'V-'-lt_v horen te hebben,
+# zodat alleen deze specifieke objecten worden overgeslagen.
+LT_V_NAME_EXCEPTIONS = ("GRENS_VLAKAFSLUITER", "GRENS_WIJK")
+
+
+def ltv_is_bad(value: str, prefix: str = "V-") -> bool:
+    """True als een `lt_v`-waarde gevuld is maar NIET met `prefix` ('V-') begint.
+
+    Puur op de kolomwaarde (geen hoofdgroep-/object-uitzonderingen); een lege
+    waarde is niet 'bad' (niet elk object heeft een vervallen lijntype). Gebruikt
+    door de lt_v-variant van de objectenboom om zulke objecten te markeren."""
+    v = (value or "").strip()
+    return bool(v) and not v.upper().startswith(prefix.upper())
+
+
+def check_lt_v_vervallen(src: str, name_col: str = "omschrijving",
+                         lt_col: str = "lt_v", prefix: str = "V-",
+                         exceptions=None, hg_exceptions=None,
+                         object_exceptions=None, name_prefix_exceptions=None,
+                         name_exceptions=None,
+                         hg_col: str = "hoofdgroep",
+                         object_col: str = "object") -> dict:
+    """Controleer of de lijntype-verwijzing voor de VERVALLEN fase (kolom `lt_v`)
+    in de objectentabel naar een vervallen lijntype wijst.
+
+    Vervallen lijntypes heten in NLCS altijd met een 'V-'-prefix. In de
+    objectentabel hoort de kolom `lt_v` (het lijntype voor de vervallen situatie)
+    dus een naam te bevatten die met 'V-' begint. Een GEVULDE `lt_v`-waarde die
+    NIET met 'V-' begint is verdacht — waarschijnlijk staat er per ongeluk een
+    bestaand/nieuw lijntype in. Dit is een WAARSCHUWING, geen fout.
+
+    Drie soorten uitzonderingen (alle hoofdletter-ongevoelig, volledig
+    overgeslagen — tellen niet als waarschuwing en worden samen als `exempt`
+    geteld):
+      - `exceptions`: `lt_v`-WAARDEN die bewust zijn toegestaan ook al beginnen ze
+        niet met 'V-' (bijv. een sloop-lijntype of de VH-materiaalgrens).
+        Standaard `LT_V_VALUE_EXCEPTIONS` ({"BC-SLOOPLIJN-SO",
+        "VH-MATERIAALGRENS-SO"}).
+      - `hg_exceptions`: hele HOOFDGROEPEN (kolom `hg_col`, val terug op de code
+        uit de bestandsnaam) waarvan de vervallen lijntypes geen 'V-'-naam hoeven
+        te hebben. Standaard `{"IS", "ES", "SB"}`.
+      - `object_exceptions`: OBJECTEN (kolom `object_col`, standaard `object`) die
+        bewust CONTINUOUS als vervallen lijntype mogen hebben — inclusief al hun
+        onderliggende objecten, want de `object`-kolom staat bij subobject-/
+        element-rijen op de naam van het bovenliggende object. Standaard
+        `LT_V_OBJECT_EXCEPTIONS` (terrein, bebouwing, water, greppel, baggervak en
+        de OG-fase-objecten Fase1 t/m Fase7). Spaties in de objectnaam worden
+        genegeerd bij het vergelijken ('FASE 1' == 'FASE1').
+      - `name_prefix_exceptions`: subobject-TAKKEN, herkend op de naam (kolom
+        `name_col`): een rij is uitgezonderd als zijn naam exact gelijk is aan de
+        waarde of ermee begint gevolgd door '_' of '-' (dus de tak én al zijn
+        onderliggende objecten). Standaard `LT_V_NAME_PREFIX_EXCEPTIONS`
+        (HYDRAULIEKVORM_SCHEMA en PNEUMATIEKVORM_SCHEMA).
+      - `name_exceptions`: losse OBJECTEN, herkend op hun EXACTE naam (kolom
+        `name_col`) — nodig wanneer het `object` gedeeld is met objecten die wél
+        een 'V-'-lt_v horen te hebben (bijv. object GRENS). Standaard
+        `LT_V_NAME_EXCEPTIONS` (GRENS_VLAKAFSLUITER en GRENS_WIJK).
+
+    Lege `lt_v`-waarden worden overgeslagen (niet elk object heeft een vervallen
+    visualisatie). `src` mag een MAP met CSV's of één CSV-bestand zijn.
+
+    Geeft terug (zelfde vorm als de andere waarschuwings-controles):
+      {
+        "total":      aantal objecten met een gevulde lt_v (excl. uitzonderingen),
+        "ok":         aantal waarvan lt_v met 'V-' begint,
+        "prefix":     de verwachte prefix ('V-'),
+        "exempt":     aantal overgeslagen uitzonderingen (waarde + hoofdgroep +
+                      object + naam-tak),
+        "exceptions": de gehanteerde lt_v-waarde-uitzonderingen (gesorteerd),
+        "hg_exceptions": de gehanteerde hoofdgroep-uitzonderingen (gesorteerd),
+        "object_exceptions": de gehanteerde object-uitzonderingen (gesorteerd),
+        "name_prefix_exceptions": de gehanteerde naam-tak-uitzonderingen (gesorteerd),
+        "name_exceptions": de gehanteerde exacte-naam-uitzonderingen (gesorteerd),
+        "missing":    [ {name, file, row, found} ],  # lt_v-waarde zonder 'V-'
+      }
+    """
+    exc = {e.strip().upper() for e in
+           (exceptions if exceptions is not None else LT_V_VALUE_EXCEPTIONS)
+           if e and e.strip()}
+    hgexc = {e.strip().upper() for e in
+             (hg_exceptions if hg_exceptions is not None else ("IS", "ES", "SB"))
+             if e and e.strip()}
+    objexc = {e.strip().upper().replace(" ", "") for e in
+              (object_exceptions if object_exceptions is not None
+               else LT_V_OBJECT_EXCEPTIONS)
+              if e and e.strip()}
+    npexc = {e.strip().upper() for e in
+             (name_prefix_exceptions if name_prefix_exceptions is not None
+              else LT_V_NAME_PREFIX_EXCEPTIONS)
+             if e and e.strip()}
+    nexc = {e.strip().upper() for e in
+            (name_exceptions if name_exceptions is not None
+             else LT_V_NAME_EXCEPTIONS)
+            if e and e.strip()}
+    empty = {"total": 0, "ok": 0, "prefix": prefix, "exempt": 0,
+             "exceptions": sorted(exc), "hg_exceptions": sorted(hgexc),
+             "object_exceptions": sorted(objexc),
+             "name_prefix_exceptions": sorted(npexc),
+             "name_exceptions": sorted(nexc), "missing": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    pref = prefix.upper()
+    total = 0
+    ok = 0
+    exempt = 0
+    missing: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if lt_col not in headers:
+            continue
+        li = headers.index(lt_col)
+        ni = headers.index(name_col) if name_col in headers else -1
+        hi = headers.index(hg_col) if hg_col in headers else -1
+        oi = headers.index(object_col) if object_col in headers else -1
+        fn = os.path.basename(path)
+        # Hoofdgroep uit de bestandsnaam ('objecten-5-2-IS.csv' -> 'IS') als
+        # terugval wanneer de hoofdgroep-kolom ontbreekt of leeg is.
+        fn_hg = os.path.splitext(fn)[0].split("-")[-1].strip().upper()
+        for i, r in enumerate(rows):
+            val = (r[li] if li < len(r) else "").strip()
+            if not val:
                 continue
-            if float(sm.group(1)) == expected:
+            name = (r[ni] if 0 <= ni < len(r) else "").strip()
+            nu = name.upper()
+            row_hg = (r[hi] if 0 <= hi < len(r) else "").strip().upper() or fn_hg
+            row_obj = (r[oi] if 0 <= oi < len(r) else "").strip().upper().replace(" ", "")
+            # naam-tak: exact of gevolgd door een scheidingsteken ('_'/'-'), zodat
+            # de tak én al zijn onderliggende objecten meetellen.
+            name_hit = any(nu == p or nu.startswith(p + "_") or nu.startswith(p + "-")
+                           for p in npexc)
+            # Uitzondering: bewust toegestane lt_v-waarde (sloop-lijntype), hele
+            # hoofdgroep (IS/ES/SB), object dat CONTINUOUS mag hebben (terrein/
+            # bebouwing/water/greppel/baggervak/fase + onderliggende objecten),
+            # een naam-tak (HYDRAULIEKVORM_SCHEMA/PNEUMATIEKVORM_SCHEMA + onder-
+            # liggende) of een los object op exacte naam (GRENS_VLAKAFSLUITER/
+            # GRENS_WIJK) → volledig overslaan, telt niet als waarschuwing.
+            if (val.upper() in exc or row_hg in hgexc or row_obj in objexc
+                    or name_hit or nu in nexc):
+                exempt += 1
+                continue
+            total += 1
+            if val.upper().startswith(pref):
                 ok += 1
             else:
                 missing.append({"name": name, "file": fn, "row": i + 2,
-                                "found": f"s={sm.group(1)}"})
+                                "found": val})
 
     missing.sort(key=lambda d: (d["file"], d["name"].casefold()))
-    return {"total": total, "ok": ok, "expected": expected, "missing": missing}
+    return {"total": total, "ok": ok, "prefix": prefix, "exempt": exempt,
+            "exceptions": sorted(exc), "hg_exceptions": sorted(hgexc),
+            "object_exceptions": sorted(objexc),
+            "name_prefix_exceptions": sorted(npexc),
+            "name_exceptions": sorted(nexc), "missing": missing}
+
+
+def check_lt_v_misplaatst(src: str, prefix: str = "V-",
+                          lt_cols=("lt_b", "lt_n", "lt_t"),
+                          name_col: str = "omschrijving") -> dict:
+    """Controleer dat een 'V-'-lijntype ALLEEN in de kolom lt_v voorkomt.
+
+    Vervallen lijntypes heten in NLCS met een 'V-'-prefix en horen uitsluitend
+    in de kolom `lt_v` (de vervallen fase) te staan. Een waarde die met 'V-'
+    begint in `lt_b`, `lt_n` of `lt_t` is dus fout: daar hoort het lijntype van
+    respectievelijk de begin-, nieuwe- of tijdelijke fase te staan, niet het
+    vervallen lijntype.
+
+    `src` mag een MAP met CSV's of één CSV-bestand zijn. Lege cellen worden
+    overgeslagen; de kolom `lt_v` wordt niet gecontroleerd (daar mag 'V-' juist
+    wel). Een bestand zonder één van de gecontroleerde kolommen wordt
+    overgeslagen.
+
+    Geeft terug:
+      {
+        "total":   aantal gevulde lt_b/lt_n/lt_t-waarden dat is gecontroleerd,
+        "ok":      aantal daarvan dat NIET met 'V-' begint,
+        "prefix":  de verboden prefix ('V-'),
+        "columns": de gecontroleerde kolommen (kleine letters),
+        "bad":     [ {name, file, row, column, found} ],  # 'V-' buiten lt_v
+      }
+    """
+    cols = [c.strip().lower() for c in lt_cols if c and c.strip()]
+    empty = {"total": 0, "ok": 0, "prefix": prefix, "columns": cols, "bad": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    pref = prefix.upper()
+    total = 0
+    ok = 0
+    bad: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        idx = [(c, headers.index(c)) for c in cols if c in headers]
+        if not idx:
+            continue
+        ni = headers.index(name_col) if name_col in headers else -1
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if 0 <= ni < len(r) else "").strip()
+            for col, ci in idx:
+                val = (r[ci] if ci < len(r) else "").strip()
+                if not val:
+                    continue
+                total += 1
+                if val.upper().startswith(pref):
+                    bad.append({"name": name, "file": fn, "row": i + 2,
+                                "column": col, "found": val})
+                else:
+                    ok += 1
+
+    bad.sort(key=lambda d: (d["file"], d["name"].casefold(), d["column"]))
+    return {"total": total, "ok": ok, "prefix": prefix,
+            "columns": cols, "bad": bad}
+
+
+def check_verboden_kleur(src: str, name_col: str = "omschrijving",
+                         kl_prefix: str = "kl", forbidden=("50",)) -> dict:
+    """Controleer dat verboden kleur(nummers) niet meer in de objectentabel staan.
+
+    Scant alle KLEUR-kolommen (naam begint met `kl_prefix`, standaard 'kl' — de
+    kl_*-kolommen van de vier fasen) en meldt elke cel waarvan de waarde exact een
+    van de `forbidden` kleurnummers is (standaard '50', die niet meer gebruikt mag
+    worden). Lege cellen en andere kleurwaarden worden overgeslagen.
+
+    `src` mag een MAP met CSV's of één CSV-bestand zijn. Dit is een FOUT (telt mee
+    in het publicatie-overzicht).
+
+    Geeft terug:
+      {
+        "total":     aantal gecontroleerde (gevulde) kleur-cellen,
+        "ok":        aantal daarvan zonder verboden kleur,
+        "forbidden": de verboden kleurwaarden (gesorteerd),
+        "columns":   de gecontroleerde kleur-kolommen,
+        "bad":       [ {name, file, row, column, found} ],  # verboden kleur
+      }
+    """
+    fb = {str(v).strip().upper() for v in (forbidden or ()) if str(v).strip()}
+    pref = (kl_prefix or "kl").lower()
+    empty = {"total": 0, "ok": 0, "forbidden": sorted(fb),
+             "columns": [], "bad": []}
+    if not src or not fb:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    total = 0
+    ok = 0
+    bad: list[dict] = []
+    checked_cols: set = set()
+    for path in paths:
+        headers, rows = read_table(path)
+        kcols = [(h, i) for i, h in enumerate(headers)
+                 if h.lower().startswith(pref)]
+        if not kcols:
+            continue
+        checked_cols.update(h for h, _ in kcols)
+        ni = headers.index(name_col) if name_col in headers else -1
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if 0 <= ni < len(r) else "").strip()
+            for col, ci in kcols:
+                val = (r[ci] if ci < len(r) else "").strip()
+                if not val:
+                    continue
+                total += 1
+                if val.upper() in fb:
+                    bad.append({"name": name, "file": fn, "row": i + 2,
+                                "column": col, "found": val})
+                else:
+                    ok += 1
+
+    bad.sort(key=lambda d: (d["file"], d["name"].casefold(), d["column"]))
+    return {"total": total, "ok": ok, "forbidden": sorted(fb),
+            "columns": sorted(checked_cols), "bad": bad}
 
 
 def bib_of_stem(stem: str, known_bibs) -> str:
@@ -2083,6 +2853,387 @@ def check_dwg_symbols(sym_src: str, dwg_dir: str, name_col: str = "symbool",
             "dwg_count": len(dwg_map), "bibs": sorted(processed_bibs)}
 
 
+# --- Ontbrekende SVG's zoeken en genereren --------------------------------
+#
+# De symbolen-SVG's staan onder <svg_root>/<HG>/<bib>/<symbool>.svg, waarbij
+# `bib` de bibliotheek-code is (eerste 'S'-segment in de naam, V-/B-prefix-proof
+# net als _svg_cell in ot_gui) en `HG` = bib zonder de leidende 'S'
+# (sbib_to_code). Voorbeeld: 'B-SAL-...' -> docs/changelog/AL/SAL/B-SAL-....svg.
+# Conversie DWG -> DXF -> SVG spiegelt beheer/releasenotesmaken/dwg_to_svg.sh.
+
+ODA_EXE = r"C:\Program Files\ODA\ODAFileConverter 27.1.0\ODAFileConverter.exe"
+INKSCAPE_EXE = r"C:\Program Files\Inkscape\bin\inkscape.exe"
+DXF_VERSION = "ACAD2010"
+
+
+def _svg_bib(name: str) -> str:
+    """Bibliotheek-code (submapnaam) voor een symboolnaam, exact zoals `_svg_cell`
+    in ot_gui: het eerste '-'-segment dat met 'S' begint (voorvoegsels 'V-'/'B-'
+    beginnen nooit met 'S'), anders het eerste segment als er een koppelteken is."""
+    segs = (name or "").split("-")
+    bib = next((s for s in segs if s[:1].upper() == "S" and len(s) > 1), "")
+    if not bib:
+        bib = segs[0] if len(segs) > 1 else ""
+    return bib
+
+
+def _svg_target(name: str, svg_root: str) -> str:
+    """Absoluut pad waar de SVG van `name` hoort: <svg_root>/<HG>/<bib>/<name>.svg.
+    Geeft "" als er geen bibliotheek uit de naam te halen is."""
+    bib = _svg_bib(name)
+    if not bib:
+        return ""
+    hg = sbib_to_code(bib)
+    return os.path.join(svg_root, hg, bib, name + ".svg")
+
+
+def find_missing_svgs(sym_src: str, dwg_dir: str, svg_root: str,
+                      name_col: str = "symbool") -> dict:
+    """Zoek symbolen (uit de symbolentabellen) waarvan de SVG nog niet bestaat.
+
+    `sym_src` mag een MAP met symbolen-CSV's of één CSV zijn; `dwg_dir` is de map
+    met bron-.dwg's (recursief); `svg_root` is de publicatie-wortel (docs/changelog)
+    waaronder <HG>/<bib>/<naam>.svg staat.
+
+    Geeft terug:
+      {
+        "total":   aantal gecontroleerde symbolen,
+        "have":    aantal met bestaande SVG,
+        "missing": [ {name, dwg_abs, svg_target, hoofdgroep, bib} ],  # kan gemaakt
+        "no_dwg":  [ {name, svg_target, hoofdgroep, bib} ],           # geen bron-.dwg
+      }
+    None als de symbolenbron of svg-wortel ontbreekt (controle niet van toepassing)."""
+    if not sym_src or not svg_root or not os.path.isdir(svg_root):
+        return None
+    if os.path.isdir(sym_src):
+        paths = sorted(glob.glob(os.path.join(sym_src, "*.csv")))
+    elif os.path.isfile(sym_src):
+        paths = [sym_src]
+    else:
+        return None
+
+    dwg_map = dwg_index(dwg_dir)          # {stem.lower(): relpad}
+    total = 0
+    have = 0
+    missing: list[dict] = []
+    no_dwg: list[dict] = []
+    seen: set = set()
+    have_names = False
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        have_names = True
+        ni = headers.index(name_col)
+        for r in rows:
+            nm = (r[ni] if ni < len(r) else "").strip()
+            if not nm or nm.lower() in seen:
+                continue
+            seen.add(nm.lower())
+            target = _svg_target(nm, svg_root)
+            if not target:
+                continue
+            total += 1
+            if os.path.isfile(target):
+                have += 1
+                continue
+            bib = _svg_bib(nm)
+            hg = sbib_to_code(bib)
+            rel = dwg_map.get(nm.lower())
+            if rel:
+                missing.append({"name": nm, "dwg_abs": os.path.join(dwg_dir, rel),
+                                "svg_target": target, "hoofdgroep": hg, "bib": bib})
+            else:
+                no_dwg.append({"name": nm, "svg_target": target,
+                               "hoofdgroep": hg, "bib": bib})
+    if not have_names:
+        return None
+
+    missing.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    no_dwg.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    return {"total": total, "have": have, "missing": missing, "no_dwg": no_dwg}
+
+
+def find_changed_svgs(sym_src: str, dwg_new_dir: str, dwg_old_dir: str,
+                      svg_root: str, name_col: str = "symbool") -> dict:
+    """Zoek symbolen waarvan de .dwg INHOUDELIJK is gewijzigd tussen de oude en
+    nieuwe versie (SHA-256 verschilt); die SVG's moeten opnieuw gemaakt worden.
+
+    `sym_src` = map/CSV met symbolentabellen; `dwg_new_dir`/`dwg_old_dir` = de
+    nieuwe resp. oude .dwg-map (beide recursief); `svg_root` = publicatie-wortel.
+
+    Geeft terug:
+      {
+        "total":    aantal gecontroleerde symbolen,
+        "changed":  [ {name, dwg_abs, svg_target, hoofdgroep, bib} ],  # opnieuw maken
+        "identical": aantal met ongewijzigde .dwg,
+        "only_new":  aantal alleen in de nieuwe .dwg-map,
+        "only_old":  aantal alleen in de oude .dwg-map,
+      }
+    `dwg_abs` is het NIEUWE .dwg-pad. None als bron/mappen ontbreken."""
+    if not sym_src or not svg_root or not os.path.isdir(svg_root):
+        return None
+    if not dwg_new_dir or not os.path.isdir(dwg_new_dir):
+        return None
+    if not dwg_old_dir or not os.path.isdir(dwg_old_dir):
+        return None
+    if os.path.isdir(sym_src):
+        paths = sorted(glob.glob(os.path.join(sym_src, "*.csv")))
+    elif os.path.isfile(sym_src):
+        paths = [sym_src]
+    else:
+        return None
+
+    new_map = dwg_index(dwg_new_dir)      # {stem.lower(): relpad}
+    old_map = dwg_index(dwg_old_dir)
+    new_abs = {k: os.path.join(dwg_new_dir, v) for k, v in new_map.items()}
+    old_abs = {k: os.path.join(dwg_old_dir, v) for k, v in old_map.items()}
+
+    # symboolnamen (originele schrijfwijze) verzamelen
+    names: list = []
+    seen: set = set()
+    have_names = False
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers:
+            continue
+        have_names = True
+        ni = headers.index(name_col)
+        for r in rows:
+            nm = (r[ni] if ni < len(r) else "").strip()
+            if nm and nm.lower() not in seen:
+                seen.add(nm.lower())
+                names.append(nm)
+    if not have_names:
+        return None
+
+    status = dwg_hash_status(names, new_abs, old_abs)
+    total = 0
+    identical = only_new = only_old = 0
+    changed: list = []
+    for nm in names:
+        target = _svg_target(nm, svg_root)
+        if not target:
+            continue
+        total += 1
+        st = status.get(nm.lower(), "")
+        if st == "gewijzigd":
+            bib = _svg_bib(nm)
+            changed.append({"name": nm, "dwg_abs": new_abs[nm.lower()],
+                            "svg_target": target, "hoofdgroep": sbib_to_code(bib),
+                            "bib": bib})
+        elif st == "identiek":
+            identical += 1
+        elif st == "alleen nieuw":
+            only_new += 1
+        elif st == "alleen oud":
+            only_old += 1
+
+    changed.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
+    return {"total": total, "changed": changed, "identical": identical,
+            "only_new": only_new, "only_old": only_old}
+
+
+def _svg_add_mm(path: str) -> None:
+    """Voeg 'mm' toe aan de root width/height van een Inkscape-SVG. Inkscape
+    schrijft die zonder eenheid; browsers lezen dat als pixels (een 19-unit
+    symbool wordt ~19px = onzichtbaar). Alleen de root-attributen (3 spaties
+    inspringing) krijgen 'mm'; geneste <pattern>-elementen blijven unitless.
+    Spiegelt de sed-stap uit dwg_to_svg.sh."""
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+    except OSError:
+        return
+    pat = re.compile(r'^(   (?:width|height)=")([0-9.]+)(")\s*$')
+    changed = False
+    for i, ln in enumerate(lines):
+        m = pat.match(ln.rstrip("\n"))
+        if m:
+            lines[i] = f"{m.group(1)}{m.group(2)}mm{m.group(3)}\n"
+            changed = True
+    if changed:
+        try:
+            with open(path, "w", encoding="utf-8") as f:
+                f.writelines(lines)
+        except OSError:
+            pass
+
+
+def generate_svgs(items: list, oda_exe: str = ODA_EXE,
+                  inkscape_exe: str = INKSCAPE_EXE, progress=None) -> dict:
+    """Genereer SVG's voor precies de opgegeven `items` (uit `find_missing_svgs`'
+    'missing'-lijst: dicts met `dwg_abs` en `svg_target`).
+
+    Pipeline per batch: kopieer alleen de benodigde .dwg's naar een tijdelijke map,
+    ODA File Converter (DWG -> DXF), Inkscape (DXF -> SVG, --export-area-drawing),
+    'mm' op de root width/height, en verplaats elke SVG naar zijn `svg_target`.
+    Zo worden ALLEEN de ontbrekende symbolen geconverteerd.
+
+    `progress(done, total, msg)` (optioneel) meldt voortgang. Geeft terug:
+      {"converted": int, "failed": [ {name, reason} ], "errors": [str, ...]}."""
+    result = {"converted": 0, "failed": [], "errors": []}
+    items = [it for it in (items or []) if it.get("dwg_abs") and it.get("svg_target")]
+    if not items:
+        return result
+    if not os.path.isfile(oda_exe):
+        result["errors"].append(f"ODA File Converter niet gevonden op: {oda_exe}")
+        return result
+    if not os.path.isfile(inkscape_exe):
+        result["errors"].append(f"Inkscape niet gevonden op: {inkscape_exe}")
+        return result
+
+    total = len(items)
+
+    def _say(done, msg):
+        if progress:
+            progress(done, total, msg)
+
+    tmp = tempfile.mkdtemp(prefix="nlcs_svg_")
+    tmp_dwg = os.path.join(tmp, "dwg")
+    tmp_dxf = os.path.join(tmp, "dxf")
+    os.makedirs(tmp_dwg, exist_ok=True)
+    os.makedirs(tmp_dxf, exist_ok=True)
+    try:
+        # 1) alleen de benodigde .dwg's kopiëren (stem == symboolnaam)
+        by_stem: dict = {}
+        for it in items:
+            src = it["dwg_abs"]
+            if not os.path.isfile(src):
+                result["failed"].append({"name": it["name"], "reason": "geen .dwg"})
+                continue
+            dst = os.path.join(tmp_dwg, it["name"] + ".dwg")
+            try:
+                shutil.copy2(src, dst)
+                by_stem[it["name"].lower()] = it
+            except OSError as e:
+                result["failed"].append({"name": it["name"],
+                                         "reason": f"kopie mislukt: {e}"})
+        if not by_stem:
+            return result
+
+        # 2) ODA: DWG -> DXF (mapgebaseerd, alleen onze tijdelijke map)
+        _say(0, f"ODA File Converter: {len(by_stem)} DWG → DXF ...")
+        try:
+            subprocess.run([oda_exe, tmp_dwg, tmp_dxf, DXF_VERSION, "DXF",
+                            "0", "0", "*.DWG"],
+                           check=False, capture_output=True, text=True)
+        except OSError as e:
+            result["errors"].append(f"ODA File Converter mislukte: {e}")
+            return result
+        dxfs = sorted(glob.glob(os.path.join(tmp_dxf, "*.dxf")))
+        if not dxfs:
+            result["errors"].append("ODA leverde geen DXF-bestanden op.")
+            return result
+
+        # 3) Inkscape: DXF -> SVG in chunks (cmdline-limiet)
+        _say(0, f"Inkscape: {len(dxfs)} DXF → SVG ...")
+        for i in range(0, len(dxfs), 100):
+            chunk = dxfs[i:i + 100]
+            try:
+                subprocess.run([inkscape_exe, "--export-type=svg",
+                                "--export-area-drawing", *chunk],
+                               check=False, capture_output=True, text=True)
+            except OSError as e:
+                result["errors"].append(f"Inkscape mislukte: {e}")
+                return result
+
+        # 4) mm-fix + 5) verplaatsen naar svg_target
+        done = 0
+        for dxf in dxfs:
+            stem = os.path.splitext(os.path.basename(dxf))[0]
+            svg = os.path.join(tmp_dxf, stem + ".svg")
+            it = by_stem.get(stem.lower())
+            if not it:
+                continue
+            if not os.path.isfile(svg):
+                result["failed"].append({"name": it["name"],
+                                         "reason": "geen SVG uit Inkscape"})
+                continue
+            _svg_add_mm(svg)
+            target = it["svg_target"]
+            try:
+                os.makedirs(os.path.dirname(target), exist_ok=True)
+                # Bestaand doel eerst weg: op Windows faalt een move naar een
+                # bestaand bestand (nodig bij het vernieuwen van gewijzigde SVG's).
+                if os.path.exists(target):
+                    os.remove(target)
+                shutil.move(svg, target)
+                result["converted"] += 1
+                done += 1
+                _say(done, f"{it['name']} → {os.path.relpath(target, os.path.dirname(os.path.dirname(os.path.dirname(target))))}")
+            except OSError as e:
+                result["failed"].append({"name": it["name"],
+                                         "reason": f"verplaatsen mislukt: {e}"})
+        return result
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+# --- IMPORT_NLCS_Symbolen: ontbrekende (wees-).dwg's als importbestand ----
+#
+# Per hoofdgroep een xlsx (zelfde vorm als 'IMPORT_NLCS_Symbolen IW.xlsx':
+# sheet 'Symbolen', kolommen sbib/fase/categorisering_symbool/symbool/optie/
+# fileURL/description) met de symbolen die WEL als .dwg klaarstaan maar nog NIET
+# in de symbolentabellen zitten (de wees-.dwg's uit `check_dwg_symbols`).
+
+IMPORT_HEADER = ["sbib", "fase", "categorisering_symbool", "symbool",
+                 "optie", "fileURL", "description"]
+_FASE_PREFIXES = ("B", "V", "N", "O")
+
+
+def _symbol_import_row(name: str) -> dict:
+    """Leid de IMPORT_NLCS_Symbolen-kolommen af uit een symboolnaam.
+    fase = leidend B/V/N/O-segment (anders leeg); sbib = eerste 'S'-segment
+    (V-/B-prefix-proof, zoals `_svg_bib`); optie = 'SO' bij een '-SO'-
+    achtervoegsel; categorisering_symbool/fileURL/description blijven leeg."""
+    segs = (name or "").split("-")
+    fase = segs[0] if segs and segs[0] in _FASE_PREFIXES else ""
+    return {"sbib": _svg_bib(name), "fase": fase, "categorisering_symbool": "",
+            "symbool": name, "optie": "SO" if name.endswith("-SO") else "",
+            "fileURL": "", "description": ""}
+
+
+def find_orphan_symbols(sym_src: str, dwg_dir: str, name_col: str = "symbool",
+                        bib_col: str = "sbibliotheek") -> dict:
+    """Zoek .dwg-symbolen die in de map klaarstaan maar niet in de
+    symbolentabellen zitten (wees-.dwg's), gegroepeerd per hoofdgroep, met de
+    afgeleide IMPORT_NLCS_Symbolen-kolommen per rij.
+
+    Gescoped op de bibliotheken die in de tabellen voorkomen (kolom
+    `sbibliotheek`), net als de wees-detectie in `check_dwg_symbols`.
+
+    Retour: {"total_dwg", "count", "groups": {HG: [row, ...]}} — of None als er
+    geen symbolenbron of geen .dwg-map is."""
+    res = check_dwg_symbols(sym_src, dwg_dir, name_col=name_col, bib_col=bib_col)
+    if res is None:
+        return None
+    groups: dict[str, list] = {}
+    for orph in res["orphans"]:
+        # `orph["name"]` is de lowercased dwg_index-sleutel; de originele casing
+        # (nodig voor fase-/optie-detectie en de symbool-cel) staat in het pad.
+        true_name = os.path.splitext(os.path.basename(orph["file"]))[0]
+        groups.setdefault(orph["hoofdgroep"], []).append(
+            _symbol_import_row(true_name))
+    for hg in groups:
+        groups[hg].sort(key=lambda d: d["symbool"].casefold())
+    return {"total_dwg": res["dwg_count"], "count": len(res["orphans"]),
+            "groups": groups}
+
+
+def write_symbol_import_xlsx(rows: list, path: str) -> None:
+    """Schrijf IMPORT_NLCS_Symbolen-rijen (dicts met de `IMPORT_HEADER`-sleutels)
+    naar een xlsx met sheet 'Symbolen'. Lege waarden worden lege cellen."""
+    import openpyxl  # lazy: alleen nodig bij deze knop
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Symbolen"
+    ws.append(IMPORT_HEADER)
+    for r in rows:
+        ws.append([(r.get(c) or None) for c in IMPORT_HEADER])
+    wb.save(path)
+
+
 def _sort_key(row: list[str]) -> str:
     return (row[SORT_COLUMN] if len(row) > SORT_COLUMN else "").casefold()
 
@@ -2103,7 +3254,8 @@ def _norm_cell(value: str) -> str:
 
 def compare(new_path: str, old_path: str, key: str = KEY,
             scope_col: str = "", blank_spec: dict = None,
-            suppress_change: dict = None, multilink_cols=None) -> dict:
+            suppress_change: dict = None, multilink_cols=None,
+            scope_code: str = "", scope_strip_s: bool = False) -> dict:
     """Vergelijk twee CSV-versies en geef een resultaat-dict terug.
 
     Parameters:
@@ -2114,6 +3266,16 @@ def compare(new_path: str, old_path: str, key: str = KEY,
                    dan tot de waarden van deze kolom die ook in de nieuwe versie
                    voorkomen (bijv. 'sbibliotheek'). Zo blijven 'vervallen' rijen
                    beperkt tot dezelfde bibliotheek/hoofdgroep.
+      scope_code : optioneel, de hoofdgroep-code uit de bestandsnaam. Alleen van
+                   belang als de NIEUWE CSV geen rijen heeft (een hoofdgroep die in
+                   de nieuwe versie leeg is): dan kan de scope niet uit de nieuwe
+                   rijen worden afgeleid en vallen we terug op deze code, zodat de
+                   oude rijen van die hoofdgroep als 'vervallen' verschijnen.
+      scope_strip_s : hoe de scope-waarde naar een hoofdgroep-code wordt herleid bij
+                   de scope_code-terugval: True haalt de leidende 'S' eraf
+                   (sbibliotheek 'SZZ' -> 'ZZ', symbolen), False gebruikt de waarde
+                   zelf (kolom 'hoofdgroep', lijntypes). Zelfde regel als
+                   split_result_by_bib.
       blank_spec : optioneel. Maakt bepaalde kolommen leeg (aan BEIDE kanten) voor
                    rijen die uit een andere publicatie komen, zodat die kolommen
                    niet als 'wijziging' tellen. Vorm:
@@ -2191,9 +3353,24 @@ def compare(new_path: str, old_path: str, key: str = KEY,
         allowed = {r[nidx[scope_col]].strip() for r in new_rows
                    if r[nidx[scope_col]].strip()}
         allow_empty = any(not r[nidx[scope_col]].strip() for r in new_rows)
+        # Leeg nieuw bestand (een hoofdgroep die in de nieuwe versie geen rijen
+        # meer heeft, bijv. symbolen-5-2-ZZ.csv met alleen een kop): dan levert
+        # de nieuwe versie geen scope-waarde op en zouden er helemaal geen
+        # 'vervallen' rijen verschijnen. Val in dat geval terug op de hoofdgroep-
+        # code uit de bestandsnaam (`scope_code`): houd de oude rijen waarvan de
+        # scope-waarde na code-afleiding gelijk is aan die code, zodat de
+        # vergelijking met de oude versie (alles vervallen) tóch zichtbaar wordt.
+        want_code = (scope_code or "").strip().upper()
+        use_code = bool(want_code) and not new_rows
+
+        def _scope_code(value: str) -> str:
+            v = (value or "").strip().upper()
+            return sbib_to_code(v) if scope_strip_s else v
+
         old_rows = [r for r in old_rows
                     if r[oidx[scope_col]].strip() in allowed
-                    or (allow_empty and not r[oidx[scope_col]].strip())]
+                    or (allow_empty and not r[oidx[scope_col]].strip())
+                    or (use_code and _scope_code(r[oidx[scope_col]]) == want_code)]
 
     # Rijen waarvoor GEEN wijzigingen getoond mogen worden (changelog): match op
     # een kolomwaarde (bijv. omschrijving = CONTINUOUS/V-CONTINUOUS-SO).
@@ -2248,6 +3425,13 @@ def compare(new_path: str, old_path: str, key: str = KEY,
                         changed = True
                         changed_any = True
                         old_value = ov
+                        # Kleuren in oude (5.0-)tabellen dragen soms een
+                        # 'file:///'-prefix vóór de RGB-waarde (xxx,xxx,xxx). Die
+                        # prefix is geen inhoud: toon in de changelog de kale
+                        # 5.0-RGB-waarde (drie komma-gescheiden getallen) als
+                        # 'oude' waarde.
+                        if _RE_FILE_PREFIX.match(old_value):
+                            old_value = _norm_cell(old_value)
             cells.append({"value": value, "changed": changed, "old": old_value})
 
         if suppressed:
