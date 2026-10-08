@@ -8,7 +8,7 @@ sys.path.insert(0, "beheer/objectentabellen_changelog")
 import ot_html as H
 
 XLSX = ("ontwikkeling/classificatie/fase 1 Inhoud classificatie VH/"
-        "Classificatie-NLCS-VH-inhoud.xlsx")
+        "Classificatie-NLCS-VH-inhoud-werkversie.xlsx")
 OUT = "docs/changelog/VH-objectgericht/index.html"
 TITLE = "NLCS Objectgericht - VerHardingen"
 SHEET = "objecten-concept-5.1-VH"
