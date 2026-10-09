@@ -9,7 +9,7 @@ import ot_html as H
 
 XLSX = ("ontwikkeling/classificatie/fase 1 Inhoud classificatie VH/"
         "Classificatie-NLCS-VH-inhoud-werkversie.xlsx")
-OUT = "docs/changelog/VH-objectgericht/index.html"
+OUT = "docs/changelog/VH-objectgericht/reviewversie-20261008/index.html"
 TITLE = "NLCS Objectgericht - VerHardingen"
 SHEET = "objecten-concept-5.1-VH"
 
@@ -252,6 +252,11 @@ def row_activiteit(raw):
     return None
 
 
+def is_gebied(raw):
+    """Kolom B (Fysiek object of ruimtelijk gebied?) bepaalt of het een gebied is."""
+    return raw[C_FYS] is not None and str(raw[C_FYS]).strip() == "Gebied"
+
+
 # --- materiaalkleuren (stabiel over de hele pagina) ---
 def collect_materials():
     mats = set()
@@ -383,8 +388,7 @@ def build_tree(items):
         return best
 
     def absorb(n):
-        return (row_gebied(rawmap[n]) is not None
-                or row_activiteit(rawmap[n]) is not None)
+        return is_gebied(rawmap[n]) or (row_activiteit(rawmap[n]) is not None)
 
     abset = {n for n in all_names if absorb(n)}
     base = [n for n in all_names if n not in abset]
@@ -392,16 +396,21 @@ def build_tree(items):
     activiteit_at = {}
     extra = []
     for n in sorted(abset):
-        g = row_gebied(rawmap[n])
-        a = row_activiteit(rawmap[n])
+        raw = rawmap[n]
         p = find_parent(n, base)
+        if is_gebied(raw):
+            # ruimtelijk gebied: NOOIT een eigen knoop; alleen als tekst bij de ouder
+            if p is not None:
+                g = row_gebied(raw) or display_name(n).split("_")[-1]
+                gebied_at.setdefault(p, [])
+                if g not in gebied_at[p]:
+                    gebied_at[p].append(g)
+            continue
+        # activiteit
+        a = row_activiteit(raw)
         tgt = p if p is not None else n          # geen ouder -> op zichzelf tonen
         if p is None:
             extra.append(n)
-        if g:
-            gebied_at.setdefault(tgt, [])
-            if g not in gebied_at[tgt]:
-                gebied_at[tgt].append(g)
         if a:
             activiteit_at.setdefault(tgt, [])
             if a not in activiteit_at[tgt]:
@@ -507,7 +516,17 @@ def legend_html(items):
 groups = {}
 for name, raw in tree_rows["Object"]:
     groups.setdefault(hoofdobject(name, raw), []).append((name, raw))
-order = sorted(groups, key=str.casefold)
+
+
+def _is_node_row(raw):
+    return not is_gebied(raw) and row_activiteit(raw) is None
+
+
+# alleen hoofdobjecten met minstens één echte objectknoop krijgen een kaart;
+# gebied-/activiteit-only groepen (bv. MATERIAALGRENS, REPARATIES) niet
+order = sorted([h for h in groups
+                if any(_is_node_row(raw) for _n, raw in groups[h])],
+               key=str.casefold)
 
 nav = ('<nav class="hobj-nav">'
        + '<a class="navmat" href="#mat-index">Materialen &#8595;</a> '
@@ -574,6 +593,30 @@ matindex_card = (
     f'<div class="card" id="mat-index"><h2>Materialen per hoofdobject '
     f'<span class="tree-count">{len(MATERIALS)} materialen</span></h2>\n'
     f'<ul class="matindex">\n' + "\n".join(_mi_rows) + '\n</ul></div>')
+
+# ===== gebieden (ruimtelijk gebied) -> evt. link naar object =====
+_order_set = set(order)
+_geb_entries = []
+for name, raw in tree_rows["Object"]:
+    if not is_gebied(raw):
+        continue
+    disp = display_name(name)
+    ho = hoofdobject(name, raw)
+    link = ho if ho in _order_set else None
+    _geb_entries.append((disp, link))
+_geb_entries = sorted(set(_geb_entries), key=lambda e: e[0].casefold())
+_gi_rows = []
+for disp, link in _geb_entries:
+    tail = (f'<span class="mi-groups">&rarr; <a href="#{anchor_of(link)}">'
+            f'{H._esc(link)}</a></span>' if link
+            else '<span class="mi-none">(geen object)</span>')
+    _gi_rows.append(f'<li><span class="matword">{H._esc(disp)}</span>{tail}</li>')
+gebied_index_card = (
+    f'<div class="card" id="geb-index"><h2>Gebieden (ruimtelijk gebied) '
+    f'<span class="tree-count">{len(_geb_entries)} gebieden</span></h2>\n'
+    f'<p class="info">Ruimtelijke gebieden zijn geen losse objecten; waar van '
+    f'toepassing staat de link naar het bijbehorende object.</p>\n'
+    f'<ul class="matindex">\n' + "\n".join(_gi_rows) + '\n</ul></div>')
 
 # ===== rest-lijst =====
 rest_total = sum(len(v) for v in rest.values())
@@ -690,6 +733,7 @@ html = (H._shell_head(TITLE, extra_style=H._INDEX_STYLE + H._TREE_STYLE + extra,
         + '<h1 class="sect">Objectenbomen Verhardingen</h1>\n' + nav + "\n"
         + "\n".join(obj_cards) + "\n"
         + matindex_card + "\n"
+        + gebied_index_card + "\n"
         + "\n".join(rest_parts) + "\n</div>\n"
         + '<script src="https://hypothes.is/embed.js" async></script>\n'
         + H._FOOTER)
