@@ -538,8 +538,7 @@ def anchor_of(h):
     return "h-" + re.sub(r"[^A-Za-z0-9]+", "-", h)
 
 
-VRAGEN_GROEP = (
-    '<div class="vragen hobj-vragen"><strong>Vragen bij deze groep</strong>'
+VRAGEN_LIST = (
     '<ol>'
     '<li>Zijn dit de objecten die nodig zijn in de classificatie?</li>'
     '<li>Komen deze objecten overeen met de objecten in je calculatiesoftware?</li>'
@@ -547,7 +546,56 @@ VRAGEN_GROEP = (
     'straks ook worden uitgewisseld, maar zijn niet in de standaard opgenomen.)</li>'
     '<li>Mis je activiteiten? (nb: aanleg / verwijderen is geregeld in de '
     'NLCS Status)</li>'
-    '</ol></div>')
+    '</ol>')
+
+# Opmerkingen per hoofdobject (sleutel = hoofdobjectnaam in hoofdletters).
+COMMENTS = {
+    "DREMPEL": [
+        ("Hoogte", "verschilt per inrit / drempel, dit moet objectinformatie zijn, "
+         "maar geen onderliggende objecten in de tekenstandaard of de classificatie."),
+        ("Kleur", "idem"),
+        ("DREMPEL_BSS", "Kleur, type steen en hoogte zijn relevant"),
+    ],
+    "FUNDERING": [
+        ("Mengsel/verhouding", "moet terugkomen in productpaspoort; geometrie is "
+         "niet voldoende voor inkoop/calculatie."),
+    ],
+    "GEOTEXTIEL": [
+        ("Actie", "verdieping toevoegen binnen de NLCS – issue aangemaakt:",
+         ("Issue #875", "https://github.com/nl-digigo/NLCS/issues/875")),
+    ],
+    "ROOSTER": [
+        ("Toelichting", "bedoeld wordt Veerooster / Wildrooster."),
+    ],
+    "GESLOTENVERHARDING": [
+        ("ASFALT", "mengsel/verhouding moet terugkomen in productpaspoort; "
+         "geometrie is niet voldoende voor inkoop/calculatie."),
+        ("BETON", "mengsel/verhouding moet terugkomen in productpaspoort; "
+         "geometrie is niet voldoende voor inkoop/calculatie."),
+    ],
+}
+
+
+def vragen_html(h):
+    cs = COMMENTS.get(h.upper(), [])
+    if cs:
+        parts = []
+        for c in cs:
+            k, v = c[0], c[1]
+            link = ""
+            if len(c) > 2 and c[2]:
+                lt, url = c[2]
+                link = (f' <a href="{H._esc(url)}" target="_blank" '
+                        f'rel="noopener">{H._esc(lt)}</a>')
+            parts.append(f'<li><strong>{H._esc(k)}:</strong> {H._esc(v)}{link}</li>')
+        items = "".join(parts)
+        left = (f'<div class="vg-col vg-comments"><strong>Opmerkingen</strong>'
+                f'<ul>{items}</ul></div>')
+    else:
+        left = '<div class="vg-col vg-comments"></div>'
+    right = (f'<div class="vg-col vg-vragen"><strong>Vragen bij deze groep</strong>'
+             f'{VRAGEN_LIST}</div>')
+    return f'<div class="vragen hobj-vragen vg-grid">{left}{right}</div>'
 
 
 obj_cards = []
@@ -574,7 +622,7 @@ for i, h in enumerate(order):
         f'<div class="hobj-body">\n'
         f'<div class="hobj-tree">'
         f'{render_tree(roots, children, rawmap, gebied_at, activiteit_at)}</div>\n'
-        f'{legend_html(items)}\n</div>\n' + VRAGEN_GROEP + '</div>')
+        f'{legend_html(items)}\n</div>\n' + vragen_html(h) + '</div>')
 
 # ===== materialen -> hoofdobjecten (omgekeerde index) =====
 mat_groups = {m: [] for m in MATERIALS}
@@ -650,6 +698,11 @@ extra = """
     .hobj-vragen { margin-top:14px; font-size:.86rem; }
     .hobj-vragen strong { font-size:.8rem; text-transform:uppercase;
         letter-spacing:.03em; color:var(--dg-grey2); }
+    .vg-grid { display:flex; gap:20px; align-items:flex-start; }
+    .vg-col { flex:1 1 50%; min-width:0; }
+    .vg-comments ul { margin:4px 0 0; padding-left:18px; }
+    .vg-comments li { margin:3px 0; font-size:.9rem; line-height:1.35; }
+    @media (max-width:700px){ .vg-grid { flex-direction:column; gap:10px; } }
     .matindex { list-style:none; margin:0; padding:0; }
     .matindex li { display:flex; gap:14px; flex-wrap:wrap; align-items:baseline;
         padding:5px 0; border-top:1px solid var(--dg-grey); }
