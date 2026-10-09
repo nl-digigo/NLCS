@@ -373,7 +373,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/RI/changelog-objecten-5-2-RI.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/RI/changelog-symbolen-5-2-RI.html)
 
-## SB ❌ (15 fout(en))
+## SB ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/SB/lijntypes-5-2-SB.html)
