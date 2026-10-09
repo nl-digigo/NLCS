@@ -97,6 +97,18 @@
     p.geen-wijzigingen { margin: 0 0 14px; padding: 12px 16px;
                     background-color: #eef7ee; border-left: 6px solid var(--dg-green);
                     font-size: 1.05em; font-weight: 600; color: #1f6b23; }
+
+    /* Sorteerbare changelog (DataTables): kop zwart/geel, hover, svg-cel */
+    table.dataTable thead th { background-color: var(--dg-black); color: #fff;
+                    border-bottom: 3px solid var(--dg-yellow); white-space: nowrap; }
+    table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: var(--dg-yellow) !important; border-color: var(--dg-yellow) !important;
+        color: #000 !important; }
+    h2.wees-kop { font-size: 1rem; margin: 20px 0 6px;
+                    border-top: 3px solid var(--dg-grey2); padding-top: 10px; }
+    table.weestab { width: auto; }
 </style>
 </head>
 <body>

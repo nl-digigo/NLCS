@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Changelog symbolen-5-2-IS</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
 <style>
     :root {
         --dg-yellow: #FFE103;
@@ -97,6 +100,18 @@
     p.geen-wijzigingen { margin: 0 0 14px; padding: 12px 16px;
                     background-color: #eef7ee; border-left: 6px solid var(--dg-green);
                     font-size: 1.05em; font-weight: 600; color: #1f6b23; }
+
+    /* Sorteerbare changelog (DataTables): kop zwart/geel, hover, svg-cel */
+    table.dataTable thead th { background-color: var(--dg-black); color: #fff;
+                    border-bottom: 3px solid var(--dg-yellow); white-space: nowrap; }
+    table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: var(--dg-yellow) !important; border-color: var(--dg-yellow) !important;
+        color: #000 !important; }
+    h2.wees-kop { font-size: 1rem; margin: 20px 0 6px;
+                    border-top: 3px solid var(--dg-grey2); padding-top: 10px; }
+    table.weestab { width: auto; }
 </style>
 </head>
 <body>
@@ -109,8 +124,7 @@
 <div class="wrap">
 <p class="info">0 nieuw &middot; 9 gewijzigd &middot; 2 vervallen &middot; 202 rijen totaal &middot; 5.0 &rarr; 5.2</p>
 <div class="legend"><span><span class="swatch sw-new"></span> nieuwe rij</span><span><span class="swatch sw-changed"></span> gewijzigde cel (oud doorgestreept, nieuw in blauw)</span><span><span class="swatch sw-deleted"></span> vervallen rij</span></div>
-<div class="tablescroll">
-<table class="otab">
+<table id="otab" class="otab display" style="width:100%">
 <thead>
 <tr><th>sbibliotheek</th><th>status</th><th>id</th><th>symbool</th><th>optie</th><th>symboolURI</th><th>zoekfilter (sobject)</th><th>.dwg aanwezig</th><th>.dwg t.o.v. oud</th><th>svg</th></tr>
 </thead>
@@ -317,12 +331,48 @@
 <tr><td>SIS</td><td>V</td><td>4493</td><td>V-SIS-VERBINDER_KORTSLUITER_HW61</td><td></td><td>http://digitalbuildingdata.tech/nlcs/def/b93ae0d8-8f53-4093-be41-7d8fe03e2739</td><td><span class="zf-term">SIS-VERBINDER_KORTSLUITER</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-neutraal">alleen nieuw</span></td><td class="svgcell"><a href="./SIS/V-SIS-VERBINDER_KORTSLUITER_HW61.svg" target="_blank"><img src="./SIS/V-SIS-VERBINDER_KORTSLUITER_HW61.svg" alt="V-SIS-VERBINDER_KORTSLUITER_HW61" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SIS</td><td></td><td>4397</td><td>SIS-VERBINDER_S VERBINDER</td><td></td><td>http://digitalbuildingdata.tech/nlcs/def/46d77c2e-2b1d-4682-9192-52b3e16cb24c</td><td><span class="zf-term">SIS-VERBINDER_S VERBINDER</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-neutraal">alleen nieuw</span></td><td class="svgcell"><a href="./SIS/SIS-VERBINDER_S%20VERBINDER.svg" target="_blank"><img src="./SIS/SIS-VERBINDER_S%20VERBINDER.svg" alt="SIS-VERBINDER_S VERBINDER" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SIS</td><td>V</td><td>4494</td><td>V-SIS-VERBINDER_S VERBINDER</td><td></td><td>http://digitalbuildingdata.tech/nlcs/def/15cf841d-790b-432a-8eda-5c5e3c8e9e85</td><td><span class="zf-term">SIS-VERBINDER_S VERBINDER</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-neutraal">alleen nieuw</span></td><td class="svgcell"><a href="./SIS/V-SIS-VERBINDER_S%20VERBINDER.svg" target="_blank"><img src="./SIS/V-SIS-VERBINDER_S%20VERBINDER.svg" alt="V-SIS-VERBINDER_S VERBINDER" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
-<tr class="section-header"><th colspan="10">Vervallen rijen (2) &middot; aanwezig in 5.0, niet meer in 5.2</th></tr>
 <tr class="deleted"><td>SIS</td><td></td><td>4398</td><td>SIS-VERWARMINGSELEMENT</td><td></td><td>http://digitalbuildingdata.tech/nlcs/def/f95ebde1-00a6-4ef6-a517-8670086f0826</td><td><span class="zf-geen">(geen)</span></td><td><span class="dwg-nee">nee</span></td><td></td><td class="svgcell"><a href="./SIS/SIS-VERWARMINGSELEMENT.svg" target="_blank"><img src="./SIS/SIS-VERWARMINGSELEMENT.svg" alt="SIS-VERWARMINGSELEMENT" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr class="deleted"><td>SIS</td><td>V</td><td>4495</td><td>V-SIS-VERWARMINGSELEMENT</td><td></td><td>http://digitalbuildingdata.tech/nlcs/def/c0bd455e-b543-4983-aa36-ca06b878fabc</td><td><span class="zf-geen">(geen)</span></td><td><span class="dwg-nee">nee</span></td><td></td><td class="svgcell"><a href="./SIS/V-SIS-VERWARMINGSELEMENT.svg" target="_blank"><img src="./SIS/V-SIS-VERWARMINGSELEMENT.svg" alt="V-SIS-VERWARMINGSELEMENT" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 </tbody>
 </table>
-</div>
+
+<script>
+$(document).ready(function () {
+    var table = $('#otab').DataTable({
+        paging: false,
+        scrollX: true,
+        scrollY: '65vh',
+        scrollCollapse: true,
+        columnDefs: [{ orderable: false, targets: [9] }],
+        order: [[0, "asc"]],
+        orderCellsTop: true
+    });
+    // Kolombreedtes opnieuw uitlijnen na laden en bij venstergrootte-wijziging
+    // (scrollX kan bij het initieel tekenen minimaal afwijken).
+    table.columns.adjust();
+    $(window).on('resize', function () { table.columns.adjust(); });
+    // Filters via event-delegatie op de wrapper: blijft werken ongeacht hoe
+    // DataTables de kop opnieuw opbouwt. De kolomindex volgt uit de positie
+    // van de <th> in de filterrij.
+    var $wrap = $('#otab_wrapper');
+    // niet sorteren als je in een filtervak klikt
+    $wrap.on('click', 'tr.filters th', function (e) { e.stopPropagation(); });
+    // vrije-tekstkolommen: zoek terwijl je typt
+    $wrap.on('keyup change search', 'tr.filters input', function () {
+        var i = $(this).closest('th').index();
+        if (table.column(i).search() !== this.value) {
+            table.column(i).search(this.value).draw();
+        }
+    });
+    // keuzelijst-kolommen: exact filteren op de gekozen waarde
+    $wrap.on('change', 'tr.filters select', function () {
+        var i = $(this).closest('th').index();
+        var v = this.value;
+        var term = v ? '^' + $.fn.dataTable.util.escapeRegex(v) + '$' : '';
+        table.column(i).search(term, true, false).draw();
+    });
+});
+</script>
 </div>
 <footer class="site-footer">
   <strong>digiGO</strong> &middot; digitaal samenwerken in de Gebouwde Omgeving

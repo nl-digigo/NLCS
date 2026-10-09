@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Changelog symbolen-5-2-VW</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
 <style>
     :root {
         --dg-yellow: #FFE103;
@@ -97,6 +100,18 @@
     p.geen-wijzigingen { margin: 0 0 14px; padding: 12px 16px;
                     background-color: #eef7ee; border-left: 6px solid var(--dg-green);
                     font-size: 1.05em; font-weight: 600; color: #1f6b23; }
+
+    /* Sorteerbare changelog (DataTables): kop zwart/geel, hover, svg-cel */
+    table.dataTable thead th { background-color: var(--dg-black); color: #fff;
+                    border-bottom: 3px solid var(--dg-yellow); white-space: nowrap; }
+    table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: var(--dg-yellow) !important; border-color: var(--dg-yellow) !important;
+        color: #000 !important; }
+    h2.wees-kop { font-size: 1rem; margin: 20px 0 6px;
+                    border-top: 3px solid var(--dg-grey2); padding-top: 10px; }
+    table.weestab { width: auto; }
 </style>
 </head>
 <body>
@@ -109,8 +124,7 @@
 <div class="wrap">
 <p class="info">1098 nieuw &middot; 0 gewijzigd &middot; 46 vervallen &middot; 1314 rijen totaal &middot; 5.0 &rarr; 5.2</p>
 <div class="legend"><span><span class="swatch sw-new"></span> nieuwe rij</span><span><span class="swatch sw-changed"></span> gewijzigde cel (oud doorgestreept, nieuw in blauw)</span><span><span class="swatch sw-deleted"></span> vervallen rij</span></div>
-<div class="tablescroll">
-<table class="otab">
+<table id="otab" class="otab display" style="width:100%">
 <thead>
 <tr><th>sbibliotheek</th><th>status</th><th>id</th><th>symbool</th><th>optie</th><th>symboolURI</th><th>zoekfilter (sobject)</th><th>.dwg aanwezig</th><th>.dwg t.o.v. oud</th><th>svg</th></tr>
 </thead>
@@ -1429,7 +1443,6 @@
 <tr><td>SVW</td><td>V</td><td>2976</td><td>V-SVW-VERKEERSTEKEN_TRAMSIGNALERING-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/3b29602d-23d8-4fff-be88-cdaae79934cc</td><td><span class="zf-term">SVW-VERKEERSTEKEN_TRAMSIGNALERING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-gelijk">identiek</span></td><td class="svgcell"><a href="./SVW/V-SVW-VERKEERSTEKEN_TRAMSIGNALERING-SO.svg" target="_blank"><img src="./SVW/V-SVW-VERKEERSTEKEN_TRAMSIGNALERING-SO.svg" alt="V-SVW-VERKEERSTEKEN_TRAMSIGNALERING-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SVW</td><td></td><td>2588</td><td>SVW-VERKEERSTEKEN_VERKEERSZUIL-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/e01cc381-ef28-47e3-a3d3-044d18f5d8f7</td><td><span class="zf-term">SVW-VERKEERSTEKEN_VERKEERSZUIL</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-gelijk">identiek</span></td><td class="svgcell"><a href="./SVW/SVW-VERKEERSTEKEN_VERKEERSZUIL-SO.svg" target="_blank"><img src="./SVW/SVW-VERKEERSTEKEN_VERKEERSZUIL-SO.svg" alt="SVW-VERKEERSTEKEN_VERKEERSZUIL-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SVW</td><td>V</td><td>4099</td><td>V-SVW-VERKEERSTEKEN_VERKEERSZUIL-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/cd8ee22e-49ad-44c2-a620-9ba54d008f00</td><td><span class="zf-term">SVW-VERKEERSTEKEN_VERKEERSZUIL</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-gelijk">identiek</span></td><td class="svgcell"><a href="./SVW/V-SVW-VERKEERSTEKEN_VERKEERSZUIL-SO.svg" target="_blank"><img src="./SVW/V-SVW-VERKEERSTEKEN_VERKEERSZUIL-SO.svg" alt="V-SVW-VERKEERSTEKEN_VERKEERSZUIL-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
-<tr class="section-header"><th colspan="10">Vervallen rijen (46) &middot; aanwezig in 5.0, niet meer in 5.2</th></tr>
 <tr class="deleted"><td>SVW</td><td></td><td>1820</td><td>SVW-MARKERING_STREEP_030270_010</td><td></td><td>http://digitalbuildingdata.tech/nlcs/def/f4265696-2786-4e35-9120-edf8e462afb6</td><td><span class="zf-term">SVW-MARKERING</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SVW/SVW-MARKERING_STREEP_030270_010.svg" target="_blank"><img src="./SVW/SVW-MARKERING_STREEP_030270_010.svg" alt="SVW-MARKERING_STREEP_030270_010" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr class="deleted"><td>SVW</td><td></td><td>4079</td><td>SVW-MARKERING_STREEP_030270_015</td><td></td><td>http://digitalbuildingdata.tech/nlcs/def/d2e7381b-0662-4340-9cdb-04fe2ecdb7a0</td><td><span class="zf-term">SVW-MARKERING</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SVW/SVW-MARKERING_STREEP_030270_015.svg" target="_blank"><img src="./SVW/SVW-MARKERING_STREEP_030270_015.svg" alt="SVW-MARKERING_STREEP_030270_015" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr class="deleted"><td>SVW</td><td></td><td>1811</td><td>SVW-MARKERING_STREEP_050050_010</td><td></td><td>http://digitalbuildingdata.tech/nlcs/def/6caf86a8-247b-44bc-a90b-aedc1e05787a</td><td><span class="zf-term">SVW-MARKERING</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SVW/SVW-MARKERING_STREEP_050050_010.svg" target="_blank"><img src="./SVW/SVW-MARKERING_STREEP_050050_010.svg" alt="SVW-MARKERING_STREEP_050050_010" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
@@ -1478,7 +1491,44 @@
 <tr class="deleted"><td>SVW</td><td>V</td><td>4091</td><td>V-SVW-VERKEERSTEKEN_BORD_PLAATSNAAM-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/a5a1db8e-811c-4902-ae2e-b49b3c20b369</td><td><span class="zf-term">SVW-VERKEERSTEKEN_BORD</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SVW/V-SVW-VERKEERSTEKEN_BORD_PLAATSNAAM-SO.svg" target="_blank"><img src="./SVW/V-SVW-VERKEERSTEKEN_BORD_PLAATSNAAM-SO.svg" alt="V-SVW-VERKEERSTEKEN_BORD_PLAATSNAAM-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 </tbody>
 </table>
-</div>
+
+<script>
+$(document).ready(function () {
+    var table = $('#otab').DataTable({
+        paging: false,
+        scrollX: true,
+        scrollY: '65vh',
+        scrollCollapse: true,
+        columnDefs: [{ orderable: false, targets: [9] }],
+        order: [[0, "asc"]],
+        orderCellsTop: true
+    });
+    // Kolombreedtes opnieuw uitlijnen na laden en bij venstergrootte-wijziging
+    // (scrollX kan bij het initieel tekenen minimaal afwijken).
+    table.columns.adjust();
+    $(window).on('resize', function () { table.columns.adjust(); });
+    // Filters via event-delegatie op de wrapper: blijft werken ongeacht hoe
+    // DataTables de kop opnieuw opbouwt. De kolomindex volgt uit de positie
+    // van de <th> in de filterrij.
+    var $wrap = $('#otab_wrapper');
+    // niet sorteren als je in een filtervak klikt
+    $wrap.on('click', 'tr.filters th', function (e) { e.stopPropagation(); });
+    // vrije-tekstkolommen: zoek terwijl je typt
+    $wrap.on('keyup change search', 'tr.filters input', function () {
+        var i = $(this).closest('th').index();
+        if (table.column(i).search() !== this.value) {
+            table.column(i).search(this.value).draw();
+        }
+    });
+    // keuzelijst-kolommen: exact filteren op de gekozen waarde
+    $wrap.on('change', 'tr.filters select', function () {
+        var i = $(this).closest('th').index();
+        var v = this.value;
+        var term = v ? '^' + $.fn.dataTable.util.escapeRegex(v) + '$' : '';
+        table.column(i).search(term, true, false).draw();
+    });
+});
+</script>
 </div>
 <footer class="site-footer">
   <strong>digiGO</strong> &middot; digitaal samenwerken in de Gebouwde Omgeving

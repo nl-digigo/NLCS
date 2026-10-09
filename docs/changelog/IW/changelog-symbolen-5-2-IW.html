@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Changelog symbolen-5-2-IW</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
 <style>
     :root {
         --dg-yellow: #FFE103;
@@ -97,6 +100,18 @@
     p.geen-wijzigingen { margin: 0 0 14px; padding: 12px 16px;
                     background-color: #eef7ee; border-left: 6px solid var(--dg-green);
                     font-size: 1.05em; font-weight: 600; color: #1f6b23; }
+
+    /* Sorteerbare changelog (DataTables): kop zwart/geel, hover, svg-cel */
+    table.dataTable thead th { background-color: var(--dg-black); color: #fff;
+                    border-bottom: 3px solid var(--dg-yellow); white-space: nowrap; }
+    table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: var(--dg-yellow) !important; border-color: var(--dg-yellow) !important;
+        color: #000 !important; }
+    h2.wees-kop { font-size: 1rem; margin: 20px 0 6px;
+                    border-top: 3px solid var(--dg-grey2); padding-top: 10px; }
+    table.weestab { width: auto; }
 </style>
 </head>
 <body>
@@ -109,8 +124,7 @@
 <div class="wrap">
 <p class="info">668 nieuw &middot; 5 gewijzigd &middot; 24 vervallen &middot; 718 rijen totaal &middot; 5.0 &rarr; 5.2</p>
 <div class="legend"><span><span class="swatch sw-new"></span> nieuwe rij</span><span><span class="swatch sw-changed"></span> gewijzigde cel (oud doorgestreept, nieuw in blauw)</span><span><span class="swatch sw-deleted"></span> vervallen rij</span></div>
-<div class="tablescroll">
-<table class="otab">
+<table id="otab" class="otab display" style="width:100%">
 <thead>
 <tr><th>sbibliotheek</th><th>status</th><th>id</th><th>symbool</th><th>optie</th><th>symboolURI</th><th>zoekfilter (sobject)</th><th>.dwg aanwezig</th><th>.dwg t.o.v. oud</th><th>svg</th></tr>
 </thead>
@@ -833,7 +847,6 @@
 <tr><td>SIW</td><td>V</td><td>3589</td><td>V-SIW-VS_KAST_OS DS_LOSSEFUNDATIE-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/083b3786-90d2-4607-b388-eace970a68f7</td><td><span class="zf-term">SIW-VS</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-gelijk">identiek</span></td><td class="svgcell"><a href="./SIW/V-SIW-VS_KAST_OS%20DS_LOSSEFUNDATIE-SO.svg" target="_blank"><img src="./SIW/V-SIW-VS_KAST_OS%20DS_LOSSEFUNDATIE-SO.svg" alt="V-SIW-VS_KAST_OS DS_LOSSEFUNDATIE-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SIW</td><td>V</td><td>3590</td><td>V-SIW-VS_KAST_OS DS_TUSSEN A POOT PORTAAL-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/14ef5d2e-cd6d-48a5-981a-3698a37efe99</td><td><span class="zf-term">SIW-VS</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-gelijk">identiek</span></td><td class="svgcell"><a href="./SIW/V-SIW-VS_KAST_OS%20DS_TUSSEN%20A%20POOT%20PORTAAL-SO.svg" target="_blank"><img src="./SIW/V-SIW-VS_KAST_OS%20DS_TUSSEN%20A%20POOT%20PORTAAL-SO.svg" alt="V-SIW-VS_KAST_OS DS_TUSSEN A POOT PORTAAL-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SIW</td><td>V</td><td>3591</td><td>V-SIW-VS_KAST_OS_LOSSEFUNDATIE-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/75c9fb1d-0800-499f-9eb6-f3dae16638ce</td><td><span class="zf-term">SIW-VS</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-gelijk">identiek</span></td><td class="svgcell"><a href="./SIW/V-SIW-VS_KAST_OS_LOSSEFUNDATIE-SO.svg" target="_blank"><img src="./SIW/V-SIW-VS_KAST_OS_LOSSEFUNDATIE-SO.svg" alt="V-SIW-VS_KAST_OS_LOSSEFUNDATIE-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
-<tr class="section-header"><th colspan="10">Vervallen rijen (24) &middot; aanwezig in 5.0, niet meer in 5.2</th></tr>
 <tr class="deleted"><td>SIW</td><td></td><td>2598</td><td>SIW-VRI_DRUKKNOPSMAST-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/1a68d82f-677c-4997-9f91-480ed0280af8</td><td><span class="zf-term">SIW-VRI</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SIW/SIW-VRI_DRUKKNOPSMAST-SO.svg" target="_blank"><img src="./SIW/SIW-VRI_DRUKKNOPSMAST-SO.svg" alt="SIW-VRI_DRUKKNOPSMAST-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr class="deleted"><td>SIW</td><td></td><td>2600</td><td>SIW-VRI_PUTSARMATUUR-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/126ba686-9805-4a0f-8ddc-03ceeebd258c</td><td><span class="zf-term">SIW-VRI</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SIW/SIW-VRI_PUTSARMATUUR-SO.svg" target="_blank"><img src="./SIW/SIW-VRI_PUTSARMATUUR-SO.svg" alt="SIW-VRI_PUTSARMATUUR-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr class="deleted"><td>SIW</td><td></td><td>2601</td><td>SIW-VRI_UNIVERSEELMAST-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/5f1acec1-b19e-4e71-b6e7-9ed9f7969876</td><td><span class="zf-term">SIW-VRI</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SIW/SIW-VRI_UNIVERSEELMAST-SO.svg" target="_blank"><img src="./SIW/SIW-VRI_UNIVERSEELMAST-SO.svg" alt="SIW-VRI_UNIVERSEELMAST-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
@@ -860,7 +873,44 @@
 <tr class="deleted"><td>SIW</td><td>V</td><td>3581</td><td>V-SIW-VRI_LANTAARNS_GEEL-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/032ece07-db6a-446c-bbd6-46f14f694ff2</td><td><span class="zf-term">SIW-VRI_LANTAARN</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SIW/V-SIW-VRI_LANTAARNS_GEEL-SO.svg" target="_blank"><img src="./SIW/V-SIW-VRI_LANTAARNS_GEEL-SO.svg" alt="V-SIW-VRI_LANTAARNS_GEEL-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 </tbody>
 </table>
-</div>
+
+<script>
+$(document).ready(function () {
+    var table = $('#otab').DataTable({
+        paging: false,
+        scrollX: true,
+        scrollY: '65vh',
+        scrollCollapse: true,
+        columnDefs: [{ orderable: false, targets: [9] }],
+        order: [[0, "asc"]],
+        orderCellsTop: true
+    });
+    // Kolombreedtes opnieuw uitlijnen na laden en bij venstergrootte-wijziging
+    // (scrollX kan bij het initieel tekenen minimaal afwijken).
+    table.columns.adjust();
+    $(window).on('resize', function () { table.columns.adjust(); });
+    // Filters via event-delegatie op de wrapper: blijft werken ongeacht hoe
+    // DataTables de kop opnieuw opbouwt. De kolomindex volgt uit de positie
+    // van de <th> in de filterrij.
+    var $wrap = $('#otab_wrapper');
+    // niet sorteren als je in een filtervak klikt
+    $wrap.on('click', 'tr.filters th', function (e) { e.stopPropagation(); });
+    // vrije-tekstkolommen: zoek terwijl je typt
+    $wrap.on('keyup change search', 'tr.filters input', function () {
+        var i = $(this).closest('th').index();
+        if (table.column(i).search() !== this.value) {
+            table.column(i).search(this.value).draw();
+        }
+    });
+    // keuzelijst-kolommen: exact filteren op de gekozen waarde
+    $wrap.on('change', 'tr.filters select', function () {
+        var i = $(this).closest('th').index();
+        var v = this.value;
+        var term = v ? '^' + $.fn.dataTable.util.escapeRegex(v) + '$' : '';
+        table.column(i).search(term, true, false).draw();
+    });
+});
+</script>
 </div>
 <footer class="site-footer">
   <strong>digiGO</strong> &middot; digitaal samenwerken in de Gebouwde Omgeving

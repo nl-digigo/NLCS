@@ -2,7 +2,7 @@
 Per hoofdobject een boom + materialenlegenda; materiaal-segmenten gekleurd.
 Publicatie: docs/changelog/VH-objectgericht/index.html
 """
-import os, re, shutil, sys, tempfile
+import csv, os, re, shutil, sys, tempfile
 import openpyxl
 sys.path.insert(0, "beheer/objectentabellen_changelog")
 import ot_html as H
@@ -67,9 +67,8 @@ SEP = ("_", "-", " ")
 
 
 def hoofdobject(name, raw):
-    o = raw[C_OBJ]
-    if o and str(o).strip():
-        return str(o).strip().upper()
+    # hoofdobject = eerste segment van de (genormaliseerde) naam. De object-kolom
+    # wordt niet vertrouwd: die kan verkeerd staan (bv. 'RAND' i.p.v. BOOMOMRANDING).
     return re.split(r"[_\- ]", norm_key(name).upper(), 1)[0]
 
 
@@ -116,6 +115,88 @@ def display_name(name):
     eraf (via norm_key) en de -SO/-D-suffix eraf. Interne naam blijft ongewijzigd
     (voor hierarchie/nesting)."""
     return strip_symbol_suffix(norm_key(name))
+
+
+def cmp_key(name):
+    """Vergelijkingssleutel die 'schijnverschillen' negeert: fase/bibliotheek-prefix,
+    -SO/-D, _KL, maat-notatie (spatie tussen cijfers -> X) en de SBS/BSS-hernoeming
+    (SBS = OPENVERHARDING_STRAATBAKSTEEN, BSS = OPENVERHARDING_BETONSTRAATSTEEN),
+    zodat 5.0/5.2-symbolen matchen met de hernoemde classificatie-rijen."""
+    s = norm_key(str(name))
+    s = re.sub(r"^SBS(?=_|$)", "OPENVERHARDING_STRAATBAKSTEEN", s, flags=re.I)
+    s = re.sub(r"^BSS(?=_|$)", "OPENVERHARDING_BETONSTRAATSTEEN", s, flags=re.I)
+    s = re.sub(r"-(SO|D)$", "", s, flags=re.I)
+    s = re.sub(r"_KL$", "", s, flags=re.I)
+    s = re.sub(r"(?<=\d) +(?=\d)", "X", s)
+    return s.strip().upper()
+
+
+def _read_csv_col(path, names, filt=None):
+    out = []
+    try:
+        with open(path, encoding="utf-8-sig") as f:
+            head = f.readline()
+            d = ";" if head.count(";") > head.count(",") else ","
+            f.seek(0)
+            r = csv.DictReader(f, delimiter=d)
+            colname = next((c for c in r.fieldnames
+                            if c and c.strip().lower() in names), r.fieldnames[0])
+            for row in r:
+                if filt and not filt(row):
+                    continue
+                v = row.get(colname)
+                if v and str(v).strip():
+                    out.append(str(v).strip())
+    except FileNotFoundError:
+        pass
+    return out
+
+
+def _load_in50():
+    """Namen (laagnaam + VH-symbolen) uit de NLCS 5.0-publicatie, genormaliseerd."""
+    s = set()
+    for x in _read_csv_col(
+            "tabellen/publicatie/objectentabellen/5-0/objecten-5-0-VH.csv",
+            {"omschrijving"}):
+        s.add(cmp_key(x))
+    for x in _read_csv_col(
+            "tabellen/publicatie/symbolentabellen/5-0/symbolen-5-0.csv",
+            {"symbool"},
+            filt=lambda r: str(r.get("sbibliotheek", "")).strip().upper() == "SVH"):
+        s.add(cmp_key(x))
+    return s
+
+
+IN50 = _load_in50()
+
+
+def _load_in52():
+    """Namen (laagnaam + VH-symbolen) uit de NLCS 5.2-publicatie, genormaliseerd."""
+    s = set()
+    for x in _read_csv_col(
+            "tabellen/publicatie/objectentabellen/5-2/objecten-5-2-VH.csv",
+            {"omschrijving"}):
+        s.add(cmp_key(x))
+    for x in _read_csv_col(
+            "tabellen/publicatie/symbolentabellen/5-2/symbolen-5-2-VH.csv",
+            {"symbool"}):
+        s.add(cmp_key(x))
+    return s
+
+
+IN52 = _load_in52()
+
+
+def dot50(name):
+    """Groen stipje als de naam (schijnverschillen genegeerd) in 5.0 voorkomt."""
+    return ('<span class="dot50" title="Komt voor in NLCS 5.0">●</span> '
+            if cmp_key(name) in IN50 else "")
+
+
+def dot52(name):
+    """Blauw stipje als de naam (schijnverschillen genegeerd) in 5.2 voorkomt."""
+    return ('<span class="dot52" title="Komt voor in NLCS 5.2">●</span> '
+            if cmp_key(name) in IN52 else "")
 
 
 def classify_eig_token(tok):
@@ -363,7 +444,7 @@ def render_tree(roots, children, rawmap, gebied_at=None, activiteit_at=None):
         eig = (row_eigenschappen(raw) if raw is not None
                else {"afmeting": [], "richting": [], "overig": []})
         eig_tokens = eig["afmeting"] + eig["richting"] + eig["overig"]
-        label = mark_name(display_name(n), mat, eig_tokens)
+        label = dot50(n) + dot52(n) + mark_name(display_name(n), mat, eig_tokens)
         # gebied + activiteit: tekst bij dit (bovenliggende) object
         gl = gebied_at.get(n)
         if gl:
@@ -429,12 +510,25 @@ for name, raw in tree_rows["Object"]:
 order = sorted(groups, key=str.casefold)
 
 nav = ('<nav class="hobj-nav">'
+       + '<a class="navmat" href="#mat-index">Materialen &#8595;</a> '
        + " ".join(f'<a href="#h-{re.sub(r"[^A-Za-z0-9]+","-",h)}">{H._esc(h)}</a>'
                   for h in order)
        + "</nav>")
 
 def anchor_of(h):
     return "h-" + re.sub(r"[^A-Za-z0-9]+", "-", h)
+
+
+VRAGEN_GROEP = (
+    '<div class="vragen hobj-vragen"><strong>Vragen bij deze groep</strong>'
+    '<ol>'
+    '<li>Zijn dit de objecten die nodig zijn in de classificatie?</li>'
+    '<li>Komen deze objecten overeen met de objecten in je calculatiesoftware?</li>'
+    '<li>Mis je gangbare maten of materialen? (Niet-gangbare afmetingen kunnen '
+    'straks ook worden uitgewisseld, maar zijn niet in de standaard opgenomen.)</li>'
+    '<li>Mis je activiteiten? (nb: aanleg / verwijderen is geregeld in de '
+    'NLCS Status)</li>'
+    '</ol></div>')
 
 
 obj_cards = []
@@ -461,7 +555,25 @@ for i, h in enumerate(order):
         f'<div class="hobj-body">\n'
         f'<div class="hobj-tree">'
         f'{render_tree(roots, children, rawmap, gebied_at, activiteit_at)}</div>\n'
-        f'{legend_html(items)}\n</div></div>')
+        f'{legend_html(items)}\n</div>\n' + VRAGEN_GROEP + '</div>')
+
+# ===== materialen -> hoofdobjecten (omgekeerde index) =====
+mat_groups = {m: [] for m in MATERIALS}
+for h in order:
+    present = sorted({m for _n, raw in groups[h] if (m := row_material(raw))})
+    for m in present:
+        mat_groups[m].append(h)
+_mi_rows = []
+for m in sorted(mat_groups):
+    gl = mat_groups[m]
+    links = (", ".join(f'<a href="#{anchor_of(h)}">{H._esc(h)}</a>' for h in gl)
+             if gl else '<span class="mi-none">–</span>')
+    _mi_rows.append(f'<li><span class="matword">{H._esc(m)}</span>'
+                    f'<span class="mi-groups">{links}</span></li>')
+matindex_card = (
+    f'<div class="card" id="mat-index"><h2>Materialen per hoofdobject '
+    f'<span class="tree-count">{len(MATERIALS)} materialen</span></h2>\n'
+    f'<ul class="matindex">\n' + "\n".join(_mi_rows) + '\n</ul></div>')
 
 # ===== rest-lijst =====
 rest_total = sum(len(v) for v in rest.values())
@@ -471,7 +583,8 @@ rest_parts.append('<p class="info">Deze regels zijn geen eigen objecttype in een
                   'van de bomen; gegroepeerd op de reden uit kolom B.</p>')
 for reason in sorted(rest, key=str.casefold):
     names = sorted(rest[reason], key=str.casefold)
-    its = "\n".join(f'<li class="leaf">{H._esc(nm)}</li>' for nm in names)
+    its = "\n".join(f'<li class="leaf">{dot50(nm)}{dot52(nm)}{H._esc(nm)}</li>'
+                    for nm in names)
     rest_parts.append(f'<h3 class="rest-h">{H._esc(reason)} '
                       f'<span class="tree-count">{len(names)}</span></h3>\n'
                       f'<ul class="otree flat">\n{its}\n</ul>')
@@ -487,12 +600,29 @@ info = (f"Bron: Classificatie-NLCS-VH-inhoud.xlsx &middot; "
 extra = """
     .reviewnote { font-size:1rem; font-weight:700; color:var(--dg-blue);
         margin:0 0 10px; }
+    .vragen { background:#fff8e1; border:1px solid #e8d48a; border-radius:6px;
+        padding:10px 14px; }
+    .vragen ol { margin:4px 0 0; padding-left:20px; }
+    .vragen li { margin:3px 0; font-size:.9rem; line-height:1.35; }
+    .hobj-vragen { margin-top:14px; font-size:.86rem; }
+    .hobj-vragen strong { font-size:.8rem; text-transform:uppercase;
+        letter-spacing:.03em; color:var(--dg-grey2); }
+    .matindex { list-style:none; margin:0; padding:0; }
+    .matindex li { display:flex; gap:14px; flex-wrap:wrap; align-items:baseline;
+        padding:5px 0; border-top:1px solid var(--dg-grey); }
+    .matindex .matword { flex:0 0 230px; }
+    .mi-groups { flex:1 1 300px; font-size:.86rem; }
+    .mi-groups a { color:var(--dg-blue); text-decoration:none; }
+    .mi-groups a:hover { text-decoration:underline; }
+    .mi-none { color:var(--dg-grey2); }
     .card .tree-count { font-size:.72rem; font-weight:400; color:var(--dg-grey2); }
     .hobj-nav { margin:0 0 18px; line-height:1.9; }
     .hobj-nav a { display:inline-block; font-size:.78rem; padding:1px 8px; margin:0 4px 2px 0;
         border:1px solid var(--dg-grey); border-radius:12px; color:var(--dg-ink);
         text-decoration:none; background:#fff; }
     .hobj-nav a:hover { background:var(--dg-blue); color:#fff; border-color:var(--dg-blue); }
+    .hobj-nav a.navmat { background:var(--dg-blue); color:#fff; border-color:var(--dg-blue);
+        font-weight:600; }
     .hobj-body { display:flex; gap:22px; align-items:flex-start; }
     .hobj-tree { flex:1 1 auto; min-width:0; }
     .legend { flex:1 1 380px; border-left:1px solid var(--dg-grey); padding-left:16px;
@@ -511,6 +641,10 @@ extra = """
         padding:0 5px; border-radius:3px; }
     .eigword { background:#f4e6cf; border-left:3px solid #c0872e;
         padding:0 5px; border-radius:3px; }
+    .dot50 { color:#2e9b2e; font-size:.72em; vertical-align:middle; }
+    .dot52 { color:#1f6fd0; font-size:.72em; vertical-align:middle; }
+    .dotlegend { font-size:.82rem; color:var(--dg-ink); margin:0 0 14px; }
+    .dotlegend .dot50, .dotlegend .dot52 { margin-right:4px; }
     .geb { font-size:.78rem; font-style:italic; color:var(--dg-grey2);
         margin-left:6px; }
     .act { font-size:.78rem; font-style:italic; color:#7a5c13;
@@ -544,6 +678,9 @@ html = (H._shell_head(TITLE, extra_style=H._INDEX_STYLE + H._TREE_STYLE + extra,
         + '<p class="reviewnote">Reviewversie voor projectgroep &middot; '
           '8 oktober 2026</p>\n'
         + f'<p class="info">{info}</p>\n'
+        + '<p class="dotlegend"><span class="dot50">●</span> komt voor in '
+          'NLCS 5.0 &nbsp; <span class="dot52">●</span> komt voor in NLCS 5.2 '
+          '(schijnverschillen in notatie genegeerd)</p>\n'
         + '<figure class="intro-fig">'
         + '<img src="NEN2660_mapping_NLCS_Classificatie.png" '
           'alt="NLCS-objecten vertaald naar NEN2660-2">'
@@ -552,6 +689,7 @@ html = (H._shell_head(TITLE, extra_style=H._INDEX_STYLE + H._TREE_STYLE + extra,
           'van de objecten volgens de NEN2660-2.</figcaption></figure>\n'
         + '<h1 class="sect">Objectenbomen Verhardingen</h1>\n' + nav + "\n"
         + "\n".join(obj_cards) + "\n"
+        + matindex_card + "\n"
         + "\n".join(rest_parts) + "\n</div>\n"
         + '<script src="https://hypothes.is/embed.js" async></script>\n'
         + H._FOOTER)
