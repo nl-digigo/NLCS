@@ -217,7 +217,7 @@
 <h1 class="sect" id="symbolen">Symbolen</h1>
 <p class="sectnote">Controle symbolentabel.</p>
 <div class="card"><h2>Zoekterm-controle (<code>sobject</code>)</h2>
-<p class="ctrldesc"><code>controle_arceringsymbool_zonder_objectRelatie</code> — symbolen die via geen enkele zoekterm (<code>sobject</code>) in de objectentabel gevonden worden.</p><div class="kpi"><div class="box "><b>5540</b>namen</div><div class="box "><b>5540</b>via zoekterm gevonden</div><div class="box free"><b>0</b>niet gevonden</div></div>
+<p class="ctrldesc"><code>controle_arceringsymbool_zonder_objectRelatie</code> — symbolen die via geen enkele zoekterm (<code>sobject</code>) in de objectentabel gevonden worden.</p><div class="kpi"><div class="box "><b>5556</b>namen</div><div class="box "><b>5556</b>via zoekterm gevonden</div><div class="box free"><b>0</b>niet gevonden</div></div>
 <p class="ok">✓ Elke naam bevat een zoekterm uit de objectentabel.</p>
 </div>
 <div class="card"><h2>Optie-fase-check</h2>
@@ -225,21 +225,21 @@
 <p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>9416</b>ingelezen</div><div class="box "><b>10387</b>hoogste ID</div><div class="box free"><b>10388</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>9432</b>ingelezen</div><div class="box "><b>10387</b>hoogste ID</div><div class="box free"><b>10388</b>eerstvolgende vrij</div></div>
 <p class="ok">✓ Elke rij heeft een id.</p>
 <p class="ok">✓ Geen dubbel gebruikte ID’s.</p>
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
-<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>5540</b>namen</div><div class="box "><b>5540</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>5556</b>namen</div><div class="box "><b>5556</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>9416</b>namen</div><div class="box "><b>6243</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>9432</b>namen</div><div class="box "><b>6242</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
-<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>5540</b>namen</div><div class="box free"><b>5540</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>5556</b>namen</div><div class="box free"><b>5556</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 <p class="info">Ter info: 76 naam/namen met een kleine letter (toegestaan voor eenheden mm/Mm en elementsymbool Cu — controleer of bewust):</p>
 <table class="otab"><thead><tr><th>hoofdgroep</th><th>naam</th><th>rij</th></tr></thead><tbody>
@@ -322,14 +322,14 @@
 </tbody></table>
 </div>
 <div class="card"><h2>Symbool ↔ .dwg</h2>
-<p class="ctrldesc">Controleer of alle symbolen in de database ook als bestand (.dwg) beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).</p><div class="kpi"><div class="box "><b>5540</b>tabelregels</div><div class="box free"><b>5540</b>met .dwg</div><div class="box free"><b>0</b>regel zonder .dwg</div><div class="box "><b>5540</b>.dwg-bestanden</div><div class="box free"><b>0</b>.dwg zonder regel</div></div>
+<p class="ctrldesc">Controleer of alle symbolen in de database ook als bestand (.dwg) beschikbaar zijn — en omgekeerd (.dwg zonder tabelregel).</p><div class="kpi"><div class="box "><b>5556</b>tabelregels</div><div class="box free"><b>5556</b>met .dwg</div><div class="box free"><b>0</b>regel zonder .dwg</div><div class="box "><b>5556</b>.dwg-bestanden</div><div class="box free"><b>0</b>.dwg zonder regel</div></div>
 <p class="ok">✓ Bij elke symboolregel is een .dwg-bestand gevonden.</p>
 <p class="ok">✓ Elk .dwg-bestand van een verwerkte bibliotheek heeft een tabelregel.</p>
 </div>
 <h1 class="sect" id="arceringen">Arceringen</h1>
 <p class="sectnote">Controle arceringentabel.</p>
 <div class="card"><h2>Zoekterm-controle (<code>aobject</code>)</h2>
-<p class="ctrldesc"><code>controle_arceringsymbool_zonder_objectRelatie</code> — arceringen die via geen enkele zoekterm (<code>aobject</code>) in de objectentabel gevonden worden.</p><div class="kpi"><div class="box "><b>408</b>namen</div><div class="box "><b>408</b>via zoekterm gevonden</div><div class="box free"><b>0</b>niet gevonden</div></div>
+<p class="ctrldesc"><code>controle_arceringsymbool_zonder_objectRelatie</code> — arceringen die via geen enkele zoekterm (<code>aobject</code>) in de objectentabel gevonden worden.</p><div class="kpi"><div class="box "><b>392</b>namen</div><div class="box "><b>392</b>via zoekterm gevonden</div><div class="box free"><b>0</b>niet gevonden</div></div>
 <p class="ok">✓ Elke naam bevat een zoekterm uit de objectentabel.</p>
 </div>
 <div class="card"><h2>Optie-fase-check</h2>
@@ -337,29 +337,29 @@
 <p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>
 </div>
 <div class="card"><h2>ID-controle</h2>
-<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>843</b>ingelezen</div><div class="box "><b>453</b>hoogste ID</div><div class="box free"><b>454</b>eerstvolgende vrij</div></div>
+<p class="ctrldesc">Controleer (in de outputtabellen) of alles een ID heeft &amp; geen dubbele ID.</p><div class="kpi"><div class="box "><b>827</b>ingelezen</div><div class="box "><b>453</b>hoogste ID</div><div class="box free"><b>454</b>eerstvolgende vrij</div></div>
 <p class="ok">✓ Elke rij heeft een id.</p>
 <p class="ok">✓ Geen dubbel gebruikte ID’s.</p>
 <p class="ok">✓ Elke URI heeft in beide publicaties hetzelfde ID.</p>
 </div>
 <div class="card"><h2>Dubbele namen</h2>
-<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>408</b>namen</div><div class="box "><b>408</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
+<p class="ctrldesc"><code>identiekenamen</code> — controleer of er dubbele namen voorkomen: namen die binnen één hoofdgroep meer dan eens voorkomen.</p><div class="kpi"><div class="box "><b>392</b>namen</div><div class="box "><b>392</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>dubbel</div></div>
 <p class="ok">✓ Geen dubbele namen binnen een hoofdgroep.</p>
 </div>
 <div class="card"><h2>Naam ↔ URI</h2>
-<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>843</b>namen</div><div class="box "><b>478</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
+<p class="ctrldesc">Dubbele namen tussen versies — gemeld wordt een naam die (a) binnen de nieuwe versie zélf aan meerdere URI’s hangt, of (b) in de vorige versie voorkwam en nu aan een andere URI hangt dan toen. Een naam die enkel in de vorige versie al dubbel stond wordt niet gemeld zolang de nieuwe versie een van die bestaande naam+URI-combinaties overneemt.</p><div class="kpi"><div class="box "><b>827</b>namen</div><div class="box "><b>478</b>uniek per hoofdgroep</div><div class="box free"><b>0</b>naam met meerdere URI’s</div></div>
 <p class="ok">✓ Geen naam hangt binnen een hoofdgroep aan meerdere URI’s (ook niet tussen versies).</p>
 </div>
 <div class="card"><h2>Speciale tekens</h2>
-<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>408</b>namen</div><div class="box free"><b>408</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
+<p class="ctrldesc">Speciale tekens in de naam: geen niet-toegestane tekens; spaties en <code>.</code> als decimaalteken zijn wel toegestaan.</p><div class="kpi"><div class="box "><b>392</b>namen</div><div class="box free"><b>392</b>zonder verboden teken</div><div class="box free"><b>0</b>met verboden teken</div></div>
 <p class="ok">✓ Geen niet-toegestane tekens gevonden.</p>
 </div>
 <div class="card"><h2>Verklaring</h2>
-<p class="ctrldesc">Verklaring: elke arcering heeft een (lange) verklaring in de kolom <code>vrkl_lang</code> (de tekst voor de legenda/verklaring).</p><div class="kpi"><div class="box "><b>408</b>arceringen</div><div class="box free"><b>408</b>met verklaring</div><div class="box free"><b>0</b>zonder verklaring</div></div>
+<p class="ctrldesc">Verklaring: elke arcering heeft een (lange) verklaring in de kolom <code>vrkl_lang</code> (de tekst voor de legenda/verklaring).</p><div class="kpi"><div class="box "><b>392</b>arceringen</div><div class="box free"><b>392</b>met verklaring</div><div class="box free"><b>0</b>zonder verklaring</div></div>
 <p class="ok">✓ Elke arcering heeft een verklaring (vrkl_lang).</p>
 </div>
 <div class="card"><h2>Naamlengte</h2>
-<p class="ctrldesc">Naamlengte: de arceringnaam (kolom <code>arcering</code>) is maximaal 31 tekens lang.</p><div class="kpi"><div class="box "><b>408</b>arceringen</div><div class="box free"><b>408</b>max 31 tekens</div><div class="box free"><b>0</b>te lang</div></div>
+<p class="ctrldesc">Naamlengte: de arceringnaam (kolom <code>arcering</code>) is maximaal 31 tekens lang.</p><div class="kpi"><div class="box "><b>392</b>arceringen</div><div class="box free"><b>392</b>max 31 tekens</div><div class="box free"><b>0</b>te lang</div></div>
 <p class="ok">✓ Elke arceringnaam is maximaal 31 tekens lang.</p>
 </div>
 <h1 class="sect" id="lijntypes">Lijntypes</h1>
