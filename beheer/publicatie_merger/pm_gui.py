@@ -11,6 +11,7 @@ publication_merger.py (via pm_core).
 import logging
 import os
 import queue
+import re
 import threading
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
@@ -89,6 +90,9 @@ class App(ttk.Frame):
                    command=lambda: self._select_all(False)).pack(side="left", padx=4)
         ttk.Button(topbar, text="Standaard", width=10,
                    command=self._reset_names).pack(side="left", padx=4)
+        self.fetch_btn = ttk.Button(topbar, text="Ophalen uit hub",
+                                    command=self.on_fetch)
+        self.fetch_btn.pack(side="left", padx=4)
         self.count_var = tk.StringVar(value="")
         ttk.Label(topbar, textvariable=self.count_var, foreground="#555"
                   ).pack(side="right")
@@ -166,13 +170,18 @@ class App(ttk.Frame):
         self._set_names(self._default_names())
 
     def _add_name(self) -> None:
-        n = self.add_var.get().strip()
-        if "/" in n:                     # hele URL geplakt -> laatste segment
-            n = n.rstrip("/").rsplit("/", 1)[-1]
-        if n and n not in self.names:
-            self.names.append(n)
-            self.listbox.insert("end", n)
-            self.listbox.select_set("end")
+        raw = self.add_var.get().strip()
+        if not raw:
+            return
+        # meerdere tegelijk mogen: gescheiden door spatie, komma of enter
+        for tok in re.split(r"[\s,]+", raw):
+            entry = tok.strip().rstrip("/")
+            # volledige URL behouden -> wordt direct als publicatie-URL gebruikt;
+            # anders een losse naam onder de basis-URL
+            if entry and entry not in self.names:
+                self.names.append(entry)
+                self.listbox.insert("end", entry)
+                self.listbox.select_set("end")
         self.add_var.set("")
         self._update_count()
 
@@ -215,12 +224,54 @@ class App(ttk.Frame):
         self.log.see("end")
         self.log.configure(state="disabled")
 
+    # -- publicaties ophalen uit de hub ------------------------------------
+    def on_fetch(self) -> None:
+        if self._busy:
+            return
+        token = self.token_var.get().strip()
+        pw = self.pw_var.get().strip()
+        if not token or not pw:
+            messagebox.showwarning(
+                "Inloggen", "Vul token-id én wachtwoord in om op te halen.")
+            return
+        base = self.base_var.get().strip().rstrip("/")
+        if not base:
+            messagebox.showwarning("Basis-URL", "Vul een basis-URL in.")
+            return
+        self._busy = True
+        self.run_btn.configure(state="disabled")
+        self.fetch_btn.configure(state="disabled")
+        self.status_var.set("Publicaties ophalen…")
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg(f"Publicaties ophalen onder {base} …")
+        t = threading.Thread(target=self._fetch_worker, args=(base, token, pw),
+                             daemon=True)
+        t.start()
+
+    def _fetch_worker(self, base, token, pw) -> None:
+        handler = QueueLogHandler(self._queue)
+        handler.setFormatter(logging.Formatter("%(message)s"))
+        root_logger = logging.getLogger()
+        prev = root_logger.level
+        root_logger.addHandler(handler)
+        root_logger.setLevel(logging.INFO)
+        try:
+            names = pm_core.fetch_publication_names(base, token, pw)
+            self._queue.put(("names", names))
+        except Exception as exc:  # noqa: BLE001
+            self._queue.put(("fetch_error", str(exc)))
+        finally:
+            root_logger.removeHandler(handler)
+            root_logger.setLevel(prev)
+
     # -- uitvoeren ---------------------------------------------------------
     def on_run(self) -> None:
         if self._busy:
             return
         token = self.token_var.get().strip()
-        pw = self.pw_var.get()
+        pw = self.pw_var.get().strip()
         if not token or not pw:
             messagebox.showwarning("Inloggen", "Vul token-id én wachtwoord in.")
             return
@@ -236,7 +287,8 @@ class App(ttk.Frame):
         if not output:
             messagebox.showwarning("Uitvoer", "Kies een uitvoerbestand.")
             return
-        sel = [f"{base}/{n}" for n in sel_names]
+        # volledige URL's (geplakt) direct gebruiken; losse namen onder de basis-URL
+        sel = [n.rstrip("/") if "://" in n else f"{base}/{n}" for n in sel_names]
 
         self._busy = True
         self.run_btn.configure(state="disabled")
@@ -282,6 +334,24 @@ class App(ttk.Frame):
                     self._busy = False
                     self.run_btn.configure(state="normal")
                     messagebox.showerror("Fout bij samenvoegen", payload)
+                elif kind == "names":
+                    self._busy = False
+                    self.run_btn.configure(state="normal")
+                    self.fetch_btn.configure(state="normal")
+                    if payload:
+                        self._set_names(payload)
+                        self.status_var.set(f"{len(payload)} publicaties opgehaald.")
+                    else:
+                        self.status_var.set("Geen publicaties gevonden.")
+                        messagebox.showinfo(
+                            "Ophalen",
+                            "Geen publicaties gevonden onder deze basis-URL.")
+                elif kind == "fetch_error":
+                    self._busy = False
+                    self.run_btn.configure(state="normal")
+                    self.fetch_btn.configure(state="normal")
+                    self.status_var.set("Fout bij ophalen.")
+                    messagebox.showerror("Fout bij ophalen publicaties", payload)
         except queue.Empty:
             pass
         self.after(120, self._poll)
@@ -292,9 +362,12 @@ def main() -> None:
     root.title("NLCS Publicatie-Merger")
     root.geometry("760x760")
     try:
-        ico = os.path.join(os.path.dirname(os.path.abspath(__file__)), "digigo.ico")
-        if os.path.isfile(ico):
-            root.iconbitmap(ico)
+        here = os.path.dirname(os.path.abspath(__file__))
+        for name in ("geel.ico", "digigo.ico"):
+            ico = os.path.join(here, name)
+            if os.path.isfile(ico):
+                root.iconbitmap(ico)
+                break
     except Exception:
         pass
     App(root)
