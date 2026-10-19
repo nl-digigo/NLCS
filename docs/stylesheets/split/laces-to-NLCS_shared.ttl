@@ -79,7 +79,16 @@ ex:ConvertAspectWithRole a sh:NodeShape ;
 				?hasAspect otl:rel-Relation-toRole ?this .
 				?hasAspect otl:rel-Relation-to ?aspect .
 				?hasAspect otl:rel-Relation-from ?object .
+
+				BIND (ex:getOriginalUri(?object) AS ?tgtObject) .
+				
 				?aspect a otl:Aspect .
+				# The Unit aspect is not a property: its value is published as schema:unitText on the concept
+				# (see ConvertConceptuals), same as the split stylesheet.
+				FILTER NOT EXISTS {
+					?aspect otl:attr-Conceptual-name ?unitAspectName .
+					FILTER (LCASE(STR(?unitAspectName)) = "unit") .
+				} .
 				# Check if the object has a defined shape, otherwise create a shape
 				{
 					?hasAspect otl:rel-Relation-from ?object .
@@ -122,7 +131,7 @@ ex:ConvertAspectWithRole a sh:NodeShape ;
 					BIND (?aspect AS ?tgtAspect) .
 				} .
 				
-				BIND (ex:getOriginalUri(?object) AS ?tgtObject) .
+				
 				
 				# Get all the descriptive information of the aspect
 				?aspect shapes:sequence/rdf:_1 ?tgtAspectPrefName .
@@ -275,6 +284,12 @@ ex:ConvertAspectsWithoutRole a sh:NodeShape ;
 				FILTER NOT EXISTS {
 					?hasAspect otl:rel-Relation-to ?this .
 				} .
+				# The Unit aspect is not a property: its value is published as schema:unitText on the concept
+				# (see ConvertConceptuals), same as the split stylesheet.
+				FILTER NOT EXISTS {
+					?this otl:attr-Conceptual-name ?unitAspectName .
+					FILTER (LCASE(STR(?unitAspectName)) = "unit") .
+				} .
 				?this shapes:sequence/rdf:_1 ?tgtAspectPrefName .
 				OPTIONAL {
 					?this otl:attr-Conceptual-name ?tgtAspectAltName .
@@ -350,6 +365,7 @@ ex:ConvertConceptuals a sh:NodeShape ;
 			    ?tgtThis skos:note ?tgtConceptualNote .
 			    ?tgtThis skos:notation ?tgtConceptualCode .
 			    ?tgtThis nen2660:abbreviation ?tgtConceptualAbbreviation .
+			    ?tgtThis schema:unitText ?tgtUnitText .
 			    ?tgtThis ?tgtAnnotationProperty ?tgtAnnotationValue .
 			    ?tgtAnnotationProperty a owl:AnnotationProperty .
 			    ?tgtAnnotationProperty skos:prefLabel ?tgtAnnotationName .
@@ -405,6 +421,18 @@ ex:ConvertConceptuals a sh:NodeShape ;
 					FILTER (?tgtAnnotationName != "Original URI")
 					FILTER (STRLEN(str(?tgtAnnotationValue)) > 0) .
 					BIND (ex:createHumanReadableUri(?tgtAnnotationName) AS ?tgtAnnotationProperty) .
+				} .
+				# Unit aspect (e.g. the Lijnweights' "mm"): published as a plain text value on the concept,
+				# <concept> schema:unitText "mm", not as a property restriction like Status/Discipline.
+				OPTIONAL {
+					?hasAspect otl:rel-Relation-from ?this .
+					?hasAspect otl:rel-Relation-to ?unitAspect .
+					?unitAspect otl:attr-Conceptual-name ?unitAspectName .
+					FILTER (LCASE(STR(?unitAspectName)) = "unit") .
+					?hasAspect otl:rel-Relation-toRole ?unitRole .
+					?unitRole otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification ?unitQualification .
+					?unitQualification otl:attr-Conceptual-name ?tgtUnitText .
+					FILTER (?tgtUnitText != "") .
 				} .
 				
 				BIND (ex:getOriginalUri(?this) AS ?tgtThis) .  
