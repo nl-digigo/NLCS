@@ -78,6 +78,16 @@ class App(ttk.Frame):
         ttk.Label(basef, text="bijv. …/nlcs/live  of  …/nlcs/test",
                   foreground="#777").pack(side="right")
 
+        # Versie (optioneel)
+        verf = ttk.LabelFrame(self, text="Versie (optioneel)", padding=8)
+        verf.pack(fill="x", pady=(8, 0))
+        self.ver_var = tk.StringVar(value="")
+        ttk.Entry(verf, textvariable=self.ver_var, width=12).pack(side="left", padx=4)
+        ttk.Label(verf, foreground="#777",
+                  text="bijv. 5-2 — kiest per publicatie de hoogste matchende "
+                       "versie (…/versions/5-2-14). Leeg = de huidige versie."
+                  ).pack(side="left", padx=6)
+
         # Publicaties
         pubs = ttk.LabelFrame(self, text="Publicaties (naam onder de basis-URL)",
                               padding=8)
@@ -289,6 +299,7 @@ class App(ttk.Frame):
             return
         # volledige URL's (geplakt) direct gebruiken; losse namen onder de basis-URL
         sel = [n.rstrip("/") if "://" in n else f"{base}/{n}" for n in sel_names]
+        version = self.ver_var.get().strip()
 
         self._busy = True
         self.run_btn.configure(state="disabled")
@@ -297,17 +308,24 @@ class App(ttk.Frame):
         self.log.configure(state="disabled")
         self.status_var.set("Bezig…")
         self._logmsg(f"{len(sel)} publicatie(s) samenvoegen → {output}")
+        if version:
+            self._logmsg(f"Versie-filter: hoogste versie die matcht met '{version}'.")
 
-        t = threading.Thread(target=self._worker, args=(sel, token, pw, output),
+        t = threading.Thread(target=self._worker,
+                             args=(sel, token, pw, output, version),
                              daemon=True)
         t.start()
 
-    def _worker(self, sel, token, pw, output) -> None:
+    def _worker(self, sel, token, pw, output, version="") -> None:
         handler = QueueLogHandler(self._queue)
         handler.setFormatter(logging.Formatter("%(message)s"))
         root_logger = logging.getLogger()
         root_logger.addHandler(handler)
         try:
+            if version:
+                sel, notes = pm_core.resolve_versioned(sel, version, token, pw)
+                for n in notes:
+                    self._queue.put(("log", "  " + n))
             graph = pm_core.merge_publications(sel, token, pw)
             pm_core.save_graph(graph, output)
             self._queue.put(("done", (len(graph), output)))

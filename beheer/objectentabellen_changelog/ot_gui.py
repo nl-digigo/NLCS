@@ -17,6 +17,7 @@ Instellingen worden onthouden via ot_config.
 """
 
 import html
+import glob
 import os
 import queue
 import threading
@@ -1405,38 +1406,42 @@ class IndexTab(ttk.Frame):
 
         btns = ttk.Frame(self)
         btns.pack(fill="x", pady=8)
-        ttk.Button(btns, text="Zoek bestanden", command=self.on_scan
-                   ).pack(side="left", padx=(0, 4))
         self.gen_btn = ttk.Button(btns, text="Genereer overzicht",
                                   command=self.on_generate)
-        self.gen_btn.pack(side="left", padx=4)
         self.tree_btn = ttk.Button(btns, text="Genereer objectenboom",
                                    command=self.on_generate_tree)
-        self.tree_btn.pack(side="left", padx=4)
         self.tree_ltv_btn = ttk.Button(
             btns, text="Genereer objectenboom (lt_v)",
             command=lambda: self.on_generate_tree(mark_ltv=True))
-        self.tree_ltv_btn.pack(side="left", padx=4)
         self.shared_btn = ttk.Button(
             btns, text="Genereer gedeelde objecttypes",
             command=self.on_generate_shared)
-        self.shared_btn.pack(side="left", padx=4)
         self.shared_inv_btn = ttk.Button(
             btns, text="Genereer dubbele objecten (per object)",
             command=self.on_generate_shared_inverse)
-        self.shared_inv_btn.pack(side="left", padx=4)
         self.vk_btn = ttk.Button(
             btns, text="Genereer visualisatiekeuzen",
             command=lambda: self.on_generate_visualisatiekeuzen(collapse=False))
-        self.vk_btn.pack(side="left", padx=4)
         self.vk_std_btn = ttk.Button(
             btns, text="Genereer standaard visualisatiekeuzen",
             command=lambda: self.on_generate_visualisatiekeuzen(collapse=True))
-        self.vk_std_btn.pack(side="left", padx=4)
         self.lt_btn = ttk.Button(
             btns, text="Genereer unieke lijntypes",
             command=self.on_generate_unieke_lijntypes)
-        self.lt_btn.pack(side="left", padx=4)
+        self.tab_btn = ttk.Button(
+            btns, text="Genereer overzichtstabellen",
+            command=self.on_generate_overzichtstabellen)
+        # 4 knoppen naast elkaar, daarna een nieuwe rij
+        row_btns = [
+            ttk.Button(btns, text="Zoek bestanden", command=self.on_scan),
+            self.gen_btn, self.tree_btn, self.tree_ltv_btn,
+            self.shared_btn, self.shared_inv_btn, self.vk_btn, self.vk_std_btn,
+            self.lt_btn, self.tab_btn,
+        ]
+        for i, b in enumerate(row_btns):
+            b.grid(row=i // 4, column=i % 4, sticky="ew", padx=4, pady=3)
+        for c in range(4):
+            btns.columnconfigure(c, weight=1)
 
         logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
         logframe.pack(fill="both", expand=True, pady=(8, 0))
@@ -1518,7 +1523,7 @@ class IndexTab(ttk.Frame):
             return None
         codes = [code for code, _entries in groups]
         marks = ot_compare.quality_checkmarks(
-            report_html, self.app.loc["obj_new"].get().strip(), codes)
+            report_html, self.app.table_src("obj_new"), codes)
         if not marks:
             self._logmsg(
                 f"Kwaliteitsrapport gevonden ({rep_name}), maar geen enkele "
@@ -1606,7 +1611,7 @@ class IndexTab(ttk.Frame):
         basis van de V-dekking (groen = object + alle onderliggende objecten hebben
         een lt_v die met 'V-' begint, blauw = ergens ontbreekt een 'V-'-lt_v);
         uitvoer -> objectenboom-ltv-."""
-        src = self.app.loc["obj_new"].get().strip()
+        src = self.app.table_src("obj_new")
         if not os.path.isdir(src):
             messagebox.showwarning(
                 "Geen map", "Vul bij 'Locaties' de map objectentabellen-nieuw in "
@@ -1672,11 +1677,63 @@ class IndexTab(ttk.Frame):
         if self.app.open_after_var.get():
             webbrowser.open(os.path.abspath(output))
 
+    def on_generate_overzichtstabellen(self) -> None:
+        """Genereer per 'overige tabel' (bibliotheken, bewerkingen, disciplines,
+        hoofdgroepen, lijnkleuren, lijnweights, statussen) een statische digiGO-
+        overzichts-HTML uit het CSV-bestand. GEEN changelog. Bron = de map 'tab_new';
+        uitvoer in index_root (docs/changelog), anders de map van het overzicht-
+        uitvoerbestand, anders de bronmap."""
+        folder = self.app.loc["tab_new"].get().strip()
+        if not os.path.isdir(folder):
+            messagebox.showwarning(
+                "Geen map", "Vul bij 'Locaties' onder 'Overige tabellen' de map "
+                "met de CSV-tabellen in (bijv. tabellen/).")
+            return
+        version = self.app.version_new_var.get().strip()
+        vdash = version.replace(".", "-")
+
+        out_dir = self.app.loc["index_root"].get().strip()
+        if not os.path.isdir(out_dir):
+            base_out = self.app.loc["index_output"].get().strip()
+            out_dir = (os.path.dirname(base_out) if base_out else "") or folder
+
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg(f"Overzichtstabellen genereren uit {folder} …")
+
+        made, first = 0, None
+        for stem, titel in ot_compare.OVERZICHT_TABELLEN:
+            csv_path = ot_compare.find_overzicht_csv(folder, stem, vdash)
+            if not csv_path:
+                self._logmsg(f"  overgeslagen (geen CSV): {stem}")
+                continue
+            try:
+                headers, rows = ot_compare.read_table(csv_path)
+                html_txt = ot_html.build_table_overview_html(
+                    headers, rows, title=f"{titel} {version}".strip(),
+                    version=version)
+                fname = f"{titel}-{vdash}.html" if vdash else f"{titel}.html"
+                output = os.path.join(out_dir, fname)
+                os.makedirs(os.path.dirname(os.path.abspath(output)), exist_ok=True)
+                with open(output, "w", encoding="utf-8") as f:
+                    f.write(html_txt)
+                self._logmsg(f"  {fname}  ({len(rows)} rijen)")
+                made += 1
+                first = first or os.path.abspath(output)
+            except Exception as exc:  # noqa: BLE001
+                self._logmsg(f"  FOUT {stem}: {exc}")
+
+        self._logmsg(f"Klaar: {made} overzichtstabel(len) geschreven in {out_dir}.")
+        self.app.save_config()
+        if made and self.app.open_after_var.get() and first:
+            webbrowser.open(first)
+
     def on_generate_shared(self) -> None:
         """Overzicht van objecttypes die in meerdere hoofdgroepen voorkomen: per
         hoofdgroep een blok met die types en bij welke andere hoofdgroep(en) ze
         horen (bijv. TRAMSIGNALERING in IW én VW). Bron is de map objecten-nieuw."""
-        src = self.app.loc["obj_new"].get().strip()
+        src = self.app.table_src("obj_new")
         if not os.path.isdir(src):
             messagebox.showwarning(
                 "Geen map", "Vul bij 'Locaties' de map objectentabellen-nieuw in "
@@ -1734,7 +1791,7 @@ class IndexTab(ttk.Frame):
         """Inverse van 'gedeelde objecttypes': één blok per objecttype dat in
         meerdere hoofdgroepen voorkomt, met per hoofdgroep een voorbeeld-
         objectnaam. Uitvoer in de submap 'expertcommissie'."""
-        src = self.app.loc["obj_new"].get().strip()
+        src = self.app.table_src("obj_new")
         if not os.path.isdir(src):
             messagebox.showwarning(
                 "Geen map", "Vul bij 'Locaties' de map objectentabellen-nieuw in "
@@ -1793,7 +1850,7 @@ class IndexTab(ttk.Frame):
         collapse=True → 'standaard visualisatiekeuzen': alle kleuren uit de 10- en
         12-serie worden samengevoegd tot één zwarte waarde, zodat alleen de
         basisvariatie overblijft."""
-        src = self.app.loc["obj_new"].get().strip()
+        src = self.app.table_src("obj_new")
         if not os.path.isdir(src):
             messagebox.showwarning(
                 "Geen map", "Vul bij 'Locaties' de map objectentabellen-nieuw in "
@@ -1867,7 +1924,7 @@ class IndexTab(ttk.Frame):
     def on_generate_unieke_lijntypes(self) -> None:
         """Overzicht unieke lijntypes: lijntypes met dezelfde autocaddef worden
         samengevoegd. Bron is de lijntypes-map. Uitvoer in 'expertcommissie'."""
-        src = self.app.loc["lijn_new"].get().strip()
+        src = self.app.table_src("lijn_new")
         if not os.path.isdir(src):
             messagebox.showwarning(
                 "Geen map", "Vul bij 'Locaties' de map lijntypes-nieuw in "
@@ -2035,8 +2092,8 @@ class IdTab(ttk.Frame):
         any_source = False
         for (key, label, new_key, old_key, id_col, uri_col, woord, exclude,
              name_col) in _ID_PROFILES:
-            new_src = self.app.loc[new_key].get().strip()
-            old_src = self.app.loc[old_key].get().strip()
+            new_src = self.app.table_src(new_key)
+            old_src = self.app.table_src(old_key)
             if not self._valid(new_src) and not self._valid(old_src):
                 self.next_vars[key].set("—")
                 sections.append({"key": key, "label": label, "id_col": id_col,
@@ -2246,7 +2303,7 @@ class OptieFaseCheckTab(ttk.Frame):
         sections = []
         any_source = False
         for key, label, new_key, name_col, excl in _NAME_PROFILES:
-            src = self.app.loc[new_key].get().strip()
+            src = self.app.table_src(new_key)
             if not self._valid(src):
                 sections.append({"label": label, "skipped": True,
                                  "violations": []})
@@ -2394,7 +2451,7 @@ class ObjectTreeTab(ttk.Frame):
         return bool(path) and (os.path.isdir(path) or os.path.isfile(path))
 
     def _run(self) -> dict | None:
-        src = self.app.loc["obj_new"].get().strip()
+        src = self.app.table_src("obj_new")
         if not self._valid(src):
             return None
         return ot_compare.check_object_tree(src)
@@ -2512,8 +2569,8 @@ class LijntypeUsageTab(ttk.Frame):
         return bool(path) and (os.path.isdir(path) or os.path.isfile(path))
 
     def _run(self) -> dict | None:
-        lijn = self.app.loc["lijn_new"].get().strip()
-        obj = self.app.loc["obj_new"].get().strip()
+        lijn = self.app.table_src("lijn_new")
+        obj = self.app.table_src("obj_new")
         if not self._valid(lijn) or not self._valid(obj):
             return None
         return ot_compare.check_lijntype_usage(lijn, obj)
@@ -2634,12 +2691,12 @@ class SearchtermTab(ttk.Frame):
         return bool(path) and (os.path.isdir(path) or os.path.isfile(path))
 
     def _run(self) -> list | None:
-        obj = self.app.loc["obj_new"].get().strip()
+        obj = self.app.table_src("obj_new")
         if not self._valid(obj):
             return None
         sections = []
         for name_key, name_col, obj_col, label in self._SOORTEN:
-            src = self.app.loc[name_key].get().strip()
+            src = self.app.table_src(name_key)
             if not self._valid(src):
                 continue
             res = ot_compare.check_searchterm_coverage(src, obj, name_col, obj_col)
@@ -2753,12 +2810,12 @@ class SearchtermMinTab(ttk.Frame):
         return bool(path) and (os.path.isdir(path) or os.path.isfile(path))
 
     def _run(self) -> list | None:
-        obj = self.app.loc["obj_new"].get().strip()
+        obj = self.app.table_src("obj_new")
         if not self._valid(obj):
             return None
         sections = []
         for name_key, name_col, obj_col, label in self._SOORTEN:
-            src = self.app.loc[name_key].get().strip()
+            src = self.app.table_src(name_key)
             if not self._valid(src):
                 continue
             res = ot_compare.check_searchterm_min(obj, src, obj_col, name_col)
@@ -2866,7 +2923,7 @@ class FaseVisualisatieTab(ttk.Frame):
         return bool(path) and (os.path.isdir(path) or os.path.isfile(path))
 
     def _run(self) -> dict | None:
-        obj = self.app.loc["obj_new"].get().strip()
+        obj = self.app.table_src("obj_new")
         if not self._valid(obj):
             return None
         return ot_compare.check_fase_visualisatie(obj)
@@ -2990,7 +3047,7 @@ class DuplicateNamesTab(ttk.Frame):
     def _run(self) -> list | None:
         sections = []
         for name_key, name_col, label in self._SOORTEN:
-            src = self.app.loc[name_key].get().strip()
+            src = self.app.table_src(name_key)
             if not self._valid(src):
                 continue
             res = ot_compare.check_duplicate_names(src, name_col)
@@ -3097,7 +3154,7 @@ class ElementLinkTab(ttk.Frame):
         return bool(path) and (os.path.isdir(path) or os.path.isfile(path))
 
     def _run(self) -> dict | None:
-        obj = self.app.loc["obj_new"].get().strip()
+        obj = self.app.table_src("obj_new")
         if not self._valid(obj):
             return None
         return ot_compare.check_element_object_link(obj)
@@ -3213,7 +3270,7 @@ class SpecialCharsTab(ttk.Frame):
     def _run(self) -> list | None:
         sections = []
         for name_key, name_col, label in self._SOORTEN:
-            src = self.app.loc[name_key].get().strip()
+            src = self.app.table_src(name_key)
             if not self._valid(src):
                 continue
             # ZZ-objecten mogen haakjes in de naam hebben (stramien-/
@@ -3323,7 +3380,7 @@ class ArceringVerklaringTab(ttk.Frame):
         return bool(path) and (os.path.isdir(path) or os.path.isfile(path))
 
     def _run(self) -> dict | None:
-        arc = self.app.loc["arc_new"].get().strip()
+        arc = self.app.table_src("arc_new")
         if not self._valid(arc):
             return None
         return ot_compare.check_arcering_verklaring(arc)
@@ -3427,7 +3484,7 @@ class LijntypeDefTab(ttk.Frame):
         return bool(path) and (os.path.isdir(path) or os.path.isfile(path))
 
     def _run(self) -> dict | None:
-        lijn = self.app.loc["lijn_new"].get().strip()
+        lijn = self.app.table_src("lijn_new")
         if not self._valid(lijn):
             return None
         return ot_compare.check_lijntype_autocaddef(
@@ -3544,8 +3601,8 @@ class ControlesTab(ttk.Frame):
             return bool(p) and (os.path.isdir(p) or os.path.isfile(p))
 
         def name_uri(nk, ok, name_col, uri_col, hcol, exc):
-            ns = app.loc[nk].get().strip()
-            os_ = app.loc[ok].get().strip()
+            ns = app.table_src(nk)
+            os_ = app.table_src(ok)
             if not valid_src(ns) and not valid_src(os_):
                 return None
             return ot_compare.analyze_name_uri(ns, os_, name_col, uri_col,
@@ -3556,22 +3613,22 @@ class ControlesTab(ttk.Frame):
             "fasevis": app.fasevis_tab._run(),
             "elemlink": app.elemlink_tab._run(),
             "elemfill": ot_compare.check_element_filled(
-                app.loc["obj_new"].get().strip()),
+                app.table_src("obj_new")),
             "ltv": ot_compare.check_lt_v_vervallen(
-                app.loc["obj_new"].get().strip()),
+                app.table_src("obj_new")),
             "ltvmis": ot_compare.check_lt_v_misplaatst(
-                app.loc["obj_new"].get().strip()),
+                app.table_src("obj_new")),
             "verbkleur": ot_compare.check_verboden_kleur(
-                app.loc["obj_new"].get().strip()),
+                app.table_src("obj_new")),
             "lijnusage": app.lijnusage_tab._run(),
             "arcverkl": app.arceringverklaring_tab._run(),
             "arclen": ot_compare.check_arcering_name_length(
-                app.loc["arc_new"].get().strip()),
+                app.table_src("arc_new")),
             "lijndef": app.lijntypedef_tab._run(),
             "verwscale": ot_compare.check_verwijderen_scale(
-                app.loc["lijn_new"].get().strip()),
+                app.table_src("lijn_new")),
             "dwg": ot_compare.check_dwg_symbols(
-                app.loc["sym_new"].get().strip(),
+                app.table_src("sym_new"),
                 app.loc["dwg_new"].get().strip()),
             "id": {s["key"]: s for s in id_sections},
             "optie": {s["label"].lower(): s for s in opt_sections},
@@ -3638,6 +3695,9 @@ _LOC_GROUPS = [
     ("Arceringen", [
         ("arc_new", "Map nieuwe versie:", "dir"),
         ("arc_old", "CSV vorige versie (één bestand):", "csv"),
+    ]),
+    ("Overige tabellen (overzichten)", [
+        ("tab_new", "Map met de tabellen (CSV):", "dir"),
     ]),
     ("Overzicht (kaart)", [
         ("index_root", "Map om te doorzoeken (docs/changelog):", "dir"),
@@ -3805,6 +3865,36 @@ class App(ttk.Frame):
             "codes": {key: tab.collect_cfg()["codes"]
                       for key, tab in self.tabs.items()},
         }
+
+    # Onderwerp per locatie-sleutel: nodig om bij een platte 'totaal'-map het
+    # juiste tabelbestand te kiezen (zie table_src).
+    _SUBJECT_BY_KEY = {
+        "obj_new": "objecten", "obj_old": "objecten",
+        "sym_new": "symbolen", "sym_old": "symbolen",
+        "lijn_new": "lijntypes", "lijn_old": "lijntypes",
+        "arc_new": "arceringen", "arc_old": "arceringen",
+    }
+
+    def table_src(self, key: str) -> str:
+        """Geef de effectieve bron voor een tabel-locatie. Wijst de locatie naar
+        een PLATTE map met álle gecombineerde tabellen (herkenbaar aan
+        disciplines-*.csv / statussen-*.csv), dan het losse <onderwerp>-bestand
+        kiezen (bijv. lijntypes-5-2.csv) i.p.v. de hele map te globben — anders
+        zouden de controles disciplines/statussen/bibliotheken als lijntype/
+        arcering/symbool lezen. Een per-hoofdgroep-map of los CSV-bestand blijft
+        ongewijzigd."""
+        val = self.loc[key].get().strip()
+        subj = self._SUBJECT_BY_KEY.get(key)
+        if subj and os.path.isdir(val):
+            flat = (glob.glob(os.path.join(val, "disciplines-*.csv"))
+                    or glob.glob(os.path.join(val, "statussen-*.csv")))
+            if flat:
+                cands = sorted(glob.glob(os.path.join(val, f"{subj}-*.csv")))
+                if cands:
+                    vdash = self.version_new_var.get().strip().replace(".", "-")
+                    pref = os.path.join(val, f"{subj}-{vdash}.csv")
+                    return pref if (vdash and os.path.isfile(pref)) else cands[0]
+        return val
 
     def save_config(self) -> None:
         ot_config.save(self._collect_config())

@@ -32,14 +32,53 @@ SORT_COLUMN = 0            # eerste kolom (omschrijving) -> alfabetische sorteri
 
 
 def hoofdgroep_code(path: str) -> str:
-    """De laatste code uit een bestandsnaam, bijv. 'objecten-5-2-AL.csv' -> 'AL'.
+    """De hoofdgroep-/bibliotheekcode uit een bestandsnaam. Ondersteunt beide
+    naamconventies:
+      - oud: 'objecten-5-2-AL.csv'  -> 'AL'  (code achteraan)
+      - nieuw: 'objecten-AL-5-2.csv' -> 'AL' (code vóór het versienummer)
+      - gecombineerd: 'symbolen-5-2.csv' -> '' (geen hoofdgroep in de naam)
 
-    Puur het laatste stuk na het laatste koppelteken (voor de extensie); het
-    versienummer in de naam wordt genegeerd. Hoofdletter-ongevoelig vergeleken
-    (teruggegeven in hoofdletters)."""
+    Regel: het eerste segment is het onderwerp (objecten/symbolen/…), het
+    versienummer bestaat uit numerieke segmenten (5-2, 5-0). De hoofdgroep-code is
+    het laatste PUUR ALFABETISCHE segment ná het onderwerp (NLCS-codes als AL, BC,
+    VH, ACO, SGW zijn altijd letters). Teruggegeven in hoofdletters, '' als er geen
+    aparte code in de naam staat."""
     stem = os.path.splitext(os.path.basename(path))[0]
-    last = stem.split("-")[-1]
-    return last.strip().upper()
+    parts = stem.split("-")
+    alpha = [p for p in parts[1:] if p and p.isalpha()]
+    return alpha[-1].strip().upper() if alpha else ""
+
+
+# Overige tabellen die als los OVERZICHT (zonder changelog) worden gegenereerd:
+# (csv-stam in de export, pagina-/bestandstitel). Lijntypes/arceringen/symbolen
+# NIET — die zitten in de per-hoofdgroep changelogs.
+OVERZICHT_TABELLEN = [
+    ("abibliotheken", "Arceringsbibliotheken"),
+    ("sbibliotheken", "Symbolenbibliotheken"),
+    ("bewerkingen", "Bewerkingen"),
+    ("disciplines", "Disciplines"),
+    ("hoofdgroepen", "Hoofdgroepen"),
+    ("lijnkleuren", "Lijnkleuren"),
+    ("lijnweights", "Lijnweights"),
+    ("statussen", "Statussen"),
+]
+
+
+def find_overzicht_csv(folder: str, stem: str, vdash: str = "") -> str:
+    """Zoek het CSV-bestand voor een onderwerp in `folder`. Voorkeur voor
+    '<stem>-<vdash>.csv', anders '<stem>.csv' of een '<stem>-*.csv'. '' als niets
+    gevonden. Matcht op segment-grens zodat 'lijnkleuren' niet 'lijnweights' pakt."""
+    if not folder or not os.path.isdir(folder):
+        return ""
+    if vdash:
+        exact = os.path.join(folder, f"{stem}-{vdash}.csv")
+        if os.path.isfile(exact):
+            return exact
+    plain = os.path.join(folder, f"{stem}.csv")
+    if os.path.isfile(plain):
+        return plain
+    cands = sorted(glob.glob(os.path.join(folder, f"{stem}-*.csv")))
+    return cands[0] if cands else ""
 
 
 def pair_folders(new_dir: str, old_dir: str) -> tuple[list[tuple[str, str, str]],
@@ -1935,18 +1974,26 @@ def check_fase_visualisatie(src: str, name_col: str = "omschrijving",
             "missing": missing, "unexpected": unexpected}
 
 
-def check_duplicate_names(src: str, name_col: str) -> dict:
-    """Zoek namen die binnen één hoofdgroep meer dan één keer voorkomen.
+_HG_KOLOMMEN = ("hoofdgroep", "sbibliotheek", "abibliotheek")
 
-    Verzamelt alle waarden van `name_col` over alle CSV's in de map `src` (of het
-    losse CSV-bestand) en rapporteert de namen die binnen HETZELFDE bestand
-    (= één hoofdgroep) in meer dan één rij voorkomen. Exacte vergelijking (alleen
-    omringende spaties worden gestript). Komt overeen met de SPARQL-controle
-    `identiekenamen`, die per naam telt hoeveel URI's er binnen dezelfde
-    hoofdgroep zijn (GROUP BY ?name ?hoofdNames, HAVING > 1). Dezelfde naam in
-    verschillende hoofdgroepen is dus GEEN dubbele naam (bijv. objecten die in
-    meerdere constructie-hoofdgroepen voorkomen, of de generieke lijn CONTINUOUS
-    die in elk hoofdgroepbestand staat).
+
+def check_duplicate_names(src: str, name_col: str) -> dict:
+    """Zoek namen die binnen één hoofdgroep aan meer dan één VERSCHILLENDE
+    identiteit (URI) hangen.
+
+    Werkt met BEIDE invoervormen:
+      - losse hoofdgroep-bestanden (map): de hoofdgroep komt uit de bestandsnaam
+        (`hoofdgroep_code`);
+      - één gecombineerd 'totaal'-bestand: de hoofdgroep komt uit een kolom
+        (hoofdgroep / sbibliotheek / abibliotheek).
+    Dezelfde naam in verschillende hoofdgroepen is GEEN dubbele naam.
+
+    Rijen met dezelfde naam ÉN dezelfde URI binnen één hoofdgroep tellen als één
+    (bijv. een arcering die via twee zoekterm-paden twee keer in de export staat):
+    dat is één identiteit, geen naamconflict. Een naam telt pas als dubbel wanneer
+    hij binnen dezelfde hoofdgroep aan >1 verschillende URI hangt (of, als er
+    helemaal geen URI-kolom is, in >1 rij voorkomt). Komt overeen met de SPARQL-
+    controle `identiekenamen` (per naam het aantal URI's binnen de hoofdgroep).
 
     Naamkolom per soort: objecten/lijntypes 'omschrijving', symbolen 'symbool',
     arceringen 'arcering'.
@@ -1954,9 +2001,9 @@ def check_duplicate_names(src: str, name_col: str) -> dict:
     Geeft terug:
       {
         "total":      aantal (niet-lege) namen,
-        "unique":     aantal unieke (bestand, naam)-combinaties,
-        "duplicates": [ {name, file, count, rows:[rijnummers]} ]
-                      (op bestand + naam gesorteerd),
+        "unique":     aantal unieke (hoofdgroep, naam)-combinaties,
+        "duplicates": [ {name, hoofdgroep, file, count, rows:[rijnummers],
+                         uris:[...]} ] (op hoofdgroep + bestand + naam gesorteerd),
       }
     """
     def _paths(s):
@@ -1968,28 +2015,45 @@ def check_duplicate_names(src: str, name_col: str) -> dict:
             return [s]
         return []
 
-    # (bestand, naam) -> lijst rijnummers
-    occ: dict[tuple, list[int]] = {}
+    # (hoofdgroep, naam) -> {rows, files, uris}
+    occ: dict[tuple, dict] = {}
     total = 0
     for path in _paths(src):
         headers, rows = read_table(path)
         if name_col not in headers:
             continue
         ni = headers.index(name_col)
+        ui = next((i for i, h in enumerate(headers) if "uri" in h.lower()), -1)
+        hc = next((headers.index(h) for h in _HG_KOLOMMEN if h in headers), -1)
         fn = os.path.basename(path)
+        file_hg = hoofdgroep_code(path)   # '' bij een gecombineerd totaal-bestand
         for i, r in enumerate(rows):
             name = (r[ni] if ni < len(r) else "").strip()
             if not name:
                 continue
             total += 1
-            # rij-nummer in het bestand: kopregel = 1, eerste datarij = 2
-            occ.setdefault((fn, name), []).append(i + 2)
+            hg = file_hg or ((r[hc].strip() if 0 <= hc < len(r) else "") or "")
+            uri = (r[ui].strip() if 0 <= ui < len(r) else "")
+            e = occ.setdefault((hg, name),
+                               {"rows": [], "files": set(), "uris": set()})
+            e["rows"].append(i + 2)   # kopregel = 1, eerste datarij = 2
+            e["files"].add(fn)
+            if uri:
+                e["uris"].add(uri)
 
-    duplicates = [
-        {"name": name, "file": fn, "count": len(rws), "rows": rws}
-        for (fn, name), rws in occ.items() if len(rws) > 1
-    ]
-    duplicates.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    duplicates = []
+    for (hg, name), e in occ.items():
+        uris = e["uris"]
+        is_dup = (len(uris) > 1) if uris else (len(e["rows"]) > 1)
+        if is_dup:
+            duplicates.append({
+                "name": name, "hoofdgroep": hg,
+                "file": sorted(e["files"])[0] if e["files"] else "",
+                "count": len(e["rows"]), "rows": sorted(e["rows"]),
+                "uris": sorted(uris),
+            })
+    duplicates.sort(key=lambda d: (d["hoofdgroep"], d["file"],
+                                   d["name"].casefold()))
     return {"total": total, "unique": len(occ), "duplicates": duplicates}
 
 

@@ -34,6 +34,7 @@ def _locations() -> dict:
         "dwg_new": "", "dwg_old": "",
         "lijn_new": "", "lijn_old": "",
         "arc_new": "", "arc_old": "",
+        "tab_new": "",
         "index_root": "", "base_url": "https://nl-digigo.github.io/NLCS/",
         "index_output": "",
         "output_dir": "",

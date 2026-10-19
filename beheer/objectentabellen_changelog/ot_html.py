@@ -131,6 +131,45 @@ def _esc(text) -> str:
     return _html.escape("" if text is None else str(text), quote=True)
 
 
+# ---------------------------------------------------------------------------
+# Overzichtstabel zonder changelog: statische volledige tabel (digiGO-stijl) voor
+# de 'overige tabellen' (bibliotheken, bewerkingen, disciplines, hoofdgroepen,
+# lijnkleuren, lijnweights, statussen). Alle kolommen, alle rijen.
+# ---------------------------------------------------------------------------
+_OVERVIEW_STYLE = """
+    .tablescroll { overflow: auto; max-height: 80vh; }
+    table.otab thead th { position: sticky; top: 0; z-index: 3; }
+    table.otab tbody td { white-space: normal; }
+    table.otab tbody tr:hover td { background-color: #FFF8CC; }
+"""
+
+
+def build_table_overview_html(headers, rows, title: str,
+                              version: str = "") -> str:
+    """Statische volledige-tabel-pagina (digiGO-stijl) voor een overzichtstabel
+    zonder changelog. `headers` = kolomnamen, `rows` = lijst rij-lijsten (zoals
+    ot_compare.read_table teruggeeft). Toont alle kolommen en alle rijen."""
+    head = _shell_head(title, extra_style=_OVERVIEW_STYLE, cdn=False)
+    thead = "".join(f"<th>{_esc(h)}</th>" for h in headers)
+    body = []
+    for r in rows:
+        tds = "".join(f"<td>{_esc(r[i] if i < len(r) else '')}</td>"
+                      for i in range(len(headers)))
+        body.append(f"<tr>{tds}</tr>")
+    info = f"{len(rows)} rij(en)" + (f" &middot; versie {_esc(version)}"
+                                     if version else "")
+    return (
+        head
+        + '<div class="wrap">\n'
+        + f'<p class="info">{info}</p>\n'
+        + '<div class="tablescroll"><table class="otab"><thead><tr>'
+        + thead + "</tr></thead><tbody>\n"
+        + "\n".join(body)
+        + "\n</tbody></table></div>\n</div>\n"
+        + _FOOTER
+    )
+
+
 def _shell_head(title: str, extra_style: str = "", cdn: bool = False) -> str:
     cdn_tags = ""
     if cdn:
@@ -2760,9 +2799,11 @@ _TREE_ERR_LABELS = {
 
 
 def _hg(file) -> str:
-    """Hoofdgroep-code uit een bestandsnaam ('objecten-5-2-AL.csv' -> 'AL')."""
-    stem = _os.path.splitext(_os.path.basename(str(file or "")))[0]
-    return stem.split("-")[-1].strip().upper() if stem else ""
+    """Hoofdgroep-code uit een bestandsnaam. Delegeert aan
+    ot_compare.hoofdgroep_code zodat beide naamconventies kloppen
+    ('objecten-5-2-AL.csv' én 'objecten-AL-5-2.csv' -> 'AL')."""
+    from ot_compare import hoofdgroep_code
+    return hoofdgroep_code(str(file or ""))
 
 
 def _hgval(it: dict) -> str:

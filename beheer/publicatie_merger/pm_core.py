@@ -10,6 +10,8 @@ import importlib.util
 import logging
 import os
 import sys
+from collections import Counter, defaultdict
+from itertools import combinations
 
 _log = logging.getLogger("pm_core")
 
@@ -19,6 +21,8 @@ _log = logging.getLogger("pm_core")
 # pyparsing) wel mee in de .exe gebundeld. Niet verwijderen.
 import requests  # noqa: F401
 import rdflib  # noqa: F401
+
+_PREFLABEL = rdflib.URIRef("http://www.w3.org/2004/02/skos/core#prefLabel")
 
 
 def _merger_path() -> str:
@@ -68,13 +72,78 @@ def _check_credentials(token_id, password):
                 f"Typ of plak het token opnieuw zonder speciale tekens.")
 
 
+def _pub_label(url):
+    """Korte publicatienaam uit een URL (laatste padsegment, zonder /versions/…)."""
+    path = urlsplit(url).path.rstrip("/").split("/versions/", 1)[0].rstrip("/")
+    return path.rsplit("/", 1)[-1] or url
+
+
+def _report_overlap(name_pubs, name_uris):
+    """Log de ECHTE dubbelingen: concept-namen die in de merge méér dan één
+    distinct URI hebben (die vallen dus niet samen). Namen die meerdere publicaties
+    met DEZELFDE URI delen, mergen netjes tot één en worden niet als probleem
+    geteld. Het pair-/per-publicatie-overzicht wijst de overlappende selectie aan."""
+    # harmless: in >1 publicatie maar met één gedeelde URI -> dedupe lost het op
+    harmless = sum(1 for nm, p in name_pubs.items()
+                   if len(p) > 1 and len(name_uris[nm]) == 1)
+    # cross: >1 distinct URI én uit >1 publicatie -> overlappende selectie
+    cross = {nm: sorted(p) for nm, p in name_pubs.items()
+             if len(name_uris[nm]) > 1 and len(p) > 1}
+    # within: >1 distinct URI maar uit één publicatie -> dubbel in de bron zelf
+    within = sorted(nm for nm, p in name_pubs.items()
+                    if len(name_uris[nm]) > 1 and len(p) == 1)
+
+    _log.info("--- Overlap-rapport ---")
+    _log.info("%d naam(en) worden met dezelfde URI door meerdere publicaties "
+              "gedeeld en vallen netjes samen (geen probleem).", harmless)
+    if within:
+        _log.info("%d naam(en) hebben meerdere URI's binnen één publicatie: %s%s",
+                  len(within), ", ".join(within[:15]),
+                  " …" if len(within) > 15 else "")
+    if not cross:
+        _log.info("Geen namen met verschillende URI's uit meerdere publicaties — "
+                  "geen overlappende selectie gevonden.")
+        _log.info("--- einde overlap-rapport ---")
+        return
+    _log.info("%d naam(en) komen met VERSCHILLENDE URI's uit meerdere publicaties "
+              "(echte dubbeling door overlappende selectie):", len(cross))
+
+    pair = Counter()
+    for pubs in cross.values():
+        for a, b in combinations(pubs, 2):
+            pair[(a, b)] += 1
+    _log.info("Publicatieparen met de meeste echt-dubbele namen:")
+    for (a, b), n in pair.most_common(15):
+        _log.info("  %s  +  %s : %d naam(en)", a, b, n)
+
+    per_pub = Counter()
+    for pubs in cross.values():
+        for p in pubs:
+            per_pub[p] += 1
+    _log.info("Per publicatie, aantal echt-dubbele namen (hoog = kandidaat om weg "
+              "te laten):")
+    for p, n in per_pub.most_common():
+        _log.info("  %s : %d", p, n)
+
+    top = pair.most_common(1)
+    if top:
+        (a, b), _ = top[0]
+        ex = sorted(nm for nm, pubs in cross.items() if a in pubs and b in pubs)
+        _log.info("Voorbeelden gedeeld door %s + %s: %s%s", a, b,
+                  ", ".join(ex[:25]), " …" if len(ex) > 25 else "")
+    _log.info("--- einde overlap-rapport ---")
+
+
 def merge_publications(publication_urls, token_id, password):
     """Fouttolerante merge: haalt elke publicatie apart op, slaat mislukkingen over
     (met logregel) en voegt de rest samen (zelfde dedup/namespace-logica als
-    publication_merger). Zo breekt één ontbrekende publicatie het testen niet af."""
+    publication_merger). Zo breekt één ontbrekende publicatie het testen niet af.
+    Houdt per publicatie de concept-namen bij en logt daarna een overlap-rapport."""
     _check_credentials(token_id, password)
     merged = rdflib.Graph()
     ok, failed = 0, []
+    name_pubs = defaultdict(set)
+    name_uris = defaultdict(set)
     for url in publication_urls:
         try:
             graph = _pm.fetch_publication_graph(url, token_id, password)
@@ -88,16 +157,22 @@ def merge_publications(publication_urls, token_id, password):
                 merged.bind(prefix, namespace, override=False)
         merged += graph
         ok += 1
+        label = _pub_label(url)
+        for s, _p, o in graph.triples((None, _PREFLABEL, None)):
+            name_pubs[str(o)].add(label)
+            name_uris[str(o)].add(str(s))
     _log.info("Samengevoegd: %d publicatie(s) OK, %d overgeslagen, %d triples.",
               ok, len(failed), len(merged))
     if failed:
         _log.warning("Niet opgehaald (%d): %s", len(failed), ", ".join(failed))
+    _report_overlap(name_pubs, name_uris)
     return merged
 
 
 # ---------------------------------------------------------------------------
 # Publicatienamen ophalen uit de Laces-hub (REST-API v4, met v3 als fallback)
 # ---------------------------------------------------------------------------
+import re  # noqa: E402
 from urllib.parse import urlsplit  # noqa: E402
 
 
@@ -239,3 +314,105 @@ def fetch_publication_names(base_url, token_id, password):
     _log.info("%d publicatie(s) onder %s: %s", len(names), base_path,
               ", ".join(sorted(names)) if names else "(geen)")
     return sorted(names)
+
+
+# ---------------------------------------------------------------------------
+# Versie-resolver: kies per publicatie de hoogste versie die matcht met een
+# ingevulde prefix (bijv. "5-2" -> "5-2-14"), en bouw versioned SPARQL-URL's.
+# ---------------------------------------------------------------------------
+def _vernums(label):
+    """Versielabel -> tuple ints voor vergelijken: '5-2-14' -> (5, 2, 14)."""
+    return tuple(int(x) for x in re.findall(r"\d+", str(label)))
+
+
+def _base_path_of(path):
+    """Pad zonder host en zonder '/versions/<label>' -> het publicatie-basispad."""
+    s = urlsplit(path)
+    p = s.path if s.scheme else path
+    return p.split("/versions/", 1)[0].rstrip("/")
+
+
+def _pub_ids_by_base(host, auth):
+    """{basispad: publicatie-id} over alle toegankelijke publicaties. Het id dient
+    om via /api/v4/publications/{id}/versions álle versies op te vragen."""
+    m = {}
+    for p in _list_all_publications(host, auth):
+        if not isinstance(p, dict):
+            continue
+        pid = p.get("id")
+        path = _pub_path(p)
+        if not pid or not path:
+            continue
+        m.setdefault(_base_path_of(path), pid)
+    return m
+
+
+def _version_labels(host, pub_id, auth):
+    """Alle versielabels van een publicatie via /api/v4/publications/{id}/versions.
+    Elke entry heeft een 'uri' …/versions/<label>; het label parsen we daaruit."""
+    labels = []
+    page = 0
+    while page <= 200:
+        url = (f"{host}/api/v4/publications/{pub_id}/versions"
+               f"?page={page}&pageSize=100&sortBy=uri&sortDirection=ASC")
+        try:
+            data = _get_json(url, auth)
+        except _AuthError:
+            break
+        if not data:
+            break
+        items = _as_list(data)
+        if not items:
+            break
+        for it in items:
+            uri = it.get("uri") if isinstance(it, dict) else ""
+            if isinstance(uri, str) and "/versions/" in uri:
+                lab = uri.split("/versions/", 1)[1].split("/")[0]
+                if lab and lab not in labels:
+                    labels.append(lab)
+        total = data.get("total") if isinstance(data, dict) else None
+        page += 1
+        if len(items) < 100 or (isinstance(total, int) and page * 100 >= total):
+            break
+    return labels
+
+
+def resolve_versioned(urls, version_prefix, token_id, password):
+    """Vervang elke (versieloze) publicatie-URL door de HOOGSTE versie die matcht
+    met version_prefix (bijv. '5-2' -> '…/versions/5-2-14'). Een URL die al een
+    '/versions/…' bevat blijft ongewijzigd. Retour (nieuwe_urls, logregels)."""
+    version_prefix = (version_prefix or "").strip()
+    if not version_prefix or not urls:
+        return list(urls), []
+    _check_credentials(token_id, password)
+    pnums = _vernums(version_prefix)
+    host = _api_host(urls[0])
+    auth = (token_id, password)
+    ids = _pub_ids_by_base(host, auth)
+    out, notes = [], []
+    for u in urls:
+        u = u.rstrip("/")
+        if "/versions/" in u:
+            out.append(u)
+            notes.append(f"{u} -> heeft al een versie; ongewijzigd")
+            continue
+        base_path = _base_path_of(u)
+        pid = ids.get(base_path)
+        if not pid:
+            out.append(u)
+            notes.append(f"{base_path} -> publicatie niet in hub-lijst; "
+                         f"versieloos gebruikt")
+            continue
+        labels = _version_labels(host, pid, auth)
+        cand = [v for v in labels if _vernums(v)[:len(pnums)] == pnums]
+        if cand:
+            best = max(cand, key=_vernums)
+            out.append(f"{u}/versions/{best}")
+            notes.append(f"{base_path} -> versie {best} "
+                         f"(uit {len(labels)} versie(s))")
+        else:
+            shown = ", ".join(sorted(labels)) if labels else "geen"
+            out.append(u)
+            notes.append(f"{base_path} -> GEEN {version_prefix}-versie "
+                         f"({len(labels)} versie(s): {shown}); versieloos gebruikt")
+    return out, notes

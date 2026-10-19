@@ -3,16 +3,17 @@
   "version_old": "5.0",
   "open_after": true,
   "locations": {
-    "obj_new": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/objectentabellen/5-2",
+    "obj_new": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSacc/tabellen/objectentabellen",
     "obj_old": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/objectentabellen/5-0",
-    "sym_new": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/symbolentabellen/5-2",
+    "sym_new": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSacc/tabellen",
     "sym_old": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/symbolentabellen/5-0/symbolen-5-0.csv",
     "dwg_new": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSacc/symbolen/autocad",
     "dwg_old": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSmain/NLCS/symbolen/autocad",
-    "lijn_new": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/lijntypes/5-2",
+    "lijn_new": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSacc/tabellen",
     "lijn_old": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/lijntypes/5-0/lijntypes-5-0.csv",
-    "arc_new": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/arceringen/5.2",
+    "arc_new": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSacc/tabellen",
     "arc_old": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/tabellen/publicatie/arceringen/5.0/arceringen-5-0.csv",
+    "tab_new": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSacc/tabellen",
     "index_root": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/docs/changelog",
     "base_url": "https://nl-digigo.github.io/NLCS/",
     "index_output": "C:/Users/100289/OneDrive - CROW/Documents/GitHub/NLCSdev/docs/changelog/publicatieoverzicht-nlcs-5-2.html",
@@ -20,42 +21,50 @@
   },
   "codes": {
     "obj": [
-      "MW"
-    ],
-    "sym": [
-      "VH"
-    ],
-    "lijn": [
       "AL",
       "AM",
+      "BC",
       "BV",
-      "CO",
       "ES",
+      "FC",
       "FV",
+      "GC",
       "GK",
       "GR",
       "GW",
+      "HC",
+      "HU",
       "IE",
       "IS",
       "IV",
       "IW",
+      "KC",
       "KG",
       "KL",
       "KW",
+      "MC",
       "MO",
+      "MW",
       "OB",
       "OG",
       "OV",
       "RI",
       "SB",
+      "SC",
       "VH",
       "VV",
       "VW",
       "WH",
       "ZZ"
     ],
+    "sym": [
+      ""
+    ],
+    "lijn": [
+      ""
+    ],
     "arc": [
-      "CO"
+      ""
     ]
   }
 }

@@ -1,37 +1,17 @@
-"""ex_gui.py - Tkinter-GUI voor de NLCS Exporter.
+"""ex_gui.py - Tkinter-GUI voor de NLCS Exporter (nieuwe opzet).
 
-Login (Laces token-id + wachtwoord; NIET opgeslagen), een instelbaar SPARQL-
-endpoint, een REPO-map (waar ./code/nlcs/... staat) en een UITVOER-map (waar
-tabellen/ en html/ komen), plus aanvinkbare stappen. De logica komt uit
-nlcs_exporter.py (via ex_core); dat bestand wordt niet aangepast.
+Draait de 'publicatie'-queries rechtstreeks tegen een Laces SPARQL-endpoint en
+schrijft <onderwerp>-<versie>.csv (objecten per hoofdgroep in objectentabellen/).
+Login + endpoint + versielabel + repo-map (waar code/nlcs/publicatie staat) +
+uitvoermap. Geen nlcs_exporter.py.
 """
 import os
 import queue
-import sys
 import threading
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
 import ex_core
-
-
-class _QueueWriter:
-    """Vangt print()-uitvoer op en stuurt per regel naar de GUI-queue."""
-
-    def __init__(self, q):
-        self.q = q
-        self._buf = ""
-
-    def write(self, s):
-        self._buf += s
-        while "\n" in self._buf:
-            line, self._buf = self._buf.split("\n", 1)
-            self.q.put(("log", line))
-
-    def flush(self):
-        if self._buf:
-            self.q.put(("log", self._buf))
-            self._buf = ""
 
 
 class App(ttk.Frame):
@@ -40,7 +20,6 @@ class App(ttk.Frame):
         self.pack(fill="both", expand=True)
         self._queue = queue.Queue()
         self._busy = False
-        self.step_vars = {}
         self._build()
         self.after(120, self._poll)
 
@@ -48,10 +27,10 @@ class App(ttk.Frame):
         ttk.Label(self, text="NLCS Exporter", font=("Segoe UI", 13, "bold")
                   ).pack(anchor="w")
         ttk.Label(self, foreground="#555",
-                  text="Log in met je Laces token-id + wachtwoord, kies het "
-                       "SPARQL-endpoint, de repo-map en de uitvoermap, vink de "
-                       "stappen aan en klik 'Exporteren'. Inloggegevens worden "
-                       "niet opgeslagen.").pack(anchor="w", pady=(0, 10))
+                  text="Draait de 'publicatie'-queries rechtstreeks tegen het "
+                       "SPARQL-endpoint en schrijft <onderwerp>-<versie>.csv "
+                       "(objecten per hoofdgroep). Inloggegevens worden niet "
+                       "opgeslagen.").pack(anchor="w", pady=(0, 10))
 
         login = ttk.LabelFrame(self, text="Inloggen (Laces BASIC-token)", padding=8)
         login.pack(fill="x")
@@ -70,23 +49,59 @@ class App(ttk.Frame):
 
         endf = ttk.LabelFrame(self, text="SPARQL-endpoint", padding=8)
         endf.pack(fill="x", pady=(8, 0))
-        self.ep_var = tk.StringVar(value=ex_core.DEFAULT_ENDPOINT)
+        self.ep_var = tk.StringVar(value="")
         ttk.Entry(endf, textvariable=self.ep_var).pack(fill="x", padx=4)
+        ttk.Label(endf, foreground="#777",
+                  text="bijv. https://hub.laces.tech/…/nlcs-test/versions/5-2-2/sparql"
+                  ).pack(anchor="w", padx=4, pady=(2, 0))
+
+        verf = ttk.LabelFrame(self, text="Versielabel (in bestandsnamen)", padding=8)
+        verf.pack(fill="x", pady=(8, 0))
+        self.ver_var = tk.StringVar(value=ex_core.DEFAULT_VERSION)
+        ttk.Entry(verf, textvariable=self.ver_var, width=12).pack(side="left", padx=4)
+        ttk.Label(verf, foreground="#777",
+                  text="bijv. 5-2 → symbolen-5-2.csv, objecten-AL-5-2.csv"
+                  ).pack(side="left", padx=6)
 
         paths = ttk.LabelFrame(self, text="Mappen", padding=8)
         paths.pack(fill="x", pady=(8, 0))
         self.repo_var = tk.StringVar(value=ex_core.default_repo_root())
         self.out_var = tk.StringVar(value=ex_core.default_repo_root())
-        self._path_row(paths, 0, "Repo-map (queries):", self.repo_var)
-        self._path_row(paths, 1, "Uitvoermap (export):", self.out_var)
+        self._path_row(paths, 0, "Repo-map (code/nlcs/publicatie):", self.repo_var)
+        self._path_row(paths, 1, "Uitvoermap (CSV's):", self.out_var)
         paths.columnconfigure(1, weight=1)
 
-        steps = ttk.LabelFrame(self, text="Stappen", padding=8)
-        steps.pack(fill="x", pady=(8, 0))
-        for key, label in ex_core.STEPS:
-            v = tk.BooleanVar(value=True)
-            self.step_vars[key] = v
-            ttk.Checkbutton(steps, text=label, variable=v).pack(anchor="w")
+        opts = ttk.LabelFrame(self, text="Wat draaien", padding=8)
+        opts.pack(fill="x", pady=(8, 0))
+        self.do_subjects = tk.BooleanVar(value=True)
+        self.do_objects = tk.BooleanVar(value=True)
+        ttk.Checkbutton(opts, text="Onderwerp-tabellen (symbolen, arceringen, "
+                        "lijntypes, bewerkingen, …)",
+                        variable=self.do_subjects).pack(anchor="w")
+        ttk.Checkbutton(opts, text="Objectentabellen per hoofdgroep "
+                        "(objectentabellen/objecten-<HG>-<versie>.csv)",
+                        variable=self.do_objects).pack(anchor="w")
+        hgf = ttk.Frame(opts)
+        hgf.pack(fill="x", pady=(4, 0))
+        ttk.Label(hgf, text="Hoofdgroepen (leeg = alle):").pack(side="left", padx=(0, 6))
+        self.hg_var = tk.StringVar(value="")
+        ttk.Entry(hgf, textvariable=self.hg_var).pack(side="left", fill="x", expand=True)
+        ttk.Label(opts, foreground="#777",
+                  text="bijv. AL, VH, SB — gescheiden door komma of spatie"
+                  ).pack(anchor="w", pady=(2, 0))
+
+        linpat = ttk.LabelFrame(self, text="LIN/PAT-bestanden", padding=8)
+        linpat.pack(fill="x", pady=(8, 0))
+        self.do_lin = tk.BooleanVar(value=False)
+        self.do_pat = tk.BooleanVar(value=False)
+        ttk.Checkbutton(linpat, text="Lijntypes → .lin",
+                        variable=self.do_lin).pack(anchor="w")
+        ttk.Checkbutton(linpat, text="Arceringen → .pat (+ los per arcering in "
+                        "arceringen/)", variable=self.do_pat).pack(anchor="w")
+        ttk.Label(linpat, foreground="#777",
+                  text="vereist een versioned endpoint (…/versions/<versie>/sparql). "
+                       "Zet de tabel-vinkjes uit om alléén LIN/PAT te draaien."
+                  ).pack(anchor="w", pady=(2, 0))
 
         actions = ttk.Frame(self)
         actions.pack(fill="x", pady=(10, 4))
@@ -138,17 +153,25 @@ class App(ttk.Frame):
             messagebox.showwarning("Endpoint", "Vul een SPARQL-endpoint in.")
             return
         repo = self.repo_var.get().strip()
-        if not os.path.isdir(os.path.join(repo, "code", "nlcs")):
+        if not os.path.isdir(os.path.join(repo, "code", "nlcs", "publicatie")):
             if not messagebox.askyesno(
-                    "Repo-map",
-                    "In de repo-map is geen 'code\\nlcs' gevonden. De queries "
-                    "worden daaruit gelezen. Toch doorgaan?"):
+                    "Repo-map", "In de repo-map is geen 'code\\nlcs\\publicatie' "
+                    "gevonden. Toch doorgaan?"):
                 return
         out = self.out_var.get().strip() or repo
-        steps = {k: v.get() for k, v in self.step_vars.items()}
-        if not any(steps.values()):
-            messagebox.showwarning("Stappen", "Vink minstens één stap aan.")
+        version = self.ver_var.get().strip() or ex_core.DEFAULT_VERSION
+        do_subjects = self.do_subjects.get()
+        do_objects = self.do_objects.get()
+        do_lin = self.do_lin.get()
+        do_pat = self.do_pat.get()
+        if not (do_subjects or do_objects or do_lin or do_pat):
+            messagebox.showwarning(
+                "Niets geselecteerd",
+                "Vink minstens één onderdeel aan (tabellen en/of LIN/PAT).")
             return
+        hg_raw = self.hg_var.get().strip()
+        hg_filter = [h for h in __import__("re").split(r"[\s,]+", hg_raw) if h] \
+            if hg_raw else None
 
         self._busy = True
         self.run_btn.configure(state="disabled")
@@ -156,24 +179,30 @@ class App(ttk.Frame):
         self.log.delete("1.0", "end")
         self.log.configure(state="disabled")
         self.status_var.set("Bezig…")
-        t = threading.Thread(target=self._worker,
-                             args=(endpoint, token, pw, steps, repo, out),
-                             daemon=True)
-        t.start()
+        threading.Thread(
+            target=self._worker,
+            args=(endpoint, token, pw, version, repo, out, do_subjects,
+                  do_objects, hg_filter, do_lin, do_pat),
+            daemon=True).start()
 
-    def _worker(self, endpoint, token, pw, steps, repo, out):
-        old_out, old_err = sys.stdout, sys.stderr
-        writer = _QueueWriter(self._queue)
-        sys.stdout = writer
-        sys.stderr = writer
+    def _worker(self, endpoint, token, pw, version, repo, out, do_subjects,
+                do_objects, hg_filter, do_lin, do_pat):
+        def log(msg=""):
+            self._queue.put(("log", str(msg)))
         try:
-            ex_core.run_export(endpoint, token, pw, steps, repo, out)
+            if do_subjects or do_objects:
+                ex_core.run_export(endpoint, token, pw, version, repo, out,
+                                   do_subjects=do_subjects, do_objects=do_objects,
+                                   hoofdgroep_filter=hg_filter, log=log)
+            if do_lin or do_pat:
+                if do_subjects or do_objects:
+                    log("")
+                ex_core.generate_lin_pat(endpoint, token, pw, repo, out,
+                                         do_lin=do_lin, do_pat=do_pat,
+                                         version_fallback=version, log=log)
             self._queue.put(("done", None))
         except Exception as exc:  # noqa: BLE001
             self._queue.put(("error", str(exc)))
-        finally:
-            writer.flush()
-            sys.stdout, sys.stderr = old_out, old_err
 
     def _poll(self):
         try:
@@ -183,30 +212,30 @@ class App(ttk.Frame):
                     self._logmsg(payload)
                 elif kind == "done":
                     self.status_var.set("Klaar.")
-                    self._busy = False
-                    self.run_btn.configure(state="normal")
+                    self._set_idle()
                 elif kind == "error":
                     self._logmsg("FOUT: " + payload)
                     self.status_var.set("Fout.")
-                    self._busy = False
-                    self.run_btn.configure(state="normal")
-                    messagebox.showerror("Fout bij exporteren", payload)
+                    self._set_idle()
+                    messagebox.showerror("Fout", payload)
         except queue.Empty:
             pass
         self.after(120, self._poll)
+
+    def _set_idle(self):
+        self._busy = False
+        self.run_btn.configure(state="normal")
 
 
 def main():
     root = tk.Tk()
     root.title("NLCS Exporter")
-    root.geometry("780x720")
+    root.geometry("820x760")
     try:
         here = os.path.dirname(os.path.abspath(__file__))
-        for name in ("groen.ico",):
-            ico = os.path.join(here, name)
-            if os.path.isfile(ico):
-                root.iconbitmap(ico)
-                break
+        ico = os.path.join(here, "groen.ico")
+        if os.path.isfile(ico):
+            root.iconbitmap(ico)
     except Exception:
         pass
     App(root)
