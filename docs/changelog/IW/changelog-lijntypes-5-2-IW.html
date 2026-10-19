@@ -97,6 +97,18 @@
     p.geen-wijzigingen { margin: 0 0 14px; padding: 12px 16px;
                     background-color: #eef7ee; border-left: 6px solid var(--dg-green);
                     font-size: 1.05em; font-weight: 600; color: #1f6b23; }
+
+    /* Sorteerbare changelog (DataTables): kop zwart/geel, hover, svg-cel */
+    table.dataTable thead th { background-color: var(--dg-black); color: #fff;
+                    border-bottom: 3px solid var(--dg-yellow); white-space: nowrap; }
+    table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: var(--dg-yellow) !important; border-color: var(--dg-yellow) !important;
+        color: #000 !important; }
+    h2.wees-kop { font-size: 1rem; margin: 20px 0 6px;
+                    border-top: 3px solid var(--dg-grey2); padding-top: 10px; }
+    table.weestab { width: auto; }
 </style>
 </head>
 <body>
@@ -115,32 +127,32 @@
 <tr><th>lijntypeURI</th><th>id</th><th>hoofdgroep</th><th>omschrijving</th><th>status</th><th>optie</th><th>autocaddef</th></tr>
 </thead>
 <tbody>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/066b2cc9-e17f-402a-9f8c-3542d528306a</td><td>805</td><td>IW</td><td>V-IW-SIGNAAL_230V</td><td>V</td><td></td><td>A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=.25],-.5,[&quot;230V&quot;,NLCS-ISO,S=0.25,U=0.0,X=-0.20,Y=-0.15],-.8</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/0f77985d-fe70-4547-b62e-0f5f4085213c</td><td>884</td><td>IW</td><td>IW-DRIP-SO</td><td></td><td>SO</td><td>A,14,-1,[\&quot;DRI\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1],-5,30</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/1540675c-33c7-473a-87d3-89d436257ca5</td><td>799</td><td>IW</td><td>IW-SIGNAAL_230V</td><td></td><td></td><td>A,2,-.5,[&quot;230V&quot;,NLCS-ISO,S=0.25,U=0.0,X=-0.20,Y=-0.15],-.8</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/066b2cc9-e17f-402a-9f8c-3542d528306a</td><td>805</td><td>IW</td><td>V-IW-SIGNAAL_230V</td><td>V</td><td></td><td>A,5,[VERWIJDEREN2,NLCS.SHX,S=0.5],5,-2.5,[&quot;230V&quot;,standard,S=1,U=0,X=-1.00,y=-.5],-3.5</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/0f77985d-fe70-4547-b62e-0f5f4085213c</td><td>884</td><td>IW</td><td>IW-DRIP-SO</td><td></td><td>SO</td><td>A,14,-1,[&quot;DRI&quot;,standard,U=0,X=-0.5,S=1,y=-.5],-2</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/1540675c-33c7-473a-87d3-89d436257ca5</td><td>799</td><td>IW</td><td>IW-SIGNAAL_230V</td><td></td><td></td><td>A,10,-2.5,[&quot;230V&quot;,standard,S=1,U=0,X=-1.00,y=-.5],-3.5</td></tr>
 <tr><td>http://digitalbuildingdata.tech/nlcs/def/21484fcb-4d9f-4e86-a9f5-fd6d855c7437</td><td></td><td></td><td>CONTINUOUS</td><td></td><td></td><td></td></tr>
 <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/26416bdd-d00c-48a2-9f14-40a0f3a12e0a</td><td>803</td><td>IW</td><td>IW-VRI_MANTELBUIS</td><td></td><td></td><td>A,.5,-.2</td></tr>
 <tr><td>http://digitalbuildingdata.tech/nlcs/def/270c7274-5fc6-4b2c-804f-0eeafcef2cd8</td><td></td><td></td><td>V-CONTINUOUS-SO</td><td></td><td></td><td></td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/28ed6fec-a59d-49d1-a2d0-0a7ec3c2fee4</td><td>810</td><td>IW</td><td>V-IW-DATA_KOPER</td><td>V</td><td></td><td>A,1.75,[VERWIJDEREN2,NLCS.SHX,x=-.875,s=.25],-.55,[&quot;K&quot;,NLCS-ISO,S=0.25,U=0.0,X=-0.20,Y=-0.15],-.3</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/2c857e56-612c-40ae-b394-cfbbb6a77387</td><td>797</td><td>IW</td><td>IW-KABELTRACE</td><td></td><td></td><td>A,2,-.5,[&quot;VRI&quot;,NLCS-ISO,S=0.35,U=0.0,X=-0.20,Y=-0.2],-.8</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/2cd88af8-c789-4b31-8a39-64cf8c429ecb</td><td>7505</td><td>IW</td><td>V-IW-VRI_DATAKABEL</td><td>V</td><td></td><td>A,2.5,-.2,[VERWIJDEREN2,NLCS.SHX,x=.4,s=.25],.8,-.2</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/37f41877-1344-413a-8942-52e3cf5bdb1b</td><td>800</td><td>IW</td><td>IW-SIGNAAL_42V</td><td></td><td></td><td>A,1.75,-.55,[&quot;42V&quot;,NLCS-ISO,S=0.25,U=0.0,X=-0.20,Y=-0.15],-.8</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/3fe98d27-53ae-484b-8fbf-08138e570688</td><td>809</td><td>IW</td><td>V-IW-DATA_GLASVEZEL</td><td>V</td><td></td><td>A,1.75,[VERWIJDEREN2,NLCS.SHX,x=-.875,s=.25],-.5,[&quot;GV&quot;,NLCS-ISO,S=0.25,U=0.0,X=-0.20,Y=-0.15],-.55</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/6b9956ed-37d1-4eb6-af8a-133cc1f66273</td><td>804</td><td>IW</td><td>V-IW-KABELTRACE</td><td>V</td><td></td><td>A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=0.25],-.5,[&quot;VRI&quot;,NLCS-ISO,S=0.35,U=0.0,X=-0.20,Y=-0.2],-.8</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/28ed6fec-a59d-49d1-a2d0-0a7ec3c2fee4</td><td>810</td><td>IW</td><td>V-IW-DATA_KOPER</td><td>V</td><td></td><td>A,3.875,[VERWIJDEREN2,NLCS.SHX,S=0.5],3.875,-3,[&quot;K&quot;,standard,S=1,U=0,X=-1.00,y=-.5],-1.5</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/2c857e56-612c-40ae-b394-cfbbb6a77387</td><td>797</td><td>IW</td><td>IW-KABELTRACE</td><td></td><td></td><td>A,10,-2.5,[&quot;KT&quot;,standard,S=1,U=0,X=-1.00,y=-.5],-2</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/2cd88af8-c789-4b31-8a39-64cf8c429ecb</td><td>7505</td><td>IW</td><td>V-IW-VRI_DATAKABEL</td><td>V</td><td></td><td>A,0.9,[VERWIJDEREN2,NLCS.SHX,S=0.5],0.9,-.2,.6,-.2,.6,-.2</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/37f41877-1344-413a-8942-52e3cf5bdb1b</td><td>800</td><td>IW</td><td>IW-SIGNAAL_42V</td><td></td><td></td><td>A,8.75,-2.5,[&quot;42V&quot;,standard,S=1,U=0,X=-1.00,y=-.5],-3.0</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/3fe98d27-53ae-484b-8fbf-08138e570688</td><td>809</td><td>IW</td><td>V-IW-DATA_GLASVEZEL</td><td>V</td><td></td><td>A,3.875,[VERWIJDEREN2,NLCS.SHX,S=0.5],3.875,-2.50,[&quot;GV&quot;,standard,S=1,U=0,X=-1.00,y=-.5],-2.50</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/6b9956ed-37d1-4eb6-af8a-133cc1f66273</td><td>804</td><td>IW</td><td>V-IW-KABELTRACE</td><td>V</td><td></td><td>A,5,[VERWIJDEREN2,NLCS.SHX,S=0.5],5,-2.5,[&quot;KT&quot;,standard,S=1,U=0,X=-1.00,y=-.5],-2</td></tr>
 <tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/721e5ebd-9856-4beb-aaba-e98c1d8e2da8</td><td>886</td><td>IW</td><td>IW-VRI_DATAKABEL</td><td></td><td></td><td>A,1.8,-.2,.6,-.2,.6,-.2</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/7d3f2631-8d70-471f-a2ae-3ea2e7163e6f</td><td>806</td><td>IW</td><td>V-IW-SIGNAAL_42V</td><td>V</td><td></td><td>A,1.75,[VERWIJDEREN2,NLCS.SHX,x=-.875,s=.25],-.55,[&quot;42V&quot;,NLCS-ISO,S=0.25,U=0.0,X=-0.20,Y=-0.15],-.8</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/920c1aef-1a31-4806-ab71-c30891ab6821</td><td>798</td><td>IW</td><td>IW-KOPPELKABEL</td><td></td><td></td><td>A,2,-.5,[&quot;&lt;*&gt;&quot;,NLCS-ISO,S=0.7,U=0.0,X=-0.20,Y=-0.23],-1.7</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/944ee851-c710-4c89-905b-54f403cc2a20</td><td>807</td><td>IW</td><td>V-IW-SIGNAALKABEL</td><td>V</td><td></td><td>A,2.5,-.2,[VERWIJDEREN2,NLCS.SHX,x=.4,s=.25],.8,-.2</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/952cef8a-6590-44b9-83d8-ddfb8fdf3301</td><td>794</td><td>IW</td><td>IW-DATA_GLASVEZEL</td><td></td><td></td><td>A,1.75,-.5,[&quot;GV&quot;,NLCS-ISO,S=0.25,U=0.0,X=-0.20,Y=-0.15],-.55</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/9b7b0319-7f44-4467-bae8-0b16eb7c7aff</td><td>885</td><td>IW</td><td>V-IW-DRIP-SO</td><td>V</td><td>SO</td><td>A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],14,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,[\&quot;DRI\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1],-5</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/b1af65ce-e4d3-401d-8309-df599a3121aa</td><td>882</td><td>IW</td><td>V-IW-VRI-SO</td><td>V</td><td>SO</td><td>A,8,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,[VERWIJDEREN2,NLCS.SHX,s=0.5],8,-1,[\&quot;VRI\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1],-5</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/b7e82cc6-f466-40e6-8a50-a1594a18d62e</td><td>812</td><td>IW</td><td>V-IW-DETECTIE</td><td>V</td><td></td><td>A,2.3,[VERWIJDEREN2,NLCS.SHX,x=-1.15,s=.25],-.55,[&quot;DET&quot;,NLCS-ISO,S=0.25,U=0.0,X=-0.20,Y=-0.15],-.8</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/c334e4fe-f393-4593-a953-16933630b1f8</td><td>883</td><td>IW</td><td>IW-VRI-SO</td><td></td><td>SO</td><td>A,14,-1,[\&quot;VRI\&quot;,standard,U=0.0,x=-0.5,y=-.9,s=1],-5,30</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/ceaf40c9-5cc6-4064-ad1e-da2c172af4e0</td><td>801</td><td>IW</td><td>IW-SIGNAALKABEL</td><td></td><td></td><td>A,2.5,-.2,.8,-.2</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/d351d665-7371-428d-8519-9884db3505a9</td><td>796</td><td>IW</td><td>IW-DETECTIE</td><td></td><td></td><td>A,2.3,-.55,[&quot;DET&quot;,NLCS-ISO,S=0.25,U=0.0,X=-0.20,Y=-0.15],-.8</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/dfa88afa-ed29-4a41-84c0-f8552838e877</td><td>808</td><td>IW</td><td>V-IW-VRI_MANTELBUIS</td><td>V</td><td></td><td>A,.5,-.2,[VERWIJDEREN2,NLCS.SHX,x=1,s=.25],.5,-.2</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/e0e84c95-e403-48d2-835a-c4dfac21ee38</td><td>813</td><td>IW</td><td>V-IW-KOPPELKABEL</td><td>V</td><td></td><td>A,2,[VERWIJDEREN2,NLCS.SHX,x=-1,s=.25],-.5,[&quot;&lt;*&gt;&quot;,NLCS-ISO,S=0.7,U=0.0,X=-0.20,Y=-0.23],-1.7</td></tr>
-<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/fcf297df-07e6-404f-a8ba-61af760fc32f</td><td>795</td><td>IW</td><td>IW-DATA_KOPER</td><td></td><td></td><td>A,1.75,-.55,[&quot;K&quot;,NLCS-ISO,S=0.25,U=0.0,X=-0.20,Y=-0.15],-.3</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/7d3f2631-8d70-471f-a2ae-3ea2e7163e6f</td><td>806</td><td>IW</td><td>V-IW-SIGNAAL_42V</td><td>V</td><td></td><td>A,4.375,[VERWIJDEREN2,NLCS.SHX,S=0.5],4.375,-2.5,[&quot;42V&quot;,standard,S=1,U=0,X=-1.00,y=-.5],-3.0</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/920c1aef-1a31-4806-ab71-c30891ab6821</td><td>798</td><td>IW</td><td>IW-KOPPELKABEL</td><td></td><td></td><td>A,10,-2.5,[&quot;&lt;*&gt;&quot;,standard,S=1,U=0,X=-1.00,y=-.5],-2.5</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/944ee851-c710-4c89-905b-54f403cc2a20</td><td>807</td><td>IW</td><td>V-IW-SIGNAALKABEL</td><td>V</td><td></td><td>A,6.25,[VERWIJDEREN2,NLCS.SHX,S=0.5],6.25,-1.0,2.0,[VERWIJDEREN2,NLCS.SHX,S=0.5],2.0,-1.0</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/952cef8a-6590-44b9-83d8-ddfb8fdf3301</td><td>794</td><td>IW</td><td>IW-DATA_GLASVEZEL</td><td></td><td></td><td>A,8.75,-2.50,[&quot;GV&quot;,standard,S=1,U=0,X=-1.00,y=-.5],-2.50</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/9b7b0319-7f44-4467-bae8-0b16eb7c7aff</td><td>885</td><td>IW</td><td>V-IW-DRIP-SO</td><td>V</td><td>SO</td><td>A,7,[VERWIJDEREN2,NLCS.SHX,S=0.5],7,-1,[&quot;DRI&quot;,standard,U=0,X=-0.5,S=1,y=-.5],-2</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/b1af65ce-e4d3-401d-8309-df599a3121aa</td><td>882</td><td>IW</td><td>V-IW-VRI-SO</td><td>V</td><td>SO</td><td>A,7,[VERWIJDEREN2,NLCS.SHX,S=0.5],7,-1,[&quot;VRI&quot;,standard,U=0,X=-0.5,S=1,y=-.5],-2</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/b7e82cc6-f466-40e6-8a50-a1594a18d62e</td><td>812</td><td>IW</td><td>V-IW-DETECTIE</td><td>V</td><td></td><td>A,5.75,[VERWIJDEREN2,NLCS.SHX,S=0.5],5.75,-2.75,[&quot;DET&quot;,standard,S=1,U=0,X=-1.00,y=-.5],-2.75</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/c334e4fe-f393-4593-a953-16933630b1f8</td><td>883</td><td>IW</td><td>IW-VRI-SO</td><td></td><td>SO</td><td>A,14,-1,[&quot;VRI&quot;,standard,U=0,X=-0.5,S=1,y=-.5],-2</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/ceaf40c9-5cc6-4064-ad1e-da2c172af4e0</td><td>801</td><td>IW</td><td>IW-SIGNAALKABEL</td><td></td><td></td><td>A,12.5,-1.0,4.0,-1.0</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/d351d665-7371-428d-8519-9884db3505a9</td><td>796</td><td>IW</td><td>IW-DETECTIE</td><td></td><td></td><td>A,11.5,-2.75,[&quot;DET&quot;,standard,S=1,U=0,X=-1.00,y=-.5],-2.75</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/dfa88afa-ed29-4a41-84c0-f8552838e877</td><td>808</td><td>IW</td><td>V-IW-VRI_MANTELBUIS</td><td>V</td><td></td><td>A,0.25,[VERWIJDEREN2,NLCS.SHX,S=0.5],0.25,-.2</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/e0e84c95-e403-48d2-835a-c4dfac21ee38</td><td>813</td><td>IW</td><td>V-IW-KOPPELKABEL</td><td>V</td><td></td><td>A,5,[VERWIJDEREN2,NLCS.SHX,S=0.5],5,-2.5,[&quot;&lt;*&gt;&quot;,standard,S=1,U=0,X=-1.00,y=-.5],-2.5</td></tr>
+<tr class="new-row"><td>http://digitalbuildingdata.tech/nlcs/def/fcf297df-07e6-404f-a8ba-61af760fc32f</td><td>795</td><td>IW</td><td>IW-DATA_KOPER</td><td></td><td></td><td>A,8.75,-3,[&quot;K&quot;,standard,S=1,U=0,X=-1.00,y=-.5],-1.5</td></tr>
 </tbody>
 </table>
 </div>

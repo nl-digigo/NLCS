@@ -183,6 +183,11 @@ PROFILES = [
         "header_labels": {"fase": "status"},
         # volledige tabel op één pagina tonen (geen paginering van 25 rijen)
         "single_page": True,
+        # Verzamelbestand -> welke hoofdgroepen het dekt. Het CO-arceringbestand
+        # bevat ACO (gedeelde constructie-arceringen -> CO) + AMW (-> MW). Door MW
+        # hier mee te nemen blijft een verdwenen AMW-arcering als 'vervallen' in de
+        # MW-changelog staan (ook als AMW uit de nieuwe versie is gehaald).
+        "verzamel_hoofdgroepen": {"CO": ("CO", "MW")},
     },
 ]
 
@@ -782,7 +787,9 @@ class TableTab(ttk.Frame):
                         new_path, old_path, key=match_key, scope_col=scope_col,
                         blank_spec=blank_spec, suppress_change=suppress_change,
                         multilink_cols=multilink_cols,
-                        scope_code=code, scope_strip_s=scope_strip_s)
+                        scope_code=code, scope_strip_s=scope_strip_s,
+                        scope_codes=self.profile.get("verzamel_hoofdgroepen",
+                                                     {}).get(code))
 
                     # Verzamelbestand (CO) uiteen laten vallen in aparte
                     # hoofdgroepen; gewone bestanden blijven één geheel.
@@ -809,12 +816,14 @@ class TableTab(ttk.Frame):
                                 }
                             groups = groups + [(code, leftover)]
                     multi = len(groups) > 1
+                    all_gcodes = {g for g, _ in groups}
                     if multi:
                         # Per hoofdgroep het aantal rijen tonen, zodat direct
                         # zichtbaar is welke hoofdgroepen in het verzamelbestand
-                        # zitten (bijv. CO: BC/FC/GC/HC/KC/MC/SC).
+                        # zitten (bijv. CO: ACO->CO en AMW->MW, elk apart).
                         per = ", ".join(
-                            f"{c} ({len(r['rows'])})" for c, r in groups)
+                            f"{ot_compare._canon_group_code(c, all_gcodes)} "
+                            f"({len(r['rows'])})" for c, r in groups)
                         self._queue.put(("log",
                             f"[{code}] verzameling hoofdgroepen -> {per}: "
                             f"{len(groups)} aparte bestanden."))
@@ -831,7 +840,14 @@ class TableTab(ttk.Frame):
                                 f"'{scope_col}') vallen buiten de uitvoer."))
 
                     for gcode, result in groups:
-                        base = _base_for_code(orig_base, gcode) if multi else orig_base
+                        # Arcering-/symbool-bibliotheekcode (ACO/AMW/SBC) terug-
+                        # vouwen naar de hoofdgroep (CO/MW/BC) voor bestandsnaam én
+                        # doelmap, zodat een A-geprefixte bibliotheek niet in een
+                        # eigen ACO/AMW-map belandt. AMW -> MW blijft los van
+                        # ACO -> CO (aparte groepen).
+                        gcode_c = (ot_compare._canon_group_code(gcode, all_gcodes)
+                                   if multi else gcode)
+                        base = _base_for_code(orig_base, gcode_c) if multi else orig_base
                         vis = visible_fn(result["headers"])
                         text_cols = [h for h in result["headers"]
                                      if text_search_fn(h)]
@@ -869,7 +885,7 @@ class TableTab(ttk.Frame):
                                         if ch:
                                             codes_needed.add(ch)
                                 if not codes_needed:
-                                    codes_needed = {gcode or code}
+                                    codes_needed = {gcode_c or code}
                                 terms = []
                                 missing = []
                                 for ch in sorted(codes_needed):
@@ -882,7 +898,7 @@ class TableTab(ttk.Frame):
                                         missing.append(ch)
                                 if missing:
                                     self._queue.put(("log",
-                                        f"[{gcode or code}] geen objectentabel "
+                                        f"[{gcode_c or code}] geen objectentabel "
                                         f"voor: {', '.join(missing)} (zoekfilter "
                                         f"voor die groep leeg)."))
                             zoekfilters = ot_compare.zoekfilter_map(
@@ -962,7 +978,7 @@ class TableTab(ttk.Frame):
                                         disp = (nm or "").strip()
                                         if disp and disp.lower() not in dwg_map:
                                             missing_dwg.append(
-                                                (disp, gcode or code))
+                                                (disp, gcode_c or code))
 
                             # Wezen van DEZE hoofdgroep (bibliotheek) voor de
                             # changelog: .dwg's van dezelfde bib(s) zonder regel.
@@ -1014,7 +1030,7 @@ class TableTab(ttk.Frame):
                         # bestand zelf (arceringen: abibliotheek 'AGW'/'ACO',
                         # strip_s=False) en dat mag GEEN eigen mapje worden. Val
                         # dan terug op de bestandscode (arceringen-5-2-GW -> 'GW').
-                        dest_dir = dest_dir_for(gcode if multi else code)
+                        dest_dir = dest_dir_for(gcode_c if multi else code)
                         full_path = os.path.join(dest_dir, f"{base}.html")
                         with open(full_path, "w", encoding="utf-8") as f:
                             f.write(full_html)
@@ -1067,14 +1083,14 @@ class TableTab(ttk.Frame):
                                           else "")
                         if skip_changelog:
                             self._queue.put(("log",
-                                f"[{gcode or code}] {base}: alleen generieke "
+                                f"[{gcode_c or code}] {base}: alleen generieke "
                                 f"lijntypes ({s['new'] + s['changed'] + s['deleted']}"
                                 f" wijziging(en)) -> {base}.html "
                                 f"(geen changelog nodig)"))
                             files += 1
                         else:
                             self._queue.put(("log",
-                                f"[{gcode or code}] {base}: {s['new']} nieuw, "
+                                f"[{gcode_c or code}] {base}: {s['new']} nieuw, "
                                 f"{s['changed']} gewijzigd, {s['deleted']} vervallen"
                                 f"{naamgenoot_txt}{hash_summary}{wees_txt} -> "
                                 f"{base}.html + changelog-{base}.html"))

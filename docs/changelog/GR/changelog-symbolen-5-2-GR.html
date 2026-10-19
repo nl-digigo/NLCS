@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Changelog symbolen-5-2-GR</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
 <style>
     :root {
         --dg-yellow: #FFE103;
@@ -97,6 +100,18 @@
     p.geen-wijzigingen { margin: 0 0 14px; padding: 12px 16px;
                     background-color: #eef7ee; border-left: 6px solid var(--dg-green);
                     font-size: 1.05em; font-weight: 600; color: #1f6b23; }
+
+    /* Sorteerbare changelog (DataTables): kop zwart/geel, hover, svg-cel */
+    table.dataTable thead th { background-color: var(--dg-black); color: #fff;
+                    border-bottom: 3px solid var(--dg-yellow); white-space: nowrap; }
+    table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: var(--dg-yellow) !important; border-color: var(--dg-yellow) !important;
+        color: #000 !important; }
+    h2.wees-kop { font-size: 1rem; margin: 20px 0 6px;
+                    border-top: 3px solid var(--dg-grey2); padding-top: 10px; }
+    table.weestab { width: auto; }
 </style>
 </head>
 <body>
@@ -109,8 +124,7 @@
 <div class="wrap">
 <p class="info">2 nieuw &middot; 0 gewijzigd &middot; 30 vervallen &middot; 339 rijen totaal &middot; 5.0 &rarr; 5.2</p>
 <div class="legend"><span><span class="swatch sw-new"></span> nieuwe rij</span><span><span class="swatch sw-changed"></span> gewijzigde cel (oud doorgestreept, nieuw in blauw)</span><span><span class="swatch sw-deleted"></span> vervallen rij</span></div>
-<div class="tablescroll">
-<table class="otab">
+<table id="otab" class="otab display" style="width:100%">
 <thead>
 <tr><th>sbibliotheek</th><th>status</th><th>id</th><th>symbool</th><th>optie</th><th>symboolURI</th><th>zoekfilter (sobject)</th><th>.dwg aanwezig</th><th>.dwg t.o.v. oud</th><th>svg</th></tr>
 </thead>
@@ -454,7 +468,6 @@
 <tr><td>SGR</td><td></td><td>3493</td><td>SGR-WISSELBEPLANTING_KL-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/2d1feca0-c671-421d-a9be-1a220274a564</td><td><span class="zf-term">SGR-WISSELBEPLANTING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-wijz">inhoudelijk gewijzigd</span></td><td class="svgcell"><a href="./SGR/SGR-WISSELBEPLANTING_KL-SO.svg" target="_blank"><img src="./SGR/SGR-WISSELBEPLANTING_KL-SO.svg" alt="SGR-WISSELBEPLANTING_KL-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SGR</td><td>V</td><td>449</td><td>V-SGR-WISSELBEPLANTING-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/2f3cceba-e202-4aa7-9370-962e6b98bfb5</td><td><span class="zf-term">SGR-WISSELBEPLANTING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-wijz">inhoudelijk gewijzigd</span></td><td class="svgcell"><a href="./SGR/V-SGR-WISSELBEPLANTING-SO.svg" target="_blank"><img src="./SGR/V-SGR-WISSELBEPLANTING-SO.svg" alt="V-SGR-WISSELBEPLANTING-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SGR</td><td>V</td><td>3530</td><td>V-SGR-WISSELBEPLANTING_KL-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/1e8f18a8-248f-46de-b4d0-11f686293013</td><td><span class="zf-term">SGR-WISSELBEPLANTING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-wijz">inhoudelijk gewijzigd</span></td><td class="svgcell"><a href="./SGR/V-SGR-WISSELBEPLANTING_KL-SO.svg" target="_blank"><img src="./SGR/V-SGR-WISSELBEPLANTING_KL-SO.svg" alt="V-SGR-WISSELBEPLANTING_KL-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
-<tr class="section-header"><th colspan="10">Vervallen rijen (30) &middot; aanwezig in 5.0, niet meer in 5.2</th></tr>
 <tr class="deleted"><td>SGR</td><td></td><td>453</td><td>SGR-BOMENGROND-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/9d6ce5bc-66cf-44e6-bc47-b759e59f728e</td><td><span class="zf-geen">(geen)</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SGR/SGR-BOMENGROND-SO.svg" target="_blank"><img src="./SGR/SGR-BOMENGROND-SO.svg" alt="SGR-BOMENGROND-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr class="deleted"><td>SGR</td><td></td><td>3460</td><td>SGR-BOMENGROND_KL-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/2b34ef22-b5ad-4992-a259-f9efd6961b6a</td><td><span class="zf-geen">(geen)</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SGR/SGR-BOMENGROND_KL-SO.svg" target="_blank"><img src="./SGR/SGR-BOMENGROND_KL-SO.svg" alt="SGR-BOMENGROND_KL-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr class="deleted"><td>SGR</td><td></td><td>454</td><td>SGR-BOMENZAND-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/0fb736d4-7d51-4149-ac06-97c6ddec2a52</td><td><span class="zf-geen">(geen)</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SGR/SGR-BOMENZAND-SO.svg" target="_blank"><img src="./SGR/SGR-BOMENZAND-SO.svg" alt="SGR-BOMENZAND-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
@@ -487,7 +500,44 @@
 <tr class="deleted"><td>SGR</td><td>V</td><td>3505</td><td>V-SGR-GRAS_02_KL-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/ddffa983-21fe-486b-afab-3cbbc04a0d7f</td><td><span class="zf-term">SGR-GRAS</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SGR/V-SGR-GRAS_02_KL-SO.svg" target="_blank"><img src="./SGR/V-SGR-GRAS_02_KL-SO.svg" alt="V-SGR-GRAS_02_KL-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 </tbody>
 </table>
-</div>
+
+<script>
+$(document).ready(function () {
+    var table = $('#otab').DataTable({
+        paging: false,
+        scrollX: true,
+        scrollY: '65vh',
+        scrollCollapse: true,
+        columnDefs: [{ orderable: false, targets: [9] }],
+        order: [[0, "asc"]],
+        orderCellsTop: true
+    });
+    // Kolombreedtes opnieuw uitlijnen na laden en bij venstergrootte-wijziging
+    // (scrollX kan bij het initieel tekenen minimaal afwijken).
+    table.columns.adjust();
+    $(window).on('resize', function () { table.columns.adjust(); });
+    // Filters via event-delegatie op de wrapper: blijft werken ongeacht hoe
+    // DataTables de kop opnieuw opbouwt. De kolomindex volgt uit de positie
+    // van de <th> in de filterrij.
+    var $wrap = $('#otab_wrapper');
+    // niet sorteren als je in een filtervak klikt
+    $wrap.on('click', 'tr.filters th', function (e) { e.stopPropagation(); });
+    // vrije-tekstkolommen: zoek terwijl je typt
+    $wrap.on('keyup change search', 'tr.filters input', function () {
+        var i = $(this).closest('th').index();
+        if (table.column(i).search() !== this.value) {
+            table.column(i).search(this.value).draw();
+        }
+    });
+    // keuzelijst-kolommen: exact filteren op de gekozen waarde
+    $wrap.on('change', 'tr.filters select', function () {
+        var i = $(this).closest('th').index();
+        var v = this.value;
+        var term = v ? '^' + $.fn.dataTable.util.escapeRegex(v) + '$' : '';
+        table.column(i).search(term, true, false).draw();
+    });
+});
+</script>
 </div>
 <footer class="site-footer">
   <strong>digiGO</strong> &middot; digitaal samenwerken in de Gebouwde Omgeving

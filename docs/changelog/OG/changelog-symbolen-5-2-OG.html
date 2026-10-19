@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Changelog symbolen-5-2-OG</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
 <style>
     :root {
         --dg-yellow: #FFE103;
@@ -97,6 +100,18 @@
     p.geen-wijzigingen { margin: 0 0 14px; padding: 12px 16px;
                     background-color: #eef7ee; border-left: 6px solid var(--dg-green);
                     font-size: 1.05em; font-weight: 600; color: #1f6b23; }
+
+    /* Sorteerbare changelog (DataTables): kop zwart/geel, hover, svg-cel */
+    table.dataTable thead th { background-color: var(--dg-black); color: #fff;
+                    border-bottom: 3px solid var(--dg-yellow); white-space: nowrap; }
+    table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: var(--dg-yellow) !important; border-color: var(--dg-yellow) !important;
+        color: #000 !important; }
+    h2.wees-kop { font-size: 1rem; margin: 20px 0 6px;
+                    border-top: 3px solid var(--dg-grey2); padding-top: 10px; }
+    table.weestab { width: auto; }
 </style>
 </head>
 <body>
@@ -109,8 +124,7 @@
 <div class="wrap">
 <p class="info">4 nieuw &middot; 2 gewijzigd &middot; 1 vervallen &middot; 40 rijen totaal &middot; 5.0 &rarr; 5.2</p>
 <div class="legend"><span><span class="swatch sw-new"></span> nieuwe rij</span><span><span class="swatch sw-changed"></span> gewijzigde cel (oud doorgestreept, nieuw in blauw)</span><span><span class="swatch sw-deleted"></span> vervallen rij</span></div>
-<div class="tablescroll">
-<table class="otab">
+<table id="otab" class="otab display" style="width:100%">
 <thead>
 <tr><th>sbibliotheek</th><th>status</th><th>id</th><th>symbool</th><th>optie</th><th>symboolURI</th><th>zoekfilter (sobject)</th><th>.dwg aanwezig</th><th>.dwg t.o.v. oud</th><th>svg</th></tr>
 </thead>
@@ -155,11 +169,47 @@
 <tr><td>SOG</td><td></td><td>3147</td><td>SOG-WATER_SLOOT-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/3df61cd6-9640-4efc-aa50-6851a945dcab</td><td><span class="zf-term">SOG-WATER_SLOOT</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-gelijk">identiek</span></td><td class="svgcell"><a href="./SOG/SOG-WATER_SLOOT-SO.svg" target="_blank"><img src="./SOG/SOG-WATER_SLOOT-SO.svg" alt="SOG-WATER_SLOOT-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SOG</td><td></td><td>3153</td><td class="changed"><span class="old-val"><span class="lbl">5.0:</span> SOG-SLOOTKANT-SO</span><span class="new-val"><span class="lbl">5.2:</span> SOG-WATER_SLOOTKANT-SO</span></td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/9a80c678-9f20-4463-ab9f-b79d2d8a4a6b</td><td><span class="zf-term">SOG-WATER_SLOOT</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-neutraal">alleen nieuw</span></td><td class="svgcell"><a href="./SOG/SOG-WATER_SLOOTKANT-SO.svg" target="_blank"><img src="./SOG/SOG-WATER_SLOOTKANT-SO.svg" alt="SOG-WATER_SLOOTKANT-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SOG</td><td></td><td>3149</td><td>SOG-ZANDVERSTUIVING-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/6756cc63-9d78-430f-8317-23fdd1f62812</td><td><span class="zf-term">SOG-ZANDVERSTUIVING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-gelijk">identiek</span></td><td class="svgcell"><a href="./SOG/SOG-ZANDVERSTUIVING-SO.svg" target="_blank"><img src="./SOG/SOG-ZANDVERSTUIVING-SO.svg" alt="SOG-ZANDVERSTUIVING-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
-<tr class="section-header"><th colspan="10">Vervallen rijen (1) &middot; aanwezig in 5.0, niet meer in 5.2</th></tr>
 <tr class="deleted"><td>SOG</td><td></td><td>2956</td><td>SOG-BEBOUWING_ENTREE_GARAGE-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/8f733e69-3119-44f3-9755-5c7753f863be</td><td><span class="zf-geen">(geen)</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SOG/SOG-BEBOUWING_ENTREE_GARAGE-SO.svg" target="_blank"><img src="./SOG/SOG-BEBOUWING_ENTREE_GARAGE-SO.svg" alt="SOG-BEBOUWING_ENTREE_GARAGE-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 </tbody>
 </table>
-</div>
+
+<script>
+$(document).ready(function () {
+    var table = $('#otab').DataTable({
+        paging: false,
+        scrollX: true,
+        scrollY: '65vh',
+        scrollCollapse: true,
+        columnDefs: [{ orderable: false, targets: [9] }],
+        order: [[0, "asc"]],
+        orderCellsTop: true
+    });
+    // Kolombreedtes opnieuw uitlijnen na laden en bij venstergrootte-wijziging
+    // (scrollX kan bij het initieel tekenen minimaal afwijken).
+    table.columns.adjust();
+    $(window).on('resize', function () { table.columns.adjust(); });
+    // Filters via event-delegatie op de wrapper: blijft werken ongeacht hoe
+    // DataTables de kop opnieuw opbouwt. De kolomindex volgt uit de positie
+    // van de <th> in de filterrij.
+    var $wrap = $('#otab_wrapper');
+    // niet sorteren als je in een filtervak klikt
+    $wrap.on('click', 'tr.filters th', function (e) { e.stopPropagation(); });
+    // vrije-tekstkolommen: zoek terwijl je typt
+    $wrap.on('keyup change search', 'tr.filters input', function () {
+        var i = $(this).closest('th').index();
+        if (table.column(i).search() !== this.value) {
+            table.column(i).search(this.value).draw();
+        }
+    });
+    // keuzelijst-kolommen: exact filteren op de gekozen waarde
+    $wrap.on('change', 'tr.filters select', function () {
+        var i = $(this).closest('th').index();
+        var v = this.value;
+        var term = v ? '^' + $.fn.dataTable.util.escapeRegex(v) + '$' : '';
+        table.column(i).search(term, true, false).draw();
+    });
+});
+</script>
 </div>
 <footer class="site-footer">
   <strong>digiGO</strong> &middot; digitaal samenwerken in de Gebouwde Omgeving

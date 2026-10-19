@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Changelog symbolen-5-2-AL</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
 <style>
     :root {
         --dg-yellow: #FFE103;
@@ -97,6 +100,18 @@
     p.geen-wijzigingen { margin: 0 0 14px; padding: 12px 16px;
                     background-color: #eef7ee; border-left: 6px solid var(--dg-green);
                     font-size: 1.05em; font-weight: 600; color: #1f6b23; }
+
+    /* Sorteerbare changelog (DataTables): kop zwart/geel, hover, svg-cel */
+    table.dataTable thead th { background-color: var(--dg-black); color: #fff;
+                    border-bottom: 3px solid var(--dg-yellow); white-space: nowrap; }
+    table.dataTable tbody tr:hover td { background-color: #FFF8CC; }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: var(--dg-yellow) !important; border-color: var(--dg-yellow) !important;
+        color: #000 !important; }
+    h2.wees-kop { font-size: 1rem; margin: 20px 0 6px;
+                    border-top: 3px solid var(--dg-grey2); padding-top: 10px; }
+    table.weestab { width: auto; }
 </style>
 </head>
 <body>
@@ -109,8 +124,7 @@
 <div class="wrap">
 <p class="info">6 nieuw &middot; 0 gewijzigd &middot; 12 vervallen &middot; 155 rijen totaal &middot; 5.0 &rarr; 5.2</p>
 <div class="legend"><span><span class="swatch sw-new"></span> nieuwe rij</span><span><span class="swatch sw-changed"></span> gewijzigde cel (oud doorgestreept, nieuw in blauw)</span><span><span class="swatch sw-deleted"></span> vervallen rij</span></div>
-<div class="tablescroll">
-<table class="otab">
+<table id="otab" class="otab display" style="width:100%">
 <thead>
 <tr><th>sbibliotheek</th><th>status</th><th>id</th><th>symbool</th><th>optie</th><th>symboolURI</th><th>zoekfilter (sobject)</th><th>.dwg aanwezig</th><th>.dwg t.o.v. oud</th><th>svg</th></tr>
 </thead>
@@ -146,11 +160,11 @@
 <tr><td>SAL</td><td></td><td>67</td><td>SAL-AANKLEDING_TRACTOR_BOVENAANZICHT</td><td></td><td>http://digitalbuildingdata.tech/nlcs/def/945771b7-97f0-48fb-a43a-faccdd832c5a</td><td><span class="zf-term">SAL-AANKLEDING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-gelijk">identiek</span></td><td class="svgcell"><a href="./SAL/SAL-AANKLEDING_TRACTOR_BOVENAANZICHT.svg" target="_blank"><img src="./SAL/SAL-AANKLEDING_TRACTOR_BOVENAANZICHT.svg" alt="SAL-AANKLEDING_TRACTOR_BOVENAANZICHT" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SAL</td><td></td><td>68</td><td>SAL-AANKLEDING_TRACTOR_VOORAANZICHT-D</td><td>D</td><td>http://digitalbuildingdata.tech/nlcs/def/673b8406-6b99-4cbd-88aa-dbd0413f472f</td><td><span class="zf-term">SAL-AANKLEDING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-gelijk">identiek</span></td><td class="svgcell"><a href="./SAL/SAL-AANKLEDING_TRACTOR_VOORAANZICHT-D.svg" target="_blank"><img src="./SAL/SAL-AANKLEDING_TRACTOR_VOORAANZICHT-D.svg" alt="SAL-AANKLEDING_TRACTOR_VOORAANZICHT-D" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SAL</td><td></td><td>69</td><td>SAL-AANKLEDING_TRACTOR_ZIJAANZICHT-D</td><td>D</td><td>http://digitalbuildingdata.tech/nlcs/def/59de9f7d-df6c-4aaf-9a7d-c7301c18e9af</td><td><span class="zf-term">SAL-AANKLEDING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-gelijk">identiek</span></td><td class="svgcell"><a href="./SAL/SAL-AANKLEDING_TRACTOR_ZIJAANZICHT-D.svg" target="_blank"><img src="./SAL/SAL-AANKLEDING_TRACTOR_ZIJAANZICHT-D.svg" alt="SAL-AANKLEDING_TRACTOR_ZIJAANZICHT-D" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
-<tr class="new-row"><td>SAL</td><td></td><td>4175</td><td>SAL-AANKLEDING_TRAM_AVENIO_BOVENAANZICHT</td><td></td><td>http://digitalbuildingdata.tech/nlcs/def/f8cb68cb-d339-4c6e-8a8f-6cde6fcce707</td><td><span class="zf-term">SAL-AANKLEDING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-neutraal">alleen nieuw</span></td><td class="svgcell"><a href="./SAL/SAL-AANKLEDING_TRAM_AVENIO_BOVENAANZICHT.svg" target="_blank"><img src="./SAL/SAL-AANKLEDING_TRAM_AVENIO_BOVENAANZICHT.svg" alt="SAL-AANKLEDING_TRAM_AVENIO_BOVENAANZICHT" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
-<tr class="new-row"><td>SAL</td><td></td><td>4176</td><td>SAL-AANKLEDING_TRAM_AVENIO_VOORAANZICHT-D</td><td>D</td><td>http://digitalbuildingdata.tech/nlcs/def/ba5e1028-7533-48f9-87cc-048009dd2c0c</td><td><span class="zf-term">SAL-AANKLEDING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-neutraal">alleen nieuw</span></td><td class="svgcell"><a href="./SAL/SAL-AANKLEDING_TRAM_AVENIO_VOORAANZICHT-D.svg" target="_blank"><img src="./SAL/SAL-AANKLEDING_TRAM_AVENIO_VOORAANZICHT-D.svg" alt="SAL-AANKLEDING_TRAM_AVENIO_VOORAANZICHT-D" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
-<tr class="new-row"><td>SAL</td><td></td><td>4177</td><td>SAL-AANKLEDING_TRAM_REGIOCITADIS_BOVENAANZICHT</td><td></td><td>http://digitalbuildingdata.tech/nlcs/def/222747d2-2c73-48bb-97f3-9a49cd9b581f</td><td><span class="zf-term">SAL-AANKLEDING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-neutraal">alleen nieuw</span></td><td class="svgcell"><a href="./SAL/SAL-AANKLEDING_TRAM_REGIOCITADIS_BOVENAANZICHT.svg" target="_blank"><img src="./SAL/SAL-AANKLEDING_TRAM_REGIOCITADIS_BOVENAANZICHT.svg" alt="SAL-AANKLEDING_TRAM_REGIOCITADIS_BOVENAANZICHT" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
-<tr class="new-row"><td>SAL</td><td></td><td>4178</td><td>SAL-AANKLEDING_TRAM_REGIOCITADIS_VOORAANZICHT-D</td><td>D</td><td>http://digitalbuildingdata.tech/nlcs/def/290a7290-a157-4dc9-b2cb-d3ed5f305f58</td><td><span class="zf-term">SAL-AANKLEDING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-neutraal">alleen nieuw</span></td><td class="svgcell"><a href="./SAL/SAL-AANKLEDING_TRAM_REGIOCITADIS_VOORAANZICHT-D.svg" target="_blank"><img src="./SAL/SAL-AANKLEDING_TRAM_REGIOCITADIS_VOORAANZICHT-D.svg" alt="SAL-AANKLEDING_TRAM_REGIOCITADIS_VOORAANZICHT-D" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
-<tr class="new-row"><td>SAL</td><td></td><td>4179</td><td>SAL-AANKLEDING_TRAM_REGIOCITADIS_ZIJAANZICHT-D</td><td>D</td><td>http://digitalbuildingdata.tech/nlcs/def/c56e78fc-ae35-4984-9848-1657adbc2bad</td><td><span class="zf-term">SAL-AANKLEDING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-neutraal">alleen nieuw</span></td><td class="svgcell"><a href="./SAL/SAL-AANKLEDING_TRAM_REGIOCITADIS_ZIJAANZICHT-D.svg" target="_blank"><img src="./SAL/SAL-AANKLEDING_TRAM_REGIOCITADIS_ZIJAANZICHT-D.svg" alt="SAL-AANKLEDING_TRAM_REGIOCITADIS_ZIJAANZICHT-D" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
+<tr class="new-row"><td>SAL</td><td></td><td>4175</td><td>SAL-AANKLEDING_TRAM AVENIO_BOVENAANZICHT</td><td></td><td>http://digitalbuildingdata.tech/nlcs/def/f8cb68cb-d339-4c6e-8a8f-6cde6fcce707</td><td><span class="zf-term">SAL-AANKLEDING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-neutraal">alleen nieuw</span></td><td class="svgcell"><a href="./SAL/SAL-AANKLEDING_TRAM%20AVENIO_BOVENAANZICHT.svg" target="_blank"><img src="./SAL/SAL-AANKLEDING_TRAM%20AVENIO_BOVENAANZICHT.svg" alt="SAL-AANKLEDING_TRAM AVENIO_BOVENAANZICHT" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
+<tr class="new-row"><td>SAL</td><td></td><td>4176</td><td>SAL-AANKLEDING_TRAM AVENIO_VOORAANZICHT-D</td><td>D</td><td>http://digitalbuildingdata.tech/nlcs/def/ba5e1028-7533-48f9-87cc-048009dd2c0c</td><td><span class="zf-term">SAL-AANKLEDING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-neutraal">alleen nieuw</span></td><td class="svgcell"><a href="./SAL/SAL-AANKLEDING_TRAM%20AVENIO_VOORAANZICHT-D.svg" target="_blank"><img src="./SAL/SAL-AANKLEDING_TRAM%20AVENIO_VOORAANZICHT-D.svg" alt="SAL-AANKLEDING_TRAM AVENIO_VOORAANZICHT-D" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
+<tr class="new-row"><td>SAL</td><td></td><td>4177</td><td>SAL-AANKLEDING_TRAM REGIOCITADIS_BOVENAANZICHT</td><td></td><td>http://digitalbuildingdata.tech/nlcs/def/222747d2-2c73-48bb-97f3-9a49cd9b581f</td><td><span class="zf-term">SAL-AANKLEDING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-neutraal">alleen nieuw</span></td><td class="svgcell"><a href="./SAL/SAL-AANKLEDING_TRAM%20REGIOCITADIS_BOVENAANZICHT.svg" target="_blank"><img src="./SAL/SAL-AANKLEDING_TRAM%20REGIOCITADIS_BOVENAANZICHT.svg" alt="SAL-AANKLEDING_TRAM REGIOCITADIS_BOVENAANZICHT" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
+<tr class="new-row"><td>SAL</td><td></td><td>4178</td><td>SAL-AANKLEDING_TRAM REGIOCITADIS_VOORAANZICHT-D</td><td>D</td><td>http://digitalbuildingdata.tech/nlcs/def/290a7290-a157-4dc9-b2cb-d3ed5f305f58</td><td><span class="zf-term">SAL-AANKLEDING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-neutraal">alleen nieuw</span></td><td class="svgcell"><a href="./SAL/SAL-AANKLEDING_TRAM%20REGIOCITADIS_VOORAANZICHT-D.svg" target="_blank"><img src="./SAL/SAL-AANKLEDING_TRAM%20REGIOCITADIS_VOORAANZICHT-D.svg" alt="SAL-AANKLEDING_TRAM REGIOCITADIS_VOORAANZICHT-D" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
+<tr class="new-row"><td>SAL</td><td></td><td>4179</td><td>SAL-AANKLEDING_TRAM REGIOCITADIS_ZIJAANZICHT-D</td><td>D</td><td>http://digitalbuildingdata.tech/nlcs/def/c56e78fc-ae35-4984-9848-1657adbc2bad</td><td><span class="zf-term">SAL-AANKLEDING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-neutraal">alleen nieuw</span></td><td class="svgcell"><a href="./SAL/SAL-AANKLEDING_TRAM%20REGIOCITADIS_ZIJAANZICHT-D.svg" target="_blank"><img src="./SAL/SAL-AANKLEDING_TRAM%20REGIOCITADIS_ZIJAANZICHT-D.svg" alt="SAL-AANKLEDING_TRAM REGIOCITADIS_ZIJAANZICHT-D" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SAL</td><td></td><td>70</td><td>SAL-AANKLEDING_TRAM_VOORAANZICHT-D</td><td>D</td><td>http://digitalbuildingdata.tech/nlcs/def/b253eb91-4f8a-4898-82cb-b54b25e62b2b</td><td><span class="zf-term">SAL-AANKLEDING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-gelijk">identiek</span></td><td class="svgcell"><a href="./SAL/SAL-AANKLEDING_TRAM_VOORAANZICHT-D.svg" target="_blank"><img src="./SAL/SAL-AANKLEDING_TRAM_VOORAANZICHT-D.svg" alt="SAL-AANKLEDING_TRAM_VOORAANZICHT-D" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SAL</td><td></td><td>71</td><td>SAL-AANKLEDING_TREIN1_VOORAANZICHT-D</td><td>D</td><td>http://digitalbuildingdata.tech/nlcs/def/fa094828-81c7-4593-9229-0ee403fbeffe</td><td><span class="zf-term">SAL-AANKLEDING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-gelijk">identiek</span></td><td class="svgcell"><a href="./SAL/SAL-AANKLEDING_TREIN1_VOORAANZICHT-D.svg" target="_blank"><img src="./SAL/SAL-AANKLEDING_TREIN1_VOORAANZICHT-D.svg" alt="SAL-AANKLEDING_TREIN1_VOORAANZICHT-D" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SAL</td><td></td><td>72</td><td>SAL-AANKLEDING_TREIN2_VOORAANZICHT-D</td><td>D</td><td>http://digitalbuildingdata.tech/nlcs/def/39f328a1-d36b-4453-ae8b-0a1082e0b910</td><td><span class="zf-term">SAL-AANKLEDING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-gelijk">identiek</span></td><td class="svgcell"><a href="./SAL/SAL-AANKLEDING_TREIN2_VOORAANZICHT-D.svg" target="_blank"><img src="./SAL/SAL-AANKLEDING_TREIN2_VOORAANZICHT-D.svg" alt="SAL-AANKLEDING_TREIN2_VOORAANZICHT-D" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
@@ -270,7 +284,6 @@
 <tr><td>SAL</td><td></td><td>94</td><td>SAL-VERWIJZING_DOORSNEDE_RECHTS-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/beccdae4-53ac-4296-b742-3f2a1d029724</td><td><span class="zf-term">SAL-VERWIJZING_DOORSNEDE</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-gelijk">identiek</span></td><td class="svgcell"><a href="./SAL/SAL-VERWIJZING_DOORSNEDE_RECHTS-SO.svg" target="_blank"><img src="./SAL/SAL-VERWIJZING_DOORSNEDE_RECHTS-SO.svg" alt="SAL-VERWIJZING_DOORSNEDE_RECHTS-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SAL</td><td></td><td>92</td><td>SAL-VERWIJZING_WIJZIGING_LINKS-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/177e0a60-127c-45a0-ade6-90fcf817dbd8</td><td><span class="zf-term">SAL-VERWIJZING_WIJZIGING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-wijz">inhoudelijk gewijzigd</span></td><td class="svgcell"><a href="./SAL/SAL-VERWIJZING_WIJZIGING_LINKS-SO.svg" target="_blank"><img src="./SAL/SAL-VERWIJZING_WIJZIGING_LINKS-SO.svg" alt="SAL-VERWIJZING_WIJZIGING_LINKS-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr><td>SAL</td><td></td><td>93</td><td>SAL-VERWIJZING_WIJZIGING_RECHTS-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/07d64357-4ee2-4513-805b-0756636e84fa</td><td><span class="zf-term">SAL-VERWIJZING_WIJZIGING</span></td><td><span class="dwg-ja">ja</span></td><td><span class="hash-wijz">inhoudelijk gewijzigd</span></td><td class="svgcell"><a href="./SAL/SAL-VERWIJZING_WIJZIGING_RECHTS-SO.svg" target="_blank"><img src="./SAL/SAL-VERWIJZING_WIJZIGING_RECHTS-SO.svg" alt="SAL-VERWIJZING_WIJZIGING_RECHTS-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
-<tr class="section-header"><th colspan="10">Vervallen rijen (12) &middot; aanwezig in 5.0, niet meer in 5.2</th></tr>
 <tr class="deleted"><td>SAL</td><td></td><td>2991</td><td>SAL-COORDINAAT_LINKSBOVEN-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/be10f11d-97a5-471a-98eb-e8610c23a8a4</td><td><span class="zf-geen">(geen)</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SAL/SAL-COORDINAAT_LINKSBOVEN-SO.svg" target="_blank"><img src="./SAL/SAL-COORDINAAT_LINKSBOVEN-SO.svg" alt="SAL-COORDINAAT_LINKSBOVEN-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr class="deleted"><td>SAL</td><td></td><td>2992</td><td>SAL-COORDINAAT_LINKSONDER-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/1a182764-cbba-4a64-becc-9f9547e7f565</td><td><span class="zf-geen">(geen)</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SAL/SAL-COORDINAAT_LINKSONDER-SO.svg" target="_blank"><img src="./SAL/SAL-COORDINAAT_LINKSONDER-SO.svg" alt="SAL-COORDINAAT_LINKSONDER-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 <tr class="deleted"><td>SAL</td><td></td><td>2994</td><td>SAL-COORDINAAT_PIJL_LINKSBOVEN-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/390d0eb6-0d79-4153-8965-c50ce60e53da</td><td><span class="zf-geen">(geen)</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SAL/SAL-COORDINAAT_PIJL_LINKSBOVEN-SO.svg" target="_blank"><img src="./SAL/SAL-COORDINAAT_PIJL_LINKSBOVEN-SO.svg" alt="SAL-COORDINAAT_PIJL_LINKSBOVEN-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
@@ -285,7 +298,44 @@
 <tr class="deleted"><td>SAL</td><td></td><td>2990</td><td>SAL-COORDINAAT_RECHTSONDER-SO</td><td>SO</td><td>http://digitalbuildingdata.tech/nlcs/def/282d56e8-5313-433c-95a2-b4bdb5b5b7c1</td><td><span class="zf-geen">(geen)</span></td><td><span class="dwg-nee">nee</span></td><td><span class="hash-neutraal">alleen oud</span></td><td class="svgcell"><a href="./SAL/SAL-COORDINAAT_RECHTSONDER-SO.svg" target="_blank"><img src="./SAL/SAL-COORDINAAT_RECHTSONDER-SO.svg" alt="SAL-COORDINAAT_RECHTSONDER-SO" loading="lazy" onerror="this.parentNode.style.display='none'"></a></td></tr>
 </tbody>
 </table>
-</div>
+
+<script>
+$(document).ready(function () {
+    var table = $('#otab').DataTable({
+        paging: false,
+        scrollX: true,
+        scrollY: '65vh',
+        scrollCollapse: true,
+        columnDefs: [{ orderable: false, targets: [9] }],
+        order: [[0, "asc"]],
+        orderCellsTop: true
+    });
+    // Kolombreedtes opnieuw uitlijnen na laden en bij venstergrootte-wijziging
+    // (scrollX kan bij het initieel tekenen minimaal afwijken).
+    table.columns.adjust();
+    $(window).on('resize', function () { table.columns.adjust(); });
+    // Filters via event-delegatie op de wrapper: blijft werken ongeacht hoe
+    // DataTables de kop opnieuw opbouwt. De kolomindex volgt uit de positie
+    // van de <th> in de filterrij.
+    var $wrap = $('#otab_wrapper');
+    // niet sorteren als je in een filtervak klikt
+    $wrap.on('click', 'tr.filters th', function (e) { e.stopPropagation(); });
+    // vrije-tekstkolommen: zoek terwijl je typt
+    $wrap.on('keyup change search', 'tr.filters input', function () {
+        var i = $(this).closest('th').index();
+        if (table.column(i).search() !== this.value) {
+            table.column(i).search(this.value).draw();
+        }
+    });
+    // keuzelijst-kolommen: exact filteren op de gekozen waarde
+    $wrap.on('change', 'tr.filters select', function () {
+        var i = $(this).closest('th').index();
+        var v = this.value;
+        var term = v ? '^' + $.fn.dataTable.util.escapeRegex(v) + '$' : '';
+        table.column(i).search(term, true, false).draw();
+    });
+});
+</script>
 </div>
 <footer class="site-footer">
   <strong>digiGO</strong> &middot; digitaal samenwerken in de Gebouwde Omgeving
