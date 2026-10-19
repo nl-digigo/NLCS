@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
 ;;
 *AOG-LUIFEL-SO,aro-luifel
 270,0.73,1,0,1,1,0

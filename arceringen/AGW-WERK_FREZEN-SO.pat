@@ -1,0 +1,6 @@
+;;
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;
+*AGW-WERK_FREZEN-SO,frezen
+45,0,0,1,1,1,-1
+135,1.41,1.41,1,1,1,-1

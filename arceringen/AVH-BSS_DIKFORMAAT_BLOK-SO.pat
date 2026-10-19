@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-rv5.1.5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
 ;;
 *AVH-BSS_DIKFORMAAT_BLOK-SO,dikformaatblokverband
 0,0,0,0,2.07
