@@ -119,7 +119,7 @@ ex:ConvertAspectWithRole a sh:NodeShape ;
 					FILTER (?tgtAspectAltName != ?tgtAspectPrefName) .
 				} .
 				# Unit should not be processed as Aspect
-				FILTER (?tgtAspectPrefName != "Unit") .
+				FILTER (LCASE(STR(?tgtAspectPrefName)) != "unit") .
 				OPTIONAL {
 					?aspect otl:attr-Conceptual-description ?tgtAspectDescription .
 				} .
@@ -516,7 +516,8 @@ ex:ConvertConceptualFundamentals a sh:NodeShape ;
 				OPTIONAL {
 					?hasAspect otl:rel-Relation-from ?this .
 					?hasAspect otl:rel-Relation-to ?aspect .
-					?aspect otl:attr-Conceptual-name "Unit" .
+					?aspect otl:attr-Conceptual-name ?unitAspectName .
+					FILTER (LCASE(STR(?unitAspectName)) = "unit") .
 					?hasAspect otl:rel-Relation-toRole ?role .
 					?role otl:rel-RoleOfAspect-PossessedAspect-isQualifiedAs-Qualification ?qualification .
 					?qualification otl:attr-Conceptual-name ?tgtUnitText .
