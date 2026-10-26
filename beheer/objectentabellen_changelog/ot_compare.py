@@ -2369,6 +2369,10 @@ def check_lijntype_autocaddef(src: str, name_col: str = "omschrijving",
 # is prima (zorgt voor een fraaie uitlijning op de lijn); een verticale y=-offset
 # is ongewenst want dan staan de scraps niet meer gecentreerd op de lijn.
 _RE_VERWIJDEREN2 = re.compile(r"\[\s*VERWIJDEREN2\b([^\]]*)\]", re.IGNORECASE)
+# VERWIJDEREN1 is FOUT (moet VERWIJDEREN2 zijn); en elke VERWIJDEREN-scrap mag
+# alléén bij een vervallen lijntype (fase V) voorkomen.
+_RE_VERWIJDEREN1 = re.compile(r"\[\s*VERWIJDEREN1\b", re.IGNORECASE)
+_RE_VERWIJDEREN_ANY = re.compile(r"\[\s*VERWIJDEREN\d*\b", re.IGNORECASE)
 _RE_SCALE = re.compile(r"\bs\s*=\s*([0-9]*\.?[0-9]+)", re.IGNORECASE)
 _RE_YOFFSET = re.compile(r"\by\s*=\s*(-?[0-9]*\.?[0-9]+)", re.IGNORECASE)
 
@@ -2378,18 +2382,23 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
                             expected: float = 0.5,
                             exceptions=None, hg_exceptions=None,
                             hg_col: str = "hoofdgroep") -> dict:
-    """Controleer of alle VERVALLEN lijntypes hun VERWIJDEREN2-scrap op de juiste
-    schaal (s=0.5) hebben staan.
+    """Controleer de VERWIJDEREN-scrap op (vervallen) lijntypes.
 
     Bij de transitie kregen alle vervallen lijntypes (kolom `fase` = 'V', naam
     begint met 'V-') een VERWIJDEREN2-shape uit NLCS.shx toegevoegd aan hun
     AutoCAD-definitie, met dezelfde afmetingen: de juiste eigenschap is
-    `[VERWIJDEREN2,NLCS.shx,s=0.5]`. Deze controle leest per vervallen lijntype de
-    `autocaddef`, zoekt het `[VERWIJDEREN2,…]`-segment en controleert of de
-    `s=`-waarde daarin gelijk is aan 0.5 én of er geen verticale `y=`-verschuiving
-    in staat. Een horizontale `x=`-offset is prima (zorgt voor een fraaie
-    uitlijning op de lijn) en blijft ongemoeid; een `y=`-offset ongelijk aan 0 is
-    ongewenst omdat de scraps dan niet meer gecentreerd op de lijn staan.
+    `[VERWIJDEREN2,NLCS.shx,s=0.5]`.
+
+    Twee soorten bevindingen:
+      FOUTEN (`errors`):
+        - VERWIJDEREN1 wordt gebruikt — dat is FOUT, het moet VERWIJDEREN2 zijn;
+        - een VERWIJDEREN-scrap komt voor op een NIET-vervallen lijntype
+          (fase ≠ V) — een VERWIJDEREN mag alléén bij fase V.
+      WAARSCHUWINGEN (`warnings`, alleen voor vervallen lijntypes): de `s=`-waarde
+        in het `[VERWIJDEREN2,…]`-segment is niet 0.5, er staat een verticale
+        `y=`-verschuiving in, of er is helemaal geen VERWIJDEREN2. Een horizontale
+        `x=`-offset is prima en blijft ongemoeid; een `y=`-offset ≠ 0 is ongewenst
+        omdat de scraps dan niet gecentreerd op de lijn staan.
 
     Twee soorten uitzonderingen (allebei hoofdletter-ongevoelig, volledig
     overgeslagen — niet op schaal én niet op y-offset):
@@ -2406,18 +2415,20 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
     Geeft een dict terug (zelfde vorm als de andere 'X zonder Y'-controles, plus
     per melding het gevonden probleem-veld, zodat ot_html het kan tonen):
       {
-        "total":     aantal GECONTROLEERDE vervallen lijntypes (fase = 'V', excl.
-                     uitzonderingen),
-        "ok":         aantal met VERWIJDEREN2 op s=0.5 én zonder y=-offset,
+        "total":     aantal beoordeelde lijntypes (vervallen, excl. uitzonderingen,
+                     plus niet-vervallen die tóch een VERWIJDEREN bevatten),
+        "ok":         aantal zonder fout én zonder waarschuwing,
         "expected":   de verwachte schaal (0.5),
         "exempt":     aantal overgeslagen uitzonderingen (naam + hoofdgroep),
         "exceptions": de gehanteerde lijntype-uitzonderingsnamen (gesorteerd),
         "hg_exceptions": de gehanteerde hoofdgroep-uitzonderingen (gesorteerd),
-        "missing":   [ {name, file, row, found} ],  # afwijkende s= en/of y=
+        "errors":    [ {name, file, row, found} ],  # FOUT (VERWIJDEREN1 / buiten V)
+        "warnings":  [ {name, file, row, found} ],  # afwijkende s= / y= / geen VW2
+        "missing":   errors + warnings (terugval voor oudere consumers),
       }
-      `found` beschrijft het probleem: de afwijkende schaal ('s=0.6'), een
-      verticale offset ('y=0.3'), beide samengevoegd met ' · ', of
-      '(geen VERWIJDEREN2)' / '(geen s=)' als die ontbreken.
+      `found` beschrijft het probleem: 'VERWIJDEREN1 (moet VERWIJDEREN2 zijn)',
+      'VERWIJDEREN mag alleen bij fase V', de afwijkende schaal ('s=0.6'), een
+      verticale offset ('y=0.3'), of '(geen VERWIJDEREN2)' / '(geen s=)'.
     """
     exc = {e.strip().upper() for e in
            (exceptions if exceptions is not None else ("V-GR-PLANTSOEN-SO",))
@@ -2440,7 +2451,8 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
     total = 0
     ok = 0
     exempt = 0
-    missing: list[dict] = []
+    errors: list[dict] = []     # FOUTEN: VERWIJDEREN1 of VERWIJDEREN buiten fase V
+    warnings: list[dict] = []   # WAARSCHUWINGEN: afwijkende s= / y-offset / geen VW2
     for path in paths:
         headers, rows = read_table(path)
         if def_col not in headers or fase_col not in headers:
@@ -2450,56 +2462,73 @@ def check_verwijderen_scale(src: str, name_col: str = "omschrijving",
         ni = headers.index(name_col) if name_col in headers else -1
         hi = headers.index(hg_col) if hg_col in headers else -1
         fn = os.path.basename(path)
-        # Hoofdgroep uit de bestandsnaam ('lijntypes-5-2-IS.csv' -> 'IS') als
-        # terugval wanneer de hoofdgroep-kolom ontbreekt of leeg is.
-        fn_hg = os.path.splitext(fn)[0].split("-")[-1].strip().upper()
+        # Hoofdgroep uit de bestandsnaam als terugval wanneer de hoofdgroep-kolom
+        # ontbreekt of leeg is (robuust voor beide naamconventies).
+        fn_hg = hoofdgroep_code(fn)
         for i, r in enumerate(rows):
             fase = (r[fi] if fi < len(r) else "").strip().upper()
-            if fase != "V":
-                continue
             name = (r[ni] if 0 <= ni < len(r) else "").strip()
+            ad = (r[di] if di < len(r) else "")
+            fase_v = (fase == "V")
+            has_v1 = bool(_RE_VERWIJDEREN1.search(ad))
+            has_any = bool(_RE_VERWIJDEREN_ANY.search(ad))
+            # Buiten scope: geen vervallen lijntype én geen VERWIJDEREN-scrap.
+            if not fase_v and not has_any:
+                continue
             row_hg = (r[hi] if 0 <= hi < len(r) else "").strip().upper() or fn_hg
-            # Uitzondering: bewust afwijkende VERWIJDEREN2-opzet (per lijntype-naam
-            # of per hele hoofdgroep) → volledig overslaan (niet op schaal én niet
-            # op y-offset controleren).
-            if name.upper() in exc or row_hg in hgexc:
+
+            err_problems: list[str] = []
+            warn_problems: list[str] = []
+            # FOUT 1: VERWIJDEREN1 is fout — moet VERWIJDEREN2 zijn.
+            if has_v1:
+                err_problems.append("VERWIJDEREN1 (moet VERWIJDEREN2 zijn)")
+            # FOUT 2: een VERWIJDEREN-scrap mag alleen bij een vervallen lijntype.
+            if has_any and not fase_v:
+                err_problems.append("VERWIJDEREN mag alleen bij fase V")
+
+            # WAARSCHUWING (schaal/opzet): alleen voor vervallen lijntypes, met de
+            # bewuste uitzonderingen (per naam / per hoofdgroep).
+            exempted = fase_v and (name.upper() in exc or row_hg in hgexc)
+            if fase_v and not exempted:
+                m = _RE_VERWIJDEREN2.search(ad)
+                if not m:
+                    if not has_v1:   # geen VW2 én geen VW1 op een vervallen lijntype
+                        warn_problems.append("(geen VERWIJDEREN2)")
+                else:
+                    inner = m.group(1)
+                    sm = _RE_SCALE.search(inner)
+                    if not sm:
+                        warn_problems.append("(geen s=)")
+                    elif float(sm.group(1)) != expected:
+                        warn_problems.append(f"s={sm.group(1)}")
+                    ym = _RE_YOFFSET.search(inner)
+                    if ym:
+                        try:
+                            yv = float(ym.group(1))
+                        except ValueError:
+                            yv = 0.0
+                        if yv != 0:
+                            warn_problems.append(f"y={ym.group(1)}")
+
+            if exempted and not err_problems:
                 exempt += 1
                 continue
             total += 1
-            ad = (r[di] if di < len(r) else "")
-            m = _RE_VERWIJDEREN2.search(ad)
-            if not m:
-                missing.append({"name": name, "file": fn, "row": i + 2,
-                                "found": "(geen VERWIJDEREN2)"})
-                continue
-            inner = m.group(1)
-            problems: list[str] = []
-            # (1) schaal: moet exact s=0.5 zijn
-            sm = _RE_SCALE.search(inner)
-            if not sm:
-                problems.append("(geen s=)")
-            elif float(sm.group(1)) != expected:
-                problems.append(f"s={sm.group(1)}")
-            # (2) verticale y=-offset ongelijk aan 0 is ongewenst (niet gecentreerd);
-            #     een horizontale x=-offset is prima en negeren we bewust.
-            ym = _RE_YOFFSET.search(inner)
-            if ym:
-                try:
-                    yv = float(ym.group(1))
-                except ValueError:
-                    yv = 0.0
-                if yv != 0:
-                    problems.append(f"y={ym.group(1)}")
-            if problems:
-                missing.append({"name": name, "file": fn, "row": i + 2,
-                                "found": " · ".join(problems)})
+            if err_problems:
+                errors.append({"name": name, "file": fn, "row": i + 2,
+                               "found": " · ".join(err_problems)})
+            elif warn_problems:
+                warnings.append({"name": name, "file": fn, "row": i + 2,
+                                 "found": " · ".join(warn_problems)})
             else:
                 ok += 1
 
-    missing.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    errors.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    warnings.sort(key=lambda d: (d["file"], d["name"].casefold()))
     return {"total": total, "ok": ok, "expected": expected, "exempt": exempt,
             "exceptions": sorted(exc), "hg_exceptions": sorted(hgexc),
-            "missing": missing}
+            "errors": errors, "warnings": warnings,
+            "missing": errors + warnings}
 
 
 # lt_v-WAARDEN die bewust zijn toegestaan ook al beginnen ze niet met 'V-':

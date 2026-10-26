@@ -2987,20 +2987,27 @@ def _c_missing(result, title, kpi_labels, warn, name_head) -> str:
 
 
 def _c_verwijderen_scale(result) -> str:
-    """Kaart voor de VERWIJDEREN2-schaalcontrole op vervallen lijntypes:
-    result met total/ok/expected/exempt/exceptions/hg_exceptions/
-    missing[{name,file,row,found}]."""
-    title = "VERWIJDEREN2-schaal"
+    """Kaart voor de VERWIJDEREN-scrap-controle op lijntypes: result met
+    total/ok/expected/exempt/exceptions/hg_exceptions, errors[...] (FOUTEN:
+    VERWIJDEREN1 of VERWIJDEREN buiten fase V) en warnings[...] (afwijkende
+    schaal/y-offset/geen VERWIJDEREN2)."""
+    title = "VERWIJDEREN-scrap (vervallen lijntypes)"
     if not result:
         return _skip_card(title)
-    missing = result.get("missing", [])
+    # Terugval: oudere resultaten hadden alleen 'missing' (allemaal waarschuwing).
+    errors = result.get("errors")
+    warnings = result.get("warnings")
+    if errors is None and warnings is None:
+        errors, warnings = [], result.get("missing", [])
+    errors = errors or []
+    warnings = warnings or []
     total, ok = result.get("total", 0), result.get("ok", 0)
     exp = result.get("expected", 0.5)
     kpi = _kpi_boxes(
-        (total, "vervallen lijntypes", ""),
-        (ok, f"s={exp}, geen y-offset", "free" if ok == total else ""),
-        (len(missing), "afwijkende schaal / y-offset",
-         "warn" if missing else "free"))
+        (total, "beoordeelde lijntypes", ""),
+        (len(errors), "fout", "bad" if errors else "free"),
+        (len(warnings), "waarschuwing (schaal / y-offset)",
+         "warn" if warnings else "free"))
     c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
     # Toelichting op de uitgezonderde lijntypes/hoofdgroepen (indien aanwezig).
     exempt = result.get("exempt", 0)
@@ -3012,22 +3019,31 @@ def _c_verwijderen_scale(result) -> str:
             parts.append("lijntype(s) " + ", ".join(_esc(n) for n in names))
         if hgs:
             parts.append("hoofdgroep(en) " + ", ".join(_esc(h) for h in hgs))
-        c.append(f'<p class="skip">Uitgezonderd van deze controle: '
+        c.append(f'<p class="skip">Uitgezonderd van de schaalcontrole: '
                  f'{" en ".join(parts)} — {exempt} vervallen lijntype(s) '
                  f'overgeslagen (bewust afwijkende VERWIJDEREN2-opzet).</p>')
-    if not missing:
-        c.append(f'<p class="ok">✓ Elk (gecontroleerd) vervallen lijntype heeft de '
-                 f'VERWIJDEREN2-scrap op schaal s={exp} zonder verticale '
-                 f'y-verschuiving.</p>')
-    else:
-        c.append(f'<p class="warn">⚠ {len(missing)} met een afwijkende (of '
+    if not errors and not warnings:
+        c.append(f'<p class="ok">✓ Elke VERWIJDEREN-scrap is een VERWIJDEREN2 bij '
+                 f'een vervallen lijntype (fase V), op schaal s={exp} zonder '
+                 f'verticale y-verschuiving.</p>')
+    # FOUTEN (tellen mee als fout in het publicatie-overzicht → hg_class 'hg')
+    if errors:
+        c.append(f'<p class="warn">⚠ {len(errors)} <b>fout(en)</b>: VERWIJDEREN1 '
+                 f'moet VERWIJDEREN2 zijn, en een VERWIJDEREN-scrap mag alléén bij '
+                 f'een vervallen lijntype (fase V) voorkomen:</p>')
+        c.append(_hg_table(
+            '<th>lijntype</th><th>gevonden</th><th>rij</th>', errors,
+            [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td class="loc">{_esc(m.get("found",""))}</td>',
+             lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>']))
+    # WAARSCHUWINGEN (hg_class 'hg info' → geen fout-vinkje in het overzicht)
+    if warnings:
+        c.append(f'<p class="warn">⚠ {len(warnings)} met een afwijkende (of '
                  f'ontbrekende) schaal of een ongewenste verticale y-offset '
                  f'(een horizontale x-offset is prima) — <b>waarschuwing</b>, '
                  f'telt niet als fout in het publicatie-overzicht:</p>')
-        # hg_class 'hg info' → uitgesloten van findings_by_hoofdgroep, dus geen
-        # fout-vinkje in het overzicht; dit is een waarschuwing (gebruikerskeuze).
         c.append(_hg_table(
-            '<th>lijntype</th><th>gevonden</th><th>rij</th>', missing,
+            '<th>lijntype</th><th>gevonden</th><th>rij</th>', warnings,
             [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
              lambda m: f'<td class="loc">{_esc(m.get("found",""))}</td>',
              lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>'],
@@ -3558,15 +3574,17 @@ _D_VERBKLEUR = (
     "fout en moet er een andere kleur gekozen worden.")
 
 _D_VERWSCALE = (
-    "VERWIJDEREN2-schaal: elk vervallen lijntype (kolom <code>fase</code> = V) "
+    "VERWIJDEREN-scrap: elk vervallen lijntype (kolom <code>fase</code> = V) "
     "kreeg bij de transitie een scrap met de shape <code>VERWIJDEREN2</code> uit "
-    "<code>NLCS.shx</code> op schaal 0.5. Gecontroleerd wordt of de "
-    "<code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-segment van de "
-    "<code>autocaddef</code> daadwerkelijk 0.5 is én of er geen verticale "
-    "<code>y=</code>-verschuiving in staat (dan staan de scraps niet meer "
-    "gecentreerd op de lijn). Een horizontale <code>x=</code>-offset is prima "
-    "(fraaie uitlijning op de lijn) en blijft ongemoeid. Uitgezonderd (bewust "
-    "afwijkende opzet, volledig overgeslagen): het lijntype "
+    "<code>NLCS.shx</code> op schaal 0.5. <b>FOUT</b> (telt mee in het overzicht): "
+    "<code>VERWIJDEREN1</code> wordt gebruikt — dat moet <code>VERWIJDEREN2</code> "
+    "zijn; of er staat een VERWIJDEREN-scrap op een niet-vervallen lijntype — een "
+    "VERWIJDEREN mag alléén bij <code>fase</code> = V. <b>WAARSCHUWING</b> (geen "
+    "fout-vinkje): de <code>s=</code>-waarde in het <code>[VERWIJDEREN2,…]</code>-"
+    "segment is niet 0.5, er staat een verticale <code>y=</code>-verschuiving in "
+    "(scraps niet gecentreerd), of er is geen VERWIJDEREN2. Een horizontale "
+    "<code>x=</code>-offset is prima en blijft ongemoeid. Uitgezonderd van de "
+    "schaalcontrole (bewust afwijkende opzet): het lijntype "
     "<code>V-GR-PLANTSOEN-SO</code>.")
 
 
