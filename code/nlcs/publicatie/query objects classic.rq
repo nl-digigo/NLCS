@@ -91,10 +91,14 @@ WHERE {
       } ORDER BY ?objectURI ?aobject
     } GROUP BY ?objectURI
   }
+  # Bewerking = het deel van de objectnaam ná het '-'. (De oude property
+  # nlcs:9e8d26b2-… bestaat niet meer; het nieuwe nen2660:transforms zit op het
+  # BRON-object en zou de waarde op de verkeerde rij zetten.) De OPTIONAL + FILTER
+  # laat ?bewerking ONBOUND als er geen '-' in de naam staat, zodat de
+  # BOUND(?bewerking)-check in de laagnaam blijft kloppen.
   OPTIONAL {
-    ?objectURI rdfs:subClassOf ?bnodeBewerking .
-    ?bnodeBewerking owl:onProperty nlcs:9e8d26b2-e78a-40a5-84b7-765da5b6592f .
-    ?bnodeBewerking owl:hasValue/skos:prefLabel ?bewerking .
+    FILTER(CONTAINS(?omschrijving, "-"))
+    BIND(STRAFTER(?omschrijving, "-") AS ?bewerking)
   }
   OPTIONAL {
     ?objectURI nlcs:Element ?element .

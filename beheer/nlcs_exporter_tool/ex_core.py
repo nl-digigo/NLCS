@@ -217,6 +217,8 @@ def run_export(endpoint, token, password, version, repo_root, out_root,
                 log("  Geen hoofdgroepen gevonden/geselecteerd — overgeslagen.")
             else:
                 log(f"  Hoofdgroepen: {', '.join(codes)}")
+                all_header = None          # header van de 1e tabel
+                all_body: list[str] = []   # datarijen van álle hoofdgroepen
                 for hg in codes:
                     q = template.replace(OBJECT_PLACEHOLDER, f'"{hg}"')
                     try:
@@ -231,9 +233,28 @@ def run_export(endpoint, token, password, version, repo_root, out_root,
                         log(f"  {OBJECTEN_SUBDIR}/objecten-{hg}-{version}.csv  "
                             f"({n} rijen)")
                         ok += 1
+                        # verzamel voor het gecombineerde all-objects-bestand
+                        lines = resp.text.splitlines()
+                        if lines:
+                            if all_header is None:
+                                all_header = lines[0]
+                            all_body.extend(l for l in lines[1:] if l)
                     except Exception as e:  # noqa: BLE001
                         log(f"  FOUT objecten-{hg}: {e}")
                         fail += 1
+                # Alle objectentabellen samen in één document. NIET in de map
+                # 'objectentabellen/' (anders leest de changelog-tool dit dubbel),
+                # maar in de uitvoermap-root.
+                if all_header is not None:
+                    combined = os.path.join(out_root, f"all-objects-{version}.csv")
+                    with open(combined, "w", encoding="utf-8", newline="") as f:
+                        f.write(all_header + "\n")
+                        f.write("\n".join(all_body))
+                        if all_body:
+                            f.write("\n")
+                    log(f"  all-objects-{version}.csv  ({len(all_body)} rijen "
+                        f"uit {len(codes)} hoofdgroep(en))")
+                    ok += 1
 
     log(f"\nKlaar. {ok} bestand(en) geschreven, {fail} fout(en).")
 
@@ -273,9 +294,9 @@ def _gen_lin(client, repo_root, out_root, type_pub, version, log) -> None:
     if resp.status_code != 200:
         raise RuntimeError(f"LIN-query gaf HTTP {resp.status_code}")
     rows = list(csv.DictReader(io.StringIO(_clean_csv(resp.text))))
-    header = (f"Lin bestand gegenereerd uit de NLCS database versie "
-              f"{type_pub}-{version}")
-    lines = [header]
+    # GEEN headerregel ("Lin bestand gegenereerd uit…") en geen lege regels
+    # bovenaan: het bestand begint direct met de eerste *lijntype-regel.
+    lines = []
     for r in rows:
         name = (r.get("tgtLinetypeName") or "").strip()
         lid = (r.get("tgtLinetypeID") or "").strip()
@@ -289,7 +310,7 @@ def _gen_lin(client, repo_root, out_root, type_pub, version, log) -> None:
                        f"NLCS-{type_pub}-{version.replace('.', '-')}_linetypes.lin")
     os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
-        f.write("\n".join(lines))
+        f.write("\n".join(lines).lstrip("\n"))
     log(f"LIN: {os.path.basename(out)}  ({len(rows)} lijntypes)")
 
 

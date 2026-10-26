@@ -49,6 +49,18 @@ def hoofdgroep_code(path: str) -> str:
     return alpha[-1].strip().upper() if alpha else ""
 
 
+# Symbolen met het achtervoegsel '_dyn' (dynamische symbolen) worden overal in de
+# kwaliteitscontroles overgeslagen. '_dyn' moet een losse afsluiting zijn (eind, of
+# gevolgd door een optie-suffix als '-SO'); 'DATA_..._DYNAMISCH' matcht dus NIET.
+_RE_DYN_SUFFIX = re.compile(r"_dyn(-[A-Za-z0-9]+)?$", re.IGNORECASE)
+
+
+def is_dyn_name(name) -> bool:
+    """True als de (symbool)naam het achtervoegsel '_dyn' heeft (eventueel gevolgd
+    door een optie-suffix). Zulke dynamische symbolen vallen buiten de controles."""
+    return bool(_RE_DYN_SUFFIX.search(name or ""))
+
+
 # Overige tabellen die als los OVERZICHT (zonder changelog) worden gegenereerd:
 # (csv-stam in de export, pagina-/bestandstitel). Lijntypes/arceringen/symbolen
 # NIET — die zitten in de per-hoofdgroep changelogs.
@@ -870,6 +882,8 @@ def analyze_name_uri(new_src: str, old_src: str, name_col: str, uri_col: str,
                 if 0 <= xi < len(r) and r[xi].strip().upper() in ex_vals:
                     continue
                 nm = r[ni].strip() if ni < len(r) else ""
+                if is_dyn_name(nm):          # dynamische symbolen overslaan
+                    continue
                 uri = r[ui].strip() if ui < len(r) else ""
                 raw_hg = file_code if per_file else (
                     r[hi].strip() if 0 <= hi < len(r) else "")
@@ -996,7 +1010,7 @@ def check_fase_optie(src: str, name_col: str, exclude_names=()) -> list[dict]:
         name = os.path.basename(path)
         for n, r in enumerate(rows, start=2):   # +1 kop, +1 want 1-based
             nm = (r[ni] if ni < len(r) else "").strip()
-            if not nm or nm.upper() in skip:
+            if not nm or nm.upper() in skip or is_dyn_name(nm):  # dyn overslaan
                 continue
             ef, eo = _expected_fase_optie(nm)
             if fi >= 0:
@@ -1681,7 +1695,7 @@ def check_searchterm_coverage(name_src: str, obj_src: str,
         fn = os.path.basename(path)
         for r in rows:
             name = (r[ni] if ni < len(r) else "").strip()
-            if not name or name in seen:
+            if not name or name in seen or is_dyn_name(name):  # dyn overslaan
                 continue
             seen.add(name)
             total += 1
@@ -1749,7 +1763,7 @@ def check_searchterm_min(obj_src: str, name_src: str,
         ni = headers.index(name_col)
         for r in rows:
             nm = (r[ni] if ni < len(r) else "").strip()
-            if nm:
+            if nm and not is_dyn_name(nm):   # dynamische symbolen overslaan
                 names.append(nm)
 
     ok = 0
@@ -1850,7 +1864,7 @@ def check_special_chars(src: str, name_col: str,
         allowed_here = hga.get((hoofdgroep_code(path) or "").upper(), set())
         for i, r in enumerate(rows):
             name = (r[ni] if ni < len(r) else "").strip()
-            if not name:
+            if not name or is_dyn_name(name):   # dynamische symbolen overslaan
                 continue
             total += 1
             found = [ch for ch in fb if ch in name and ch not in allowed_here]
@@ -2029,7 +2043,7 @@ def check_duplicate_names(src: str, name_col: str) -> dict:
         file_hg = hoofdgroep_code(path)   # '' bij een gecombineerd totaal-bestand
         for i, r in enumerate(rows):
             name = (r[ni] if ni < len(r) else "").strip()
-            if not name:
+            if not name or is_dyn_name(name):   # dynamische symbolen overslaan
                 continue
             total += 1
             hg = file_hg or ((r[hc].strip() if 0 <= hc < len(r) else "") or "")
@@ -2919,7 +2933,7 @@ def check_dwg_symbols(sym_src: str, dwg_dir: str, name_col: str = "symbool",
         code = hoofdgroep_code(path)
         for r in rows:
             nm = (r[ni] if ni < len(r) else "").strip()
-            if not nm:
+            if not nm or is_dyn_name(nm):   # dynamische symbolen overslaan
                 continue
             total += 1
             all_symbols.add(nm.lower())
@@ -2939,6 +2953,7 @@ def check_dwg_symbols(sym_src: str, dwg_dir: str, name_col: str = "symbool",
          "hoofdgroep": sbib_to_code(bib_of_stem(stem, processed_bibs))}
         for stem in dwg_map
         if bib_of_stem(stem, processed_bibs) and stem not in all_symbols
+        and not is_dyn_name(stem)   # dynamische symbolen (_dyn) overslaan
     ]
     missing.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
     orphans.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
