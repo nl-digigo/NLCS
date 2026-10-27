@@ -699,6 +699,7 @@ class TableTab(ttk.Frame):
         os.makedirs(out_dir, exist_ok=True)
         version_new = self.app.version_new_var.get().strip()
         version_old = self.app.version_old_var.get().strip()
+        vdash = version_new.replace(".", "-")
         open_after = self.app.open_after_var.get()
         match_key = self.profile["match_key"]
         visible_fn = self.profile["visible"]
@@ -907,6 +908,19 @@ class TableTab(ttk.Frame):
                         else:
                             base = (_base_for_code(orig_base, gcode_c) if multi
                                     else orig_base)
+                        if self.profile.get("key") == "obj":
+                            # De exporter noemt de objecten-CSV
+                            # 'objecten-<HG>-<versie>' (bijv. objecten-AL-5-2),
+                            # maar de publicatie/changelog gebruikt juist
+                            # 'objecten-<versie>-<HG>' (objecten-5-2-AL). Herorden
+                            # de bestandsnaam naar dat formaat, los van de CSV-naam.
+                            # Het obj-profiel heeft GEEN scope_col, dus `gcode_c` is
+                            # leeg; de hoofdgroep zit in `code` (uit de bestandsnaam)
+                            # — net als bij dest_dir_for(gcode_c if multi else code).
+                            hg = gcode_c if multi else code
+                            subj = orig_base.split("-")[0]
+                            base = (f"{subj}-{vdash}-{hg}" if vdash
+                                    else f"{subj}-{hg}")
                         vis = visible_fn(result["headers"])
                         text_cols = [h for h in result["headers"]
                                      if text_search_fn(h)]
