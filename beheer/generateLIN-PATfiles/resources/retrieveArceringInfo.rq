@@ -24,3 +24,4 @@ WHERE {
     ?VRKL_LANGProperty skos:prefLabel "VRKL_LANG" .
 
 }
+ORDER BY ?tgtArceringName ?tgtArcering

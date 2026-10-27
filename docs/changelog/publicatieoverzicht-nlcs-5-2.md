@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 236 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 306 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -24,12 +24,14 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/AL/lijntypes-5-2-AL.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/AL/objecten-5-2-AL.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/AL/objecten-AL-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/AL/releasenotes-5-2-AL.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/AL/symbolen-5-2-AL.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/AL/changelog-lijntypes-5-2-AL.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/AL/changelog-objecten-5-2-AL.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/AL/changelog-objecten-AL-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/AL/changelog-symbolen-5-2-AL.html)
 
 ## AM ✅
@@ -37,12 +39,14 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/AM/lijntypes-5-2-AM.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/AM/objecten-5-2-AM.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/AM/objecten-AM-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/AM/releasenotes-5-2-AM.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/AM/symbolen-5-2-AM.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/AM/changelog-lijntypes-5-2-AM.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/AM/changelog-objecten-5-2-AM.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/AM/changelog-objecten-AM-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/AM/changelog-symbolen-5-2-AM.html)
 
 ## BC ✅
@@ -50,12 +54,14 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/BC/lijntypes-5-2-BC.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/BC/objecten-5-2-BC.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/BC/objecten-BC-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/BC/releasenotes-5-2-BC.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/BC/symbolen-5-2-BC.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/BC/changelog-lijntypes-5-2-BC.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/BC/changelog-objecten-5-2-BC.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/BC/changelog-objecten-BC-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/BC/changelog-symbolen-5-2-BC.html)
 
 ## BV ✅
@@ -63,12 +69,14 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/BV/lijntypes-5-2-BV.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/BV/objecten-5-2-BV.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/BV/objecten-BV-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/BV/releasenotes-5-2-BV.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/BV/symbolen-5-2-BV.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/BV/changelog-lijntypes-5-2-BV.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/BV/changelog-objecten-5-2-BV.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/BV/changelog-objecten-BV-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/BV/changelog-symbolen-5-2-BV.html)
 
 ## CO ✅
@@ -85,22 +93,26 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/ES/lijntypes-5-2-ES.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/ES/objecten-5-2-ES.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/ES/objecten-ES-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/ES/releasenotes-5-2-ES.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/ES/changelog-lijntypes-5-2-ES.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/ES/changelog-objecten-5-2-ES.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/ES/changelog-objecten-ES-5-2.html)
 
 ## FC ✅
 
 **Tabellen**
 - [Lijntypes CO](https://nl-digigo.github.io/NLCS/changelog/FC/lijntypes-5-2-CO.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/FC/objecten-5-2-FC.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/FC/objecten-FC-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/FC/releasenotes-5-2-FC.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/FC/symbolen-5-2-FC.html)
 
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/FC/changelog-objecten-5-2-FC.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/FC/changelog-objecten-FC-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/FC/changelog-symbolen-5-2-FC.html)
 
 ## FV ✅
@@ -108,21 +120,25 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/FV/lijntypes-5-2-FV.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/FV/objecten-5-2-FV.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/FV/objecten-FV-5-2.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/FV/changelog-lijntypes-5-2-FV.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/FV/changelog-objecten-5-2-FV.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/FV/changelog-objecten-FV-5-2.html)
 
 ## GC ✅
 
 **Tabellen**
 - [Lijntypes CO](https://nl-digigo.github.io/NLCS/changelog/GC/lijntypes-5-2-CO.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/GC/objecten-5-2-GC.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/GC/objecten-GC-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/GC/releasenotes-5-2-GC.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/GC/symbolen-5-2-GC.html)
 
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/GC/changelog-objecten-5-2-GC.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/GC/changelog-objecten-GC-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/GC/changelog-symbolen-5-2-GC.html)
 
 ## GK ✅
@@ -130,11 +146,13 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/GK/lijntypes-5-2-GK.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/GK/objecten-5-2-GK.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/GK/objecten-GK-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/GK/releasenotes-5-2-GK.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/GK/changelog-lijntypes-5-2-GK.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/GK/changelog-objecten-5-2-GK.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/GK/changelog-objecten-GK-5-2.html)
 
 ## GR ✅
 
@@ -142,6 +160,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/GR/arceringen-5-2-GR.html)
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/GR/lijntypes-5-2-GR.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/GR/objecten-5-2-GR.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/GR/objecten-GR-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/GR/releasenotes-5-2-GR.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/GR/symbolen-5-2-GR.html)
 
@@ -149,6 +168,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog arceringen](https://nl-digigo.github.io/NLCS/changelog/GR/changelog-arceringen-5-2-GR.html)
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/GR/changelog-lijntypes-5-2-GR.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/GR/changelog-objecten-5-2-GR.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/GR/changelog-objecten-GR-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/GR/changelog-symbolen-5-2-GR.html)
 
 ## GW ✅
@@ -157,6 +177,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/GW/arceringen-5-2-GW.html)
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/GW/lijntypes-5-2-GW.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/GW/objecten-5-2-GW.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/GW/objecten-GW-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/GW/releasenotes-5-2-GW.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/GW/symbolen-5-2-GW.html)
 
@@ -164,24 +185,29 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog arceringen](https://nl-digigo.github.io/NLCS/changelog/GW/changelog-arceringen-5-2-GW.html)
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/GW/changelog-lijntypes-5-2-GW.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/GW/changelog-objecten-5-2-GW.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/GW/changelog-objecten-GW-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/GW/changelog-symbolen-5-2-GW.html)
 
 ## HC ✅
 
 **Tabellen**
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/HC/objecten-5-2-HC.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/HC/objecten-HC-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/HC/releasenotes-5-2-HC.html)
 
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/HC/changelog-objecten-5-2-HC.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/HC/changelog-objecten-HC-5-2.html)
 
 ## HU ✅
 
 **Tabellen**
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/HU/objecten-5-2-HU.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/HU/objecten-HU-5-2.html)
 
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/HU/changelog-objecten-5-2-HU.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/HU/changelog-objecten-HU-5-2.html)
 
 ## IE ✅
 
@@ -189,6 +215,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/IE/arceringen-5-2-IE.html)
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/IE/lijntypes-5-2-IE.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/IE/objecten-5-2-IE.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/IE/objecten-IE-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/IE/releasenotes-5-2-IE.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/IE/symbolen-5-2-IE.html)
 
@@ -196,6 +223,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog arceringen](https://nl-digigo.github.io/NLCS/changelog/IE/changelog-arceringen-5-2-IE.html)
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/IE/changelog-lijntypes-5-2-IE.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/IE/changelog-objecten-5-2-IE.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/IE/changelog-objecten-IE-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/IE/changelog-symbolen-5-2-IE.html)
 
 ## IS ✅
@@ -203,12 +231,14 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/IS/lijntypes-5-2-IS.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/IS/objecten-5-2-IS.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/IS/objecten-IS-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/IS/releasenotes-5-2-IS.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/IS/symbolen-5-2-IS.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/IS/changelog-lijntypes-5-2-IS.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/IS/changelog-objecten-5-2-IS.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/IS/changelog-objecten-IS-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/IS/changelog-symbolen-5-2-IS.html)
 
 ## IV ✅
@@ -216,32 +246,38 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/IV/lijntypes-5-2-IV.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/IV/objecten-5-2-IV.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/IV/objecten-IV-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/IV/releasenotes-5-2-IV.html)
 
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/IV/changelog-objecten-5-2-IV.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/IV/changelog-objecten-IV-5-2.html)
 
 ## IW ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/IW/lijntypes-5-2-IW.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/IW/objecten-5-2-IW.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/IW/objecten-IW-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/IW/releasenotes-5-2-IW.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/IW/symbolen-5-2-IW.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/IW/changelog-lijntypes-5-2-IW.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/IW/changelog-objecten-5-2-IW.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/IW/changelog-objecten-IW-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/IW/changelog-symbolen-5-2-IW.html)
 
 ## KC ✅
 
 **Tabellen**
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/KC/objecten-5-2-KC.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/KC/objecten-KC-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/KC/releasenotes-5-2-KC.html)
 
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/KC/changelog-objecten-5-2-KC.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/KC/changelog-objecten-KC-5-2.html)
 
 ## KG ✅
 
@@ -249,6 +285,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/KG/arceringen-5-2-KG.html)
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/KG/lijntypes-5-2-KG.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/KG/objecten-5-2-KG.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/KG/objecten-KG-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/KG/releasenotes-5-2-KG.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/KG/symbolen-5-2-KG.html)
 
@@ -256,6 +293,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog arceringen](https://nl-digigo.github.io/NLCS/changelog/KG/changelog-arceringen-5-2-KG.html)
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/KG/changelog-lijntypes-5-2-KG.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/KG/changelog-objecten-5-2-KG.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/KG/changelog-objecten-KG-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/KG/changelog-symbolen-5-2-KG.html)
 
 ## KL ✅
@@ -263,12 +301,14 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/KL/lijntypes-5-2-KL.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/KL/objecten-5-2-KL.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/KL/objecten-KL-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/KL/releasenotes-5-2-KL.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/KL/symbolen-5-2-KL.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/KL/changelog-lijntypes-5-2-KL.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/KL/changelog-objecten-5-2-KL.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/KL/changelog-objecten-KL-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/KL/changelog-symbolen-5-2-KL.html)
 
 ## KW ✅
@@ -276,23 +316,27 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/KW/lijntypes-5-2-KW.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/KW/objecten-5-2-KW.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/KW/objecten-KW-5-2.html)
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/KW/objecten-concept-5.2-KW.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/KW/releasenotes-5-2-KW.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/KW/changelog-lijntypes-5-2-KW.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/KW/changelog-objecten-5-2-KW.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/KW/changelog-objecten-KW-5-2.html)
 
 ## MC ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/MC/lijntypes-5-2-MC.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/MC/objecten-5-2-MC.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/MC/objecten-MC-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/MC/releasenotes-5-2-MC.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/MC/changelog-lijntypes-5-2-MC.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/MC/changelog-objecten-5-2-MC.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/MC/changelog-objecten-MC-5-2.html)
 
 ## MO ✅
 
@@ -300,6 +344,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/MO/arceringen-5-2-MO.html)
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/MO/lijntypes-5-2-MO.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/MO/objecten-5-2-MO.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/MO/objecten-MO-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/MO/releasenotes-5-2-MO.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/MO/symbolen-5-2-MO.html)
 
@@ -307,6 +352,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog arceringen](https://nl-digigo.github.io/NLCS/changelog/MO/changelog-arceringen-5-2-MO.html)
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/MO/changelog-lijntypes-5-2-MO.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/MO/changelog-objecten-5-2-MO.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/MO/changelog-objecten-MO-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/MO/changelog-symbolen-5-2-MO.html)
 
 ## MW ✅
@@ -315,22 +361,26 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/MW/arceringen-5-2-MW.html)
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/MW/lijntypes-5-2-MW.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/MW/objecten-5-2-MW.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/MW/objecten-MW-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/MW/releasenotes-5-2-MW.html)
 
 **Changelogs**
 - [Changelog arceringen](https://nl-digigo.github.io/NLCS/changelog/MW/changelog-arceringen-5-2-MW.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/MW/changelog-objecten-5-2-MW.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/MW/changelog-objecten-MW-5-2.html)
 
 ## OB ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/OB/lijntypes-5-2-OB.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/OB/objecten-5-2-OB.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/OB/objecten-OB-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/OB/releasenotes-5-2-OB.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/OB/changelog-lijntypes-5-2-OB.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/OB/changelog-objecten-5-2-OB.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/OB/changelog-objecten-OB-5-2.html)
 
 ## OG ✅
 
@@ -338,6 +388,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/OG/arceringen-5-2-OG.html)
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/OG/lijntypes-5-2-OG.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/OG/objecten-5-2-OG.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/OG/objecten-OG-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/OG/releasenotes-5-2-OG.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/OG/symbolen-5-2-OG.html)
 
@@ -345,6 +396,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog arceringen](https://nl-digigo.github.io/NLCS/changelog/OG/changelog-arceringen-5-2-OG.html)
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/OG/changelog-lijntypes-5-2-OG.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/OG/changelog-objecten-5-2-OG.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/OG/changelog-objecten-OG-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/OG/changelog-symbolen-5-2-OG.html)
 
 ## OV ✅
@@ -352,12 +404,14 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/OV/lijntypes-5-2-OV.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/OV/objecten-5-2-OV.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/OV/objecten-OV-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/OV/releasenotes-5-2-OV.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/OV/symbolen-5-2-OV.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/OV/changelog-lijntypes-5-2-OV.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/OV/changelog-objecten-5-2-OV.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/OV/changelog-objecten-OV-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/OV/changelog-symbolen-5-2-OV.html)
 
 ## RI ✅
@@ -365,12 +419,14 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/RI/lijntypes-5-2-RI.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/RI/objecten-5-2-RI.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/RI/objecten-RI-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/RI/releasenotes-5-2-RI.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/RI/symbolen-5-2-RI.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/RI/changelog-lijntypes-5-2-RI.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/RI/changelog-objecten-5-2-RI.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/RI/changelog-objecten-RI-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/RI/changelog-symbolen-5-2-RI.html)
 
 ## SB ✅
@@ -378,23 +434,27 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/SB/lijntypes-5-2-SB.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/SB/objecten-5-2-SB.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/SB/objecten-SB-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/SB/releasenotes-5-2-SB.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/SB/symbolen-5-2-SB.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/SB/changelog-lijntypes-5-2-SB.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/SB/changelog-objecten-5-2-SB.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/SB/changelog-objecten-SB-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/SB/changelog-symbolen-5-2-SB.html)
 
 ## SC ✅
 
 **Tabellen**
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/SC/objecten-5-2-SC.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/SC/objecten-SC-5-2.html)
 - [Objecten concept](https://nl-digigo.github.io/NLCS/changelog/SC/objecten-concept-5.2-SC.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/SC/releasenotes-5-2-SC.html)
 
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/SC/changelog-objecten-5-2-SC.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/SC/changelog-objecten-SC-5-2.html)
 
 ## VH ✅
 
@@ -402,6 +462,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Arceringen](https://nl-digigo.github.io/NLCS/changelog/VH/arceringen-5-2-VH.html)
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/VH/lijntypes-5-2-VH.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/VH/objecten-5-2-VH.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/VH/objecten-VH-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/VH/releasenotes-5-2-VH.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/VH/symbolen-5-2-VH.html)
 
@@ -409,6 +470,7 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog arceringen](https://nl-digigo.github.io/NLCS/changelog/VH/changelog-arceringen-5-2-VH.html)
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/VH/changelog-lijntypes-5-2-VH.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/VH/changelog-objecten-5-2-VH.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/VH/changelog-objecten-VH-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/VH/changelog-symbolen-5-2-VH.html)
 
 ## VV ✅
@@ -416,11 +478,13 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/VV/lijntypes-5-2-VV.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/VV/objecten-5-2-VV.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/VV/objecten-VV-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/VV/releasenotes-5-2-VV.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/VV/symbolen-5-2-VV.html)
 
 **Changelogs**
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/VV/changelog-objecten-5-2-VV.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/VV/changelog-objecten-VV-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/VV/changelog-symbolen-5-2-VV.html)
 
 ## VW ✅
@@ -428,12 +492,14 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/VW/lijntypes-5-2-VW.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/VW/objecten-5-2-VW.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/VW/objecten-VW-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/VW/releasenotes-5-2-VW.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/VW/symbolen-5-2-VW.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/VW/changelog-lijntypes-5-2-VW.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/VW/changelog-objecten-5-2-VW.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/VW/changelog-objecten-VW-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/VW/changelog-symbolen-5-2-VW.html)
 
 ## WH ✅
@@ -441,23 +507,27 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/WH/lijntypes-5-2-WH.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/WH/objecten-5-2-WH.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/WH/objecten-WH-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/WH/releasenotes-5-2-WH.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/WH/changelog-lijntypes-5-2-WH.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/WH/changelog-objecten-5-2-WH.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/WH/changelog-objecten-WH-5-2.html)
 
 ## ZZ ✅
 
 **Tabellen**
 - [Lijntypes](https://nl-digigo.github.io/NLCS/changelog/ZZ/lijntypes-5-2-ZZ.html)
 - [Objecten](https://nl-digigo.github.io/NLCS/changelog/ZZ/objecten-5-2-ZZ.html)
+- [Objecten](https://nl-digigo.github.io/NLCS/changelog/ZZ/objecten-ZZ-5-2.html)
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/ZZ/releasenotes-5-2-ZZ.html)
 - [Symbolen](https://nl-digigo.github.io/NLCS/changelog/ZZ/symbolen-5-2-ZZ.html)
 
 **Changelogs**
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/ZZ/changelog-lijntypes-5-2-ZZ.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/ZZ/changelog-objecten-5-2-ZZ.html)
+- [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/ZZ/changelog-objecten-ZZ-5-2.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/ZZ/changelog-symbolen-5-2-ZZ.html)
 
 ## Voor de expertcommissie

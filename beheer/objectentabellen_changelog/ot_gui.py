@@ -42,9 +42,12 @@ PROFILES = [
         "match_key": "objectURI",
         # gedeelde mappen (blok 'Locaties'): rol -> sleutel in app.loc
         "locations": {"new": "obj_new", "old": "obj_old"},
-        # verberg het blok status..streepje3
-        "visible": lambda headers: ot_html.hide_range_indices(
-            headers, "status", "streepje3"),
+        # verberg het blok status..streepje3 én de losse kolom 'streepje2'
+        # (een '-'-scheidingsteken dat ná streepje3 in de query staat en dus
+        # buiten het bereik viel)
+        "visible": lambda headers: [
+            i for i in ot_html.hide_range_indices(headers, "status", "streepje3")
+            if headers[i] != "streepje2"],
         # vrij zoekveld voor omschrijving, laagnaam en URI's; rest = keuzelijst
         "text_search": lambda h: h in ("omschrijving", "laagnaam")
         or "uri" in h.lower(),
@@ -57,6 +60,17 @@ PROFILES = [
         # alleen de nieuwe (5.2) waarde i.p.v. een schijnwijziging. Zelfde kolommen
         # als de 'multiple links'-weergave in ot_html.
         "multilink_cols": ot_html._MULTI_LINK_COLS,
+        # Status/discipline-placeholders zijn gelijkwaardig tussen 5.0 en 5.2
+        # (status-/discipline-onafhankelijk, m.n. AL): '*'=='X', '**'=='XX' en in de
+        # laagnaam '*_**_'=='X_XX_'. Zo'n verschil telt niet als wijziging.
+        "equiv_prefix": {"laagnaam": ["*_**_", "X_XX_"],
+                         "status": ["*", "X"], "discipline": ["**", "XX"]},
+        # Pure scheidingsteken-kolommen ('_' en '-'; 5.0 bevat soms "'-"): een
+        # verschil hierin mag een rij niet 'gewijzigd' maken.
+        "ignore_change_cols": ["underscore", "underscore2", "underscore3",
+                               "underscore4", "underscore5", "underscore6",
+                               "underscore7", "underscore8",
+                               "streepje", "streepje2", "streepje3"],
         # volledige tabel op één pagina tonen (geen paginering van 25 rijen);
         # alle rijen scrollen in het venster met bevroren kop
         "single_page": True,
@@ -95,6 +109,10 @@ PROFILES = [
         # beperkt blijft tot dezelfde hoofdgroep
         "old_is_file": True,
         "scope_col": "sbibliotheek",
+        # Nieuw mag óók één gecombineerd bestand zijn (symbolen-<versie>.csv); dat
+        # wordt dan intern per hoofdgroep vergeleken. Zonder dit veld verwacht de
+        # tool losse per-hoofdgroep-bestanden.
+        "combined_stem": "symbolen",
         # sbibliotheek = 'S' + hoofdgroepcode: 'S' eraf bij het splitsen van CO
         "scope_strip_s": True,
         # in de HTML-tabellen de kolomkop 'fase' tonen als 'status'
@@ -118,6 +136,7 @@ PROFILES = [
         # oude versie = één grote CSV met alle lijntypes; scope op hoofdgroep zodat
         # 'vervallen' beperkt blijft tot de vergeleken hoofdgroep
         "old_is_file": True,
+        "combined_stem": "lijntypes",
         "scope_col": "hoofdgroep",
         # hoofdgroep bevat de code al letterlijk (BV, BC, ...); NIET de 'S' strippen
         # (anders wordt bijv. 'SB' foutief 'B'). Verzamelbestand CO valt zo net als
@@ -176,6 +195,7 @@ PROFILES = [
         # oude versie = één grote CSV met alle arceringen; scope op abibliotheek
         # zodat 'vervallen' beperkt blijft tot de vergeleken groep
         "old_is_file": True,
+        "combined_stem": "arceringen",
         "scope_col": "abibliotheek",
         # abibliotheek bevat de groepscode al letterlijk (ACO, ...); NIET strippen.
         # CO werkt als één hoofdgroep met groep 'ACO', dus geen split.
@@ -492,6 +512,7 @@ class TableTab(ttk.Frame):
         self.profile = profile
         self._queue: queue.Queue = queue.Queue()
         self.pairs: dict[str, tuple[str, str]] = {}   # code -> (nieuw, oud)
+        self._combined_new = ""   # gezet als 'nieuw' één gecombineerd bestand is
 
         self._build()
 
@@ -597,11 +618,29 @@ class TableTab(ttk.Frame):
                 messagebox.showwarning("Locaties ontbreken", msg)
             return
 
+        self._combined_new = ""
         if self.old_is_file:
-            pairs, only_new, only_old = ot_compare.pair_folder_to_file(new_dir, old)
+            # Nieuw mag losse per-hoofdgroep-bestanden zijn OF één gecombineerd
+            # bestand (symbolen-<versie>.csv). Bij een gecombineerd bestand leiden
+            # we de hoofdgroepen uit de scope-kolom af; de vergelijking draait dan
+            # één keer op het hele bestand en wordt per hoofdgroep uitgesplitst.
+            stem = self.profile.get("combined_stem", "")
+            vdash = self.app.version_new_var.get().strip().replace(".", "-")
+            combined = (ot_compare.combined_table_file(new_dir, stem, vdash)
+                        if stem else "")
+            if combined:
+                self._combined_new = combined
+                scope_col = self.profile.get("scope_col", "")
+                strip_s = self.profile.get("scope_strip_s", True)
+                codes = ot_compare.combined_hoofdgroepen(combined, scope_col, strip_s)
+                self.pairs = {c: (combined, old) for c in codes}
+                only_new, only_old = [], []
+            else:
+                pairs, only_new, only_old = ot_compare.pair_folder_to_file(new_dir, old)
+                self.pairs = {code: (npath, opath) for code, npath, opath in pairs}
         else:
             pairs, only_new, only_old = ot_compare.pair_folders(new_dir, old)
-        self.pairs = {code: (npath, opath) for code, npath, opath in pairs}
+            self.pairs = {code: (npath, opath) for code, npath, opath in pairs}
 
         # Hoofdgroepen die alleen in de nieuwe versie bestaan (nog niet in de
         # vorige, bijv. nieuw in 5.2): toch meenemen met een lege oude kant, zodat
@@ -690,6 +729,14 @@ class TableTab(ttk.Frame):
         pub_root = self.app.loc["index_root"].get().strip()
         selected = [(code, self.pairs[code][0], self.pairs[code][1])
                     for code in chosen if code in self.pairs]
+        # Gecombineerd nieuw bestand: alle gekozen hoofdgroepen wijzen naar hetzelfde
+        # bestand. Draai dan ÉÉN vergelijking op het hele bestand en schrijf alleen
+        # de gekozen hoofdgroepen uit de uitsplitsing (anders zou elke hoofdgroep de
+        # volledige vergelijking overdoen). `wanted_combined` = de gekozen HG-codes.
+        wanted_combined = None
+        if self._combined_new and selected:
+            wanted_combined = {c for c, _, _ in selected}
+            selected = [("", self._combined_new, selected[0][2])]
 
         self.gen_btn.config(state="disabled")
         self.log.configure(state="normal")
@@ -790,7 +837,9 @@ class TableTab(ttk.Frame):
                         multilink_cols=multilink_cols,
                         scope_code=code, scope_strip_s=scope_strip_s,
                         scope_codes=self.profile.get("verzamel_hoofdgroepen",
-                                                     {}).get(code))
+                                                     {}).get(code),
+                        equiv_prefix=self.profile.get("equiv_prefix"),
+                        ignore_change_cols=self.profile.get("ignore_change_cols"))
 
                     # Verzamelbestand (CO) uiteen laten vallen in aparte
                     # hoofdgroepen; gewone bestanden blijven één geheel.
@@ -848,7 +897,16 @@ class TableTab(ttk.Frame):
                         # ACO -> CO (aparte groepen).
                         gcode_c = (ot_compare._canon_group_code(gcode, all_gcodes)
                                    if multi else gcode)
-                        base = _base_for_code(orig_base, gcode_c) if multi else orig_base
+                        if wanted_combined is not None:
+                            # Gecombineerd bestand: alleen de gekozen hoofdgroepen
+                            # schrijven; naam = <stem>-<HG> (orig_base heeft nog
+                            # geen hoofdgroep-code achteraan).
+                            if gcode_c not in wanted_combined:
+                                continue
+                            base = f"{orig_base}-{gcode_c}"
+                        else:
+                            base = (_base_for_code(orig_base, gcode_c) if multi
+                                    else orig_base)
                         vis = visible_fn(result["headers"])
                         text_cols = [h for h in result["headers"]
                                      if text_search_fn(h)]

@@ -42,4 +42,4 @@ WHERE {
   	?lijnkleurURI ?optieProperty ?optie .
     ?optieProperty skos:prefLabel "Optie" .
   }
-} ORDER BY ?id
+} ORDER BY ?id ?lijnkleurURI

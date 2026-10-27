@@ -573,6 +573,38 @@ def split_result_by_bib(result: dict, scope_col: str = "sbibliotheek",
     return out
 
 
+def combined_table_file(folder: str, stem: str, vdash: str = "") -> str:
+    """Het GECOMBINEERDE tabelbestand (één bestand voor alle hoofdgroepen) in
+    `folder`, of "" als de map per-hoofdgroep-bestanden bevat. Zo kan de
+    changelog-tool zowel losse per-HG-bestanden als één gecombineerd bestand aan.
+    Een gecombineerd bestand heeft geen hoofdgroep in de naam (hoofdgroep_code
+    == ""), bijv. 'symbolen-5-2.csv'; per-HG is 'symbolen-5-2-IE.csv'."""
+    if not folder or not os.path.isdir(folder):
+        return ""
+    if vdash:
+        p = os.path.join(folder, f"{stem}-{vdash}.csv")
+        if os.path.isfile(p):
+            return p
+    for p in sorted(glob.glob(os.path.join(folder, f"{stem}-*.csv"))):
+        if hoofdgroep_code(p) == "":
+            return p
+    p = os.path.join(folder, f"{stem}.csv")
+    return p if os.path.isfile(p) else ""
+
+
+def combined_hoofdgroepen(path: str, scope_col: str, strip_s: bool = True) -> list:
+    """Canonieke hoofdgroep-codes in een gecombineerd tabelbestand, afgeleid uit
+    `scope_col` (zelfde regel als split_result_by_bib: sbib_to_code bij strip_s,
+    daarna _canon_group_code zodat ACO->CO, AMW->MW, SIE->IE)."""
+    codes = set()
+    for v in column_values(path, scope_col):
+        raw = sbib_to_code(v) if strip_s else (v or "").strip().upper()
+        hg = _canon_group_code(raw, set()) or raw
+        if hg:
+            codes.add(hg)
+    return sorted(codes)
+
+
 def column_values(path: str, column: str) -> list:
     """Distinct, niet-lege waarden van kolom `column` uit één CSV, in
     oorspronkelijke schrijfwijze en op volgorde van eerste voorkomen."""
@@ -3360,11 +3392,23 @@ def _norm_cell(value: str) -> str:
     return _RE_FILE_PREFIX.sub("", (value or "").strip()).strip()
 
 
+def _canon_equiv_prefix(value: str, prefixes: list) -> str:
+    """Normaliseer gelijkwaardige leidende prefixen voor de wijzigings-check:
+    begint `value` met één van `prefixes`, vervang die door prefixes[0]. Zo tellen
+    bijv. 'X_XX_AL_…' en '*_**_AL_…' als gelijk in de laagnaam (status/discipline-
+    placeholders). De GETOONDE waarde blijft ongewijzigd; alleen de vergelijking."""
+    for p in prefixes:
+        if p and value.startswith(p):
+            return prefixes[0] + value[len(p):]
+    return value
+
+
 def compare(new_path: str, old_path: str, key: str = KEY,
             scope_col: str = "", blank_spec: dict = None,
             suppress_change: dict = None, multilink_cols=None,
             scope_code: str = "", scope_strip_s: bool = False,
-            scope_codes=None) -> dict:
+            scope_codes=None, equiv_prefix: dict = None,
+            ignore_change_cols=None) -> dict:
     """Vergelijk twee CSV-versies en geef een resultaat-dict terug.
 
     Parameters:
@@ -3509,6 +3553,16 @@ def compare(new_path: str, old_path: str, key: str = KEY,
     # ongewijzigd.
     mlink = set(multilink_cols or ())
 
+    # Gelijkwaardige leidende prefixen per kolom (bijv. laagnaam: '*_**_' == 'X_XX_');
+    # zo'n verschil telt niet als wijziging.
+    ep = {col: [p for p in prefs if p]
+          for col, prefs in (equiv_prefix or {}).items() if any(prefs)}
+
+    # Kolommen die NOOIT als wijziging tellen (pure constructie-/scheidingstekens
+    # zoals '_' en '-'; in 5.0 soms als "'-" opgeslagen). Hun verschil mag een rij
+    # niet 'gewijzigd' maken.
+    ignore_cols = set(ignore_change_cols or ())
+
     # Oude rijen op id (eerste voorkomen wint).
     old_by_id: dict[str, list[str]] = {}
     for r in old_rows:
@@ -3537,9 +3591,14 @@ def compare(new_path: str, old_path: str, key: str = KEY,
             value = r[nidx[h]]
             changed = False
             old_value = None
-            if not is_new and not suppressed and h != key and h in oidx:
+            if (not is_new and not suppressed and h != key and h in oidx
+                    and h not in ignore_cols):
                 ov = old[oidx[h]]
-                if _norm_cell(value) != _norm_cell(ov):
+                nv_cmp, ov_cmp = _norm_cell(value), _norm_cell(ov)
+                if h in ep:
+                    nv_cmp = _canon_equiv_prefix(nv_cmp, ep[h])
+                    ov_cmp = _canon_equiv_prefix(ov_cmp, ep[h])
+                if nv_cmp != ov_cmp:
                     # Aanname bij multilink-kolommen (sobject/aobject): stond er in
                     # de oude versie een lange puntkomma-lijst ('multiple links'),
                     # dan is die niet zinvol te vergelijken met de vereenvoudigde

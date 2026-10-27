@@ -276,4 +276,4 @@ OPTIONAL {
                IF(BOUND(?bewerking), CONCAT(STR(?streepje), STR(?bewerking)), ""))
         AS ?laagnaam) .
 
-} ORDER BY ?id
+} ORDER BY ?omschrijving ?objectURI

@@ -25,3 +25,4 @@ WHERE {
         ?idProperty skos:prefLabel "ID" .
     }
 }
+ORDER BY ?tgtLinetypeName ?tgtLinetype
