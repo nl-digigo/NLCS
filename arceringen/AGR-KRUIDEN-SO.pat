@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AGR-KRUIDEN-SO,kruidenvegetatie
 90,0,0,7.07106781,7.07106781,1.875,-12.26713563

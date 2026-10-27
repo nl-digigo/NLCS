@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *ACO-BALLAST_GROF-SODMM,ballast_grof
 0,0,0,0,5.4992613154,3.175,-6.35

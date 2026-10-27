@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-NATUURSTEEN-SOD,natuursteen
 30,0,0,4.40,2.00,30.00,-4.00,10.00,-2.00

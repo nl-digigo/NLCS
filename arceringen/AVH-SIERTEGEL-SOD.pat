@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-SIERTEGEL-SOD,siertegel
 0.0,2,4,0.0,4,4,-2

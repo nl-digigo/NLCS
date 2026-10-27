@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-FUNDERING_GRAN_PUIN-SOD,halfverharding
 50.000000,0.000000,0.000000,6.194650,-8.846850,1.125000,-12.375000

@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-BSS_WAALFORMAAT_KEPER-SO,waalformaatkeperverband
 45,0,0,0.50,0.50,2.50,-1.50

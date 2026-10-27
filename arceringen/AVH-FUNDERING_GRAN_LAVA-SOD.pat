@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-FUNDERING_GRAN_LAVA-SOD,lava
 018.43495,0.25,-0.75,3.16228,1.58114,1.58114,-1.58114,1.58114,-3.16228

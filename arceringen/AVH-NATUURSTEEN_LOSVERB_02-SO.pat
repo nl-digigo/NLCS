@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-NATUURSTEEN_LOSVERB_02-SO,natuursteenlosverband02
 0,7,0,0,10,.5,-1.5,.5,-7.5

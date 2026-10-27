@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AGW-GROND_ZAND-SO,zand
 37.5,0,0,1.123,1.567,0,-1.52,0,-1.7,0,-1.625

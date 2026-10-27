@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *ACO-STORTSTEEN_03-SODMM,stortsteen03
 60,0,0,1.905,3.2996,1.905,-1.905

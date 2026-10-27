@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AGW-GROND_AFVAL-SOD,afval
 0,0,0,5.0,5.0,0.0625,-4.375

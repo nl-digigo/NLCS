@@ -19,4 +19,4 @@ WHERE {
     ?abibliotheekURI ?idProperty ?id .
     ?idProperty skos:prefLabel "ID" .
   } 
-} ORDER BY ?id
+} ORDER BY ?id ?abibliotheekURI

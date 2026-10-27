@@ -3,6 +3,11 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
+# Bewerking = het deel van de objectnaam ná het '-' (bijv. GROND_GROND-WERK -> WERK,
+# DWA_RIOOLPUT-OPHOOGTEBRENGEN -> OPHOOGTEBRENGEN). De oude bewerking-aspect-property
+# (nlcs:9e8d26b2-…) bestaat niet meer in de data; de bewerkte objecten dragen de
+# bewerking in hun eigen naam (zelfde aanpak als controle_object_bewerking).
+
 SELECT DISTINCT ?hoofdgroep ?bewerking
 WHERE {
   ?topConcept a owl:Class ;
@@ -11,12 +16,10 @@ WHERE {
   ?hoofdgroepURI rdfs:subClassOf ?topConcept ;
                  skos:prefLabel ?hoofdgroep .
 
-  ?objectURI rdfs:subClassOf+ ?hoofdgroepURI .
+  ?objectURI rdfs:subClassOf+ ?hoofdgroepURI ;
+             skos:prefLabel ?omschrijving .
 
-  OPTIONAL {
-    ?objectURI rdfs:subClassOf ?bnodeBewerking .
-    ?bnodeBewerking owl:onProperty <http://digitalbuildingdata.tech/nlcs/def/9e8d26b2-e78a-40a5-84b7-765da5b6592f> ;
-                     owl:hasValue/skos:prefLabel ?bewerking .
-  }
+  FILTER(CONTAINS(?omschrijving, "-"))
+  BIND(STRAFTER(?omschrijving, "-") AS ?bewerking)
 }
 ORDER BY ?hoofdgroep ?bewerking

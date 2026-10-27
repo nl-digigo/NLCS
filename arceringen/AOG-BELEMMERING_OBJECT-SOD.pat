@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AOG-BELEMMERING_OBJECT-SOD,belemmeringobject
 0,.25,0,.5,.5,.25,-.75

@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-NATUURSTEEN_KINDERKOP-SOD,natuursteen_kinderkop
 000,0,0,0,1.4

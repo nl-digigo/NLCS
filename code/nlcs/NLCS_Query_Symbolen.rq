@@ -53,4 +53,4 @@ WHERE {
     REPLACE(?nameWithoutFaseSbibliotheek, CONCAT("-", ?optie), ""),
     ?nameWithoutFaseSbibliotheek) AS ?finalCleanName)
 
-} ORDER BY ?id
+} ORDER BY ?id ?symboolURI

@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-TEGEL_500X500_HALFST,tegels400x400halfsteensverband
 0.0,0.0,0.0,0.0,.5000

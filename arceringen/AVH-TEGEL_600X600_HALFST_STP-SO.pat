@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-TEGEL_600X600_HALFST_STP-SO,tegels600x600blokverband
 0.0,0.0,0.0,0.0,6.000

@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-BSS_KEIFORMAAT_HALFST,keiformaathalfsteensverband
 0,0,0,0.105,0.105,0.105,-0.105

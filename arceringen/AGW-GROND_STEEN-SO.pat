@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AGW-GROND_STEEN-SO,steen
 002.6026,1.600,0.100,210.23747,0.45400,1.78142,-218.44574

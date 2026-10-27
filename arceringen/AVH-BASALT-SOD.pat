@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-BASALT-SOD,basaltverharding
 120,6.5785,3.8235,3.4077,1.9674,1,-12.6306

@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AGW-GROND_BOMENGROND-SOD,bomengrond
 000,0.00000,0.00000,0.00000,2.50000,0.00000,-2.88675

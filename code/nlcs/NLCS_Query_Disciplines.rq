@@ -19,4 +19,4 @@ WHERE {
     ?disciplineURI ?idProperty ?id .
     ?idProperty skos:prefLabel "ID" .
   }
-} ORDER BY ?id
+} ORDER BY ?id ?disciplineURI

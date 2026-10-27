@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AGW-GROND_TEELGR_01-SO,teelgrond1
 38.6598,0.950,0.120,-4.997560,0.156174,0.064031,-6.339093

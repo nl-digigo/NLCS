@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AGR-HOUTOPSTAND-SO,houtopstand
 26,2.4945,2.4945,2.2579,4.5082,0.6558,-2.8565

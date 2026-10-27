@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-BSS_LINGEFORMAAT_KEPER-SO,lingeformaatkeperverband
 45,0,0,0.80,0.80,3.20,-1.60

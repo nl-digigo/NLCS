@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-HOUTSNIPPERS-SOD,houtsnippers
 000,0,0,1,2,0.4,-3.2,0.4

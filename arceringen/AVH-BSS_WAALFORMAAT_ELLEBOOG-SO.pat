@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-BSS_WAALFORMAAT_ELLEBOOG-SO,waalformaatelleboogverband
 0,0,0,0.50,0.50,2.50,-1.50

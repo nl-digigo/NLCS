@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *ACO-BETON_BALLAST-SODMM,ballastbeton
 50,0,0,2.09792,-2.99614,.381,-4.191

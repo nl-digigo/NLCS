@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-SBS_DIKFORMAAT_ELLEBOOG-SO,dikformaatelleboogverband
 0,0,0,0.69,0.69,2.76,-1.38

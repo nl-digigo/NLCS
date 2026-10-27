@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-GRAVEL-SO,gravel
 255.96375700,	2.56000000,	3.88000000,	3.88057000,	0.97014252,	0.65969692,	-15.83272560

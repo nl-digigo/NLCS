@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AGR-GRAS_GESTABILISEERD-SO,gestabiliseerdgras
 0,0.5,0.5,0,1,0.5,-0.5

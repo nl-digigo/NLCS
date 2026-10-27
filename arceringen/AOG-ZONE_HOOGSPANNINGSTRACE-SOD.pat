@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AOG-ZONE_HOOGSPANNINGSTRACE-SOD,zone_hoogspanningstrace
 36.304497,0.34,0.5,42.20189249,0.01644657,0.6080296,-60.19493085

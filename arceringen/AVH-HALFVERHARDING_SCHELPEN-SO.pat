@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-HALFVERHARDING_SCHELPEN-SO,halfverharding
 0,4.75,3.2,0,5,0,-5

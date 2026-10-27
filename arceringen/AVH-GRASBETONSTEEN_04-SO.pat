@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-GRASBETONSTEEN_04-SO,grasbetonsteen04
 0,0,0,0,2,0.6666667,-1.3333333

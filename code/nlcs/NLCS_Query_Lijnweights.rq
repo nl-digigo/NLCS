@@ -38,4 +38,4 @@ WHERE {
     ?microstationProperty skos:prefLabel "MicrostationNummer" .
   }
   ?lijnweightURI schema:unitText ?unit .
-} ORDER BY ?id
+} ORDER BY ?id ?lijnweightURI

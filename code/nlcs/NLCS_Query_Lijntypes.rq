@@ -49,4 +49,4 @@ WHERE {
         REPLACE(?nameWithoutFaseHoofdgroep, CONCAT("-", ?optie), ""),
         ?nameWithoutFaseHoofdgroep) AS ?finalCleanName)
 
-} ORDER BY ?id
+} ORDER BY ?id ?lijntypeURI

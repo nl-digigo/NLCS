@@ -65,4 +65,4 @@ WHERE {
     REPLACE(?nameWithoutFaseAbibliotheek, CONCAT("-", ?optie), ""),
     ?nameWithoutFaseAbibliotheek) AS ?finalCleanName)
 
-} ORDER BY ?id
+} ORDER BY ?id ?arceringURI ?searchterm

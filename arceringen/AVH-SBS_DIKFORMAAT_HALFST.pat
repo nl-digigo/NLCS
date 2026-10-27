@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-SBS_DIKFORMAAT_HALFST,dikformaathalfsteensverband
 0.0,0,0,0,0.069

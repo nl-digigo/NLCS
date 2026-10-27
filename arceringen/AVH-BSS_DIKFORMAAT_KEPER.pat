@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-BSS_DIKFORMAAT_KEPER,dikformaatkeper
 45,0,0,0.069,0.069,0.276,-0.138

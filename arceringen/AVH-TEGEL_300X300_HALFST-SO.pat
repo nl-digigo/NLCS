@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-5
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
 ;;
 *AVH-TEGEL_300X300_HALFST-SO,betontegels30x30halfsteensverband
 0,0,0,3.00,1.50,3.00,-3.00
