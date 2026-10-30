@@ -170,6 +170,35 @@ def build_table_overview_html(headers, rows, title: str,
     )
 
 
+def build_mapping_html(headers, rows, title: str, version: str = "") -> str:
+    """Sorteerbare/filterbare mappingstabel-pagina (digiGO-stijl, DataTables).
+
+    `headers`/`rows` zoals ot_compare.read_mapping teruggeeft. Alle kolommen en
+    rijen worden getoond; kolommen met veel unieke waarden krijgen een vrij
+    zoekveld, kolommen met weinig unieke waarden een keuzelijst. Hergebruikt de
+    DataTables-machinerie van build_full_html via een result-structuur."""
+    from ot_compare import non_uri_column_indices
+    result = {
+        "headers": list(headers),
+        "rows": [{"cells": [{"value": (r[i] if i < len(r) else "")}
+                            for i in range(len(headers))]} for r in rows],
+    }
+    # URI-kolommen (naam bevat 'uri' of http-waarden) niet tonen.
+    vis = non_uri_column_indices(headers, rows)
+    # Hoog-kardinale kolommen (>30 unieke waarden) -> vrij zoekveld i.p.v. een
+    # onhandige lange keuzelijst.
+    text_cols = []
+    for i in vis:
+        uniq = {(r[i] if i < len(r) else "").strip() for r in rows}
+        uniq.discard("")
+        if len(uniq) > 30:
+            text_cols.append(headers[i])
+    return build_full_html(
+        result, title, version_new=version,
+        visible_indices=vis,
+        text_columns=text_cols, paginate=False)
+
+
 def _shell_head(title: str, extra_style: str = "", cdn: bool = False) -> str:
     cdn_tags = ""
     if cdn:
@@ -819,7 +848,8 @@ document.addEventListener('click', function (e) {
 
 def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
                      version: str = "", base_url: str = "",
-                     checkmarks=None, expertcommissie=None) -> str:
+                     checkmarks=None, expertcommissie=None,
+                     mappingen=None) -> str:
     """Overzichtspagina ('kaart') met één blok per hoofdgroep en knoppen naar de
     gepubliceerde tabellen en changelogs.
 
@@ -887,12 +917,16 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
     if general:
         cards.append(_card("Voor alle hoofdgroepen",
                            f"{len(general)} algemeen bestand(en)", general, True))
+    maps = mappingen or []
+    if maps:
+        cards.append(_card("Mappingen",
+                           f"{len(maps)} mapping(en)", maps, True))
     for code, entries in groups:
         cards.append(_card(code, f"hoofdgroep {code} &middot; "
                            f"{len(entries)} bestand(en)", entries, False,
                            mark=marks.get(code)))
 
-    total = sum(len(e) for _c, e in groups) + len(general)
+    total = sum(len(e) for _c, e in groups) + len(general) + len(maps)
     info = (f"{len(groups)} hoofdgroep(en) &middot; {total} bestand(en)"
             + (f" &middot; versie {_esc(version)}" if version else "")
             + (f' &middot; <a href="{_esc(base)}" target="_blank">{_esc(base)}</a>'
@@ -1628,7 +1662,8 @@ def build_unieke_lijntypes_html(data, title: str = "Overzicht unieke lijntypes",
 def build_index_markdown(groups, general,
                          title: str = "NLCS publicatie-overzicht",
                          version: str = "", base_url: str = "",
-                         checkmarks=None, expertcommissie=None) -> str:
+                         checkmarks=None, expertcommissie=None,
+                         mappingen=None) -> str:
     """Zelfde overzicht als build_index_html, maar als Markdown voor gebruik in
     GitHub-issues: één kop (##) per hoofdgroep met daaronder de links,
     gesplitst in Tabellen en Changelogs. base_url wordt aan het subpad geplakt
@@ -1681,6 +1716,9 @@ def build_index_markdown(groups, general,
 
     if general:
         lines += _section("Voor alle hoofdgroepen", general)
+    maps = mappingen or []
+    if maps:
+        lines += _section("Mappingen", maps)
     for code, entries in groups:
         lines += _section(code, entries, mark=marks.get(code))
 
@@ -1690,7 +1728,7 @@ def build_index_markdown(groups, general,
         lines += [_link(e) for e in experts]
         lines += [""]
 
-    if not groups and not general and not experts:
+    if not groups and not general and not experts and not maps:
         lines += ["_Geen gepubliceerde bestanden gevonden voor deze versie._", ""]
 
     return "\n".join(lines).rstrip() + "\n"

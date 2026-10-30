@@ -384,6 +384,7 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     grouped: list = []      # [(raw_code, entry), ...] — code na de walk canoniek maken
     general: list = []
     expertcommissie: list = []   # HTML's uit de submap 'expertcommissie'
+    mappingen: list = []         # HTML's uit de submap 'mappingen'
     count = 0
     if variants and os.path.isdir(root):
         for dirpath, _dirs, files in os.walk(root):
@@ -402,8 +403,9 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
                 # overzicht; die bestanden worden altijd opgenomen (ook zonder
                 # versienummer in de naam), net als de release notes.
                 is_expert = len(rel_parts) > 1 and first.lower() == "expertcommissie"
+                is_mapping = len(rel_parts) > 1 and first.lower() == "mappingen"
                 is_releasenotes = low.startswith("releasenotes")
-                if not is_expert and not is_releasenotes \
+                if not is_expert and not is_mapping and not is_releasenotes \
                         and not any(v in name for v in variants):
                     continue
                 entry = {
@@ -422,6 +424,14 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
                 if is_expert:
                     entry["label"] = nice_index_label(name, "")
                     expertcommissie.append(entry)
+                elif is_mapping:
+                    # Label = de mappingnaam zonder 'changelog-'/'NLCS-<versie>-'
+                    # ('NLCS-5-2-NDW' -> 'NDW', 'changelog-NLCS-5-2-NDW' -> 'NDW').
+                    stem = os.path.splitext(name)[0]
+                    lbl = re.sub(r"(?i)^(changelog-)?nlcs[-_ ]*\d+[.\-]\d+[-_ ]*",
+                                 "", stem)
+                    entry["label"] = lbl or stem
+                    mappingen.append(entry)
                 elif in_hoofdgroep:
                     grouped.append((first_up, entry))
                 elif is_releasenotes or len(rel_parts) == 1:
@@ -468,11 +478,14 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
         groups[code] = sorted(_dedupe(code, groups[code]), key=_sortkey)
     general.sort(key=_sortkey)
     expertcommissie.sort(key=_sortkey)
-    count = sum(len(v) for v in groups.values()) + len(general) + len(expertcommissie)
+    mappingen.sort(key=_sortkey)
+    count = (sum(len(v) for v in groups.values()) + len(general)
+             + len(expertcommissie) + len(mappingen))
     return {
         "groups": sorted(groups.items()),
         "general": general,
         "expertcommissie": expertcommissie,
+        "mappingen": mappingen,
         "docs_root": docs_root,
         "count": count,
     }
@@ -709,6 +722,122 @@ def read_table(path: str) -> tuple[list[str], list[list[str]]]:
         vals = list(r) + [""] * (n - len(r))
         rows.append(vals[:n])
     return headers, rows
+
+
+def read_mapping(path: str) -> tuple[list[str], list[list[str]]]:
+    """Lees een mappingstabel-CSV in als (headers, rijen), met automatische
+    scheidingsteken-detectie (`;`, `,` of tab). Mappingbestanden gebruiken vaak
+    puntkomma's (bijv. 'Mapping NDW - NLCS 5.2.csv'). Verder als read_table."""
+    with open(path, "r", encoding="utf-8-sig", newline="") as f:
+        first_line = f.readline()
+    delim = max((";", ",", "\t"), key=first_line.count)
+    if first_line.count(delim) == 0:
+        delim = ","
+    with open(path, "r", encoding="utf-8-sig", newline="") as f:
+        raw = [row for row in csv.reader(f, delimiter=delim)
+               if any(c.strip() for c in row)]
+    if not raw:
+        return [], []
+    headers = [h.strip() for h in raw[0]]
+    n = len(headers)
+    rows = []
+    for r in raw[1:]:
+        vals = list(r) + [""] * (n - len(r))
+        rows.append(vals[:n])
+    return headers, rows
+
+
+def mapping_name_from_filename(path: str) -> str:
+    """Korte mappingnaam uit een bestandsnaam, voor de uitvoernaam
+    'NLCS-<versie>-<NAAM>'. Haalt 'Mapping'/'NLCS' en versienummers eruit:
+    'Mapping NDW - NLCS 5.2.csv' -> 'NDW', 'NLCS-BGT-5.0.xls' -> 'BGT'. Al een
+    kant-en-klare 'NLCS-5-2-NDW' -> 'NDW'. Lege rest -> de hele stam uppercase."""
+    stem = os.path.splitext(os.path.basename(path))[0]
+    tokens = [t for t in re.split(r"[^A-Za-z0-9]+", stem) if t]
+    skip = {"mapping", "mappingen", "nlcs"}
+    parts = [t for t in tokens
+             if t.lower() not in skip
+             and not re.fullmatch(r"\d+([.,-]\d+)*", t)]
+    return "-".join(p.upper() for p in parts) if parts else stem.upper()
+
+
+def non_uri_column_indices(headers, rows=None) -> list:
+    """Indices van de kolommen die GEEN URI's zijn (om URI-kolommen uit de HTML
+    weg te laten). Een kolom is een URI-kolom als de naam 'uri' bevat, of als
+    (vrijwel) alle gevulde waarden met 'http' beginnen."""
+    rows = rows or []
+    keep = []
+    for i, h in enumerate(headers):
+        if "uri" in (h or "").lower():
+            continue
+        nonempty = [r[i].strip() for r in rows if i < len(r) and r[i].strip()]
+        if nonempty and sum(1 for v in nonempty
+                            if v.lower().startswith("http")) >= 0.8 * len(nonempty):
+            continue
+        keep.append(i)
+    return keep
+
+
+def compare_mapping(new_path: str, old_path: str) -> dict:
+    """Vergelijk twee versies van een mappingstabel en geef een changelog-
+    resultaat (zoals `compare`) terug. Mappingtabellen hebben GEEN stabiele
+    sleutelkolom (URI/ID), dus matchen we op de VOLLEDIGE rij: een rij die in
+    beide versies identiek voorkomt is ongewijzigd, een rij die alleen in de
+    nieuwe versie staat is 'nieuw' (groen), een rij die alleen in de oude versie
+    staat is 'vervallen' (rood). Een inhoudelijke wijziging verschijnt dus als
+    één vervallen + één nieuwe regel (er is geen cel-niveau 'gewijzigd').
+
+    `new_path`/`old_path` worden met read_mapping gelezen (;/,/tab-detectie). De
+    kolomindeling volgt de NIEUWE versie; oude waarden worden per kolomnaam
+    uitgelijnd. Lege/ontbrekende oude versie -> alles 'nieuw'.
+
+    Resultaat: {headers, rows:[{status,id,cells:[{value,changed,old}]}],
+    deleted:[rij-als-lijst], stats:{new,changed,deleted,total_new}}."""
+    new_headers, new_rows = read_mapping(new_path)
+    if old_path and os.path.isfile(old_path):
+        old_headers, old_rows = read_mapping(old_path)
+    else:
+        old_headers, old_rows = list(new_headers), []
+    oidx = {h: i for i, h in enumerate(old_headers)}
+
+    def _ident_new(r):
+        return tuple((r[i] if i < len(r) else "").strip()
+                     for i in range(len(new_headers)))
+
+    def _old_in_new_order(r):
+        # Oude rij uitgelijnd op de NIEUWE kolomvolgorde (per kolomnaam).
+        return [(r[oidx[h]] if h in oidx and oidx[h] < len(r) else "")
+                for h in new_headers]
+
+    def _ident_old(r):
+        return tuple(v.strip() for v in _old_in_new_order(r))
+
+    old_set = {_ident_old(r) for r in old_rows}
+    new_set: set = set()
+    rows = []
+    n_new = 0
+    for r in new_rows:
+        idn = _ident_new(r)
+        new_set.add(idn)
+        status = "same" if idn in old_set else "new"
+        if status == "new":
+            n_new += 1
+        cells = [{"value": (r[i] if i < len(r) else ""), "changed": False,
+                  "old": None} for i in range(len(new_headers))]
+        rows.append({"status": status, "id": "", "cells": cells})
+    rows.sort(key=lambda row: (row["cells"][0]["value"].casefold()
+                               if row["cells"] else ""))
+
+    deleted = []
+    for r in old_rows:
+        if _ident_old(r) not in new_set:
+            deleted.append(_old_in_new_order(r))
+    deleted.sort(key=lambda d: (d[0].casefold() if d else ""))
+
+    stats = {"new": n_new, "changed": 0, "deleted": len(deleted),
+             "total_new": len(rows)}
+    return {"headers": new_headers, "rows": rows, "deleted": deleted,
+            "stats": stats}
 
 
 def _collect_id_records(source_path: str, source: str,

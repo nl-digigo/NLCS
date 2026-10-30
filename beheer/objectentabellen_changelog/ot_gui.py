@@ -1503,12 +1503,15 @@ class IndexTab(ttk.Frame):
         self.tab_btn = ttk.Button(
             btns, text="Genereer overzichtstabellen",
             command=self.on_generate_overzichtstabellen)
+        self.map_btn = ttk.Button(
+            btns, text="Genereer mappingen",
+            command=self.on_generate_mappingen)
         # 4 knoppen naast elkaar, daarna een nieuwe rij
         row_btns = [
             ttk.Button(btns, text="Zoek bestanden", command=self.on_scan),
             self.gen_btn, self.tree_btn, self.tree_ltv_btn,
             self.shared_btn, self.shared_inv_btn, self.vk_btn, self.vk_std_btn,
-            self.lt_btn, self.tab_btn,
+            self.lt_btn, self.tab_btn, self.map_btn,
         ]
         for i, b in enumerate(row_btns):
             b.grid(row=i // 4, column=i % 4, sticky="ew", padx=4, pady=3)
@@ -1563,6 +1566,8 @@ class IndexTab(ttk.Frame):
         if data["general"]:
             self._logmsg(f"  (algemeen, voor alle hoofdgroepen): "
                          f"{len(data['general'])} bestand(en)")
+        if data.get("mappingen"):
+            self._logmsg(f"  (mappingen): {len(data['mappingen'])} bestand(en)")
         for code, entries in data["groups"]:
             self._logmsg(f"  {code}: {len(entries)} bestand(en)")
         self._logmsg(f"online basis-map (docs): {data['docs_root']}")
@@ -1610,7 +1615,10 @@ class IndexTab(ttk.Frame):
         return marks
 
     def on_generate(self) -> None:
-        data = self._last or self.on_scan()
+        # Altijd opnieuw scannen zodat net-gegenereerde bestanden (mappingen,
+        # overzichtstabellen, objectenboom…) meteen in het overzicht staan; de
+        # gecachte scan (`self._last`) kan verouderd zijn.
+        data = self.on_scan()
         if not data:
             return
         if data["count"] == 0:
@@ -1643,7 +1651,8 @@ class IndexTab(ttk.Frame):
             data["groups"], data["general"],
             title=f"NLCS publicatie-overzicht {version}".strip(),
             version=version, base_url=base_url, checkmarks=checkmarks,
-            expertcommissie=data.get("expertcommissie"))
+            expertcommissie=data.get("expertcommissie"),
+            mappingen=data.get("mappingen"))
         try:
             parent = os.path.dirname(os.path.abspath(output))
             os.makedirs(parent, exist_ok=True)
@@ -1663,7 +1672,8 @@ class IndexTab(ttk.Frame):
             data["groups"], data["general"],
             title=f"NLCS publicatie-overzicht {version}".strip(),
             version=version, base_url=base_url, checkmarks=checkmarks,
-            expertcommissie=data.get("expertcommissie"))
+            expertcommissie=data.get("expertcommissie"),
+            mappingen=data.get("mappingen"))
         try:
             with open(md_path, "w", encoding="utf-8") as f:
                 f.write(md_txt)
@@ -1797,6 +1807,110 @@ class IndexTab(ttk.Frame):
                 self._logmsg(f"  FOUT {stem}: {exc}")
 
         self._logmsg(f"Klaar: {made} overzichtstabel(len) geschreven in {out_dir}.")
+        self.app.save_config()
+        if made and self.app.open_after_var.get() and first:
+            webbrowser.open(first)
+
+    def on_generate_mappingen(self) -> None:
+        """Genereer per mappingstabel-CSV een sorteerbare digiGO-HTML, en als er
+        een vorige versie beschikbaar is ook een changelog.
+
+        Bron nieuwe versie: 'Mappingen nieuwe versie' bij 'Locaties'; is die leeg,
+        dan de submap 'mappingen' van de map 'Overige tabellen'. Bron vorige
+        versie: 'Mappingen vorige versie' (optioneel). Uitvoer in
+        docs/changelog/mappingen/ als 'NLCS-<versie>-<NAAM>.html' (volledige
+        tabel) en 'changelog-NLCS-<versie>-<NAAM>.html' (als er een gelijknamige
+        mapping in de vorige versie staat). Mappings worden per NAAM gekoppeld
+        (mapping_name_from_filename). Deze bestanden komen in het publicatie-
+        overzicht als apart blok 'Mappingen'."""
+        src = self.app.loc["map_new"].get().strip()
+        if not os.path.isdir(src):
+            base_folder = self.app.loc["tab_new"].get().strip()
+            src = os.path.join(base_folder, "mappingen") if base_folder else ""
+        if not os.path.isdir(src):
+            messagebox.showwarning(
+                "Geen map", "Vul bij 'Locaties' onder 'Overige tabellen' de map "
+                "'Mappingen nieuwe versie' in (of een submap 'mappingen' in de map "
+                "'Overige tabellen').")
+            return
+        old_src = self.app.loc["map_old"].get().strip()
+        version = self.app.version_new_var.get().strip()
+        version_old = self.app.version_old_var.get().strip()
+        vdash = version.replace(".", "-")
+
+        # Oude mappings per NAAM, zodat we ze aan de nieuwe kunnen koppelen.
+        old_by_name: dict = {}
+        if os.path.isdir(old_src):
+            for p in sorted(glob.glob(os.path.join(old_src, "*.csv"))):
+                old_by_name.setdefault(
+                    ot_compare.mapping_name_from_filename(p), p)
+
+        # Uitvoer in docs/changelog/mappingen (submap van index_root).
+        root = self.app.loc["index_root"].get().strip()
+        if not os.path.isdir(root):
+            base_out = self.app.loc["index_output"].get().strip()
+            root = (os.path.dirname(base_out) if base_out else "") or src
+        out_dir = os.path.join(root, "mappingen")
+
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg(f"Mappingen genereren uit {src} …")
+        if old_by_name:
+            self._logmsg(f"Vorige versie: {old_src} "
+                         f"({len(old_by_name)} mapping(en) gevonden).")
+
+        csvs = sorted(glob.glob(os.path.join(src, "*.csv")))
+        if not csvs:
+            messagebox.showinfo("Niets gevonden",
+                                "Geen CSV-bestanden in de mappingen-map.")
+            self._logmsg("Geen CSV-bestanden gevonden.")
+            return
+
+        made, n_cl, first = 0, 0, None
+        for csv_path in csvs:
+            try:
+                naam = ot_compare.mapping_name_from_filename(csv_path)
+                headers, rows = ot_compare.read_mapping(csv_path)
+                fname = (f"NLCS-{vdash}-{naam}.html" if vdash
+                         else f"NLCS-{naam}.html")
+                titel = f"Mapping {naam} · NLCS {version}".strip()
+                html_txt = ot_html.build_mapping_html(
+                    headers, rows, title=titel, version=version)
+                output = os.path.join(out_dir, fname)
+                os.makedirs(os.path.dirname(os.path.abspath(output)),
+                            exist_ok=True)
+                with open(output, "w", encoding="utf-8") as f:
+                    f.write(html_txt)
+                self._logmsg(f"  {fname}  ({len(rows)} rijen, {len(headers)} "
+                             f"kolommen)  ← {os.path.basename(csv_path)}")
+                made += 1
+                first = first or os.path.abspath(output)
+
+                # Changelog als er een gelijknamige mapping in de vorige versie is.
+                old_path = old_by_name.get(naam)
+                if old_path:
+                    result = ot_compare.compare_mapping(csv_path, old_path)
+                    cl_vis = ot_compare.non_uri_column_indices(
+                        result["headers"], rows)
+                    cl_html = ot_html.build_changelog_html(
+                        result, title=f"Changelog mapping {naam} · NLCS {version}",
+                        version_new=version, version_old=version_old,
+                        visible_indices=cl_vis)
+                    cl_name = (f"changelog-NLCS-{vdash}-{naam}.html" if vdash
+                               else f"changelog-NLCS-{naam}.html")
+                    cl_out = os.path.join(out_dir, cl_name)
+                    with open(cl_out, "w", encoding="utf-8") as f:
+                        f.write(cl_html)
+                    s = result["stats"]
+                    self._logmsg(f"    changelog: {cl_name}  "
+                                 f"({s['new']} nieuw, {s['deleted']} vervallen)")
+                    n_cl += 1
+            except Exception as exc:  # noqa: BLE001
+                self._logmsg(f"  FOUT {os.path.basename(csv_path)}: {exc}")
+
+        self._logmsg(f"Klaar: {made} mapping(en) + {n_cl} changelog(s) "
+                     f"geschreven in {out_dir}.")
         self.app.save_config()
         if made and self.app.open_after_var.get() and first:
             webbrowser.open(first)
@@ -3772,6 +3886,8 @@ _LOC_GROUPS = [
     ]),
     ("Overige tabellen (overzichten)", [
         ("tab_new", "Map met de tabellen (CSV):", "dir"),
+        ("map_new", "Mappingen nieuwe versie (map):", "dir"),
+        ("map_old", "Mappingen vorige versie (map):", "dir"),
     ]),
     ("Overzicht (kaart)", [
         ("index_root", "Map om te doorzoeken (docs/changelog):", "dir"),

@@ -19,6 +19,15 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Statussen](https://nl-digigo.github.io/NLCS/changelog/Statussen-5-2.html)
 - [Symbolenbibliotheken](https://nl-digigo.github.io/NLCS/changelog/Symbolenbibliotheken-5-2.html)
 
+## Mappingen
+
+**Tabellen**
+- [BGT](https://nl-digigo.github.io/NLCS/changelog/mappingen/NLCS-5-2-BGT.html)
+- [NDW](https://nl-digigo.github.io/NLCS/changelog/mappingen/NLCS-5-2-NDW.html)
+
+**Changelogs**
+- [BGT](https://nl-digigo.github.io/NLCS/changelog/mappingen/changelog-NLCS-5-2-BGT.html)
+
 ## AL ✅
 
 **Tabellen**
