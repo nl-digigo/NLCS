@@ -2,7 +2,6 @@
 Deze repository is de locatie voor technische documentatie en het inbrengen en opvolgen van gebruikerswensen voor NLCS, de Nederlandse CAD standaard van DigiGO.
 
 Links hieronder zijn voor de actuele versie, 5.0
-Informatie over de openbare consultatie van concept versie 5.1 van 1 november 2024 t/m 1 maart 2025 staan [hier](https://github.com/nl-digigo/NLCS/blob/development/README-5-1.md)
 
 
 ## Beheer
@@ -19,7 +18,7 @@ Informatie over de openbare consultatie van concept versie 5.1 van 1 november 20
 
 ## Voor ontwerpers en tekenaars
 * [Formele specificatie 5.0](https://github.com/nl-digigo/NLCS/blob/development/docs/archive/NLCS%205.0/Formele_beschrijving_NLCS_versie_5_0_V1_0.pdf)
-* [Voorbeeldtekeningen](https://github.com/nl-digigo/NLCS/tree/development/docs/voorbeeldtekeningen)
+* [Voorbeeldtekeningen](https://github.com/nl-digigo/NLCS/tree/main/docs/voorbeeldtekeningen)
 
 ### Zelf applicatie inrichten
 Voor gebruikers die zelf hun CAD applicatie inrichten, is de publicatie van NLCS is ook beschikbaar in tabellen:
