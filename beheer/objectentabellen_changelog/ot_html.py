@@ -2183,7 +2183,7 @@ def build_lijntype_usage_html(result: dict, title: str = "Lijntype-gebruik",
         f'<div class="box"><b>{lijn_total}</b>lijntypes</div>'
         f'<div class="box"><b>{len(used)}</b>gebruikt in objecten</div>'
         f'<div class="box {"bad" if unused else "free"}"><b>{len(unused)}</b>'
-        'niet gebruikt</div>'
+        'niet gebruikt (fout)</div>'
         f'<div class="box {"warn" if variant else "free"}"><b>{len(variant)}</b>'
         'variant (waarschuwing)</div>'
         '</div>')
@@ -2195,8 +2195,8 @@ def build_lijntype_usage_html(result: dict, title: str = "Lijntype-gebruik",
         c1.append('<p class="ok">✓ Elk lijntype wordt in de objectentabel '
                   'gebruikt (verwijzing op naam via lt_b/lt_n/lt_v/lt_t).</p>')
     else:
-        c1.append(f'<p class="warn">⚠ {len(unused)} lijntype(s) bestaan wel maar '
-                  'worden nergens in de objecten gebruikt:</p>')
+        c1.append(f'<p class="warn">✗ {len(unused)} <b>fout(en)</b>: lijntype(s) '
+                  'bestaan wel maar worden nergens in de objecten gebruikt:</p>')
         rows = [
             f'<tr><td>{_esc(u["name"])}</td>'
             f'<td>{_esc(u.get("hoofdgroep", ""))}</td>'
@@ -2940,15 +2940,15 @@ def _c_lijntype_usage(result) -> str:
     kpi = _kpi_boxes(
         (result.get("lijn_total", 0), "lijntypes", ""),
         (len(result.get("used", [])), "gebruikt", ""),
-        (len(unused), "niet gebruikt", "bad" if unused else "free"),
+        (len(unused), "niet gebruikt (fout)", "bad" if unused else "free"),
         (len(variant), "variant (waarsch.)", "warn" if variant else "free"))
     c = [f'<div class="card"><h2>Lijntype-gebruik</h2>{kpi}']
     if not unused:
         c.append('<p class="ok">✓ Elk lijntype wordt in de objectentabel '
                  'gebruikt.</p>')
     else:
-        c.append(f'<p class="warn">⚠ {len(unused)} lijntype(s) worden nergens in '
-                 'de objecten gebruikt:</p>')
+        c.append(f'<p class="warn">✗ {len(unused)} <b>fout(en)</b>: lijntype(s) '
+                 'worden nergens in de objecten gebruikt:</p>')
         c.append(_hg_table('<th>lijntype</th>', unused,
                            [lambda u: f'<td>{_esc(u.get("name",""))}</td>']))
     if variant:
@@ -3205,6 +3205,34 @@ def _c_arc_length(result) -> str:
     return "\n".join(c)
 
 
+def _c_arc_vrkl_kort(result) -> str:
+    """Kaart voor de 'vrkl_kort = één aaneengesloten tekst'-controle van
+    arceringen: result met total/ok/violations[{name,file,row,value}]."""
+    title = "Korte verklaring"
+    if not result:
+        return _skip_card(title)
+    viol = result.get("violations", [])
+    total, ok = result.get("total", 0), result.get("ok", 0)
+    kpi = _kpi_boxes(
+        (total, "met vrkl_kort", ""),
+        (ok, "zonder spatie", "free" if ok == total else ""),
+        (len(viol), "met spatie (fout)", "bad" if viol else "free"))
+    c = [f'<div class="card"><h2>{_esc(title)}</h2>{kpi}']
+    if not viol:
+        c.append('<p class="ok">✓ Elke korte verklaring (vrkl_kort) is één '
+                 'aaneengesloten tekst zonder spaties.</p>')
+    else:
+        c.append(f'<p class="warn">✗ {len(viol)} <b>fout(en)</b>: spatie in '
+                 f'vrkl_kort (moet één aaneengesloten tekst zijn):</p>')
+        c.append(_hg_table(
+            '<th>arcering</th><th>vrkl_kort</th><th>rij</th>', viol,
+            [lambda m: f'<td>{_esc(m.get("name",""))}</td>',
+             lambda m: f'<td>{_esc(m.get("value",""))}</td>',
+             lambda m: f'<td class="loc">r{_esc(m.get("row",""))}</td>']))
+    c.append('</div>')
+    return "\n".join(c)
+
+
 def _c_id(section) -> str:
     if not section or section.get("skipped") or not section.get("res"):
         return _skip_card("ID-controle")
@@ -3260,7 +3288,7 @@ def _c_optie_fase(section) -> str:
     if not section or section.get("skipped"):
         return _skip_card("Optie-fase-check")
     viol = section.get("violations", [])
-    kpi = _kpi_boxes((len(viol), "afwijking(en)", "bad" if viol else "free"))
+    kpi = _kpi_boxes((len(viol), "fout(en)", "bad" if viol else "free"))
     c = [f'<div class="card"><h2>Optie-fase-check</h2>{kpi}']
     if not viol:
         c.append('<p class="ok">✓ ‘fase’ en ‘optie’ kloppen met de naam.</p>')
@@ -3270,7 +3298,7 @@ def _c_optie_fase(section) -> str:
             items = [v for v in viol if v["kind"] == kind]
             if not items:
                 continue
-            c.append(f'<p class="warn">⚠ {titel}: {len(items)}</p>')
+            c.append(f'<p class="warn">✗ {titel} (<b>fout</b>): {len(items)}</p>')
             c.append(_hg_table(
                 f'<th>naam</th><th>{_esc(col)} (is → verwacht)</th><th>rij</th>',
                 items,
@@ -3528,6 +3556,8 @@ _D_VERKLARING = (
     "<code>vrkl_lang</code> (de tekst voor de legenda/verklaring).")
 _D_NAAMLENGTE = ("Naamlengte: de arceringnaam (kolom <code>arcering</code>) is "
                  "maximaal 31 tekens lang.")
+_D_VRKLKORT = ("Korte verklaring: de kolom <code>vrkl_kort</code> bevat één "
+               "aaneengesloten tekst — een spatie erin is niet toegestaan.")
 _D_LIJNUSAGE = (
     "<code>controle_lijntypes_zonder_objectRelatie</code> — lijntypes die bestaan "
     "maar in geen enkel object (lt_b/lt_n/lt_v/lt_t) gebruikt worden.")
@@ -3734,7 +3764,7 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
     heeft een sorteerbare kolom 'hoofdgroep' vooraan.
 
     `data` bevat de ruwe controle-resultaten (zie ot_gui.ControlesTab._gather):
-      tree, fasevis, elemlink, elemfill, ltvmis, verbkleur, lijnusage, arcverkl, arclen, lijndef, verwscale, dwg  -> dict|None
+      tree, fasevis, elemlink, elemfill, ltvmis, verbkleur, lijnusage, arcverkl, arclen, vrklkort, lijndef, verwscale, dwg  -> dict|None
       id       -> {soort: id-section|None}
       optie    -> {soort: optie-section|None}
       nameuri  -> {soort: analyze_name_uri-dict|None}
@@ -3799,7 +3829,8 @@ def build_all_checks_html(data: dict, version_new: str = "") -> str:
                             ("arceringen", "met verklaring", "zonder verklaring"),
                             "Elke arcering heeft een verklaring (vrkl_lang).",
                             "<th>arcering</th>"), _D_VERKLARING),
-           _desc(_c_arc_length(data.get("arclen")), _D_NAAMLENGTE)]
+           _desc(_c_arc_length(data.get("arclen")), _D_NAAMLENGTE),
+           _desc(_c_arc_vrkl_kort(data.get("vrklkort")), _D_VRKLKORT)]
     sections.append("\n".join(arc))
 
     # -- LIJNTYPES (Controle lijntypetabel) --------------------------------

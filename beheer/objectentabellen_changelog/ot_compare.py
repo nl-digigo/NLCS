@@ -332,6 +332,24 @@ def _canon_group_code(code: str, all_codes: set) -> str:
     return c
 
 
+def hoofdgroep_from_coded_name(name, all_codes=None) -> str:
+    """Hoofdgroep-code uit een gecodeerde symbool-/lijntype-/arceringnaam.
+
+    De naam is `[<fase>-]<hoofdgroep>-<rest>[-<optie>]`, bijv.
+    'V-SB-OMGRENZINGSPROFIEL_DYNAMISCH-SO' -> 'SB', 'IW-DRIP-SO' -> 'IW',
+    'SIE-MEUBILAIR_X-SO' -> 'IE', 'AGW-GROND-SO' -> 'GW'. Een leidend
+    één-letter fase-voorvoegsel (V/B/N/T) wordt overgeslagen; daarna geeft
+    `_canon_group_code` de echte hoofdgroep (A/S-bibliotheek -> hoofdgroep,
+    tweeletterige echte hoofdgroepen zoals SB blijven ongemoeid)."""
+    segs = [s for s in str(name or "").split("-") if s.strip()]
+    if not segs:
+        return ""
+    if len(segs) > 1 and len(segs[0]) == 1 and segs[0].isalpha():
+        segs = segs[1:]
+    code = (segs[0] if segs else "").strip().upper()
+    return _canon_group_code(code, all_codes or set())
+
+
 def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     """Doorzoek `root` (bijv. docs/changelog) recursief naar HTML-bestanden
     waarvan de bestandsnaam een versie-variant bevat (zowel '5.2' als '5-2').
@@ -1045,16 +1063,19 @@ def check_fase_optie(src: str, name_col: str, exclude_names=()) -> list[dict]:
             if not nm or nm.upper() in skip or is_dyn_name(nm):  # dyn overslaan
                 continue
             ef, eo = _expected_fase_optie(nm)
+            hg = hoofdgroep_from_coded_name(nm)
             if fi >= 0:
                 fa = (r[fi] if fi < len(r) else "").strip()
                 if fa.upper() != ef:
                     out.append({"kind": "fase", "name": nm, "got": fa,
-                                "expected": ef, "file": name, "row": n})
+                                "expected": ef, "file": name, "row": n,
+                                "hoofdgroep": hg})
             if oi >= 0:
                 op = (r[oi] if oi < len(r) else "").strip()
                 if op.upper() != eo:
                     out.append({"kind": "optie", "name": nm, "got": op,
-                                "expected": eo, "file": name, "row": n})
+                                "expected": eo, "file": name, "row": n,
+                                "hoofdgroep": hg})
     return out
 
 
@@ -1655,6 +1676,17 @@ def check_lijntype_usage(lijn_src: str, obj_src: str,
 
     used = sorted((n for n in lijn if n in refs), key=str.casefold)
     unused_all = [lijn[n] for n in sorted(lijn, key=str.casefold) if n not in refs]
+
+    # Hoofdgroep uit de LIJNTYPENAAM afleiden als het bestand/kolom er geen gaf
+    # (een gecombineerd bestand als lijntypes-5-2.csv heeft geen hoofdgroep in de
+    # bestandsnaam), zodat de fout in het publicatie-overzicht onder de juiste
+    # hoofdgroep (bijv. SB voor V-SB-…) terechtkomt.
+    def _withhg(u):
+        if not u.get("hoofdgroep"):
+            return dict(u, hoofdgroep=hoofdgroep_from_coded_name(u["name"]))
+        return u
+    unused_all = [_withhg(u) for u in unused_all]
+
     # Lijntypes met 'VARIANT' in de naam zijn bewust toegestane varianten: die
     # tellen niet als fout maar komen in een aparte waarschuwingslijst.
     unused_variant = [u for u in unused_all if "VARIANT" in u["name"].upper()]
@@ -2348,6 +2380,60 @@ def check_arcering_name_length(src: str, name_col: str = "arcering",
 
     toolong.sort(key=lambda d: (d["file"], d["name"].casefold()))
     return {"total": total, "ok": ok, "max_len": max_len, "toolong": toolong}
+
+
+def check_arcering_vrkl_kort_single(src: str, name_col: str = "arcering",
+                                    col: str = "vrkl_kort") -> dict:
+    """Controleer dat `vrkl_kort` één aaneengesloten tekst is (geen spaties).
+
+    De korte verklaring (`vrkl_kort`) moet uit één woord/aaneengesloten tekst
+    bestaan — een spatie erin is niet toegestaan. Alleen gevulde cellen worden
+    gecontroleerd; een lege `vrkl_kort` telt niet als overtreding.
+
+    `src` mag een MAP met CSV's of één CSV-bestand zijn.
+
+    Geeft een dict terug:
+      {
+        "total":      aantal gecontroleerde arceringen (met gevulde vrkl_kort),
+        "ok":         aantal zonder spatie,
+        "violations": [ {name, file, row, value} ],   # met spatie
+      }
+    """
+    empty = {"total": 0, "ok": 0, "violations": []}
+    if not src:
+        return empty
+    if os.path.isdir(src):
+        paths = sorted(glob.glob(os.path.join(src, "*.csv")))
+    elif os.path.isfile(src):
+        paths = [src]
+    else:
+        return empty
+
+    total = 0
+    ok = 0
+    violations: list[dict] = []
+    for path in paths:
+        headers, rows = read_table(path)
+        if name_col not in headers or col not in headers:
+            continue
+        ni = headers.index(name_col)
+        vi = headers.index(col)
+        fn = os.path.basename(path)
+        for i, r in enumerate(rows):
+            name = (r[ni] if ni < len(r) else "").strip()
+            val = (r[vi] if vi < len(r) else "").strip()
+            if not val:
+                continue
+            total += 1
+            if " " in val:
+                violations.append({"name": name, "file": fn, "row": i + 2,
+                                   "value": val,
+                                   "hoofdgroep": hoofdgroep_from_coded_name(name)})
+            else:
+                ok += 1
+
+    violations.sort(key=lambda d: (d["file"], d["name"].casefold()))
+    return {"total": total, "ok": ok, "violations": violations}
 
 
 def check_lijntype_autocaddef(src: str, name_col: str = "omschrijving",

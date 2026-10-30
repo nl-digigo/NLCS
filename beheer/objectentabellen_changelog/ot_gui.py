@@ -2449,8 +2449,8 @@ class OptieFaseCheckTab(ttk.Frame):
                 self._logmsg(f"        {col}: is '{got}'  →  verwacht '{exp}'  "
                              f"[{v['file']} r{v['row']}]")
 
-        dump("FASE-afwijkingen", fase, "fase")
-        dump("OPTIE-afwijkingen", optie, "optie")
+        dump("FASE-afwijkingen (fout)", fase, "fase")
+        dump("OPTIE-afwijkingen (fout)", optie, "optie")
         self._logmsg()
 
 
@@ -2665,8 +2665,8 @@ class LijntypeUsageTab(ttk.Frame):
         if not unused:
             self._logmsg("✓ Elk lijntype wordt in de objectentabel gebruikt.")
         else:
-            self._logmsg(f"⚠ {len(unused)} lijntype(s) niet gebruikt in de "
-                         "objecten:")
+            self._logmsg(f"✗ {len(unused)} fout(en): lijntype(s) niet gebruikt "
+                         "in de objecten:")
             for u in unused:
                 self._logmsg(f"   {u['name']}   [hoofdgroep {u['hoofdgroep']}, "
                              f"{u['file']}]")
@@ -3695,6 +3695,8 @@ class ControlesTab(ttk.Frame):
             "lijnusage": app.lijnusage_tab._run(),
             "arcverkl": app.arceringverklaring_tab._run(),
             "arclen": ot_compare.check_arcering_name_length(
+                app.table_src("arc_new")),
+            "vrklkort": ot_compare.check_arcering_vrkl_kort_single(
                 app.table_src("arc_new")),
             "lijndef": app.lijntypedef_tab._run(),
             "verwscale": ot_compare.check_verwijderen_scale(
