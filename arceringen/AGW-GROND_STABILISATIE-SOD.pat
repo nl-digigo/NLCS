@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-12
 ;;
 *AGW-GROND_STABILISATIE-SOD,stabilisatie
 0,0,0,3.175,3.175,1.5875,-4.7625

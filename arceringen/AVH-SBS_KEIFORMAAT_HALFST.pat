@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-12
 ;;
 *AVH-SBS_KEIFORMAAT_HALFST,halfssteensverband+punt
 0.0,0.0,0.0,0.0,0.10

@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-12
 ;;
 *AVH-ROOSTER-SOD,stalenroosters
 000,0.0,0.0,0.0,3.00

@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-12
 ;;
 *AGR-GRAS_RUIGGRAS-SO,ruiggras
 40,		0,		0,		2.25,	7,		0.75,	-8

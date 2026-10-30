@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-12
 ;;
 *ACO-BALLAST_01-SODMM,ballast01
 45,0,0,0,5.715
@@ -572,17 +572,13 @@
 153.43494882,4,1,8.94427191,4.472135955,1.1180339,-21.2426458
 153.43494882,1,3,8.94427191,4.472135955,1.1180339,-21.2426458
 
-*AGW-GROND_GROND-SO,grond
-type
-grond
+*AGW-GROND_GROND-SO,grondtypegrond
 000,0.00,0.75,2.5,2.5,2.5,-2.5
 000,0.00,1.75,2.5,2.5,2.5,-2.50
 90,0.75,2.50,2.5,2.5,2.5,-2.5
 090,1.75,2.50,2.5,2.5,2.5,-2.5
 
-*AGW-GROND_GROND-SOD,grond
-type
-grond
+*AGW-GROND_GROND-SOD,grondtypegrond
 000,0.00,0.75,2.5,2.5,2.5,-2.5
 000,0.00,1.75,2.5,2.5,2.5,-2.5
 090,0.75,2.50,2.5,2.5,2.5,-2.5

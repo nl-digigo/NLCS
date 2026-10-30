@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-12
 ;;
 *AVH-BASALTON-SOD,grindbetonzuilenbasaltonnieuw
 0,0,0,1.5,0.866,1.,-2.

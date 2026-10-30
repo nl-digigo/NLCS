@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-12
 ;;
 *AVH-TEGEL_200X600_HALFST,betontegels20x60halfsteensverband
 0,0,0,0,.200

@@ -1,9 +1,7 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-12
 ;;
-*AGW-GROND_GROND-SO,grond
-type
-grond
+*AGW-GROND_GROND-SO,grondtypegrond
 000,0.00,0.75,2.5,2.5,2.5,-2.5
 000,0.00,1.75,2.5,2.5,2.5,-2.50
 90,0.75,2.50,2.5,2.5,2.5,-2.5

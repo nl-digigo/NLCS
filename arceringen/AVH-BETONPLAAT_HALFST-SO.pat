@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-12
 ;;
 *AVH-BETONPLAAT_HALFST-SO,bedrijfsvloerplaten2mx2mhalfsteensverband
 0,0,0,0,2

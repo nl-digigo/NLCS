@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-12
 ;;
 *AGW-GROND_BOMENZAND-SO,bomenzand
 0,0,0,0.50,1.5,0,-1.5

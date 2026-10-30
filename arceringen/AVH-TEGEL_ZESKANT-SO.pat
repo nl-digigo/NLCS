@@ -1,5 +1,5 @@
 ;;
-;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-11
+;;pat definitie/bestand gegenereerd uit de NLCS database versie concept-5-2-12
 ;;
 *AVH-TEGEL_ZESKANT-SO,zeskanttegels
 0,0,0,0.9375,0.54126588,0.625,-1.25
