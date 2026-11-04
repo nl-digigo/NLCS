@@ -1,0 +1,47 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX nen2660: <https://w3id.org/nen2660/def#>
+PREFIX g: <http://digitalbuildingdata.tech/nlcs-gwsw/def/>
+
+# GWSW -> NLCS mapping uit de publicatie 'nlcs-gwsw' (model: mappingElement met
+# nen2660:isPartOf = GWSW-stelsel, g:hasGWSWType = GWSW-type, g:hasNLCSObject /
+# g:hasNLCSSymbol = de NLCS-koppeling). De GWSW-namen worden uit de (human
+# readable) URI geparset; de NLCS-laagnaam/symbool + hun ID's komen uit de
+# NLCS-publicatie, die als default-graph-uri aan het endpoint moet worden
+# meegegeven (?default-graph-uri=http://.../nlcs/live/nlcs/versions/<versie>).
+
+SELECT ?GwswStelselType ?GwswStelselTypeName ?GwswType ?GwswTypeName
+       ?nameNLCSLaagnaam ?NLCSLaagnaam ?NLCSLaagnaamID
+       ?nameNLCSSymbool ?NLCSSymbool ?NLCSSymboolID
+WHERE {
+  ?mappingElement nen2660:isPartOf ?GwswStelselType .
+  ?mappingElement g:hasGWSWType ?GwswType .
+  BIND(REPLACE(STR(?GwswStelselType), "^.*/", "") AS ?GwswStelselTypeName)
+  BIND(REPLACE(STR(?GwswType), "^.*/", "") AS ?GwswTypeName)
+
+  # NLCS-object (laagnaam) + ID uit de NLCS-publicatie (default graph)
+  OPTIONAL {
+    ?mappingElement g:hasNLCSObject ?NLCSLaagnaam .
+    ?NLCSLaagnaam skos:prefLabel ?nameNLCSLaagnaam .
+    OPTIONAL {
+      ?NLCSLaagnaam ?idObjProp ?NLCSLaagnaamID .
+      ?idObjProp a owl:AnnotationProperty .
+      ?idObjProp skos:prefLabel "ID" .
+    }
+  }
+
+  # NLCS-symbool + ID uit de NLCS-publicatie (default graph)
+  OPTIONAL {
+    ?mappingElement g:hasNLCSSymbol ?NLCSSymbool .
+    ?NLCSSymbool skos:prefLabel ?nameNLCSSymbool .
+    OPTIONAL {
+      ?NLCSSymbool ?idSymProp ?NLCSSymboolID .
+      ?idSymProp a owl:AnnotationProperty .
+      ?idSymProp skos:prefLabel "ID" .
+    }
+  }
+}
+ORDER BY ?GwswStelselType ?GwswType ?NLCSLaagnaam

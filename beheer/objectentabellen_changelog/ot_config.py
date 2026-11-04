@@ -39,6 +39,9 @@ def _locations() -> dict:
         "index_root": "", "base_url": "https://nl-digigo.github.io/NLCS/",
         "index_output": "",
         "output_dir": "",
+        # classificatie-pagina: export-CSV (NLCS-<versie>-classificatie.csv) +
+        # uitvoermap voor de interactieve HTML (bijv. docs/changelog)
+        "class_csv": "", "class_output": "",
     }
 
 
@@ -58,8 +61,11 @@ def base_dir() -> str:
     return os.path.dirname(os.path.abspath(__file__))
 
 
-def config_file() -> str:
-    return os.path.join(base_dir(), "config.json")
+def config_file(mode: str = "all") -> str:
+    """Config-bestand per familie: config.json (all/legacy), config-nlcs.json,
+    config-ri.json. Zo delen twee .exe's in dezelfde map hun instellingen niet."""
+    name = "config.json" if mode in ("all", "") else f"config-{mode}.json"
+    return os.path.join(base_dir(), name)
 
 
 # Waar de mappen uit het oude per-tabblad-schema in het nieuwe 'locations'-blok
@@ -108,13 +114,20 @@ def _migrate_old(cfg: dict, saved: dict) -> None:
             cfg["locations"]["index_output"] = idx["output"]
 
 
-def load() -> dict:
+def load(mode: str = "all") -> dict:
     cfg = copy.deepcopy(DEFAULTS)
     try:
-        with open(config_file(), encoding="utf-8") as f:
+        with open(config_file(mode), encoding="utf-8") as f:
             saved = json.load(f)
     except (FileNotFoundError, ValueError, OSError):
         saved = {}
+    # eerste keer voor een familie: neem de gedeelde config.json eenmalig over
+    if not saved and mode not in ("all", ""):
+        try:
+            with open(config_file("all"), encoding="utf-8") as f:
+                saved = json.load(f)
+        except (FileNotFoundError, ValueError, OSError):
+            saved = {}
 
     if not isinstance(saved, dict):
         return cfg
@@ -140,9 +153,9 @@ def load() -> dict:
     return cfg
 
 
-def save(cfg: dict) -> None:
+def save(cfg: dict, mode: str = "all") -> None:
     try:
-        with open(config_file(), "w", encoding="utf-8") as f:
+        with open(config_file(mode), "w", encoding="utf-8") as f:
             json.dump(cfg, f, ensure_ascii=False, indent=2)
     except OSError:
         pass  # opslaan is 'nice to have'; niet fataal

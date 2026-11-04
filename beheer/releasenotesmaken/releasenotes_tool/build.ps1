@@ -26,7 +26,8 @@ Remove-Item -Force "dist\NLCS-Releasenotes.exe" -ErrorAction SilentlyContinue
 # Icoon (blauw vierkantje voor de issue-/release-notes-tool); optioneel,
 # alleen meenemen als het bestand bestaat
 $iconArgs = @()
-if (Test-Path "icon-blue.ico") { $iconArgs = @("--icon", "icon-blue.ico") }
+if (Test-Path "R-red.ico") { $iconArgs = @("--icon", "R-red.ico") }
+elseif (Test-Path "icon-blue.ico") { $iconArgs = @("--icon", "icon-blue.ico") }
 elseif (Test-Path "digigo.ico") { $iconArgs = @("--icon", "digigo.ico") }
 
 # Bouwen: alles in 1 bestand, geen console-venster

@@ -7,13 +7,23 @@ PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 PREFIX nen2660: <https://w3id.org/nen2660/def#>
 
-SELECT ?physicalObject ?physicalObjectName ?matter ?activity ?property ?propertyValue ?NLCSobject ?NLCSobjectName ?NLCSsymbool ?NLCSsymboolName
+SELECT ?physicalObject ?physicalObjectName ?subTypeOf ?subTypeOfName ?matter ?activity ?property ?propertyValue ?NLCSobject ?NLCSobjectName ?NLCSsymbool ?NLCSsymboolName
 WHERE {
   ?physicalObject a owl:Class .
   ?physicalObject rdfs:subClassOf+ nen2660:RealObject .
   FILTER (CONTAINS(STR(?physicalObject),"http://digitalbuildingdata.tech/nlcs-class/"))
   ?physicalObject skos:prefLabel ?physicalObjectName .
   FILTER ( ?physicalObjectName NOT IN ("actor"@nl, "agent"@en))
+  # Subtype-of (directe ouder): de klasse waar dit object rechtstreeks een
+  # subklasse van is én die zelf ook een fysiek object (RealObject) uit de
+  # classificatie is. Hiermee bouw je de objectboom op. Roots (bovenste
+  # concepten) hebben geen zo'n ouder -> ?subTypeOf blijft leeg.
+  OPTIONAL {
+    ?physicalObject rdfs:subClassOf ?subTypeOf .
+    ?subTypeOf rdfs:subClassOf+ nen2660:RealObject .
+    FILTER (CONTAINS(STR(?subTypeOf),"http://digitalbuildingdata.tech/nlcs-class/"))
+    ?subTypeOf skos:prefLabel ?subTypeOfName .
+  }
   # Matter
   OPTIONAL {
     ?shapeMatter a sh:NodeShape .

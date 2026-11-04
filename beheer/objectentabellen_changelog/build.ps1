@@ -1,47 +1,56 @@
-# build.ps1 - Bouw de NLCS Objectentabellen-changelog tool tot een losse .exe
+# build.ps1 - Bouw de changelog-tool tot TWEE losse .exe's (twee families):
+#   dist\NLCS-Changelog.exe   (rode C)  - objecten/symbolen/lijntypes/arceringen
+#                                          + Controles + Overzicht
+#   dist\RI-Changelog.exe     (blauwe C) - classificatie-pagina genereren
 #
 # Gebruik (vanuit deze map):
 #     powershell -ExecutionPolicy Bypass -File .\build.ps1
 #
-# Resultaat: dist\NLCS-Objectchangelog.exe  (dubbelklikbaar, geen console-venster).
-# config.json wordt naast de .exe aangemaakt zodra je het programma sluit.
+# config-nlcs.json / config-ri.json worden naast de .exe aangemaakt.
 
 $ErrorActionPreference = "Stop"
 
-# Volledig pad naar de user-scope Python (niet op PATH)
 $py = "$env:LOCALAPPDATA\Programs\Python\Python312\python.exe"
 if (-not (Test-Path $py)) {
     Write-Error "Python niet gevonden op $py. Pas het pad in build.ps1 aan."
 }
 
-# Zorg dat PyInstaller aanwezig is (+ openpyxl voor de IMPORT-symbolen-xlsx)
-& $py -m pip install --quiet --upgrade pyinstaller openpyxl
+& $py -m pip install --quiet --upgrade pyinstaller openpyxl pillow
 if ($LASTEXITCODE -ne 0) { Write-Error "pip install mislukte." }
 
-# Oude build opruimen (dist\ blijft staan zodat config.json bewaard blijft;
-# alleen de oude .exe wordt weggegooid)
-Remove-Item -Recurse -Force build, "NLCS-Objectchangelog.spec" -ErrorAction SilentlyContinue
-Remove-Item -Force "dist\NLCS-Objectchangelog.exe" -ErrorAction SilentlyContinue
+# Prototype-HTML dat gen_classificatie_html.py als sjabloon leest (classificatie-
+# pagina). Zonder --add-data vindt de .exe het niet.
+$dataArgs = @()
+if (Test-Path "classificatie-prototype.html") {
+    $dataArgs = @("--add-data", "classificatie-prototype.html;.")
+}
 
-# Icoon (rood vierkantje voor de changelog-tool); optioneel, alleen meenemen
-# als het bestand bestaat
-$iconArgs = @()
-if (Test-Path "icon-red.ico") { $iconArgs = @("--icon", "icon-red.ico") }
-elseif (Test-Path "digigo.ico") { $iconArgs = @("--icon", "digigo.ico") }
+# (naam, entrypoint, icoon)
+$targets = @(
+    @{ name = "NLCS-Changelog"; entry = "main_nlcs.py"; icon = "C-red.ico"  },
+    @{ name = "RI-Changelog";   entry = "main_ri.py";   icon = "C-blue.ico" }
+)
 
-# Bouwen: alles in 1 bestand, geen console-venster
-& $py -m PyInstaller `
-    --onefile `
-    --windowed `
-    --name "NLCS-Objectchangelog" `
-    --hidden-import openpyxl `
-    @iconArgs `
-    main.py
-if ($LASTEXITCODE -ne 0) { Write-Error "PyInstaller-build mislukte." }
+foreach ($t in $targets) {
+    Remove-Item -Recurse -Force build, "$($t.name).spec" -ErrorAction SilentlyContinue
+    Remove-Item -Force "dist\$($t.name).exe" -ErrorAction SilentlyContinue
 
-# Tussenbestanden opruimen; alleen dist\ met de .exe blijft over
-Remove-Item -Recurse -Force build, "NLCS-Objectchangelog.spec", __pycache__ -ErrorAction SilentlyContinue
+    $iconArgs = @()
+    if (Test-Path $t.icon) { $iconArgs = @("--icon", $t.icon, "--add-data", "$($t.icon);.") }
+
+    & $py -m PyInstaller `
+        --onefile `
+        --windowed `
+        --name $t.name `
+        --hidden-import openpyxl `
+        @iconArgs `
+        @dataArgs `
+        $t.entry
+    if ($LASTEXITCODE -ne 0) { Write-Error "PyInstaller-build van $($t.name) mislukte." }
+
+    Remove-Item -Recurse -Force build, "$($t.name).spec", __pycache__ -ErrorAction SilentlyContinue
+    Write-Host "Klaar: dist\$($t.name).exe" -ForegroundColor Green
+}
 
 Write-Host ""
-Write-Host "Klaar. De executable staat in:  dist\NLCS-Objectchangelog.exe" -ForegroundColor Green
-Write-Host "Tussenmap 'build\' en 'NLCS-Objectchangelog.spec' zijn opgeruimd." -ForegroundColor Green
+Write-Host "Beide changelog-apps gebouwd in dist\." -ForegroundColor Green

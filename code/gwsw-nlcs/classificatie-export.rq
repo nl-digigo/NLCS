@@ -1,0 +1,71 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX nen2660: <https://w3id.org/nen2660/def#>
+
+# Volledige voeding voor de classificatie-pagina (objectboom + relaties), per
+# fysiek object (RealObject) uit de classificatie. De exporter ontdubbelt per
+# object tot één regel (GWSW en zoekterm kunnen meerdere waarden geven) en kiest
+# één symbool. De NLCS-namen/ID's komen uit de NLCS-publicatie, die als
+# default-graph-uri aan het endpoint wordt meegegeven.
+#
+# Kolommen:
+#   uri, name            : het classificatie-object (nlcs-class/def/…) + naam
+#   subTypeOfName        : directe ouder in de boom (ook een RealObject); leeg = root
+#   gwsw                 : GWSW-type uit de keten (subClassOf*/exactMatch; uit de URI)
+#   gwswUri              : de volledige GWSW-URI (brug naar IMBOR via de combigraph)
+#   nameNLCSLaagnaam/ID  : gekoppelde NLCS-objectlaag + NLCS-ID (isDescribedBy)
+#   sobject              : zoekterm voor het NLCS-symbool (de tool kiest één symbool)
+#   imborDirect          : directe IMBOR-def-URI op het object zelf (exactMatch/isDescribedBy)
+
+SELECT ?uri ?name ?subTypeOfName ?gwsw ?gwswUri ?nameNLCSLaagnaam ?NLCSLaagnaamID ?sobject ?imborDirect
+WHERE {
+  ?uri a owl:Class .
+  ?uri rdfs:subClassOf+ nen2660:RealObject .
+  FILTER (CONTAINS(STR(?uri), "http://digitalbuildingdata.tech/nlcs-class/"))
+  ?uri skos:prefLabel ?name .
+  FILTER (?name NOT IN ("actor"@nl, "agent"@en))
+
+  # Boom: directe ouder die zelf ook een classificatie-RealObject is (leeg = root)
+  OPTIONAL {
+    ?uri rdfs:subClassOf ?parent .
+    ?parent rdfs:subClassOf+ nen2660:RealObject .
+    FILTER (CONTAINS(STR(?parent), "http://digitalbuildingdata.tech/nlcs-class/"))
+    ?parent skos:prefLabel ?subTypeOfName .
+  }
+
+  # GWSW-type(s), geërfd uit de subClassOf-keten (naam uit de URI + volledige URI)
+  OPTIONAL {
+    ?uri rdfs:subClassOf*/skos:exactMatch ?gwswUri .
+    FILTER (CONTAINS(STR(?gwswUri), "data.gwsw.nl"))
+    BIND (REPLACE(STR(?gwswUri), "^.*/", "") AS ?gwsw)
+  }
+
+  # Directe IMBOR-def-link op het object zelf (exactMatch of isDescribedBy)
+  OPTIONAL {
+    ?uri skos:exactMatch|nen2660:isDescribedBy ?imborDirect .
+    FILTER (CONTAINS(STR(?imborDirect), "data.crow.nl/imbor"))
+  }
+
+  # NLCS-objectlaag (isDescribedBy) + ID, en de symbool-zoekterm (sobject)
+  OPTIONAL {
+    ?uri nen2660:isDescribedBy ?nlcsObj .
+    FILTER (CONTAINS(STR(?nlcsObj), "/nlcs/def/"))
+    ?nlcsObj rdfs:subClassOf+/skos:prefLabel "NLCS-object" .
+    ?nlcsObj skos:prefLabel ?nameNLCSLaagnaam .
+    OPTIONAL {
+      ?nlcsObj ?idProp ?NLCSLaagnaamID .
+      ?idProp a owl:AnnotationProperty .
+      ?idProp skos:prefLabel "ID" .
+    }
+    OPTIONAL {
+      ?nlcsObj rdfs:subClassOf ?symRestr .
+      ?symRestr owl:onProperty nen2660:isDescribedBy .
+      ?symRestr owl:onClass ?symConcept .
+      ?symConcept rdfs:subClassOf*/skos:prefLabel "Symbool" .
+      ?symConcept skos:prefLabel ?sobject .
+    }
+  }
+}

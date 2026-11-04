@@ -20,6 +20,7 @@ import html
 import glob
 import os
 import queue
+import re
 import threading
 import webbrowser
 from urllib.parse import quote
@@ -30,6 +31,7 @@ from tkinter import ttk, filedialog, messagebox
 import ot_compare
 import ot_config
 import ot_html
+import gen_classificatie_html
 
 
 # ---------------------------------------------------------------------------
@@ -3897,6 +3899,10 @@ _LOC_GROUPS = [
     ("Uitvoer", [
         ("output_dir", "Uitvoermap voor de changelog-HTML's:", "dir"),
     ]),
+    ("Classificatie-pagina", [
+        ("class_csv", "Export-CSV (NLCS-<versie>-classificatie.csv):", "csv"),
+        ("class_output", "Uitvoermap voor de pagina (docs/changelog):", "dir"),
+    ]),
 ]
 
 
@@ -3932,7 +3938,13 @@ class LocationsTab(ttk.Frame):
                 int(-ev.delta / 120), "units")))
         canvas.bind("<Leave>", lambda e: canvas.unbind_all("<MouseWheel>"))
 
+        ri_only = {"Classificatie-pagina"}
+        mode = getattr(self.app, "mode", "all")
         for title, fields in _LOC_GROUPS:
+            if mode == "ri" and title not in ri_only:
+                continue
+            if mode == "nlcs" and title in ri_only:
+                continue
             frame = ttk.LabelFrame(inner, text=title, padding=8)
             frame.pack(fill="x", pady=(0, 8))
             frame.columnconfigure(1, weight=1)
@@ -3965,29 +3977,114 @@ class LocationsTab(ttk.Frame):
             var.set(path)
 
 
+class ClassificatiePaginaTab(ttk.Frame):
+    """Genereert de interactieve classificatie-pagina (objectboom + 8 relatie-
+    vakken incl. IMBOR) uit de export-CSV van de NLCS-Exporter
+    (NLCS-<versie>-classificatie.csv). CSV en uitvoermap staan op 'Locaties'."""
+
+    def __init__(self, master, app: "App"):
+        super().__init__(master, padding=10)
+        self.app = app
+        self._build()
+
+    def _build(self) -> None:
+        ttk.Label(
+            self, foreground="#555", wraplength=780, justify="left",
+            text="Bouwt de interactieve classificatie-pagina (objectboom links, "
+                 "rechts 8 vakken: GWSW, NLCS, Aspects, Parts, Activiteiten, "
+                 "Materiaal, informatie-attributen en IMBOR) uit de export-CSV "
+                 "'NLCS-<versie>-classificatie.csv' van de NLCS-Exporter. Kies "
+                 "het CSV-bestand en de uitvoermap bij 'Locaties'. De versie "
+                 "wordt uit de CSV-bestandsnaam afgeleid.").pack(anchor="w")
+
+        btns = ttk.Frame(self)
+        btns.pack(fill="x", pady=8)
+        self.gen_btn = ttk.Button(btns, text="Genereer classificatie-pagina",
+                                  command=self.on_generate)
+        self.gen_btn.pack(side="left")
+
+        logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
+        logframe.pack(fill="both", expand=True, pady=(8, 0))
+        self.log = tk.Text(logframe, height=12, wrap="word", state="disabled",
+                           font=("Consolas", 9), background="#fbfbfb")
+        scroll = ttk.Scrollbar(logframe, orient="vertical", command=self.log.yview)
+        self.log.configure(yscrollcommand=scroll.set)
+        self.log.pack(side="left", fill="both", expand=True)
+        scroll.pack(side="right", fill="y")
+
+    def _logmsg(self, msg: str) -> None:
+        self.log.configure(state="normal")
+        self.log.insert("end", msg + "\n")
+        self.log.see("end")
+        self.log.configure(state="disabled")
+
+    def on_generate(self) -> None:
+        csv_path = self.app.loc["class_csv"].get().strip()
+        out_dir = self.app.loc["class_output"].get().strip()
+        if not csv_path or not os.path.isfile(csv_path):
+            messagebox.showwarning(
+                "Geen CSV", "Kies bij 'Locaties' een geldig export-CSV "
+                "(NLCS-<versie>-classificatie.csv).")
+            return
+        if not out_dir or not os.path.isdir(out_dir):
+            messagebox.showwarning(
+                "Geen uitvoermap", "Kies bij 'Locaties' een geldige uitvoermap "
+                "voor de classificatie-pagina (bijv. docs/changelog).")
+            return
+        # versie uit de CSV-bestandsnaam (NLCS-5-0-classificatie.csv -> 5-0),
+        # anders de gedeelde 'nieuwe versie'.
+        m = re.search(r"NLCS-([0-9][0-9._-]*?)-classificatie",
+                      os.path.basename(csv_path))
+        vdash = (m.group(1).replace(".", "-").replace("_", "-") if m
+                 else self.app.version_new_var.get().strip().replace(".", "-")
+                 or "5-0")
+        vlabel = vdash.replace("-", ".")
+        out_path = os.path.join(out_dir, f"classificatie-{vdash}.html")
+        self._logmsg(f"CSV   : {csv_path}")
+        self._logmsg(f"Uitvoer: {out_path}")
+        try:
+            n, roots = gen_classificatie_html.build(
+                csv_path, out_path, "Classificatie RI", vlabel)
+        except Exception as e:  # noqa: BLE001
+            self._logmsg(f"FOUT: {e}")
+            messagebox.showerror("Genereren mislukt", str(e))
+            return
+        self._logmsg(f"Geschreven: {n} objecten, {roots} roots.")
+        self.app.save_config()
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(out_path))
+
+
 # ---------------------------------------------------------------------------
 # Hoofdvenster
 # ---------------------------------------------------------------------------
 class App(ttk.Frame):
-    def __init__(self, master: tk.Tk):
+    # mode: "nlcs" = objecten/symbolen/lijntypes/arceringen + Controles + Overzicht;
+    #       "ri"  = alleen de Classificatie-pagina; "all" = alles (standaard).
+    def __init__(self, master: tk.Tk, mode: str = "all"):
         super().__init__(master, padding=10)
         self.master = master
+        self.mode = mode
         self.pack(fill="both", expand=True)
 
-        self.cfg = ot_config.load()
+        self.cfg = ot_config.load(mode)
+        show_nlcs = mode in ("nlcs", "all")
+        show_ri = mode in ("ri", "all")
 
-        # Gedeeld: versienamen + 'openen na genereren'
+        # Gedeeld: versienamen + 'openen na genereren' (versies alleen relevant
+        # voor de NLCS-vergelijkingen; in de RI-app tonen we alleen 'openen na').
         shared = ttk.LabelFrame(self, text="Versies (voor alle vergelijkingen)",
                                 padding=8)
         shared.pack(fill="x")
-        ttk.Label(shared, text="Naam nieuwe versie:").pack(side="left")
         self.version_new_var = tk.StringVar(value=self.cfg["version_new"])
-        ttk.Entry(shared, textvariable=self.version_new_var, width=12
-                  ).pack(side="left", padx=(4, 18))
-        ttk.Label(shared, text="Naam vorige versie:").pack(side="left")
         self.version_old_var = tk.StringVar(value=self.cfg["version_old"])
-        ttk.Entry(shared, textvariable=self.version_old_var, width=12
-                  ).pack(side="left", padx=4)
+        if show_nlcs:
+            ttk.Label(shared, text="Naam nieuwe versie:").pack(side="left")
+            ttk.Entry(shared, textvariable=self.version_new_var, width=12
+                      ).pack(side="left", padx=(4, 18))
+            ttk.Label(shared, text="Naam vorige versie:").pack(side="left")
+            ttk.Entry(shared, textvariable=self.version_old_var, width=12
+                      ).pack(side="left", padx=4)
         self.open_after_var = tk.BooleanVar(value=bool(self.cfg["open_after"]))
         ttk.Checkbutton(shared, text="eerste HTML openen na genereren",
                         variable=self.open_after_var).pack(side="left", padx=(24, 0))
@@ -4004,44 +4101,46 @@ class App(ttk.Frame):
         nb = ttk.Notebook(self)
         nb.pack(fill="both", expand=True, pady=(8, 0))
 
-        # Eerste tabblad: de gedeelde locaties.
+        # Eerste tabblad: de gedeelde locaties (toont alleen de relevante groepen).
         self.locations_tab = LocationsTab(nb, self)
         nb.add(self.locations_tab, text="Locaties")
 
-        # Tabblad 'Controles': draait alle kwaliteitscontroles in één keer en
-        # schrijft één gecombineerd rapport (controles.html), per tabel in de
-        # volgorde van de managementhandleiding.
-        self.controles_tab = ControlesTab(nb, self)
-        nb.add(self.controles_tab, text="Controles")
-
-        # Per tabelsoort een vergelijk-tabblad; die lezen de mappen uit app.loc.
         self.tabs: dict[str, TableTab] = {}
-        for prof in PROFILES:
-            tab = TableTab(nb, self, prof)
-            nb.add(tab, text=prof["label"])
-            tab.load_cfg(self.cfg["codes"].get(prof["key"], []))
-            self.tabs[prof["key"]] = tab
+        if show_nlcs:
+            # Tabblad 'Controles': alle kwaliteitscontroles in één rapport.
+            self.controles_tab = ControlesTab(nb, self)
+            nb.add(self.controles_tab, text="Controles")
 
-        # Laatste tabblad: het publicatie-overzicht ('kaart') met knoppen naar de
-        # gepubliceerde HTML's. Geen vergelijking, dus een eigen tabblad-klasse.
-        self.index_tab = IndexTab(nb, self)
-        nb.add(self.index_tab, text="Overzicht")
+            # Per tabelsoort een vergelijk-tabblad; lezen de mappen uit app.loc.
+            for prof in PROFILES:
+                tab = TableTab(nb, self, prof)
+                nb.add(tab, text=prof["label"])
+                tab.load_cfg(self.cfg["codes"].get(prof["key"], []))
+                self.tabs[prof["key"]] = tab
 
-        # De losse controle-tabbladen worden niet meer als tab getoond; de
-        # instanties blijven bestaan zodat ControlesTab hun _run()-logica kan
-        # hergebruiken voor het gecombineerde rapport.
-        self.id_tab = IdTab(nb, self)
-        self.optiefase_tab = OptieFaseCheckTab(nb, self)
-        self.objecttree_tab = ObjectTreeTab(nb, self)
-        self.lijnusage_tab = LijntypeUsageTab(nb, self)
-        self.searchterm_tab = SearchtermTab(nb, self)
-        self.searchtermmin_tab = SearchtermMinTab(nb, self)
-        self.fasevis_tab = FaseVisualisatieTab(nb, self)
-        self.dupnames_tab = DuplicateNamesTab(nb, self)
-        self.elemlink_tab = ElementLinkTab(nb, self)
-        self.specialchars_tab = SpecialCharsTab(nb, self)
-        self.arceringverklaring_tab = ArceringVerklaringTab(nb, self)
-        self.lijntypedef_tab = LijntypeDefTab(nb, self)
+            # Publicatie-overzicht ('kaart') met knoppen naar de HTML's.
+            self.index_tab = IndexTab(nb, self)
+            nb.add(self.index_tab, text="Overzicht")
+
+            # Losse controle-tabbladen: niet getoond, maar ControlesTab hergebruikt
+            # hun _run()-logica voor het gecombineerde rapport.
+            self.id_tab = IdTab(nb, self)
+            self.optiefase_tab = OptieFaseCheckTab(nb, self)
+            self.objecttree_tab = ObjectTreeTab(nb, self)
+            self.lijnusage_tab = LijntypeUsageTab(nb, self)
+            self.searchterm_tab = SearchtermTab(nb, self)
+            self.searchtermmin_tab = SearchtermMinTab(nb, self)
+            self.fasevis_tab = FaseVisualisatieTab(nb, self)
+            self.dupnames_tab = DuplicateNamesTab(nb, self)
+            self.elemlink_tab = ElementLinkTab(nb, self)
+            self.specialchars_tab = SpecialCharsTab(nb, self)
+            self.arceringverklaring_tab = ArceringVerklaringTab(nb, self)
+            self.lijntypedef_tab = LijntypeDefTab(nb, self)
+
+        if show_ri:
+            # Classificatie-pagina genereren uit de export-CSV van de Exporter.
+            self.classificatie_tab = ClassificatiePaginaTab(nb, self)
+            nb.add(self.classificatie_tab, text="Classificatie-pagina")
 
         master.protocol("WM_DELETE_WINDOW", self._on_close)
 
@@ -4087,19 +4186,28 @@ class App(ttk.Frame):
         return val
 
     def save_config(self) -> None:
-        ot_config.save(self._collect_config())
+        ot_config.save(self._collect_config(), self.mode)
 
     def _on_close(self) -> None:
         self.save_config()
         self.master.destroy()
 
 
-def run() -> None:
+def run(mode: str = "all", title: str = "NLCS Tabellen changelog",
+        icon: str = "") -> None:
     root = tk.Tk()
-    root.title("NLCS Tabellen changelog")
+    root.title(title)
     root.geometry("860x760")
     root.minsize(720, 660)
-    App(root)
+    if icon:
+        try:
+            here = os.path.dirname(os.path.abspath(__file__))
+            ico = os.path.join(here, icon)
+            if os.path.isfile(ico):
+                root.iconbitmap(ico)
+        except Exception:
+            pass
+    App(root, mode=mode)
     root.mainloop()
 
 

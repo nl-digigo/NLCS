@@ -381,7 +381,7 @@ def main() -> None:
     root.geometry("760x760")
     try:
         here = os.path.dirname(os.path.abspath(__file__))
-        for name in ("geel.ico", "digigo.ico"):
+        for name in ("M-red.ico", "geel.ico", "digigo.ico"):
             ico = os.path.join(here, name)
             if os.path.isfile(ico):
                 root.iconbitmap(ico)

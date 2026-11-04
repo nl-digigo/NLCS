@@ -1,0 +1,79 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX nen2660: <https://w3id.org/nen2660/def#>
+
+# GWSW -> NLCS mapping uit de publicatie nlcs-classificatie-ri---kern, MET OVERERVING.
+#
+# Model:
+#  - een 'Stelsel' heeft via owl:Restriction (owl:onProperty nen2660:hasPart,
+#    owl:onClass <lid>) zijn leden; elk lid (en al zijn subklassen) hoort bij dat
+#    stelsel -> het stelsel erft naar beneden (nameStelselType/GwswStelselType).
+#  - een lid erft de GWSW-koppeling van zijn voorouder(s): een concept
+#    (bijv. DRAINAGE_HULPSTUK_BELUCHTING) is rdfs:subClassOf een GWSW-type-concept
+#    (Beluchtingsventiel), dat zelf weer onder een hoger GWSW-type valt
+#    (Constructieonderdeel). Via rdfs:subClassOf*/skos:exactMatch krijgt het concept
+#    dus alle GWSW-types uit zijn keten.
+#  - GWSW-namen worden uit de (human readable) URI geparset.
+#  - NLCS-laagnaam/symbool + hun ID's komen uit de NLCS-publicatie, die als
+#    default-graph-uri aan het endpoint moet worden meegegeven
+#    (?default-graph-uri=http://.../nlcs/live/nlcs/versions/<versie>).
+
+SELECT DISTINCT ?GwswStelselType ?GwswStelselTypeName ?GwswType ?GwswTypeName
+       ?nameStelselType ?nameType
+       ?nameNLCSLaagnaam ?NLCSLaagnaam ?NLCSLaagnaamID
+       ?sobject
+WHERE {
+  ?uriStelsel a owl:Class ; skos:prefLabel "Stelsel" .
+  ?stelsel rdfs:subClassOf ?uriStelsel .
+  ?stelsel skos:prefLabel ?nameStelselType .
+
+  # Leden van het stelsel (via hasPart-restrictie) + al hun subklassen -> overerving
+  ?stelsel rdfs:subClassOf ?restr .
+  ?restr owl:onProperty nen2660:hasPart ; owl:onClass ?part .
+  ?uriType rdfs:subClassOf* ?part .
+  ?uriType skos:prefLabel ?nameType .
+
+  # GWSW-stelseltype (uit de URI)
+  OPTIONAL {
+    ?stelsel skos:exactMatch ?GwswStelselType .
+    FILTER (CONTAINS(STR(?GwswStelselType), "data.gwsw.nl")) .
+    BIND(REPLACE(STR(?GwswStelselType), "^.*/", "") AS ?GwswStelselTypeName)
+  }
+
+  # GWSW-type: geerfd uit de hele subClassOf-keten van het concept (uit de URI)
+  OPTIONAL {
+    ?uriType rdfs:subClassOf*/skos:exactMatch ?GwswType .
+    FILTER (CONTAINS(STR(?GwswType), "data.gwsw.nl")) .
+    BIND(REPLACE(STR(?GwswType), "^.*/", "") AS ?GwswTypeName)
+  }
+
+  # NLCS-object (laagnaam) + ID uit de NLCS-publicatie (default graph).
+  # VERPLICHT: alleen objecten die een relatie hebben met de NLCS 5.0-
+  # tekenstandaard komen in de tabel (dus niet 'Beluchtingsventiel' zelf, wél de
+  # onderliggende concepten die naar een NLCS-object verwijzen).
+  ?uriType nen2660:isDescribedBy ?NLCSLaagnaam .
+  FILTER (CONTAINS(STR(?NLCSLaagnaam), "/nlcs/def/")) .
+  ?NLCSLaagnaam rdfs:subClassOf+/skos:prefLabel "NLCS-object" .
+  ?NLCSLaagnaam skos:prefLabel ?nameNLCSLaagnaam .
+  OPTIONAL {
+    ?NLCSLaagnaam ?idObjProp ?NLCSLaagnaamID .
+    ?idObjProp a owl:AnnotationProperty .
+    ?idObjProp skos:prefLabel "ID" .
+  }
+
+  # Zoekterm (sobject) voor het symbool: de Symbool-klasse waar het object via
+  # de isDescribedBy-restrictie naar verwijst. De tool kiest hiermee ÉÉN symbool
+  # (symbolen waarvan de naam de sobject-zoekterm bevat; fase B > zonder fase >
+  # kortste naam; het zoekterm-concept zelf wordt overgeslagen).
+  OPTIONAL {
+    ?NLCSLaagnaam rdfs:subClassOf ?symRestr .
+    ?symRestr owl:onProperty nen2660:isDescribedBy .
+    ?symRestr owl:onClass ?symConcept .
+    ?symConcept rdfs:subClassOf*/skos:prefLabel "Symbool" .
+    ?symConcept skos:prefLabel ?sobject .
+  }
+}
+ORDER BY ?nameStelselType ?nameType ?GwswTypeName ?NLCSLaagnaam

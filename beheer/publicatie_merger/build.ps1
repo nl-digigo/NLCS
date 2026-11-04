@@ -30,7 +30,8 @@ Remove-Item -Recurse -Force build, "NLCS-Publicatie-Merger.spec" -ErrorAction Si
 Remove-Item -Force "dist\NLCS-Publicatie-Merger.exe" -ErrorAction SilentlyContinue
 
 $iconArgs = @()
-if (Test-Path "geel.ico") { $iconArgs = @("--icon", "geel.ico") }
+if (Test-Path "M-red.ico") { $iconArgs = @("--icon", "M-red.ico") }
+elseif (Test-Path "geel.ico") { $iconArgs = @("--icon", "geel.ico") }
 elseif (Test-Path "digigo.ico") { $iconArgs = @("--icon", "digigo.ico") }
 
 # Bouwen: 1 bestand, geen console. rdflib gebruikt plugin-metadata ->
@@ -45,6 +46,7 @@ elseif (Test-Path "digigo.ico") { $iconArgs = @("--icon", "digigo.ico") }
     --copy-metadata requests `
     --add-data "$merger;." `
     --add-data "geel.ico;." `
+    --add-data "M-red.ico;." `
     @iconArgs `
     main.py
 if ($LASTEXITCODE -ne 0) { Write-Error "PyInstaller-build mislukte." }
