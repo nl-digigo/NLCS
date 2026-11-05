@@ -564,7 +564,8 @@ def build_changelog_html(result: dict, title: str,
                          version_new: str = "", version_old: str = "",
                          visible_indices=None, extra_columns=None,
                          orphans=None, deleted_notes=None,
-                         header_labels=None, sortable: bool = False) -> str:
+                         header_labels=None, sortable: bool = False,
+                         separate_deleted: bool = False) -> str:
     """Changelog-pagina: gewijzigde cellen blauw (oud + nieuw), nieuwe rijen
     groen, vervallen rijen onderaan rood.
 
@@ -671,14 +672,39 @@ def build_changelog_html(result: dict, title: str,
                 '.dwg-bestand aanwezig, maar geen regel in deze symbolentabel</h2>\n'
                 '<table class="otab weestab">\n<thead><tr><th>.dwg</th><th>pad</th>'
                 f'</tr></thead>\n<tbody>\n{orows}\n</tbody>\n</table>\n')
+        # Vervallen (rode) rijen desgewenst in een EIGEN tabel eronder i.p.v. in
+        # dezelfde tabel (separate_deleted). Eigen DataTable (#otab-del).
+        main_rows = norm_rows + deleted_rows
+        del_html = ""
+        del_script = ""
+        if separate_deleted and deleted_rows:
+            main_rows = norm_rows
+            del_html = (
+                f'<h2 class="wees-kop">Vervallen rijen ({len(deleted)}) &middot; '
+                f'aanwezig in {_esc(version_old or "de oude versie")}, niet meer '
+                f'in {_esc(version_new or "de nieuwe versie")}</h2>\n'
+                '<table id="otab-del" class="otab display" style="width:100%">\n'
+                f'<thead>\n<tr>{head_cells}</tr>\n</thead>\n<tbody>\n'
+                + "\n".join(deleted_rows)
+                + "\n</tbody>\n</table>\n")
+            del_script = (
+                "\n<script>\n$(document).ready(function () {\n"
+                "  if ($('#otab-del').length) {\n"
+                "    var td = $('#otab-del').DataTable({ paging: false,\n"
+                "      scrollX: true, scrollY: '30vh', scrollCollapse: true,\n"
+                "      order: [], orderCellsTop: true });\n"
+                "    td.columns.adjust();\n"
+                "    $(window).on('resize', function () { td.columns.adjust(); });\n"
+                "  }\n});\n</script>\n")
         return (
             _shell_head(title, extra_style=_CHANGELOG_STYLE, cdn=True)
             + f'<div class="wrap">\n{banner}<p class="info">{info}</p>\n{legend}\n'
             + '<table id="otab" class="otab display" style="width:100%">\n<thead>\n'
             + f"<tr>{head_cells}</tr>\n</thead>\n<tbody>\n"
-            + "\n".join(norm_rows + deleted_rows)
+            + "\n".join(main_rows)
             + "\n</tbody>\n</table>\n"
             + _full_script(no_sort, order=None, paginate=False)
+            + del_html + del_script
             + orphan_html
             + "</div>\n"
             + _FOOTER
@@ -731,6 +757,9 @@ _INDEX_STYLE = """
             padding:14px 16px 16px; display:flex; flex-direction:column;
             min-height:210px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
     .card.general { border-top-color: var(--dg-blue); }
+    .region-head { margin:26px 0 10px; font-size:1.1rem; color:var(--dg-ink);
+            border-bottom:2px solid var(--dg-yellow); padding-bottom:4px; }
+    .card-grid.mappingen .card { border-top-color: var(--dg-blue); }
     .card h2 { margin:0; font-size:1.2rem; color:var(--dg-ink); }
     .card h2 .hg-check { float:right; font-size:.9rem; font-weight:700;
             padding:1px 9px; border-radius:12px; line-height:1.5; }
@@ -917,16 +946,16 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
     if general:
         cards.append(_card("Voor alle hoofdgroepen",
                            f"{len(general)} algemeen bestand(en)", general, True))
-    maps = mappingen or []
-    if maps:
-        cards.append(_card("Mappingen",
-                           f"{len(maps)} mapping(en)", maps, True))
     for code, entries in groups:
         cards.append(_card(code, f"hoofdgroep {code} &middot; "
                            f"{len(entries)} bestand(en)", entries, False,
                            mark=marks.get(code)))
 
-    total = sum(len(e) for _c, e in groups) + len(general) + len(maps)
+    # mappingen = [(mapnaam, [entry, ...]), ...] -> apart 'Mappingen'-blok,
+    # de mapping-mappen (BGT, GWSW, RI-object, NDW) bij elkaar.
+    maps = mappingen or []
+    n_maps = sum(len(e) for _f, e in maps)
+    total = sum(len(e) for _c, e in groups) + len(general) + n_maps
     info = (f"{len(groups)} hoofdgroep(en) &middot; {total} bestand(en)"
             + (f" &middot; versie {_esc(version)}" if version else "")
             + (f' &middot; <a href="{_esc(base)}" target="_blank">{_esc(base)}</a>'
@@ -945,6 +974,15 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
             'versie.</p>' if not cards else
             '<div class="card-grid">\n' + "\n".join(cards) + "\n</div>")
 
+    # Mappingen-blok: de mapping-mappen bij elkaar (één kaart per map).
+    mapping_html = ""
+    if maps:
+        map_cards = [_card(folder, f"{len(entries)} bestand(en)", entries, True)
+                     for folder, entries in maps]
+        mapping_html = ('\n<h2 class="region-head">Mappingen</h2>\n'
+                        '<div class="card-grid mappingen">\n'
+                        + "\n".join(map_cards) + "\n</div>")
+
     # Extra blok onderaan: documenten uit de map 'expertcommissie'.
     expert_html = ""
     experts = expertcommissie or []
@@ -962,6 +1000,7 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
         + f'<div class="wrap">\n<p class="info">{info}</p>\n'
         + legend + ("\n" if legend else "")
         + body + "\n"
+        + mapping_html + ("\n" if mapping_html else "")
         + expert_html + ("\n" if expert_html else "")
         + "</div>\n"
         + _FOOTER
@@ -1685,12 +1724,12 @@ def build_index_markdown(groups, general,
         url = (base + entry["subpath"]) if base else entry["subpath"]
         return f'- [{_mdesc(entry["label"])}]({url})'
 
-    def _section(heading: str, entries: list, mark=None) -> list:
+    def _section(heading: str, entries: list, mark=None, level: int = 2) -> list:
         suffix = ""
         if mark is not None:
             errs = mark.get("errors", 0)
             suffix = " ✅" if not errs else f" ❌ ({errs} fout(en))"
-        out = [f"## {heading}{suffix}", ""]
+        out = [f"{'#' * level} {heading}{suffix}", ""]
         tabellen = [e for e in entries if e.get("kind") != "changelog"]
         changelogs = [e for e in entries if e.get("kind") == "changelog"]
         if tabellen:
@@ -1705,7 +1744,9 @@ def build_index_markdown(groups, general,
             out += ["_geen bestanden_", ""]
         return out
 
-    total = sum(len(e) for _c, e in groups) + len(general)
+    maps = mappingen or []   # [(mapnaam, [entry, ...]), ...]
+    n_maps = sum(len(e) for _f, e in maps)
+    total = sum(len(e) for _c, e in groups) + len(general) + n_maps
     lines = [f"# {title}".rstrip(), ""]
     meta = f"{len(groups)} hoofdgroep(en) · {total} bestand(en)"
     if version:
@@ -1716,11 +1757,12 @@ def build_index_markdown(groups, general,
 
     if general:
         lines += _section("Voor alle hoofdgroepen", general)
-    maps = mappingen or []
-    if maps:
-        lines += _section("Mappingen", maps)
     for code, entries in groups:
         lines += _section(code, entries, mark=marks.get(code))
+    if maps:
+        lines += ["## Mappingen", ""]
+        for folder, entries in maps:
+            lines += _section(folder, entries, level=3)
 
     experts = expertcommissie or []
     if experts:

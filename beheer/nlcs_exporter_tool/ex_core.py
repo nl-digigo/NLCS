@@ -426,11 +426,20 @@ def _bgt_prepare_query(query: str, nlcs_graph: str) -> str:
     return q
 
 
+def _mapping_outname(vdash, name, std_version=""):
+    """Bestandsnaam voor een mapping-CSV: NLCS-<nlcs>-<naam>[-<std>].csv. De
+    versie van de tegenstandaard (BGT/GWSW/NDW) wordt meegenomen zodat de
+    changelog-tool beide versies uit de naam kan afleiden."""
+    std = (std_version or "").strip().replace(".", "-")
+    return f"NLCS-{vdash}-{name}" + (f"-{std}" if std else "") + ".csv"
+
+
 def run_bgt_mapping_export(endpoint, token, password, nlcs_graph, version,
-                           query_path, out_dir, log=print):
+                           query_path, out_dir, std_version="", log=print):
     """Draai de BGT→NLCS mapping-query tegen `endpoint` en schrijf
-    NLCS-<versie>-BGT.csv in `out_dir` (kolomvolgorde = BGT_COLUMNS, met de
-    afgeleide kolommen NLCSHoofdgroep [uit de query] en NLCSSbib [uit symbolInfo])."""
+    NLCS-<versie>-BGT[-<bgt-versie>].csv in `out_dir` (kolomvolgorde = BGT_COLUMNS,
+    met de afgeleide kolommen NLCSHoofdgroep [uit de query] en NLCSSbib [uit
+    symbolInfo]). `std_version` = versie van de BGT-standaard (in de bestandsnaam)."""
     endpoint = normalize_endpoint(endpoint)
     version = (version or "5-0").strip() or "5-0"
     vdash = version.replace(".", "-")
@@ -462,7 +471,8 @@ def run_bgt_mapping_export(endpoint, token, password, nlcs_graph, version,
         raise RuntimeError(f"BGT-query gaf HTTP {resp.status_code}: {snip}")
 
     rows = list(csv.DictReader(io.StringIO(resp.text)))
-    out_path = os.path.join(out_dir, f"NLCS-{vdash}-BGT.csv")
+    out_name = _mapping_outname(vdash, "BGT", std_version)
+    out_path = os.path.join(out_dir, out_name)
     os.makedirs(out_dir, exist_ok=True)
     n_sym = 0
     with open(out_path, "w", encoding="utf-8", newline="") as f:
@@ -474,8 +484,7 @@ def run_bgt_mapping_export(endpoint, token, password, nlcs_graph, version,
             if sym:
                 n_sym += 1
             w.writerow([row.get(c, "") for c in BGT_COLUMNS])
-    log(f"Geschreven: NLCS-{vdash}-BGT.csv  ({len(rows)} rijen, "
-        f"{n_sym} met symbool)")
+    log(f"Geschreven: {out_name}  ({len(rows)} rijen, {n_sym} met symbool)")
     return out_path
 
 
@@ -509,11 +518,12 @@ def default_gwsw_ri_query(repo_root: str = "") -> str:
 
 
 def run_gwsw_mapping_export(endpoint, token, password, nlcs_graph, version,
-                            query_path, out_dir, out_name="GWSW", log=print):
+                            query_path, out_dir, out_name="GWSW",
+                            std_version="", log=print):
     """Draai de GWSW→NLCS mapping-query tegen `endpoint` (met de NLCS-graph als
-    `default-graph-uri`) en schrijf NLCS-<versie>-<out_name>.csv in `out_dir`. De
-    query-output wordt ongewijzigd weggeschreven (kolommen zoals de query ze
-    levert)."""
+    `default-graph-uri`) en schrijf NLCS-<versie>-<out_name>[-<std>].csv in
+    `out_dir`. `std_version` = versie van de GWSW-standaard (in de bestandsnaam).
+    De query-output wordt ongewijzigd weggeschreven."""
     endpoint = normalize_endpoint(endpoint)
     version = (version or "5-0").strip() or "5-0"
     vdash = version.replace(".", "-")
@@ -545,9 +555,10 @@ def run_gwsw_mapping_export(endpoint, token, password, nlcs_graph, version,
         snip = (resp.text or "")[:200].replace("\n", " ")
         raise RuntimeError(f"GWSW-query gaf HTTP {resp.status_code}: {snip}")
 
-    out_path = os.path.join(out_dir, f"NLCS-{vdash}-{out_name}.csv")
+    fname = _mapping_outname(vdash, out_name, std_version)
+    out_path = os.path.join(out_dir, fname)
     n = _write_csv(resp.text, out_path)
-    log(f"Geschreven: NLCS-{vdash}-{out_name}.csv  ({n} rijen)")
+    log(f"Geschreven: {fname}  ({n} rijen)")
     return out_path
 
 
@@ -606,11 +617,12 @@ def _pick_symbol(sobjects, symbols: list):
 
 def run_gwsw_ri_mapping_export(endpoint, token, password, nlcs_graph, version,
                                query_path, out_dir, out_name="GWSW-RI",
-                               log=print):
+                               std_version="", log=print):
     """GWSW→NLCS mapping via de classificatie-RI-publicatie, MET overerving en
     met ÉÉN gekozen symbool per rij. De mapping-query levert per rij de zoekterm
     `sobject`; de tool haalt alle NLCS-symbolen op en kiest er één per sobject
-    (fase B > zonder fase > kortste naam). Schrijft NLCS-<versie>-<out_name>.csv."""
+    (fase B > zonder fase > kortste naam). Schrijft
+    NLCS-<versie>-<out_name>[-<std>].csv; `std_version` = versie van de GWSW-standaard."""
     endpoint = normalize_endpoint(endpoint)
     version = (version or "5-0").strip() or "5-0"
     vdash = version.replace(".", "-")
@@ -675,14 +687,14 @@ def run_gwsw_ri_mapping_export(endpoint, token, password, nlcs_graph, version,
             n_sym += 1
         out_rows.append(list(key) + [nm, uri, sid])
 
-    out_path = os.path.join(out_dir, f"NLCS-{vdash}-{out_name}.csv")
+    fname = _mapping_outname(vdash, out_name, std_version)
+    out_path = os.path.join(out_dir, fname)
     os.makedirs(out_dir, exist_ok=True)
     with open(out_path, "w", encoding="utf-8", newline="") as f:
         w = csv.writer(f)
         w.writerow(GWSW_RI_COLUMNS)
         w.writerows(out_rows)
-    log(f"Geschreven: NLCS-{vdash}-{out_name}.csv  ({len(out_rows)} rijen, "
-        f"{n_sym} met symbool)")
+    log(f"Geschreven: {fname}  ({len(out_rows)} rijen, {n_sym} met symbool)")
     return out_path
 
 

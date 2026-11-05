@@ -350,6 +350,14 @@ def hoofdgroep_from_coded_name(name, all_codes=None) -> str:
     return _canon_group_code(code, all_codes or set())
 
 
+# Topmappen in docs/changelog die mapping-pagina's bevatten (geen hoofdgroepen):
+# die worden in het overzicht als één 'Mappingen'-blok bij elkaar gehouden. Ook
+# lege mappen verschijnen (als placeholder). Volgorde = weergavevolgorde.
+MAPPING_FOLDERS = ("BGT", "GWSW", "RI-object", "NDW")
+_MAPPING_DISP = {f.upper(): f for f in MAPPING_FOLDERS}
+_MAPPING_UP = set(_MAPPING_DISP)
+
+
 def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     """Doorzoek `root` (bijv. docs/changelog) recursief naar HTML-bestanden
     waarvan de bestandsnaam een versie-variant bevat (zowel '5.2' als '5-2').
@@ -384,7 +392,7 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
     grouped: list = []      # [(raw_code, entry), ...] — code na de walk canoniek maken
     general: list = []
     expertcommissie: list = []   # HTML's uit de submap 'expertcommissie'
-    mappingen: list = []         # HTML's uit de submap 'mappingen'
+    mappingen: dict = {}         # mapping-topmap -> [entry, ...] (BGT/GWSW/RI-object/NDW)
     count = 0
     if variants and os.path.isdir(root):
         for dirpath, _dirs, files in os.walk(root):
@@ -403,7 +411,7 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
                 # overzicht; die bestanden worden altijd opgenomen (ook zonder
                 # versienummer in de naam), net als de release notes.
                 is_expert = len(rel_parts) > 1 and first.lower() == "expertcommissie"
-                is_mapping = len(rel_parts) > 1 and first.lower() == "mappingen"
+                is_mapping = len(rel_parts) > 1 and first.upper() in _MAPPING_UP
                 is_releasenotes = low.startswith("releasenotes")
                 if not is_expert and not is_mapping and not is_releasenotes \
                         and not any(v in name for v in variants):
@@ -426,12 +434,14 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
                     expertcommissie.append(entry)
                 elif is_mapping:
                     # Label = de mappingnaam zonder 'changelog-'/'NLCS-<versie>-'
-                    # ('NLCS-5-2-NDW' -> 'NDW', 'changelog-NLCS-5-2-NDW' -> 'NDW').
+                    # ('NLCS-5-2-NDW' -> 'NDW', 'changelog-NLCS-5-2-NDW' -> 'NDW');
+                    # changelog-bestanden houden hun 'kind' en komen in dezelfde map.
                     stem = os.path.splitext(name)[0]
                     lbl = re.sub(r"(?i)^(changelog-)?nlcs[-_ ]*\d+[.\-]\d+[-_ ]*",
                                  "", stem)
+                    lbl = re.sub(r"(?i)^(changelog-)?", "", lbl)
                     entry["label"] = lbl or stem
-                    mappingen.append(entry)
+                    mappingen.setdefault(_MAPPING_DISP[first.upper()], []).append(entry)
                 elif in_hoofdgroep:
                     grouped.append((first_up, entry))
                 elif is_releasenotes or len(rel_parts) == 1:
@@ -478,14 +488,21 @@ def scan_publication(root: str, version: str, exclude_names=None) -> dict:
         groups[code] = sorted(_dedupe(code, groups[code]), key=_sortkey)
     general.sort(key=_sortkey)
     expertcommissie.sort(key=_sortkey)
-    mappingen.sort(key=_sortkey)
+    # Mappingen als geordende lijst (vaste weergavevolgorde). Bestaande, maar lege
+    # mapping-mappen verschijnen als placeholder (zodat de structuur zichtbaar is).
+    for folder in MAPPING_FOLDERS:
+        if folder not in mappingen and os.path.isdir(os.path.join(root, folder)):
+            mappingen[folder] = []
+    mappingen_list = [(folder, sorted(mappingen[folder], key=_sortkey))
+                      for folder in MAPPING_FOLDERS if folder in mappingen]
+    n_mapping = sum(len(v) for _f, v in mappingen_list)
     count = (sum(len(v) for v in groups.values()) + len(general)
-             + len(expertcommissie) + len(mappingen))
+             + len(expertcommissie) + n_mapping)
     return {
         "groups": sorted(groups.items()),
         "general": general,
         "expertcommissie": expertcommissie,
-        "mappingen": mappingen,
+        "mappingen": mappingen_list,
         "docs_root": docs_root,
         "count": count,
     }

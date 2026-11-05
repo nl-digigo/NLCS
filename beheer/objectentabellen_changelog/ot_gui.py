@@ -32,6 +32,7 @@ import ot_compare
 import ot_config
 import ot_html
 import gen_classificatie_html
+import bgt_changelog
 
 
 # ---------------------------------------------------------------------------
@@ -3903,6 +3904,11 @@ _LOC_GROUPS = [
         ("class_csv", "Export-CSV (NLCS-<versie>-classificatie.csv):", "csv"),
         ("class_output", "Uitvoermap voor de pagina (docs/changelog):", "dir"),
     ]),
+    ("BGT-mapping", [
+        ("bgt_new", "BGT-CSV nieuwe versie (NLCS-<versie>-BGT.csv):", "csv"),
+        ("bgt_old", "BGT-CSV vorige versie:", "csv"),
+        ("bgt_output", "Uitvoermap voor tabel + changelog:", "dir"),
+    ]),
 ]
 
 
@@ -3938,12 +3944,12 @@ class LocationsTab(ttk.Frame):
                 int(-ev.delta / 120), "units")))
         canvas.bind("<Leave>", lambda e: canvas.unbind_all("<MouseWheel>"))
 
-        ri_only = {"Classificatie-pagina"}
+        mapping_only = {"Classificatie-pagina", "BGT-mapping"}
         mode = getattr(self.app, "mode", "all")
         for title, fields in _LOC_GROUPS:
-            if mode == "ri" and title not in ri_only:
+            if mode == "mapping" and title not in mapping_only:
                 continue
-            if mode == "nlcs" and title in ri_only:
+            if mode == "nlcs" and title in mapping_only:
                 continue
             frame = ttk.LabelFrame(inner, text=title, padding=8)
             frame.pack(fill="x", pady=(0, 8))
@@ -4055,12 +4061,96 @@ class ClassificatiePaginaTab(ttk.Frame):
             webbrowser.open(os.path.abspath(out_path))
 
 
+class BGTMappingTab(ttk.Frame):
+    """BGT-mapping: genereert (1) een digiGO-tabelpagina van de BGT-mappingtabel
+    (alle kolommen, sorteerbaar/filterbaar) en (2) een changelog-HTML met de
+    verschillen tussen twee versies (op de unieke 'uri'-kolom). CSV's en
+    uitvoermap staan op 'Locaties'."""
+
+    def __init__(self, master, app: "App"):
+        super().__init__(master, padding=10)
+        self.app = app
+        self._build()
+
+    def _build(self) -> None:
+        ttk.Label(
+            self, foreground="#555", wraplength=780, justify="left",
+            text="Maakt uit de BGT-mapping-CSV's (van de Mapping-Exporter) twee "
+                 "pagina's: een tabelpagina van de nieuwe versie (alle kolommen) "
+                 "en een changelog met toegevoegde, vervallen en gewijzigde "
+                 "regels t.o.v. de vorige versie. Kies de CSV's en de uitvoermap "
+                 "bij 'Locaties'.").pack(anchor="w")
+
+        btns = ttk.Frame(self)
+        btns.pack(fill="x", pady=8)
+        self.gen_btn = ttk.Button(btns, text="Genereer tabel + changelog",
+                                  command=self.on_generate)
+        self.gen_btn.pack(side="left")
+        self.tbl_btn = ttk.Button(btns, text="Alleen tabelpagina",
+                                  command=lambda: self.on_generate(only_table=True))
+        self.tbl_btn.pack(side="left", padx=(8, 0))
+
+        logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
+        logframe.pack(fill="both", expand=True, pady=(8, 0))
+        self.log = tk.Text(logframe, height=12, wrap="word", state="disabled",
+                           font=("Consolas", 9), background="#fbfbfb")
+        scroll = ttk.Scrollbar(logframe, orient="vertical", command=self.log.yview)
+        self.log.configure(yscrollcommand=scroll.set)
+        self.log.pack(side="left", fill="both", expand=True)
+        scroll.pack(side="right", fill="y")
+
+    def _logmsg(self, msg: str) -> None:
+        self.log.configure(state="normal")
+        self.log.insert("end", msg + "\n")
+        self.log.see("end")
+        self.log.configure(state="disabled")
+
+    def on_generate(self, only_table: bool = False) -> None:
+        new_csv = self.app.loc["bgt_new"].get().strip()
+        old_csv = self.app.loc["bgt_old"].get().strip()
+        out_dir = self.app.loc["bgt_output"].get().strip()
+        if not new_csv or not os.path.isfile(new_csv):
+            messagebox.showwarning(
+                "Geen CSV", "Kies bij 'Locaties' de BGT-CSV van de nieuwe versie.")
+            return
+        if not out_dir or not os.path.isdir(out_dir):
+            messagebox.showwarning(
+                "Geen uitvoermap", "Kies bij 'Locaties' een geldige uitvoermap.")
+            return
+        first = None
+        try:
+            table_out = bgt_changelog.build_table_page(new_csv, out_dir)
+            self._logmsg(f"Tabelpagina -> {os.path.basename(table_out)}")
+            first = table_out
+            if not only_table:
+                if not old_csv or not os.path.isfile(old_csv):
+                    messagebox.showwarning(
+                        "Geen vorige versie", "Kies bij 'Locaties' ook de BGT-CSV "
+                        "van de vorige versie voor de changelog (of gebruik "
+                        "'Alleen tabelpagina').")
+                else:
+                    cl_out, st = bgt_changelog.build_changelog_page(
+                        new_csv, old_csv, out_dir)
+                    self._logmsg(
+                        f"Changelog: {st['new']} nieuw, {st['changed']} gewijzigd, "
+                        f"{st['deleted']} vervallen -> {os.path.basename(cl_out)}")
+                    first = cl_out
+        except Exception as e:  # noqa: BLE001
+            self._logmsg(f"FOUT: {e}")
+            messagebox.showerror("Genereren mislukt", str(e))
+            return
+        self.app.save_config()
+        if first and self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(first))
+
+
 # ---------------------------------------------------------------------------
 # Hoofdvenster
 # ---------------------------------------------------------------------------
 class App(ttk.Frame):
-    # mode: "nlcs" = objecten/symbolen/lijntypes/arceringen + Controles + Overzicht;
-    #       "ri"  = alleen de Classificatie-pagina; "all" = alles (standaard).
+    # mode: "nlcs"    = objecten/symbolen/lijntypes/arceringen + Controles + Overzicht;
+    #       "mapping" = classificatie-pagina + BGT-mapping (tabel + changelog);
+    #       "all"     = alles (standaard, dev).
     def __init__(self, master: tk.Tk, mode: str = "all"):
         super().__init__(master, padding=10)
         self.master = master
@@ -4069,7 +4159,7 @@ class App(ttk.Frame):
 
         self.cfg = ot_config.load(mode)
         show_nlcs = mode in ("nlcs", "all")
-        show_ri = mode in ("ri", "all")
+        show_mapping = mode in ("mapping", "all")
 
         # Gedeeld: versienamen + 'openen na genereren' (versies alleen relevant
         # voor de NLCS-vergelijkingen; in de RI-app tonen we alleen 'openen na').
@@ -4137,10 +4227,12 @@ class App(ttk.Frame):
             self.arceringverklaring_tab = ArceringVerklaringTab(nb, self)
             self.lijntypedef_tab = LijntypeDefTab(nb, self)
 
-        if show_ri:
-            # Classificatie-pagina genereren uit de export-CSV van de Exporter.
+        if show_mapping:
+            # Mapping-HTML: classificatie-pagina + BGT-mapping (tabel + changelog).
             self.classificatie_tab = ClassificatiePaginaTab(nb, self)
             nb.add(self.classificatie_tab, text="Classificatie-pagina")
+            self.bgt_tab = BGTMappingTab(nb, self)
+            nb.add(self.bgt_tab, text="BGT-mapping")
 
         master.protocol("WM_DELETE_WINDOW", self._on_close)
 

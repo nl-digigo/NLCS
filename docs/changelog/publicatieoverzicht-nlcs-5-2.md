@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 236 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 239 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -18,15 +18,6 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Release notes](https://nl-digigo.github.io/NLCS/changelog/releasenotes/releasenotes-5-2.html)
 - [Statussen](https://nl-digigo.github.io/NLCS/changelog/Statussen-5-2.html)
 - [Symbolenbibliotheken](https://nl-digigo.github.io/NLCS/changelog/Symbolenbibliotheken-5-2.html)
-
-## Mappingen
-
-**Tabellen**
-- [BGT](https://nl-digigo.github.io/NLCS/changelog/mappingen/NLCS-5-2-BGT.html)
-- [NDW](https://nl-digigo.github.io/NLCS/changelog/mappingen/NLCS-5-2-NDW.html)
-
-**Changelogs**
-- [BGT](https://nl-digigo.github.io/NLCS/changelog/mappingen/changelog-NLCS-5-2-BGT.html)
 
 ## AL ✅
 
@@ -468,6 +459,29 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 - [Changelog lijntypes](https://nl-digigo.github.io/NLCS/changelog/ZZ/changelog-lijntypes-5-2-ZZ.html)
 - [Changelog objecten](https://nl-digigo.github.io/NLCS/changelog/ZZ/changelog-objecten-5-2-ZZ.html)
 - [Changelog symbolen](https://nl-digigo.github.io/NLCS/changelog/ZZ/changelog-symbolen-5-2-ZZ.html)
+
+## Mappingen
+
+### BGT
+
+**Tabellen**
+- [BGT2-2](https://nl-digigo.github.io/NLCS/changelog/BGT/NLCS5-2-BGT2-2.html)
+
+**Changelogs**
+- [5-2-BGT2-2](https://nl-digigo.github.io/NLCS/changelog/BGT/changelog-NLCS5-0-5-2-BGT2-2.html)
+
+### GWSW
+
+_geen bestanden_
+
+### RI-object
+
+_geen bestanden_
+
+### NDW
+
+**Tabellen**
+- [NDW](https://nl-digigo.github.io/NLCS/changelog/NDW/NLCS-5-2-NDW.html)
 
 ## Voor de expertcommissie
 

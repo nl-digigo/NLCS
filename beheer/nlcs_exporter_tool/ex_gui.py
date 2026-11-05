@@ -203,12 +203,17 @@ class App(ttk.Frame):
                        "(de NLCS-versie waartegen de BGT-objecten worden gekoppeld)"
                   ).pack(anchor="w", padx=4, pady=(2, 0))
 
-        verf = ttk.LabelFrame(parent, text="Versielabel (in bestandsnaam)", padding=8)
+        verf = ttk.LabelFrame(parent, text="Versielabels (in bestandsnaam)", padding=8)
         verf.pack(fill="x", pady=(8, 0))
+        ttk.Label(verf, text="NLCS:").pack(side="left")
         self.bgt_ver_var = tk.StringVar(value="5-0")
-        ttk.Entry(verf, textvariable=self.bgt_ver_var, width=12).pack(side="left", padx=4)
+        ttk.Entry(verf, textvariable=self.bgt_ver_var, width=10).pack(side="left", padx=4)
+        ttk.Label(verf, text="BGT:").pack(side="left", padx=(12, 0))
+        self.bgt_std_var = tk.StringVar(value="")
+        ttk.Entry(verf, textvariable=self.bgt_std_var, width=10).pack(side="left", padx=4)
         ttk.Label(verf, foreground="#777",
-                  text="bijv. 5-0 → NLCS-5-0-BGT.csv").pack(side="left", padx=6)
+                  text="bijv. NLCS 5-0 + BGT 1-2 → NLCS-5-0-BGT-1-2.csv (BGT leeg = weglaten)"
+                  ).pack(side="left", padx=6)
 
         paths = ttk.LabelFrame(parent, text="Bestanden/mappen", padding=8)
         paths.pack(fill="x", pady=(8, 0))
@@ -276,12 +281,17 @@ class App(ttk.Frame):
                        "(nodig voor de NLCS-namen van object/symbool)"
                   ).pack(anchor="w", padx=4, pady=(2, 0))
 
-        verf = ttk.LabelFrame(parent, text="Versielabel (in bestandsnaam)", padding=8)
+        verf = ttk.LabelFrame(parent, text="Versielabels (in bestandsnaam)", padding=8)
         verf.pack(fill="x", pady=(8, 0))
+        ttk.Label(verf, text="NLCS:").pack(side="left")
         self.gwsw_ver_var = tk.StringVar(value="5-0")
-        ttk.Entry(verf, textvariable=self.gwsw_ver_var, width=12).pack(side="left", padx=4)
+        ttk.Entry(verf, textvariable=self.gwsw_ver_var, width=10).pack(side="left", padx=4)
+        ttk.Label(verf, text="GWSW:").pack(side="left", padx=(12, 0))
+        self.gwsw_std_var = tk.StringVar(value="")
+        ttk.Entry(verf, textvariable=self.gwsw_std_var, width=10).pack(side="left", padx=4)
         ttk.Label(verf, foreground="#777",
-                  text="bijv. 5-0 → NLCS-5-0-GWSW.csv").pack(side="left", padx=6)
+                  text="bijv. NLCS 5-0 + GWSW 1-7 → NLCS-5-0-GWSW-1-7.csv (GWSW leeg = weglaten)"
+                  ).pack(side="left", padx=6)
 
         paths = ttk.LabelFrame(parent, text="Bestanden/mappen", padding=8)
         paths.pack(fill="x", pady=(8, 0))
@@ -350,12 +360,17 @@ class App(ttk.Frame):
                   text="wordt als ?default-graph-uri meegegeven (voor NLCS-namen + ID's)"
                   ).pack(anchor="w", padx=4, pady=(2, 0))
 
-        verf = ttk.LabelFrame(parent, text="Versielabel (in bestandsnaam)", padding=8)
+        verf = ttk.LabelFrame(parent, text="Versielabels (in bestandsnaam)", padding=8)
         verf.pack(fill="x", pady=(8, 0))
+        ttk.Label(verf, text="NLCS:").pack(side="left")
         self.gri_ver_var = tk.StringVar(value="5-0")
-        ttk.Entry(verf, textvariable=self.gri_ver_var, width=12).pack(side="left", padx=4)
+        ttk.Entry(verf, textvariable=self.gri_ver_var, width=10).pack(side="left", padx=4)
+        ttk.Label(verf, text="GWSW:").pack(side="left", padx=(12, 0))
+        self.gri_std_var = tk.StringVar(value="")
+        ttk.Entry(verf, textvariable=self.gri_std_var, width=10).pack(side="left", padx=4)
         ttk.Label(verf, foreground="#777",
-                  text="bijv. 5-0 → NLCS-5-0-GWSW-RI.csv").pack(side="left", padx=6)
+                  text="bijv. NLCS 5-0 + GWSW 1-7 → NLCS-5-0-GWSW-RI-1-7.csv (GWSW leeg = weglaten)"
+                  ).pack(side="left", padx=6)
 
         paths = ttk.LabelFrame(parent, text="Bestanden/mappen", padding=8)
         paths.pack(fill="x", pady=(8, 0))
@@ -576,15 +591,16 @@ class App(ttk.Frame):
             return
         graph = self.bgt_graph_var.get().strip() or ex_core.DEFAULT_NLCS_GRAPH
         version = self.bgt_ver_var.get().strip() or "5-0"
+        std = self.bgt_std_var.get().strip()
         self._start(self._worker_bgt,
-                    (endpoint, token, pw, graph, version, query, out))
+                    (endpoint, token, pw, graph, version, query, out, std))
 
-    def _worker_bgt(self, endpoint, token, pw, graph, version, query, out):
+    def _worker_bgt(self, endpoint, token, pw, graph, version, query, out, std):
         def log(msg=""):
             self._queue.put(("log", str(msg)))
         try:
             ex_core.run_bgt_mapping_export(endpoint, token, pw, graph, version,
-                                           query, out, log=log)
+                                           query, out, std_version=std, log=log)
             self._queue.put(("done", None))
         except Exception as exc:  # noqa: BLE001
             self._queue.put(("error", str(exc)))
@@ -615,15 +631,16 @@ class App(ttk.Frame):
             return
         graph = self.gwsw_graph_var.get().strip() or ex_core.DEFAULT_NLCS_GRAPH
         version = self.gwsw_ver_var.get().strip() or "5-0"
+        std = self.gwsw_std_var.get().strip()
         self._start(self._worker_gwsw,
-                    (endpoint, token, pw, graph, version, query, out))
+                    (endpoint, token, pw, graph, version, query, out, std))
 
-    def _worker_gwsw(self, endpoint, token, pw, graph, version, query, out):
+    def _worker_gwsw(self, endpoint, token, pw, graph, version, query, out, std):
         def log(msg=""):
             self._queue.put(("log", str(msg)))
         try:
             ex_core.run_gwsw_mapping_export(endpoint, token, pw, graph, version,
-                                            query, out, log=log)
+                                            query, out, std_version=std, log=log)
             self._queue.put(("done", None))
         except Exception as exc:  # noqa: BLE001
             self._queue.put(("error", str(exc)))
@@ -653,16 +670,18 @@ class App(ttk.Frame):
             return
         graph = self.gri_graph_var.get().strip() or ex_core.DEFAULT_NLCS_GRAPH
         version = self.gri_ver_var.get().strip() or "5-0"
+        std = self.gri_std_var.get().strip()
         self._start(self._worker_gwsw_ri,
-                    (endpoint, token, pw, graph, version, query, out))
+                    (endpoint, token, pw, graph, version, query, out, std))
 
-    def _worker_gwsw_ri(self, endpoint, token, pw, graph, version, query, out):
+    def _worker_gwsw_ri(self, endpoint, token, pw, graph, version, query, out, std):
         def log(msg=""):
             self._queue.put(("log", str(msg)))
         try:
             ex_core.run_gwsw_ri_mapping_export(endpoint, token, pw, graph,
                                                version, query, out,
-                                               out_name="GWSW-RI", log=log)
+                                               out_name="GWSW-RI",
+                                               std_version=std, log=log)
             self._queue.put(("done", None))
         except Exception as exc:  # noqa: BLE001
             self._queue.put(("error", str(exc)))

@@ -42,6 +42,9 @@ def _locations() -> dict:
         # classificatie-pagina: export-CSV (NLCS-<versie>-classificatie.csv) +
         # uitvoermap voor de interactieve HTML (bijv. docs/changelog)
         "class_csv": "", "class_output": "",
+        # BGT-mapping-changelog: nieuwe + vorige BGT-CSV + uitvoermap voor de
+        # tabelpagina en de changelog-HTML
+        "bgt_new": "", "bgt_old": "", "bgt_output": "",
     }
 
 

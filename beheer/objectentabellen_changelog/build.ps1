@@ -1,12 +1,13 @@
 # build.ps1 - Bouw de changelog-tool tot TWEE losse .exe's (twee families):
-#   dist\NLCS-Changelog.exe   (rode C)  - objecten/symbolen/lijntypes/arceringen
-#                                          + Controles + Overzicht
-#   dist\RI-Changelog.exe     (blauwe C) - classificatie-pagina genereren
+#   dist\NLCS-Changelog.exe      (rode C)  - objecten/symbolen/lijntypes/
+#                                             arceringen + Controles + Overzicht
+#   dist\Mapping-Changelog.exe   (blauwe C) - classificatie-pagina + BGT-mapping
+#                                             (tabelpagina + changelog)
 #
 # Gebruik (vanuit deze map):
 #     powershell -ExecutionPolicy Bypass -File .\build.ps1
 #
-# config-nlcs.json / config-ri.json worden naast de .exe aangemaakt.
+# config-nlcs.json / config-mapping.json worden naast de .exe aangemaakt.
 
 $ErrorActionPreference = "Stop"
 
@@ -27,8 +28,8 @@ if (Test-Path "classificatie-prototype.html") {
 
 # (naam, entrypoint, icoon)
 $targets = @(
-    @{ name = "NLCS-Changelog"; entry = "main_nlcs.py"; icon = "C-red.ico"  },
-    @{ name = "RI-Changelog";   entry = "main_ri.py";   icon = "C-blue.ico" }
+    @{ name = "NLCS-Changelog";    entry = "main_nlcs.py";    icon = "C-red.ico"  },
+    @{ name = "Mapping-Changelog"; entry = "main_mapping.py"; icon = "C-blue.ico" }
 )
 
 foreach ($t in $targets) {
