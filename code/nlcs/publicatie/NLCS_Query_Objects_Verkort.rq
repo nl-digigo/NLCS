@@ -29,9 +29,9 @@ WHERE {
     ?objectURI rdfs:subClassOf ?kind_vanURI .
     FILTER (?kind_vanURI != ?hoofdgroepURI) .
     ?kind_vanURI <http://digitalbuildingdata.tech/nlcs/def/b718adec73e04ce3ec720dd11a06a308> ?kind_van .  # ?kind_vanURI ?idProperty ?kind_van . ?idProperty skos:prefLabel "ID" .
+  }
   OPTIONAL {
     ?objectURI <http://digitalbuildingdata.tech/nlcs/def/231afe47f3f37d3808096b36c28b4ded> ?element .  # ?objectURI ?elementProperty ?element . ?elementProperty skos:prefLabel "Element" .
-  }
   } 
   OPTIONAL {
     ?objectURI <http://digitalbuildingdata.tech/nlcs/def/9c241815bb021ad8b7146ffb88dcf856> ?vrkl_kort .  # ?objectURI ?vrkl_kortProperty ?vrkl_kort . ?vrkl_kortProperty skos:prefLabel "VRKL_KORT" .
