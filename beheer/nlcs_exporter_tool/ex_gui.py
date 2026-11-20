@@ -237,16 +237,17 @@ class App(ttk.Frame):
         self.bgt_run_btn.pack(side="left")
         self._run_buttons.append(self.bgt_run_btn)
 
-    # -- tab 3: GWSW-mapping -----------------------------------------------
+    # -- tab 4: GWSW via classificatie-RI (met overerving) -----------------
     def _build_gwsw(self, parent):
         ttk.Label(parent, foreground="#555",
-                  text="Draait de GWSW→NLCS mapping-query tegen de publicatie "
-                       "nlcs-gwsw. De NLCS-laagnaam/symbool + ID's komen uit de "
-                       "NLCS-publicatie, die via default-graph-uri wordt "
-                       "meegegeven. Uitvoer: NLCS-<versie>-GWSW.csv."
+                  text="Draait de DIRECTE GWSW→NLCS mapping-query tegen de publicatie "
+                       "nlcs-gwsw (model g:hasGWSWType / g:hasNLCSObject / "
+                       "g:hasNLCSSymbol). De NLCS-laagnaam/symbool + ID's komen uit de "
+                       "NLCS-publicatie (default-graph-uri). Uitvoer: "
+                       "NLCS-<versie>-GWSW-<std>.csv."
                   ).pack(anchor="w", pady=(0, 6))
 
-        login = ttk.LabelFrame(parent, text="Inloggen GWSW (eigen Laces-token)", padding=8)
+        login = ttk.LabelFrame(parent, text="Inloggen (eigen Laces-token)", padding=8)
         login.pack(fill="x")
         ttk.Label(login, text="Token-ID:").grid(row=0, column=0, sticky="w", padx=4, pady=3)
         self.gwsw_token_var = tk.StringVar()
@@ -263,41 +264,44 @@ class App(ttk.Frame):
                         ).grid(row=1, column=2, padx=4)
         login.columnconfigure(1, weight=1)
 
-        endf = ttk.LabelFrame(parent, text="GWSW SPARQL-endpoint", padding=8)
+        endf = ttk.LabelFrame(parent, text="GWSW-mapping SPARQL-endpoint", padding=8)
         endf.pack(fill="x", pady=(8, 0))
-        self.gwsw_ep_var = tk.StringVar(value="")
+        self.gwsw_ep_var = tk.StringVar(value=(
+            "https://hub.laces.tech/digitalbuildingdata/nlcs/test/"
+            "nlcs-gwsw-test/versions/nlcs-5-2-gwsw-1-6/sparql"))
         ttk.Entry(endf, textvariable=self.gwsw_ep_var).pack(fill="x", padx=4)
         ttk.Label(endf, foreground="#777",
-                  text="bijv. https://hub.laces.tech/…/test/nlcs-gwsw/"
-                       "versions/5_0_1/sparql"
+                  text="de nlcs-gwsw-publicatie (NLCS × GWSW)"
                   ).pack(anchor="w", padx=4, pady=(2, 0))
 
         graphf = ttk.LabelFrame(parent, text="NLCS named graph (default-graph-uri)", padding=8)
         graphf.pack(fill="x", pady=(8, 0))
-        self.gwsw_graph_var = tk.StringVar(value=ex_core.DEFAULT_NLCS_GRAPH)
+        self.gwsw_graph_var = tk.StringVar(value=(
+            "https://hub.laces.tech/digitalbuildingdata/nlcs/test/"
+            "nlcs-test/versions/5-2-15"))
         ttk.Entry(graphf, textvariable=self.gwsw_graph_var).pack(fill="x", padx=4)
         ttk.Label(graphf, foreground="#777",
-                  text="wordt als ?default-graph-uri aan het endpoint gehangen "
-                       "(nodig voor de NLCS-namen van object/symbool)"
+                  text="de NLCS-publicatie als graph-URI ZONDER /sparql (voor de "
+                       "NLCS-namen + ID's)"
                   ).pack(anchor="w", padx=4, pady=(2, 0))
 
         verf = ttk.LabelFrame(parent, text="Versielabels (in bestandsnaam)", padding=8)
         verf.pack(fill="x", pady=(8, 0))
         ttk.Label(verf, text="NLCS:").pack(side="left")
-        self.gwsw_ver_var = tk.StringVar(value="5-0")
+        self.gwsw_ver_var = tk.StringVar(value="5-2")
         ttk.Entry(verf, textvariable=self.gwsw_ver_var, width=10).pack(side="left", padx=4)
         ttk.Label(verf, text="GWSW:").pack(side="left", padx=(12, 0))
-        self.gwsw_std_var = tk.StringVar(value="")
+        self.gwsw_std_var = tk.StringVar(value="1-6")
         ttk.Entry(verf, textvariable=self.gwsw_std_var, width=10).pack(side="left", padx=4)
         ttk.Label(verf, foreground="#777",
-                  text="bijv. NLCS 5-0 + GWSW 1-7 → NLCS-5-0-GWSW-1-7.csv (GWSW leeg = weglaten)"
+                  text="bijv. NLCS 5-2 + GWSW 1-6 → NLCS-5-2-GWSW-1-6.csv"
                   ).pack(side="left", padx=6)
 
         paths = ttk.LabelFrame(parent, text="Bestanden/mappen", padding=8)
         paths.pack(fill="x", pady=(8, 0))
         self.gwsw_query_var = tk.StringVar(value=ex_core.default_gwsw_query())
         self.gwsw_out_var = tk.StringVar(value="")
-        ttk.Label(paths, text="GWSW-query (.rq):").grid(row=0, column=0, sticky="w", padx=4, pady=3)
+        ttk.Label(paths, text="Query (.rq):").grid(row=0, column=0, sticky="w", padx=4, pady=3)
         ttk.Entry(paths, textvariable=self.gwsw_query_var).grid(row=0, column=1, sticky="we", padx=4, pady=3)
         ttk.Button(paths, text="Bladeren…",
                    command=lambda: self._browse_query_var(self.gwsw_query_var)
@@ -305,7 +309,7 @@ class App(ttk.Frame):
         self._path_row(paths, 1, "Uitvoermap (mappingen):", self.gwsw_out_var)
         ttk.Label(paths, foreground="#777",
                   text="query standaard: code/gwsw-nlcs/GWSW-NLCS mapping tabel met "
-                       "NLCS-ID.rq; uitvoer bijv. …/tabellen/publicatie/mappingen/5.0"
+                       "NLCS-ID.rq"
                   ).grid(row=2, column=0, columnspan=3, sticky="w", padx=4, pady=(2, 0))
         paths.columnconfigure(1, weight=1)
 
@@ -316,7 +320,6 @@ class App(ttk.Frame):
         self.gwsw_run_btn.pack(side="left")
         self._run_buttons.append(self.gwsw_run_btn)
 
-    # -- tab 4: GWSW via classificatie-RI (met overerving) -----------------
     def _build_gwsw_ri(self, parent):
         ttk.Label(parent, foreground="#555",
                   text="Draait de GWSW→NLCS mapping-query tegen de publicatie "
@@ -605,7 +608,7 @@ class App(ttk.Frame):
         except Exception as exc:  # noqa: BLE001
             self._queue.put(("error", str(exc)))
 
-    # -- tab 3: draaien ----------------------------------------------------
+    # -- tab 3: draaien (directe GWSW-mapping) -----------------------------
     def on_run_gwsw(self):
         if self._busy:
             return
@@ -630,7 +633,7 @@ class App(ttk.Frame):
                                    "mapping-CSV.")
             return
         graph = self.gwsw_graph_var.get().strip() or ex_core.DEFAULT_NLCS_GRAPH
-        version = self.gwsw_ver_var.get().strip() or "5-0"
+        version = self.gwsw_ver_var.get().strip() or "5-2"
         std = self.gwsw_std_var.get().strip()
         self._start(self._worker_gwsw,
                     (endpoint, token, pw, graph, version, query, out, std))
@@ -640,7 +643,8 @@ class App(ttk.Frame):
             self._queue.put(("log", str(msg)))
         try:
             ex_core.run_gwsw_mapping_export(endpoint, token, pw, graph, version,
-                                            query, out, std_version=std, log=log)
+                                            query, out, out_name="GWSW",
+                                            std_version=std, log=log)
             self._queue.put(("done", None))
         except Exception as exc:  # noqa: BLE001
             self._queue.put(("error", str(exc)))
@@ -680,7 +684,7 @@ class App(ttk.Frame):
         try:
             ex_core.run_gwsw_ri_mapping_export(endpoint, token, pw, graph,
                                                version, query, out,
-                                               out_name="GWSW-RI",
+                                               out_name="GWSW",
                                                std_version=std, log=log)
             self._queue.put(("done", None))
         except Exception as exc:  # noqa: BLE001

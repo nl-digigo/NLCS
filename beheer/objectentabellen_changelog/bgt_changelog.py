@@ -146,15 +146,20 @@ def build_table_page(csv_path: str, out_dir: str) -> str:
 
 
 def build_changelog_page(new_csv: str, old_csv: str, out_dir: str,
-                         key: str = KEY, ignore_change=None):
+                         key: str = KEY, ignore_change=None, blank_equiv=None,
+                         key_ci: bool = False, empty_markers=None):
     """Schrijf de mapping-changelog (toegevoegd/vervallen/gewijzigd op `key`,
     URI-kolommen verborgen, vaste schuifbalk). Naam via changelog_name() op basis
     van de versies in de twee CSV-namen. Geeft (pad, stats-dict) terug.
-    `key`/`ignore_change` maken de functie herbruikbaar voor GWSW/RI."""
+    `key`/`ignore_change` maken de functie herbruikbaar voor GWSW/RI.
+    `blank_equiv` = kolommen waar een leeg-aan-één-kant verschil niet als
+    wijziging telt (bv. GWSW NLCS ObjectID/SymbolID die nog niet ingevuld was)."""
     mv_new = parse_mapping_name(new_csv) or _fallback_mv(new_csv)
     mv_old = parse_mapping_name(old_csv) or _fallback_mv(old_csv)
     result = ot_compare.compare(new_csv, old_csv, key=key,
-                                ignore_change_cols=ignore_change or IGNORE_CHANGE)
+                                ignore_change_cols=ignore_change or IGNORE_CHANGE,
+                                blank_equiv_cols=blank_equiv, key_ci=key_ci,
+                                empty_markers=empty_markers)
     headers = result["headers"]
     _, new_rows = ot_compare.read_table(new_csv)
     vis = ot_compare.non_uri_column_indices(headers, new_rows)  # geen URI-kolommen

@@ -57,12 +57,19 @@ WHERE {
   ?uriType nen2660:isDescribedBy ?NLCSLaagnaam .
   FILTER (CONTAINS(STR(?NLCSLaagnaam), "/nlcs/def/")) .
   ?NLCSLaagnaam rdfs:subClassOf+/skos:prefLabel "NLCS-object" .
-  ?NLCSLaagnaam skos:prefLabel ?nameNLCSLaagnaam .
+  ?NLCSLaagnaam skos:prefLabel ?laagnaamRaw .
+  # De classificatie-prefLabel is zonder hoofdgroep-prefix (DRAINAGE_DRAIN); de
+  # NLCS-laagnaam hoort met 'RI-' ervoor (RI-DRAINAGE_DRAIN).
+  BIND(CONCAT("RI-", STR(?laagnaamRaw)) AS ?nameNLCSLaagnaam)
   OPTIONAL {
     ?NLCSLaagnaam ?idObjProp ?NLCSLaagnaamID .
     ?idObjProp a owl:AnnotationProperty .
     ?idObjProp skos:prefLabel "ID" .
   }
+
+  # (De materiaal-/diameter-subklassen worden ná de query in de exporter
+  # weggefilterd — een FILTER NOT EXISTS met subClassOf-paden hier maakte de
+  # query veel te traag.)
 
   # Zoekterm (sobject) voor het symbool: de Symbool-klasse waar het object via
   # de isDescribedBy-restrictie naar verwijst. De tool kiest hiermee ÉÉN symbool

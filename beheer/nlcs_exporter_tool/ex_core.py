@@ -616,7 +616,7 @@ def _pick_symbol(sobjects, symbols: list):
 
 
 def run_gwsw_ri_mapping_export(endpoint, token, password, nlcs_graph, version,
-                               query_path, out_dir, out_name="GWSW-RI",
+                               query_path, out_dir, out_name="GWSW",
                                std_version="", log=print):
     """GWSW→NLCS mapping via de classificatie-RI-publicatie, MET overerving en
     met ÉÉN gekozen symbool per rij. De mapping-query levert per rij de zoekterm
@@ -675,7 +675,6 @@ def run_gwsw_ri_mapping_export(endpoint, token, password, nlcs_graph, version,
         if so:
             g.add(so)
 
-    n_sym = 0
     out_rows = []
     cache = {}
     for key, sobjects in groups.items():
@@ -683,9 +682,32 @@ def run_gwsw_ri_mapping_export(endpoint, token, password, nlcs_graph, version,
         if ck not in cache:
             cache[ck] = _pick_symbol(sobjects, symbols)
         nm, uri, sid = cache[ck]
-        if nm:
-            n_sym += 1
         out_rows.append(list(key) + [nm, uri, sid])
+
+    # Materiaal-/diameter-subklassen weglaten: binnen dezelfde GWSW-koppeling
+    # (GwswStelselType + GwswType) erft een laagnaam die een '_'-uitbreiding is van
+    # een andere laagnaam in die groep alleen de koppeling -> alleen de bovenste
+    # (kortste) laagnaam houden. Bv. RI-GWA_KOLKAANSLUITLEIDING blijft; _PE/_PE_160
+    # (en _PVC...) vallen weg.
+    I_SS = GWSW_RI_COLUMNS.index("GwswStelselType")
+    I_GT = GWSW_RI_COLUMNS.index("GwswType")
+    I_LAAG = GWSW_RI_COLUMNS.index("nameNLCSLaagnaam")
+    groep_lagen = {}
+    for r in out_rows:
+        groep_lagen.setdefault((r[I_SS], r[I_GT]), set()).add(r[I_LAAG])
+
+    def _is_subvariant(laag, lagen):
+        return any(p != laag and laag.startswith(p + "_") for p in lagen)
+
+    before = len(out_rows)
+    out_rows = [r for r in out_rows
+                if not (r[I_GT] and _is_subvariant(r[I_LAAG],
+                                                   groep_lagen[(r[I_SS], r[I_GT])]))]
+    log(f"Materiaal-/diameter-subvarianten weggelaten: {before - len(out_rows)} "
+        f"(van {before} -> {len(out_rows)} rijen)")
+
+    I_SYM = GWSW_RI_COLUMNS.index("nameNLCSSymbool")
+    n_sym = sum(1 for r in out_rows if (r[I_SYM] or "").strip())
 
     fname = _mapping_outname(vdash, out_name, std_version)
     out_path = os.path.join(out_dir, fname)

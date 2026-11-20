@@ -25,7 +25,10 @@ WHERE {
   # NLCS-object (laagnaam) + ID uit de NLCS-publicatie (default graph)
   OPTIONAL {
     ?mappingElement g:hasNLCSObject ?NLCSLaagnaam .
-    ?NLCSLaagnaam skos:prefLabel ?nameNLCSLaagnaam .
+    ?NLCSLaagnaam skos:prefLabel ?laagnaamRaw .
+    # De NLCS-prefLabel is zonder hoofdgroep-prefix (DWA_SEPTICTANK); de
+    # NLCS-laagnaam hoort met 'RI-' ervoor (RI-DWA_SEPTICTANK).
+    BIND(CONCAT("RI-", STR(?laagnaamRaw)) AS ?nameNLCSLaagnaam)
     OPTIONAL {
       ?NLCSLaagnaam ?idObjProp ?NLCSLaagnaamID .
       ?idObjProp a owl:AnnotationProperty .

@@ -45,6 +45,10 @@ def _locations() -> dict:
         # BGT-mapping-changelog: nieuwe + vorige BGT-CSV + uitvoermap voor de
         # tabelpagina en de changelog-HTML
         "bgt_new": "", "bgt_old": "", "bgt_output": "",
+        # GWSW-mapping-changelog: idem
+        "gwsw_new": "", "gwsw_old": "", "gwsw_output": "",
+        # GWSW-URI-check: te checken tabel-CSV + GWSW-ontologie-TTL + uitvoermap
+        "gwswchk_csv": "", "gwswchk_ttl": "", "gwswchk_output": "",
     }
 
 

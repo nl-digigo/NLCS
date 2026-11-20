@@ -3640,7 +3640,8 @@ def compare(new_path: str, old_path: str, key: str = KEY,
             suppress_change: dict = None, multilink_cols=None,
             scope_code: str = "", scope_strip_s: bool = False,
             scope_codes=None, equiv_prefix: dict = None,
-            ignore_change_cols=None) -> dict:
+            ignore_change_cols=None, blank_equiv_cols=None,
+            key_ci: bool = False, empty_markers=None) -> dict:
     """Vergelijk twee CSV-versies en geef een resultaat-dict terug.
 
     Parameters:
@@ -3708,10 +3709,33 @@ def compare(new_path: str, old_path: str, key: str = KEY,
 
     nidx = {h: i for i, h in enumerate(new_headers)}
     oidx = {h: i for i, h in enumerate(old_headers)}
-    if key not in nidx:
-        raise ValueError(f"Kolom '{key}' ontbreekt in {os.path.basename(new_path)}")
-    if key not in oidx:
-        raise ValueError(f"Kolom '{key}' ontbreekt in {os.path.basename(old_path)}")
+    # key mag één kolomnaam zijn of een lijst (samengestelde sleutel). De sleutel
+    # bepaalt de rij-identiteit en MOET in beide versies volledig aanwezig zijn;
+    # anders zou een onvolledige sleutel rijen verkeerd matchen (schijnwijzigingen).
+    key_cols = [key] if isinstance(key, str) else list(key)
+    miss_n = [k for k in key_cols if k not in nidx]
+    miss_o = [k for k in key_cols if k not in oidx]
+    if miss_n:
+        raise ValueError(
+            f"Sleutelkolom(men) {miss_n} ontbreken in de nieuwe versie "
+            f"({os.path.basename(new_path)}).")
+    if miss_o:
+        raise ValueError(
+            f"Sleutelkolom(men) {miss_o} ontbreken in de OUDE versie "
+            f"({os.path.basename(old_path)}). Hernoem die kolom(men) in de oude "
+            f"tabel zodat ze overeenkomen met de nieuwe opzet (anders kan niet "
+            f"betrouwbaar op rij-identiteit worden gematcht).")
+    key_set = set(key_cols)
+
+    _KSEP = "\u0001"
+
+    def _rid(r, idx):
+        parts = [(r[idx[k]].strip() if idx[k] < len(r) else "") for k in key_cols]
+        if not any(parts):
+            return ""
+        if key_ci:
+            parts = [p.casefold() for p in parts]
+        return _KSEP.join(parts)
 
     # Andere-publicatie-rijen: bepaalde kolommen aan BEIDE kanten leegmaken zodat
     # ze niet als wijziging tellen (bijv. lijntypes CONTINUOUS/V-CONTINUOUS-SO met
@@ -3794,11 +3818,18 @@ def compare(new_path: str, old_path: str, key: str = KEY,
     # zoals '_' en '-'; in 5.0 soms als "'-" opgeslagen). Hun verschil mag een rij
     # niet 'gewijzigd' maken.
     ignore_cols = set(ignore_change_cols or ())
+    # Kolommen waar een LEEG-aan-één-kant verschil niet als wijziging telt (de
+    # waarde 'ontbreekt' aan één kant). Twee gevulde maar verschillende waarden
+    # tellen wél als wijziging. (GWSW: NLCS ObjectID/SymbolID die nog niet
+    # ingevuld waren.)
+    be_cols = set(blank_equiv_cols or ())
+    # Waarden die als 'leeg' tellen (bv. '-' als placeholder voor geen waarde).
+    emarks = {m.strip() for m in (empty_markers or ()) if m and m.strip()}
 
     # Oude rijen op id (eerste voorkomen wint).
     old_by_id: dict[str, list[str]] = {}
     for r in old_rows:
-        rid = r[oidx[key]].strip()
+        rid = _rid(r, oidx)
         if rid:
             old_by_id.setdefault(rid, r)
 
@@ -3807,7 +3838,7 @@ def compare(new_path: str, old_path: str, key: str = KEY,
     rows_out = []
     matched: set[str] = set()
     for r in new_sorted:
-        rid = r[nidx[key]].strip()
+        rid = _rid(r, nidx)
         old = old_by_id.get(rid)
         is_new = old is None
         if not is_new:
@@ -3823,14 +3854,27 @@ def compare(new_path: str, old_path: str, key: str = KEY,
             value = r[nidx[h]]
             changed = False
             old_value = None
-            if (not is_new and not suppressed and h != key and h in oidx
+            if (not is_new and not suppressed and h not in key_set and h in oidx
                     and h not in ignore_cols):
                 ov = old[oidx[h]]
                 nv_cmp, ov_cmp = _norm_cell(value), _norm_cell(ov)
+                # Leeg-markeringen (bv. '-' voor 'geen waarde') gelijkstellen aan
+                # leeg, zodat '-' vs '' geen wijziging is (maar '-' vs een echte
+                # waarde wél).
+                if emarks:
+                    if nv_cmp.strip() in emarks:
+                        nv_cmp = ""
+                    if ov_cmp.strip() in emarks:
+                        ov_cmp = ""
                 if h in ep:
                     nv_cmp = _canon_equiv_prefix(nv_cmp, ep[h])
                     ov_cmp = _canon_equiv_prefix(ov_cmp, ep[h])
-                if nv_cmp != ov_cmp:
+                # blank-equiv-kolom (bv. GWSW NLCS ObjectID/SymbolID): als de
+                # waarde aan één kant ontbreekt, telt het verschil niet als
+                # wijziging; alleen twee gevulde, verschillende waarden wel.
+                if nv_cmp != ov_cmp and h in be_cols and (not nv_cmp or not ov_cmp):
+                    pass
+                elif nv_cmp != ov_cmp:
                     # Aanname bij multilink-kolommen (sobject/aobject): stond er in
                     # de oude versie een lange puntkomma-lijst ('multiple links'),
                     # dan is die niet zinvol te vergelijken met de vereenvoudigde
@@ -3859,7 +3903,7 @@ def compare(new_path: str, old_path: str, key: str = KEY,
     # Vervallen rijen: id wel in oud, niet gematcht. In nieuwe-kolomindeling zetten.
     # Onderdrukte rijen (generieke lijntypes) tellen nooit als vervallen.
     deleted_rows = [r for r in old_rows
-                    if r[oidx[key]].strip() and r[oidx[key]].strip() not in matched
+                    if _rid(r, oidx) and _rid(r, oidx) not in matched
                     and not (sup_oi >= 0 and sup_oi < len(r)
                              and r[sup_oi].strip().upper() in sup_vals)]
     deleted_rows.sort(key=_sort_key)

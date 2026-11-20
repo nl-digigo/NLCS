@@ -33,6 +33,7 @@ import ot_config
 import ot_html
 import gen_classificatie_html
 import bgt_changelog
+import gwsw_check
 
 
 # ---------------------------------------------------------------------------
@@ -3909,6 +3910,16 @@ _LOC_GROUPS = [
         ("bgt_old", "BGT-CSV vorige versie:", "csv"),
         ("bgt_output", "Uitvoermap voor tabel + changelog:", "dir"),
     ]),
+    ("GWSW-mapping", [
+        ("gwsw_new", "GWSW-CSV nieuwe versie (NLCS-<versie>-GWSW-<std>.csv):", "csv"),
+        ("gwsw_old", "GWSW-CSV vorige versie:", "csv"),
+        ("gwsw_output", "Uitvoermap voor tabel + changelog:", "dir"),
+    ]),
+    ("GWSW-URI-check", [
+        ("gwswchk_csv", "Te checken tabel (CSV met GWSW-URI's):", "csv"),
+        ("gwswchk_ttl", "GWSW-ontologie (TTL, bv. Totaal-model):", "ttl"),
+        ("gwswchk_output", "Uitvoermap voor de check (Excel):", "dir"),
+    ]),
 ]
 
 
@@ -3944,7 +3955,8 @@ class LocationsTab(ttk.Frame):
                 int(-ev.delta / 120), "units")))
         canvas.bind("<Leave>", lambda e: canvas.unbind_all("<MouseWheel>"))
 
-        mapping_only = {"Classificatie-pagina", "BGT-mapping"}
+        mapping_only = {"Classificatie-pagina", "BGT-mapping", "GWSW-mapping",
+                        "GWSW-URI-check"}
         mode = getattr(self.app, "mode", "all")
         for title, fields in _LOC_GROUPS:
             if mode == "mapping" and title not in mapping_only:
@@ -3973,6 +3985,10 @@ class LocationsTab(ttk.Frame):
             path = filedialog.askopenfilename(
                 initialdir=os.path.dirname(cur) if cur else os.getcwd(),
                 filetypes=[("CSV-bestand", "*.csv"), ("Alle bestanden", "*.*")])
+        elif kind == "ttl":
+            path = filedialog.askopenfilename(
+                initialdir=os.path.dirname(cur) if cur else os.getcwd(),
+                filetypes=[("Turtle/RDF", "*.ttl"), ("Alle bestanden", "*.*")])
         else:  # html: op te slaan bestand
             path = filedialog.asksaveasfilename(
                 initialdir=os.path.dirname(cur) if cur else os.getcwd(),
@@ -4061,25 +4077,39 @@ class ClassificatiePaginaTab(ttk.Frame):
             webbrowser.open(os.path.abspath(out_path))
 
 
-class BGTMappingTab(ttk.Frame):
-    """BGT-mapping: genereert (1) een digiGO-tabelpagina van de BGT-mappingtabel
-    (alle kolommen, sorteerbaar/filterbaar) en (2) een changelog-HTML met de
-    verschillen tussen twee versies (op de unieke 'uri'-kolom). CSV's en
-    uitvoermap staan op 'Locaties'."""
+class MappingTab(ttk.Frame):
+    """Generieke mapping-changelog-tab: maakt uit twee CSV-versies (1) een digiGO-
+    tabelpagina van de nieuwe versie (alle kolommen op URI's na, sorteerbaar/
+    filterbaar) en (2) een changelog met toegevoegd/vervallen/gewijzigd.
 
-    def __init__(self, master, app: "App"):
+    Per mappingtype instelbaar: de app.loc-sleutels voor nieuw/vorig/uitvoer, de
+    match-sleutel (kolomnaam of lijst van kolomnamen voor een samengestelde
+    sleutel) en de kolommen die niet als wijziging tellen."""
+
+    def __init__(self, master, app: "App", *, new_key, old_key, out_key, naam,
+                 compare_key, ignore_change=None, blank_equiv=None,
+                 key_ci=False, empty_markers=None):
         super().__init__(master, padding=10)
         self.app = app
+        self.new_key, self.old_key, self.out_key = new_key, old_key, out_key
+        self.naam = naam
+        self.compare_key = compare_key
+        self.ignore_change = ignore_change
+        self.blank_equiv = blank_equiv
+        self.key_ci = key_ci
+        self.empty_markers = empty_markers
         self._build()
 
     def _build(self) -> None:
+        sleutel = (self.compare_key if isinstance(self.compare_key, str)
+                   else " + ".join(self.compare_key))
         ttk.Label(
             self, foreground="#555", wraplength=780, justify="left",
-            text="Maakt uit de BGT-mapping-CSV's (van de Mapping-Exporter) twee "
-                 "pagina's: een tabelpagina van de nieuwe versie (alle kolommen) "
-                 "en een changelog met toegevoegde, vervallen en gewijzigde "
-                 "regels t.o.v. de vorige versie. Kies de CSV's en de uitvoermap "
-                 "bij 'Locaties'.").pack(anchor="w")
+            text=f"Maakt uit de {self.naam}-CSV's twee pagina's: een tabelpagina "
+                 "van de nieuwe versie (alle kolommen) en een changelog met "
+                 "toegevoegde, vervallen en gewijzigde regels t.o.v. de vorige "
+                 f"versie (match op sleutel: {sleutel}). Kies de CSV's en de "
+                 "uitvoermap bij 'Locaties'.").pack(anchor="w")
 
         btns = ttk.Frame(self)
         btns.pack(fill="x", pady=8)
@@ -4106,12 +4136,13 @@ class BGTMappingTab(ttk.Frame):
         self.log.configure(state="disabled")
 
     def on_generate(self, only_table: bool = False) -> None:
-        new_csv = self.app.loc["bgt_new"].get().strip()
-        old_csv = self.app.loc["bgt_old"].get().strip()
-        out_dir = self.app.loc["bgt_output"].get().strip()
+        new_csv = self.app.loc[self.new_key].get().strip()
+        old_csv = self.app.loc[self.old_key].get().strip()
+        out_dir = self.app.loc[self.out_key].get().strip()
         if not new_csv or not os.path.isfile(new_csv):
             messagebox.showwarning(
-                "Geen CSV", "Kies bij 'Locaties' de BGT-CSV van de nieuwe versie.")
+                "Geen CSV", f"Kies bij 'Locaties' de {self.naam}-CSV van de "
+                "nieuwe versie.")
             return
         if not out_dir or not os.path.isdir(out_dir):
             messagebox.showwarning(
@@ -4125,12 +4156,15 @@ class BGTMappingTab(ttk.Frame):
             if not only_table:
                 if not old_csv or not os.path.isfile(old_csv):
                     messagebox.showwarning(
-                        "Geen vorige versie", "Kies bij 'Locaties' ook de BGT-CSV "
-                        "van de vorige versie voor de changelog (of gebruik "
-                        "'Alleen tabelpagina').")
+                        "Geen vorige versie", f"Kies bij 'Locaties' ook de "
+                        f"{self.naam}-CSV van de vorige versie voor de changelog "
+                        "(of gebruik 'Alleen tabelpagina').")
                 else:
                     cl_out, st = bgt_changelog.build_changelog_page(
-                        new_csv, old_csv, out_dir)
+                        new_csv, old_csv, out_dir, key=self.compare_key,
+                        ignore_change=self.ignore_change,
+                        blank_equiv=self.blank_equiv, key_ci=self.key_ci,
+                        empty_markers=self.empty_markers)
                     self._logmsg(
                         f"Changelog: {st['new']} nieuw, {st['changed']} gewijzigd, "
                         f"{st['deleted']} vervallen -> {os.path.basename(cl_out)}")
@@ -4142,6 +4176,85 @@ class BGTMappingTab(ttk.Frame):
         self.app.save_config()
         if first and self.app.open_after_var.get():
             webbrowser.open(os.path.abspath(first))
+
+
+class GWSWCheckTab(ttk.Frame):
+    """Controleert of de GWSW-URI's in een tabel-CSV bestaan in een GWSW-
+    ontologie (TTL van een release). Werkt voor elke CSV die naar GWSW-URI's
+    verwijst (alle cellen met 'data.gwsw.nl' worden automatisch herkend).
+    Schrijft een Excel met per unieke URI of hij bestaat (ontbrekende rood)."""
+
+    def __init__(self, master, app: "App"):
+        super().__init__(master, padding=10)
+        self.app = app
+        self._build()
+
+    def _build(self) -> None:
+        ttk.Label(
+            self, foreground="#555", wraplength=780, justify="left",
+            text="Checkt of alle GWSW-URI's (data.gwsw.nl) in de gekozen tabel-CSV "
+                 "bestaan in de GWSW-ontologie (TTL, bv. het Totaal-model van een "
+                 "release). Herkent GWSW-URI's in elke kolom. Kies de CSV, de TTL "
+                 "en de uitvoermap bij 'Locaties'. Resultaat: een Excel met per "
+                 "unieke URI 'bestaat ja/nee' (ontbrekende rood gemarkeerd).").pack(anchor="w")
+
+        btns = ttk.Frame(self)
+        btns.pack(fill="x", pady=8)
+        self.gen_btn = ttk.Button(btns, text="Check GWSW-URI's",
+                                  command=self.on_check)
+        self.gen_btn.pack(side="left")
+
+        logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
+        logframe.pack(fill="both", expand=True, pady=(8, 0))
+        self.log = tk.Text(logframe, height=12, wrap="word", state="disabled",
+                           font=("Consolas", 9), background="#fbfbfb")
+        scroll = ttk.Scrollbar(logframe, orient="vertical", command=self.log.yview)
+        self.log.configure(yscrollcommand=scroll.set)
+        self.log.pack(side="left", fill="both", expand=True)
+        scroll.pack(side="right", fill="y")
+
+    def _logmsg(self, msg: str) -> None:
+        self.log.configure(state="normal")
+        self.log.insert("end", msg + "\n")
+        self.log.see("end")
+        self.log.configure(state="disabled")
+
+    def on_check(self) -> None:
+        csv_path = self.app.loc["gwswchk_csv"].get().strip()
+        ttl_path = self.app.loc["gwswchk_ttl"].get().strip()
+        out_dir = self.app.loc["gwswchk_output"].get().strip()
+        if not csv_path or not os.path.isfile(csv_path):
+            messagebox.showwarning("Geen CSV", "Kies bij 'Locaties' de tabel-CSV.")
+            return
+        if not ttl_path or not os.path.isfile(ttl_path):
+            messagebox.showwarning(
+                "Geen TTL", "Kies bij 'Locaties' de GWSW-ontologie (.ttl).")
+            return
+        if not out_dir or not os.path.isdir(out_dir):
+            messagebox.showwarning(
+                "Geen uitvoermap", "Kies bij 'Locaties' een geldige uitvoermap.")
+            return
+        self._logmsg("Ontologie inlezen (even geduld)…")
+        self.update_idletasks()
+        try:
+            result, n_con, n_trip = gwsw_check.check(csv_path, ttl_path)
+            weg = [r for r in result if not r["exists"]]
+            base = os.path.splitext(os.path.basename(csv_path))[0]
+            out = os.path.join(out_dir, f"gwsw-uri-check-{base}.xlsx")
+            gwsw_check.write_excel(result, out, base)
+        except Exception as e:  # noqa: BLE001
+            self._logmsg(f"FOUT: {e}")
+            messagebox.showerror("Check mislukt", str(e))
+            return
+        self._logmsg(f"Ontologie: {n_con} GWSW-concepten ({n_trip} triples).")
+        self._logmsg(f"Unieke GWSW-URI's in CSV: {len(result)} | bestaan: "
+                     f"{len(result) - len(weg)} | ONTBREKEN: {len(weg)}")
+        for r in weg:
+            self._logmsg(f"  ONTBREEKT: {r['localname']}  ({r['cols']})")
+        self._logmsg(f"Geschreven: {os.path.basename(out)}")
+        self.app.save_config()
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(out))
 
 
 # ---------------------------------------------------------------------------
@@ -4228,11 +4341,32 @@ class App(ttk.Frame):
             self.lijntypedef_tab = LijntypeDefTab(nb, self)
 
         if show_mapping:
-            # Mapping-HTML: classificatie-pagina + BGT-mapping (tabel + changelog).
+            # Mapping-HTML: classificatie-pagina + mapping-changelogs.
             self.classificatie_tab = ClassificatiePaginaTab(nb, self)
             nb.add(self.classificatie_tab, text="Classificatie-pagina")
-            self.bgt_tab = BGTMappingTab(nb, self)
+            # BGT: sleutel = unieke 'uri'; 'id' (volgnummer) telt niet als wijziging.
+            self.bgt_tab = MappingTab(
+                nb, self, new_key="bgt_new", old_key="bgt_old",
+                out_key="bgt_output", naam="BGT-mapping",
+                compare_key="uri",
+                ignore_change=["Versie", "Status", "Opmerkingen"])
             nb.add(self.bgt_tab, text="BGT-mapping")
+            # GWSW: samengestelde sleutel StelselType+Type; 'id' (volgnummer) telt
+            # niet als wijziging; een ontbrekende NLCS ObjectID/SymbolID (leeg aan
+            # één kant) telt óók niet als wijziging.
+            self.gwsw_tab = MappingTab(
+                nb, self, new_key="gwsw_new", old_key="gwsw_old",
+                out_key="gwsw_output", naam="GWSW-mapping",
+                compare_key=["GwswStelselTypeName", "GwswTypeName",
+                             "nameNLCSLaagnaam"],
+                ignore_change=["Versie", "Status", "Opmerkingen", "id"],
+                key_ci=True, empty_markers=["-"],
+                blank_equiv=["NLCS ObjectID", "NLCS SymbolID",
+                             "NLCSLaagnaamID", "NLCSSymboolID"])
+            nb.add(self.gwsw_tab, text="GWSW-mapping")
+            # GWSW-URI-check: bestaan de GWSW-URI's in een ontologie (TTL)?
+            self.gwswchk_tab = GWSWCheckTab(nb, self)
+            nb.add(self.gwswchk_tab, text="GWSW-URI-check")
 
         master.protocol("WM_DELETE_WINDOW", self._on_close)
 

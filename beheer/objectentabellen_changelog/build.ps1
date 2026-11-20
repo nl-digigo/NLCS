@@ -16,7 +16,8 @@ if (-not (Test-Path $py)) {
     Write-Error "Python niet gevonden op $py. Pas het pad in build.ps1 aan."
 }
 
-& $py -m pip install --quiet --upgrade pyinstaller openpyxl pillow
+# rdflib: nodig voor de GWSW-URI-check (TTL-parsing) in de Mapping-Changelog.
+& $py -m pip install --quiet --upgrade pyinstaller openpyxl pillow rdflib
 if ($LASTEXITCODE -ne 0) { Write-Error "pip install mislukte." }
 
 # Prototype-HTML dat gen_classificatie_html.py als sjabloon leest (classificatie-
@@ -26,10 +27,11 @@ if (Test-Path "classificatie-prototype.html") {
     $dataArgs = @("--add-data", "classificatie-prototype.html;.")
 }
 
-# (naam, entrypoint, icoon)
+# (naam, entrypoint, icoon, rdflib nodig?). Alleen de Mapping-Changelog gebruikt
+# de GWSW-URI-check (rdflib); de NLCS-Changelog roept die nooit aan.
 $targets = @(
-    @{ name = "NLCS-Changelog";    entry = "main_nlcs.py";    icon = "C-red.ico"  },
-    @{ name = "Mapping-Changelog"; entry = "main_mapping.py"; icon = "C-blue.ico" }
+    @{ name = "NLCS-Changelog";    entry = "main_nlcs.py";    icon = "C-red.ico";  rdf = $false },
+    @{ name = "Mapping-Changelog"; entry = "main_mapping.py"; icon = "C-blue.ico"; rdf = $true  }
 )
 
 foreach ($t in $targets) {
@@ -39,6 +41,9 @@ foreach ($t in $targets) {
     $iconArgs = @()
     if (Test-Path $t.icon) { $iconArgs = @("--icon", $t.icon, "--add-data", "$($t.icon);.") }
 
+    $rdfArgs = @()
+    if ($t.rdf) { $rdfArgs = @("--collect-all", "rdflib", "--copy-metadata", "rdflib") }
+
     & $py -m PyInstaller `
         --onefile `
         --windowed `
@@ -46,6 +51,7 @@ foreach ($t in $targets) {
         --hidden-import openpyxl `
         @iconArgs `
         @dataArgs `
+        @rdfArgs `
         $t.entry
     if ($LASTEXITCODE -ne 0) { Write-Error "PyInstaller-build van $($t.name) mislukte." }
 
