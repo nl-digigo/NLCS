@@ -970,38 +970,46 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
                   '<span class="sw err">&#10007;</span> objectentabel mét '
                   'foutmeldingen (aantal erbij).</p>')
 
-    body = ('<p class="empty">Geen gepubliceerde bestanden gevonden voor deze '
-            'versie.</p>' if not cards else
-            '<div class="card-grid">\n' + "\n".join(cards) + "\n</div>")
+    # De pagina in secties met een kopje (region-head), elk met een eigen
+    # card-grid: NLCS Tekenstandaard (hoofdgroepen) · Mappingen Tekenstandaard
+    # (BGT/GWSW/NDW) · NLCS Objectgericht (RI-object) · Voor de expertcommissie.
+    def _region(title_txt, inner, grid="card-grid"):
+        return (f'<h2 class="region-head">{_esc(title_txt)}</h2>\n'
+                f'<div class="{grid}">\n{inner}\n</div>')
 
-    # Mappingen-blok: de mapping-mappen bij elkaar (één kaart per map).
-    mapping_html = ""
-    if maps:
-        map_cards = [_card(folder, f"{len(entries)} bestand(en)", entries, True)
-                     for folder, entries in maps]
-        mapping_html = ('\n<h2 class="region-head">Mappingen</h2>\n'
-                        '<div class="card-grid mappingen">\n'
-                        + "\n".join(map_cards) + "\n</div>")
+    # mapping-mappen splitsen: RI-object -> Objectgericht, de rest -> Mappingen.
+    obj_folders = {"RI-object"}
+    teken_maps = [(f, e) for f, e in maps if f not in obj_folders]
+    obj_maps = [(f, e) for f, e in maps if f in obj_folders]
 
-    # Extra blok onderaan: documenten uit de map 'expertcommissie'.
-    expert_html = ""
+    regions = []
+    if cards:
+        regions.append(_region("NLCS Tekenstandaard", "\n".join(cards)))
+    if teken_maps:
+        mc = [_card(f, f"{len(e)} bestand(en)", e, True) for f, e in teken_maps]
+        regions.append(_region("Mappingen Tekenstandaard", "\n".join(mc),
+                               "card-grid mappingen"))
+    if obj_maps:
+        oc = [_card(f, f"{len(e)} bestand(en)", e, True) for f, e in obj_maps]
+        regions.append(_region("NLCS Objectgericht", "\n".join(oc),
+                               "card-grid mappingen"))
     experts = expertcommissie or []
     if experts:
-        expert_parts = ['<div class="card general">',
-                        '<h2>Voor de expertcommissie</h2>',
-                        f'<p class="subtitle">{len(experts)} bestand(en)</p>']
-        expert_parts += [_btn(e) for e in experts]
-        expert_parts.append('</div>')
-        expert_html = ('\n<div class="card-grid expert">\n'
-                       + "\n".join(expert_parts) + "\n</div>")
+        ec = ['<div class="card general">',
+              f'<p class="subtitle">{len(experts)} bestand(en)</p>']
+        ec += [_btn(e) for e in experts]
+        ec.append('</div>')
+        regions.append(_region("Voor de expertcommissie", "\n".join(ec)))
+
+    body = ("\n".join(regions) if regions else
+            '<p class="empty">Geen gepubliceerde bestanden gevonden voor deze '
+            'versie.</p>')
 
     return (
         _shell_head(title, extra_style=_INDEX_STYLE, cdn=False)
         + f'<div class="wrap">\n<p class="info">{info}</p>\n'
         + legend + ("\n" if legend else "")
         + body + "\n"
-        + mapping_html + ("\n" if mapping_html else "")
-        + expert_html + ("\n" if expert_html else "")
         + "</div>\n"
         + _FOOTER
     )
@@ -1755,13 +1763,24 @@ def build_index_markdown(groups, general,
     if base:
         lines += [f"Basis-URL: {base}", ""]
 
-    if general:
-        lines += _section("Voor alle hoofdgroepen", general)
-    for code, entries in groups:
-        lines += _section(code, entries, mark=marks.get(code))
-    if maps:
-        lines += ["## Mappingen", ""]
-        for folder, entries in maps:
+    obj_folders = {"RI-object"}
+    teken_maps = [(f, e) for f, e in maps if f not in obj_folders]
+    obj_maps = [(f, e) for f, e in maps if f in obj_folders]
+
+    # Secties met koppen, zoals in de HTML-pagina.
+    if general or groups:
+        lines += ["## NLCS Tekenstandaard", ""]
+        if general:
+            lines += _section("Voor alle hoofdgroepen", general, level=3)
+        for code, entries in groups:
+            lines += _section(code, entries, mark=marks.get(code), level=3)
+    if teken_maps:
+        lines += ["## Mappingen Tekenstandaard", ""]
+        for folder, entries in teken_maps:
+            lines += _section(folder, entries, level=3)
+    if obj_maps:
+        lines += ["## NLCS Objectgericht", ""]
+        for folder, entries in obj_maps:
             lines += _section(folder, entries, level=3)
 
     experts = expertcommissie or []

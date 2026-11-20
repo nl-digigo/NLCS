@@ -1,6 +1,6 @@
 # NLCS publicatie-overzicht 5.2
 
-36 hoofdgroep(en) · 239 bestand(en) · versie 5.2
+36 hoofdgroep(en) · 241 bestand(en) · versie 5.2
 
 Basis-URL: https://nl-digigo.github.io/NLCS/
 
@@ -472,7 +472,11 @@ Basis-URL: https://nl-digigo.github.io/NLCS/
 
 ### GWSW
 
-_geen bestanden_
+**Tabellen**
+- [NLCS-5-0 > 5-2 GWSW1-6](https://nl-digigo.github.io/NLCS/changelog/GWSW/NLCS5-2-GWSW1-6.html)
+
+**Changelogs**
+- [5-2-GWSW1-6](https://nl-digigo.github.io/NLCS/changelog/GWSW/changelog-NLCS5-0-5-2-GWSW1-6.html)
 
 ### RI-object
 
