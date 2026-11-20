@@ -353,7 +353,7 @@ def hoofdgroep_from_coded_name(name, all_codes=None) -> str:
 # Topmappen in docs/changelog die mapping-pagina's bevatten (geen hoofdgroepen):
 # die worden in het overzicht als één 'Mappingen'-blok bij elkaar gehouden. Ook
 # lege mappen verschijnen (als placeholder). Volgorde = weergavevolgorde.
-MAPPING_FOLDERS = ("BGT", "GWSW", "RI-object", "NDW")
+MAPPING_FOLDERS = ("BGT", "GWSW", "RI-object", "NDW", "VH-objectgericht")
 _MAPPING_DISP = {f.upper(): f for f in MAPPING_FOLDERS}
 _MAPPING_UP = set(_MAPPING_DISP)
 

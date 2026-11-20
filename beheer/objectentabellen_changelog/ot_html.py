@@ -759,6 +759,8 @@ _INDEX_STYLE = """
     .card.general { border-top-color: var(--dg-blue); }
     .region-head { margin:26px 0 10px; font-size:1.1rem; color:var(--dg-ink);
             border-bottom:2px solid var(--dg-yellow); padding-bottom:4px; }
+    .region-note { margin:-4px 0 12px; font-size:.85rem; font-style:italic;
+            color:var(--dg-grey2); }
     .card-grid.mappingen .card { border-top-color: var(--dg-blue); }
     .card h2 { margin:0; font-size:1.2rem; color:var(--dg-ink); }
     .card h2 .hg-check { float:right; font-size:.9rem; font-weight:700;
@@ -973,12 +975,16 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
     # De pagina in secties met een kopje (region-head), elk met een eigen
     # card-grid: NLCS Tekenstandaard (hoofdgroepen) · Mappingen Tekenstandaard
     # (BGT/GWSW/NDW) · NLCS Objectgericht (RI-object) · Voor de expertcommissie.
-    def _region(title_txt, inner, grid="card-grid"):
-        return (f'<h2 class="region-head">{_esc(title_txt)}</h2>\n'
-                f'<div class="{grid}">\n{inner}\n</div>')
+    def _region(title_txt, inner, grid="card-grid", note=""):
+        note_html = f'<p class="region-note">{_esc(note)}</p>\n' if note else ""
+        return (f'<h2 class="region-head">{_esc(title_txt)}</h2>\n' + note_html
+                + f'<div class="{grid}">\n{inner}\n</div>')
 
-    # mapping-mappen splitsen: RI-object -> Objectgericht, de rest -> Mappingen.
-    obj_folders = {"RI-object"}
+    # mapping-mappen splitsen: RI-object/VH-objectgericht -> Objectgericht, rest
+    # -> Mappingen. Weergavenaam van de kaart evt. hernoemd (VH-objectgericht ->
+    # VH-Object).
+    obj_folders = {"RI-object", "VH-objectgericht"}
+    obj_label = {"VH-objectgericht": "VH-Object"}
     teken_maps = [(f, e) for f, e in maps if f not in obj_folders]
     obj_maps = [(f, e) for f, e in maps if f in obj_folders]
 
@@ -990,9 +996,10 @@ def build_index_html(groups, general, title: str = "NLCS publicatie-overzicht",
         regions.append(_region("Mappingen Tekenstandaard", "\n".join(mc),
                                "card-grid mappingen"))
     if obj_maps:
-        oc = [_card(f, f"{len(e)} bestand(en)", e, True) for f, e in obj_maps]
+        oc = [_card(obj_label.get(f, f), f"{len(e)} bestand(en)", e, True)
+              for f, e in obj_maps]
         regions.append(_region("NLCS Objectgericht", "\n".join(oc),
-                               "card-grid mappingen"))
+                               "card-grid mappingen", note="In ontwikkeling"))
     experts = expertcommissie or []
     if experts:
         ec = ['<div class="card general">',
@@ -1763,7 +1770,8 @@ def build_index_markdown(groups, general,
     if base:
         lines += [f"Basis-URL: {base}", ""]
 
-    obj_folders = {"RI-object"}
+    obj_folders = {"RI-object", "VH-objectgericht"}
+    obj_label = {"VH-objectgericht": "VH-Object"}
     teken_maps = [(f, e) for f, e in maps if f not in obj_folders]
     obj_maps = [(f, e) for f, e in maps if f in obj_folders]
 
@@ -1779,9 +1787,9 @@ def build_index_markdown(groups, general,
         for folder, entries in teken_maps:
             lines += _section(folder, entries, level=3)
     if obj_maps:
-        lines += ["## NLCS Objectgericht", ""]
+        lines += ["## NLCS Objectgericht", "", "_In ontwikkeling_", ""]
         for folder, entries in obj_maps:
-            lines += _section(folder, entries, level=3)
+            lines += _section(obj_label.get(folder, folder), entries, level=3)
 
     experts = expertcommissie or []
     if experts:
