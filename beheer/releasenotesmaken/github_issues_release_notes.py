@@ -12,10 +12,16 @@ Gebruik:
        $env:GITHUB_TOKEN="jouw_token_hier"      (PowerShell)
     2. Draai het script:
        python beheer/changelog/github_issues_release_notes.py
+
+    DUMP-modus (alle issues met één label + alle comments naar tekstbestand,
+    inclusief datums):
+       python beheer/changelog/github_issues_release_notes.py DUMP "<labelnaam>"
 """
 
 import csv
+import datetime
 import os
+import re
 import sys
 import time
 import requests
@@ -545,6 +551,180 @@ def generate_html(rows, filepath):
 
 
 # =============================================================================
+# DUMP: alle issues met één (type)label incl. alle comments naar tekstbestand
+# =============================================================================
+
+def fetch_issues_by_label(session, label, state="all"):
+    """
+    Haalt ALLE issues op die het opgegeven label hebben.
+
+    Gebruikt de GitHub Issues API met de parameter 'labels'. Bij meerdere
+    labels filtert de API op issues die ALLE labels hebben; hier geven we
+    precies één label mee. Met state="all" komen zowel open als gesloten
+    issues mee (gebruik "open" of "closed" om te beperken).
+
+    Parameters:
+        session: requests Session met authenticatie en retry-logica
+        label:   de labelnaam waarop gefilterd wordt
+        state:   "all" (standaard), "open" of "closed"
+
+    Returns:
+        Een lijst met issue-dictionaries (pull requests worden eruit gefilterd)
+    """
+    all_issues = []
+    page = 1
+
+    print(f"Issues ophalen met label '{label}' (state={state})...")
+
+    while True:
+        url = f"{BASE_URL}/issues"
+        params = {
+            "state": state,
+            "labels": label,
+            "per_page": 100,
+            "page": page,
+        }
+
+        response = session.get(url, params=params, timeout=30)
+
+        if response.status_code != 200:
+            print(f"FOUT: API gaf status {response.status_code} terug.")
+            print(f"Bericht: {response.text}")
+            sys.exit(1)
+
+        issues_on_page = response.json()
+
+        if not issues_on_page:
+            break
+
+        real_issues = [i for i in issues_on_page if "pull_request" not in i]
+        all_issues.extend(real_issues)
+        print(f"  Pagina {page}: {len(real_issues)} issues "
+              f"(totaal: {len(all_issues)})")
+
+        page += 1
+        time.sleep(0.3)
+
+    print(f"Totaal: {len(all_issues)} issues met label '{label}'.\n")
+    return all_issues
+
+
+def format_datetime(iso_string):
+    """
+    Zet een ISO 8601 datum/tijd uit de GitHub API (bv. '2024-05-13T10:00:00Z')
+    om naar het leesbare formaat 'YYYY-MM-DD HH:MM'. Lege waarde blijft leeg.
+    """
+    if not iso_string:
+        return ""
+    return iso_string.replace("T", " ").replace("Z", "")[:16]
+
+
+def generate_dump(issues, session, label, filepath):
+    """
+    Schrijft alle issues (met het opgegeven label) met ALLE comments naar een
+    tekstbestand. Per issue én per comment wordt de datum vermeld.
+
+    Parameters:
+        issues:   lijst met issue-dictionaries
+        session:  requests Session met authenticatie en retry-logica
+        label:    de labelnaam (voor in de kop van het bestand)
+        filepath: pad van het uit te schrijven tekstbestand
+    """
+    issues = sorted(issues, key=lambda i: i["number"])
+    total = len(issues)
+    lines = []
+
+    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    lines.append("=" * 80)
+    lines.append(f"DUMP van issues met label: {label}")
+    lines.append(f"Repository: {REPO_OWNER}/{REPO_NAME}")
+    lines.append(f"Aantal issues: {total}")
+    lines.append(f"Gegenereerd op: {now}")
+    lines.append("=" * 80)
+    lines.append("")
+
+    for index, issue in enumerate(issues, start=1):
+        number = issue["number"]
+        print(f"  [{index}/{total}] Issue #{number} dumpen...")
+
+        labels = " | ".join(l["name"] for l in issue.get("labels", []))
+        milestone = issue["milestone"]["title"] if issue.get("milestone") else ""
+        author = (issue.get("user") or {}).get("login", "")
+        body = (issue.get("body") or "").strip()
+
+        lines.append("=" * 80)
+        lines.append(f"Issue #{number}: {issue.get('title', '')}")
+        lines.append(
+            f"Status: {issue.get('state', '')} | "
+            f"Aangemaakt: {format_datetime(issue.get('created_at'))} | "
+            f"Bijgewerkt: {format_datetime(issue.get('updated_at'))} | "
+            f"Gesloten: {format_datetime(issue.get('closed_at'))}"
+        )
+        lines.append(f"Labels: {labels}")
+        if milestone:
+            lines.append(f"Milestone: {milestone}")
+        lines.append(f"Auteur: {author}")
+        lines.append(f"URL: {issue.get('html_url', '')}")
+        lines.append("-" * 80)
+        lines.append(body if body else "(geen omschrijving)")
+        lines.append("")
+
+        comments = fetch_comments_for_issue(number, session)
+        lines.append(f"--- Comments ({len(comments)}) ---")
+        lines.append("")
+        if not comments:
+            lines.append("(geen comments)")
+            lines.append("")
+        for ci, comment in enumerate(comments, start=1):
+            cauthor = (comment.get("user") or {}).get("login", "")
+            cdate = format_datetime(comment.get("created_at"))
+            cbody = (comment.get("body") or "").strip()
+            lines.append(f"[{ci}] {cauthor} - {cdate}")
+            lines.append(cbody if cbody else "(lege comment)")
+            lines.append("")
+
+        lines.append("")
+
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+
+    print(f"\nTekstbestand opgeslagen: {filepath}")
+
+
+def run_dump(label):
+    """
+    Voert de DUMP-modus uit: alle issues met één label (inclusief alle
+    comments) ophalen en naar een tekstbestand met datums wegschrijven.
+    """
+    print("=" * 60)
+    print("NLCS GitHub Issues - DUMP")
+    print("=" * 60)
+    print()
+
+    token = get_github_token()
+    session = create_session(token)
+
+    issues = fetch_issues_by_label(session, label)
+    if not issues:
+        print(f"Geen issues gevonden met label '{label}'. Script stopt.")
+        return
+
+    # Veilige bestandsnaam op basis van label + datum
+    safe_label = re.sub(r"[^A-Za-z0-9]+", "-", label).strip("-") or "label"
+    datum = datetime.date.today().isoformat()
+    filepath = os.path.join(SCRIPT_DIR, f"dump_{safe_label}_{datum}.txt")
+
+    print("\nDump schrijven naar tekstbestand...")
+    generate_dump(issues, session, label, filepath)
+
+    print()
+    print("=" * 60)
+    print("Klaar!")
+    print(f"  Dump: {filepath}")
+    print("=" * 60)
+
+
+# =============================================================================
 # HOOFDPROGRAMMA
 # =============================================================================
 
@@ -602,4 +782,11 @@ def main():
 # Dit zorgt ervoor dat main() alleen wordt uitgevoerd als je het script
 # direct draait (niet als je het importeert vanuit een ander script)
 if __name__ == "__main__":
-    main()
+    # DUMP-modus: python ... DUMP "<labelnaam>"
+    if len(sys.argv) >= 2 and sys.argv[1].upper() == "DUMP":
+        if len(sys.argv) < 3:
+            print('Gebruik: python github_issues_release_notes.py DUMP "<labelnaam>"')
+            sys.exit(1)
+        run_dump(sys.argv[2])
+    else:
+        main()

@@ -51,10 +51,16 @@ WHERE {
   }
 
   # NLCS-object (laagnaam) + ID uit de NLCS-publicatie (default graph).
-  # VERPLICHT: alleen objecten die een relatie hebben met de NLCS 5.0-
-  # tekenstandaard komen in de tabel (dus niet 'Beluchtingsventiel' zelf, wél de
-  # onderliggende concepten die naar een NLCS-object verwijzen).
-  ?uriType nen2660:isDescribedBy ?NLCSLaagnaam .
+  # MET OVERERVING over de objectboom: als het concept zelf geen koppeling naar
+  # een NLCS-object heeft, erft het de laagnaam van het dichtstbijzijnde
+  # bovenliggende object via rdfs:subClassOf* (het pad bevat ook het concept
+  # zelf, dus een eigen koppeling gaat vóór).
+  # Voorbeeld: 'Bijzondere putconstructie' heeft zelf geen NLCS-laagnaam, maar is
+  # een onderliggend object van 'Rioolput'; het erft daardoor de laagnaam
+  # RI-..._RIOOLPUT per stelseltype, net zoals in de oude mapping.
+  # VERPLICHT (niet-optioneel): concepten die nergens in hun keten een koppeling
+  # met de NLCS-tekenstandaard hebben, blijven buiten de tabel.
+  ?uriType rdfs:subClassOf*/nen2660:isDescribedBy ?NLCSLaagnaam .
   FILTER (CONTAINS(STR(?NLCSLaagnaam), "/nlcs/def/")) .
   ?NLCSLaagnaam rdfs:subClassOf+/skos:prefLabel "NLCS-object" .
   ?NLCSLaagnaam skos:prefLabel ?laagnaamRaw .
