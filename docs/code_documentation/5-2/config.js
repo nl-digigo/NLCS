@@ -4,7 +4,6 @@ var respecConfig = {
   shortName: "NLCS/code_documentation/5-1",
   specType: "technische documentatie", // vrije tekst, kleine letter
   imprint: "digigo",
-  hypothesisComments: "false",
   editors: [
     // alleen `name` is verplicht, https://respec.org/docs/#person
     {

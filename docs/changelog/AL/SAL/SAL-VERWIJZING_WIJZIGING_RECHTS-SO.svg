@@ -4,14 +4,14 @@
    width="107.50258mm"
    height="46.360001mm"
    version="1.1"
-   id="svg9"
+   id="svg10"
    sodipodi:docname="SAL-VERWIJZING_WIJZIGING_RECHTS-SO.dxf"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <sodipodi:namedview
-     id="namedview9"
+     id="namedview10"
      pagecolor="#ffffff"
      bordercolor="#000000"
      borderopacity="0.25"
@@ -69,29 +69,29 @@
      inkscape:groupmode="layer"
      inkscape:label="0"
      id="g9"
-     transform="translate(0.5,-1099.34)">
+     transform="translate(107.149,-1099.34)">
     <path
        style="fill:none;stroke:#000000"
-       d="M 0,1099.84 H 83.9718"
+       d="m -106.649,1099.84 h 83.9718"
        id="path5" />
     <path
        style="fill:none;stroke:#000000"
-       d="M 0,1145.2 H 83.9718"
+       d="m -106.649,1145.2 h 83.9718"
        id="path6" />
     <path
        style="fill:none;stroke:#000000"
-       d="m 0,1145.2 v -45.36"
+       d="m -106.649,1145.2 v -45.36"
        id="path7" />
     <path
        style="fill:none;stroke:#000000"
-       d="m 83.9718,1145.2 22.6772,-22.68"
+       d="M -22.6772,1145.2 0,1122.52"
        id="path8" />
     <path
        style="fill:none;stroke:#000000"
-       d="m 83.9718,1099.84 22.6772,22.68"
+       d="M -22.6772,1099.84 0,1122.52"
        id="path9" />
     <text
-       x="3.3936501"
+       x="-103.25529"
        y="1135.5063"
        style="font-size:26.457px;line-height:125%;font-family:Arial;text-anchor:start;fill:#000000"
        id="text9"><tspan
@@ -99,7 +99,17 @@
          dx="0"
          dy="0"
          id="tspan9"
-         x="3.3936501"
+         x="-103.25529"
          y="1135.5063">Text...</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     inkscape:label="N-WE-GW-GROND_KLEI-A"
+     id="g10"
+     transform="translate(107.149,-1099.34)">
+    <path
+       d="M -22.677165,1099.8425 0,1122.5197 l -22.677165,22.6772 h -83.971765 v -45.3544 z"
+       style="fill:#d6d6d6"
+       id="path10" />
   </g>
 </svg>

@@ -61,6 +61,17 @@ def is_dyn_name(name) -> bool:
     return bool(_RE_DYN_SUFFIX.search(name or ""))
 
 
+# Map met dynamische symbolen: .dwg's die hierin staan hoeven NIET in de
+# symbolentabellen te staan (worden niet als wees-.dwg gemeld).
+DYN_SYMBOL_FOLDER = "dynamische-symbolen"
+
+
+def in_dyn_folder(relpath) -> bool:
+    """True als het (relatieve) pad in de map 'dynamische-symbolen' staat."""
+    parts = str(relpath or "").replace("\\", "/").lower().split("/")
+    return DYN_SYMBOL_FOLDER in parts
+
+
 # Overige tabellen die als los OVERZICHT (zonder changelog) worden gegenereerd:
 # (csv-stam in de export, pagina-/bestandstitel). Lijntypes/arceringen/symbolen
 # NIET — die zitten in de per-hoofdgroep changelogs.
@@ -3217,7 +3228,8 @@ def check_dwg_symbols(sym_src: str, dwg_dir: str, name_col: str = "symbool",
          "hoofdgroep": sbib_to_code(bib_of_stem(stem, processed_bibs))}
         for stem in dwg_map
         if bib_of_stem(stem, processed_bibs) and stem not in all_symbols
-        and not is_dyn_name(stem)   # dynamische symbolen (_dyn) overslaan
+        and not is_dyn_name(stem)                 # dynamische symbolen (_dyn) overslaan
+        and not in_dyn_folder(dwg_map[stem])      # map 'dynamische-symbolen' overslaan
     ]
     missing.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
     orphans.sort(key=lambda d: (d["hoofdgroep"], d["name"].casefold()))
