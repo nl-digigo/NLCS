@@ -34,6 +34,7 @@ import ot_html
 import gen_classificatie_html
 import bgt_changelog
 import gwsw_check
+import docs_overview
 
 
 # ---------------------------------------------------------------------------
@@ -3898,6 +3899,10 @@ _LOC_GROUPS = [
         ("base_url", "Basis-URL (online publicatie):", "text"),
         ("index_output", "Uitvoerbestand (HTML):", "html"),
     ]),
+    ("Documentenoverzicht", [
+        ("docsov_root", "Te scannen docs-map:", "dir"),
+        ("docsov_output", "Uitvoerbestand (HTML; .md komt ernaast):", "html"),
+    ]),
     ("Uitvoer", [
         ("output_dir", "Uitvoermap voor de changelog-HTML's:", "dir"),
     ]),
@@ -4258,6 +4263,87 @@ class GWSWCheckTab(ttk.Frame):
 
 
 # ---------------------------------------------------------------------------
+# Tabblad 'Documentenoverzicht': overzicht van alle gepubliceerde documenten in
+# de docs-map (titel uit de HTML of de bestandsnaam), geneste blokken per map.
+# ---------------------------------------------------------------------------
+class DocsOverzichtTab(ttk.Frame):
+    """Scant de docs-map en maakt één overzicht van alle gepubliceerde
+    documenten: per map een blok, geneste blokken voor submappen; elk document
+    krijgt zijn HTML-titel (of de bestandsnaam). Schrijft een HTML-pagina en een
+    Markdown-overzicht. De mappen 'changelog' en 'archive' worden overgeslagen."""
+
+    def __init__(self, master, app: "App"):
+        super().__init__(master, padding=10)
+        self.app = app
+        self._build()
+
+    def _build(self) -> None:
+        ttk.Label(
+            self, foreground="#555", wraplength=780, justify="left",
+            text="Maakt een overzicht van alle documenten in de docs-map: per "
+                 "map een blok, met geneste blokken voor submappen. Elk document "
+                 "heet naar zijn HTML-<title> (of de bestandsnaam als die "
+                 "ontbreekt). De mappen 'changelog' en 'archive' worden "
+                 "overgeslagen. Kies de docs-map en het uitvoerbestand bij "
+                 "'Locaties'. Resultaat: een HTML-pagina én een Markdown-"
+                 "overzicht (.md naast de HTML).").pack(anchor="w")
+
+        btns = ttk.Frame(self)
+        btns.pack(fill="x", pady=8)
+        self.gen_btn = ttk.Button(btns, text="Genereer documentenoverzicht",
+                                  command=self.on_generate)
+        self.gen_btn.pack(side="left")
+
+        logframe = ttk.LabelFrame(self, text="Voortgang", padding=8)
+        logframe.pack(fill="both", expand=True, pady=(8, 0))
+        self.log = tk.Text(logframe, height=14, wrap="word", state="disabled",
+                           font=("Consolas", 9), background="#fbfbfb")
+        scroll = ttk.Scrollbar(logframe, orient="vertical", command=self.log.yview)
+        self.log.configure(yscrollcommand=scroll.set)
+        self.log.pack(side="left", fill="both", expand=True)
+        scroll.pack(side="right", fill="y")
+
+    def _logmsg(self, msg: str) -> None:
+        self.log.configure(state="normal")
+        self.log.insert("end", msg + "\n")
+        self.log.see("end")
+        self.log.configure(state="disabled")
+
+    def on_generate(self) -> None:
+        root = self.app.loc["docsov_root"].get().strip()
+        out = self.app.loc["docsov_output"].get().strip()
+        if not root or not os.path.isdir(root):
+            messagebox.showwarning(
+                "Geen docs-map", "Kies bij 'Locaties' de te scannen docs-map.")
+            return
+        if not out:
+            messagebox.showwarning(
+                "Geen uitvoerbestand", "Kies bij 'Locaties' het uitvoerbestand "
+                "(HTML) voor het documentenoverzicht.")
+            return
+        if os.path.isdir(out) or out.endswith(("/", "\\")):
+            out = os.path.join(out, "documentenoverzicht.html")
+        self.log.configure(state="normal")
+        self.log.delete("1.0", "end")
+        self.log.configure(state="disabled")
+        self._logmsg(f"Scannen: {root}")
+        self.update_idletasks()
+        try:
+            res = docs_overview.generate(root, out)
+        except Exception as e:  # noqa: BLE001
+            self._logmsg(f"FOUT: {e}")
+            messagebox.showerror("Genereren mislukt", str(e))
+            return
+        self._logmsg(f"{res['count']} document(en) in {res['versions']} "
+                     f"versie(s) gevonden (plus eventueel Handleidingen).")
+        self._logmsg(f"HTML     -> {res['html']}")
+        self._logmsg(f"Markdown -> {res['md']}")
+        self.app.save_config()
+        if self.app.open_after_var.get():
+            webbrowser.open(os.path.abspath(res["html"]))
+
+
+# ---------------------------------------------------------------------------
 # Hoofdvenster
 # ---------------------------------------------------------------------------
 class App(ttk.Frame):
@@ -4324,6 +4410,10 @@ class App(ttk.Frame):
             # Publicatie-overzicht ('kaart') met knoppen naar de HTML's.
             self.index_tab = IndexTab(nb, self)
             nb.add(self.index_tab, text="Overzicht")
+
+            # Documentenoverzicht: alle gepubliceerde docs, blok per versie.
+            self.docsov_tab = DocsOverzichtTab(nb, self)
+            nb.add(self.docsov_tab, text="Documentenoverzicht")
 
             # Losse controle-tabbladen: niet getoond, maar ControlesTab hergebruikt
             # hun _run()-logica voor het gecombineerde rapport.

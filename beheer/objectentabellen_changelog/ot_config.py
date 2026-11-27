@@ -49,6 +49,9 @@ def _locations() -> dict:
         "gwsw_new": "", "gwsw_old": "", "gwsw_output": "",
         # GWSW-URI-check: te checken tabel-CSV + GWSW-ontologie-TTL + uitvoermap
         "gwswchk_csv": "", "gwswchk_ttl": "", "gwswchk_output": "",
+        # Documentenoverzicht: te scannen docs-map + uitvoerbestand (HTML; de
+        # Markdown komt op hetzelfde pad met .md-extensie)
+        "docsov_root": "", "docsov_output": "",
     }
 
 
