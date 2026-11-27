@@ -1,6 +1,6 @@
 # Documentenoverzicht NLCS
 
-_Gegenereerd op 2026-11-27 · 19 documenten uit `docs`, gegroepeerd per versie._
+_Gegenereerd op 2026-11-27 · 20 documenten uit `docs`, gegroepeerd per versie._
 
 ## Versie 5.2 (10 documenten)
 
@@ -29,8 +29,9 @@ _Gegenereerd op 2026-11-27 · 19 documenten uit `docs`, gegroepeerd per versie._
 
 - [Eisen aan software-implementatie NLCS 5.0](requirementssoftware/5-0/index.html) — vastgesteld (DEF) · `requirementssoftware/5-0/index.html`
 
-## Handleidingen (4 documenten)
+## Handleidingen (5 documenten)
 
+- [Documentenoverzicht NLCS](documentenoverzicht.html) · `documentenoverzicht.html`
 - [Toelichting gebruik sparql-endpoint en query's](howtoquery/index.html) — levend document (LD) · `howtoquery/index.html`
 - [Beheerhandleiding NLCS](managementmanual/index.html) — levend document (LD) · `managementmanual/index.html`
 - [Protocol afhandelen issues / gebruikerswensen](protocolissues/index.html) — levend document (LD) · `protocolissues/index.html`
