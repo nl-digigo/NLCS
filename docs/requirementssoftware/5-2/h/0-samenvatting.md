@@ -1,1 +1,1 @@
-Dit document beschrijft de eisen aan software-implementatie, de voorwaarden om NLCS-leverancier te kunnen zijn
+Dit document beschrijft de eisen aan software-implementatie, de voorwaarden om NLCS-leverancier te kunnen zijn voor versie 5.2 van de standaard. Deze eisen zijn gelijk aan de eisen voor versie 5.0

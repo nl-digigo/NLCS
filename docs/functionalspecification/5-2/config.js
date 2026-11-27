@@ -5,7 +5,6 @@ var respecConfig = {
   shortName: "NLCS/functionalspecification/5-2",
   specType: "toelichting op het beoogd doel en de werking van de standaard", // vrije tekst, kleine letter
   imprint: "digigo",
-  hypothesisComments: "false",
   editors: [
     // alleen `name` is verplicht, https://respec.org/docs/#person
     {
